@@ -47,12 +47,6 @@ function tmgmt_dgt_connector_install() {
     "rdf_mapping" : []
   }');
   $translator->save();
-
-  // Enable entity translation for Beans.
-  $translatable_entities = variable_get('entity_translation_entity_types', array());
-  $translatable_entities['bean'] = 'bean';
-  variable_set('entity_translation_entity_types', $translatable_entities);
-
 }
 
 /**

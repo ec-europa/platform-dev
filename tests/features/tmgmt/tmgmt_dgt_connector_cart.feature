@@ -154,16 +154,18 @@ Feature: TMGMT Poetry Cart features
     Then I should see the message "Job has been successfully sent for translation."
     And I should see text matching "Vocab \(taxonomy\:vocabulary\:\d\) and 1 more"
 
-  @javascript @wip
+  @javascript
   Scenario: I can add blocks and beans to cart.
     Given I go to "admin/config/regional/entity_translation"
     And I click "Translatable entity types"
-    Then the "Block" checkbox should be checked
+    And I check the box "Block"
+    And I press "Save configuration"
+    Then I should see the message "The configuration options have been saved."
 
     When I create the new block type "New bean"
     And I go to "admin/structure/block-types"
-    # It does not work without cc
-    And the cache has been cleared
+    # It does not work without drush cc all
+    And I run drush "cc" "all"
     And I click "manage fields" in the "New bean" row
     And I click "replace"
     And I check the box "Replace title with a field instance"
