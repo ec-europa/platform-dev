@@ -154,7 +154,7 @@ Feature: TMGMT Poetry Cart features
     Then I should see the message "Job has been successfully sent for translation."
     And I should see text matching "Vocab \(taxonomy\:vocabulary\:\d\) and 1 more"
 
-  @javascript
+  @javascript @wip
   Scenario: I can add blocks and beans to cart.
     Given I go to "admin/config/regional/entity_translation"
     And I click "Translatable entity types"
