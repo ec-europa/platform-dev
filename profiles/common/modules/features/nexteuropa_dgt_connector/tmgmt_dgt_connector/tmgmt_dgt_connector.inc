@@ -93,8 +93,6 @@ function _tmgmt_dgt_connector_count_source_data(array $item, &$count = 0) {
 /**
  * Returns the translatable data from a workbench moderated entity.
  *
- * Used by _tmgmt_dgt_connector_get_source_data().
- *
  * @param string $entity_type
  *   The entity type.
  * @param string $entity_id
@@ -109,8 +107,6 @@ function _tmgmt_dgt_connector_get_workbench_moderation_data($entity_type, $entit
 
 /**
  * Returns the translatable data from an entity.
- *
- * Used by _tmgmt_dgt_connector_get_source_data().
  *
  * @param string $entity_type
  *   The entity type.
@@ -135,8 +131,6 @@ function _tmgmt_dgt_connector_get_entity_data($entity_type, $entity_id) {
 
 /**
  * Get data for string.
- *
- * Used by _tmgmt_dgt_connector_get_source_data().
  *
  * @param string $item_type
  *   The type of the item to be checked.
@@ -168,9 +162,7 @@ function _tmgmt_dgt_connector_get_i18n_string_data($item_type, $item_id) {
 }
 
 /**
- * Get data for locale string.
- *
- * Used by _tmgmt_dgt_connector_get_source_data().
+ * Get data for string.
  *
  * @param string $item_type
  *   The type of the item to be checked.
@@ -179,8 +171,15 @@ function _tmgmt_dgt_connector_get_i18n_string_data($item_type, $item_id) {
  *
  * @return array
  *   Returns an array with data of the string.
+ *
+ * @throws TMGMTException
  */
 function _tmgmt_dgt_connector_get_locale_data($item_type, $item_id) {
+  // Check existence of the string.
+  $exists = db_query("SELECT COUNT(lid) FROM {locales_source} WHERE lid = :lid", array(':lid' => $item_id))->fetchField();
+  if (!$exists) {
+    throw new TMGMTException(t('Unable to load locale with id %id', array('%id' => $item_id)));
+  }
   $query = db_select('locales_source', 'ls');
   $query
     ->fields('ls')
@@ -189,12 +188,9 @@ function _tmgmt_dgt_connector_get_locale_data($item_type, $item_id) {
     ->execute()
     ->fetchObject();
 
-  // Check existence of the string.
-  if (!$locale_object) {
-    drupal_set_message(t('Unable to load locale with id %id', array('%id' => $item_id)), 'error');
-    return array();
+  if (empty($locale_object)) {
+    return NULL;
   }
-
   $text = $locale_object->source;
   // Identify placeholders that need to be escaped. Assume that placeholders
   // consist of alphanumeric characters and _,- only and are delimited by
