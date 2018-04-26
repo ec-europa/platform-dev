@@ -121,7 +121,7 @@ Feature: TMGMT Poetry Cart features
     And I should see text matching "Test menu \(menu\:menu\:test\) and 1 more"
 
   @javascript
-  Scenario: I can add vocabolaries to cart.
+  Scenario: I can add vocabularies to cart.
     Given the vocabulary "Vocab" is created
     And the term "Term" in the vocabulary "Vocab" exists
     When I go to "admin/structure/taxonomy/vocab/edit"
@@ -153,3 +153,11 @@ Feature: TMGMT Poetry Cart features
     And I press "Submit to translator"
     Then I should see the message "Job has been successfully sent for translation."
     And I should see text matching "Vocab \(taxonomy\:vocabulary\:\d\) and 1 more"
+
+  @javascript
+  Scenario: I can add views to cart.
+    #TODO: Replace the test with a custom cart check
+    When I go to "admin/tmgmt/sources/i18n_string_views"
+    And I check the box on the "Archive (views:views:archive)" row
+    And I press "Add to cart"
+    Then I should see the success message "1 content source was added into the cart."
