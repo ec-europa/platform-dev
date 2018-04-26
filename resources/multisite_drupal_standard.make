@@ -192,7 +192,7 @@ projects[diff][download][revision] = b1b09189d52380a008c9cb29b879e3aa140ec2e0
 projects[diff][download][type] = git
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.14"
+projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -679,6 +679,10 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_transl
 ; https://www.drupal.org/node/2812863
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-60
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
+; #2955245 : i18nviews strings are not shown on sources view
+; https://www.drupal.org/node/2955245
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
@@ -1031,7 +1035,7 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.7
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.7
+projects[atomium][version] = 2.8
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
