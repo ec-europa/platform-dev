@@ -422,6 +422,10 @@ projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1026
 projects[media][patch][] = patches/media-inputs_whitelist-1026.patch
+; Security update Media 7.x-2.19
+; https://www.drupal.org/sa-contrib-2018-020
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1935
+projects[media][patch][] = https://www.drupal.org/files/issues/2018-04-25/media--sa-contrib-2018-020.patch
 
 projects[media_crop][subdir] = "contrib"
 projects[media_crop][version] = "1.4"
