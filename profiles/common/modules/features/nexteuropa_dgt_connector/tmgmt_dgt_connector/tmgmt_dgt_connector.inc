@@ -126,7 +126,9 @@ function _tmgmt_dgt_connector_get_entity_data($entity_type, $entity_id) {
     throw new TMGMTException(t('Unable to load entity %type with id %id', array('%type' => $entity_type, $entity_id)));
   }
 
-  return tmgmt_field_get_source_data($entity_type, $entity, $entity->language, TRUE);
+  $langcode = isset($entity->language) ? $entity->language : NULL;
+
+  return tmgmt_field_get_source_data($entity_type, $entity, $langcode, TRUE);
 }
 
 /**
