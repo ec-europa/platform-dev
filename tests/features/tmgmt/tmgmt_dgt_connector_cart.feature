@@ -153,3 +153,18 @@ Feature: TMGMT Poetry Cart features
     And I press "Submit to translator"
     Then I should see the message "Job has been successfully sent for translation."
     And I should see text matching "Vocab \(taxonomy\:vocabulary\:\d\) and 1 more"
+
+  @javascript
+  Scenario: I can add a Locale default to cart.
+    When I go to "admin/tmgmt/sources/locale_default"
+    And I check the box on the "An AJAX HTTP error occurred." row
+    And I click "Operations"
+    And I wait for AJAX to finish
+    And I check the box "French"
+    And I press "Send to cart"
+    Then I should see the message "1 content source was added into the cart."
+
+    When I click "cart" in the "messages" region
+    And I click "Edit" in the "An AJAX HTTP error occurred." row
+    And I wait for AJAX to finish
+    Then I should see "Origin: misc/drupal.js" in the ".form-item-cart-items-fields-1-context-comment > div > textarea" element
