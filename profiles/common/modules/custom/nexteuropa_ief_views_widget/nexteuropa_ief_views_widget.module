@@ -70,8 +70,6 @@ function nexteuropa_ief_views_widget_inline_entity_form_reference_form_alter(&$r
   $path = drupal_get_path('module', 'nexteuropa_ief_views_widget');
 
   $entity_type = $reference_form['#entity_type'];
-  $entity_info = entity_get_info($entity_type);
-  $bundle_key = $entity_info['bundle keys']['bundle'];
   $bundle_name = $form_state[$entity_type]->type;
   $field_name = $reference_form['#parents'][0];
 
