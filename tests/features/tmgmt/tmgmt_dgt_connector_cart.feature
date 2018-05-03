@@ -225,10 +225,3 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
     Then I should see "1 content source was added into the cart."
-
-  Scenario: I can add views to cart.
-    #TODO: Replace the test with a custom cart check
-    When I go to "admin/tmgmt/sources/i18n_string_views"
-    And I check the box on the "Archive (views:views:archive)" row
-    And I press "Add to cart"
-    Then I should see the success message "1 content source was added into the cart."
