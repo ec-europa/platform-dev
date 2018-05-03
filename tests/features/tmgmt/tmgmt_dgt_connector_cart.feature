@@ -62,7 +62,7 @@ Feature: TMGMT Poetry Cart features
     When I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
-    Then I should see the success message "The content has been added to the cart."
+    Then I should see the success message "1 content source was added into the cart."
 
     When I click "cart" in the "front_messages" region
     Then I should see "Target languages: FR, PT"
@@ -97,7 +97,7 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
-    Then I should see the success message "The content has been added to the cart."
+    Then I should see the success message "1 content source was added into the cart."
 
     When I create a multilingual "Test" menu item pointing to "http://example.com" for the menu "test"
     And I go to "admin/structure/menu/manage/test"
@@ -108,7 +108,7 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
-    Then I should see the success message "The content has been added to the cart."
+    Then I should see the success message "1 content source was added into the cart."
 
     When I click "cart" in the "messages" region
     And I click "Send" in the "Target languages: FR, PT" row
@@ -134,7 +134,7 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
-    Then I should see the success message "The content has been added to the cart."
+    Then I should see the success message "1 content source was added into the cart."
 
     When I go to "admin/structure/taxonomy/vocab"
     And I click "edit" in the "Term" row
@@ -142,7 +142,7 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
-    And I should see "The content has been added to the cart."
+    And I should see "1 content source was added into the cart."
 
     When I click "cart" in the "messages" region
     And I click "Send" in the "Target languages: FR, PT" row

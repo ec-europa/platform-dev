@@ -93,6 +93,8 @@ function _tmgmt_dgt_connector_count_source_data(array $item, &$count = 0) {
 /**
  * Returns the translatable data from a workbench moderated entity.
  *
+ * Used by _tmgmt_dgt_connector_get_source_data().
+ *
  * @param string $entity_type
  *   The entity type.
  * @param string $entity_id
@@ -107,6 +109,8 @@ function _tmgmt_dgt_connector_get_workbench_moderation_data($entity_type, $entit
 
 /**
  * Returns the translatable data from an entity.
+ *
+ * Used by _tmgmt_dgt_connector_get_source_data().
  *
  * @param string $entity_type
  *   The entity type.
@@ -133,6 +137,8 @@ function _tmgmt_dgt_connector_get_entity_data($entity_type, $entity_id) {
 
 /**
  * Get data for string.
+ *
+ * Used by _tmgmt_dgt_connector_get_source_data().
  *
  * @param string $item_type
  *   The type of the item to be checked.
@@ -161,6 +167,55 @@ function _tmgmt_dgt_connector_get_i18n_string_data($item_type, $item_id) {
     }
   }
 
+  return $structure;
+}
+
+/**
+ * Get data for locale string.
+ *
+ * Used by _tmgmt_dgt_connector_get_source_data().
+ *
+ * @param string $item_type
+ *   The type of the item to be checked.
+ * @param string $item_id
+ *   The id of the item to be checked.
+ *
+ * @return array
+ *   Returns an array with data of the string.
+ */
+function _tmgmt_dgt_connector_get_locale_data($item_type, $item_id) {
+  $query = db_select('locales_source', 'ls');
+  $query
+    ->fields('ls')
+    ->condition('ls.lid', $item_id);
+  $locale_object = $query
+    ->execute()
+    ->fetchObject();
+
+  // Check existence of the string.
+  if (!$locale_object) {
+    drupal_set_message(t('Unable to load locale with id %id', array('%id' => $item_id)), 'error');
+    return array();
+  }
+
+  $text = $locale_object->source;
+  // Identify placeholders that need to be escaped. Assume that placeholders
+  // consist of alphanumeric characters and _,- only and are delimited by
+  // non-alphanumeric characters. There are cases that don't match, for
+  // example appended SI units like "@valuems", there only @value is the
+  // actual placeholder.
+  $escape = array();
+  if (preg_match_all('/([@!%][a-zA-Z0-9_-]+)/', $text, $matches, PREG_OFFSET_CAPTURE)) {
+    foreach ($matches[0] as $match) {
+      $escape[$match[1]]['string'] = $match[0];
+    }
+  }
+  $structure['singular'] = array(
+    '#label' => t('Singular'),
+    '#text' => (string) $text,
+    '#translate' => TRUE,
+    '#escape' => $escape,
+  );
   return $structure;
 }
 
@@ -293,6 +348,7 @@ function _tmgmt_dgt_connector_translator_access($op, TMGMTTranslator $translator
  *   Returns true if 'Send to cart' is possible, false otherwise.
  */
 function _tmgmt_dgt_connector_smalljob_translation_possible($plugin_type, $item_type, $item_id) {
+
   $source_data = _tmgmt_dgt_connector_get_source_data($plugin_type, $item_type, $item_id);
   if (empty($source_data)) {
     return FALSE;
