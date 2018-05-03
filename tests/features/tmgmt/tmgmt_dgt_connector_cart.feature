@@ -183,7 +183,7 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
-    Then I should see "The content has been added to the cart."
+    Then I should see "1 content source was added into the cart."
 
     When I go to "/admin/structure/block/add"
     And I fill in "Block title" with "Title for New block"
@@ -195,7 +195,7 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
-    Then I should see "The content has been added to the cart."
+    Then I should see "1 content source was added into the cart."
 
     When I click "cart" in the "front_messages" region
     And I click "Send" in the "Target languages: FR, PT" row
