@@ -10,6 +10,7 @@ Feature: Webtools feature
       | nexteuropa_webtools |
     And a valid Smartload Url has been configured
     And I am logged in as a user with the 'administrator' role
+    Then Module "metatag" should be enabled
 
   @api @standard_ec_resp
   Scenario: Create and delete a block 'Map'
