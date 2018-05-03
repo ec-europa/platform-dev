@@ -183,7 +183,7 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
-    Then I should see "The content has been added to the cart."
+    Then I should see "1 content source was added into the cart."
 
     When I go to "/admin/structure/block/add"
     And I fill in "Block title" with "Title for New block"
@@ -195,7 +195,7 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
-    Then I should see "The content has been added to the cart."
+    Then I should see "1 content source was added into the cart."
 
     When I click "cart" in the "front_messages" region
     And I click "Send" in the "Target languages: FR, PT" row
@@ -215,10 +215,3 @@ Feature: TMGMT Poetry Cart features
     And I click "delete" in the "Description for New block" row
     And I press "Delete"
     Then I should see the message "The block Description for New block has been removed."
-
-  Scenario: I can add views to cart.
-    #TODO: Replace the test with a custom cart check
-    When I go to "admin/tmgmt/sources/i18n_string_views"
-    And I check the box on the "Archive (views:views:archive)" row
-    And I press "Add to cart"
-    Then I should see the success message "1 content source was added into the cart."
