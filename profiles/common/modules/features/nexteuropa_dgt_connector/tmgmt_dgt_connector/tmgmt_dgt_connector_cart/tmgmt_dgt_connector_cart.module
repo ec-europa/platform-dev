@@ -407,6 +407,50 @@ function _tmgmt_dgt_connector_cart_restore_cart_bundles(CartBundle &$cart_bundle
 }
 
 /**
+ * Implements hook_form_alter().
+ *
+ * Remove the default actions and add a language selector in source pages.
+ */
+function tmgmt_dgt_connector_cart_form_alter(&$form, &$form_state, $form_id) {
+  // We know we are targeting the right form if it starts with "tmgmt_ui"
+  // and ends with "overview_form".
+  if ((strpos($form_id, 'tmgmt_ui') === 0) &&
+    (strrpos($form_id, 'overview_form') + drupal_strlen('overview_form') === drupal_strlen($form_id))) {
+    _tmgmt_dgt_connector_cart_sources_add_cart_button($form, $form_state);
+
+  }
+}
+
+/**
+ * Helper function to add the custom cart button to the sources pages.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ */
+function _tmgmt_dgt_connector_cart_sources_add_cart_button(array &$form, array &$form_state) {
+  unset($form['actions']['add_to_cart']);
+  unset($form['actions']['submit']);
+  $languages = language_list();
+  foreach ($languages as $key => $language) {
+    $languages[$key] = $language->name;
+  }
+  $form['actions']['#collapsed'] = TRUE;
+  $form['actions']['languages'] = array(
+    '#type' => 'checkboxes',
+    '#options' => $languages,
+    '#title' => t('Target languages'),
+  );
+  $form['actions']['cart'] = array(
+    '#type' => 'submit',
+    '#value' => 'Send to cart',
+    '#submit' => array('_tmgmt_dgt_connector_cart_form_submit'),
+    '#validate' => array('_tmgmt_dgt_connector_cart_form_validate'),
+  );
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Remove the request button and add the custom cart button for i18n string
@@ -464,22 +508,82 @@ function _tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
   $cbid = $cart_bundle->cbid;
   $cart_info = $form_state['tmgmt_cart'];
 
-  // Checking if the CartItem entities exist for a given entity and if so
-  // returning an error message.
-  if (empty(_tmgmt_dgt_connector_cart_get_cart_items($cbid, $cart_info['plugin'], $cart_info['item_type'], $cart_info['item_id']))) {
-    // Creating the CartItem entity.
-    _tmgmt_dgt_connector_cart_create_cart_item($cbid, $cart_info['plugin'], $cart_info['item_type'], $cart_info['item_id'], $cart_info['item_title']);
-    // Updating the 'changed' field of the CartBundle entity.
-    $cart_bundle->save();
+  if (!empty($cart_info['plugin']) && !empty($cart_info['item_type']) && !empty($form_state['values']['items'])) {
+    $source_items = array_filter($form_state['values']['items']);
+    $item_type = $cart_info['item_type'];
+    $plugin = $cart_info['plugin'];
+  }
+  elseif (!empty($cart_info['plugin']) && !empty($cart_info['item_type']) && !empty($cart_info['item_id'])) {
+    $source_items = array($cart_info['item_id']);
+    $item_type = $cart_info['item_type'];
+    $plugin = $cart_info['plugin'];
   }
   else {
-    drupal_set_message(t('The content has already been added to the cart.'), 'error');
+    drupal_set_message(t('Unable to add the content into the cart.'), 'error');
     return;
   }
 
-  drupal_set_message(t('The content has been added to the <a href="@url">cart</a>.', array(
-    '@url' => url('admin/tmgmt/dgt_cart'),
-  )));
+  $i = 0;
+  foreach ($source_items as $source_id) {
+    // Checking if the CartItem entities exist for a given entity and if so
+    // returning an error message.
+    if (empty(_tmgmt_dgt_connector_cart_get_cart_items($cbid, $plugin, $item_type, $source_id))) {
+      // Get label of the related item.
+      $controller = tmgmt_source_plugin_controller($plugin);
+      $temporary_job_item = entity_create('tmgmt_job_item', array(
+        'plugin' => $plugin,
+        'item_type' => $item_type,
+        'item_id' => $source_id,
+      ));
+      $label = $controller->getLabel($temporary_job_item);
+      // Creating the CartItem entity.
+      _tmgmt_dgt_connector_cart_create_cart_item($cbid, $plugin, $item_type, $source_id, $label);
+      // Updating the 'changed' field of the CartBundle entity.
+      $cart_bundle->save();
+      $i++;
+    }
+    else {
+      drupal_set_message(t('The content has already been added to the cart.'), 'error');
+      return;
+    }
+  }
+  drupal_set_message(format_plural($i, '@count content source was added into the <a href="@url">cart</a>.',
+    '@count content sources were added into the <a href="@url">cart</a>.', array('@url' => url('admin/tmgmt/dgt_cart'))));
+}
+
+/**
+ * Custom validation function for cart functionality.
+ */
+function _tmgmt_dgt_connector_cart_form_validate($form, &$form_state) {
+  $cart_info = $form_state['tmgmt_cart'];
+  $selected = array_filter($form_state['values']['languages']);
+  // Checking if at least one language was selected.
+  if (empty($selected)) {
+    form_set_error('languages', t('You have to select at least one language before sending content to the cart.'));
+  }
+
+  // Check that the selected items can be added to the cart.
+  if (!empty($cart_info['plugin']) && !empty($cart_info['item_type']) && !empty($form_state['values']['items'])) {
+    $source_items = array_filter($form_state['values']['items']);
+    $item_type = $cart_info['item_type'];
+    $plugin = $cart_info['plugin'];
+  }
+  elseif (!empty($cart_info['plugin']) && !empty($cart_info['item_type']) && !empty($cart_info['item_id'])) {
+    $source_items = array($cart_info['item_id']);
+    $item_type = $cart_info['item_type'];
+    $plugin = $cart_info['plugin'];
+  }
+  else {
+    form_set_error(NULL, t("Couldn't verify the content."));
+    return;
+  }
+  foreach ($source_items as $source_id) {
+    if (!_tmgmt_dgt_connector_smalljob_translation_possible($plugin, $item_type, $source_id)) {
+      form_set_error('languages', t("The content with id @id can't be sent to the car", array('@id' => $source_id)));
+
+    }
+  }
+
 }
 
 /**
@@ -538,11 +642,22 @@ function _tmgmt_dgt_connector_cart_get_cart_get_cart_bundle($form_state) {
 function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $plugin_type, $entity_type, $entity_id, $entity_title) {
 
   $context_url = '';
+  $context_comment = '';
   if ($plugin_type == 'entity' || $plugin_type == 'workbench_moderation') {
     $entity = entity_load($entity_type, array($entity_id));
     $entity = reset($entity);
     $entity_uri = entity_uri($entity_type, $entity);
     $context_url = url($entity_uri['path'], ['absolute' => TRUE]);
+  }
+  elseif ($plugin_type == 'locale') {
+    $locale_context = db_select('locales_source', 'ls')
+      ->fields('ls', array('location'))
+      ->condition('lid', $entity_id, '=')
+      ->execute()
+      ->fetchAssoc();
+    if (!empty($locale_context['location'])) {
+      $context_comment = 'Origin: ' . $locale_context['location'];
+    }
   }
 
   // Creating the CartItem entity.
@@ -552,7 +667,8 @@ function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $plugin_type, $entity
     $entity_type,
     $entity_id,
     $entity_title,
-    $context_url
+    $context_url,
+    $context_comment
   );
 }
 
@@ -584,18 +700,6 @@ function _tmgmt_dgt_connector_cart_get_cart_items($cbid, $plugin_type, $entity_t
   );
 
   return CartItem::loadWithProperties($cart_item_properties);
-}
-
-/**
- * Custom validation function for cart functionality.
- */
-function _tmgmt_dgt_connector_cart_form_validate($form, &$form_state) {
-  $selected = array_filter($form_state['values']['languages']);
-
-  // Checking if at least one language was selected.
-  if (empty($selected)) {
-    form_set_error('languages', t('You have to select at least one language before sending content to the cart.'));
-  }
 }
 
 /**
