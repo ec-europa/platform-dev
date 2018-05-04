@@ -216,6 +216,16 @@ Feature: TMGMT Poetry Cart features
     And I press "Delete"
     Then I should see the message "The block Description for New block has been removed."
 
+  Scenario: I can add views to cart.
+    When I go to "admin/structure/views/view/core_content_administration/translate"
+    And I check the box on the "French" row
+    And I check the box on the "Portuguese, Portugal" row
+    And I press "Send to cart"
+    Then I should see the success message "1 content source was added into the cart."
+
+    When I click "cart" in the "messages" region
+    And I should see "Manage content (views:views:core_content_administration)" in the "views" row
+
   @javascript
   Scenario: I can add a Locale default to cart.
     When I go to "admin/tmgmt/sources/locale_default"
