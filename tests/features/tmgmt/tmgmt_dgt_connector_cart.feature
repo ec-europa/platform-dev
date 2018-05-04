@@ -216,13 +216,6 @@ Feature: TMGMT Poetry Cart features
     And I press "Delete"
     Then I should see the message "The block Description for New block has been removed."
 
-  Scenario: I can add views to cart.
-    #TODO: Replace the test with a custom cart check
-    When I go to "admin/tmgmt/sources/i18n_string_views"
-    And I check the box on the "Archive (views:views:archive)" row
-    And I press "Add to cart"
-    Then I should see the success message "1 content source was added into the cart."
-
   @javascript
   Scenario: I can add a Locale default to cart.
     When I go to "admin/tmgmt/sources/locale_default"
