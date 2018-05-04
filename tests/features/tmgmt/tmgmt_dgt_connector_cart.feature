@@ -231,3 +231,7 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
     Then I should see the success message "1 content source was added into the cart."
+
+    When I click "cart" in the "messages" region
+    Then I should see "[current-page:title] | [current-page:pager][site:name] (metatag:metatag_config:global)" in the "metatag_config" row
+    And I should see "Manage content (views:views:core_content_administration)" in the "views" row
