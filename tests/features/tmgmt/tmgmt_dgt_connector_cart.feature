@@ -229,4 +229,4 @@ Feature: TMGMT Poetry Cart features
     When I click "cart" in the "messages" region
     And I click "Edit" in the "An AJAX HTTP error occurred." row
     And I wait for AJAX to finish
-    Then I should see "Origin: misc/drupal.js" in the ".form-item-cart-items-fields-1-context-comment > div > textarea" element
+    Then I should see "Origin: misc/drupal.js" in the ".form-type-textarea > div > textarea" element
