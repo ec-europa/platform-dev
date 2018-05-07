@@ -240,3 +240,13 @@ Feature: TMGMT Poetry Cart features
     And I click "Edit" in the "An AJAX HTTP error occurred." row
     And I wait for AJAX to finish
     Then I should see "Origin: misc/drupal.js" in the ".form-type-textarea > div > textarea" element
+
+  Scenario: I can add metatags to cart.
+    Given the module is enabled
+      | modules |
+      | metatag |
+    When I go to "admin/config/search/metatags/config/global/translate"
+    And I check the box on the "French" row
+    And I check the box on the "Portuguese, Portugal" row
+    And I press "Send to cart"
+    Then I should see "1 content source was added into the cart."
