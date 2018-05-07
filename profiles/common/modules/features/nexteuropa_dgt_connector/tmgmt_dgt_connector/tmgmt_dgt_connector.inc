@@ -348,11 +348,16 @@ function _tmgmt_dgt_connector_translator_access($op, TMGMTTranslator $translator
  *   Returns true if 'Send to cart' is possible, false otherwise.
  */
 function _tmgmt_dgt_connector_smalljob_translation_possible($plugin_type, $item_type, $item_id) {
-
   $source_data = _tmgmt_dgt_connector_get_source_data($plugin_type, $item_type, $item_id);
   if (empty($source_data)) {
     return FALSE;
   }
+
+  // Currently length only matters for nodes.
+  if ('node' !== $item_type) {
+    return TRUE;
+  }
+
   $length = _tmgmt_dgt_connector_count_source_data($source_data);
 
   return $length <= variable_get('tmgmt_dgt_connector_max_lenght', TMGMT_DGT_CONNECTOR_MAX_LENGTH);
