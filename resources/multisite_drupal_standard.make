@@ -427,7 +427,7 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.16
+projects[media][version] = 2.19
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
@@ -679,6 +679,10 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_transl
 ; https://www.drupal.org/node/2812863
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-60
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
+; #2955245 : i18nviews strings are not shown on sources view
+; https://www.drupal.org/node/2955245
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
@@ -1031,12 +1035,12 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.7
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.7
+projects[atomium][version] = 2.8
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.10
+projects[ec_europa][download][tag] = 0.0.11
 
 ; ==============
 ; Custom modules
