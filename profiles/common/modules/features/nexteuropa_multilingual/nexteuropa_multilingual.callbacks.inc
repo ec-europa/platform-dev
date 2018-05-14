@@ -11,8 +11,9 @@
 function nexteuropa_multilingual_language_negotiation_provider_callback($languages) {
   $current_path = request_path();
 
-  // $_GET['q'] might not be available at this time, because
-  // path initialization runs after the language bootstrap phase.
+  // $_GET['q'] might not be available at this time because
+  // path initialization runs after the language bootstrap phase, or because
+  // the treated URL is the site's root one where $_GET['q'] is empty.
   if (empty($current_path)) {
     return FALSE;
   }
