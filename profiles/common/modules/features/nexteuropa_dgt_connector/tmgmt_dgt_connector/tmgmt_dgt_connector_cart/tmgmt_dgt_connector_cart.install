@@ -7,17 +7,21 @@
 
 /**
  * Implements hook_install().
- *
- * The current implementation of hook_form_FORM_ID_alter in the different
- * tmgmt modules leads to inconsistent form states when invoking the same hooks
- * in our module. In order to avoid this we need to run our hooks after all the
- * tmgmt hooks have finished.
  */
 function tmgmt_dgt_connector_cart_install() {
+  // The current implementation of hook_form_FORM_ID_alter in the different
+  // tmgmt modules leads to inconsistent form states when invoking the same
+  // hooks in our module. In order to avoid this we need to run our hooks
+  // after all the tmgmt hooks have finished.
   db_update('system')
     ->fields(array('weight' => 1))
     ->condition('name', 'tmgmt_dgt_connector_cart', '=')
     ->execute();
+
+  // Disable the default TMGMT node source page.
+  $status = variable_get('views_defaults', array());
+  $status['tmgmt_node_source_overview'] = TRUE;
+  variable_set('views_defaults', $status);
 }
 
 /**

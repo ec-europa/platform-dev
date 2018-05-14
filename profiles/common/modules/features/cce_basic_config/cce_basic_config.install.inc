@@ -48,12 +48,14 @@ function cce_basic_config_profile_theme_default_form_submit($form, &$form_state)
   $theme_list = array($theme_default);
   if ($theme_default == 'ec_europa') {
     $theme_list[] = 'atomium';
-    module_enable(array('nexteuropa_ecl_migrate'));
-    _nexteuropa_ecl_migrate_blocks();
   }
   theme_enable($theme_list);
   variable_set('theme_default', $theme_default);
   $theme_name = $form['container']['theme_default']['#options'][$theme_default];
+  if ($theme_default == 'ec_europa') {
+    module_enable(array('nexteuropa_ecl_migrate'));
+    _nexteuropa_ecl_migrate_blocks();
+  }
   drupal_set_message(st("'@name' has been set as default theme.", array('@name' => $theme_name)));
 }
 
