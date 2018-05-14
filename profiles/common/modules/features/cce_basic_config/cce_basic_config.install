@@ -450,6 +450,32 @@ function cce_basic_config_install() {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
   }
 
+  // Create WYSIWYG profile for Filtered  HTML text format.
+  multisite_config_service('wysiwyg')->createProfile('filtered_html', 'ckeditor');
+
+  $plugin_settings = array(
+    'default' => array(
+      'Bold',
+      'Italic',
+      'Underline',
+      'BulletedList',
+      'NumberedList',
+      'Undo',
+      'Link',
+      'Unlink',
+      'Anchor',
+      'TextColor',
+      'BGColor',
+      'Blockquote',
+      'Font',
+      'FontSize',
+      'Maximize',
+    ),
+  );
+  foreach ($plugin_settings as $group => $buttons) {
+    multisite_config_service('wysiwyg')->addButtonsToProfile('filtered_html', $group, $buttons);
+  }
+
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
   // in a regular feature since it includes the path to where the Print PDF
   // module is installed, which is different depending on the installation
@@ -517,14 +543,20 @@ function cce_basic_config_profile_theme_default_form() {
 function cce_basic_config_profile_theme_default_form_submit($form, &$form_state) {
   $theme_default = $form_state['values']['theme_default'];
   $theme_list = array($theme_default);
+
   if ($theme_default == 'ec_europa') {
     $theme_list[] = 'atomium';
-    module_enable(array('nexteuropa_ecl_migrate'));
-    _nexteuropa_ecl_migrate_blocks();
   }
+
   theme_enable($theme_list);
   variable_set('theme_default', $theme_default);
   $theme_name = $form['container']['theme_default']['#options'][$theme_default];
+
+  if ($theme_default == 'ec_europa') {
+    module_enable(array('nexteuropa_ecl_migrate'));
+    _nexteuropa_ecl_migrate_blocks();
+  }
+
   drupal_set_message(st("'@name' has been set as default theme.", array('@name' => $theme_name)));
 }
 
