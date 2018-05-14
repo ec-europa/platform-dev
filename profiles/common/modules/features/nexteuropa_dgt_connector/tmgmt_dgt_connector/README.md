@@ -18,18 +18,19 @@ supported by the original TMGMT module. This includes:
 * Menu and menu links
 * Vocabularies and Taxonomy terms
 
-The module supports strings of all sizes but Nodes whose length is bigger
-than 300 characters have to be sent on individual requests.
+The module supports strings of all sizes but Nodes with length bigger
+than 300 characters will have to be sent in individual requests.
 
 Other strings can and should be bundled together into single requests.
-Even though any string can be bundled together, for consistency sake it is recommended
-that related strings be bundled together (all items of a single menu for example).
+For consistency sake it is recommended that related strings be bundled together
+(all items of a single menu for example).
 
 
 # Usage
 
-Requesting translations for content whose length is bigger than 300 follows the usual workflow
-of the TMGMT module. Please refer to the documentation of the module for more details.
+Requesting translations for content with length bigger than 300 characters
+follows the usual workflow of the TMGMT module.
+Please refer to the documentation of the module for more details.
 
 In order to bundle items together a user must use the custom DGT Cart which replaces the
 default TMGMT Cart.
@@ -37,12 +38,14 @@ A user can add a translatable string in two different ways: through the translat
 of the content or through the Sources page provided by TMGMT.
 
 #### Translation forms
+
 Translation forms for most content and string types 
 can be found when editing the content itself under the tab "Translate" (for example,
 node translation pages can be found at node/NODE_ID/translate).
 Selecting the "Send to cart" option will add them to the cart for later usage.
 
 #### Sources page
+
 All translatable strings are available on the Sources page provided by the TMGMT module.
 The page can be found at admin/tmgmt/sources and it provides separate tabs for each
 string type.
@@ -54,11 +57,14 @@ languages and clicking the "Send to cart" button.
 The custom DGT cart can be accessed through the following url "admin/tmgmt/dgt_cart".
 The cart shows all the currently created bundles.
 Each bundle is created based on the target languages of the items sent into the cart.
-Once in a bundle, the items inside them can be edited and extra metadata added by using
-edit option.
+Once in a bundle, the Edit option allows to see the items inside a bundle,
+edit its context data and also to remove items if needed.
 The Discard option will delete the bundle and remove all the items in it.
 The Send option will create a Translation request which will then follow the usual workflow
 of the TMGMT module.
+
+#### Translation checkout page
+
 In the translation checkout page, the translator ```TMGMT DGT Translator``` must be used.
 
 # Configuration
