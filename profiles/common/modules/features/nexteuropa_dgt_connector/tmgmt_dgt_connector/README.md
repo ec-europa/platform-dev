@@ -22,7 +22,7 @@ The module supports strings of all sizes but Nodes with length bigger
 than 300 characters will have to be sent in individual requests.
 
 Other strings can and should be bundled together into single requests.
-For consistency sake it is recommended that related strings be bundled together
+For consistency sake it is recommended that related strings are bundled together
 (all items of a single menu for example).
 
 
