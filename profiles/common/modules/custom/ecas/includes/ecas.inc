@@ -364,7 +364,7 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
   // reference as parameter.
   foreach (module_implements('ecas_sync_user_info') as $module) {
     $function = $module . '_ecas_sync_user_info';
-    $function($edit, $user, $user_info, $args);
+    $function($user, $user_info, $edit, $args);
   }
 
   // Fix : save file object replaced by fid by user_save function.
@@ -382,7 +382,7 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
  *
  * Assign the "CEM" role assigned to the user if they belong to the COMM_CEM.
  */
-function ecas_ecas_sync_user_info(array &$edit, $user, array $user_info, array $args) {
+function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $args) {
   $cem_group = 'COMM_CEM';
   $cem_role_name = 'cem';
 
@@ -400,7 +400,7 @@ function ecas_ecas_sync_user_info(array &$edit, $user, array $user_info, array $
   if (in_array($cem_group, $user_cas_groups)) {
     $role_name = $cem_role->name;
     $user_roles[$cem_role->rid] = $role_name;
-    watchdog('ecas', 'User %name has received the %role role.)', array('%name' => $user->name, '%role' => $role_name), WATCHDOG_INFO, l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid)));
+    watchdog('ecas', 'User "%name" has received the "%role" role.', array('%name' => $user->name, '%role' => $role_name), WATCHDOG_INFO, l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid)));
   }
 
   $edit['roles'] = $user_roles;

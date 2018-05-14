@@ -8,22 +8,19 @@
 /**
  * Act on the list of user data value to save of the Ecas user.
  *
- * @param array $edit
- *   The list array of user data values. it is the same "$edit" parameter as
- *   in user_save().
  * @param object $user
  *   A user object.
  * @param array $user_info
- *   An associative array with the following interesting keys:
- *   - mail: mail address.
- *   - givenname: first name.
- *   - sn: last name.
- *   These values will be used to fill fields/profiles/...
+ *   An associative array with user data coming from EU login.
+ *   These values will be used to fill fields of the user's profiles.
+ * @param array $edit
+ *   The list array of user data values. it is the same "$edit" parameter as
+ *   in user_save().
  * @param array $args
  *   Extra parameters, not used directly in this function but passed to the
  *   info_ecas_update() hook.
  */
-function hook_ecas_sync_user_info(array &$edit, $user, array $user_info, array $args) {
+function hook_ecas_sync_user_info($user, array $user_info, array &$edit, array $args) {
   $role = user_role_load_by_name('role_name');
   $user_roles = (isset($user->roles)) ? $user->roles : array();
   $user_roles[$role->rid] = $role->name;
@@ -40,16 +37,13 @@ function hook_ecas_sync_user_info(array &$edit, $user, array $user_info, array $
  * @param object $user
  *   A user object.
  * @param array $user_info
- *   An associative array with the following interesting keys:
- *   - mail: mail address.
- *   - givenname: first name.
- *   - sn: last name.
- *   These values will be used to fill fields/profiles/...
+ *   An associative array with user data coming from EU login.
+ *   These values will be used to fill fields of the user's profiles.
  * @param array $args
  *   Extra parameters, not used directly in this function but passed to the
  *   info_ecas_update() hook.
  */
-function ecas_group_sync_info_ecas_update($user, array $user_info, array $args) {
+function hook_info_ecas_update($user, array $user_info, array $args) {
   $group_query = db_select('node', 'n')
     ->condition('title', 'group delta')
     ->fields('n', array('nid'));
