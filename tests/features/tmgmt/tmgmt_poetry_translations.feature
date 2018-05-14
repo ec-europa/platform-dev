@@ -509,12 +509,10 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I fill in "Label" with "Testing translation metadata including special chars like &"
-    And I click "Contact usernames"
     And inside fieldset "Contact usernames" I fill in "Author" with "Janssen & Janssen auteur"
     And inside fieldset "Contact usernames" I fill in "Secretaire" with "Janssen & Janssen secretary"
     And inside fieldset "Contact usernames" I fill in "Contact" with "Janssen & Janssen contact"
     And inside fieldset "Contact usernames" I fill in "Responsible" with "Janssen & Janssen responsible"
-    And I click "Organization"
     And inside fieldset "Organization" I fill in "Responsable" with "& DG/directorate/unit who is responsible"
     And inside fieldset "Organization" I fill in "Author" with "& DG/directorate/unit from which the document comes"
     And inside fieldset "Organization" I fill in "Requester" with "& DG/directorate/unit of the person submitting the request"
