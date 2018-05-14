@@ -1,56 +1,65 @@
 TMGMT DGT Connector
 ===================
 This module integrates the [TMGMT module](https://www.drupal.org/project/tmgmt) 
-and the European Commission DGT connector services, enabling translation managers,
+and the European Commission DGT connector services, providing translation managers,
 a custom cart and all required logic.
+
+# Translatable strings
+
+The TMGMT DGT Connector module allows the translation of all default string types
+supported by the original TMGMT module. This includes:
+* Nodes
+* Blocks
+* Beans
+* Views
+* Locale strings
+* Field instances
+* Files
+* Menu and menu links
+* Vocabularies and Taxonomy terms
+
+The module supports strings of all sizes but Nodes whose length is bigger
+than 300 characters have to be sent on individual requests.
+
+Other strings can and should be bundled together into single requests.
+Even though any string can be bundled together, for consistency sake it is recommended
+that related strings be bundled together (all items of a single menu for example).
+
 
 # Usage
 
-After enabling this module, it will be possible to translate:
+Requesting translations for content whose length is bigger than 300 follows the usual workflow
+of the TMGMT module. Please refer to the documentation of the module for more details.
 
-#### Content with length above 300 characters
+In order to bundle items together a user must use the custom DGT Cart which replaces the
+default TMGMT Cart.
+A user can add a translatable string in two different ways: through the translation form
+of the content or through the Sources page provided by TMGMT.
 
-This will work like when using only the  ```TMGMT Poetry``` module and translator ```DGT Connector```.
+#### Translation forms
+Translation forms for most content and string types 
+can be found when editing the content itself under the tab "Translate" (for example,
+node translation pages can be found at node/NODE_ID/translate).
+Selecting the "Send to cart" option will add them to the cart for later usage.
 
-#### Other translatable items using Small Jobs Cart
+#### Sources page
+All translatable strings are available on the Sources page provided by the TMGMT module.
+The page can be found at admin/tmgmt/sources and it provides separate tabs for each
+string type.
+After selecting the desired strings, they can be sent to the cart itself by selecting the target
+languages and clicking the "Send to cart" button.
 
-It is now possible to bundle other different translatable items
-in the ```Small Jobs Cart```, using the translator ```TMGMT DGT Translator```:
+#### DGT Cart
 
-* Content with length under 300 characters;
-* Menu and Menu items;
-* Taxonomies and Terms;
-* Blocks 
-
-To add one translatable item to the ``Small Jobs Cart``, 
-go to the translation page of that item,
-chose the target languages and then use the "Send to cart" button.
-
-Then, in the ```Small Jobs Cart (admin/tmgmt/dgt_cart)```, you can send a bundle to be translated.
-Each bundle is a set of items having the same target languages set.
-Before sending a bundle for translation, please edit the bundle, then revise and complete
-the context information: Context URL should be filled and also any other
-hints that may help the person in charge of translation to understand the
-context where the item will be displayed.
-
+The custom DGT cart can be accessed through the following url "admin/tmgmt/dgt_cart".
+The cart shows all the currently created bundles.
+Each bundle is created based on the target languages of the items sent into the cart.
+Once in a bundle, the items inside them can be edited and extra metadata added by using
+edit option.
+The Discard option will delete the bundle and remove all the items in it.
+The Send option will create a Translation request which will then follow the usual workflow
+of the TMGMT module.
 In the translation checkout page, the translator ```TMGMT DGT Translator``` must be used.
-
-## Other translatable items using TMGMT Cart
-
-It is also possible to bundle these translatable items:
-
-* Strings/Locale
-* Form labels/Field Instances
-
-Currently we are using the ```TMGMT Cart``` for this purpose. Using the ```Small Jobs Cart```
-is not possible yet but should be possible soon. The main difference between
-the two carts is the workflow for choosing the target languages.
-To make these translations, go to the ```TMGMT Sources (admin/tmgmt/sources)``` page
-and chose "Locale" or "Field Instance" tabs. After adding all desired items
-to the cart, go to the ```TMGMT Cart (admin/tmgmt/cart)``` page and request the translation.
-
-In translation checkout page, like the one in the ```Small Jobs Cart (admin/tmgmt/dgt_cart)```,
-the translator ```TMGMT DGT Translator``` must be used.
 
 # Configuration
 
@@ -59,13 +68,3 @@ the translator ```TMGMT DGT Translator``` must be used.
 * Configure settings in ```admin/config/regional/poetry-client``` for the helper module
 [Nexteuropa Poetry](https://github.com/ec-europa/nexteuropa_poetry#configuration),
 as described in "Configuration" section.
-
-# Next developments
-
-In the first phase, this module will run in parallel with
-[TMGMT poetry](https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry)
-module and will focus on "Small jobs" (content translations of
-less than 300 characters). It is foreseen to eventually abandon the
-```TMGMT Poetry``` module and to integrate all its features in this module.
-
-```TMGMT Cart``` should be deprecated in favor of ```Small Jobs Cart```.
