@@ -185,7 +185,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.14"
+projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -445,6 +445,10 @@ projects[media][version] = 2.8
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1015
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
+; Security update Media 7.x-2.19
+; https://www.drupal.org/sa-contrib-2018-020
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1935
+projects[media][patch][] = https://www.drupal.org/files/issues/2018-04-25/media--sa-contrib-2018-020.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.2"
@@ -686,6 +690,10 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_transl
 ; https://www.drupal.org/node/2812863
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-60
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
+; #2362321 : Check source length limits
+; https://www.drupal.org/node/2362321
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1802
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-12/check_source_length-d7-2362321-37.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
@@ -1033,12 +1041,12 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.6
+projects[ec_resp][download][tag] = 2.3.8
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.7
+projects[atomium][version] = 2.8
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.10
+projects[ec_europa][download][tag] = 0.0.11
