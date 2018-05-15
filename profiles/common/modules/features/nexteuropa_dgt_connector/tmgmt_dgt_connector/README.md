@@ -10,7 +10,7 @@ The TMGMT DGT Connector module allows the translation of all default string type
 supported by the original TMGMT module. This includes:
 * Nodes
 * Blocks
-* Beans
+* Beans (when enabling Entity Translation for Blocks)
 * Views
 * Locale strings
 * Field instances
