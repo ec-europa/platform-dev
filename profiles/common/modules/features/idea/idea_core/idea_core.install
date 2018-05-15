@@ -94,6 +94,8 @@ function idea_core_install() {
   );
   taxonomy_term_save($term);
 
+  // Use soft config for article comment form location.
+  multisite_config_service('comment')->setThreadingCommentForContentType('idea', 0);
 }
 
 /**
