@@ -816,18 +816,19 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/workbench_moderation_fix_rules_current_state-2825391-42.patch
 
 projects[workbench_og][subdir] = "contrib"
-projects[workbench_og][version] = "2.0-beta1"
+projects[workbench_og][version] = "2.x-dev"
 ; Content not accessible after being published - node_access not updated
 ; Issue https://www.drupal.org/node/2835937
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-296
-projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
+; projects[workbench_og][patch][] = https://ftp.drupal.org/files/projects/workbench_og-7.x-2.x-dev.zip
+projects[workbench_og][patch][] = patches/workbench_og-my_drafts_missing-2006134-4.patch
 
-projects[workbench_og][subdir] = "contrib"
-projects[workbench_og][version] = "2.0-beta1"
+; projects[workbench_og][subdir] = "contrib"
+; projects[workbench_og][version] = "2.0-beta1"
 ; Content not accessible after being published - node_access not updated
 ; Issue https://www.drupal.org/node/2006134
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
-projects[workbench_og][patch][] = https://www.drupal.org/files/workbench_og-my_drafts_missing-2006134-1.patch
+; projects[workbench_og][patch][] = https://www.drupal.org/files/workbench_og-my_drafts_missing-2006134-1.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][version] = "2.4"
