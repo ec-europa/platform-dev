@@ -18,6 +18,12 @@ supported by the original TMGMT module. This includes:
 * Menu and menu links
 * Vocabularies and Taxonomy terms
 
+The following string types are currently not currently supported:
+* Webforms
+* Custom metatags
+* Polls
+This is due to lack of support on the TMGMT module. 
+
 The module supports strings of all sizes but Nodes with length bigger
 than 300 characters will have to be sent in individual requests.
 
