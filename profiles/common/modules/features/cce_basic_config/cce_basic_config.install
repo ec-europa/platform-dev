@@ -1930,7 +1930,7 @@ function _cce_basic_config_text_formats() {
   $formats = array();
   $formats['filtered_html'] = (object) array(
     'format' => 'filtered_html',
-    'name' => 'Filtered HTML - NEW',
+    'name' => 'Filtered HTML',
     'cache' => 1,
     'status' => 1,
     'weight' => -9,
@@ -1970,7 +1970,7 @@ function _cce_basic_config_text_formats() {
   );
   $formats['full_html'] = (object) array(
     'format' => 'full_html',
-    'name' => 'Full HTML - NEW',
+    'name' => 'Full HTML',
     'cache' => 0,
     'status' => 1,
     'weight' => -10,
@@ -2011,7 +2011,7 @@ function _cce_basic_config_text_formats() {
   );
   $formats['plain_text'] = (object) array(
     'format' => 'plain_text',
-    'name' => 'Plain text - NEW',
+    'name' => 'Plain text',
     'cache' => 1,
     'status' => 1,
     'weight' => -8,
@@ -2037,7 +2037,7 @@ function _cce_basic_config_text_formats() {
   );
   $formats['basic_html'] = (object) array(
     'format' => 'basic_html',
-    'name' => 'Basic HTML - NEW',
+    'name' => 'Basic HTML',
     'cache' => 1,
     'status' => 1,
     'weight' => 5,
