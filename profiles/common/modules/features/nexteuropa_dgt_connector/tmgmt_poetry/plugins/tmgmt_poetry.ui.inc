@@ -276,7 +276,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#type' => 'fieldset',
       '#title' => t('Contact usernames'),
       '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
+      '#collapsed' => FALSE,
       '#description' => t("Contact persons for the translation request sent to Poetry. WARNING: Valid EC usernames must be used"),
     );
     $form['contacts']['auteur'] = array(
@@ -311,7 +311,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#type' => 'fieldset',
       '#title' => t('Organization'),
       '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
+      '#collapsed' => FALSE,
       '#description' => t("Requester organization information"),
     );
     $form['organization']['responsable'] = array(
