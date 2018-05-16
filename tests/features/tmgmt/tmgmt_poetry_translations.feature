@@ -11,7 +11,6 @@ Feature: TMGMT Poetry features
     And tmgmt_poetry is configured to use tmgmt_poetry_mock
     And the following languages are available:
       | languages |
-      | en        |
       | pt-pt     |
       | fr        |
       | de        |
@@ -510,12 +509,10 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I fill in "Label" with "Testing translation metadata including special chars like &"
-    And I click "Contact usernames"
     And inside fieldset "Contact usernames" I fill in "Author" with "Janssen & Janssen auteur"
     And inside fieldset "Contact usernames" I fill in "Secretaire" with "Janssen & Janssen secretary"
     And inside fieldset "Contact usernames" I fill in "Contact" with "Janssen & Janssen contact"
     And inside fieldset "Contact usernames" I fill in "Responsible" with "Janssen & Janssen responsible"
-    And I click "Organization"
     And inside fieldset "Organization" I fill in "Responsable" with "& DG/directorate/unit who is responsible"
     And inside fieldset "Organization" I fill in "Author" with "& DG/directorate/unit from which the document comes"
     And inside fieldset "Organization" I fill in "Requester" with "& DG/directorate/unit of the person submitting the request"
@@ -733,7 +730,7 @@ Feature: TMGMT Poetry features
     And the translation request has version to 1
 
   @theme_wip
-  Scenario: Check the limit 'version' of the request
+  Scenario: Check the limit 'version' and 'partie' of the request
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group
     When I create the following multilingual "page" content:
@@ -751,6 +748,9 @@ Feature: TMGMT Poetry features
     And I click "In progress" in the "French" row
     And I press "Save"
     And I click "Needs review" in the "French" row
+    When I fill in the following:
+      | edit-title-field0value-translation   | FR Title |
+      | edit-field-ne-body0value-translation | FR Body  |
     And I press "Save as completed"
     Then I should see "None" in the "French" row
 
@@ -762,23 +762,7 @@ Feature: TMGMT Poetry features
     Then I check the job reference of the translation request page
     And the poetry translation service received the translation request
     And the translation request has version to 0
-
-  @theme_wip
-  Scenario: Check the limit 'partie' of the request
-    Given I am logged in as a user with the 'editor' role
-    And I have the 'contributor' role in the 'Global editorial team' group
-    When I create the following multilingual "page" content:
-      | language | title                | field_ne_body |
-      | en       | Title last version 1 | Body test 1   |
-    And I visit the "page" content with title "Title last version 1"
-    And I click "Translate" in the "primary_tabs" region
-    And I check the box on the "French" row
-    And I press "Request translation"
-    And I fill in "Date" with a relative date of "+10" days
-    And I press "Submit to translator"
-    And I store the job reference of the translation request page
-    And the poetry translation service received the translation request
-    And set the translation request partie to 99
+    When set the translation request partie to 99
     And I create the following multilingual "page" content:
       | language | title                | field_ne_body |
       | en       | Title last version 2 | Body test 2   |
