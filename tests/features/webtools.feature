@@ -10,7 +10,6 @@ Feature: Webtools feature
       | nexteuropa_webtools |
     And a valid Smartload Url has been configured
     And I am logged in as a user with the 'administrator' role
-    Then Module "metatag" should be enabled
 
   @api @standard_ec_resp
   Scenario: Create and delete a block 'Map'
@@ -23,6 +22,8 @@ Feature: Webtools feature
     Then I should see the success message "webtools Block Map Webtools Title has been created."
     And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
     And the response should contain "contextual-links-wrapper"
+    # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
+    And the response should contain "<meta name=\"X-UA-Compatible\" content=\"IE=edge\" />"
     When I go to "admin/content/blocks"
     And I click "delete" in the "Block Map Webtools" row
     Then I should see "Are you sure you want to delete Block Map Webtools Title?"
@@ -46,6 +47,8 @@ Feature: Webtools feature
     Then I should see the success message "Basic page with a Map has been created."
     And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
     And the response should contain "contextual-links-wrapper"
+    # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
+    And the response should contain "<meta name=\"X-UA-Compatible\" content=\"IE=edge\" />"
 
   @api
   Scenario: Create and delete a block 'Basic map'
@@ -57,6 +60,8 @@ Feature: Webtools feature
     Then I should see the text "webtools Block Basic Map Webtools Title has been created."
     And the response should contain "<script type=\"application/json\">{\"service\": \"map\",\"map\": {\"zoom\": \"15\",\"center\": [\"50.5037\",\"4.2258\"],\"background\": [\"osmec\"]}}</script>"
     And the response should contain "contextual-links-wrapper"
+    # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
+    And the response should contain "<meta name=\"X-UA-Compatible\" content=\"IE=edge\" />"
     When I go to "admin/content/blocks"
     And I click "delete" in the "Block Basic Map Webtools" row
     Then I should see "Are you sure you want to delete Block Basic Map Webtools Title?"
@@ -73,6 +78,8 @@ Feature: Webtools feature
     Then I should see the text "webtools Block Chart Webtools Title has been created."
     And the response should contain "<script type=\"application/json\">{\"service\": \"charts\",\"provider\": \"highcharts\",\"data\": \"//europa.eu/webtools/showcase/demo/charts/wikis/airport-transport-of-passenger-in-the-eu-2014-options.json\"}</script>"
     And the response should contain "contextual-links-wrapper"
+    # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
+    And the response should contain "<meta name=\"X-UA-Compatible\" content=\"IE=edge\" />"
     When I go to "admin/content/blocks"
     And I click "delete" in the "Block Chart Webtools" row
     Then I should see "Are you sure you want to delete Block Chart Webtools Title?"
@@ -89,6 +96,8 @@ Feature: Webtools feature
     Then I should see the text "webtools Block Social bookmark Webtools Title has been created."
     And the response should contain "<script type=\"application/json\">{\"service\": \"sbkm\",\"to\": [\"twitter\",\"facebook\",\"linkedin\",\"googleplus\"],\"selection\": false}</script>"
     And the response should contain "contextual-links-wrapper"
+    # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
+    And the response should contain "<meta name=\"X-UA-Compatible\" content=\"IE=edge\" />"
     When I go to "admin/content/blocks"
     And I click "delete" in the "Block Social bookmark Webtools" row
     Then I should see "Are you sure you want to delete Block Social bookmark Webtools Title?"
@@ -105,6 +114,8 @@ Feature: Webtools feature
     Then I should see the text "webtools Block SMK Webtools Title has been created."
     And the response should contain "<script type=\"application/json\">{\"service\": \"twitter\",\"type\": \"user\",\"screen_name\": \"EU_Commission\",\"include_rts\": true}</script>"
     And the response should contain "contextual-links-wrapper"
+    # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
+    And the response should contain "<meta name=\"X-UA-Compatible\" content=\"IE=edge\" />"
     When I go to "admin/content/blocks"
     And I click "delete" in the "Block SMK Webtools" row
     Then I should see "Are you sure you want to delete Block SMK Webtools Title?"
