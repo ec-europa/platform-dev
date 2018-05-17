@@ -127,6 +127,7 @@ Feature: TMGMT Workbench features
     Then I click "In progress" in the "French" row
     And I press "Save"
     And I click "Needs review" in the "French" row
+    And I fill in "edit-title-field0value-translation" with "FR Original version"
     And I press "Save as completed"
     And I visit the "page" content with title "Original version"
     Then the url should match "(.)*content/original-version_en"
