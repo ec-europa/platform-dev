@@ -52,8 +52,7 @@ function tmgmt_dgt_connector_cart_menu() {
  * Update menu link's title to distinguish from Small Jobs Cart.
  */
 function tmgmt_dgt_connector_cart_menu_alter(&$items) {
-  $items['admin/tmgmt/cart']['title'] = 'TMGMT Cart';
-  unset($items['admin/tmgmt/cart']['title callback']);
+  unset($items['admin/tmgmt/cart']);
 }
 
 /**
