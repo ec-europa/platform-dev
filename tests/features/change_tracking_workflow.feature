@@ -28,7 +28,7 @@ Feature: Change tracking features
     Then I should see "Disabled" in the "Full HTML" row
     And I should see the message "Change tracking disabled on full_html WYSIWYG profile"
 
-  @javascript
+  @javascript @wip
   Scenario: Check that users can insert a webtools block into a content by using the Full HTML + Change tracking
   text format
     Given the module is enabled
