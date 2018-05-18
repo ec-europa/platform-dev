@@ -815,20 +815,22 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
 projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/workbench_moderation_fix_rules_current_state-2825391-42.patch
 
-projects[workbench_og][subdir] = "contrib"
-projects[workbench_og][version] = "2.x-dev"
+; This module doesn't have an stable version with the fixed needed to fix issues NEPT-296 and NEPT-1866.
+; To fix this, the module maintaner has included the patch for NEPT-296 and only that on commit
+; 511caed35326ec7f328e794dc4be21eb33c5ae86. This is the version installed and then we apply a to
+; fix NEPT-1866.
 ; Content not accessible after being published - node_access not updated
 ; Issue https://www.drupal.org/node/2835937
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-296
-; projects[workbench_og][patch][] = https://ftp.drupal.org/files/projects/workbench_og-7.x-2.x-dev.zip
-projects[workbench_og][patch][] = patches/workbench_og-my_drafts_missing-2006134-4.patch
-
-; projects[workbench_og][subdir] = "contrib"
-; projects[workbench_og][version] = "2.0-beta1"
-; Content not accessible after being published - node_access not updated
+projects[workbench_og][subdir] = "contrib"
+projects[workbench_og][type] = module
+projects[workbench_og][download][type] = git
+projects[workbench_og][download][revision] = 511caed35326ec7f328e794dc4be21eb33c5ae86
+projects[workbench_og][download][branch] = 7.x-2.x
+; Workbench "MY DRAFTS" does not display my drafts
 ; Issue https://www.drupal.org/node/2006134
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
-; projects[workbench_og][patch][] = https://www.drupal.org/files/workbench_og-my_drafts_missing-2006134-1.patch
+projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-05-18/workbench_og-my_drafts_missing-2006134-4.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][version] = "2.4"
