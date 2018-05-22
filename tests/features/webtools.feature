@@ -35,7 +35,7 @@ Feature: Webtools feature
     Given a map webtools "Block Webtools" exists
     And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
-    And I fill in "Title" with "Basic page with a Map"
+    And I fill in the content's title with "Basic page with a Map"
     And I select "Full HTML" from "Text format"
     And I click the "Insert internal content" button in the "Body" WYSIWYG editor
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title

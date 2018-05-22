@@ -537,15 +537,15 @@ class MinkContext extends DrupalExtensionMinkContext {
    *
    * @When I fill in the content's title with :arg1
    */
-    public function iFillInTheContentsTitleWith($arg1) {
-      $page = $this->getSession()->getPage();
+  public function iFillInTheContentsTitleWith($arg1) {
+    $page = $this->getSession()->getPage();
 
-      $content_field_id = 'edit-title';
-      $element = $page->find('css', '#edit-title');
-      if (empty($element)) {
-        $content_field_id = 'edit-title-field-en-0-value';
-      }
-      $this->fillField($content_field_id, $arg1);
+    $content_field_id = 'edit-title';
+    $element = $page->find('css', '#edit-title');
+    if (empty($element)) {
+      $content_field_id = 'edit-title-field-en-0-value';
     }
+    $this->fillField($content_field_id, $arg1);
+  }
 
 }
