@@ -18,19 +18,19 @@ Feature: Check Piwik
     Given I am on the homepage
     Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"is403\":false,\"instance\":\"\"}"
     # The meta tag below must be present in order that the PIWIK script works correctly (see NEPT-1042).
-    And the response should contain "<meta name=\"X-UA-Compatible\" content=\"IE=edge\" />"
+    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
 
   Scenario: Check if the PIWIK script flags non existing pages
     Given I go to "falsepage"
     Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":true,\"is403\":false,\"instance\":\"\"}"
     # The meta tag below must be present in order that the PIWIK script works correctly (see NEPT-1042).
-    And the response should contain "<meta name=\"X-UA-Compatible\" content=\"IE=edge\" />"
+    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
 
   Scenario: Check if the PIWIK script flags forbidden pages
     Given I go to "ecaslogout"
     Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"is403\":true,\"instance\":\"\"}"
     # The meta tag below must be present in order that the PIWIK script works correctly (see NEPT-1042).
-    And the response should contain "<meta name=\"X-UA-Compatible\" content=\"IE=edge\" />"
+    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
 
   @delete_piwik_rules
   Scenario: View advanced PIWIK rules.
