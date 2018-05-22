@@ -60,7 +60,7 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
 
     $this->assertRaw('Community test1', t('Community created.'));
     $this->assertRaw('Home page', t('Community block created.'));
-    $this->assertRaw('members list', t('Community block members list created.'));
+    $this->assertRaw('members list', t('Community block Members list created.'));
 
     // Create an article in the community.
     $field = array();
