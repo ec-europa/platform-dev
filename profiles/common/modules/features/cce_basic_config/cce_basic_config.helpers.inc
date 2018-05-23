@@ -41,7 +41,6 @@ function _cce_basic_config_import_images($images) {
   }
 }
 
-
 /**
  * Field widget form alter callback.
  *
@@ -97,6 +96,7 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
 
   $emoji = _cce_basic_config_get_emoji($value);
   if (!empty($emoji)) {
+
     // Get the field label.
     $title = $element['#title'];
     if (empty($element['#title'])) {
@@ -122,7 +122,7 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
  *   The error message.
  */
 function _cce_basic_config_emoji_error($title, $emoji) {
-  $message = t('The !title field has this !emoji forbidden emoji. Please check your content before saving.',
+  $message = t('The !title field has at least this !emoji forbidden emoji. Please check your content before saving.',
       array('!title' => $title, '!emoji' => $emoji));
   return $message;
 }
@@ -142,8 +142,6 @@ function _cce_basic_config_emoji_error($title, $emoji) {
  * To be removed in NEPT-1817
  */
 function _cce_basic_config_get_emoji($string) {
-  // EMOJIs.
-  $matches = array();
 
   $regexes = array(
     // Match Dingbats.
@@ -160,12 +158,12 @@ function _cce_basic_config_get_emoji($string) {
 
   foreach ($regexes as $regex) {
     preg_match($regex, $string, $matches);
-    if (empty($matches)) {
-      continue;
+    if (!empty($matches)) {
+      return $matches;
     }
   }
 
-  return $matches;
+  return array();
 }
 
 /**
