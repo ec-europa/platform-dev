@@ -87,6 +87,8 @@ default:
         front_error_message_selector: "div.ecl-message.ecl-message--error > ul.ecl-list.ecl-message__body > li"
         front_success_message_selector: "div.ecl-message.ecl-message--success > ul.ecl-list.ecl-message__body > li"
         front_warning_message_selector: "div.ecl-message.ecl-message--warning > ul.ecl-list.ecl-message__body > li"
+        logged_in_selector: 'body.logged-in'
+        login_form_selector: 'form#user-login'
       drush:
         root: '{{ platform.build.dir }}'
         binary: '{{ drush.bin }}'
