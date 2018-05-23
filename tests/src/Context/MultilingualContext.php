@@ -3,8 +3,6 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
-use Drupal\DrupalDriverManager;
-use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Gherkin\Node\TableNode;
 use Drupal\nexteuropa\Component\PyStringYamlParser;
@@ -12,7 +10,7 @@ use Drupal\nexteuropa\Component\PyStringYamlParser;
 /**
  * Behat step definitions for the NextEuropa Multilingual module.
  */
-class MultilingualContext extends RawDrupalContext implements DrupalSubContextInterface {
+class MultilingualContext extends RawDrupalContext {
   use \Drupal\nexteuropa\Context\ContextUtil;
   /**
    * Published workbench moderation state.
@@ -20,11 +18,6 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * @see workbench_moderation_state_none()
    */
   const MODERATION_PUBLISHED = 'published';
-
-  /**
-   * {@inheritdoc}
-   */
-  protected $drupal;
 
   /**
    * List of translators created during test execution.
@@ -67,16 +60,6 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * @var array
    */
   protected $settings = [];
-
-  /**
-   * Constructs a NextEuropaMultilingualSubContext object.
-   *
-   * @param \Drupal\DrupalDriverManager $drupal
-   *   The Drupal driver manager.
-   */
-  public function __construct(DrupalDriverManager $drupal) {
-    $this->drupal = $drupal;
-  }
 
   /**
    * Create a node along with its translations.
