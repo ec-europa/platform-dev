@@ -149,7 +149,6 @@ function nexteuropa_editorial_install() {
   // NEPT-1880: Add base menu link for admin/tmgmt, because when tmgmt is
   // enabled as a dependency from another module, the menu links for cart and
   // source will appear in top level of admin menu.
-  // This is a bug in  D7's views (where cart and source links are defined).
   $item = array(
     'link_title' => $t('Translation'),
     'link_path' => 'admin/tmgmt',
