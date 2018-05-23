@@ -122,7 +122,7 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
  *   The error message.
  */
 function _cce_basic_config_emoji_error($title, $emoji) {
-  $message = t('The !title field has this !emoji forbidden emoji. Please check your content before saving.',
+  $message = t('The !title field has at least this !emoji forbidden emoji. Please check your content before saving.',
       array('!title' => $title, '!emoji' => $emoji));
   return $message;
 }
