@@ -43,9 +43,18 @@ function nexteuropa_ief_views_widget_form_field_ui_field_edit_form_alter(&$form,
     // item in the right position.
     $weight = 0;
     $elements = &$form['instance']['widget']['settings']['type_settings'];
-    foreach (element_children($elements) as $name) {
-      $elements[$name]['#weight'] = $weight++;
+    if (!empty($elements)) {
+      foreach (element_children($elements) as $name) {
+        $elements[$name]['#weight'] = $weight++;
+      }
     }
+
+    // The "Use this view display to select an existing entity" select box must
+    // be displayed only if the "allow_existing" checkbox is present.
+    if (!isset($elements['allow_existing'])) {
+      return;
+    }
+
     $elements[NEXTEUROPA_IEF_VIEWS_WIDGET_FIELD_OPTION_NAME] = array(
       '#type' => 'select',
       '#title' => t('Use this view display to select an existing entity'),
