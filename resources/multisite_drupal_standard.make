@@ -372,6 +372,10 @@ projects[i18n][version] = "1.13"
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
+; Issue #2366585. Saving a vocabulary resets all terms to LANGUAGE_NONE.
+; https://www.drupal.org/node/2366585
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12161
+projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n_taxonomy-update-vocabulary-guard-2366585-10.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
