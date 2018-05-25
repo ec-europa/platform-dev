@@ -1,10 +1,12 @@
-@api @javascript @maximizedwindow @theme_wip
+@api @javascript @maximizedwindow
 Feature: Change tracking features
   We check that a user can enable the "NextEuropa Tracked Changes" set, but he can disable it
   only if no tracked changes are detected in the current values of WYSIWYG fields
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
+    # Workaround to remove errors with ec_europa
+    Given the cache has been cleared
+    And I am logged in as a user with the 'administrator' role
 
   Scenario: As administrator, I can enable/disable the "NextEuropa Tracked Changes" feature if tracked changes are not
   detected on fields that use this profile
