@@ -398,7 +398,8 @@ function cce_basic_config_install() {
       ->fields(array('captcha_type' => NULL, 'form_id' => 'user_pass'))
       ->execute();
   }
-
+  // Configure text formats.
+  _cce_basic_config_text_formats();
   // Create WYSIWYG profile for Full HTML text format.
   multisite_config_service('wysiwyg')->createProfile('full_html', 'ckeditor');
 

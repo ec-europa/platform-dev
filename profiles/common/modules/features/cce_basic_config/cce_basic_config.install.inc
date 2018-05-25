@@ -612,3 +612,172 @@ function _cce_basic_config_body_field_base_add() {
 
   field_create_field($body);
 }
+
+/**
+ * Creates the text format filters for the platform.
+ *
+ * Import configuration from feature export
+ * https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-544
+ */
+function _cce_basic_config_text_formats() {
+  $formats = array();
+  $formats['filtered_html'] = (object) array(
+    'format' => 'filtered_html',
+    'name' => 'Filtered HTML',
+    'cache' => 1,
+    'status' => 1,
+    'weight' => -9,
+    'filters' => array(
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(
+          'filter_url_length' => 72,
+        ),
+      ),
+      'toolbox_sanitize' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'filter_html' => array(
+        'weight' => 1,
+        'status' => 1,
+        'settings' => array(
+          'allowed_html' => '<a> <em> <strong> <abbr> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>',
+          'filter_html_help' => 1,
+          'filter_html_nofollow' => 0,
+        ),
+      ),
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+        'settings' => array(),
+      ),
+    ),
+  );
+  $formats['full_html'] = (object) array(
+    'format' => 'full_html',
+    'name' => 'Full HTML',
+    'cache' => 0,
+    'status' => 1,
+    'weight' => -10,
+    'filters' => array(
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(
+          'filter_url_length' => 72,
+        ),
+      ),
+      'toolbox_sanitize' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'filter_tokens' => array(
+        'weight' => 20,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'filter_autop' => array(
+        'weight' => 1,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'media_filter' => array(
+        'weight' => 2,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+        'settings' => array(),
+      ),
+    ),
+  );
+  $formats['plain_text'] = (object) array(
+    'format' => 'plain_text',
+    'name' => 'Plain text',
+    'cache' => 1,
+    'status' => 1,
+    'weight' => -8,
+    'filters' => array(
+      'filter_html_escape' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'filter_url' => array(
+        'weight' => 1,
+        'status' => 1,
+        'settings' => array(
+          'filter_url_length' => 72,
+        ),
+      ),
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+        'settings' => array(),
+      ),
+    ),
+  );
+  $formats['basic_html'] = (object) array(
+    'format' => 'basic_html',
+    'name' => 'Basic HTML',
+    'cache' => 1,
+    'status' => 1,
+    'weight' => 5,
+    'filters' => array(
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(
+          'filter_url_length' => 72,
+        ),
+      ),
+      'toolbox_sanitize' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'filter_html' => array(
+        'weight' => 1,
+        'status' => 1,
+        'settings' => array(
+          'allowed_html' => '<a> <em> <strong> <abbr> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>',
+          'filter_html_help' => 1,
+          'filter_html_nofollow' => 0,
+        ),
+      ),
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+        'settings' => array(),
+      ),
+    ),
+  );
+  foreach ($formats as $value) {
+    filter_format_save($value);
+  }
+  $full_html = array(
+    'full_html' => 'full_html',
+    'plain_text' => 'plain_text',
+    'filtered_html' => 0,
+    'basic_html' => 0,
+  );
+  // Variables export.
+  variable_set('i18n_string_allowed_formats', $full_html);
+  variable_set('filter_fallback_format', 'plain_text');
+}
