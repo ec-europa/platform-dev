@@ -78,7 +78,15 @@ function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
  * sending a mail with erroneous instructions.
  */
 function _ecas_user_pass_validate($form, &$form_state) {
+
+  if (!isset($form_state['values']['email'])){
+    $message = t('This user do not have email.');
+    form_set_error('email',$message);
+    return;
+  }
+
   $name = trim($form_state['values']['name']);
+  $email = trim($form_state['values']['$email']);
 
   // Try to load by email.
   $account = user_load_by_mail($name);
@@ -143,6 +151,13 @@ function _ecas_menu(array &$items) {
   $items['ecas_warning_page'] = array(
     'title' => 'EU Login warning',
     'page callback' => 'ecas_warning_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['ecas_notfound'] = array(
+    'title' => 'EU Login warning',
+    'page callback' => 'ecas_warning_notfound',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -405,9 +420,31 @@ function ecas_login_check() {
       // These variables will be checked by later conditions.
       $account = FALSE;
       $ecas_name = NULL;
+      $ecas_email = NULL;
     }
 
-    // If we don't have a user register them.
+    // Check that the email is not present for another account.
+    if (!$account && !empty($ecas_email)) {
+
+      $account_check = user_load_by_mail(strtolower(trim($ecas_email)));
+      if ($account_check) {
+          drupal_set_message(t('BANG', array()), 'warning');
+          // Since an account exists,
+          // We cannot ensure that the user is the same as in Ecas,
+          // So we absolutely want to redirect the user
+          // to the ECAS warning page - thus, we unset any previously set destination.
+          if (isset($_REQUEST['destination'])) {
+            unset($_REQUEST['destination']);
+          }
+          if (isset($_REQUEST['edit']['destination'])) {
+            unset($_REQUEST['edit']['destination']);
+          }
+          drupal_goto('ecas_notfound');
+        }
+      }
+
+
+    // If we don't have a valid user register them.
     if (!$account && !empty($ecas_name)) {
 
       $account = ecas_create_user($ecas_name);
@@ -637,6 +674,21 @@ function _ecas_force_login() {
   }
 
   return ECAS_GATEWAY;
+}
+
+/**
+ * Page callback; displays the 'ecas_warning_page' page.
+ *
+ * @param string $reason
+ *   The code for the message to display.
+ */
+function ecas_warning_notfound() {
+  $output = '';
+
+  $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('Account not found') . '</h2>';
+  $output .= '<p>' . t('Sorry, we cannot found your account.') . '</p>';
+
+  return $output;
 }
 
 /**
