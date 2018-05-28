@@ -355,7 +355,8 @@ function _nexteuropa_multilingual_warning_message(&$form, $node) {
   $warning_message_languages = variable_get('nexteuropa_multilingual_warning_message_languages');
   if (!empty($warning_message_languages) && $translatable !== '0') {
     // https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1106.
-    // Avoid warning because empty choice on poll_tokens() on file poll.tokens.inc.
+    // Avoid warning because empty choice on poll_tokens()
+    // on file poll.tokens.inc.
     if ('poll' == $node->type) {
       $node->choice = [];
     }
