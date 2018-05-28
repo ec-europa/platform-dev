@@ -823,10 +823,13 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
 projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/workbench_moderation_fix_rules_current_state-2825391-42.patch
 
-; This module doesn't have an stable version with the fixed needed to fix issues NEPT-296 and NEPT-1866.
-; To fix this, the module maintaner has included the patch for NEPT-296 and only that on commit
-; 511caed35326ec7f328e794dc4be21eb33c5ae86. This is the version installed and then we apply a to
-; fix NEPT-1866.
+; Workbench_og does not have a stable version that allows applying the 2
+; patches needed to fix the issues NEPT-296 AND NEPT-1866.
+; To unblock the situation, the module maintainer has accepted to include
+; the patch for NEPT-296 through the commit used below.
+; Except the fix, this commit does not add anything to the module version
+; previously used by the platform (7.x-2.0-beta1).
+; NEPT-296 covers:
 ; Content not accessible after being published - node_access not updated
 ; Issue https://www.drupal.org/node/2835937
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-296
