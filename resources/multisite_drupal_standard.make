@@ -296,10 +296,7 @@ projects[field_group][version] = "1.5"
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.4"
-; https://www.drupal.org/node/2893132
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-672
-projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
+projects[file_entity][version] = "2.21"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.11"
