@@ -601,6 +601,9 @@ projects[rate][patch][] = patches/rate-translate_description-1178.patch
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.3"
 
+projects[redirect][subdir] = "contrib"
+projects[redirect][version] = "1.0-rc3"
+
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
 
