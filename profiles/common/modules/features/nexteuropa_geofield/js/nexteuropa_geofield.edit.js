@@ -70,14 +70,16 @@
       if (settings.nexteuropa_geojson.map) {
         loadedMap = jQuery.parseJSON(settings.nexteuropa_geojson.map);
         drawnItems = L.geoJson(loadedMap).addTo(map);
-        // Popups are not pre-populated.
-        if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
-          for (key in drawnItems._layers) {
+        for (key in drawnItems._layers) {
+          if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
             // Create forms elements to manage popups content.
             layer_properties = drawnItems._layers[key].feature.properties;
             createLabel(key, layer_properties.name, layer_properties.description);
-            objects_count++;
           }
+          objects_count++;
+        }
+        // Popups are not pre-populated.
+        if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
           updateGeoJsonField();
           updatePopups();
         }

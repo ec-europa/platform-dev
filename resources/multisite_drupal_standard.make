@@ -310,6 +310,10 @@ projects[filefield_sources_plupload][version] = "1.1"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7572
 ; https://www.drupal.org/node/2705523
 projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/issues/filefield_sources_plupload-metadata_persistance-2705523.patch
+; Fix ajax file updload
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1844
+; https://www.drupal.org/project/filefield_sources_plupload/issues/2466505
+projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/issues/filefield-sources-plupload-ajax-wrapper-2466505-1.patch
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
@@ -679,6 +683,10 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_transl
 ; https://www.drupal.org/node/2812863
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-60
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
+; #2362321 : Check source length limits
+; https://www.drupal.org/node/2362321
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1802
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-12/check_source_length-d7-2362321-37.patch
 ; #2955245 : i18nviews strings are not shown on sources view
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
@@ -1042,7 +1050,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.8
+projects[ec_resp][download][branch] = 2.3.9
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.8
