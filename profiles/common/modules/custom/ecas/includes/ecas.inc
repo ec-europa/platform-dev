@@ -419,9 +419,13 @@ function ecas_login_check() {
 
     // Check that the email is not present for another account.
     if (!$account && !empty($ecas_email)) {
-
       $account_check = user_load_by_mail(strtolower(trim($ecas_email)));
       if ($account_check) {
+        watchdog('user', 'Login denied for %ecas_name with same email but different username.',
+          array(
+            '%ecas_name' => $ecas_name,
+          ));
+        session_destroy();
         // Since an account exists with the same email,
         // We cannot ensure that the user is the same as in Ecas,
         // So we absolutely want to redirect the user
@@ -430,10 +434,14 @@ function ecas_login_check() {
         drupal_goto('ecas_warning/notfound');
       }
     }
-    else {
-      // Means an account found but no email from Ecas.
-      // Since an account exists,
-      // We cannot ensure that the user is the same as in Ecas,
+
+    // Check if no email from Ecas .
+    if(!$account && empty($ecas_email)) {
+      watchdog('user', 'Login denied for %ecas_name without email.',
+        array('%ecas_name' => $ecas_name ));
+      session_destroy();
+      // Since no account exists, and no email from Ecas.
+      // We cannot authorise an user without email,
       // So we absolutely want to redirect the user
       // to the ECAS warning page - thus, we unset any previously set destination.
       _ecas_unset_destination();
@@ -473,6 +481,8 @@ function ecas_login_check() {
 
       if ($account->status == 0) {
         // Case when account is blocked.
+        watchdog('user', 'Login denied for %ecas_name as blocked user.',
+          array('%ecas_name' => $ecas_name));
         session_destroy();
 
         $user = drupal_anonymous_user();
@@ -480,12 +490,7 @@ function ecas_login_check() {
         // Since the user is blocked, we absolutely want to redirect the user
         // to the ECAS warning page - thus, we unset any previously set
         // destination.
-        if (isset($_REQUEST['destination'])) {
-          unset($_REQUEST['destination']);
-        }
-        if (isset($_REQUEST['edit']['destination'])) {
-          unset($_REQUEST['edit']['destination']);
-        }
+        _ecas_unset_destination();
         drupal_goto('ecas_warning/blocked');
       }
       else {
