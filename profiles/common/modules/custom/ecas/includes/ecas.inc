@@ -79,9 +79,9 @@ function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
  */
 function _ecas_user_pass_validate($form, &$form_state) {
 
-  if (!isset($form_state['values']['email'])){
+  if (!isset($form_state['values']['email'])) {
     $message = t('This user do not have email.');
-    form_set_error('email',$message);
+    form_set_error('email', $message);
     return;
   }
 
@@ -428,7 +428,7 @@ function ecas_login_check() {
 
       $account_check = user_load_by_mail(strtolower(trim($ecas_email)));
       if ($account_check) {
-          drupal_set_message(t('BANG', array()), 'warning');
+
           // Since an account exists,
           // We cannot ensure that the user is the same as in Ecas,
           // So we absolutely want to redirect the user
@@ -442,7 +442,6 @@ function ecas_login_check() {
           drupal_goto('ecas_notfound');
         }
       }
-
 
     // If we don't have a valid user register them.
     if (!$account && !empty($ecas_name)) {
@@ -678,9 +677,6 @@ function _ecas_force_login() {
 
 /**
  * Page callback; displays the 'ecas_warning_page' page.
- *
- * @param string $reason
- *   The code for the message to display.
  */
 function ecas_warning_notfound() {
   $output = '';
