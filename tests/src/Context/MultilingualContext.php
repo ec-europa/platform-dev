@@ -553,17 +553,23 @@ class MultilingualContext extends RawDrupalContext {
   }
 
   /**
-   * Remove all existing tmgmt_job entities.
+   * Remove TMGMT Jobs and Translators.
    *
-   * @AfterScenario @CleanTmgmtJobs
+   * @AfterScenario @CleanTmgmt
    */
-  public function cleanJobs() {
+  public function cleanTmgmt() {
     $jobs = entity_load('tmgmt_job', FALSE);
     /** @var \TMGMTJobController $controller */
     $controller = entity_get_controller('tmgmt_job');
     /** @var \TMGMTJob $translator */
     foreach ($jobs as $job) {
       $controller->delete([$job->identifier()]);
+    }
+
+    // Destroy TMGMTTranslator objects to avoid __destruct() being run,
+    // after in a new scenario.
+    foreach (array_keys($this->updatedTranslators) as $key) {
+      $this->updatedTranslators[$key] = NULL;
     }
   }
 
