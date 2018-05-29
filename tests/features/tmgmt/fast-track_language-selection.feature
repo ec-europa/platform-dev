@@ -1,4 +1,4 @@
-@api @poetry @CleanTmgmt
+@api @poetry @CleanTmgmtJobs
 Feature: Fast track language selection
 
   Background:

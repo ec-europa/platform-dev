@@ -38,7 +38,7 @@ class MultilingualContext extends RawDrupalContext {
    *
    * @var array
    */
-  protected $updatedTranslators = [];
+  protected static $updatedTranslators = [];
 
   /**
    * List of TMGMT translation jobs created during test execution.
@@ -357,7 +357,7 @@ class MultilingualContext extends RawDrupalContext {
     if ($translator === FALSE) {
       throw new \InvalidArgumentException("Translator '{$name}' does not exists");
     }
-    $this->updatedTranslators[] = $translator;
+    self::$updatedTranslators = $translator;
     $parser = new PyStringYamlParser($string);
     $settings = $parser->parse();
     $translator->settings = array_merge($translator->settings, $settings);
@@ -370,9 +370,13 @@ class MultilingualContext extends RawDrupalContext {
    * @AfterScenario
    */
   public function restoreTranslators() {
-    foreach ($this->updatedTranslators as $translator) {
+    foreach (self::$updatedTranslators as $key => $translator) {
       $translator->save();
+      // Destroy TMGMTTranslator objects to avoid __destruct() being run,
+      // after in a new scenario.
+      self::$updatedTranslators[$key] = NULL;
     }
+    self::$updatedTranslators = [];
     $this->translators = [];
   }
 
@@ -553,23 +557,17 @@ class MultilingualContext extends RawDrupalContext {
   }
 
   /**
-   * Remove TMGMT Jobs and Translators.
+   * Remove all existing tmgmt_job entities.
    *
-   * @AfterScenario @CleanTmgmt
+   * @AfterScenario @CleanTmgmtJobs
    */
-  public function cleanTmgmt() {
+  public function removeAllTranslationJobs() {
     $jobs = entity_load('tmgmt_job', FALSE);
     /** @var \TMGMTJobController $controller */
     $controller = entity_get_controller('tmgmt_job');
     /** @var \TMGMTJob $translator */
     foreach ($jobs as $job) {
       $controller->delete([$job->identifier()]);
-    }
-
-    // Destroy TMGMTTranslator objects to avoid __destruct() being run,
-    // after in a new scenario.
-    foreach (array_keys($this->updatedTranslators) as $key) {
-      $this->updatedTranslators[$key] = NULL;
     }
   }
 
