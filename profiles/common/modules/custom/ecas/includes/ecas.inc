@@ -148,16 +148,10 @@ function _ecas_menu(array &$items) {
     'type' => MENU_SUGGESTED_ITEM,
   );
 
-  $items['ecas_warning_page'] = array(
+  $items['ecas_warning/%'] = array(
     'title' => 'EU Login warning',
     'page callback' => 'ecas_warning_page',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
-
-  $items['ecas_notfound'] = array(
-    'title' => 'EU Login warning',
-    'page callback' => 'ecas_warning_notfound',
+    'page arguments' => array(1),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -428,20 +422,23 @@ function ecas_login_check() {
 
       $account_check = user_load_by_mail(strtolower(trim($ecas_email)));
       if ($account_check) {
-
-          // Since an account exists,
-          // We cannot ensure that the user is the same as in Ecas,
-          // So we absolutely want to redirect the user
-          // to the ECAS warning page - thus, we unset any previously set destination.
-          if (isset($_REQUEST['destination'])) {
-            unset($_REQUEST['destination']);
-          }
-          if (isset($_REQUEST['edit']['destination'])) {
-            unset($_REQUEST['edit']['destination']);
-          }
-          drupal_goto('ecas_notfound');
-        }
+        // Since an account exists with the same email,
+        // We cannot ensure that the user is the same as in Ecas,
+        // So we absolutely want to redirect the user
+        // to the ECAS warning page - thus, we unset any previously set destination.
+        _ecas_unset_destination();
+        drupal_goto('ecas_warning/notfound');
       }
+    }
+    else {
+      // Means an account found but no email from Ecas.
+      // Since an account exists,
+      // We cannot ensure that the user is the same as in Ecas,
+      // So we absolutely want to redirect the user
+      // to the ECAS warning page - thus, we unset any previously set destination.
+      _ecas_unset_destination();
+      drupal_goto('ecas_warning/nomail');
+    }
 
     // If we don't have a valid user register them.
     if (!$account && !empty($ecas_name)) {
@@ -489,7 +486,7 @@ function ecas_login_check() {
         if (isset($_REQUEST['edit']['destination'])) {
           unset($_REQUEST['edit']['destination']);
         }
-        drupal_goto('ecas_warning_page');
+        drupal_goto('ecas_warning/blocked');
       }
       else {
         $user = $account;
@@ -520,6 +517,20 @@ function ecas_login_check() {
     }
   }
 }
+
+function _ecas_unset_destination() {
+  // We cannot ensure that the user is the same as in Ecas,
+  // So we absolutely want to redirect the user
+  // to the ECAS warning page - thus, we unset any previously set destination.
+  if (isset($_REQUEST['destination'])) {
+    unset($_REQUEST['destination']);
+  }
+  if (isset($_REQUEST['edit']['destination'])) {
+    unset($_REQUEST['edit']['destination']);
+  }
+
+}
+
 
 /**
  * Check to see if we need to display the logout menu.
@@ -677,26 +688,29 @@ function _ecas_force_login() {
 
 /**
  * Page callback; displays the 'ecas_warning_page' page.
+ * @param string $eason
+ *   REason for warning message.
  */
-function ecas_warning_notfound() {
+function ecas_warning_page($reason) {
+
   $output = '';
 
-  $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('Account not found') . '</h2>';
-  $output .= '<p>' . t('Sorry, we cannot found your account.') . '</p>';
-
-  return $output;
-}
-
-/**
- * Page callback; displays the 'ecas_warning_page' page.
- */
-function ecas_warning_page() {
-  $output = '';
-
-  $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('Account blocked') . '</h2>';
-  $output .= '<p>' . variable_get('ecas_warning_message', t('Your account is not yet approved')) . '</p>';
-
-  return $output;
+  switch ($reason) {
+    case 'blocked':
+      $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('Account blocked') . '</h2>';
+      $output .= '<p>' . variable_get('ecas_warning_message', t('Your account is not yet approved')) . '</p>';
+    break;
+    case 'notfound':
+      $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('Account not found') . '</h2>';
+      $output .= '<p>' . t('Sorry, we cannot found your account.') . '</p>';
+    break;
+    case 'nomail':
+      $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('No email found') . '</h2>';
+      $output .= '<p>' . t('Sorry, we cannot log you in without a valid email.');
+      $output .=  '</br>' . t('Please complete your EU-Login account or contact EU-Login support.') . '</p>';
+    break;
+  }
+   return $output;
 }
 
 /**
