@@ -86,7 +86,6 @@ function _ecas_user_pass_validate($form, &$form_state) {
   }
 
   $name = trim($form_state['values']['name']);
-  $email = trim($form_state['values']['$email']);
 
   // Try to load by email.
   $account = user_load_by_mail($name);
@@ -429,7 +428,8 @@ function ecas_login_check() {
         // Since an account exists with the same email,
         // We cannot ensure that the user is the same as in Ecas,
         // So we absolutely want to redirect the user
-        // to the ECAS warning page - thus, we unset any previously set destination.
+        // to the ECAS warning page - thus, we unset any previously
+        // set destination.
         _ecas_unset_destination();
         drupal_goto('ecas_warning/notfound');
       }
@@ -443,7 +443,8 @@ function ecas_login_check() {
       // Since no account exists, and no email from Ecas.
       // We cannot authorise an user without email,
       // So we absolutely want to redirect the user
-      // to the ECAS warning page - thus, we unset any previously set destination.
+      // to the ECAS warning page - thus, we unset any previously
+      // set destination.
       _ecas_unset_destination();
       drupal_goto('ecas_warning/nomail');
     }
