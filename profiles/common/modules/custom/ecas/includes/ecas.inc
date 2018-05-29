@@ -436,9 +436,9 @@ function ecas_login_check() {
     }
 
     // Check if no email from Ecas .
-    if(!$account && empty($ecas_email)) {
+    if (!$account && empty($ecas_email)) {
       watchdog('user', 'Login denied for %ecas_name without email.',
-        array('%ecas_name' => $ecas_name ));
+        array('%ecas_name' => $ecas_name));
       session_destroy();
       // Since no account exists, and no email from Ecas.
       // We cannot authorise an user without email,
@@ -523,6 +523,9 @@ function ecas_login_check() {
   }
 }
 
+/**
+ * Internal function to unset destination from request.
+ */
 function _ecas_unset_destination() {
   // We cannot ensure that the user is the same as in Ecas,
   // So we absolutely want to redirect the user
@@ -533,7 +536,6 @@ function _ecas_unset_destination() {
   if (isset($_REQUEST['edit']['destination'])) {
     unset($_REQUEST['edit']['destination']);
   }
-
 }
 
 
@@ -693,7 +695,8 @@ function _ecas_force_login() {
 
 /**
  * Page callback; displays the 'ecas_warning_page' page.
- * @param string $eason
+ *
+ * @param string $reason
  *   REason for warning message.
  */
 function ecas_warning_page($reason) {
@@ -704,16 +707,19 @@ function ecas_warning_page($reason) {
     case 'blocked':
       $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('Account blocked') . '</h2>';
       $output .= '<p>' . variable_get('ecas_warning_message', t('Your account is not yet approved')) . '</p>';
-    break;
+      break;
+
     case 'notfound':
       $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('Account not found') . '</h2>';
       $output .= '<p>' . t('Sorry, we cannot found your account.') . '</p>';
-    break;
+      break;
+
     case 'nomail':
       $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('No email found') . '</h2>';
       $output .= '<p>' . t('Sorry, we cannot log you in without a valid email.');
-      $output .=  '</br>' . t('Please complete your EU-Login account or contact EU-Login support.') . '</p>';
-    break;
+      $output .= '</br>' . t('Please complete your EU-Login account or contact EU-Login support.') . '</p>';
+      break;
+
   }
    return $output;
 }
