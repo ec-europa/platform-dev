@@ -9,6 +9,7 @@
  * Implements hook_install().
  */
 function nexteuropa_editorial_install() {
+  $t = get_t();
 
   // Create "editorial team member" site-wide role, automatically assigned
   // when a user is a member of an editorial team group.
@@ -144,6 +145,19 @@ function nexteuropa_editorial_install() {
 
   // Linkchecker: checks for both internal and external links.
   multisite_config_service('system')->setVariable('linkchecker_check_links_types', 0);
+
+  // NEPT-1880: Add base menu link for admin/tmgmt, because when tmgmt is
+  // enabled as a dependency from another module, the menu links for cart and
+  // source will appear in top level of admin menu.
+  $item = array(
+    'link_title' => $t('Translation'),
+    'link_path' => 'admin/tmgmt',
+    'router_path' => 'admin/tmgmt',
+    'menu_name' => 'management',
+    'module' => 'system',
+    'depth' => 2,
+  );
+  menu_link_save($item);
 }
 
 /**
