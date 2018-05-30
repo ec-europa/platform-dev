@@ -13,7 +13,6 @@ Feature: TMGMT Poetry features
     And tmgmt_poetry is configured to use tmgmt_poetry_mock
     And the following languages are available:
       | languages |
-      | en        |
       | pt-pt     |
       | fr        |
       | de        |
@@ -704,7 +703,7 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has version to 1
 
-  Scenario: Check the limit 'version' of the request
+  Scenario: Check the limit 'version' and 'partie' of the request
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group
     And I create the following multilingual "page" content:
@@ -722,6 +721,9 @@ Feature: TMGMT Poetry features
     And I click "In progress" in the "French" row
     And I press "Save"
     And I click "Needs review" in the "French" row
+    When I fill in the following:
+      | edit-title-field0value-translation   | FR Title |
+      | edit-field-ne-body0value-translation | FR Body  |
     And I press "Save as completed"
     Then I should see "None" in the "French" row
     When I check the box on the "French" row
@@ -732,22 +734,7 @@ Feature: TMGMT Poetry features
     Then I check the job reference of the translation request page
     And the poetry translation service received the translation request
     And the translation request has version to 0
-
-  Scenario: Check the limit 'partie' of the request
-    Given I am logged in as a user with the 'editor' role
-    And I have the 'contributor' role in the 'Global editorial team' group
-    And I create the following multilingual "page" content:
-      | language | title                | field_ne_body |
-      | en       | Title last version 1 | Body test 1   |
-    When I visit the "page" content with title "Title last version 1"
-    And I click "Translate" in the "primary_tabs" region
-    And I check the box on the "French" row
-    And I press "Request translation"
-    And I fill in "Date" with a relative date of "+10" days
-    And I press "Submit to translator"
-    And I store the job reference of the translation request page
-    And the poetry translation service received the translation request
-    And set the translation request partie to 99
+    When set the translation request partie to 99
     And I create the following multilingual "page" content:
       | language | title                | field_ne_body |
       | en       | Title last version 2 | Body test 2   |
