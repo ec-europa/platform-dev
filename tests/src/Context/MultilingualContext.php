@@ -38,7 +38,7 @@ class MultilingualContext extends RawDrupalContext {
    *
    * @var array
    */
-  protected static $updatedTranslators = [];
+  protected $updatedTranslators = [];
 
   /**
    * List of TMGMT translation jobs created during test execution.
@@ -357,7 +357,7 @@ class MultilingualContext extends RawDrupalContext {
     if ($translator === FALSE) {
       throw new \InvalidArgumentException("Translator '{$name}' does not exists");
     }
-    self::$updatedTranslators = $translator;
+    $this->updatedTranslators[] = $translator;
     $parser = new PyStringYamlParser($string);
     $settings = $parser->parse();
     $translator->settings = array_merge($translator->settings, $settings);
@@ -370,13 +370,13 @@ class MultilingualContext extends RawDrupalContext {
    * @AfterScenario
    */
   public function restoreTranslators() {
-    foreach (self::$updatedTranslators as $key => $translator) {
+    foreach ($this->updatedTranslators as $key => $translator) {
       $translator->save();
       // Destroy TMGMTTranslator objects to avoid __destruct() being run,
       // after in a new scenario.
-      self::$updatedTranslators[$key] = NULL;
+      $this->updatedTranslators[$key] = NULL;
     }
-    self::$updatedTranslators = [];
+    $this->updatedTranslators = [];
     $this->translators = [];
   }
 
