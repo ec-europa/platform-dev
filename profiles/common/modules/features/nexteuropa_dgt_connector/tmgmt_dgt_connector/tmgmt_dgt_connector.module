@@ -83,7 +83,7 @@ function tmgmt_dgt_connector_nexteuropa_poetry_notification_status_updated($mess
  * nexteuropa_dgt_connector module functionalities.
  */
 function tmgmt_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
-  if (!isset($form_state['tmgmt_cart'])) {
+  if (!isset($form_state['tmgmt_cart']) || 'node' !== $form_state['tmgmt_cart']['item_type']) {
     return;
   }
   $cart_info = $form_state['tmgmt_cart'];
