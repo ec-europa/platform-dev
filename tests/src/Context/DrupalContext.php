@@ -95,18 +95,6 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function loggedIn() {
-    $session = $this->getSession();
-    $session->visit($this->locatePath('/'));
-
-    // Check if the 'logged-in' class is present on the page.
-    $element = $session->getPage();
-    return $element->find('css', 'body.logged-in');
-  }
-
-  /**
    * Visit a node page given its type and title.
    *
    * @param string $type
