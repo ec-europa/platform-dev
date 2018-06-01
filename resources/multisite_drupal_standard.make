@@ -824,7 +824,7 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; Issue #2825391 Fix current state for transition rules
 ; https://www.drupal.org/node/2825391
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
-projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/workbench_moderation_fix_rules_current_state-2825391-42.patch
+projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
