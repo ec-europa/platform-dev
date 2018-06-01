@@ -157,7 +157,7 @@ projects[context_entity_field][version] = "1.1"
 projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entity-references.patch
 
 projects[context_og][subdir] = "contrib"
-projects[context_og][version] = "2.1" 
+projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][download][branch] = 7.x-1.x
@@ -603,6 +603,10 @@ projects[realname][version] = "1.3"
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc3"
+; Redirect: New redirects being deleted by cron
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1944
+; https://www.drupal.org/project/redirect/issues/2567651
+projects[redirect][patch][2567651] = https://www.drupal.org/files/issues/redirects-disappearing-2567651-11.patch
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
@@ -698,7 +702,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/295524
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
 ; #1058912: Prevent recursive tokens
-; https://www.drupal.org/node/1058912          
+; https://www.drupal.org/node/1058912
 projects[token][patch][] = https://www.drupal.org/files/token-1058912-88-limit-token-depth.patch
 
 projects[token_filter][subdir] = "contrib"
