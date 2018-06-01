@@ -602,7 +602,13 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.3"
 
 projects[redirect][subdir] = "contrib"
-projects[redirect][version] = "1.0-rc3"
+; In order to be able to patch the module we need to point to the latest dev commit.
+projects[redirect][download][branch] = 7.x-1.x
+projects[redirect][download][revision] = add3c695f613fbeec23b7259e59936f60a6b6da6
+; Prevent new redirects from being deleted on cron runs.
+; https://www.drupal.org/project/rules/issues/1396446
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
+projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05-09/redirect-purge-from-created-1396446-54.patch
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
