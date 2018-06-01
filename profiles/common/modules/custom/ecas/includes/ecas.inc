@@ -78,12 +78,6 @@ function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
  */
 function _ecas_user_pass_validate($form, &$form_state) {
 
-  if (!isset($form_state['values']['email'])) {
-    $message = t('This user do not have email.');
-    form_set_error('email', $message);
-    return;
-  }
-
   $name = trim($form_state['values']['name']);
 
   // Try to load by email.
