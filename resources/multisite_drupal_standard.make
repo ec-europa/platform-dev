@@ -603,6 +603,9 @@ projects[realname][version] = "1.3"
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc3"
+; https://www.drupal.org/node/2260499
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1946
+projects[redirect][patch][] = https://www.drupal.org/files/issues/redirect-duplicate_redirect_save_handling-2260499-11.patch
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
