@@ -26,7 +26,7 @@ Feature: TMGMT Workbench features
     And I should see the text "The current piece of content's moderation state is: published"
     And I should see "Not translated" in the "French" row
     And I should see "Not translated" in the "Italian" row
-    And I select the radio button "" with the id "edit-languages-it"
+    And I select the radio button with the id "edit-languages-it"
     And I press the "Request translation" button
     Then I am on a translation job page with "workbench_moderation" job items
 

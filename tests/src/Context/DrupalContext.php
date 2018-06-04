@@ -120,6 +120,30 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   }
 
   /**
+   * Check a radio button selected by its id.
+   *
+   * @param string $id
+   *   The id of the element.
+   *
+   * @see \Drupal\DrupalExtension\Context\MinkContext::assertSelectRadioById
+   *
+   * @When I select the radio button with the id :id
+   */
+  public function assertSelectRadioById($id) {
+    $element = $this->getSession()->getPage();
+    $radiobutton = $element->findById($id);
+    if ($radiobutton === NULL) {
+      throw new \Exception(sprintf(
+        'The radio button with "%s" was not found on the page %s',
+        $id,
+        $this->getSession()->getCurrentUrl()
+      ));
+    }
+    $value = $radiobutton->getAttribute('value');
+    $radiobutton->selectOption($value, FALSE);
+  }
+
+  /**
    * Remember the last node id.
    *
    * @BeforeScenario @reset-nodes
