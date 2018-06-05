@@ -605,7 +605,7 @@ projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc3"
 ; https://www.drupal.org/project/redirect/issues/2057615
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1943
-projects[redirect][patch][] =  https://www.drupal.org/files/issues/redirect-increase-size-fields-2057615-24.patch
+projects[redirect][patch][] = https://www.drupal.org/files/issues/2018-06-05/redirect-increase-size-fields-to-900-2057615-32.patch
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
