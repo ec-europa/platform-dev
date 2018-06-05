@@ -37,21 +37,20 @@ function newsletters_disable() {
  * Update the title field of existing newsletters if any.
  */
 function newsletters_update_7001(&$sandbox) {
-  // If this is the first pass through this update function then set some variables.
+  // If this is the first pass through this update
+  // function then set some variables.
   if (!isset($sandbox['total'])) {
     $result = db_query("SELECT nid FROM {node} WHERE type='simplenews'");
     $sandbox['total'] = $result->rowCount();
     $sandbox['current'] = 0;
   }
 
-  // How many nodes should be processed per pass. The higher this number is, the faster your update will
-  // complete, but the more likely your server will run out of memory or timeout.
+  // How many nodes should be processed per pass.
   $nodes_per_pass = 10;
 
   // Get the nodes to process during this pass.
   $result = db_query_range("SELECT nid FROM {node} WHERE type='simplenews'", $sandbox['current'], $nodes_per_pass);
   while ($row = $result->fetchAssoc()) {
-    // Load the node, edit its title, and save the node.
     $node = node_load($row['nid']);
     $node->title = $node->title;
     node_save($node);
@@ -62,7 +61,7 @@ function newsletters_update_7001(&$sandbox) {
     $sandbox['current']++;
   }
 
-  // Set the value for finished. If current == total then finished will be 1, signifying we are done.
+  // Set the value for finished.
   $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
 
   if ($sandbox['#finished'] === 1) {
