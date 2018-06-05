@@ -53,7 +53,7 @@ function newsletters_update_7001(&$sandbox) {
   while ($row = $result->fetchAssoc()) {
     // Load the node, edit its title, and save the node.
     $node = node_load($row['nid']);
-    $node->title = $node->title . ' test';
+    $node->title = $node->title;
     node_save($node);
 
     drupal_set_message(t('We processed node @nid', array('@nid' => $node->nid)));
