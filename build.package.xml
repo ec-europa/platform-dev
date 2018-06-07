@@ -67,12 +67,12 @@
             <include name="*.*" />
           </fileset>
         </delete>
-        <!-- Download fonts from mpdf 5.7.4. and add them to mpdf-->
-        <exec
-            command="curl -L https://github.com/mpdf/mpdf/archive/v5.7.4.zip -o ${project.basedir}/mpdf-5.7.4.zip"/>
-        <exec
-            command="unzip -j ${project.basedir}/mpdf-5.7.4.zip 'mpdf-5.7.4/ttfonts/*' -d ${platform.build.dir}/profiles/multisite_drupal_standard/libraries/mpdf/ttfonts"/>
-        <delete file="${project.basedir}/mpdf-5.7.4.zip" includeemptydirs="true" verbose="true" failonerror="true" />
+        <!-- Copy the "mpdf-platform-specific-fonts/ttfonts" folder into libraries/mpdf. -->
+        <copy todir="${platform.build.dir}/profiles/multisite_drupal_standard/libraries/mpdf/ttfonts">
+            <fileset dir="${platform.resources.dir}/patches/mpdf-platform-specific-fonts/ttfonts">
+                <include name="**"></include>
+            </fileset>
+        </copy>
     </target>
 
     <!-- Make one of the profiles in order to build a multisite platform. -->
