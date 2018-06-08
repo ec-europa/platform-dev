@@ -284,6 +284,9 @@ function _nexteuropa_multilingual_get_language_suffix($language) {
  *   Source path if any, input path if none.
  */
 function _nexteuropa_multilingual_get_source_path($path) {
+  // Depending on the call context, drupal_lookup_path is not available.
+  // Then, ensure it is available.
+  require_once DRUPAL_ROOT . '/includes/path.inc';
   $result = drupal_lookup_path('source', $path);
 
   if (!empty($result)) {
