@@ -157,7 +157,7 @@ projects[context_entity_field][version] = "1.1"
 projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entity-references.patch
 
 projects[context_og][subdir] = "contrib"
-projects[context_og][version] = "2.1" 
+projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][download][branch] = 7.x-1.x
@@ -692,7 +692,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/295524
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
 ; #1058912: Prevent recursive tokens
-; https://www.drupal.org/node/1058912          
+; https://www.drupal.org/node/1058912
 projects[token][patch][] = https://www.drupal.org/files/token-1058912-88-limit-token-depth.patch
 
 projects[token_filter][subdir] = "contrib"
@@ -818,14 +818,27 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; Issue #2825391 Fix current state for transition rules
 ; https://www.drupal.org/node/2825391
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
-projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/workbench_moderation_fix_rules_current_state-2825391-42.patch
+projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch 
 
-projects[workbench_og][subdir] = "contrib"
-projects[workbench_og][version] = "2.0-beta1"
+; Workbench_og does not have a stable version that allows applying the 2
+; patches needed to fix the issues NEPT-296 AND NEPT-1866.
+; To unblock the situation, the module maintainer has accepted to include
+; the patch for NEPT-296 through the commit used below.
+; Except the fix, this commit does not add anything to the module version
+; previously used by the platform (7.x-2.0-beta1).
+; NEPT-296 covers:
 ; Content not accessible after being published - node_access not updated
 ; Issue https://www.drupal.org/node/2835937
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-296
-projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
+projects[workbench_og][subdir] = "contrib"
+projects[workbench_og][type] = module
+projects[workbench_og][download][type] = git
+projects[workbench_og][download][revision] = 511caed35326ec7f328e794dc4be21eb33c5ae86
+projects[workbench_og][download][branch] = 7.x-2.x
+; Workbench "MY DRAFTS" does not display my drafts
+; Issue https://www.drupal.org/node/2006134
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
+projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-05-18/workbench_og-my_drafts_missing-2006134-4.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][version] = "2.4"
@@ -1037,7 +1050,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][branch] = 2.3.9
+projects[ec_resp][download][tag] = 2.3.9
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.8
