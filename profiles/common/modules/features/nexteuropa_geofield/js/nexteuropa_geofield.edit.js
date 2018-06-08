@@ -300,6 +300,15 @@
               geojson_map.features[i].geometry.coordinates[id] = parseFloat(geojson_map.features[i].geometry.coordinates[id].toFixed(4));
             }
           }
+          else if (geojson_map.features[i].geometry.type == 'LineString') {
+            for (id in geojson_map.features[i].geometry.coordinates) {
+              if (typeof geojson_map.features[i].geometry.coordinates[0][id] == 'undefined') {
+                continue;
+              }
+              geojson_map.features[i].geometry.coordinates[0][id][0] = parseFloat(geojson_map.features[i].geometry.coordinates[id][0].toFixed(4));
+              geojson_map.features[i].geometry.coordinates[0][id][1] = parseFloat(geojson_map.features[i].geometry.coordinates[id][1].toFixed(4));
+            }
+          }
           else {
             for (id in geojson_map.features[i].geometry.coordinates[0]) {
               geojson_map.features[i].geometry.coordinates[0][id][0] = parseFloat(geojson_map.features[i].geometry.coordinates[0][id][0].toFixed(4));
