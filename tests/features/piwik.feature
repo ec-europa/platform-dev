@@ -13,24 +13,19 @@ Feature: Check Piwik
       | modules            |
       | nexteuropa_piwik   |
     And I am logged in as a user with the "PIWIK administrator" role
+    And The piwik is well configured with id "1234" and paths "build"
 
   Scenario: Check if the PIWIK script is embedded into the page correctly
-    Given I am on the homepage
-    Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"is403\":false,\"instance\":\"\"}"
-    # The meta tag below must be present in order that the PIWIK script works correctly (see NEPT-1042).
-    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
+    Given I am on homepage
+    Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"1234\",\"sitePath\":[\"build\"],\"is404\":false,\"is403\":false,\"instance\""
 
   Scenario: Check if the PIWIK script flags non existing pages
     Given I go to "falsepage"
-    Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":true,\"is403\":false,\"instance\":\"\"}"
-    # The meta tag below must be present in order that the PIWIK script works correctly (see NEPT-1042).
-    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
+    Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"1234\",\"sitePath\":[\"build\"],\"is404\":true,\"is403\":false,\"instance\""
 
   Scenario: Check if the PIWIK script flags forbidden pages
     Given I go to "ecaslogout"
-    Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"is403\":true,\"instance\":\"\"}"
-    # The meta tag below must be present in order that the PIWIK script works correctly (see NEPT-1042).
-    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
+    Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"1234\",\"sitePath\":[\"build\"],\"is404\":false,\"is403\":true,\"instance\""
 
   @delete_piwik_rules
   Scenario: View advanced PIWIK rules.
