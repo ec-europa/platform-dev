@@ -147,7 +147,7 @@ function _nexteuropa_piwik_add_load_js_to_page() {
  * Helper function to generate the required json.
  *
  * @return array
- *  The element to be rendered as a script tag.
+ *   The element to be rendered as a script tag.
  */
 function _nexteuropa_piwik_generate_json() {
   if (_nexteuropa_piwik_is_trackable()) {
