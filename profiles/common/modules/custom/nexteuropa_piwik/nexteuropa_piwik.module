@@ -93,8 +93,7 @@ function nexteuropa_piwik_page_alter(&$page) {
  * drupal_add_js won't work as we need application/json.
  */
 function nexteuropa_piwik_process_html(&$vars) {
-  $script = _nexteuropa_piwik_generate_json();
-  $vars['page_bottom'] .= drupal_render($script);
+  $vars['page_bottom'] .= drupal_render(_nexteuropa_piwik_generate_json());
 }
 
 /**
@@ -127,16 +126,8 @@ function nexteuropa_piwik_process_maintenance_page(&$variables) {
  * @see nexteuropa_piwik_preprocess_maintenance_page()
  */
 function _nexteuropa_piwik_add_load_js_to_page() {
-  global $user;
 
-  $id = variable_get('nexteuropa_piwik_site_id', '');
-
-  // Get page status code for visibility filtering.
-  $status = drupal_get_http_header('Status');
-  // 1. Check if the piwik account number has a value.
-  // 2. Track page views based on visibility value.
-  // 3. Check if we should track the currently active user's role.
-  if (preg_match('/^\d{1,}$/', $id) && (_nexteuropa_piwik_visibility_pages() || $status == '404 Not Found') && _nexteuropa_piwik_visibility_roles($user)) {
+  if (_nexteuropa_piwik_is_trackable()) {
     // Loading variables.
     $smartloader_prurl = variable_get('nexteuropa_piwik_smartloader_prurl', '');
 
@@ -154,74 +145,82 @@ function _nexteuropa_piwik_add_load_js_to_page() {
 
 /**
  * Helper function to generate the required json.
+ *
+ * @return array
+ *  The element to be rendered as a script tag.
  */
 function _nexteuropa_piwik_generate_json() {
-  $id = variable_get('nexteuropa_piwik_site_id', '');
-  $instance = variable_get('nexteuropa_piwik_site_instance', '');
+  if (_nexteuropa_piwik_is_trackable()) {
+    $id = variable_get('nexteuropa_piwik_site_id', '');
+    $instance = variable_get('nexteuropa_piwik_site_instance', '');
+    $site_section = variable_get('nexteuropa_piwik_site_section', '');
 
-  $site_path = variable_get('nexteuropa_piwik_site_path', '');
-  $site_section = variable_get('nexteuropa_piwik_site_section', '');
+    // Get page status code for visibility filtering.
+    $status = drupal_get_http_header('status');
+    $is404 = $is403 = FALSE;
 
-  // Get page status code for visibility filtering.
-  $status = drupal_get_http_header('Status');
+    // Track 404 & 403 pages.
+    switch ($status) {
+      case '404 Not Found':
+        $is404 = TRUE;
+        break;
 
-  // Strip http & https from site_path variable and transforming in to array.
-  $site_path = preg_replace('#^https?://#', '', $site_path);
-  $site_path = explode(PHP_EOL, $site_path);
-  // Create settings array.
-  $webtools_piwik_settings = array(
-    'utility' => variable_get('nexteuropa_piwik_utility', 'piwik'),
-    'siteID' => $id,
-    'sitePath' => $site_path,
-    'is404' => FALSE,
-    'is403' => FALSE,
-    'instance' => $instance,
-  );
+      case '403 Forbidden':
+        $is403 = TRUE;
+        break;
 
-  // Search results pages.
-  if (module_exists('search') && variable_get('nexteuropa_piwik_site_search', TRUE) && arg(0) == 'search' && $keys = nexteuropa_piwik_search_get_keys()) {
-    global $pager_total_items;
-    $results_count = 0;
-
-    if (isset($pager_total_items[0])) {
-      $results_count = strval($pager_total_items[0]);
+      default:
+        break;
     }
 
-    $webtools_piwik_settings['search']['keyword'] = $keys;
-    $webtools_piwik_settings['search']['count'] = $results_count;
-  }
+    $site_path = _nexteuropa_piwik_site_path_array();
 
-  // Track file not found (404) pages.
-  if ($status == '404 Not Found') {
-    $webtools_piwik_settings['is404'] = TRUE;
-  }
+    // Create settings array.
+    $webtools_piwik_settings = array(
+      'utility' => variable_get('nexteuropa_piwik_utility', 'piwik'),
+      'siteID' => $id,
+      'sitePath' => $site_path,
+      'is404' => $is404,
+      'is403' => $is403,
+      'instance' => $instance,
+    );
 
-  // Track forbidden (403) accesses.
-  if ($status == '403 Forbidden') {
-    $webtools_piwik_settings['is403'] = TRUE;
-  }
+    // Search results pages.
+    if (module_exists('search') && variable_get('nexteuropa_piwik_site_search', TRUE) && arg(0) == 'search' && $keys = nexteuropa_piwik_search_get_keys()) {
+      global $pager_total_items;
+      $results_count = 0;
 
-  if (!empty($site_section)) {
-    $webtools_piwik_settings['siteSection'] = $site_section;
-  }
+      if (isset($pager_total_items[0])) {
+        $results_count = strval($pager_total_items[0]);
+      }
 
-  // Advanced PIWIK rules integration point.
-  if (variable_get('nexteuropa_piwik_rules_state', FALSE)) {
-    if ($piwik_rule = _nexteuropa_piwik_get_piwik_rule()) {
-      $webtools_piwik_settings['siteSection'] = $piwik_rule->rule_section;
+      $webtools_piwik_settings['search']['keyword'] = $keys;
+      $webtools_piwik_settings['search']['count'] = $results_count;
     }
-  }
 
-  $webtools_piwik_settings = strip_tags(drupal_json_encode($webtools_piwik_settings));
-  return array(
-    '#type' => 'html_tag',
-    '#tag' => 'script',
-    '#attributes' => array(
-      'type' => 'application/json',
-    ),
-    '#weight' => '99999',
-    '#value' => $webtools_piwik_settings,
-  );
+    if (!empty($site_section)) {
+      $webtools_piwik_settings['siteSection'] = $site_section;
+    }
+
+    // Advanced PIWIK rules integration point.
+    if (variable_get('nexteuropa_piwik_rules_state', FALSE)) {
+      if ($piwik_rule = _nexteuropa_piwik_get_piwik_rule()) {
+        $webtools_piwik_settings['siteSection'] = $piwik_rule->rule_section;
+      }
+    }
+
+    $webtools_piwik_settings = strip_tags(drupal_json_encode($webtools_piwik_settings));
+
+    return array(
+      '#type' => 'html_tag',
+      '#tag' => 'script',
+      '#attributes' => array(
+        'type' => 'application/json',
+      ),
+      '#weight' => '99999',
+      '#value' => $webtools_piwik_settings,
+    );
+  }
 }
 
 /**
@@ -263,20 +262,37 @@ function _nexteuropa_piwik_visibility_pages() {
 
     $visibility = variable_get('nexteuropa_piwik_visibility_pages', 0);
     $setting_pages = variable_get('nexteuropa_piwik_pages', NEXTEUROPA_PIWIK_PAGES);
+    $site_path_array = _nexteuropa_piwik_site_path_array();
+    $current_url = $_SERVER['HTTP_HOST'] . request_uri();
+    $matching_root = FALSE;
 
-    // Match path if necessary.
-    if (!empty($setting_pages)) {
+    foreach ($site_path_array as $path) {
+      if (strpos($current_url, trim($path)) !== FALSE) {
+        $matching_root = TRUE;
+        continue;
+      }
+    }
+
+    // If path does not match any domain, stop here.
+    if ($matching_root === FALSE) {
+      return FALSE;
+    }
+
+    // If any specific path is reported.
+    if (!empty($setting_pages) && $matching_root) {
       // Convert path to lowercase. This allows comparison of the same path
       // with different case. Ex: /Page, /page, /PAGE.
       $pages = drupal_strtolower($setting_pages);
       if ($visibility < 2) {
         // Convert the Drupal path to lowercase.
         $path = drupal_strtolower(drupal_get_path_alias());
+
         // Compare the lowercase internal and lowercase path alias (if any).
         $page_match = drupal_match_path($path, $pages);
         if ($path != $_GET['q']) {
           $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
         }
+
         // When $visibility has a value of 0, the tracking code is displayed on
         // all pages except those listed in $pages. When set to 1, it
         // is displayed only on those pages listed in $pages.
@@ -286,7 +302,7 @@ function _nexteuropa_piwik_visibility_pages() {
         $page_match = FALSE;
       }
     }
-    else {
+    elseif ($matching_root) {
       $page_match = TRUE;
     }
 
@@ -545,4 +561,34 @@ function _nexteuropa_piwik_filter_results($results, $path, $lang_code) {
 function _nexteuropa_piwik_get_latest_rule($rules_array) {
   ksort($rules_array, SORT_DESC);
   return array_pop($rules_array);
+}
+
+/**
+ * Custom function that returns a formatted list of site paths.
+ *
+ * @return array|mixed|null
+ *   An array of domains for which to track.
+ */
+function _nexteuropa_piwik_site_path_array() {
+  $site_path = variable_get('nexteuropa_piwik_site_path', '');
+  // Strip http & https from site_path variable and transforming in to array.
+  $site_path = explode(PHP_EOL, $site_path);
+  foreach ($site_path as $index => $path) {
+    $site_path[$index] = str_replace("\r", "", preg_replace('#^https?://#', '', $path));
+  }
+  return $site_path;
+}
+
+/**
+ * Custom function that checks if piwik code should be added to a page.
+ */
+function _nexteuropa_piwik_is_trackable() {
+  global $user;
+  $id = variable_get('nexteuropa_piwik_site_id', '');
+  // 1. Check if the piwik account number has a value.
+  // 2. Track page views based on visibility value.
+  if (preg_match('/^\d{1,}$/', $id) && (_nexteuropa_piwik_visibility_pages()) && _nexteuropa_piwik_visibility_roles($user)) {
+    return TRUE;
+  }
+  return FALSE;
 }
