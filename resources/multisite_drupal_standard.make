@@ -296,10 +296,7 @@ projects[field_group][version] = "1.5"
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.4"
-; https://www.drupal.org/node/2893132
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-672
-projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
+projects[file_entity][version] = "2.21"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.11"
@@ -524,9 +521,9 @@ projects[nagios][subdir] = "contrib"
 ; https://www.drupal.org/node/2854854
 projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-support-2854854-5.patch
 
-projects[nexteuropa_newsroom][download][type] = get
-projects[nexteuropa_newsroom][download][file_type] = "zip"
-projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference/archive/master.zip
+projects[nexteuropa_newsroom][download][type] = git
+projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
+projects[nexteuropa_newsroom][download][tag] = v3.5.2
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
@@ -828,14 +825,27 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; Issue #2825391 Fix current state for transition rules
 ; https://www.drupal.org/node/2825391
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
-projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/workbench_moderation_fix_rules_current_state-2825391-42.patch
+projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch 
 
-projects[workbench_og][subdir] = "contrib"
-projects[workbench_og][version] = "2.0-beta1"
+; Workbench_og does not have a stable version that allows applying the 2
+; patches needed to fix the issues NEPT-296 AND NEPT-1866.
+; To unblock the situation, the module maintainer has accepted to include
+; the patch for NEPT-296 through the commit used below.
+; Except the fix, this commit does not add anything to the module version
+; previously used by the platform (7.x-2.0-beta1).
+; NEPT-296 covers:
 ; Content not accessible after being published - node_access not updated
 ; Issue https://www.drupal.org/node/2835937
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-296
-projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
+projects[workbench_og][subdir] = "contrib"
+projects[workbench_og][type] = module
+projects[workbench_og][download][type] = git
+projects[workbench_og][download][revision] = 511caed35326ec7f328e794dc4be21eb33c5ae86
+projects[workbench_og][download][branch] = 7.x-2.x
+; Workbench "MY DRAFTS" does not display my drafts
+; Issue https://www.drupal.org/node/2006134
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
+projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-05-18/workbench_og-my_drafts_missing-2006134-4.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][version] = "2.4"
@@ -1047,7 +1057,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][branch] = 2.3.9
+projects[ec_resp][download][tag] = 2.3.9
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.8

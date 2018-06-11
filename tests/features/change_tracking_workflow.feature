@@ -38,7 +38,7 @@ Feature: Change tracking features
     And a map webtools "Block Webtools" exists
     And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
-    And I fill in "Title" with "Basic page with a Map"
+    And I fill in the content's title with "Basic page with a Map"
     And I select "Full HTML + Change tracking" from "Text format"
     And I click the "Insert internal content" button in the "Body" WYSIWYG editor
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
@@ -59,7 +59,7 @@ Feature: Change tracking features
     Then I should see "Enabled" in the "Full HTML" row
     And I should see the message "Change tracking enabled on full_html WYSIWYG profile"
     When I go to "node/add/page"
-    And I fill in "Title" with "This is a page I want to reference"
+    And I fill in the content's title with "This is a page I want to reference"
     Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
     And I should not see the "Stop tracking changes" button in the "Body" WYSIWYG editor
     When  I fill in the rich text editor "Body" with "Text should change because life is always moving."
@@ -81,7 +81,7 @@ Feature: Change tracking features
     And I wait for the end of the batch job
     Then I should see "Disabled" in the "Full HTML" row
     When I go to "node/add/page"
-    And I fill in "Title" with "This is a new page I want to reference"
+    And I fill in the content's title with "This is a new page I want to reference"
     Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
     And I should not see the "Stop tracking changes" button in the "Body" WYSIWYG editor
     When I fill in the rich text editor "Body" with "Tracking is an old story!"
@@ -100,7 +100,7 @@ Feature: Change tracking features
     And I press "Save configuration"
     Then I should see the success message "The configuration options have been saved."
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I fill in "Body" with "Page body"
     And I press "Save"
     Then I should see "View draft"
@@ -130,7 +130,7 @@ Feature: Change tracking features
   content state to "validated" or "published" must be blocked if CKEditor
   Lite tracked changes exist in WYSIWYG fields
     When I go to "node/add/article"
-    And I fill in "Title" with "Article title"
+    And I fill in "edit-title" with "Article title"
     And I fill in "Body" with "Article body"
     And I press "Save"
     Then I should see "View draft"
