@@ -15,8 +15,15 @@
     "rych/random": "v0.1.0",
     "bex/behat-screenshot-image-driver-img42": "^1.0",
     "phpunit/phpunit": "^5.0",
-    "ec-europa/oe-poetry-behat": "~0.3"
+    "ec-europa/oe-poetry-behat": "~0.3",
+    "openeuropa/behat-transformation-context": "dev-OPENEUROPA-595"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/openeuropa/behat-transformation-context.git"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "Drupal\\nexteuropa\\": "tests/src"
