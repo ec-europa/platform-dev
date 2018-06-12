@@ -2777,12 +2777,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/openeuropa/behat-transformation-context.git",
-                "reference": "9ffa901a4fa1b3e2285b5362034ca31351349ac8"
+                "reference": "e72099ac09ac6cd15262d84c02f553bbf1fbf64c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openeuropa/behat-transformation-context/zipball/9ffa901a4fa1b3e2285b5362034ca31351349ac8",
-                "reference": "9ffa901a4fa1b3e2285b5362034ca31351349ac8",
+                "url": "https://api.github.com/repos/openeuropa/behat-transformation-context/zipball/e72099ac09ac6cd15262d84c02f553bbf1fbf64c",
+                "reference": "e72099ac09ac6cd15262d84c02f553bbf1fbf64c",
                 "shasum": ""
             },
             "require": {
