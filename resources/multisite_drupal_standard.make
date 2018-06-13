@@ -835,10 +835,6 @@ projects[workbench_og][type] = module
 projects[workbench_og][download][type] = git
 projects[workbench_og][download][revision] = 511caed35326ec7f328e794dc4be21eb33c5ae86
 projects[workbench_og][download][branch] = 7.x-2.x
-; Workbench "MY DRAFTS" does not display my drafts
-; Issue https://www.drupal.org/node/2006134
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
-projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-05-18/workbench_og-my_drafts_missing-2006134-4.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][version] = "2.4"
