@@ -42,7 +42,7 @@ default:
         - EC\Behat\PoetryExtension\Context\PoetryContext
         - Drupal\nexteuropa\Context\PoetryContext
         - Drupal\nexteuropa\Context\RulesContext
-        - OpenEuropa\Behat\TransformationContext
+        - OpenEuropa\Behat\TransformationContext:
             elements:
               nept_element:block:page-language-switcher: '.block-language-selector-page'
               nept_element:block:site-language-switcher: 'div.ecl-lang-select-sites a.ecl-lang-select-sites__link'
