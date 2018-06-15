@@ -296,10 +296,7 @@ projects[field_group][version] = "1.5"
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.4"
-; https://www.drupal.org/node/2893132
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-672
-projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
+projects[file_entity][version] = "2.21"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.11"
@@ -838,10 +835,6 @@ projects[workbench_og][type] = module
 projects[workbench_og][download][type] = git
 projects[workbench_og][download][revision] = 511caed35326ec7f328e794dc4be21eb33c5ae86
 projects[workbench_og][download][branch] = 7.x-2.x
-; Workbench "MY DRAFTS" does not display my drafts
-; Issue https://www.drupal.org/node/2006134
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
-projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-05-18/workbench_og-my_drafts_missing-2006134-4.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][version] = "2.4"
@@ -1053,7 +1046,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][branch] = 2.3.9
+projects[ec_resp][download][tag] = 2.3.9
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.8
