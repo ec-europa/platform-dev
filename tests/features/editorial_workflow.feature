@@ -173,6 +173,9 @@ Feature: Editorial workflow
     Then I should see "Revision state: Validated"
     And I should see the message "This node had the state needs_review and now has the state validated"
 
+    @wip
+    # NEPT-1986: The implementation of the NEPT-1866 ticket has been temporarily removed.
+    # The following test must keep the "wip" state until the NEPT-1866 ticket is definitively done.
     Scenario: A user with contributor role can create content and check it on "My Workbench"
       Given I am logged in as a user with the 'contributor' role
       When I go to "node/add/page"
