@@ -106,7 +106,6 @@ function ecas_group_sync_info_ecas_update($user, $user_info, $args) {
   }
 }
 
-
 /**
  * Gets rules to map user's dg to Drupal or OG roles.
  *
