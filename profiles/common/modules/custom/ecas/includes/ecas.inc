@@ -367,6 +367,9 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
     $function($user, $user_info, $edit, $args);
   }
 
+  // Let the opportunity to modules to alter user roles.
+  drupal_alter('ecas_user_roles', $edit['roles'], $user, $user_info, $args);
+
   // Fix : save file object replaced by fid by user_save function.
   $picture = $user->picture;
   user_save($user, $edit);
