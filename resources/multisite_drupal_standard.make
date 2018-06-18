@@ -377,6 +377,13 @@ projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_def
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-8408
 ; https://www.drupal.org/node/2092883
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
+; PHP Fatal Error Call to undefined method i18n_object_wrapper::
+; strings_update().
+; It fixes a bug reproducible on sub-sites like BRP but not on fresh install
+; of the platform.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1987
+; https://www.drupal.org/node/2082573
+projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-06-07/i18n-2082573-52-fatal.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
