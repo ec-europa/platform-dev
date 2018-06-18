@@ -372,6 +372,10 @@ projects[i18n][version] = "1.13"
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
+; Term field not displayed & Notice: Undefined index: taxonomy_term in 
+; i18n_taxonomy_field_formatter_view() in node preview
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-8408
+; https://www.drupal.org/node/2092883
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
 
 projects[i18nviews][subdir] = "contrib"
