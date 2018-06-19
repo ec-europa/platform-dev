@@ -90,8 +90,8 @@ Feature: Check Piwik
       | Rule language | Rule path       | Rule path type | Rule section         |
       | en            | content/test    | direct         | Direct path section  |
     And "page" content:
-      | title | field_ne_body |
-      | Test  | Test          |
+      | title | field_ne_body | status |
+      | Test  | Test          | 1      |
     And I go to "content/test_en"
     Then the response should contain "\"siteSection\":\"Direct path section\""
 
@@ -102,7 +102,7 @@ Feature: Check Piwik
       | Rule language | Rule path       | Rule path type | Rule section         |
       | all           | ^content/*      | regexp         | Regexp based section |
     And "page" content:
-      | title              | field_ne_body     |
-      | Testing Title no 1 | Body content no 1 |
+      | title              | field_ne_body     | status |
+      | Testing Title no 1 | Body content no 1 | 1      |
     When I go to "content/testing-title-no-1_en"
     Then the response should contain "\"siteSection\":\"Regexp based section\""
