@@ -443,7 +443,7 @@ function _tmgmt_dgt_connector_cart_sources_add_cart_button(array &$form, array &
   );
   $form['actions']['cart'] = array(
     '#type' => 'submit',
-    '#value' => 'Send to cart',
+    '#value' => t('Send to cart'),
     '#submit' => array('_tmgmt_dgt_connector_cart_form_submit'),
     '#validate' => array('_tmgmt_dgt_connector_cart_form_validate'),
   );
