@@ -56,7 +56,15 @@ class LinkTokenHandler extends TokenAbstractHandler {
           if ($entity = $entity_info['load hook']($entity_id)) {
             $label = entity_label($entity_type, $entity);
             $uri = entity_uri($entity_type, $entity);
-            $replacements[$original] = l($label, $uri['path'], array('absolute' => TRUE));
+            $link_from_token = l($label, $uri['path'], array('absolute' => TRUE));
+            // Use trim() in order to remove unwanted characters around the
+            // link that the "link" theming could add.
+            // For instance, if the "link" theme uses a template, the empty
+            // line at the end of the file generates a "\n" character after the
+            // link.
+            // This "\n" character adds a additional space after link when
+            // displayed in the browser.
+            $replacements[$original] = rtrim($link_from_token);
           }
           else {
             $this->watchdogTokenNotFound($data, $original);
