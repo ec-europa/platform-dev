@@ -20,9 +20,335 @@ function newsletters_enable() {
 
 /**
  * Use soft config for newsletters comment form location.
+ * Use soft config for newsletters content type definition.
  */
 function newsletters_install() {
+  // Use soft config for newsletters comment form location.
   multisite_config_service('comment')->setThreadingCommentForContentType('simplenews', 1);
+
+  // Create the content type.
+  // Take the data of the content type from newletters.features.inc
+   $t = get_t();
+   $simplenews = array(
+      'type' => 'simplenews',
+      'name' => $t('Simplenews newsletter'),
+      'base' => 'node_content',
+      'description' => $t('A newsletter issue to be sent to subscribed email addresses.'),
+   );
+   $node_type = node_type_set_defaults($simplenews);
+   node_type_save($node_type); // Save the node type object
+
+  // Create new fields.
+  // Take the data from newsletters.features.field_base.inc
+  $fields = array(
+    'field_related_contents'  => array(
+      'active' => 1,
+      'cardinality' => -1,
+      'deleted' => 0,
+      'entity_types' => array(),
+      'field_name' => 'field_related_contents',
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'sort' => array(
+            'direction' => 'ASC',
+            'field' => 'body:value',
+            'property' => 'nid',
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'article' => 'article',
+            'page' => 'page',
+          ),
+        ),
+        'handler_submit' => 'Change handler',
+        'referenceable_types' => array(
+          'article' => 'article',
+          'page' => 'page',
+        ),
+        'target_type' => 'node',
+      ),
+      'translatable' => 0,
+      'type' => 'entityreference',
+    ),
+
+    'book_description'  => array(
+
+      'field_name'   => 'book_description',
+      'type'         => 'text_long',
+      'entity_type'  => 1,
+    ),
+
+  );
+  foreach ($fields as $field) {
+    field_create_field($field);
+  }
+
+  // Attach fields to content type
+  // Take the data from newsletters.features.field_instance.inc
+  $field_instances = array();
+  // Exported field_instance: 'node-simplenews-body'.
+  $field_instances['node-simplenews-body'] = array(
+    'bundle' => 'simplenews',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(
+          'trim_length' => 600,
+        ),
+        'type' => 'text_summary_or_trimmed',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'body',
+    'label' => $t('Body'),
+    'required' => FALSE,
+    'settings' => array(
+      'display_summary' => TRUE,
+      'text_processing' => 1,
+      'user_field_privacy' => FALSE,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 20,
+        'summary_rows' => 5,
+      ),
+      'type' => 'text_textarea_with_summary',
+      'weight' => 20,
+    ),
+  );
+
+  // Exported field_instance: 'node-simplenews-field_related_contents'.
+  $field_instances['node-simplenews-field_related_contents'] = array(
+    'bundle' => 'simplenews',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_related_contents',
+    'label' => $t('related contents'),
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 130,
+    ),
+  );
+
+  // Exported field_instance: 'node-simplenews-field_simplenews_term'.
+  $field_instances['node-simplenews-field_simplenews_term'] = array(
+    'bundle' => 'simplenews',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 1,
+      ),
+      'email_html' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'email_plain' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'email_textalt' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_simplenews_term',
+    'label' => $t('Newsletter category');,
+    'required' => TRUE,
+    'settings' => array(
+      'user_field_privacy' => FALSE,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 30,
+    ),
+  );
+
+  // Exported field_instance: 'node-simplenews-field_tags'.
+  $field_instances['node-simplenews-field_tags'] = array(
+    'bundle' => 'simplenews',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 3,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_tags',
+    'label' => $t('Tags'),
+    'required' => 0,
+    'settings' => array(
+      'user_field_privacy' => FALSE,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'taxonomy',
+      'settings' => array(
+        'autocomplete_path' => 'taxonomy/autocomplete',
+        'size' => 60,
+      ),
+      'type' => 'taxonomy_autocomplete',
+      'weight' => 120,
+    ),
+  );
+
+  // Exported field_instance: 'node-simplenews-title_field'.
+  $field_instances['node-simplenews-title_field'] = array(
+    'bundle' => 'simplenews',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'title_field',
+    'label' => $t('Title'),
+    'required' => TRUE,
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+      'hide_label' => array(
+        'entity' => FALSE,
+        'page' => FALSE,
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => -5,
+    ),
+  );
+
+  foreach( $field_instances as $instance ) { // Loop through our instances
+    field_create_instance($instance);
+  }
+
+  // node_add_body_field($node_type); // I think this has no sense in this case
+
+  // Replacement rule for the messages.
+  $t_args = array('%name' => $node_type->name);
+  if ($status == SAVED_UPDATED) { // update case
+    drupal_set_message($t('The content type %name has been updated.', $t_args));
+  }
+  elseif ($status == SAVED_NEW) { // create case
+    drupal_set_message($t('The content type %name has been added.', $t_args));
+    watchdog('node', 'Added content type %name.', $t_args, WATCHDOG_NOTICE, l($t('view'), 'admin/structure/types'));
+  }
 }
 
 /**
@@ -37,34 +363,37 @@ function newsletters_disable() {
  * Update the title field of existing newsletters if any.
  */
 function newsletters_update_7001(&$sandbox) {
-  // If this is the first pass through this update
-  // function then set some variables.
-  if (!isset($sandbox['total'])) {
-    $result = db_query("SELECT nid FROM {node} WHERE type='simplenews'");
-    $sandbox['total'] = $result->rowCount();
-    $sandbox['current'] = 0;
-  }
+  // Only apply the changes of the hook_update if the site is using Entity translation and not Content Translation
+  if (!module_exists('content_translation') && module_exists('entity_translation')) {
+    // If this is the first pass through this update
+    // function then set some variables.
+    if (!isset($sandbox['total'])) {
+      $result = db_query("SELECT nid FROM {node} WHERE type='simplenews'");
+      $sandbox['total'] = $result->rowCount();
+      $sandbox['current'] = 0;
+    }
 
-  // How many nodes should be processed per pass.
-  $nodes_per_pass = 10;
+    // How many nodes should be processed per pass.
+    $nodes_per_pass = 10;
 
-  // Get the nodes to process during this pass.
-  $result = db_query_range("SELECT nid FROM {node} WHERE type='simplenews'", $sandbox['current'], $nodes_per_pass);
-  while ($row = $result->fetchAssoc()) {
-    $node = node_load($row['nid']);
-    $node->title = $node->title;
-    node_save($node);
+    // Get the nodes to process during this pass.
+    $result = db_query_range("SELECT nid FROM {node} WHERE type='simplenews'", $sandbox['current'], $nodes_per_pass);
+    while ($row = $result->fetchAssoc()) {
+      $node = node_load($row['nid']);
+      $node->title = $node->title;
+      node_save($node);
 
-    drupal_set_message(t('We processed node @nid', array('@nid' => $node->nid)));
+      drupal_set_message(t('We processed node @nid', array('@nid' => $node->nid)));
 
-    // Increment "current" by 1.
-    $sandbox['current']++;
-  }
+      // Increment "current" by 1.
+      $sandbox['current']++;
+    }
 
-  // Set the value for finished.
-  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+    // Set the value for finished.
+    $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
 
-  if ($sandbox['#finished'] === 1) {
-    drupal_set_message(t('@nodes nodes were processed', array('@nodes' => $sandbox['total'])));
+    if ($sandbox['#finished'] === 1) {
+      drupal_set_message(t('@nodes nodes were processed', array('@nodes' => $sandbox['total'])));
+    }
   }
 }
