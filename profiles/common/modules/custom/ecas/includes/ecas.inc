@@ -6,6 +6,16 @@
  */
 
 /**
+ * ECAS group for CEM team users.
+ */
+define('ECAS_CEM_ECAS_GROUP', 'COMM_CEM');
+
+/**
+ * CEM role machine name.
+ */
+define('ECAS_CEM_ROLE_NAME', 'cem');
+
+/**
  * Checks if the given user is an ECAS user.
  *
  * @param object $user
@@ -386,21 +396,18 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
  * Assign the "CEM" role assigned to the user if they belong to the COMM_CEM.
  */
 function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $args) {
-  $cem_group = 'COMM_CEM';
-  $cem_role_name = 'cem';
-
   $user_cas_groups = array();
   if (!empty($user_info['cas:groups']) && !empty($user_info['cas:groups']['cas:group'])) {
     $user_cas_groups = $user_info['cas:groups']['cas:group'];
   }
 
-  $cem_role = user_role_load_by_name($cem_role_name);
+  $cem_role = user_role_load_by_name(ECAS_CEM_ROLE_NAME);
   $user_roles = (isset($user->roles)) ? $user->roles : array();
   // By default, the role is not set for any user automatically.
   // Then, unset it by default and reassign it later if the user has the
   // EU login group.
   unset($user_roles[$cem_role->rid]);
-  if (in_array($cem_group, $user_cas_groups)) {
+  if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
     $role_name = $cem_role->name;
     $user_roles[$cem_role->rid] = $role_name;
     watchdog('ecas', 'User "%name" has received the "%role" role.', array('%name' => $user->name, '%role' => $role_name), WATCHDOG_INFO, l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid)));
