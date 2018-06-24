@@ -383,7 +383,7 @@ projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-ter
 ; of the platform.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1987
 ; https://www.drupal.org/node/2082573
-projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-06-07/i18n-2082573-52-fatal.patch
+projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-06-24/i18n-fatal-error-undefined-strings_update-2082573-54.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
