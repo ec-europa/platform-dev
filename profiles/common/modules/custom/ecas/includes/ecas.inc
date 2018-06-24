@@ -11,11 +11,6 @@
 define('ECAS_CEM_ECAS_GROUP', 'COMM_CEM');
 
 /**
- * CEM role machine name.
- */
-define('ECAS_CEM_ROLE_NAME', 'cem');
-
-/**
  * Checks if the given user is an ECAS user.
  *
  * @param object $user
@@ -380,7 +375,7 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
     $user_cas_groups = $user_info['cas:groups']['cas:group'];
   }
 
-  $cem_role = user_role_load_by_name(ECAS_CEM_ROLE_NAME);
+  $cem_role = user_role_load_by_name(CCE_BASIC_CONFIG_CEM_ROLE_NAME);
   $user_roles = (isset($user->roles)) ? $user->roles : array();
   // By default, the role is not set for any user automatically.
   // Then, unset it by default and reassign it later if the user has the

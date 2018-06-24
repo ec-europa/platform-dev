@@ -6,6 +6,11 @@
  */
 
 /**
+ * CEM role machine name.
+ */
+define('CCE_BASIC_CONFIG_CEM_ROLE_NAME', 'cem');
+
+/**
  * Test and report cce installation requirements.
  *
  * @param string $phase
@@ -55,7 +60,7 @@ function cce_basic_config_install() {
   // Create contributor editor roles.
   multisite_config_service('user')->createRole('contributor', 3);
   multisite_config_service('user')->createRole('editor', 4);
-  multisite_config_service('user')->createRole('cem', 5);
+  multisite_config_service('user')->createRole(CCE_BASIC_CONFIG_CEM_ROLE_NAME, 5);
 
   // Body field base creation.
   _cce_basic_config_body_field_base_add();
@@ -1016,7 +1021,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
   // Depending on the platform profile, some default platform modules are not
   // enabled.
   // We need to only keep the enabled permissions of the array above.
-  multisite_config_service('user')->grantPermission('cem', array_intersect($all_permissions, $cem_permissions));
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, array_intersect($all_permissions, $cem_permissions));
 }
 
 /**

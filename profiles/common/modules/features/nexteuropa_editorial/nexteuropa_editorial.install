@@ -149,7 +149,7 @@ function nexteuropa_editorial_install() {
     // System.
     'access administration pages',
   );
-  multisite_config_service('user')->grantPermission('cem', $cem_permissions);
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $cem_permissions);
 
   // Rebuilds the node access database.
   node_access_rebuild();
