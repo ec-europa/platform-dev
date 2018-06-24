@@ -67,7 +67,7 @@ function nexteuropa_multilingual_install() {
     'submit translation jobs',
     'accept translation jobs',
   );
-  multisite_config_service('user')->grantPermission('cem', $cem_permissions);
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $cem_permissions);
 
   // Suffix is not compatible with prefix. Remove that negotiation mechanism.
   multisite_config_service('locale')->disableLanguageNegotiation(LOCALE_LANGUAGE_NEGOTIATION_URL);

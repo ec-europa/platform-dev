@@ -95,7 +95,7 @@ function nexteuropa_core_install() {
     // Version Management.
     'version management edits',
   );
-  multisite_config_service('user')->grantPermission('cem', $permissions);
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $permissions);
 
   // Set permissions for "contributor" role.
   $permissions = array(

@@ -507,7 +507,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
   // Depending on the platform profile, some default platform modules are not
   // enabled.
   // We need to only keep the enabled permissions of the array above.
-  multisite_config_service('user')->grantPermission('cem', array_intersect($all_permissions, $cem_permissions));
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, array_intersect($all_permissions, $cem_permissions));
 }
 
 /**

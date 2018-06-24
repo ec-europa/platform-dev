@@ -97,7 +97,7 @@ function nexteuropa_pages_install() {
     'edit any page content',
     'edit own page content',
   );
-  multisite_config_service('user')->grantPermission('cem', $editor_permissions, 'node');
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $editor_permissions, 'node');
 }
 
 /**
