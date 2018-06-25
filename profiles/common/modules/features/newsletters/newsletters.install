@@ -28,15 +28,15 @@ function newsletters_install() {
 
   // Create the content type.
   // Data taken of the content type from newletters.features.inc.
-   $t = get_t();
-   $simplenews = array(
-      'type' => 'simplenews',
-      'name' => $t('Simplenews newsletter'),
-      'base' => 'node_content',
-      'description' => $t('A newsletter issue to be sent to subscribed email addresses.'),
-   );
-   $node_type = node_type_set_defaults($simplenews);
-   node_type_save($node_type); // Save the node type object.
+  $t = get_t();
+  $simplenews = array(
+    'type' => 'simplenews',
+    'name' => $t('Simplenews newsletter'),
+    'base' => 'node_content',
+    'description' => $t('A newsletter issue to be sent to subscribed email addresses.'),
+  );
+  $node_type = node_type_set_defaults($simplenews);
+  node_type_save($node_type); // Save the node type object.
 
   // Create new fields.
   // Data taken from newsletters.features.field_base.inc.
@@ -91,14 +91,6 @@ function newsletters_install() {
       'translatable' => 0,
       'type' => 'entityreference',
     ),
-
-    'book_description'  => array(
-
-      'field_name'   => 'book_description',
-      'type'         => 'text_long',
-      'entity_type'  => 1,
-    ),
-
   );
   foreach ($fields as $field) {
     field_create_field($field);
@@ -236,7 +228,7 @@ function newsletters_install() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_simplenews_term',
-    'label' => $t('Newsletter category');,
+    'label' => $t('Newsletter category'),
     'required' => TRUE,
     'settings' => array(
       'user_field_privacy' => FALSE,
