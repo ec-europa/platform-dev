@@ -147,6 +147,7 @@ function _nexteuropa_piwik_add_load_js_to_page() {
     drupal_add_js($smartloader_prurl, array(
       'type' => 'external',
       'scope' => 'header',
+      'defer' => TRUE,
       'weight' => 5,
     ));
   }
