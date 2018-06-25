@@ -3,7 +3,7 @@
  * CKEDITOR plugin file.
  */
 
-(function($) {
+(function ($) {
 
   /**
    * NextEuropa Token CKEditor behavior.
@@ -19,14 +19,14 @@
         var editor = Drupal.nexteuropa_token_ckeditor[editor_id];
         var content = context[0];
 
-        $(content).find('.token-ckeditor-tips-toggle').once('token-ckeditor-tips-toggle', function() {
+        $(content).find('.token-ckeditor-tips-toggle').once('token-ckeditor-tips-toggle', function () {
           $(this).click(function (e) {
             e.preventDefault();
             $('.token-ckeditor-tips-container').toggle();
           });
         });
 
-        $(content).find('.token-ckeditor-selection').once('token-ckeditor-selection', function() {
+        $(content).find('.token-ckeditor-selection').once('token-ckeditor-selection', function () {
           $(this).click(function (e) {
             e.preventDefault();
             var token = $(this).attr('token-ckeditor-token');
@@ -47,9 +47,9 @@
   };
 
   CKEDITOR.plugins.add('nexteuropa_token_ckeditor', {
-    init: function(editor) {
+    init: function (editor) {
 
-      CKEDITOR.dialog.add('nexteuropa_token_ckeditor_dialog', function() {
+      CKEDITOR.dialog.add('nexteuropa_token_ckeditor_dialog', function () {
         return {
           title: Drupal.t('Insert internal content'),
           minWidth: 750,
@@ -83,7 +83,7 @@
           onShow:function () {
             $('a.cke_dialog_tab').removeClass('cke_dialog_tab_disabled');
           },
-          onLoad: function() {
+          onLoad: function () {
             // Get CKEditor object.
             var editor = this.getParentEditor();
 
@@ -161,19 +161,19 @@
       }
 
       // Ensure tokens instead the html element is saved.
-      editor.on('setData', function(event) {
+      editor.on('setData', function (event) {
         var content = event.data.dataValue;
         event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(content, false);
       });
 
       // Replace tokens with WYSIWYG placeholders.
-      editor.on('getData', function(event) {
+      editor.on('getData', function (event) {
         var content = event.data.dataValue;
         event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replacePlaceholderWithToken(content);
       });
 
       // Replace tokens with WYSIWYG placeholders.
-      editor.on('insertHtml', function(event) {
+      editor.on('insertHtml', function (event) {
         var content = event.data.dataValue;
         event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(content, true);
       });
@@ -203,7 +203,7 @@
      *
      * @returns {string}
      */
-    getPlaceholderFromToken: function(token) {
+    getPlaceholderFromToken: function (token) {
       var matches = token.match(this.regex.parse_token);
       return (matches) ? '<nexteuropatoken contenteditable="false" token="' + matches[1] + '">' + matches[3] + '</nexteuropatoken>' : '';
     },
@@ -216,7 +216,7 @@
      *
      * @returns {string}
      */
-    getTokenFromPlaceholder: function(placeholder) {
+    getTokenFromPlaceholder: function (placeholder) {
       var matches = placeholder.match(this.regex.parse_placeholder);
       return (matches) ? '[' + matches[1] + ']{' + matches[2] + '}' : '';
     },
@@ -232,7 +232,7 @@
      * @returns {string}
      *   Text with placeholders.
      */
-    replaceTokenWithPlaceholder: function(content, isInsertHtml) {
+    replaceTokenWithPlaceholder: function (content, isInsertHtml) {
       var matches = content.match(this.regex.get_tokens);
       if (matches) {
         for (var i = 0; i < matches.length; i++) {
@@ -260,7 +260,7 @@
      * @returns {string}
      *   Text with tokens.
      */
-    replacePlaceholderWithToken: function(content) {
+    replacePlaceholderWithToken: function (content) {
       if (!this.isBrowserSpaceSafe()) {
         // If the browser does manage very well the white space, clean them
         // before continuing the process.
@@ -302,7 +302,7 @@
      * @return {CKEDITOR.htmlParser.element}
      *   The cleaned element.
      */
-    cleanExtraSpaceInElement: function(element) {
+    cleanExtraSpaceInElement: function (element) {
       if ((typeof element.children == 'undefined') || (element.children.length == 0)) {
         return element;
       }
@@ -366,88 +366,88 @@
      * @return {string}
      *   The cleaned content.
      */
-    cleanExtraSpaceInPlaceholders: function(content) {
+    cleanExtraSpaceInPlaceholders: function (content) {
       var filter = new CKEDITOR.htmlParser.filter({
         elements: {
-          address: function(element) {
+          address: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          article: function(element) {
+          article: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          aside: function(element) {
+          aside: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          blockquote: function(element) {
+          blockquote: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          dd: function(element) {
+          dd: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          div: function(element) {
+          div: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          dt: function(element) {
+          dt: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          fieldset: function(element) {
+          fieldset: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          figcaption: function(element) {
+          figcaption: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          footer: function(element) {
+          footer: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          form: function(element) {
+          form: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          h1: function(element) {
+          h1: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          h2: function(element) {
+          h2: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          h3: function(element) {
+          h3: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          h4: function(element) {
+          h4: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          h5: function(element) {
+          h5: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          h6: function(element) {
+          h6: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          header: function(element) {
+          header: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          li: function(element) {
+          li: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          main: function(element) {
+          main: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          nav: function(element) {
+          nav: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          ol: function(element) {
+          ol: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          p: function(element) {
+          p: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          pre: function(element) {
+          pre: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          section: function(element) {
+          section: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          td: function(element) {
+          td: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
-          th: function(element) {
+          th: function (element) {
             return Drupal.nexteuropa_token_ckeditor.parser.cleanExtraSpaceInElement(element);
           },
         }
@@ -473,7 +473,7 @@
      *   The tag element cleaned from any extra white space; or an empty string
      *   if the whole element must be removed.
      */
-    cleanExtraWhiteSpaceBeforeTag: function(elementBeforeTag, secondElementBeforeTag) {
+    cleanExtraWhiteSpaceBeforeTag: function (elementBeforeTag, secondElementBeforeTag) {
       // If the element just before the tag is not a text (value is
       // "undefined"), there is no extra space before it.
       if ((typeof elementBeforeTag == 'undefined') && (typeof elementBeforeTag['value'] == 'undefined')) {
@@ -504,7 +504,7 @@
      *   The tag element cleaned from any extra white space; or an empty string
      *   if the whole element must be removed.
      */
-    cleanExtraWhiteSpaceAfterTag: function(elementAfterTag, secondElementAfterTag) {
+    cleanExtraWhiteSpaceAfterTag: function (elementAfterTag, secondElementAfterTag) {
       // If the element just after the tag is not a text (value is
       // "undefined"), there is no extra space before it.
       if ((typeof elementAfterTag == 'undefined') && (typeof elementAfterTag['value'] == 'undefined')) {
@@ -531,7 +531,7 @@
      * @return {boolean}
      *   true if the element has a ' ' or '&nbsps' value.
      */
-    isWhiteSpace: function(element) {
+    isWhiteSpace: function (element) {
       if (typeof element == 'undefined') {
         return false;
       }
