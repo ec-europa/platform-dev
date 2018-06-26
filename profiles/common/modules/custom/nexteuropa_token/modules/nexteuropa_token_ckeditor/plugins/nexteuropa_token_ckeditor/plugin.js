@@ -262,7 +262,7 @@
      */
     replacePlaceholderWithToken: function (content) {
       if (!this.isBrowserSpaceSafe()) {
-        // If the browser does manage very well the white space, clean them
+        // If the browser does manage very well the space character, clean them
         // before continuing the process.
         content = Drupal.nexteuropa_token_ckeditor.parser.cleanSpaceInPlaceholders(content);
       }
@@ -277,7 +277,7 @@
     },
 
     /**
-     * Check if the used browser managed correctly the white space.
+     * Check if the used browser managed correctly the space character.
      *
      * For more information, see https://dev.ckeditor.com/ticket/12199.
      *
@@ -308,11 +308,11 @@
       }
 
       // Clean first extra space of the HTML block.
-      if (this.isWhiteSpace(element.children[0])) {
+      if (this.isSpaceCharacter(element.children[0])) {
         element.children.splice(0, 1);
       }
       // Clean last extra space of the HTML block.
-      if (this.isWhiteSpace(element.children[element.children.length - 1])) {
+      if (this.isSpaceCharacter(element.children[element.children.length - 1])) {
         element.children.splice((element.children.length - 1), 1);
       }
 
@@ -330,7 +330,7 @@
 
         // Clean potential extra space after the "nexteuropatoken" tag.
         if ((typeof element.children[i + 1] != 'undefined')) {
-          var cleanedAfterTagElement = this.addWhiteSpaceAfterTag(element.children[i + 1]);
+          var cleanedAfterTagElement = this.addSpaceCharacterAfterTag(element.children[i + 1]);
 
           if (cleanedAfterTagElement.length != 0) {
             element.children[i + 1] = cleanedAfterTagElement;
@@ -339,7 +339,7 @@
 
         // Clean potential extra space before the internal link tag.
         if ((typeof element.children[i - 1] != 'undefined')) {
-          var cleanedBeforeTagElement = this.addWhiteSpaceBeforeTag(element.children[i - 1]);
+          var cleanedBeforeTagElement = this.addSpaceCharacterBeforeTag(element.children[i - 1]);
 
           if (cleanedBeforeTagElement.length != 0) {
             element.children[i - 1] = cleanedBeforeTagElement;
@@ -456,17 +456,17 @@
     },
 
     /**
-     * Cleans the element before a HTML tag from extra white space.
+     * Cleans the element before a HTML tag from extra space character.
      *
      * @param elementBeforeTag
      *   CKEDITOR.htmlParser.element appearing directly before the tag and can
-     *   contain white spaces.
+     *   contain space characters.
      *
      * @return {CKEDITOR.htmlParser.element}
-     *   The tag element cleaned from any extra white space; or an empty string
+     *   The tag element cleaned from any extra space character; or an empty string
      *   if the whole element must be removed.
      */
-    addWhiteSpaceBeforeTag: function (elementBeforeTag) {
+    addSpaceCharacterBeforeTag: function (elementBeforeTag) {
       // If the element just before the tag is not a text (value is
       // "undefined"), there is no extra space before it.
       if (typeof elementBeforeTag == 'undefined') {
@@ -480,7 +480,7 @@
         && this.isInlineElement(elementBeforeTag['name'])
         && (elementBeforeTag.children.length >= 1)) {
         var lastChildToCheck = elementBeforeTag.children[0];
-        return this.addWhiteSpaceAfterTag(lastChildToCheck);
+        return this.addSpaceCharacterBeforeTag(lastChildToCheck);
       }
 
       // Keep untouched the element if no value is set.
@@ -488,7 +488,7 @@
         return elementBeforeTag;
       }
 
-      if (this.isWhiteSpace(elementBeforeTag)) {
+      if (this.isSpaceCharacter(elementBeforeTag)) {
         return elementBeforeTag;
       }
 
@@ -505,17 +505,17 @@
     },
 
     /**
-     * Cleans the element after a HTML tag from extra white space.
+     * Cleans the element after a HTML tag from extra space character.
      *
      * @param elementAfterTag
      *   CKEDITOR.htmlParser.element appearing directly after the tag and can
-     *   contain white spaces.
+     *   contain space characters.
      *
      * @return {CKEDITOR.htmlParser.element}
-     *   The tag element cleaned from any extra white space; or an empty string
+     *   The tag element cleaned from any extra space character; or an empty string
      *   if the whole element must be removed.
      */
-    addWhiteSpaceAfterTag: function (elementAfterTag) {
+    addSpaceCharacterAfterTag: function (elementAfterTag) {
       // If the element just after the tag is not a text (value is
       // "undefined"), there is no extra space before it.
       if (typeof elementAfterTag == 'undefined') {
@@ -529,7 +529,7 @@
         && this.isInlineElement(elementAfterTag['name'])
         && (elementAfterTag.children.length >= 1)) {
         var firstChildToCheck = elementAfterTag.children[0];
-        return this.addWhiteSpaceAfterTag(firstChildToCheck);
+        return this.addSpaceCharacterAfterTag(firstChildToCheck);
       }
 
       // Keep untouched the element if no value is set.
@@ -537,14 +537,14 @@
         return elementAfterTag;
       }
 
-      if (this.isWhiteSpace(elementAfterTag)) {
+      if (this.isSpaceCharacter(elementAfterTag)) {
         return elementAfterTag;
       }
 
       // Working on both element did not return results, lt's focus on the first one.
       var value = elementAfterTag['value'];
       value = value.replace(/^(&nbsp;&nbsp;|\s&nbsp;|\s\s|&nbsp;\s|\s|&nbsp;)/, ' ');
-      // Clean white space before ending sentence punctuations.
+      // Clean space character before ending sentence punctuations.
       if (value.match(/^[a-zA-Z0-9]/)) {
         value = ' ' + value;
       }
@@ -555,7 +555,7 @@
     },
 
     /**
-     * Check if a CKEDITOR.htmlParser.element is a white space.
+     * Check if a CKEDITOR.htmlParser.element is a space character.
      *
      * @param element
      *   The CKEDITOR.htmlParser.element to check.
@@ -563,7 +563,7 @@
      * @return {boolean}
      *   true if the element has a ' ' or '&nbsps' value.
      */
-    isWhiteSpace: function (element) {
+    isSpaceCharacter: function (element) {
       if (typeof element == 'undefined') {
         return false;
       }
