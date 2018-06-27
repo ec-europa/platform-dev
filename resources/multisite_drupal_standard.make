@@ -599,10 +599,16 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.3"
 
 projects[redirect][subdir] = "contrib"
-projects[redirect][version] = "1.0-rc3"
+; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
+projects[redirect][download][branch] = 7.x-1.x
+projects[redirect][download][revision] = add3c695f613fbeec23b7259e59936f60a6b6da6
 ; https://www.drupal.org/project/redirect/issues/2057615
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1943
 projects[redirect][patch][] = https://www.drupal.org/files/issues/2018-06-24/redirect-increase-size-fields-to-900-2057615-35.patch
+; Prevent new redirects from being deleted on cron runs.
+; https://www.drupal.org/node/1396446 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
+projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05-09/redirect-purge-from-created-1396446-54.patch
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
