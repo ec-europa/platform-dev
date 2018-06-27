@@ -1332,8 +1332,10 @@ function _tmgmt_poetry_get_main_job_by_entity_id($entity_id) {
  *   Language code.
  * @param \TMGMTPoetryJob $main_job
  *   Main TMGMT Poetry job.
+ * @param int $delivery_date
+ *   Delivery date timestamp ('delai') set for the translation request.
  */
-function _tmgmt_poetry_create_job_and_item($lg_code, TMGMTPoetryJob $main_job) {
+function _tmgmt_poetry_create_job_and_item($lg_code, TMGMTPoetryJob $main_job, $delivery_date) {
   $languages = language_list('language');
   $job = tmgmt_job_create($main_job->source_language, $lg_code, $main_job->uid);
   $main_job_items = $main_job->getItems();
@@ -1354,5 +1356,5 @@ function _tmgmt_poetry_create_job_and_item($lg_code, TMGMTPoetryJob $main_job) {
 
   $job->state = TMGMT_JOB_STATE_ACTIVE;
   $job_item->save();
-  _tmgmt_poetry_insert_item_status($job_item->tjiid, $job->target_language, "Pending", date('Y-m-d', strtotime('+1 month')));
+  _tmgmt_poetry_insert_item_status($job_item->tjiid, $job->target_language, "Pending", date('d/m/Y', $delivery_date));
 }

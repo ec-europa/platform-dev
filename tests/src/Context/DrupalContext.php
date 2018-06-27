@@ -343,4 +343,33 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     return $found_elements;
   }
 
+  /**
+   * Creates content of the given type and a moderation state.
+   *
+   * @param string $type
+   *   The created content type.
+   * @param string $state
+   *   The moderation state of the created content.
+   * @param \Behat\Gherkin\Node\TableNode $fields
+   *   The values set for the content fields.
+   *   The table contains 2 column: one for the field name and one
+   *   for the field value.
+   *
+   * @Given I am viewing a/an :type( content) with :state moderation state:
+   */
+  public function assertViewingNodeWithModerationState($type, $state, TableNode $fields) {
+    $node = (object) array(
+      'type' => $type,
+      'workbench_moderation_state_new' => $state,
+    );
+    foreach ($fields->getRowsHash() as $field => $value) {
+      $node->{$field} = $value;
+    }
+
+    $saved = $this->nodeCreate($node);
+
+    // Set internal browser on the node.
+    $this->getSession()->visit($this->locatePath('/node/' . $saved->nid));
+  }
+
 }

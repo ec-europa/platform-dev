@@ -136,4 +136,15 @@ class ModuleContext extends RawDrupalContext {
     }
   }
 
+  /**
+   * Check if the a module is enabled.
+   *
+   * @Then Module :arg1 should be enabled
+   */
+  public function moduleShouldBeEnabled($arg1) {
+    if (!module_exists($arg1)) {
+      throw new \InvalidArgumentException("The module '{$arg1}' is not enabled.");
+    }
+  }
+
 }
