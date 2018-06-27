@@ -372,7 +372,18 @@ projects[i18n][version] = "1.13"
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
+; Term field not displayed & Notice: Undefined index: taxonomy_term in 
+; i18n_taxonomy_field_formatter_view() in node preview
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-8408
+; https://www.drupal.org/node/2092883
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
+; PHP Fatal Error Call to undefined method i18n_object_wrapper::
+; strings_update().
+; It fixes a bug reproducible on sub-sites like BRP but not on fresh install
+; of the platform.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1987
+; https://www.drupal.org/node/2082573
+projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-06-24/i18n-fatal-error-undefined-strings_update-2082573-54.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
