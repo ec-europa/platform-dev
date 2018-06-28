@@ -17,6 +17,7 @@ function multisite_charts_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
       'contributor' => 'contributor',
+      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -36,6 +37,7 @@ function multisite_charts_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
       'contributor' => 'contributor',
+      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -55,6 +57,7 @@ function multisite_charts_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
       'contributor' => 'contributor',
+      'cem' => 'cem',
     ),
     'module' => 'node',
   );
