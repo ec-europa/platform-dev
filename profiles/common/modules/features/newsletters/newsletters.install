@@ -20,7 +20,7 @@ function newsletters_enable() {
 
 /**
  * Use soft config for newsletters comment form location.
- * Use soft config for newsletters content type definition.
+ * Use soft config for newsletters content type definition (NEPT-1680)
  */
 function newsletters_install() {
   // Use soft config for newsletters comment form location.
@@ -124,7 +124,7 @@ function newsletters_install() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'body',
+    'field_name' => 'body_field',
     'label' => $t('Body'),
     'required' => FALSE,
     'settings' => array(
