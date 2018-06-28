@@ -306,7 +306,9 @@ function _cce_basic_config_post_install_user_roles_perms() {
   $admin_role->name = 'administrator';
   $admin_role->weight = 2;
   user_role_save($admin_role);
-  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+
+  $all_permissions = array_keys(module_invoke_all('permission'));
+  user_role_grant_permissions($admin_role->rid, $all_permissions);
 
   // Set this as the administrator role.
   variable_set('user_admin_role', $admin_role->rid);
@@ -423,6 +425,89 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'use text format filtered_html',
   );
   user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, $anonymous_permissions);
+
+  // Grant permissions for cem.
+  $cem_permissions = array(
+    'access broken links report',
+    'access contextual links',
+    'access dashboard',
+    'access ecas import users function',
+    'access media browser',
+    'access own broken links report',
+    'add media from remote sources',
+    'administer content translations',
+    'change own username',
+    'create article content',
+    'create editorial_team content',
+    'delete own article content',
+    'delete own audio files',
+    'delete own document files',
+    'delete own editorial_team content',
+    'delete own image files',
+    'delete own video files',
+    'download any audio files',
+    'download any document files',
+    'download any image files',
+    'download any video files',
+    'download own audio files',
+    'download own document files',
+    'download own image files',
+    'download own video files',
+    'edit any article content',
+    'edit any audio files',
+    'edit any document files',
+    'edit any editorial_team content',
+    'edit any image files',
+    'edit any video files',
+    'edit own article content',
+    'edit own audio files',
+    'edit own comments',
+    'edit own document files',
+    'edit own editorial_team content',
+    'edit own image files',
+    'edit own video files',
+    'moderate content from draft to needs_review',
+    'moderate content from needs_review to draft',
+    'moderate content from needs_review to published',
+    'moderate content from needs_review to validated',
+    'moderate content from published to archived',
+    'moderate content from published to draft',
+    'moderate content from published to expired',
+    'moderate content from published to needs_review',
+    'moderate content from validated to published',
+    'multisite_workbench_moderation_view_bulk_update',
+    'node-specific print configuration',
+    're convert video',
+    'send unlimited emails',
+    'show format selection for bean',
+    'show format selection for comment',
+    'show format selection for file',
+    'show format selection for flagging',
+    'show format selection for og_membership',
+    'show format selection for og_membership_type',
+    'show format selection for rules_config',
+    'show format selection for taxonomy_term',
+    'show format selection for tmgmt_job',
+    'show format selection for user',
+    'show format tips',
+    'show more format tips link',
+    'translate content',
+    'translate file entities',
+    'translate node entities',
+    'use default thumb',
+    'use text format full_html',
+    'view advanced help index',
+    'view advanced help popup',
+    'view advanced help topic',
+    'view alert message',
+    'view private files',
+    'view rate results page',
+    'view the administration theme',
+  );
+  // Depending on the platform profile, some default platform modules are not
+  // enabled.
+  // We need to only keep the enabled permissions of the array above.
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, array_intersect($all_permissions, $cem_permissions));
 }
 
 /**
