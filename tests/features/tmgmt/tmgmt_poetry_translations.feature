@@ -564,7 +564,7 @@ Feature: TMGMT Poetry features
     Then I should see "Request addition of new languages"
 
     When I click "Request addition of new languages"
-    And I fill in "Date" with a relative date of "+20" days
+    And I fill in "Date" with a relative date of "+21" days
     And I press "Add languages"
     Then I should see the error message "You have to select at least one language to add it to the ongoing translation request."
 
@@ -577,6 +577,7 @@ Feature: TMGMT Poetry features
       | Language   |
       | German     |
       | Italian    |
+    And the relative delay date of the request is "+21" days
     And I should see "In progress" in the "German" row
     And I should see "In progress" in the "Italian" row
     And I should not see "Request addition of new languages"
