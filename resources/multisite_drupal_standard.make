@@ -405,7 +405,10 @@ projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
 projects[jplayer][subdir] = "contrib"
-projects[jplayer][version] = "2.0-beta1"
+projects[jplayer][version] = "2.0"
+; https://www.drupal.org/project/jplayer/issues/2977834
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1657
+projects[jplayer][patch][] = https://www.drupal.org/files/issues/2018-06-06/2977834-2.patch
 
 projects[jqmulti][subdir] = "contrib"
 projects[jqmulti][version] = "1.0"
