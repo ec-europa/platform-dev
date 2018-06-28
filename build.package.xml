@@ -62,6 +62,17 @@
             <!-- Install all contributed projects inside the chosen profile. -->
             <option name="contrib-destination">profiles/${platform.profile.name}</option>
         </drush>
+        <delete>
+          <fileset dir="${platform.build.dir}/profiles/multisite_drupal_standard/libraries/mpdf/ttfonts" >
+            <include name="*.*" />
+          </fileset>
+        </delete>
+        <!-- Copy the "mpdf-platform-specific-fonts/ttfonts" folder into libraries/mpdf. -->
+        <copy todir="${platform.build.dir}/profiles/multisite_drupal_standard/libraries/mpdf/ttfonts">
+            <fileset dir="${platform.resources.dir}/patches/mpdf-platform-specific-fonts/ttfonts">
+                <include name="**"></include>
+            </fileset>
+        </copy>
     </target>
 
     <!-- Make one of the profiles in order to build a multisite platform. -->
