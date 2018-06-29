@@ -352,15 +352,21 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity_type, $entit
  */
 function _nexteuropa_multilingual_warning_message(&$form, $node) {
   $translatable = variable_get('language_content_type_' . $node->type, 0);
+  // If the node type is not translatable, there is no need to display
+  // warning message.
+  // If there is no nid, means the node is not created yet and no translation
+  // exists. So there is no need to display any warning message.
+  if (!$translatable || empty($node->nid)) {
+    return;
+  }
   $warning_message_languages = variable_get('nexteuropa_multilingual_warning_message_languages');
-  if (!empty($warning_message_languages) && $translatable !== '0') {
+  if (!empty($warning_message_languages)) {
     $message = token_replace($warning_message_languages, array('node' => $node));
     $variables = array(
       'message' => $message,
       'message_attributes' => array('id' => 'nexteuropa-multilingual-warning-message-languages'),
     );
     $warning_message = theme('nexteuropa_multilingual_message', $variables);
-
     $form['warning_languages_message'] = array(
       '#markup' => $warning_message,
       '#weight' => 105,
