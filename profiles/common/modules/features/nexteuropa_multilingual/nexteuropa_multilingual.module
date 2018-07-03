@@ -483,35 +483,37 @@ function _nexteuropa_multilingual_path_und_sync($path) {
     switch ($update_action) {
       case 0:
         db_delete('url_alias')
-        ->condition('pid', $path['pid'], '=')
-        ->execute();
-      break;
+          ->condition('pid', $path['pid'], '=')
+          ->execute();
+        break;
+
       // Create a new alias. Leave the existing alias functioning.
       case 1:
-      // Change alias to neutral language.
-      $path['language'] = LANGUAGE_NONE;
-      drupal_write_record('url_alias', $path, array('pid'));
-      // Get duplicates.
-      $result = db_select('url_alias', 'u')
-        ->fields('u')
-        ->condition('source', $path['source'],'=')
-        ->condition('alias', $path['alias'],'=')
-        ->condition('language', LANGUAGE_NONE,'=')
-        ->execute()
-        ->fetchAll();
+        // Change alias to neutral language.
+        $path['language'] = LANGUAGE_NONE;
+        drupal_write_record('url_alias', $path, array('pid'));
+        // Get duplicates.
+        $result = db_select('url_alias', 'u')
+          ->fields('u')
+          ->condition('source', $path['source'], '=')
+          ->condition('alias', $path['alias'], '=')
+          ->condition('language', LANGUAGE_NONE, '=')
+          ->execute()
+          ->fetchAll();
         // Keep last alias created.
         array_pop($result);
         // Delete duplicated alias.
         $pids = array();
-        foreach ($result as $key => $value) {
+        foreach ($result as $value) {
           $pids[] = $value->pid;
         }
         if (count($pids) > 0) {
           db_delete('url_alias')
-          ->condition('pid', $pids, 'IN')
-          ->execute();
+            ->condition('pid', $pids, 'IN')
+            ->execute();
         }
         break;
+
       // Create a new alias. Delete the old alias.
       case 2:
         // Change alias to neutral language.
@@ -521,18 +523,18 @@ function _nexteuropa_multilingual_path_und_sync($path) {
         // Keep only last alias.
         $result = db_select('url_alias', 'u')
           ->fields('u')
-          ->condition('source', $path['source'],'=')
+          ->condition('source', $path['source'], '=')
           ->condition('pid', $path['pid'], '!=')
           ->execute()
           ->fetchAll();
         $pids = array();
-        foreach ($result as $key => $value) {
+        foreach ($result as $value) {
           $pids[] = $value->pid;
         }
         if (count($pids) > 0) {
           db_delete('url_alias')
-          ->condition('pid', $pids, 'IN')
-          ->execute();
+            ->condition('pid', $pids, 'IN')
+            ->execute();
         }
         break;
     }
