@@ -454,7 +454,6 @@ function nexteuropa_multilingual_path_update($path) {
  *     - language: The language of the alias.
  */
 function _nexteuropa_multilingual_path_und_sync($path) {
-
   // We must pass through a basic path parsing and a db_select because:
   // - The menu_get_object function makes a access control and a redirection to
   // the home page if users do not have access permission.
@@ -480,13 +479,46 @@ function _nexteuropa_multilingual_path_und_sync($path) {
   }
 
   if ($path['language'] != LANGUAGE_NONE) {
+    $update_action = variable_get('pathauto_update_action');
+    dpm($update_action);
+    // Change alias to neutral language.
+    $path['language'] = LANGUAGE_NONE;
+    drupal_write_record('url_alias', $path, array('pid'));
+    // Get duplicates.
+    $result = db_select('url_alias', 'u')
+      ->fields('u')
+      ->condition('source', $path['source'],'=')
+      ->condition('alias', $path['alias'],'=')
+      ->condition('language', LANGUAGE_NONE,'=')
+      ->execute()
+      ->fetchAll();
+    switch ($update_action) {
+      // Create a new alias. Leave the existing alias functioning.
+      case 1:
+        // Delete duplicated alias.
+        dpm($result);
+        array_pop($result);
+        dpm($result);
+        foreach ($result as $key => $value) {
+          $pids[] = $value->pid;
+        }
+        db_delete('url_alias')
+        ->condition('pid', $pids, 'IN')
+        ->execute();
+        break;
+      // Create a new alias. Delete the old alias.
+      case 2:
+        // Keep only last alias.
+        break;
+    }
+    // Delete duplicates.
+    return;
     // We synchronize the alias to force all aliases to be saved as
     // language neutral.
     $query = db_select('url_alias', 'ua')->condition('source', $path['source']);
     $query->fields('ua', array('pid', 'language', 'alias'));
     $existing_paths = $query->execute()->fetchAll();
     $count = count($existing_paths);
-
     switch ($count) {
       case 1:
         // Creation with custom alias (we update the record only).
@@ -495,13 +527,15 @@ function _nexteuropa_multilingual_path_und_sync($path) {
         break;
 
       default:
+        $path['language'] = LANGUAGE_NONE;
+        drupal_write_record('url_alias', $path, array('pid'));
         // Update with custom alias
         // (We update the LANGUAGE_NONE value and delete the others).
         $language_none_exist = FALSE;
         foreach ($existing_paths as $existing_path) {
           if ($existing_path->language == LANGUAGE_NONE) {
             $existing_path->alias = $path['alias'];
-            drupal_write_record('url_alias', $existing_path, array('pid'));
+            //drupal_write_record('url_alias', $existing_path, array('pid'));
             $language_none_exist = TRUE;
             break;
           }
@@ -512,7 +546,7 @@ function _nexteuropa_multilingual_path_und_sync($path) {
         // treated path becomes the LANGUAGE_NONE value.
         if (!$language_none_exist) {
           $path['language'] = LANGUAGE_NONE;
-          drupal_write_record('url_alias', $path, array('pid'));
+          //drupal_write_record('url_alias', $path, array('pid'));
           if (!$is_old_alias_to_delete) {
             // We keep the Path normal process.
             break;
