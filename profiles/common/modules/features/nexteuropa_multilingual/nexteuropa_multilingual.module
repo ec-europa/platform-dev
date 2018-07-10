@@ -484,6 +484,7 @@ function _nexteuropa_multilingual_path_und_sync($path) {
     return;
   }
   if ($path['language'] != LANGUAGE_NONE) {
+    module_load_include('inc', 'pathauto');
     // Configuration path creation.
     $update_action = variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE);
     switch ($update_action) {
