@@ -485,7 +485,7 @@ function _nexteuropa_multilingual_path_und_sync($path) {
   }
   if ($path['language'] != LANGUAGE_NONE) {
     // Configuration path creation.
-    $update_action = variable_get('pathauto_update_action');
+    $update_action = variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE);
     switch ($update_action) {
       case 0:
         db_delete('url_alias')
