@@ -19,7 +19,7 @@ function newsletters_enable() {
 }
 
 /**
- * Use soft config for newsletters comment form location and content type definition (NEPT-1680).
+ * Use soft config for comment form location and simplenews content type.
  */
 function newsletters_install() {
   // Use soft config for newsletters comment form location.
@@ -226,7 +226,7 @@ function newsletters_install() {
     ),
   );
 
-  foreach( $field_instances as $instance ) { // Loop through our instances
+  foreach ($field_instances as $instance) {
     field_create_instance($instance);
   }
 
@@ -244,18 +244,18 @@ function newsletters_install() {
   $field_group1->label = 'Metadata';
   $field_group1->weight = '10';
   $field_group1->children = array(
-      0 => 'field_related_contents',
-      1 => 'field_tags',
-      2 => 'language',
+    0 => 'field_related_contents',
+    1 => 'field_tags',
+    2 => 'language',
   );
   $field_group1->format_type = 'tab';
   $field_group1->format_settings = array(
-      'formatter' => 'closed',
-      'instance_settings' => array(
-        'description' => '',
-        'classes' => 'group-newsletter-metadata field-group-tab',
-        'required_fields' => 1,
-      ),
+    'formatter' => 'closed',
+    'instance_settings' => array(
+      'description' => '',
+      'classes' => 'group-newsletter-metadata field-group-tab',
+      'required_fields' => 1,
+    ),
   );
   $field_groups = array();
   $field_groups['group_newsletter_metadata|node|simplenews|form'] = $field_group1;
@@ -272,22 +272,22 @@ function newsletters_install() {
   $field_group2->label = 'Content';
   $field_group2->weight = '0';
   $field_group2->children = array(
-      0 => 'body',
-      1 => 'field_simplenews_term',
-      2 => 'title_field',
+    0 => 'body',
+    1 => 'field_simplenews_term',
+    2 => 'title_field',
   );
   $field_group2->format_type = 'tab';
   $field_group2->format_settings = array(
-      'formatter' => 'closed',
-      'instance_settings' => array(
-        'description' => '',
-        'classes' => 'group-simplenews field-group-tab',
-        'required_fields' => 1,
-      ),
+    'formatter' => 'closed',
+    'instance_settings' => array(
+      'description' => '',
+      'classes' => 'group-simplenews field-group-tab',
+      'required_fields' => 1,
+    ),
   );
   $field_groups['group_simplenews|node|simplenews|form'] = $field_group2;
 
-  foreach( $field_groups as $group ) { // Loop through our instances
+  foreach ($field_groups as $group) {
     field_group_group_save($group);
   }
 }
@@ -303,28 +303,27 @@ function newsletters_disable() {
 /**
  * Implements hook_uninstall().
  */
-function newsletters_uninstall()
-{
-  // Remove existing content
+function newsletters_uninstall() {
+  // Remove existing content.
   $query = 'SELECT nid ';
   $query .= 'FROM {node} ';
   $query .= 'WHERE {node}.type = :type ';
   $result = db_query( $query, array(':type' => 'simplenews') );
   $nids = array();
 
-  foreach( $result as $row ) {
+  foreach ($result as $row) {
     $nids[] = $row->nid;
   }
-  node_delete_multiple( $nids );
+  node_delete_multiple($nids);
 
-  // Delete fields and instances
-  foreach( field_info_instances('node', 'simplenews') as $field_name  => $instance ) {
+  // Delete fields and instances.
+  foreach (field_info_instances('node', 'simplenews') as $instance) {
     field_delete_instance($instance);
   }
-  // Delete content type
+  // Delete content type.
   node_type_delete('simplenews');
-  // Purge field batch
-  field_purge_batch(1000); // Purge delete fields data
+  // Purge field batch.
+  field_purge_batch(1000);
 }
 
 /**
@@ -333,10 +332,9 @@ function newsletters_uninstall()
 function newsletters_update_7001(&$sandbox) {
 
   $t = get_t();
-  // print_r(variable_get('language_content_type_simplenews', 0));
-  // Check if the content type has content translation instead of entity translation
+  // Check if the content type has content translation instead of entity translation.
   $translation_support = variable_get('language_content_type_simplenews', 0);
-  if ($translation_support != 2) { // 2 == TRANSLATION_ENABLED
+  if ($translation_support != 2) {
     // Field instance for title_field.
     if (field_info_instance('node', 'title_field', 'simplenews')) {
       $instance_info = field_info_instance('node', 'title_field', 'simplenews');
@@ -414,22 +412,19 @@ function newsletters_update_7001(&$sandbox) {
       $field_group1->label = 'Metadata';
       $field_group1->weight = '10';
       $field_group1->children = array(
-          0 => 'field_related_contents',
-          1 => 'field_tags',
-          2 => 'language',
+        0 => 'field_related_contents',
+        1 => 'field_tags',
+        2 => 'language',
       );
       $field_group1->format_type = 'tab';
       $field_group1->format_settings = array(
-          'formatter' => 'closed',
-          'instance_settings' => array(
-            'description' => '',
-            'classes' => 'group-newsletter-metadata field-group-tab',
-            'required_fields' => 1,
-          ),
+        'formatter' => 'closed',
+        'instance_settings' => array(
+          'description' => '',
+          'classes' => 'group-newsletter-metadata field-group-tab',
+          'required_fields' => 1,
+        ),
       );
-      $field_groups = array();
-      $field_groups['group_newsletter_metadata|node|simplenews|form'] = $field_group1;
-
       field_group_group_save($field_group1);
     }
 
@@ -453,21 +448,19 @@ function newsletters_update_7001(&$sandbox) {
       $field_group2->label = 'Content';
       $field_group2->weight = '0';
       $field_group2->children = array(
-          0 => 'body',
-          1 => 'field_simplenews_term',
-          2 => 'title_field',
+        0 => 'body',
+        1 => 'field_simplenews_term',
+        2 => 'title_field',
       );
       $field_group2->format_type = 'tab';
       $field_group2->format_settings = array(
-          'formatter' => 'closed',
-          'instance_settings' => array(
-            'description' => '',
-            'classes' => 'group-simplenews field-group-tab',
-            'required_fields' => 1,
-          ),
+        'formatter' => 'closed',
+        'instance_settings' => array(
+          'description' => '',
+          'classes' => 'group-simplenews field-group-tab',
+          'required_fields' => 1,
+        ),
       );
-      $field_groups['group_simplenews|node|simplenews|form'] = $field_group2;
-
       field_group_group_save($field_group2);
     }
 
