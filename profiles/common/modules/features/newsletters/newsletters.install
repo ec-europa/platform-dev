@@ -308,7 +308,7 @@ function newsletters_uninstall() {
   $query = 'SELECT nid ';
   $query .= 'FROM {node} ';
   $query .= 'WHERE {node}.type = :type ';
-  $result = db_query( $query, array(':type' => 'simplenews') );
+  $result = db_query($query, array(':type' => 'simplenews'));
   $nids = array();
 
   foreach ($result as $row) {
@@ -332,7 +332,7 @@ function newsletters_uninstall() {
 function newsletters_update_7001(&$sandbox) {
 
   $t = get_t();
-  // Check if the content type has content translation instead of entity translation.
+  // Check if the content type has content translation.
   $translation_support = variable_get('language_content_type_simplenews', 0);
   if ($translation_support != 2) {
     // Field instance for title_field.
