@@ -74,7 +74,7 @@ class EcasContext extends RawDrupalContext {
     $this->parseEntityFields('user', $user);
     $this->getDriver()->userCreate($user);
     $this->dispatchHooks('AfterUserCreateScope', $user);
-    $this->userManager->addUser($user);
+    $this->getUserManager()->addUser($user);
 
     // Add the user to the authmap table.
     db_insert('authmap')
@@ -98,18 +98,16 @@ class EcasContext extends RawDrupalContext {
    */
   public function ecasCleanUsers() {
     // Remove any users that were created.
-    if ($this->userManager->hasUsers()) {
-      foreach ($this->userManager->getUsers() as $user) {
-        $this->getDriver()->userDelete($user);
-        db_delete('authmap')
-          ->condition('uid', $user->uid)
-          ->execute();
-      }
-      $this->getDriver()->processBatch();
-      $this->userManager->clearUsers();
-      if ($this->loggedIn()) {
-        $this->logout();
-      }
+    foreach ($this->getUserManager()->getUsers() as $user) {
+      $this->getDriver()->userDelete($user);
+      db_delete('authmap')
+        ->condition('uid', $user->uid)
+        ->execute();
+    }
+    $this->getDriver()->processBatch();
+    $this->getUserManager()->clearUsers();
+    if ($this->loggedIn()) {
+      $this->logout();
     }
   }
 
