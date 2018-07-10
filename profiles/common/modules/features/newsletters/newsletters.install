@@ -434,7 +434,7 @@ function newsletters_uninstall()
 function newsletters_update_7001(&$sandbox) {
 
   $t = get_t();
-
+  // print_r(variable_get('language_content_type_simplenews', 0));
   // Check if the content type has content translation instead of entity translation
   $translation_support = variable_get('language_content_type_simplenews', 0);
   if ($translation_support != 2) { // 2 == TRANSLATION_ENABLED
@@ -494,14 +494,13 @@ function newsletters_update_7001(&$sandbox) {
       'bundle' => 'simplenews',
       'mode' => 'form',
     ));
-    // drupal_set_message(print_r($groups));
+
     if (field_group_exists('group_newsletter_metadata', 'node', 'simplenews', 'form')) {
       $group_newsletter_metadata = $groups['node']['simplenews']['form']['group_newsletter_metadata'];
       $group_newsletter_metadata->children[0] = 'field_related_contents';
       $group_newsletter_metadata->children[1] = 'field_tags';
       $group_newsletter_metadata->children[2] = 'language';
       field_group_group_save($group_newsletter_metadata);
-      // drupal_set_message('ha entrado en 1');
     }
     else {
       $field_group1 = new stdClass();
@@ -541,7 +540,6 @@ function newsletters_update_7001(&$sandbox) {
       $group_simplenews->children[1] = 'field_simplenews_term';
       $group_simplenews->children[2] = 'title_field';
       field_group_group_save($group_simplenews);
-      // drupal_set_message('ha entrado en 2');
     }
     else {
       $field_group2 = new stdClass();
@@ -618,7 +616,4 @@ function newsletters_update_7001(&$sandbox) {
       drupal_set_message(t('@nodes nodes were processed', array('@nodes' => $sandbox['total'])));
     }
   }
-    // print_r(variable_get('language_content_type_simplenews', 0));
-    // print_r(TRANSLATION_ENABLED);
-
 }
