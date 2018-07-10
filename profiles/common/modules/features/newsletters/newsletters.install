@@ -19,8 +19,7 @@ function newsletters_enable() {
 }
 
 /**
- * Use soft config for newsletters comment form location.
- * Use soft config for newsletters content type definition (NEPT-1680)
+ * Use soft config for newsletters comment form location and content type definition (NEPT-1680).
  */
 function newsletters_install() {
   // Use soft config for newsletters comment form location.
@@ -37,8 +36,7 @@ function newsletters_install() {
   );
   $node_type = node_type_set_defaults($simplenews);
   node_add_body_field($node_type, $t('Body'));
-  node_type_save($node_type); // Save the node type object.
-
+  node_type_save($node_type);
   // Create new fields.
   // Data taken from newsletters.features.field_base.inc.
   $fields = array(
@@ -100,50 +98,6 @@ function newsletters_install() {
   // Attach fields to content type.
   // Data taken from newsletters.features.field_instance.inc.
   $field_instances = array();
-  // Exported field_instance: 'node-simplenews-body'.
-  // $field_instances['node-simplenews-body'] = array(
-  //   'bundle' => 'simplenews',
-  //   'default_value' => NULL,
-  //   'deleted' => 0,
-  //   'description' => 'Add here the body of your content',
-  //   'display' => array(
-  //     'default' => array(
-  //       'label' => 'hidden',
-  //       'module' => 'text',
-  //       'settings' => array(),
-  //       'type' => 'text_default',
-  //       'weight' => 0,
-  //     ),
-  //     'teaser' => array(
-  //       'label' => 'hidden',
-  //       'module' => 'text',
-  //       'settings' => array(
-  //         'trim_length' => 600,
-  //       ),
-  //       'type' => 'text_summary_or_trimmed',
-  //       'weight' => 0,
-  //     ),
-  //   ),
-  //   'entity_type' => 'node',
-  //   'field_name' => 'body_field',
-  //   'label' => $t('Body label'),
-  //   'required' => FALSE,
-  //   'settings' => array(
-  //     'display_summary' => TRUE,
-  //     'text_processing' => 1,
-  //     'user_field_privacy' => FALSE,
-  //     'user_register_form' => FALSE,
-  //   ),
-  //   'widget' => array(
-  //     'module' => 'text',
-  //     'settings' => array(
-  //       'rows' => 20,
-  //       'summary_rows' => 5,
-  //     ),
-  //     'type' => 'text_textarea_with_summary',
-  //     'weight' => 20,
-  //   ),
-  // );
 
   // Exported field_instance: 'node-simplenews-field_related_contents'.
   $field_instances['node-simplenews-field_related_contents'] = array(
@@ -187,61 +141,6 @@ function newsletters_install() {
       'weight' => 130,
     ),
   );
-
-  // Exported field_instance: 'node-simplenews-field_simplenews_term'.
-  // $field_instances['node-simplenews-field_simplenews_term'] = array(
-  //   'bundle' => 'simplenews',
-  //   'default_value' => NULL,
-  //   'deleted' => 0,
-  //   'description' => '',
-  //   'display' => array(
-  //     'default' => array(
-  //       'label' => 'hidden',
-  //       'module' => 'taxonomy',
-  //       'settings' => array(),
-  //       'type' => 'taxonomy_term_reference_link',
-  //       'weight' => 1,
-  //     ),
-  //     'email_html' => array(
-  //       'label' => 'hidden',
-  //       'settings' => array(),
-  //       'type' => 'hidden',
-  //       'weight' => 0,
-  //     ),
-  //     'email_plain' => array(
-  //       'label' => 'hidden',
-  //       'settings' => array(),
-  //       'type' => 'hidden',
-  //       'weight' => 0,
-  //     ),
-  //     'email_textalt' => array(
-  //       'label' => 'hidden',
-  //       'settings' => array(),
-  //       'type' => 'hidden',
-  //       'weight' => 0,
-  //     ),
-  //     'teaser' => array(
-  //       'label' => 'hidden',
-  //       'settings' => array(),
-  //       'type' => 'hidden',
-  //       'weight' => 1,
-  //     ),
-  //   ),
-  //   'entity_type' => 'node',
-  //   'field_name' => 'field_simplenews_term',
-  //   'label' => $t('Newsletter category'),
-  //   'required' => TRUE,
-  //   'settings' => array(
-  //     'user_field_privacy' => FALSE,
-  //     'user_register_form' => FALSE,
-  //   ),
-  //   'widget' => array(
-  //     'module' => 'options',
-  //     'settings' => array(),
-  //     'type' => 'options_buttons',
-  //     'weight' => 30,
-  //   ),
-  // );
 
   // Exported field_instance: 'node-simplenews-field_tags'.
   $field_instances['node-simplenews-field_tags'] = array(
@@ -597,7 +496,8 @@ function newsletters_update_7001(&$sandbox) {
         field_update_instance($instance_info);
 
         $field_info = field_info_field($field_name);
-        // TO DO: just change to translatable those fields that should be translatable, as text, etc.
+        // TO DO: just change to translatable those fields
+        // that should be translatable, as text, etc.
         if ($field_info['type'] == 'text' || $field_info['type'] == 'link' || $field_info['type'] == 'link') {
           $field_info['translatable'] = 1;
           field_update_field($field_info);
