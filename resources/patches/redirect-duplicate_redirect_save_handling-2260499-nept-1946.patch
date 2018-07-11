@@ -1,0 +1,17 @@
+--- a/redirect.module        2018-06-28 10:38:37.882334071 +0200
++++ b/redirect.module        2018-06-28 10:40:41.370832147 +0200
+@@ -812,6 +812,14 @@
+       $redirect->is_new = FALSE;
+     }
+ 
++    // If a duplicate redirect exists, we need to update it, rather than save a
++    // new one because the UUID hash will be the same. This will produce an
++    // integrity constraint violation in MySQL.
++    if ($exists = redirect_load_by_hash($redirect->hash)) {
++      $redirect->rid = $exists->rid;
++      $redirect->is_new = FALSE;
++    }
++
+     // Save the redirect to the database and invoke the post-save hooks.
+     if ($redirect->is_new) {
+       drupal_write_record('redirect', $redirect);
