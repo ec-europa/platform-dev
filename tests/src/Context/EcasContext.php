@@ -98,16 +98,18 @@ class EcasContext extends RawDrupalContext {
    */
   public function ecasCleanUsers() {
     // Remove any users that were created.
-    foreach ($this->getUserManager()->getUsers() as $user) {
-      $this->getDriver()->userDelete($user);
-      db_delete('authmap')
-        ->condition('uid', $user->uid)
-        ->execute();
-    }
-    $this->getDriver()->processBatch();
-    $this->getUserManager()->clearUsers();
-    if ($this->loggedIn()) {
-      $this->logout();
+    if ($this->getUserManager()->hasUsers()) {
+      foreach ($this->getUserManager()->getUsers() as $user) {
+        $this->getDriver()->userDelete($user);
+        db_delete('authmap')
+          ->condition('uid', $user->uid)
+          ->execute();
+      }
+      $this->getDriver()->processBatch();
+      $this->getUserManager()->clearUsers();
+      if ($this->loggedIn()) {
+        $this->logout();
+      }
     }
   }
 
