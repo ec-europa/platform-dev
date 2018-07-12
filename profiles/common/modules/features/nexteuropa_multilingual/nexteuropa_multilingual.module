@@ -500,21 +500,17 @@ function _nexteuropa_multilingual_path_und_sync($path) {
         $path['language'] = LANGUAGE_NONE;
         drupal_write_record('url_alias', $path, array('pid'));
         // Get duplicates.
-        $result = db_select('url_alias', 'u')
-          ->fields('u')
+        $pids = db_select('url_alias', 'u')
+          ->fields('u', array('pid'))
           ->condition('source', $path['source'], '=')
           ->condition('alias', $path['alias'], '=')
           ->condition('language', LANGUAGE_NONE, '=')
           ->execute()
-          ->fetchAll();
+          ->fetchCol();
         // Keep last alias created.
-        array_pop($result);
-        // Delete duplicated alias.
-        $pids = array();
-        foreach ($result as $value) {
-          $pids[] = $value->pid;
-        }
-        if (count($pids) > 0) {
+        array_pop($pids);
+
+        if (!empty($pids)) {
           db_delete('url_alias')
             ->condition('pid', $pids, 'IN')
             ->execute();
@@ -528,17 +524,14 @@ function _nexteuropa_multilingual_path_und_sync($path) {
         drupal_write_record('url_alias', $path, array('pid'));
         // Get all node alias.
         // Keep only last alias.
-        $result = db_select('url_alias', 'u')
-          ->fields('u')
+        $pids = db_select('url_alias', 'u')
+          ->fields('u', array('pid'))
           ->condition('source', $path['source'], '=')
           ->condition('pid', $path['pid'], '!=')
           ->execute()
-          ->fetchAll();
-        $pids = array();
-        foreach ($result as $value) {
-          $pids[] = $value->pid;
-        }
-        if (count($pids) > 0) {
+          ->fetchCol();
+
+        if (!empty($pids)) {
           db_delete('url_alias')
             ->condition('pid', $pids, 'IN')
             ->execute();
