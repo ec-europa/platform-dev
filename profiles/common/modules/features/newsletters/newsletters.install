@@ -336,6 +336,7 @@ function newsletters_update_7001(&$sandbox) {
   $translation_support = variable_get('language_content_type_simplenews', 0);
   if ($translation_support != 2) {
     // Field instance for title_field.
+    variable_set('language_content_type_simplenews', 4);
     if (field_info_instance('node', 'title_field', 'simplenews')) {
       $instance_info = field_info_instance('node', 'title_field', 'simplenews');
       $instance_info['label'] = $t('Title');
@@ -491,7 +492,7 @@ function newsletters_update_7001(&$sandbox) {
         $field_info = field_info_field($field_name);
         // TO DO: just change to translatable those fields
         // that should be translatable, as text, etc.
-        if ($field_info['type'] == 'text' || $field_info['type'] == 'link' || $field_info['type'] == 'link') {
+        if ($field_info['type'] == 'text' || $field_info['type'] == 'text_long' || $field_info['text_with_summary'] || $field_info['type'] == 'link_field') {
           $field_info['translatable'] = 1;
           field_update_field($field_info);
         }
