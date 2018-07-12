@@ -477,7 +477,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public function assertDisabledElement($label) {
     if (!$this->assertSession()->fieldExists($label)->hasAttribute('disabled')) {
-      throw new ExpectationException("Form element '{$label}' is not disabled", $this->getDriver());
+      throw new ExpectationException("Form element '{$label}' is not disabled", $this->getSession());
     }
   }
 
