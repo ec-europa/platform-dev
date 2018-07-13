@@ -282,134 +282,107 @@ function _newsletters_install_soft_config_simplenews() {
 /**
  * Add translations to simplenews content type.
  */
-function _newsletters_update_translations() {
+function _newsletters_soft_config_title_field() {
   $t = get_t();
 
-  // If this is the first pass through this update
-  // function then set some variables.
-  if (!isset($sandbox['total'])) {
-    $result = db_query("SELECT nid FROM {node} WHERE type='simplenews'");
-    $sandbox['total'] = $result->rowCount();
-    $sandbox['current'] = 0;
-
-    // Check if the content type has content translation.
-    $translation_support = variable_get('language_content_type_simplenews', 0);
-
-    if ($translation_support == 2) {
-      // Using content translation.
-      return;
-    }
-
-    // Activate entity translation.
-    variable_set('language_content_type_simplenews', 4);
-
-    // Field instance for title_field.
-    if (field_info_instance('node', 'title_field', 'simplenews')) {
-      $instance_info = field_info_instance('node', 'title_field', 'simplenews');
-      $instance_info['label'] = $t('Title');
-      field_update_instance($instance_info);
-    }
-    else {
-      $field_instances['node-simplenews-title_field'] = array(
-        'bundle' => 'simplenews',
-        'default_value' => NULL,
-        'deleted' => 0,
-        'description' => '',
-        'display' => array(
-          'default' => array(
-            'label' => 'above',
-            'settings' => array(),
-            'type' => 'hidden',
-            'weight' => 5,
-          ),
-          'teaser' => array(
-            'label' => 'above',
-            'settings' => array(),
-            'type' => 'hidden',
-            'weight' => 0,
-          ),
-        ),
-        'entity_type' => 'node',
-        'field_name' => 'title_field',
-        'label' => $t('Title'),
-        'required' => TRUE,
-        'settings' => array(
-          'entity_translation_sync' => FALSE,
-          'hide_label' => array(
-            'entity' => FALSE,
-            'page' => FALSE,
-          ),
-          'text_processing' => 0,
-          'user_register_form' => FALSE,
-        ),
-        'widget' => array(
-          'module' => 'text',
-          'settings' => array(
-            'size' => 60,
-          ),
-          'type' => 'text_textfield',
-          'weight' => -5,
-        ),
-      );
-      field_create_instance($field_instances['node-simplenews-title_field']);
-    }
-
-    $groups = field_group_read_groups(array(
-      'entity_type' => 'node',
+  // Field instance for title_field.
+  if (!field_info_instance('node', 'title_field', 'simplenews')) {
+    $field_instances['node-simplenews-title_field'] = array(
       'bundle' => 'simplenews',
-      'mode' => 'form',
-    ));
-    if (field_group_exists('group_newsletter_metadata', 'node', 'simplenews', 'form')) {
-      $group_newsletter_metadata = $groups['node']['simplenews']['form']['group_newsletter_metadata'];
-      $group_newsletter_metadata->children[0] = 'field_related_contents';
-      $group_newsletter_metadata->children[1] = 'field_tags';
-      $group_newsletter_metadata->children[2] = 'language';
-    }
-    if (field_group_exists('group_simplenews', 'node', 'simplenews', 'form')) {
-      field_group_group_save($group_newsletter_metadata);
-      $group_simplenews = $groups['node']['simplenews']['form']['group_simplenews'];
-      $group_simplenews->children[0] = 'body';
-      $group_simplenews->children[1] = 'field_simplenews_term';
-      $group_simplenews->children[2] = 'title_field';
-      field_group_group_save($group_simplenews);
-    }
-
+      'default_value' => NULL,
+      'deleted' => 0,
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 5,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'title_field',
+      'label' => $t('Title'),
+      'required' => TRUE,
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'hide_label' => array(
+          'entity' => FALSE,
+          'page' => FALSE,
+        ),
+        'text_processing' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'module' => 'text',
+        'settings' => array(
+          'size' => 60,
+        ),
+        'type' => 'text_textfield',
+        'weight' => -5,
+      ),
+    );
+    field_create_instance($field_instances['node-simplenews-title_field']);
+  }
+  else {
+    $instance_info = field_info_instance('node', 'title_field', 'simplenews');
+    $instance_info['label'] = $t('Title');
+    field_update_instance($instance_info);
   }
 
-  // How many nodes should be processed per pass.
-  $nodes_per_pass = 10;
+  $groups = field_group_read_groups(array(
+    'entity_type' => 'node',
+    'bundle' => 'simplenews',
+    'mode' => 'form',
+  ));
 
-  // Get the nodes to process during this pass.
-  $result = db_query_range("SELECT nid FROM {node} WHERE type='simplenews'", $sandbox['current'], $nodes_per_pass);
-  while ($row = $result->fetchAssoc()) {
-    $node = node_load($row['nid']);
-    $node->title = $node->title;
+  if (field_group_exists('group_newsletter_metadata', 'node', 'simplenews', 'form')) {
+    $group_newsletter_metadata = $groups['node']['simplenews']['form']['group_newsletter_metadata'];
+    $group_newsletter_metadata->children[0] = 'field_related_contents';
+    $group_newsletter_metadata->children[1] = 'field_tags';
+    $group_newsletter_metadata->children[2] = 'language';
+  }
 
-    $fields = field_info_instances('node', 'simplenews');
+  if (field_group_exists('group_simplenews', 'node', 'simplenews', 'form')) {
+    field_group_group_save($group_newsletter_metadata);
+    $group_simplenews = $groups['node']['simplenews']['form']['group_simplenews'];
+    $group_simplenews->children[0] = 'body';
+    $group_simplenews->children[1] = 'field_simplenews_term';
+    $group_simplenews->children[2] = 'title_field';
+    field_group_group_save($group_simplenews);
+  }
+}
 
-    foreach ($fields as $field_name => $field_definition) {
-      $instance_info = field_info_instance('node', $field_name, 'simplenews');
-      $instance_info['label'] = $t($instance_info['label']);
-      field_update_instance($instance_info);
 
-      $field_info = field_info_field($field_name);
-      // TO DO: just change to translatable those fields
-      // that should be translatable, as text, etc.
-      if ($field_info['type'] == 'text' || $field_info['type'] == 'text_long' || $field_info['text_with_summary'] || $field_info['type'] == 'link_field') {
-        $field_info['translatable'] = 1;
-        field_update_field($field_info);
-      }
+
+/**
+ * Update the fields of simplenews content type for entity translation.
+ */
+function _newsletters_node_update($row) {
+  $t = get_t();
+  $node = node_load($row['nid']);
+  $node->title = $node->title;
+
+  $fields = field_info_instances('node', 'simplenews');
+
+  foreach ($fields as $field_name => $field_definition) {
+    $instance_info = field_info_instance('node', $field_name, 'simplenews');
+    $instance_info['label'] = $t($instance_info['label']);
+    field_update_instance($instance_info);
+
+    $field_info = field_info_field($field_name);
+    if ($field_info['type'] == 'text' || $field_info['type'] == 'text_long' || $field_info['text_with_summary'] || $field_info['type'] == 'link_field') {
+      $field_info['translatable'] = 1;
+      field_update_field($field_info);
     }
-
-    node_save($node);
-    drupal_set_message(t('We processed node @nid', array('@nid' => $node->nid)));
-
-    // Increment "current" by 1.
-    $sandbox['current']++;
   }
-  // Set the value for finished.
-  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
-  if ($sandbox['#finished'] === 1) {
-    drupal_set_message(t('@nodes nodes were processed', array('@nodes' => $sandbox['total'])));
-  }
+
+  node_save($node);
+  drupal_set_message(t('We processed node @nid', array('@nid' => $node->nid)));
 }
