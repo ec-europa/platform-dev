@@ -33,7 +33,9 @@ class DrupalExtension extends OriginalDrupalExtension {
             scalarNode('front_message_selector')->end()->
             scalarNode('front_error_message_selector')->end()->
             scalarNode('front_success_message_selector')->end()->
-            scalarNode('front_warning_message_selector')->end();
+            scalarNode('front_warning_message_selector')->end()->
+            scalarNode('logged_in_selector')->end()->
+            scalarNode('login_form_selector')->end();
     // @codingStandardsIgnoreEnd
   }
 
