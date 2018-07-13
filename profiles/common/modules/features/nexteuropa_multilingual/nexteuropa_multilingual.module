@@ -756,7 +756,7 @@ function nexteuropa_multilingual_latest_path_load($path, $language_code = NULL) 
 
   $conditions = array('source' => $path);
   if (!empty($language_code)) {
-    $conditions = array('language' => $language_code);
+    $conditions['language'] = $language_code;
   }
 
   $select = db_select('url_alias');
