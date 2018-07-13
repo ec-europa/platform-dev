@@ -5,13 +5,8 @@
  * Code for the newsletters module.
  */
 
-
-
-
-
-
 /**
- * Soft configure simplenews content type
+ * Soft configure simplenews content type.
  */
 function _newsletters_install_soft_config_simplenews() {
   // Use soft config for newsletters comment form location.
@@ -285,7 +280,7 @@ function _newsletters_install_soft_config_simplenews() {
 }
 
 /**
- * Add translations to simplenews content type
+ * Add translations to simplenews content type.
  */
 function _newsletters_update_translations() {
   $t = get_t();
@@ -293,6 +288,10 @@ function _newsletters_update_translations() {
   // If this is the first pass through this update
   // function then set some variables.
   if (!isset($sandbox['total'])) {
+    $result = db_query("SELECT nid FROM {node} WHERE type='simplenews'");
+    $sandbox['total'] = $result->rowCount();
+    $sandbox['current'] = 0;
+
     // Check if the content type has content translation.
     $translation_support = variable_get('language_content_type_simplenews', 0);
 
@@ -325,9 +324,6 @@ function _newsletters_update_translations() {
     $group_simplenews->children[2] = 'title_field';
     field_group_group_save($group_simplenews);
 
-    $result = db_query("SELECT nid FROM {node} WHERE type='simplenews'");
-    $sandbox['total'] = $result->rowCount();
-    $sandbox['current'] = 0;
   }
 
   // How many nodes should be processed per pass.
