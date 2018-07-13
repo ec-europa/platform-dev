@@ -359,8 +359,6 @@ function _newsletters_soft_config_title_field() {
   }
 }
 
-
-
 /**
  * Update the fields of simplenews content type for entity translation.
  */

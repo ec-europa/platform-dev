@@ -57,7 +57,7 @@ function newsletters_update_7001(&$sandbox) {
     // Activate entity translation.
     variable_set('language_content_type_simplenews', 4);
 
-    // Configure title_field and field_groups
+    // Configure title_field and field_groups.
     _newsletters_soft_config_title_field();
   }
 
