@@ -359,16 +359,20 @@ function _newsletters_update_translations() {
       'bundle' => 'simplenews',
       'mode' => 'form',
     ));
-    $group_newsletter_metadata = $groups['node']['simplenews']['form']['group_newsletter_metadata'];
-    $group_newsletter_metadata->children[0] = 'field_related_contents';
-    $group_newsletter_metadata->children[1] = 'field_tags';
-    $group_newsletter_metadata->children[2] = 'language';
-    field_group_group_save($group_newsletter_metadata);
-    $group_simplenews = $groups['node']['simplenews']['form']['group_simplenews'];
-    $group_simplenews->children[0] = 'body';
-    $group_simplenews->children[1] = 'field_simplenews_term';
-    $group_simplenews->children[2] = 'title_field';
-    field_group_group_save($group_simplenews);
+    if (field_group_exists('group_newsletter_metadata', 'node', 'simplenews', 'form')) {
+      $group_newsletter_metadata = $groups['node']['simplenews']['form']['group_newsletter_metadata'];
+      $group_newsletter_metadata->children[0] = 'field_related_contents';
+      $group_newsletter_metadata->children[1] = 'field_tags';
+      $group_newsletter_metadata->children[2] = 'language';
+    }
+    if (field_group_exists('group_simplenews', 'node', 'simplenews', 'form')) {
+      field_group_group_save($group_newsletter_metadata);
+      $group_simplenews = $groups['node']['simplenews']['form']['group_simplenews'];
+      $group_simplenews->children[0] = 'body';
+      $group_simplenews->children[1] = 'field_simplenews_term';
+      $group_simplenews->children[2] = 'title_field';
+      field_group_group_save($group_simplenews);
+    }
 
   }
 
