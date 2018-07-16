@@ -3,6 +3,7 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 
 /**
  * Context for configuring the SchedulerContext.
@@ -16,6 +17,23 @@ class SchedulerContext implements Context {
    */
   protected $variableContext;
 
+  /**
+   * The Mink context.
+   *
+   * @var MinkContext
+   */
+  protected $mink;
+
+  /**
+   * Gathers other contexts we rely on, before the scenario starts.
+   *
+   * @BeforeScenario
+   */
+  public function gatherContexts(BeforeScenarioScope $scope) {
+    $environment = $scope->getEnvironment();
+
+    $this->mink = $environment->getContext(MinkContext::class);
+  }
   /**
    * Update unpublishing date of a node.
    *
@@ -38,5 +56,28 @@ class SchedulerContext implements Context {
       throw new \InvalidArgumentException("Node '{$title}' of type '{$type}' not found.");
     }
   }
-
+  /**
+   * @Then I fill in :arg1 with current day
+   */
+  public function iFillInWithCurrentDay($arg1) {
+    $page = $this->mink->getSession()->getPage();
+    $element = $page->findField($arg1);
+    if (NULL === $element) {
+      throw new \InvalidArgumentException(sprintf('Could not find: "%s"', $arg1));
+    }
+    $element->setValue(date('Y-m-d'));
+  }
+  /**
+   * @Then I fill in :arg1 with future time
+   */
+  public function iFillInWithFutureTime($arg1) {
+    $page = $this->mink->getSession()->getPage();
+    $element = $page->findField($arg1);
+    if (NULL === $element) {
+      throw new \InvalidArgumentException(sprintf('Could not find: "%s"', $arg1));
+    }
+    $tiempo = time();
+    $scheduler = date('H:i:10', time() + 60);
+    $element->setValue($scheduler);
+  }
 }
