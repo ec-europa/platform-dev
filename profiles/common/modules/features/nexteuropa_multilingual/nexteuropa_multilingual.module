@@ -329,7 +329,7 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity_type, $entit
     return FALSE;
   }
   $entity_path = $entity_uri['path'];
-  $language_none_path = nexteuropa_multilingual_latest_path_load($entity_path, LANGUAGE_NONE);
+  $language_none_path = path_load(array('source' => $entity_path, 'language' => LANGUAGE_NONE));
   $language_none_alias = ($language_none_path) ? $language_none_path['alias'] : FALSE;
 
   // Logic below is taken from Pathauto itself.
@@ -724,51 +724,4 @@ function nexteuropa_multilingual_entity_info_alter(&$entity_info) {
       $entity_info['file']['translation']['entity_translation']['class'] = 'NexteuropaMultilingualEntityTranslationFileHandler';
     }
   }
-}
-
-/**
- * Gets the latest URL alias specific to a path from the database.
- *
- * It is an alternative to path_load function that does not support the
- * existence of several alias for the same path.
- * This case occurs when the pathauto "pathauto_update_action" variable is set
- * to 1 ("Create a new alias. Leave the existing alias functioning.").
- *
- * @param string $path
- *   The internal system path from which retrieving the alias.
- * @param string $language_code
- *   The language code associated with the internal system path.
- *
- * @return array|bool
- *   FALSE if no alias was found or an associative array containing the
- *   following keys:
- *   - source: The internal system path.
- *   - alias: The latest URL alias set for the internal path.
- *   - pid: Unique path alias identifier.
- *   - language: The language of the alias.
- *
- * @see path_load()
- */
-function nexteuropa_multilingual_latest_path_load($path, $language_code = NULL) {
-  if (empty($path)) {
-    return FALSE;
-  }
-
-  $conditions = array('source' => $path);
-  if (!empty($language_code)) {
-    $conditions['language'] = $language_code;
-  }
-
-  $select = db_select('url_alias');
-  foreach ($conditions as $field => $value) {
-    $select->condition($field, $value);
-  }
-
-  // We use a "DESC" order in order to have the highest pid that corresponds to
-  // the latest alias for the internal system path.
-  return $select
-    ->fields('url_alias')
-    ->orderBy('pid', 'DESC')
-    ->execute()
-    ->fetchAssoc();
 }
