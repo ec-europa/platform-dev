@@ -34,6 +34,7 @@ class SchedulerContext implements Context {
 
     $this->mink = $environment->getContext(MinkContext::class);
   }
+
   /**
    * Update unpublishing date of a node.
    *
@@ -56,7 +57,10 @@ class SchedulerContext implements Context {
       throw new \InvalidArgumentException("Node '{$title}' of type '{$type}' not found.");
     }
   }
+
   /**
+   * Adds the current day with format Y-m-d.
+   *
    * @Then I fill in :arg1 with current day
    */
   public function iFillInWithCurrentDay($arg1) {
@@ -67,7 +71,10 @@ class SchedulerContext implements Context {
     }
     $element->setValue(date('Y-m-d'));
   }
+
   /**
+   * Adds future time from now to the field with format H:m+1:10.
+   *
    * @Then I fill in :arg1 with future time
    */
   public function iFillInWithFutureTime($arg1) {
@@ -76,8 +83,8 @@ class SchedulerContext implements Context {
     if (NULL === $element) {
       throw new \InvalidArgumentException(sprintf('Could not find: "%s"', $arg1));
     }
-    $tiempo = time();
     $scheduler = date('H:i:10', time() + 60);
     $element->setValue($scheduler);
   }
+
 }
