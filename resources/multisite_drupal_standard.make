@@ -610,7 +610,7 @@ projects[redirect][download][revision] = add3c695f613fbeec23b7259e59936f60a6b6da
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1943
 projects[redirect][patch][] = https://www.drupal.org/files/issues/2018-06-24/redirect-increase-size-fields-to-900-2057615-35.patch
 ; Prevent new redirects from being deleted on cron runs.
-; https://www.drupal.org/node/1396446 
+; https://www.drupal.org/node/1396446
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
 projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05-09/redirect-purge-from-created-1396446-54.patch
 ; Prevent duplicate hashes causing database exceptions
@@ -618,9 +618,9 @@ projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1946
 ; The creation of a specific patch based on
 ; https://www.drupal.org/files/issues/redirect-duplicate_redirect_save_handling-2260499-11.patch
-; is necessary because it is in conflict with the 2 other "Redirect" patches and rerolling the D.o issue 
+; is necessary because it is in conflict with the 2 other "Redirect" patches and rerolling the D.o issue
 ; is not possible as the 2 others are not committed in the DEV branch.
-projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch 
+projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
@@ -640,6 +640,10 @@ projects[scheduler][version] = 1.5
 
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
+; Allow to schedule the publish date of a revision
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
+; https://www.drupal.org/project/scheduler_workbench/issues/2048999
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/scheduler_workbench-revision_publish-2048999-45.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.22
@@ -849,7 +853,7 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; Issue #2825391 Fix current state for transition rules
 ; https://www.drupal.org/node/2825391
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
-projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch 
+projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch
 
 ; Workbench_og does not have a stable version that allows applying the 2
 ; patches needed to fix the issues NEPT-296 AND NEPT-1866.
