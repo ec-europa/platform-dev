@@ -824,15 +824,15 @@ projects[workbench_access][subdir] = "contrib"
 projects[workbench_access][version] = "1.4"
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.6"
+projects[workbench_email][version] = "3.12"
 ; Issue #2501321: Add email subject and message to Features.
-; https://www.drupal.org/node/2501321
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
-projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
-; Issue only reproducible on NextEuropa platform
 ; https://www.drupal.org/node/2590385
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
-projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/2018-07-13/workbench_email-feature_revert_lock-3.patch
+; Issue #2985968: Notice: Undefined index: config_container in workbench_email_form_submit().
+; https://www.drupal.org/project/workbench_email/issues/2985968
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1996
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/2018-07-16/php_notice_undefined_index-config_container-1.patch
 
 projects[drafty][subdir] = "contrib"
 projects[drafty][version] = "1.0-rc1"
