@@ -505,6 +505,10 @@ projects[metatag][version] = "1.22"
 
 projects[migrate][subdir] = contrib
 projects[migrate][version] = "2.11"
+; Migration::applyMappings() problem with handle multifield subfields.
+; https://www.drupal.org/project/migrate/issues/2588341
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2000
+projects[migrate][patch][2588341] = https://www.drupal.org/files/issues/2018-06-25/2588341-9.patch
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0"
