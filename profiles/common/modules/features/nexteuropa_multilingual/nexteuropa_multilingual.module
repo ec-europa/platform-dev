@@ -345,7 +345,6 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity_type, $entit
     );
   }
 
-
   module_load_include('inc', 'pathauto');
   $pathauto_alias = pathauto_create_alias($entity_type, 'return', $entity_path, array($entity_type => $entity), $bundle, LANGUAGE_NONE);
   $pathauto = ($language_none_alias != $entity_path && $language_none_alias == $pathauto_alias);
