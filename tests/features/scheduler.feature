@@ -1,4 +1,4 @@
-@api @javascript  @maximizedwindow
+@api @javascript
 Feature: Scheduler features
   In order to moderate contents
   As an administrator
@@ -36,11 +36,10 @@ Feature: Scheduler features
     And I press "Run cron"
     And I visit the "page" content with title "New revision"
     Then I should see the text "Revision state: Published"
-    @wip
   Scenario: User can schedule a date to unpublish a content
     When I go to "node/add/page"
     And I fill in "Title" with "Old content"
-     And I click "Publishing options"
+    And I click "Publishing options"
     And I select "Published" from "Moderation state"
     And I click "Metadata"
     And I click "Scheduling options"
