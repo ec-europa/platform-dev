@@ -634,11 +634,7 @@ projects[registry_autoload][version] = 1.3
 projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issues/autoload_bootstrap_dependency_issues-2870868-2.patch
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.10"
-; #2851567 rules_init() and cache rebuilding are broken
-; https://www.drupal.org/project/rules/issues/2851567
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1325
-projects[rules][patch][2851567] = https://www.drupal.org/files/issues/rules_init_and_cache-2851567-8.patch
+projects[rules][version] = "2.11"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
