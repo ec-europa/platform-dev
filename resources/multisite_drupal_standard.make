@@ -627,6 +627,11 @@ projects[registration][version] = "1.6"
 
 projects[registry_autoload][subdir] = "contrib"
 projects[registry_autoload][version] = 1.3
+; class_implements(): Class Drupal\integration\Backend\Entity\
+; BackendEntityController does not exist and could not be loaded entity.module:1480
+; https://www.drupal.org/node/2870868
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1950
+projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issues/autoload_bootstrap_dependency_issues-2870868-2.patch
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.10"
