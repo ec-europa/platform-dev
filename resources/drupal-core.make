@@ -52,12 +52,12 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sa
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-doc-theme-attributes-d7-569362-53.patch
 
 ; Fix empty label on validation error message for multiple required textfield.
-; https://www.drupal.org/node/980144#comment-11695545 
+; https://www.drupal.org/node/980144#comment-11695545
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-224
 projects[drupal][patch][] = https://www.drupal.org/files/issues/980144-98_0.patch
 
 ; Reverting to revisions prior to addition of field translations is broken.
-; https://www.drupal.org/node/1992010 
+; https://www.drupal.org/node/1992010
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-495
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-revision-revert-messes-up-field-translation-1992010-31_D7.patch
 
@@ -65,3 +65,8 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-revision-
 ; http://drupal.org/node/601776
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-548
 projects[drupal][patch][] = https://www.drupal.org/files/601776-contact-core-134.patch
+
+; Allow urls with ( and ) https://www.drupal.org/files/issues/filter-urlfilter-i18n-1657886-39.patch.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1995
+; See https://www.drupal.org/project/drupal/issues/1657886.
+projects[drupal][patch][] = https://www.drupal.org/files/issues/filter-urlfilter-i18n-1657886-39.patch
