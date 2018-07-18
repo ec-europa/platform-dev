@@ -40,7 +40,6 @@ function survey_core_menu() {
   return $items;
 }
 
-
 /**
  * Display analysis results of a webform.
  *

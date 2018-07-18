@@ -85,3 +85,13 @@ function multisite_settings_core_update_7123() {
   include_once DRUPAL_ROOT . '/includes/language.inc';
   language_types_set();
 }
+
+/**
+ * Enable "NextEuropa Administration Language" with the platform settings.
+ */
+function multisite_settings_core_update_7124() {
+  if (module_exists('admin_language')) {
+    return t('nexteuropa_admin_language is not enabled because "admin_language" already is.');
+  }
+  module_enable(array('nexteuropa_admin_language'));
+}

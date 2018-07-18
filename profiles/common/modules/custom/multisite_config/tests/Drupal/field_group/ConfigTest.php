@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\multisite_config\Tests\Drupal\field_group.
- */
-
 namespace Drupal\multisite_config\Tests\Drupal\field_group;
 
 use Drupal\multisite_config\Tests\ConfigAbstractTest;

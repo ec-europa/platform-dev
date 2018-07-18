@@ -1,14 +1,10 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\BeanContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
 use Drupal\nexteuropa\Component\Utility\Transliterate;
+use Rych\Random\Random;
 
 /**
  * Context for configuring the Bean.
@@ -41,7 +37,7 @@ class BeanContext implements Context {
    */
   public function __construct() {
     $this->transliterate = new Transliterate();
-    $this->random = new \Rych\Random\Random();
+    $this->random = new Random();
   }
 
   /**

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\pathauto\\Config.
- */
-
 namespace Drupal\pathauto;
 
 use Drupal\multisite_config\ConfigBase;

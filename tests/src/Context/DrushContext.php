@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\DrushContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Hook\Scope\BeforeFeatureScope;
@@ -81,6 +76,7 @@ class DrushContext extends DrupalExtensionDrushContext {
     else {
       self::dropDataBase();
       self::importDataBase();
+      self::resetStatic();
     }
 
     self::$startFeature = microtime(TRUE);
@@ -140,6 +136,15 @@ class DrushContext extends DrupalExtensionDrushContext {
   private static function clearAllCaches() {
     print('Clearing all caches.' . PHP_EOL);
     $command = "cc all -y";
+    self::runStaticDrushCommand($command);
+  }
+
+  /**
+   * Clears static variables.
+   */
+  private static function resetStatic() {
+    print('Reset static variables.' . PHP_EOL);
+    $command = "eval 'drupal_static_reset()'";
     self::runStaticDrushCommand($command);
   }
 

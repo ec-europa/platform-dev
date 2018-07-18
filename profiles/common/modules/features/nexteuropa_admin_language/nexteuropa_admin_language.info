@@ -1,0 +1,6 @@
+name = NextEuropa Administration Language
+description = Feature with the default settings for the "Administration language negotiation" module.
+core = 7.x
+
+dependencies[] = administration_language_negotiation
+dependencies[] = multisite_config

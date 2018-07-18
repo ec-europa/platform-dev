@@ -1,20 +1,11 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\PoetryContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use Drupal\nexteuropa\Component\PyStringYamlParser;
-use Drupal\ne_dgt_rules\DgtRulesTools;
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\equals;
 
 /**
  * Class PoetryContext.
@@ -22,37 +13,38 @@ use function bovigo\assert\predicate\equals;
  * @package Drupal\nexteuropa\Context
  */
 class PoetryContext implements Context {
-    /**
-     * The variable context.
-     *
-     * @var VariableContext
-     */
-    protected $variables;
 
-    /**
-     * Gathers other contexts we rely on, before the scenario starts.
-     *
-     * @BeforeScenario @poetry
-     */
-    public function gatherContexts(BeforeScenarioScope $scope) {
-        $environment = $scope->getEnvironment();
-        $this->variables = $environment->getContext(VariableContext::class);
-    }
+  /**
+   * The variable context.
+   *
+   * @var VariableContext
+   */
+  protected $variables;
 
-    /**
-     * Override Poetry settings.
-     *
-     * Important: remove poetry_service overrides from your settings.php as it
-     * would override the following step.
-     *
-     * @param \Behat\Gherkin\Node\PyStringNode $string
-     *   Settings in PyString format.
-     *
-     * @Given the following Poetry settings:
-     */
-    public function theFollowingPoetrySettings(PyStringNode $string) {
-        $parser = new PyStringYamlParser($string);
-        $this->variables->setVariable('poetry_service', $parser->parse());
-    }
+  /**
+   * Gathers other contexts we rely on, before the scenario starts.
+   *
+   * @BeforeScenario @poetry
+   */
+  public function gatherContexts(BeforeScenarioScope $scope) {
+    $environment = $scope->getEnvironment();
+    $this->variables = $environment->getContext(VariableContext::class);
+  }
+
+  /**
+   * Override Poetry settings.
+   *
+   * Important: remove poetry_service overrides from your settings.php as it
+   * would override the following step.
+   *
+   * @param \Behat\Gherkin\Node\PyStringNode $string
+   *   Settings in PyString format.
+   *
+   * @Given the following Poetry settings:
+   */
+  public function theFollowingPoetrySettings(PyStringNode $string) {
+    $parser = new PyStringYamlParser($string);
+    $this->variables->setVariable('poetry_service', $parser->parse());
+  }
 
 }

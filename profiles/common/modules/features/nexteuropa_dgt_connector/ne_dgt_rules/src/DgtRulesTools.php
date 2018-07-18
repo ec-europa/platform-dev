@@ -1,16 +1,12 @@
 <?php
 
-/**
- * @file
- * Helper class with helper static methods for the NE DGT Rules module.
- */
-
 namespace Drupal\ne_dgt_rules;
 
 use EntityFieldQuery;
 use TMGMTException;
 use TMGMTJob;
 use TMGMTJobItem;
+use EC\Poetry\Messages\Components\Status;
 use EC\Poetry\Messages\Components\Identifier;
 
 /**
@@ -19,6 +15,7 @@ use EC\Poetry\Messages\Components\Identifier;
  * Helper class with helper static methods.
  */
 class DgtRulesTools {
+
   /**
    * Checks if all of the organisation parameters are set.
    *
@@ -32,11 +29,9 @@ class DgtRulesTools {
     foreach ($parameters as $parameters_group) {
       foreach ($parameters_group as $parameter) {
         if (empty($parameter)) {
-
           return FALSE;
         }
       }
-
     }
 
     return TRUE;
@@ -128,13 +123,15 @@ class DgtRulesTools {
    *   The default translator fot the FTT workflow.
    * @param object $node
    *   The node that needs to be reviewed by the DGT Reviewer.
+   * @param array $parameters
+   *   An array with additional parameters.
    * @param string $target_language
    *   The target language.
    *
-   * @return TMGMTJob
+   * @return \TMGMTJob
    *   Returns created TMGMT Job.
    */
-  public static function createTmgmtJobAndItemForNode($default_translator, $node, $parameters, $target_language = '') {
+  public static function createTmgmtJobAndItemForNode($default_translator, $node, array $parameters, $target_language = '') {
     // Getting the default translator object.
     $translator = tmgmt_translator_load($default_translator);
 
@@ -206,12 +203,12 @@ class DgtRulesTools {
   /**
    * Return related translations by the translated entity id.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   The TMGMT job.
    * @param \EC\Poetry\Messages\Components\Status $status
    *   The status.
    */
-  public static function updateStatusTmgmtJob(TMGMTJob $job, \EC\Poetry\Messages\Components\Status $status) {
+  public static function updateStatusTmgmtJob(TMGMTJob $job, Status $status) {
     $status_map = array(
       'SUS' => TMGMT_JOB_STATE_ACTIVE,
       'ONG' => TMGMT_JOB_STATE_ACTIVE,
@@ -254,7 +251,7 @@ class DgtRulesTools {
   /**
    * Return related translations by the translated entity id.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   The TMGMT job.
    * @param string $content
    *   The content of the translation.
@@ -349,9 +346,9 @@ class DgtRulesTools {
   /**
    * Return related translations by the translated entity id.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   The TMGMT Job object.
-   * @param TMGMTJobItem $job_item
+   * @param \TMGMTJobItem $job_item
    *   The TMGMT Job Item object.
    * @param string $content
    *   The translation content.
@@ -424,7 +421,7 @@ class DgtRulesTools {
   /**
    * Return related translations by the translated entity id.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   The TMGMT job.
    * @param string $message
    *   The message.
@@ -450,7 +447,7 @@ class DgtRulesTools {
   /**
    * Sends the review request to DGT Services for a given node.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   TMGMT Job object.
    * @param array $parameters
    *   An array with additional parameters.
@@ -468,7 +465,7 @@ class DgtRulesTools {
   /**
    * Sends the translation request to DGT Services for a given node.
    *
-   * @param boolean $direct_translation
+   * @param bool $direct_translation
    *   The direct translation flag.
    * @param string $default_translator
    *   The default translator fot the FTT workflow.
@@ -490,7 +487,7 @@ class DgtRulesTools {
   /**
    * Returns all mapping entities based on a request identifier.
    *
-   * @param Identifier $identifier
+   * @param \EC\Poetry\Messages\Components\Identifier $identifier
    *   The translation request identifier.
    *
    * @return array
@@ -517,7 +514,7 @@ class DgtRulesTools {
    * @param object $node
    *   The Node Object.
    *
-   * @return object | NULL $maps
+   * @return object|null
    *   FTT Map object.
    */
   public static function findMappingsByNode($node) {
@@ -535,7 +532,7 @@ class DgtRulesTools {
   /**
    * Logs the DGT Service response data.
    *
-   * @param Identifier $identifier
+   * @param \EC\Poetry\Messages\Components\Identifier $identifier
    *   The identifier.
    * @param string $type
    *   The type of response, e.g. "Status Update" or "Translation Received".
