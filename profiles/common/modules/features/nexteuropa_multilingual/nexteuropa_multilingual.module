@@ -332,9 +332,18 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity_type, $entit
   $language_none_path = path_load(array('source' => $entity_path, 'language' => LANGUAGE_NONE));
   $language_none_alias = ($language_none_path) ? $language_none_path['alias'] : FALSE;
 
-  // Check if pathauto is activated in LANGUAGE_NONE case.
-  // Logic is taken from Pathauto itself.
+  // Logic below is taken from Pathauto itself.
   // @see pathauto_entity_presave() & pathauto_field_attach_form().
+  if (isset($entity->path['pathauto'])) {
+    return array(
+      'pid' => $language_none_path['pid'],
+      'alias' => $language_none_alias,
+      'pathauto' => $entity->path['pathauto'],
+      'language' => $language_none_path['language'],
+    );
+  }
+
+  // Check if pathauto is activated in LANGUAGE_NONE case.
   module_load_include('inc', 'pathauto');
   $pathauto_alias = pathauto_create_alias($entity_type, 'return', $entity_path, array($entity_type => $entity), $bundle, LANGUAGE_NONE);
   $pathauto = ($language_none_alias != $entity_path && $language_none_alias == $pathauto_alias);
@@ -460,7 +469,6 @@ function nexteuropa_multilingual_path_update($path) {
  *     - language: The language of the alias.
  */
 function _nexteuropa_multilingual_path_und_sync($path) {
-
   // We must pass through a basic path parsing and a db_select because:
   // - The menu_get_object function makes a access control and a redirection to
   // the home page if users do not have access permission.
@@ -484,61 +492,84 @@ function _nexteuropa_multilingual_path_und_sync($path) {
   if (!isset($translation_mechanism) || $translation_mechanism != ENTITY_TRANSLATION_ENABLED) {
     return;
   }
+  // If the patch language is already neutral, Then no need to process it
+  // further.
+  if ($path['language'] == LANGUAGE_NONE) {
+    return;
+  }
 
-  if ($path['language'] != LANGUAGE_NONE) {
-    // We synchronize the alias to force all aliases to be saved as
-    // language neutral.
-    $query = db_select('url_alias', 'ua')->condition('source', $path['source']);
-    $query->fields('ua', array('pid', 'language', 'alias'));
-    $existing_paths = $query->execute()->fetchAll();
-    $count = count($existing_paths);
+  module_load_include('inc', 'pathauto');
+  // Configuration path creation.
+  $update_action = variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE);
+  switch ($update_action) {
+    // Pathauto Update action: Do nothing. Leave the old alias intact.
+    case 0:
+      // Get potential old alias to see if we must delete the newly created
+      // alias.
+      $check_query = db_select('url_alias', 'u')
+        ->fields('u', array('pid'))
+        ->condition('pid', $path['pid'], '<>')
+        ->condition('source', $path['source'], '=');
+      $alias_count = $check_query->countQuery()->execute()->fetchField();
 
-    switch ($count) {
-      case 1:
-        // Creation with custom alias (we update the record only).
-        $path['language'] = LANGUAGE_NONE;
-        drupal_write_record('url_alias', $path, array('pid'));
-        break;
+      if ($alias_count >= 1) {
+        db_delete('url_alias')
+          ->condition('pid', $path['pid'], '=')
+          ->execute();
+        // No need to continue the process as the newly created alias has
+        // been deleted.
+        return;
+      }
 
-      default:
-        // Update with custom alias
-        // (We update the LANGUAGE_NONE value and delete the others).
-        $language_none_exist = FALSE;
-        foreach ($existing_paths as $existing_path) {
-          if ($existing_path->language == LANGUAGE_NONE) {
-            $existing_path->alias = $path['alias'];
-            drupal_write_record('url_alias', $existing_path, array('pid'));
-            $language_none_exist = TRUE;
-            break;
-          }
-        }
-        module_load_include('inc', 'pathauto');
-        $is_old_alias_to_delete = variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE);
-        // Special case: If the LANGUAGE_NONE value exists, the current
-        // treated path becomes the LANGUAGE_NONE value.
-        if (!$language_none_exist) {
-          $path['language'] = LANGUAGE_NONE;
-          drupal_write_record('url_alias', $path, array('pid'));
-          if (!$is_old_alias_to_delete) {
-            // We keep the Path normal process.
-            break;
-          }
+      // First alias saving, change alias to neutral language.
+      $path['language'] = LANGUAGE_NONE;
+      drupal_write_record('url_alias', $path, array('pid'));
+      break;
 
-        }
+    // Pathauto Update action: Create a new alias. Leave the existing alias
+    // functioning.
+    case 1:
+      // Change alias to neutral language.
+      $path['language'] = LANGUAGE_NONE;
+      drupal_write_record('url_alias', $path, array('pid'));
+      // Get duplicates of the new alias to delete them; only keep the
+      // latest alias.
+      $pids = db_select('url_alias', 'u')
+        ->fields('u', array('pid'))
+        ->condition('pid', $path['pid'], '<>')
+        ->condition('source', $path['source'], '=')
+        ->condition('alias', $path['alias'], '=')
+        ->condition('language', LANGUAGE_NONE, '=')
+        ->execute()
+        ->fetchCol();
 
-        // If we have 2, that means we still in the creation case and then
-        // we delete the unwanted alias record to force to only have the
-        // LANGUAGE_NONE alias.
-        // If we have more than 2, that means we face an entity created before
-        // the implementation of this hook and we need to take into account of
-        // the Path/Pathauto config.
-        if (($count == 2) || $is_old_alias_to_delete) {
-          db_delete('url_alias')->condition('source', $path['source'])
-            ->condition('language', LANGUAGE_NONE, '<>')
-            ->execute();
-        }
-        break;
-    }
+      if (!empty($pids)) {
+        db_delete('url_alias')
+          ->condition('pid', $pids, 'IN')
+          ->execute();
+      }
+      break;
+
+    // Pathauto Update action: Create a new alias. Delete the old alias.
+    case 2:
+      // Change alias to neutral language.
+      $path['language'] = LANGUAGE_NONE;
+      drupal_write_record('url_alias', $path, array('pid'));
+      // Get all node alias.
+      // Keep only last alias.
+      $pids = db_select('url_alias', 'u')
+        ->fields('u', array('pid'))
+        ->condition('source', $path['source'], '=')
+        ->condition('pid', $path['pid'], '<>')
+        ->execute()
+        ->fetchCol();
+
+      if (!empty($pids)) {
+        db_delete('url_alias')
+          ->condition('pid', $pids, 'IN')
+          ->execute();
+      }
+      break;
   }
 }
 
