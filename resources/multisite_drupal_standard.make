@@ -882,7 +882,7 @@ projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.3"
+projects[xmlsitemap][version] = "2.4"
 ; Using rel="alternate" rather than multiple sitemaps by language context
 ; https://www.drupal.org/node/1670086
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
