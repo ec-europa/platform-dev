@@ -455,19 +455,39 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
       switch ($attrname) {
         case 'style':
           $attrinfo['value'] = multisite_drupal_toolbox_filter_xss_style_attribute($attrinfo['value'], $allowed_style_urls, $allowed_properties);
+
+          // If the value is empty, no need to keep it in the display.
+          if (empty($attrinfo['value'])) {
+            continue;
+          }
           break;
 
         case 'class':
           $attrinfo['value'] = multisite_drupal_toolbox_filter_xss_class_attribute($attrinfo['value'], $allowed_class_names);
+
+          // If the value is empty, no need to keep it in the display.
+          if (empty($attrinfo['value'])) {
+            continue;
+          }
           break;
 
         case 'id':
           $attrinfo['value'] = multisite_drupal_toolbox_filter_xss_id_attribute($attrinfo['value'], $allowed_element_ids);
+
+          // If the value is empty, no need to keep it in the display.
+          if (empty($attrinfo['value'])) {
+            continue;
+          }
           break;
 
         case 'title':
         case 'alt':
           $attrinfo['value'] = filter_xss($attrinfo['value']);
+
+          // If the value is empty, no need to keep it in the display.
+          if (empty($attrinfo['value'])) {
+            continue;
+          }
           break;
 
         case 'href':
@@ -475,11 +495,20 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
           if ($element == 'a' && !$force_nofollow_rel) {
             $force_nofollow_rel = multisite_drupal_toolbox_is_nofollow_link($attrinfo['value'], $nofollow_policy, $nofollow_domains);
           }
+
+          // If the value is empty, no need to keep it in the display.
+          if (empty($attrinfo['value'])) {
+            continue;
+          }
           break;
 
         default:
           // All attribute values are checked for bad protocols.
           // This is the same exact method used by Drupal's filter_xss().
+          // Unlike attributes managed in previous cases, the attribute is
+          // left; even if there is no value to set because some javascript or
+          // display features require it like ckeditor_lite one for the display
+          // of the related metadata attribute like: data-changedata="".
           if (preg_match('/\[([^\s\[\]:]*):([^\[\]]*)\]/', $attrinfo['value'])) {
             $attrinfo['value'] = filter_xss($attrinfo['value']);
           }
@@ -489,10 +518,6 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
           break;
       }
 
-      // Build parsed attribute value; unless if the filtered value is empty.
-      if (empty($attrinfo['value'])) {
-        continue;
-      }
       $parsed_attribute .= '=' . $attrinfo['delimiter'] . $attrinfo['value'] . $attrinfo['delimiter'];
     }
 
