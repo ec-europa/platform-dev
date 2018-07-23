@@ -853,6 +853,11 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; https://www.drupal.org/node/2825391
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
 projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch
+; Issue #2218133 : Workbench Moderation and Entity Translation integration
+; Issue #1707156 : Workbench Moderation integration
+; https://www.drupal.org/project/workbench_moderation/issues/2218133
+projects[workbench_moderation][patch][] =	https://www.drupal.org/files/issues/workbench_moderation-2218133-42.patch
+
 
 ; Workbench_og does not have a stable version that allows applying the 2
 ; patches needed to fix the issues NEPT-296 AND NEPT-1866.
