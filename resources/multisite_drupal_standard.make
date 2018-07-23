@@ -256,9 +256,6 @@ projects[facetapi][version] = "1.5"
 projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
 
-projects[fblikebutton][subdir] = "contrib"
-projects[fblikebutton][version] = "2.6"
-
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.10"
 ; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
