@@ -152,18 +152,4 @@ EOS;
     return str_replace('\\"', '"', $argument);
   }
 
-  /**
-   * Check button doesn't exist.
-   *
-   * @Then I (should )not see the button :button
-   * @Then I (should )not see the :button button
-   */
-  public function assertNoButton($button) {
-    $element = $this->getSession()->getPage();
-    $buttonObj = $element->findButton($button);
-    if (!empty($buttonObj)) {
-      throw new \Exception(sprintf("The button '%s' was found on the page %s", $button, $this->getSession()->getCurrentUrl()));
-    }
-  }
-
 }
