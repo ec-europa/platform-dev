@@ -6,11 +6,6 @@
  */
 
 /**
- * CEM role machine name.
- */
-define('CCE_BASIC_CONFIG_CEM_ROLE_NAME', 'cem');
-
-/**
  * Test and report cce installation requirements.
  *
  * @param string $phase
