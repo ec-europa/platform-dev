@@ -1,0 +1,29 @@
+version: '2'
+services:
+  web:
+    # image: fpfis/httpd-php-dev:7.1
+    image: fpfis/php56-dev
+    working_dir: /var/www/html
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/var/www/html
+    environment:
+      XDEBUG_CONFIG: "remote_enable=1 remote_host=${DOCKER_HOST_IP} remote_port=9000 idekey=PHPSTORM remote_autostart=1"
+      PHP_IDE_CONFIG: "serverName=Test"
+  mysql:
+    image: percona/percona-server:5.6
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  # Spawn a Selenium server which also includes a VNC server on localhost:5900 (the password is "secret")
+  selenium:
+    # image: selenium/standalone-chrome-debug:3.11
+    image: wernight/phantomjs
+    environment:
+      - DISPLAY=:99
+      - SE_OPTS=-debug
+    ports:
+      - "5900:5900"
+    expose:
+      - '8910'
+    command: "phantomjs --webdriver=8910 --ignore-ssl-errors=true --ssl-protocol=any"

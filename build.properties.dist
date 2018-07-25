@@ -150,7 +150,7 @@ behat.options.verbosity = 2
 # Load balancer Phing task configuration.
 behat.load_balancer.containers = 5
 behat.load_balancer.root = ${behat.dir}
-behat.load_balancer.destination = ${behat.dir}/balancer
+behat.load_balancer.destination = ${behat.dir}
 behat.load_balancer.import = ${behat.yml.path}
 
 # PHPUnit configuration
