@@ -1,0 +1,269 @@
+workspace:
+  base: /test
+  path: platform-dev
+
+services:
+  web:
+    image: ${IMAGE_PHP=fpfis/php56-dev}
+    environment:
+      - DOCUMENT_ROOT=/test/platform-dev
+  mysql:
+    image: percona/percona-server:5.6
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  selenium:
+    image: wernight/phantomjs
+    environment:
+      - DISPLAY=:99
+      - SE_OPTS=-debug
+    command: "phantomjs --webdriver=8910 --ignore-ssl-errors=true --ssl-protocol=any"
+
+clone:
+  git:
+    image: plugins/git:next
+    depth: 1
+    # The tags property is not documented but can be found in the following snippet of code
+    # https://github.com/drone-plugins/drone-git/blob/master/plugin.go#L153
+    tags: true
+
+pipeline:
+  composer-install:
+    group: prepare
+    image: ${IMAGE_PHP=fpfis/php56-dev}
+    volumes:
+      - /cache:/cache
+    commands:
+      - composer install
+
+  build-platform:
+    image: ${IMAGE_PHP=fpfis/php56-dev}
+    commands:
+      - ./bin/phing build-platform-dev -D'platform.profile.name'=${PLATFORM_PROFILE=multisite_drupal_standard} -D'composer.bin'='/usr/local/bin/composer' -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub'
+
+  install-platform:
+    image: ${IMAGE_PHP=fpfis/php56-dev}
+    commands:
+      - ./bin/phing install-platform -D'platform.profile.name'=${PLATFORM_PROFILE=multisite_drupal_standard} -D'platform.site.theme_default'=${THEME_DEFAULT=ec_europa} -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub'
+
+  phpcs:
+    group: check
+    image: ${IMAGE_PHP=fpfis/php56-dev}
+    commands:
+      - ./bin/phpcs
+
+  behat:
+    group: behat
+    image: ${IMAGE_PHP=fpfis/php56-dev}
+    commands:
+      - ./bin/behat -c tests/behat.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default}
+
+  phpunit:
+    group: test
+    image: ${IMAGE_PHP=fpfis/php56-dev}
+    commands:
+      - ./bin/phpunit -c tests/phpunit.xml
+
+matrix:
+  include:
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: default
+      IMAGE_PHP:
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 0
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: default
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 1
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: default
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 2
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: default
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 3
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: default
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 4
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: standard_ec_resp
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 0
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: standard_ec_resp
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 1
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: standard_ec_resp
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 2
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: standard_ec_resp
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 3
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: standard_ec_resp
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 4
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: communities_ec_resp
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 0
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: communities_ec_resp
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 1
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: communities_ec_resp
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 2
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: communities_ec_resp
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 3
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: communities_ec_resp
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 4
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: communities
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 0
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: communities
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 1
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: communities
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 2
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: communities
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 3
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: communities
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 4
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: default
+      IMAGE_PHP:
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 0
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: default
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 1
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: default
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 2
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: default
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 3
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: default
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 4
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: standard_ec_resp
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 0
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: standard_ec_resp
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 1
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: standard_ec_resp
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 2
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: standard_ec_resp
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 3
+    - PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: standard_ec_resp
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 4
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: communities_ec_resp
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 0
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: communities_ec_resp
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 1
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: communities_ec_resp
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 2
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: communities_ec_resp
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 3
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: communities_ec_resp
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 4
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: communities
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 0
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: communities
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 1
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: communities
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 2
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: communities
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 3
+    - PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+      BEHAT_PROFILE: communities
+      IMAGE_PHP: fpfis/php71-dev
+      BEHAT_PART: 4
