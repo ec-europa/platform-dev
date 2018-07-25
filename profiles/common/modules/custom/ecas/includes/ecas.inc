@@ -6,6 +6,11 @@
  */
 
 /**
+ * ECAS group for CEM team users.
+ */
+define('ECAS_CEM_ECAS_GROUP', 'COMM_CEM');
+
+/**
  * Checks if the given user is an ECAS user.
  *
  * @param object $user
@@ -275,29 +280,30 @@ function ecas_save_page() {
  *   - cas:lastName: last name.
  *   - cas:domain: the domain, e.g. eu.europa.ec or external.
  *   - cas:departmentNumber: the department, e.g. DIGIT.A.3.
+ * @param array $edit
+ *   The array containing user properties and field values to edit at saving
+ *   time.
+ *   It is the same array structure as in the user_save().
  *
  * @see ecas_sync_user_info()
  */
-function ecas_sync_profile_core(&$user, array $user_info) {
+function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()) {
   $field_firstname = trim(variable_get('ecas_profile_core_firstname_field', 'field_firstname'));
   $field_lastname = trim(variable_get('ecas_profile_core_lastname_field', 'field_lastname'));
   $field_ecasmail = trim(variable_get('ecas_profile_core_ecas_email_field', 'field_ecas_mail'));
   $field_ecascreator = trim(variable_get('ecas_profile_core_ecas_creator_field', 'field_creator'));
 
-  // Can be used for all entity types.
-  $edit = (array) $user;
-
   // You can now access the fields without knowing the language.
-  if (!empty($field_firstname) && isset($edit[$field_firstname])) {
+  if (!empty($field_firstname) && isset($user->{$field_firstname})) {
     $edit[$field_firstname][LANGUAGE_NONE][0]['value'] = $user_info['cas:firstName'];
   }
-  if (!empty($field_lastname) && isset($edit[$field_lastname])) {
+  if (!empty($field_lastname) && isset($user->{$field_lastname})) {
     $edit[$field_lastname][LANGUAGE_NONE][0]['value'] = $user_info['cas:lastName'];
   }
-  if (!empty($field_ecasmail) && isset($edit[$field_ecasmail])) {
+  if (!empty($field_ecasmail) && isset($user->{$field_ecasmail})) {
     $edit[$field_ecasmail][LANGUAGE_NONE][0]['value'] = $user_info['cas:email'];
   }
-  if (!empty($field_ecascreator) && isset($edit[$field_ecascreator])) {
+  if (!empty($field_ecascreator) && isset($user->{$field_ecascreator})) {
     if ($user_info['cas:domain'] == 'external') {
       $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'];
     }
@@ -305,9 +311,6 @@ function ecas_sync_profile_core(&$user, array $user_info) {
       $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'] . '/' . $user_info['cas:departmentNumber'];
     }
   }
-
-  // Save changes.
-  user_save($user, $edit);
 }
 
 /**
@@ -330,21 +333,70 @@ function ecas_sync_profile_core(&$user, array $user_info) {
  *   info_ecas_update() hook.
  */
 function ecas_sync_user_info(&$user, array $user_info, array $args) {
+  $edit = array();
   // Update the user mail in the users table.
   if (variable_get('ecas_update_mail_address', TRUE)) {
-    $picture = $user->picture;
-    // Fix : save file object replaced by fid by user_save function.
-    user_save($user, array('mail' => $user_info['cas:email']));
-    $user->mail = $user_info['cas:email'];
-    $user->picture = $picture;
+    $edit['mail'] = $user_info['cas:email'];
   }
 
   // Update extra core user fields.
   if (variable_get('ecas_profile_core_enabled', FALSE)) {
-    ecas_sync_profile_core($user, $user_info);
+    ecas_sync_profile_core($user, $user_info, $edit);
   }
 
+  // Call "hook_ecas_sync_user_info" implementation with $edit passed by
+  // reference as parameter.
+  foreach (module_implements('ecas_sync_user_info') as $module) {
+    $function = $module . '_ecas_sync_user_info';
+    $function($user, $user_info, $edit, $args);
+  }
+
+  // Let the opportunity to modules to alter user roles.
+  drupal_alter('ecas_user_roles', $edit['roles'], $user, $user_info, $args);
+
+  // Fix : save file object replaced by fid by user_save function.
+  $picture = $user->picture;
+  user_save($user, $edit);
+  $user->mail = $user_info['cas:email'];
+  $user->picture = $picture;
+
+  // Old hook implementation. we keep it for backward compatibility.
   module_invoke_all('info_ecas_update', $user, $user_info, $args);
+}
+
+/**
+ * Implements hook_ecas_sync_user_info().
+ *
+ * Assign the "CEM" role assigned to the user if they belong to the COMM_CEM.
+ */
+function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $args) {
+  $user_cas_groups = array();
+  if (!empty($user_info['cas:groups']) && !empty($user_info['cas:groups']['cas:group'])) {
+    $user_cas_groups = $user_info['cas:groups']['cas:group'];
+  }
+
+  $cem_role = user_role_load_by_name(CCE_BASIC_CONFIG_CEM_ROLE_NAME);
+  $user_roles = (isset($user->roles)) ? $user->roles : array();
+  // By default, the role is not set for any user automatically.
+  // Then, unset it by default and reassign it later if the user has the
+  // EU login group.
+  unset($user_roles[$cem_role->rid]);
+  if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
+    $role_name = $cem_role->name;
+    $user_roles[$cem_role->rid] = $role_name;
+    watchdog(
+      'ecas',
+      'User "%name" has received the "%role" role.',
+      array(
+        '%name' => $user->name,
+        '%role' => $role_name,
+      ),
+      WATCHDOG_INFO,
+      l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
+    );
+  }
+
+  $edit['roles'] = $user_roles;
 }
 
 /**
