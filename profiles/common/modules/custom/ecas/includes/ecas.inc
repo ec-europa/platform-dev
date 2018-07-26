@@ -541,16 +541,24 @@ function ecas_login_check() {
  * Check to see if we need to display the logout menu.
  *
  * @return bool
- *   TRUE if the user is logged via ECAS, FALSE otherwise.
+ *   TRUE if the user is logged via ECAS,
+ *   FALSE otherwise.
  */
 function ecas_menu_logout_check() {
   global $user;
-  $access = FALSE;
-  if ($user->uid) {
-    // We provide access to this menu entry only if we are logged via ECAS.
-    $access = isset($_SESSION['phpCAS']) && $_SESSION['phpCAS']['user'] === $user->name;
+
+  if (!user_is_logged_in()) {
+    return FALSE;
   }
-  return $access;
+
+  // We provide access to this menu entry only if we are logged via ECAS.
+  if (isset($_SESSION['phpCAS']) && isset($user->name)) {
+    if ($_SESSION['phpCAS']['user'] === $user->name) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
 }
 
 /**
