@@ -283,6 +283,21 @@ projects[feeds][version] = "2.0-beta3"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
+; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
+; So far, the module does not have any official release. 
+; The following declaration is based on the one recommended by the 
+; nexteuropa_newsroom team to sub-sites; including the patch 
+; "feeds_et_link_support-2078069-3.patch".
+projects[feeds_et][subdir] = "contrib"
+projects[feeds_et][download][type] = git
+projects[feeds_et][download][revision] = bf0d6d00b1a80a630d4266b04c254f2335177346
+projects[feeds_et][download][branch] = 7.x-1.x
+; Add support for link fields, patch required for the nexteuropa_newsroom module; 
+; see module README file.
+; https://www.drupal.org/node/2078069
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2018
+projects[feeds_et][patch][] = "https://www.drupal.org/files/issues/feeds_et_link_support-2078069-3.patch"
+
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.2"
 
