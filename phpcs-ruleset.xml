@@ -37,17 +37,15 @@
     <!-- This module is not supported by Core team so we exclude it from QA -->
     <exclude-pattern>profiles/*/modules/custom/nexteuropa_newsroom/</exclude-pattern>
 
+    <!-- This module is not supported by Core team so we exclude it from QA, to avoid phpcs issue -->
+    <exclude-pattern>profiles/*/modules/custom/nexteuropa_newsroom/</exclude-pattern>
+
     <!-- Views handlers/plugins not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/includes/views_handler_*.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_core/plugins/*.inc</exclude-pattern>
         <exclude-pattern>profiles/*/modules/**/views/*.inc</exclude-pattern>
-    </rule>
-
-    <!-- Context reaction not strictly follow Drupal function name conventions. -->
-    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
-        <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/multisite_twitterblock_reaction.inc</exclude-pattern>
     </rule>
 
     <!-- Code based on the classes from Web Service Clients or TMGMT do not follow Drupal function name conventions. -->
@@ -106,6 +104,13 @@
         <exclude-pattern>*/views_handler*</exclude-pattern>
         <exclude-pattern>*/views_handler*</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_core/plugins/multisite_business_indicators_core_views_plugin_style_chart.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_connector/tmgmt_dgt_connector_cart/src/ViewsHandler/*</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/multisite_twitterblock_reaction.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/tmgmt_workbench/includes/tmgmt_workbench.ui.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_piwik/src/EntityDefaultUIController/PiwikRuleEntityUIController.php</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_connector/tmgmt_dgt_connector_cart/src/EntityUIController/*</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_connector/tmgmt_dgt_connector_cart/src/EntityViewsController/*</exclude-pattern>
     </rule>
 
     <!-- Current QA rules give false positives for submodules of a feature. -->

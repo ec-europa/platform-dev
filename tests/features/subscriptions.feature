@@ -5,10 +5,10 @@ Feature: Subscription
   I want to be able to subscribe to content and manage subscriptions.
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
-    And the module is enabled
+    Given the module is enabled
       |modules                      |
       |multisite_notifications_core |
+    And I am logged in as a user with the 'administrator' role
 
   @javascript @theme_wip
   # It is in wip for the europa theme because it implies a step referring a
@@ -57,7 +57,7 @@ Feature: Subscription
     And I go to "admin/reports/dblog"
     Then I should see text matching "Subscriptions sent"
 
-  @javascript
+  @javascript @theme_wip
   Scenario: Have someone subscribe to Basic page content
     And I go to "admin/config/system/site-information_en"
     When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"
@@ -98,4 +98,3 @@ Feature: Subscription
     And I go to the page of the node I remembered
     Then I should see "A new page title"
     And I should not see "subscribe"
-

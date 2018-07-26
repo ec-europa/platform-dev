@@ -131,7 +131,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     // Get main job in order to register the messages.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
     $language_job = $request->status['lgCode'];
-    $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
+    $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
       ->fetchAll();
 
     // Handling the case where we can't find the corresponding job.
@@ -216,7 +216,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           if ($cancelled) {
             $reference = '%' . $reference;
 
-            $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
+            $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
               ->fetchAll();
             foreach ($ids as $id) {
               $job = tmgmt_job_load($id->tjid);
@@ -225,7 +225,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           }
           elseif ($message_job->isAborted()) {
             $reference = '%' . $reference;
-            $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
+            $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
               ->fetchAll();
 
             foreach ($ids as $id) {
@@ -253,7 +253,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
             $reference = 'MAIN_%_POETRY_%' . $reference;
             $language_job = array();
           }
-          $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
+          $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
             ->fetchAll();
           $ids = array_shift($ids);
           $job = tmgmt_job_load($ids->tjid);
@@ -287,7 +287,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
       $language_code = $poetry_translator->mapToLocalLanguage($language_code);
       $language_job = array($language_code);
 
-      $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
+      $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
         ->fetchAll();
       $ids = array_shift($ids);
       $job = tmgmt_job_load($ids->tjid);

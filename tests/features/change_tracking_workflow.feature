@@ -8,10 +8,10 @@ Feature: Change tracking features
   translation; otherwise the content publishing is blocked
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
-    And the module is enabled
+    Given the module is enabled
       | modules                   |
       | nexteuropa_trackedchanges |
+    And I am logged in as a user with the 'administrator' role
 
   Scenario: Text formats should be available
     When I go to "admin/config/content/formats"
@@ -38,7 +38,7 @@ Feature: Change tracking features
     And a map webtools "Block Webtools" exists
     And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
-    And I fill in "Title" with "Basic page with a Map"
+    And I fill in the content's title with "Basic page with a Map"
     And I select "Full HTML + Change tracking" from "Text format"
     And I click the "Insert internal content" button in the "Body" WYSIWYG editor
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
@@ -47,7 +47,7 @@ Feature: Change tracking features
     When I click "Default" in the "Block Webtools" row
     And I wait for AJAX to finish
     And I press "Save"
-    Then I should see the success message "Basic page with a Map has been created."
+    Then I should see the success message "Basic page Basic page with a Map has been created."
     And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
 
   @javascript @maximizedwindow
@@ -59,7 +59,7 @@ Feature: Change tracking features
     Then I should see "Enabled" in the "Full HTML" row
     And I should see the message "Change tracking enabled on full_html WYSIWYG profile"
     When I go to "node/add/page"
-    And I fill in "Title" with "This is a page I want to reference"
+    And I fill in the content's title with "This is a page I want to reference"
     Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
     And I should not see the "Stop tracking changes" button in the "Body" WYSIWYG editor
     When  I fill in the rich text editor "Body" with "Text should change because life is always moving."
@@ -81,7 +81,7 @@ Feature: Change tracking features
     And I wait for the end of the batch job
     Then I should see "Disabled" in the "Full HTML" row
     When I go to "node/add/page"
-    And I fill in "Title" with "This is a new page I want to reference"
+    And I fill in the content's title with "This is a new page I want to reference"
     Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
     And I should not see the "Stop tracking changes" button in the "Body" WYSIWYG editor
     When I fill in the rich text editor "Body" with "Tracking is an old story!"
@@ -100,7 +100,7 @@ Feature: Change tracking features
     And I press "Save configuration"
     Then I should see the success message "The configuration options have been saved."
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I fill in "Body" with "Page body"
     And I press "Save"
     Then I should see "View draft"
@@ -130,7 +130,7 @@ Feature: Change tracking features
   content state to "validated" or "published" must be blocked if CKEditor
   Lite tracked changes exist in WYSIWYG fields
     When I go to "node/add/article"
-    And I fill in "Title" with "Article title"
+    And I fill in "edit-title" with "Article title"
     And I fill in "Body" with "Article body"
     And I press "Save"
     Then I should see "View draft"
@@ -156,8 +156,6 @@ Feature: Change tracking features
       | blocked                                                                                                                                                                                                                        |
       | <p>Article body<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> additional content</span></p> |
 
-  @theme_wip
-  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1213.
   Scenario Outline: Change tracking are visible while seeing the content page
     When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
     And I check the box "Validated"
@@ -243,11 +241,11 @@ Feature: Change tracking features
     Examples:
       | blocked                                                                                                                                                                                                                                  |
       | <p>Corps de page<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> avec contenu additionnel</span></p> |
-  
+
     Scenario: Make sure that inline images are correctly shown when tracking change is enabled.
       Given I am viewing an "page" content:
         | title                | Checking inline images work |
-        | field_ne_body:value  | <p>The following inline image should be displayed.</p> [[{"fid":"1","view_mode":"default","fields":{"format":"default","field_file_image_alt_text[und][0][value]":"","field_file_image_title_text[und][0][value]":"","field_caption[und][0][value]":""},"type":"media","attributes":{"class":"media-element file-default"}}]] |
+        | field_ne_body:value  | "<p>The following inline image should be displayed.</p> [[{""fid"":""1"",""view_mode"":""default"",""fields"":{""format"":""default"",""field_file_image_alt_text[und][0][value]"":"" ""},""type"":""media"",""attributes"":{""class"":""media-element file-default""}}]]" |
         | field_ne_body:format | full_html_track |
       Then I should not see "[[{"
       And I should not see "}]]"

@@ -15,7 +15,6 @@ dependencies[] = number
 dependencies[] = options
 dependencies[] = path
 dependencies[] = taxonomy
-dependencies[] = dblog
 dependencies[] = search
 dependencies[] = field_ui
 dependencies[] = file
@@ -91,7 +90,6 @@ dependencies[] = admin_menu
 dependencies[] = tagclouds
 dependencies[] = link
 dependencies[] = transliteration
-dependencies[] = multisite_dynamic_basetheme
 dependencies[] = fpa
 dependencies[] = flag
 dependencies[] = entityreference_prepopulate
@@ -113,6 +111,7 @@ dependencies[] = ecas_env
 dependencies[] = multisite_wysiwyg
 
 ; NextEuropa features.
+dependencies[] = nexteuropa_admin_language
 dependencies[] = nexteuropa_core
 dependencies[] = nexteuropa_editorial
 dependencies[] = nexteuropa_multilingual

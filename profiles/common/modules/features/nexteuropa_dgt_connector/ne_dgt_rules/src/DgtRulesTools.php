@@ -2,11 +2,11 @@
 
 namespace Drupal\ne_dgt_rules;
 
-use EC\Poetry\Messages\Components\Status;
 use EntityFieldQuery;
 use TMGMTException;
 use TMGMTJob;
 use TMGMTJobItem;
+use EC\Poetry\Messages\Components\Status;
 use EC\Poetry\Messages\Components\Identifier;
 
 /**
@@ -29,11 +29,9 @@ class DgtRulesTools {
     foreach ($parameters as $parameters_group) {
       foreach ($parameters_group as $parameter) {
         if (empty($parameter)) {
-
           return FALSE;
         }
       }
-
     }
 
     return TRUE;
@@ -91,19 +89,25 @@ class DgtRulesTools {
       (TMGMT Job Item IDs: '@job_items'). You can not request the review for
       the content which is currently under translation process.
       Please finish ongoing processes and try again.",
-        array('@entity_id' => $entity_id, '@job_items' => $job_items)
+        array(
+          '@entity_id' => $entity_id,
+          '@job_items' => $job_items,
+        )
       );
 
       drupal_set_message($error_message, 'error');
 
       // Logging an error to the watchdog.
       watchdog('ne_tmgmt_dgt_ftt_translator',
-        "Content type with ID: $entity_id is currently
+        "Content type with ID: @entity_id is currently
       included in one of the translation processes
-      (TMGMT Job Item IDs: $job_items). You can not request the review for
+      (TMGMT Job Item IDs: @job_items). You can not request the review for
       the content which is currently under translation process.
       Please finish ongoing processes and try again.",
-        array(),
+        array(
+          '@entity_id' => $entity_id,
+          '@job_items' => $job_items,
+        ),
         WATCHDOG_ERROR
       );
       return array_keys($results['tmgmt_job_item']);
@@ -119,13 +123,15 @@ class DgtRulesTools {
    *   The default translator fot the FTT workflow.
    * @param object $node
    *   The node that needs to be reviewed by the DGT Reviewer.
+   * @param array $parameters
+   *   An array with additional parameters.
    * @param string $target_language
    *   The target language.
    *
    * @return \TMGMTJob
    *   Returns created TMGMT Job.
    */
-  public static function createTmgmtJobAndItemForNode($default_translator, $node, $target_language = '') {
+  public static function createTmgmtJobAndItemForNode($default_translator, $node, array $parameters, $target_language = '') {
     // Getting the default translator object.
     $translator = tmgmt_translator_load($default_translator);
 
@@ -138,7 +144,8 @@ class DgtRulesTools {
       }
 
       // Creating TMGMT Main job.
-      $tmgmt_job = tmgmt_job_create($node->language, $target_language);
+      $parameters = array('settings' => $parameters);
+      $tmgmt_job = tmgmt_job_create($node->language, $target_language, NULL, $parameters);
 
       // Assiging the default translator to the job.
       $tmgmt_job->translator = $default_translator;
@@ -165,9 +172,9 @@ class DgtRulesTools {
 
     // Logging an error to the watchdog.
     watchdog('ne_tmgmt_dgt_ftt_translator',
-      "The default TMGMT translator: '$default_translator' is not
+      "The default TMGMT translator: '@default_translator' is not
     available or is not configured correctly.",
-      array(),
+      array('@default_translator' => $default_translator),
       WATCHDOG_ERROR
     );
 
@@ -458,6 +465,8 @@ class DgtRulesTools {
   /**
    * Sends the translation request to DGT Services for a given node.
    *
+   * @param bool $direct_translation
+   *   The direct translation flag.
    * @param string $default_translator
    *   The default translator fot the FTT workflow.
    * @param array $jobs
@@ -468,11 +477,11 @@ class DgtRulesTools {
    * @return array
    *   Array of TMGMT Job object.
    */
-  public static function sendTranslationRequest($default_translator, array $jobs, array $parameters) {
+  public static function sendTranslationRequest($direct_translation, $default_translator, array $jobs, array $parameters) {
     $translator = tmgmt_translator_load($default_translator);
     $controller = $translator->getController();
 
-    return $controller->requestTranslations($jobs, $parameters);
+    return $controller->requestTranslations($jobs, $parameters, $direct_translation);
   }
 
   /**
@@ -487,6 +496,7 @@ class DgtRulesTools {
   public static function findMappingsByIdentifier(Identifier $identifier) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'ne_tmgmt_dgt_ftt_map')
+      ->propertyCondition('code', $identifier->getCode())
       ->propertyCondition('year', $identifier->getYear())
       ->propertyCondition('number', $identifier->getNumber())
       ->propertyCondition('part', $identifier->getPart())

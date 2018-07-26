@@ -97,8 +97,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       if ($results) {
         foreach ($results as $result) {
           if ($job = tmgmt_job_load($result->tjid)) {
-            $translator = $job->getTranslator();
-            if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
+            if ($job->getTranslator() && $job->getState() == 1) {
               // Check the poetry status.
               $result_ps = db_select('poetry_status', 'ps')
                 ->fields('ps', array('status'))
@@ -130,7 +129,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       ));
     }
     else {
-      return t('An active translation for this item already exists');
+      return t('A pending translation for this item already exists');
     }
   }
 
@@ -408,13 +407,15 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     }
     else {
       // If it doesn't, check the highest numero.
-      $query = db_select('poetry_map', 'pm');
+      $query = db_select('poetry_map', 'pm')
+        ->condition('annee', date("Y"));
       $query->addExpression('MAX(numero)', 'max_numero');
       $max_numero = $query->execute()
         ->fetchAssoc();
       if (!empty($max_numero['max_numero'])) {
         $query = db_select('poetry_map', 'pm')
           ->fields('pm', array('annee', 'numero', 'version', 'partie'))
+          ->condition('annee', date("Y"))
           ->condition('numero', $max_numero['max_numero'], '=');
         $query->addExpression('MAX(partie)', 'max_partie');
         $result = $query->execute()
@@ -554,7 +555,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       $processed_lang = [];
       foreach ($new_languages as $language) {
         // Create a job and a job item for the given language.
-        _tmgmt_poetry_create_job_and_item($language, $job);
+        _tmgmt_poetry_create_job_and_item($language, $job, $delivery_date);
         // Helper array to store processed languages.
         $processed_lang[] = $languages[$language]->name;
       }

@@ -490,4 +490,93 @@ class MinkContext extends DrupalExtensionMinkContext {
     assert($optionField->isSelected(), isTrue(), sprintf('The selected option in "%s" is not "%s".', $selector, $value_label));
   }
 
+  /**
+   * Checks if a specified link is in a HTML element in a field display.
+   *
+   * @Then I should see the link :link in a :html_element in the field display (:container_selector)
+   */
+  public function assertLinkInElementOfField($link, $html_element, $container_selector) {
+    $element = $this->getSession()->getPage();
+    $field_container = $element->find('css', $container_selector);
+
+    assert($field_container, isNotEmpty(), sprintf('The container identified by the "%s" css selector has not been found', $container_selector));
+
+    $link_containers = $field_container->findAll('xpath', $html_element);
+
+    assert($link_containers, isNotEmpty(), sprintf('The "%s" element has not been found in the container identified by the "%s" css selector', $html_element, $container_selector));
+
+    foreach ($link_containers as $link_container) {
+      $result = $link_container->findLink($link);
+      if ($result && !$result->isVisible()) {
+        throw new \Exception(sprintf("No link to '%s' in a %s", $link, $html_element));
+      }
+    }
+
+    assert($result, isNotEmpty(), sprintf("No link to '%s' in a %s", $link, $html_element));
+  }
+
+  /**
+   * Click on the element with the provided xpath query.
+   *
+   * @When /^I click on the element with xpath "([^"]*)"$/
+   */
+  public function iClickOnTheElementWithxPath($xpath) {
+    $session = $this->getSession();
+    $element = $session->getPage()->find(
+      'xpath',
+      $session->getSelectorsHandler()->selectorToXpath('xpath', $xpath)
+    );
+    if (NULL === $element) {
+      throw new \InvalidArgumentException(sprintf('Could not evaluate XPath: "%s"', $xpath));
+    }
+    $element->click();
+  }
+
+  /**
+   * Fills in content's title field with a specified value.
+   *
+   * @When I fill in the content's title with :arg1
+   */
+  public function iFillInTheContentsTitleWith($arg1) {
+    $page = $this->getSession()->getPage();
+
+    $content_field_id = 'edit-title';
+    $element = $page->find('css', '#edit-title');
+    if (empty($element)) {
+      $content_field_id = 'edit-title-field-en-0-value';
+    }
+    $this->fillField($content_field_id, $arg1);
+  }
+
+  /**
+   * Checks that HTML response contains the specified meta tag.
+   *
+   * It checks the name and the content attributes values.
+   *
+   * @Then the response should contain the meta tag with the :arg1 name and the :arg2 content
+   */
+  public function responseShouldContainMetaTagWithNameAndContent($arg1, $arg2) {
+    $metatag = $this->getMetaTagByName($arg1);
+
+    assert($arg2, equals($metatag->getAttribute('content')), sprintf('The meta tag "%s" does not have "%s" as content attribute.', $arg1, $arg2));
+  }
+
+  /**
+   * Gets the meta tag NodeElement from the name attribute value.
+   *
+   * @param string $name
+   *   The name value for the meta tag.
+   *
+   * @return \Behat\Mink\ElementNodeElement
+   *   The meta tag node element.
+   */
+  protected function getMetaTagByName($name) {
+    $page = $this->getSession()->getPage();
+    $element = $page->find('css', sprintf('meta[name="%s"]', $name));
+
+    assert($element, isNotEmpty(), sprintf('The meta tag "%s" has not been found', $name));
+
+    return $element;
+  }
+
 }

@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.56"
+projects[drupal][version] = "7.59"
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -39,7 +39,7 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-n1256368-
 ; Please read carefully: https://www.drupal.org/node/1399846?page=1#comment-11718181
 ; The hook_update_N() has been removed from the patch, it needs to be added somewhere else to be consistent.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5641
-projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-1399846-315.patch 
+projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-1399846-315.patch
 
 ; Make sure drupal_add_js marks files as external when no type is specified and is_external is true:
 ; https://www.drupal.org/node/2697611
@@ -65,3 +65,8 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-revision-
 ; http://drupal.org/node/601776
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-548
 projects[drupal][patch][] = https://www.drupal.org/files/601776-contact-core-134.patch
+
+; URL alias load is inconsistent if there are more then one alias
+; https://www.drupal.org/project/drupal/issues/1160764
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1993
+projects[drupal][patch][] = https://www.drupal.org/files/issues/1160764-34-path_load_order.patch

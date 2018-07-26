@@ -8,6 +8,23 @@
 include_once "communities.install.inc";
 
 /**
+ * Implements hook_requirements().
+ */
+function communities_requirements() {
+  $requirements = [];
+  if (module_exists('nexteuropa_communities')) {
+    $t = get_t();
+    $args = array('%module' => 'Nexteuropa Communities');
+    $requirements['communities_module_conflict'] = array(
+      'title' => 'Communities',
+      'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+  return $requirements;
+}
+
+/**
  * Implements hook_disable().
  */
 function communities_disable() {
@@ -53,6 +70,9 @@ function communities_install() {
 
   // Enable the og ontext negociation 'multisite_communities'.
   communities_enable_og_context_negociation();
+
+  // Use soft config for community comment form location.
+  multisite_config_service('comment')->setThreadingCommentForContentType('community', 1);
 }
 
 /**
