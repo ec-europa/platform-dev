@@ -1,75 +1,86 @@
 env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
+env.WORKSPACE_PATH = "workspace/${env.RELEASE_NAME}-${env.BUILD_NUMBER}"
 env.slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
 slackSend color: "good", message: "${env.slackMessage} started."
 
 try {
     node('master') {
-        stage('Check') {
-            deleteDir()
-            checkout scm
-            sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
-            sh './bin/phing setup-php-codesniffer'
-            sh './bin/phpcs --report=full --report=source --report=summary -s'
+        ws("${env.WORKSPACE_PATH}") {
+            stage('Check') {
+                deleteDir()
+                checkout scm
+                sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
+                sh './bin/phing setup-php-codesniffer'
+                sh './bin/phpcs --report=full --report=source --report=summary -s'
+            }
         }
     }
     parallel (
         'standard-ec-resp' : {
             // Build and test the standard profile with ec_resp theme
             node('slave') {
-                try {
-                    withEnv([
-                        "BEHAT_PROFILE=standard_ec_resp",
-                        "THEME_DEFAULT=ec_resp"
-                    ]) {
-                        executeStages('standard ec_resp')
+                ws("${env.WORKSPACE_PATH}") {
+                    try {
+                        withEnv([
+                            "BEHAT_PROFILE=standard_ec_resp",
+                            "THEME_DEFAULT=ec_resp"
+                        ]) {
+                            executeStages('standard ec_resp')
+                        }
+                    } catch(err) {
+                        throw(err)
                     }
-                } catch(err) {
-                    throw(err)
                 }
             }
         },
         'standard-ec-europa' : {
             // Build and test the standard profile with europa theme
             node('slave') {
-                try {
-                    withEnv([
-                        "THEME_DEFAULT=ec_europa"
-                    ]) {
-                        executeStages('standard ec_europa')
+                ws("${env.WORKSPACE_PATH}") {
+                    try {
+                        withEnv([
+                            "THEME_DEFAULT=ec_europa"
+                        ]) {
+                            executeStages('standard ec_europa')
+                        }
+                    } catch(err) {
+                        throw(err)
                     }
-                } catch(err) {
-                    throw(err)
                 }
             }
         },
         'communities-ec-resp' : {
             // Build and test the communities profile with ec_resp theme
             node('slave') {
-                try {
-                    withEnv([
-                        "BEHAT_PROFILE=communities_ec_resp",
-                        "PLATFORM_PROFILE=multisite_drupal_communities"
-                    ]) {
-                        executeStages('communities ec_resp')
+                ws("${env.WORKSPACE_PATH}") {
+                    try {
+                        withEnv([
+                            "BEHAT_PROFILE=communities_ec_resp",
+                            "PLATFORM_PROFILE=multisite_drupal_communities"
+                        ]) {
+                            executeStages('communities ec_resp')
+                        }
+                    } catch(err) {
+                        throw(err)
                     }
-                } catch(err) {
-                    throw(err)
                 }
             }
         },
         'communities-ec-europa' : {
             // Build and test the communities profile with europa theme
             node('slave') {
-                try {
-                    withEnv([
-                        "BEHAT_PROFILE=communities",
-                        "PLATFORM_PROFILE=multisite_drupal_communities",
-                        "THEME_DEFAULT=ec_europa"
-                    ]) {
-                        executeStages('communities ec_europa')
+                ws("${env.WORKSPACE_PATH}") {
+                    try {
+                        withEnv([
+                            "BEHAT_PROFILE=communities",
+                            "PLATFORM_PROFILE=multisite_drupal_communities",
+                            "THEME_DEFAULT=ec_europa"
+                        ]) {
+                            executeStages('communities ec_europa')
+                        }
+                    } catch(err) {
+                        throw(err)
                     }
-                } catch(err) {
-                    throw(err)
                 }
             }
         },
