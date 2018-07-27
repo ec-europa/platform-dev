@@ -95,18 +95,6 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function loggedIn() {
-    $session = $this->getSession();
-    $session->visit($this->locatePath('/'));
-
-    // Check if the 'logged-in' class is present on the page.
-    $element = $session->getPage();
-    return $element->find('css', 'body.logged-in');
-  }
-
-  /**
    * Visit a node page given its type and title.
    *
    * @param string $type
@@ -129,6 +117,30 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     $path = url($path, ['base_url' => '', 'absolute' => TRUE]);
     // Visit newly created node page.
     $this->visitPath($path);
+  }
+
+  /**
+   * Check a radio button selected by its id.
+   *
+   * @param string $id
+   *   The id of the element.
+   *
+   * @see \Drupal\DrupalExtension\Context\MinkContext::assertSelectRadioById
+   *
+   * @When I select the radio button with the id :id
+   */
+  public function assertSelectRadioById($id) {
+    $element = $this->getSession()->getPage();
+    $radiobutton = $element->findById($id);
+    if ($radiobutton === NULL) {
+      throw new \Exception(sprintf(
+        'The radio button with "%s" was not found on the page %s',
+        $id,
+        $this->getSession()->getCurrentUrl()
+      ));
+    }
+    $value = $radiobutton->getAttribute('value');
+    $radiobutton->selectOption($value, FALSE);
   }
 
   /**
