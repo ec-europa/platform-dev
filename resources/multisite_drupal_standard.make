@@ -658,7 +658,7 @@ projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
 
 projects[select_or_other][subdir] = "contrib"
-projects[select_or_other][version] = 2.22
+projects[select_or_other][version] = 2.24
 
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
@@ -874,7 +874,7 @@ projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.3"
+projects[xmlsitemap][version] = "2.4"
 ; Using rel="alternate" rather than multiple sitemaps by language context
 ; https://www.drupal.org/node/1670086
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
