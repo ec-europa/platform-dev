@@ -865,7 +865,7 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; Issue #2825391 Fix current state for transition rules
 ; https://www.drupal.org/node/2825391
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
-projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch 
+projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch
 
 ; Workbench_og does not have a stable version that allows applying the 2
 ; patches needed to fix the issues NEPT-296 AND NEPT-1866.
@@ -882,6 +882,11 @@ projects[workbench_og][type] = module
 projects[workbench_og][download][type] = git
 projects[workbench_og][download][revision] = 511caed35326ec7f328e794dc4be21eb33c5ae86
 projects[workbench_og][download][branch] = 7.x-2.x
+; Check access for users to view content that was created by them and don't
+; belong to an organic group.
+; Issue https://www.drupal.org/project/workbench_og/issues/2006134
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
+projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][version] = "2.4"
