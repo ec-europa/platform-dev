@@ -651,11 +651,7 @@ projects[registry_autoload][version] = 1.3
 projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issues/autoload_bootstrap_dependency_issues-2870868-2.patch
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.10"
-; #2851567 rules_init() and cache rebuilding are broken
-; https://www.drupal.org/project/rules/issues/2851567
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1325
-projects[rules][patch][2851567] = https://www.drupal.org/files/issues/rules_init_and_cache-2851567-8.patch
+projects[rules][version] = "2.11"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
@@ -664,7 +660,7 @@ projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
 
 projects[select_or_other][subdir] = "contrib"
-projects[select_or_other][version] = 2.22
+projects[select_or_other][version] = 2.24
 
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
@@ -871,7 +867,7 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; Issue #2825391 Fix current state for transition rules
 ; https://www.drupal.org/node/2825391
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
-projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch 
+projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch
 
 ; Workbench_og does not have a stable version that allows applying the 2
 ; patches needed to fix the issues NEPT-296 AND NEPT-1866.
@@ -888,6 +884,11 @@ projects[workbench_og][type] = module
 projects[workbench_og][download][type] = git
 projects[workbench_og][download][revision] = 511caed35326ec7f328e794dc4be21eb33c5ae86
 projects[workbench_og][download][branch] = 7.x-2.x
+; Check access for users to view content that was created by them and don't
+; belong to an organic group.
+; Issue https://www.drupal.org/project/workbench_og/issues/2006134
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
+projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][version] = "2.4"
@@ -899,7 +900,7 @@ projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.3"
+projects[xmlsitemap][version] = "2.4"
 ; Using rel="alternate" rather than multiple sitemaps by language context
 ; https://www.drupal.org/node/1670086
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
