@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\WebtoolsContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
@@ -48,13 +43,8 @@ class WebtoolsContext implements Context {
 
   /**
    * Constructs a new WebtoolsContext.
-   *
-   * @param string $smartloadurl
-   *   The Smartloader Protocol-Relative URL.
    */
-  public function __construct($smartloadurl) {
-    // @todo continuousphp insert the right $url
-    // $this->smartloadUrl = $smartloadurl;
+  public function __construct() {
     $this->smartloadUrl = "http://europa.eu/webtools/load.js";
   }
 

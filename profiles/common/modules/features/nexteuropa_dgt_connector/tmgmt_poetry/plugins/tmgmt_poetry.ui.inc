@@ -9,6 +9,7 @@
  * DGT connector translator ui controller.
  */
 class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIController {
+
   /**
    * Overrides TMGMTDefaultTranslatorUIController::pluginSettingsForm().
    */
@@ -201,7 +202,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
         continue;
       }
 
-      $language_job_ids = _tmgmt_poetry_obtain_related_translation_jobs(array($language->language), '%' . str_replace('MAIN_', '', $job->reference))->fetchAll();
+      $language_job_ids = tmgmt_poetry_obtain_related_translation_jobs(array($language->language), '%' . str_replace('MAIN_', '', $job->reference))->fetchAll();
       if (count($language_job_ids) > 0) {
         $language_job_id = array_shift($language_job_ids);
         $language_job_item = tmgmt_job_item_load($language_job_id->tjiid);
@@ -275,7 +276,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#type' => 'fieldset',
       '#title' => t('Contact usernames'),
       '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
+      '#collapsed' => FALSE,
       '#description' => t("Contact persons for the translation request sent to Poetry. WARNING: Valid EC usernames must be used"),
     );
     $form['contacts']['auteur'] = array(
@@ -310,7 +311,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#type' => 'fieldset',
       '#title' => t('Organization'),
       '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
+      '#collapsed' => FALSE,
       '#description' => t("Requester organization information"),
     );
     $form['organization']['responsable'] = array(

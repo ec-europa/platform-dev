@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\MinkContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
@@ -18,6 +13,7 @@ use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isNotEmpty;
+use function bovigo\assert\predicate\isTrue;
 use function bovigo\assert\assert;
 
 /**
@@ -32,7 +28,6 @@ class MinkContext extends DrupalExtensionMinkContext {
     $frontpage = variable_get('site_frontpage', 'node');
     $this->visitPath($frontpage);
   }
-
 
   /**
    * {@inheritdoc}
@@ -243,10 +238,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    *
    * @param callable $matcher
    *   Callable which returns if the element matches or not.
-   * @param NodeElement[] $elements
+   * @param \Behat\Mink\Element\NodeElement[] $elements
    *   Array of elements to search through.
    *
-   * @return NodeElement|null
+   * @return \Behat\Mink\Element\NodeElement|null
    *   The matching element, or NULL if no matching element was found.
    */
   protected function findElementMatching(callable $matcher, array $elements) {
@@ -372,7 +367,7 @@ class MinkContext extends DrupalExtensionMinkContext {
   /**
    * Retrieve a table row containing specified text from a given element.
    *
-   * @param Element $element
+   * @param \Behat\Mink\Element\Element $element
    *   Mink element object.
    * @param string $search
    *   Table row text.
@@ -380,7 +375,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * @throws \Exception
    *   Throw exception if class table row was not found.
    *
-   * @return NodeElement
+   * @return \Behat\Mink\Element\NodeElement
    *   Table row node element.
    */
   public function getTableRow(Element $element, $search) {
@@ -389,7 +384,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()
         ->getCurrentUrl()));
     }
-    /** @var NodeElement $row */
+    /** @var \Behat\Mink\Element\NodeElement $row */
     foreach ($rows as $row) {
       if (strpos($row->getText(), $search) !== FALSE) {
         return $row;
@@ -479,6 +474,23 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
+   * Checks that a select box is set to a given value is selected in select box.
+   *
+   * @Then :option is selected in the :selector options list
+   */
+  public function selectedOptionShouldBeSetTo($selector, $value_label) {
+    $page = $this->getSession()->getPage();
+    $select_box = $page->findField($selector);
+
+    $optionField = $select_box->find('named', array(
+      'option',
+      $value_label,
+    ));
+
+    assert($optionField->isSelected(), isTrue(), sprintf('The selected option in "%s" is not "%s".', $selector, $value_label));
+  }
+
+  /**
    * Checks if a specified link is in a HTML element in a field display.
    *
    * @Then I should see the link :link in a :html_element in the field display (:container_selector)
@@ -518,6 +530,53 @@ class MinkContext extends DrupalExtensionMinkContext {
       throw new \InvalidArgumentException(sprintf('Could not evaluate XPath: "%s"', $xpath));
     }
     $element->click();
+  }
+
+  /**
+   * Fills in content's title field with a specified value.
+   *
+   * @When I fill in the content's title with :arg1
+   */
+  public function iFillInTheContentsTitleWith($arg1) {
+    $page = $this->getSession()->getPage();
+
+    $content_field_id = 'edit-title';
+    $element = $page->find('css', '#edit-title');
+    if (empty($element)) {
+      $content_field_id = 'edit-title-field-en-0-value';
+    }
+    $this->fillField($content_field_id, $arg1);
+  }
+
+  /**
+   * Checks that HTML response contains the specified meta tag.
+   *
+   * It checks the name and the content attributes values.
+   *
+   * @Then the response should contain the meta tag with the :arg1 name and the :arg2 content
+   */
+  public function responseShouldContainMetaTagWithNameAndContent($arg1, $arg2) {
+    $metatag = $this->getMetaTagByName($arg1);
+
+    assert($arg2, equals($metatag->getAttribute('content')), sprintf('The meta tag "%s" does not have "%s" as content attribute.', $arg1, $arg2));
+  }
+
+  /**
+   * Gets the meta tag NodeElement from the name attribute value.
+   *
+   * @param string $name
+   *   The name value for the meta tag.
+   *
+   * @return \Behat\Mink\ElementNodeElement
+   *   The meta tag node element.
+   */
+  protected function getMetaTagByName($name) {
+    $page = $this->getSession()->getPage();
+    $element = $page->find('css', sprintf('meta[name="%s"]', $name));
+
+    assert($element, isNotEmpty(), sprintf('The meta tag "%s" has not been found', $name));
+
+    return $element;
   }
 
 }
