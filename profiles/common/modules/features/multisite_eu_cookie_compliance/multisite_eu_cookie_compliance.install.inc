@@ -22,7 +22,7 @@ Drupal.tableDrag.showWeight
 Drupal.toolbar.collapsed
 has_js
 ',
-    'consent_storage_method' => 'opt_in',
+    'consent_storage_method' => 'do_not_store',
     'popup_clicking_confirmation' => FALSE,
     'popup_info' => array(
       'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px;">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px;">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
