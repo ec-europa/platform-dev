@@ -195,11 +195,10 @@ projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
-projects[easy_breadcrumb][version] = "2.12"
-; Issue #2290941 : Breadcrumb shows escaped HTML tags on core admin pages
-; https://www.drupal.org/node/2290941
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6753
-projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/check-plain-vs-filter-xss_0_1.patch
+projects[easy_breadcrumb][version] = "2.15"
+; Issue #2973420 : 	Undefined index: html in template_preprocess_easy_breadcrumb()
+; https://www.drupal.org/node/2973420
+projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/2018-05-16/easy_breadcrumb-undefined_index_html-2973420-2.patch
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -281,15 +280,15 @@ projects[feeds][version] = "2.0-beta3"
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
-; So far, the module does not have any official release. 
-; The following declaration is based on the one recommended by the 
-; nexteuropa_newsroom team to sub-sites; including the patch 
+; So far, the module does not have any official release.
+; The following declaration is based on the one recommended by the
+; nexteuropa_newsroom team to sub-sites; including the patch
 ; "feeds_et_link_support-2078069-3.patch".
 projects[feeds_et][subdir] = "contrib"
 projects[feeds_et][download][type] = git
 projects[feeds_et][download][revision] = bf0d6d00b1a80a630d4266b04c254f2335177346
 projects[feeds_et][download][branch] = 7.x-1.x
-; Add support for link fields, patch required for the nexteuropa_newsroom module; 
+; Add support for link fields, patch required for the nexteuropa_newsroom module;
 ; see module README file.
 ; https://www.drupal.org/node/2078069
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2018
@@ -622,7 +621,7 @@ projects[redirect][download][revision] = add3c695f613fbeec23b7259e59936f60a6b6da
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1943
 projects[redirect][patch][] = https://www.drupal.org/files/issues/2018-06-24/redirect-increase-size-fields-to-900-2057615-35.patch
 ; Prevent new redirects from being deleted on cron runs.
-; https://www.drupal.org/node/1396446 
+; https://www.drupal.org/node/1396446
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
 projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05-09/redirect-purge-from-created-1396446-54.patch
 ; Prevent duplicate hashes causing database exceptions
@@ -630,9 +629,9 @@ projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1946
 ; The creation of a specific patch based on
 ; https://www.drupal.org/files/issues/redirect-duplicate_redirect_save_handling-2260499-11.patch
-; is necessary because it is in conflict with the 2 other "Redirect" patches and rerolling the D.o issue 
+; is necessary because it is in conflict with the 2 other "Redirect" patches and rerolling the D.o issue
 ; is not possible as the 2 others are not committed in the DEV branch.
-projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch 
+projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
@@ -866,7 +865,7 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; Issue #2825391 Fix current state for transition rules
 ; https://www.drupal.org/node/2825391
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
-projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch 
+projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch
 
 ; Workbench_og does not have a stable version that allows applying the 2
 ; patches needed to fix the issues NEPT-296 AND NEPT-1866.
