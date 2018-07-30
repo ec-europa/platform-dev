@@ -14,39 +14,101 @@ function multisite_eu_cookie_compliance_install() {
 }
 
 /**
+ * Implements hook_uninstall().
+ */
+function multisite_eu_cookie_compliance_uninstall() {
+  drupal_uninstall_modules(array('eu_cookie_compliance'));
+}
+
+/**
  * Implements hook_enable().
  *
  * Revert feature component.
  */
 function multisite_eu_cookie_compliance_enable() {
-  // For some unknown reason, we need to manually trigger the rebuild of the
-  // variables in features.
-  // @todo Investigate.
   $popup_settings = array(
     'popup_enabled' => 1,
-    'popup_clicking_confirmation' => 0,
-    'popup_position' => 0,
+    'method' => 'opt_in',
+    'disabled_javascripts' => '',
+    'whitelisted_cookies' => 'Drupal.toolbar.collapsed
+Drupal.tableDrag.showWeight
+Drupal.toolbar.collapsed
+has_js
+',
+    'consent_storage_method' => 'do_not_store',
+    'popup_clicking_confirmation' => FALSE,
     'popup_info' => array(
-      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
-      'format' => "full_html",
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px;">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px;">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'format' => 'full_html',
     ),
+    'use_mobile_message' => 0,
+    'mobile_popup_info' => array(
+      'value' => '',
+      'format' => 'full_html',
+    ),
+    'mobile_breakpoint' => '768',
+    'popup_agree_button_message' => 'OK, I agree',
+    'show_disagree_button' => TRUE,
+    'popup_disagree_button_message' => 'More info',
+    'disagree_button_label' => 'Decline',
+    'withdraw_enabled' => 0,
+    'withdraw_message' => array(
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px;">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px;">You have given your consent for us to set cookies.</p>',
+      'format' => 'full_html',
+    ),
+    'withdraw_tab_button_label' => 'Privacy settings',
+    'withdraw_action_button_label' => 'Withdraw consent',
     'popup_agreed_enabled' => 0,
     'popup_hide_agreed' => 0,
     'popup_agreed' => array(
-      'value' => '<h2 class="ecl-heading ecl-heading--h2">Thank you for accepting cookies</h2><p>You can now hide this message or find out more about cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px;">Thank you for accepting cookies</h2><p style="font-size: 13px; line-height: 20px;">You can now hide this message or find out more about cookies.</p>',
       'format' => 'full_html',
     ),
-    'popup_link' => 'http://ec.europa.eu/cookies/index_en.htm',
+    'popup_find_more_button_message' => 'More info',
+    'popup_hide_button_message' => 'Hide',
+    'popup_link' => 'https://ec.europa.eu/info/cookies_en',
+    'popup_link_new_window' => 0,
+    'popup_position' => FALSE,
+    'use_bare_css' => 0,
+    'popup_text_hex' => 'ffffff',
+    'popup_bg_hex' => '0779BF',
     'popup_height' => '60',
     'popup_width' => '100%',
-    'popup_delay' => '1',
-    'popup_bg_hex' => '0779BF',
-    'popup_text_hex' => 'ffffff',
+    'fixed_top_position' => 1,
+    'popup_delay' => '1000',
+    'disagree_do_not_show_popup' => 0,
+    'reload_page' => 0,
+    'popup_scrolling_confirmation' => FALSE,
+    'cookie_name' => 'multisite.eu.cookie.compliance.agree',
+    'domains_option' => '1',
+    'domains_list' => '',
+    'exclude_paths' => '',
+    'exclude_admin_pages' => 1,
+    'exclude_uid_1' => 1,
+    'script_scope' => 'footer',
+    'better_support_for_screen_readers' => 0,
+    'cookie_session' => 0,
   );
+  variable_set('eu_cookie_compliance', $popup_settings);
 
-  global $language;
-  $lang = ($language->language) ? $language->language : 'en';
-  variable_set('eu_cookie_compliance_' . $lang, $popup_settings);
+  variable_set('eu_cookie_compliance_cookie_lifetime', 100);
+
+  variable_set('eu_cookie_compliance_domain', '');
+
+  // Enable the variable translation via i18n variable, if enabled.
+  // Code derived from eu_cookie_compliance_update_7001().
+  if (module_exists('i18n_variable')) {
+    $controller = variable_realm_controller('language');
+    $old_variables = $controller->getEnabledVariables();
+    $old_list = variable_children($old_variables);
+    $variables = array_merge($old_list, array('eu_cookie_compliance'));
+    $controller->setRealmVariable('list', $variables);
+
+    /*$languages = language_list();
+    foreach ($languages as $language) {
+        variable_realm_set('language', $language->language, 'eu_cookie_compliance', $popup_settings);
+    }*/
+  }
 
   // Activation message.
   drupal_set_message(t('EU Cookie Compliance feature is now active on your site.'));
@@ -56,5 +118,6 @@ function multisite_eu_cookie_compliance_enable() {
  * Implements hook_disable().
  */
 function multisite_eu_cookie_compliance_disable() {
+  module_disable(array('eu_cookie_compliance'));
   drupal_set_message(t('EU Cookie Compliance feature is now disabled on your site.'));
 }

@@ -245,7 +245,7 @@ projects[entityreference_prepopulate][version] = "1.5"
 projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.14"
+projects[eu_cookie_compliance][version] = "1.25"
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
