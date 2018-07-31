@@ -246,6 +246,11 @@ projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopu
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.25"
+; After updating the module, a warning message appears about undefined
+; withdraw_message, consent_storage_method and disabled_javascripts indexes.
+; https://www.drupal.org/project/eu_cookie_compliance/issues/2985520
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
+projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-31/undefined_indexes_warning_after_update-2985520-5.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
