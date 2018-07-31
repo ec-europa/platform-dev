@@ -255,6 +255,11 @@ projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/20
 ; https://www.drupal.org/project/eu_cookie_compliance/issues/2985509
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
 projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-13/eu_cookie_compliance-close_popup-2985509-1.patch
+; Key to json hash cannot be "class" as it is a reserved word, use of "let"
+; is not supported by all browsers as is ECMAScript.
+; https://www.drupal.org/project/eu_cookie_compliance/issues/2986882
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
+projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-26/eu_cookie_compliance-javascript-errors-2986882-3.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
