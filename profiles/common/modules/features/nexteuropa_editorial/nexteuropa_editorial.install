@@ -90,6 +90,67 @@ function nexteuropa_editorial_install() {
   // Set "administrator" permissions.
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 
+  // Set "administrator" permissions.
+  $cem_permissions = array(
+
+    // Admin menu.
+    'access administration menu',
+
+    // Bean.
+    'access bean overview',
+    'view bean page',
+    'view bean revisions',
+
+    // Contextual.
+    'access contextual links',
+
+    // Entity Translation.
+    'translate any entity',
+
+    // File entity.
+    'create files',
+    'view own private files',
+    'view own files',
+
+    // Menu.
+    'administer menu',
+
+    // Node.
+    'view own unpublished content',
+    'view revisions',
+    'access content overview',
+
+    // Path.
+    'create url aliases',
+
+    // Scheduler.
+    'schedule (un)publishing of nodes',
+
+    // Scheduler Workbench Integration.
+    'override default scheduler time',
+
+    // Translation Management.
+    'submit translation jobs',
+    'create translation jobs',
+
+    // Workbench.
+    'access workbench',
+
+    // Workbench Moderation.
+    'view all unpublished content',
+    'view moderation history',
+    'view moderation messages',
+    'use workbench_moderation my drafts tab',
+    'use workbench_moderation needs review tab',
+
+    // WYSIWYG Editor.
+    'use media wysiwyg',
+
+    // System.
+    'access administration pages',
+  );
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $cem_permissions);
+
   // Rebuilds the node access database.
   node_access_rebuild();
 
