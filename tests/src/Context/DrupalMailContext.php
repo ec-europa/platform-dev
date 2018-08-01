@@ -8,8 +8,6 @@ use Behat\Gherkin\Node\TableNode;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isNotEmpty;
-use Drupal\DrupalDriverManager;
-use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 
 /**
@@ -17,13 +15,7 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
  *
  * This context can be used for testing the mail features.
  */
-class DrupalMailContext extends RawDrupalContext implements DrupalSubContextInterface {
-  /**
-   * The Drupal driver manager.
-   *
-   * @var \Drupal\DrupalDriverManager
-   */
-  protected $drupal;
+class DrupalMailContext extends RawDrupalContext {
 
   /**
    * Contains original variable values set during test execution.
@@ -45,16 +37,6 @@ class DrupalMailContext extends RawDrupalContext implements DrupalSubContextInte
    * @var VariableContext
    */
   protected $variableContext;
-
-  /**
-   * Constructs a DrupalMailContext object.
-   *
-   * @param \Drupal\DrupalDriverManager $drupal
-   *   The Drupal driver manager.
-   */
-  public function __construct(DrupalDriverManager $drupal) {
-    $this->drupal = $drupal;
-  }
 
   /**
    * Grabs other contexts we rely on from the environment.

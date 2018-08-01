@@ -457,12 +457,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       // Getting available languages.
       $languages = language_list();
 
-      $request_file_info = end($this->translationRequest['files']);
-      $request_file = file_load($request_file_info->fid);
-
-      // Getting and processing a XML request.
-      $request_xml = file_get_contents($request_file->uri);
-      $xml = new SimpleXMLElement($request_xml);
+      $xml = $this->getLatestTranslationRequestXml($this->translationRequest['files']);
       $results = $xml->xpath('/POETRY/request/attributions');
 
       // Preparing an array with languages which are part of the request.
@@ -478,6 +473,69 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
     }
 
     assert($new_languages, equals($expected_languages));
+  }
+
+  /**
+   * Checks if the request delay date corresponds to the relative date.
+   *
+   * @param string $relative_delay
+   *   The relative date value to check.
+   *
+   * @Then the relative delay date of the request is :arg1 days
+   */
+  public function assertDelayDateRequestContainsLanguages($relative_delay) {
+    $relative_date = date('d/m/Y', strtotime("{$relative_delay} day"));
+
+    // Checking if there are multiple requests stored in files by poetry mock
+    // and getting the last of them.
+    if (isset($this->translationRequest['files'])) {
+
+      $xml = $this->getLatestTranslationRequestXml($this->translationRequest['files']);
+      $results = $xml->xpath('/POETRY/request/attributions');
+
+      // Check that the attributionDelai value of the first XML node
+      // corresponds to specified date.
+      foreach ($results as $result) {
+        foreach ($result->children('attributionsDelai') as $delay) {
+          assert((string) $delay, equals($relative_date));
+        }
+      }
+    }
+  }
+
+  /**
+   * Gets the XML content of the latest generated translation request.
+   *
+   * @param array $filePath
+   *   Array of file path retrieved from the site file system.
+   *
+   * @return SimpleXMLElement
+   *   The object containing the XML content.
+   *
+   * @throws Exception
+   *   Throw when the file information or the file containing the XML
+   *   is not found.
+   */
+  private function getLatestTranslationRequestXml(array $filePath) {
+    $request_file_info = end($filePath);
+    $request_file = file_load($request_file_info->fid);
+
+    if (!$request_file) {
+      throw new \Exception(
+        'The file object related to the XML file of the Translation request has not been found.'
+      );
+    }
+
+    // Getting and processing a XML request.
+    $request_xml = file_get_contents($request_file->uri);
+
+    if (!$request_file) {
+      throw new \Exception(
+        'The XML file of the Translation request has not been found.'
+      );
+    }
+
+    return new SimpleXMLElement($request_xml);
   }
 
 }

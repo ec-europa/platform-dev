@@ -283,6 +283,21 @@ projects[feeds][version] = "2.0-beta3"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
+; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
+; So far, the module does not have any official release. 
+; The following declaration is based on the one recommended by the 
+; nexteuropa_newsroom team to sub-sites; including the patch 
+; "feeds_et_link_support-2078069-3.patch".
+projects[feeds_et][subdir] = "contrib"
+projects[feeds_et][download][type] = git
+projects[feeds_et][download][revision] = bf0d6d00b1a80a630d4266b04c254f2335177346
+projects[feeds_et][download][branch] = 7.x-1.x
+; Add support for link fields, patch required for the nexteuropa_newsroom module; 
+; see module README file.
+; https://www.drupal.org/node/2078069
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2018
+projects[feeds_et][patch][] = "https://www.drupal.org/files/issues/feeds_et_link_support-2078069-3.patch"
+
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.2"
 
@@ -388,7 +403,10 @@ projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
 projects[jplayer][subdir] = "contrib"
-projects[jplayer][version] = "2.0-beta1"
+projects[jplayer][version] = "2.0"
+; https://www.drupal.org/project/jplayer/issues/2977834
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1657
+projects[jplayer][patch][] = https://www.drupal.org/files/issues/2018-06-06/2977834-2.patch
 
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.7"
@@ -598,18 +616,40 @@ projects[rate][patch][] = patches/rate-translate_description-1178.patch
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.3"
 
+projects[redirect][subdir] = "contrib"
+; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
+projects[redirect][download][branch] = 7.x-1.x
+projects[redirect][download][revision] = add3c695f613fbeec23b7259e59936f60a6b6da6
+; Increase size of source field to hold long URLs
+; https://www.drupal.org/project/redirect/issues/2057615
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1943
+projects[redirect][patch][] = https://www.drupal.org/files/issues/2018-06-24/redirect-increase-size-fields-to-900-2057615-35.patch
+; Prevent new redirects from being deleted on cron runs.
+; https://www.drupal.org/node/1396446 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
+projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05-09/redirect-purge-from-created-1396446-54.patch
+; Prevent duplicate hashes causing database exceptions
+; https://www.drupal.org/node/2260499
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1946
+; The creation of a specific patch based on
+; https://www.drupal.org/files/issues/redirect-duplicate_redirect_save_handling-2260499-11.patch
+; is necessary because it is in conflict with the 2 other "Redirect" patches and rerolling the D.o issue 
+; is not possible as the 2 others are not committed in the DEV branch.
+projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch 
+
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
 
 projects[registry_autoload][subdir] = "contrib"
 projects[registry_autoload][version] = 1.3
+; class_implements(): Class Drupal\integration\Backend\Entity\
+; BackendEntityController does not exist and could not be loaded entity.module:1480
+; https://www.drupal.org/node/2870868
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1950
+projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issues/autoload_bootstrap_dependency_issues-2870868-2.patch
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.10"
-; #2851567 rules_init() and cache rebuilding are broken
-; https://www.drupal.org/project/rules/issues/2851567
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1325
-projects[rules][patch][2851567] = https://www.drupal.org/files/issues/rules_init_and_cache-2851567-8.patch
+projects[rules][version] = "2.11"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
@@ -618,7 +658,7 @@ projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
 
 projects[select_or_other][subdir] = "contrib"
-projects[select_or_other][version] = 2.22
+projects[select_or_other][version] = 2.24
 
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
@@ -664,6 +704,13 @@ projects[term_reference_tree][patch][1514794] = https://www.drupal.org/files/i18
 ; https://www.drupal.org/project/term_reference_tree/issues/1277268
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2000
 projects[term_reference_tree][patch][] = https://www.drupal.org/files/issues/slider_layout_broken_in_ie8-1277268-25.patch
+; PHP Fatal Error Call to undefined method i18n_object_wrapper::
+; strings_update().
+; It fixes a bug reproducible on sub-sites like BRP but not on fresh install
+; of the platform.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1987
+; https://www.drupal.org/node/2082573
+projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-06-24/i18n-fatal-error-undefined-strings_update-2082573-54.patch
 
 projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 8119fa2
@@ -818,7 +865,7 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; Issue #2825391 Fix current state for transition rules
 ; https://www.drupal.org/node/2825391
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
-projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch 
+projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch
 
 ; Workbench_og does not have a stable version that allows applying the 2
 ; patches needed to fix the issues NEPT-296 AND NEPT-1866.
@@ -835,6 +882,11 @@ projects[workbench_og][type] = module
 projects[workbench_og][download][type] = git
 projects[workbench_og][download][revision] = 511caed35326ec7f328e794dc4be21eb33c5ae86
 projects[workbench_og][download][branch] = 7.x-2.x
+; Check access for users to view content that was created by them and don't
+; belong to an organic group.
+; Issue https://www.drupal.org/project/workbench_og/issues/2006134
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
+projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][version] = "2.4"
@@ -846,7 +898,7 @@ projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.3"
+projects[xmlsitemap][version] = "2.4"
 ; Using rel="alternate" rather than multiple sitemaps by language context
 ; https://www.drupal.org/node/1670086
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
@@ -1049,12 +1101,12 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.9
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.8
+projects[atomium][version] = 2.11
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.11
+projects[ec_europa][download][tag] = 0.0.13
 
 ; ==============
 ; Custom modules
