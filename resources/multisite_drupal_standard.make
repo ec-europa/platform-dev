@@ -285,6 +285,21 @@ projects[feeds][version] = "2.0-beta3"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
+; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
+; So far, the module does not have any official release. 
+; The following declaration is based on the one recommended by the 
+; nexteuropa_newsroom team to sub-sites; including the patch 
+; "feeds_et_link_support-2078069-3.patch".
+projects[feeds_et][subdir] = "contrib"
+projects[feeds_et][download][type] = git
+projects[feeds_et][download][revision] = bf0d6d00b1a80a630d4266b04c254f2335177346
+projects[feeds_et][download][branch] = 7.x-1.x
+; Add support for link fields, patch required for the nexteuropa_newsroom module; 
+; see module README file.
+; https://www.drupal.org/node/2078069
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2018
+projects[feeds_et][patch][] = "https://www.drupal.org/files/issues/feeds_et_link_support-2078069-3.patch"
+
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
 
@@ -301,10 +316,7 @@ projects[field_group][version] = "1.5"
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.4"
-; https://www.drupal.org/node/2893132
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-672
-projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
+projects[file_entity][version] = "2.21"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.11"
@@ -375,7 +387,18 @@ projects[i18n][version] = "1.13"
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
+; Term field not displayed & Notice: Undefined index: taxonomy_term in 
+; i18n_taxonomy_field_formatter_view() in node preview
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-8408
+; https://www.drupal.org/node/2092883
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
+; PHP Fatal Error Call to undefined method i18n_object_wrapper::
+; strings_update().
+; It fixes a bug reproducible on sub-sites like BRP but not on fresh install
+; of the platform.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1987
+; https://www.drupal.org/node/2082573
+projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-06-24/i18n-fatal-error-undefined-strings_update-2082573-54.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
@@ -397,7 +420,10 @@ projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
 projects[jplayer][subdir] = "contrib"
-projects[jplayer][version] = "2.0-beta1"
+projects[jplayer][version] = "2.0"
+; https://www.drupal.org/project/jplayer/issues/2977834
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1657
+projects[jplayer][patch][] = https://www.drupal.org/files/issues/2018-06-06/2977834-2.patch
 
 projects[jqmulti][subdir] = "contrib"
 projects[jqmulti][version] = "1.0"
@@ -632,7 +658,7 @@ projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
 
 projects[select_or_other][subdir] = "contrib"
-projects[select_or_other][version] = 2.22
+projects[select_or_other][version] = 2.24
 
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
@@ -848,7 +874,7 @@ projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.3"
+projects[xmlsitemap][version] = "2.4"
 ; Using rel="alternate" rather than multiple sitemaps by language context
 ; https://www.drupal.org/node/1670086
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
@@ -1048,9 +1074,9 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.8
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.8
+projects[atomium][version] = 2.11
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.11
+projects[ec_europa][download][tag] = 0.0.13

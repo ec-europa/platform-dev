@@ -46,11 +46,12 @@ function ecas_group_sync_menu() {
 }
 
 /**
- * Implements hook_info_ecas_update().
+ * Implements hook_ecas_user_roles_alter().
  *
- * Implement mapping between LDAP data and user accounts.
+ * Alters the ECAS user roles according to the defined ECAS synchronization
+ * rules.
  */
-function ecas_group_sync_info_ecas_update($user, $user_info, $args) {
+function ecas_group_sync_ecas_user_roles_alter(&$user_roles, $user, $user_info, $args) {
   $user_department = ecas_get_user_department($user_info);
 
   if (empty($user_department['dg'])) {
@@ -61,15 +62,29 @@ function ecas_group_sync_info_ecas_update($user, $user_info, $args) {
 
   // Mapping between DG and drupal roles.
   $rules = ecas_group_sync_get_ecas_sync_rules($dg_id, 'role');
-  if ($rules) {
-    $roles = $user->roles;
-    foreach ($rules as $rule) {
-      $roles[$rule->synctype_value] = $rule->name;
-    }
 
-    $user->roles = $roles;
-    user_save($user, array('roles' => $roles));
+  if (!$rules) {
+    return;
   }
+
+  foreach ($rules as $rule) {
+    $user_roles[$rule->synctype_value] = $rule->name;
+  }
+}
+
+/**
+ * Implements hook_info_ecas_update().
+ *
+ * Implement mapping between LDAP data and user OG groups.
+ */
+function ecas_group_sync_info_ecas_update($user, $user_info, $args) {
+  $user_department = ecas_get_user_department($user_info);
+
+  if (empty($user_department['dg'])) {
+    return;
+  }
+
+  $dg_id = $user_department['dg'];
 
   if (!module_exists('og')) {
     // If OG is disable, we can stop the process here.
