@@ -1079,4 +1079,8 @@ projects[atomium][version] = 2.11
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.13
+; The line below is to uncomment once the code review of nept-2038 is done.
+; projects[ec_europa][download][tag] = 0.0.14
+; The lineand the one below below are to be removed once the code review of 
+; nept-2038 is done.
+projects[ec_europa][download][branch] = nept-2038
