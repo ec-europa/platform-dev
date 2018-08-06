@@ -520,15 +520,12 @@ projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.22"
 
-; A recent version of the Migrate module is pinned that contains a fix for
-; https://www.drupal.org/node/2504517
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
-; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
-projects[migrate][download][branch] = 7.x-2.x
-projects[migrate][download][revision] = bdb5a86116295df7c35fbb39bdd4397f743498c1
-projects[migrate][download][type] = git
 projects[migrate][subdir] = contrib
-projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909252-1.patch
+projects[migrate][version] = "2.11"
+; Migration::applyMappings() problem with handle multifield subfields.
+; https://www.drupal.org/project/migrate/issues/2588341
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2000
+projects[migrate][patch][2588341] = https://www.drupal.org/files/issues/2018-06-25/2588341-9.patch
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0"
