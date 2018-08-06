@@ -782,17 +782,18 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.18
-
+projects[views][version] = 3.20
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
 projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_empty_not_empty_filter_error-1818176-37.patch
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
-; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
-; https://www.drupal.org/node/2908538
-projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
+; Reset of Exposed Published Status filter with "Remember last selection" results in:
+; Undefined index: status in views_handler_filter->store_exposed_input()
+; https://www.drupal.org/project/views/issues/2961962
+; The patch of this issue fixes the PHP error: https://www.drupal.org/project/views/issues/2900405
+projects[views][patch][] = https://www.drupal.org/files/issues/views-check-exposed-identifier.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
