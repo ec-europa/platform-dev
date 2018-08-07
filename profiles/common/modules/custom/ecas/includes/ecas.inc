@@ -6,31 +6,6 @@
  */
 
 /**
- * ECAS group for CEM team users.
- */
-define('ECAS_CEM_ECAS_GROUP', 'COMM_CEM');
-
-/**
- * Name of the email message error variable.
- */
-define('ECAS_EMAIL_ERROR_MESSAGE', 'ecas_email_error_message');
-
-/**
- * Name of the variable for the social network email message error variable.
- */
-define('ECAS_EMAIL_ERROR_MESSAGE_SOCIAL', 'ecas_email_error_message_social');
-
-/**
- * Name of the login message variable.
- */
-define('ECAS_LOGIN_MESSAGE', 'ecas_login_message');
-
-/**
- * Name of the warning message variable.
- */
-define('ECAS_WARNING_MESSAGE', 'ecas_warning_message');
-
-/**
  * Checks if the given user is an ECAS user.
  *
  * @param object $user
@@ -209,10 +184,20 @@ function ecas_menu_check() {
  * Redirects the user to the account request page.
  */
 function account_request() {
+  $account_request_url = ecas_get_account_request_url();
+  drupal_goto($account_request_url);
+}
+
+/**
+ * Gets the URL for the EU Login account creation form.
+ *
+ * @return string
+ *   The creation form URL.
+ */
+function ecas_get_account_request_url() {
   $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
   $return_url = url('ecas', array('absolute' => TRUE));
-  $account_request_url = str_replace('%local_ecas_url%', $return_url, $account_request_url);
-  drupal_goto($account_request_url);
+  return str_replace('%local_ecas_url%', $return_url, $account_request_url);
 }
 
 /**
