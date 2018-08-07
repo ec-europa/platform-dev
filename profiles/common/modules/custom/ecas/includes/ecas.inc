@@ -16,9 +16,9 @@ define('ECAS_CEM_ECAS_GROUP', 'COMM_CEM');
 define('ECAS_EMAIL_ERROR_MESSAGE', 'ecas_email_error_message');
 
 /**
- * Name of the variable for the Facebook email message error variable.
+ * Name of the variable for the social network email message error variable.
  */
-define('ECAS_EMAIL_ERROR_MESSAGE_FACEBOOK', 'ecas_email_error_message_facebook');
+define('ECAS_EMAIL_ERROR_MESSAGE_SOCIAL', 'ecas_email_error_message_social');
 
 /**
  * Name of the login message variable.
@@ -389,6 +389,9 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
   // If it is not there, then we block the Drupal user creation and login.
   if (empty($edit['mail']) && empty($user->mail)) {
     $path_end = ECAS_EMAIL_ERROR_MESSAGE;
+    if (!empty($user_info['cas:employeeType']) && ('v' == $user_info['cas:employeeType'])) {
+      $path_end = ECAS_EMAIL_ERROR_MESSAGE_SOCIAL;
+    }
     drupal_goto('ecas_profile_error/' . $path_end);
   }
 

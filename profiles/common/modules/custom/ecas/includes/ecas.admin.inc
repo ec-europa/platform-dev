@@ -165,14 +165,13 @@ function ecas_admin_settings() {
     '#format' => isset($ecas_error_message_email['format']) ? $ecas_error_message_email['format'] : filter_default_format(),
     '#required' => TRUE,
   );
-  $ecas_additonal_info_facebook = variable_get(ECAS_EMAIL_ERROR_MESSAGE_FACEBOOK, array('value' => '', 'format' => NULL));
-  $form['param'][ECAS_EMAIL_ERROR_MESSAGE_FACEBOOK] = array(
+  $ecas_error_message_email_social = variable_get(ECAS_EMAIL_ERROR_MESSAGE_SOCIAL, array('value' => '', 'format' => NULL));
+  $form['param'][ECAS_EMAIL_ERROR_MESSAGE_SOCIAL] = array(
     '#type' => 'text_format',
-    '#title' => t('Error message text in case of an missing e-mail address when using Facebook'),
-    '#description' => t('Alternative text supplying information about the error caused by the absence of the e-mail in the EU Login profile created from Facebook.'),
-    '#default_value' => $ecas_additonal_info_facebook['value'],
-    '#format' => isset($ecas_additonal_info_facebook['format']) ? $ecas_additonal_info_facebook['format'] : filter_default_format(),
-    '#required' => TRUE,
+    '#title' => t('Error message text in case of an missing e-mail address when using social network'),
+    '#description' => t('Alternative text supplying information about the error caused by the absence of the e-mail in the EU Login profile created from social network.'),
+    '#default_value' => $ecas_error_message_email_social['value'],
+    '#format' => isset($ecas_error_message_email_social['format']) ? $ecas_error_message_email_social['format'] : filter_default_format(),
   );
 
   $form['param']['ecas_update_mail_address'] = array(

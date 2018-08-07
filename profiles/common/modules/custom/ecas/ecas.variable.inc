@@ -19,10 +19,10 @@ function ecas_variable_info($options) {
     'localize' => TRUE,
   );
 
-  $variables[ECAS_EMAIL_ERROR_MESSAGE_FACEBOOK] = array(
+  $variables[ECAS_EMAIL_ERROR_MESSAGE_SOCIAL] = array(
     'type' => 'text_format',
-    'title' => t('Error message text in case of an missing e-mail address when using Facebook', array(), $options),
-    'description' => t('Alternative text supplying information about the error caused by the absence of the e-mail in the EU Login profile created from Facebook.'),
+    'title' => t('Error message text in case of an missing e-mail address when using social network', array(), $options),
+    'description' => t('Alternative text supplying information about the error caused by the absence of the e-mail in the EU Login profile created from social network.'),
     'group' => 'ecas',
     'localize' => TRUE,
   );

@@ -32,7 +32,7 @@ function ecas_install() {
     $variable_realm_list_language = variable_get('variable_realm_list_language', array());
     $variable_realm_list_language += array(
       ECAS_EMAIL_ERROR_MESSAGE,
-      ECAS_EMAIL_ERROR_MESSAGE_FACEBOOK,
+      ECAS_EMAIL_ERROR_MESSAGE_SOCIAL,
       ECAS_LOGIN_MESSAGE,
       ECAS_WARNING_MESSAGE,
     );
@@ -101,7 +101,7 @@ function ecas_update_7001() {
     $variable_realm_list_language = variable_get('variable_realm_list_language', array());
     $variable_realm_list_language += array(
       ECAS_EMAIL_ERROR_MESSAGE,
-      ECAS_EMAIL_ERROR_MESSAGE_FACEBOOK,
+      ECAS_EMAIL_ERROR_MESSAGE_SOCIAL,
       ECAS_LOGIN_MESSAGE,
       ECAS_WARNING_MESSAGE,
     );
