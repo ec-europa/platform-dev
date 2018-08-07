@@ -11,6 +11,26 @@
 define('ECAS_CEM_ECAS_GROUP', 'COMM_CEM');
 
 /**
+ * Name of the email message error variable.
+ */
+define('ECAS_EMAIL_ERROR_MESSAGE', 'ecas_email_error_message');
+
+/**
+ * Name of the variable for the Facebook email message error variable.
+ */
+define('ECAS_EMAIL_ERROR_MESSAGE_FACEBOOK', 'ecas_email_error_message_facebook');
+
+/**
+ * Name of the login message variable.
+ */
+define('ECAS_LOGIN_MESSAGE', 'ecas_login_message');
+
+/**
+ * Name of the warning message variable.
+ */
+define('ECAS_WARNING_MESSAGE', 'ecas_warning_message');
+
+/**
  * Checks if the given user is an ECAS user.
  *
  * @param object $user
@@ -149,6 +169,15 @@ function _ecas_menu(array &$items) {
     'title' => 'EU Login warning',
     'page callback' => 'ecas_warning_page',
     'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  // Error page with only a error type set.
+  $items['ecas_profile_error/%'] = array(
+    'title' => 'Access to this site is refused',
+    'page callback' => 'ecas_profile_error_page',
+    'page arguments' => array(1),
+    'access callback' => 'user_is_anonymous',
     'type' => MENU_CALLBACK,
   );
 
@@ -335,7 +364,8 @@ function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()
 function ecas_sync_user_info(&$user, array $user_info, array $args) {
   $edit = array();
   // Update the user mail in the users table.
-  if (variable_get('ecas_update_mail_address', TRUE)) {
+  if (variable_get('ecas_update_mail_address', TRUE)
+    && (!empty($user_info['cas:email']))) {
     $edit['mail'] = $user_info['cas:email'];
   }
 
@@ -354,7 +384,16 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
   // Let the opportunity to modules to alter user roles.
   drupal_alter('ecas_user_roles', $edit['roles'], $user, $user_info, $args);
 
+  // We gave to possibility to others modules to treat the case, now we control
+  // The existence of the user e-mail.
+  // If it is not there, then we block the Drupal user creation and login.
+  if (empty($edit['mail']) && empty($user->mail)) {
+    $path_end = ECAS_EMAIL_ERROR_MESSAGE;
+    drupal_goto('ecas_profile_error/' . $path_end);
+  }
+
   // Fix : save file object replaced by fid by user_save function.
+  // That will be useful in the hook_info_ecas_update implementations.
   $picture = $user->picture;
   user_save($user, $edit);
   $user->mail = $user_info['cas:email'];
@@ -442,12 +481,6 @@ function ecas_login_check() {
 
     if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY) || ($force_login === ECAS_LOGIN))) {
       $ecas_name = phpCAS::getUser();
-      // @codingStandardsIgnoreStart: NEPT-1332: To be fixed during refactoring.
-      $ecas_attributes = phpCAS::getAttributes();
-      $ecas_groups = $ecas_attributes['cas:groups'];
-      $ecas_email = $ecas_attributes['cas:email'];
-      // @codingStandardsIgnoreEnd
-      // Try to log into Drupal.
       $account = user_load_by_name($ecas_name);
 
       // Extra process to filter ECAS user.
@@ -709,6 +742,63 @@ function ecas_warning_page() {
   $output .= '<p>' . variable_get('ecas_warning_message', t('Your account is not yet approved')) . '</p>';
 
   return $output;
+}
+
+/**
+ * Page displaying error message when the EU login profile is malformed.
+ *
+ * @param string $error_type
+ *   The variable name of the error text to display in the page.
+ *
+ * @return string
+ *   The page display content.
+ */
+function ecas_profile_error_page($error_type = '') {
+  $theme_variables = array(
+    'error_text' => t("The reason is unknown. Please contact the site's administrator"),
+  );
+  // Manage the error text to display on the error page.
+  if (!empty($error_type) && ($error_text = variable_get($error_type))) {
+    $theme_variables['error_text'] = _ecas_filter_text($error_text);
+  }
+
+  return theme('ecas_profile_error_page', $theme_variables);
+}
+
+/**
+ * Filters a content.
+ *
+ * @param string|array $raw_text
+ *   The content to filter.
+ *   If the value is an array, it must contains the following key:
+ *   - 'value': The text to be filtered.
+ *   - 'format':  The machine name of the filter format to be used to filter the
+ *   text.
+ *
+ * @return string
+ *   The filtered text.
+ */
+function _ecas_filter_text($raw_text) {
+  if (is_array($raw_text)) {
+    return check_markup($raw_text['value'], $raw_text['format']);
+  }
+
+  return check_markup($raw_text);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ecas_theme() {
+  return array(
+    'ecas_profile_error_page' => array(
+      'variables' =>
+        array(
+          'error_text' => NULL,
+        ),
+      'template' => 'theme/templates/ecas-profile-error-page',
+    ),
+  );
 }
 
 /**
