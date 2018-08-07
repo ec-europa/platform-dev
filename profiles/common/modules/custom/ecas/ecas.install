@@ -30,13 +30,13 @@ function ecas_install() {
 
   if (module_exists('i18n_variable')) {
     $variable_realm_list_language = variable_get('variable_realm_list_language', array());
-    $variable_realm_list_language += array(
+    $ecas_variables = array(
       ECAS_EMAIL_ERROR_MESSAGE,
       ECAS_EMAIL_ERROR_MESSAGE_SOCIAL,
       ECAS_LOGIN_MESSAGE,
       ECAS_WARNING_MESSAGE,
     );
-    variable_set('variable_realm_list_language', $variable_realm_list_language);
+    variable_set('variable_realm_list_language', array_merge($variable_realm_list_language, $ecas_variables));
   }
 }
 
@@ -99,12 +99,12 @@ function ecas_requirements($phase) {
 function ecas_update_7001() {
   if (module_exists('i18n_variable')) {
     $variable_realm_list_language = variable_get('variable_realm_list_language', array());
-    $variable_realm_list_language += array(
+    $ecas_variables = array(
       ECAS_EMAIL_ERROR_MESSAGE,
       ECAS_EMAIL_ERROR_MESSAGE_SOCIAL,
       ECAS_LOGIN_MESSAGE,
       ECAS_WARNING_MESSAGE,
     );
-    variable_set('variable_realm_list_language', $variable_realm_list_language);
+    variable_set('variable_realm_list_language', array_merge($variable_realm_list_language, $ecas_variables));
   }
 }
