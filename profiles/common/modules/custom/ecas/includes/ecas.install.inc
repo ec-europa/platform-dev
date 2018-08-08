@@ -57,7 +57,7 @@ function _ecas_get_default_missing_mail_social_variable() {
 <h3>To consult these Facebook settings</h3>
 <p>Please follow these steps:</p>
 <ol>
-    <li>Go to your Facebook settings, in the "Apps and websites" page (<a href="http://www.facebook.com?tab=applications">https://www.facebook.com?tab=applications</a>)
+    <li>Go to your Facebook settings, in the "Apps and websites" page (<a href="https://www.facebook.com/settings?tab=applications">https://www.facebook.com/settings?tab=applications</a>)
     </li>
     <li>Click on the "View and edit" link display blow the "EU Login" label;</li>
     <li>Check that your e-mail address is displayed on the displayed popup and the box is checked on its right<br/>[ecas-illustration:fb-apps-settings-edit]
@@ -70,7 +70,7 @@ function _ecas_get_default_missing_mail_social_variable() {
 <h3>To allow EU Login receiving the e-mail address</h3>
 <p>Please follow these steps:</p>
 <ol>
-    <li>Go to your Facebook settings, in the "Apps and websites" page (<a href="http://www.facebook.com?tab=applications">https://www.facebook.com?tab=applications</a>)
+    <li>Go to your Facebook settings, in the "Apps and websites" page (<a href="https://www.facebook.com/settings?tab=applications">https://www.facebook.com/settings?tab=applications</a>)
     </li>
     <li>Check the box beside the "EU Login" block and click the "Remove button" on the left<br/>[ecas-illustration:fb-apps-settings-form]
     </li>
