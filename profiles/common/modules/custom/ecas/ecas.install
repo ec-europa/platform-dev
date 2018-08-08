@@ -5,12 +5,19 @@
  * Install, uninstall, update and schema hooks for the ECAS module.
  */
 
+include_once 'includes/ecas.install.inc';
+
 /**
  * Implements hook_install().
  */
 function ecas_install() {
   $t = get_t();
+
   variable_set(ECAS_WARNING_MESSAGE, 'Your account is not yet approved');
+  variable_set(ECAS_EMAIL_ERROR_MESSAGE, _ecas_get_default_missing_mail_variable());
+  variable_set(ECAS_EMAIL_ERROR_MESSAGE_SOCIAL, _ecas_get_default_missing_mail_social_variable());
+
+  _ecas_set_variables_translatable();
 
   // Check for Curl support.
   if (!function_exists('curl_version')) {
@@ -26,17 +33,6 @@ function ecas_install() {
       $t('Your PHP installation does not seem to provide the LDAP extension. Please check your PHP configuration since LDAP functions are required by the "ecas" module.'),
       'warning'
     );
-  }
-
-  if (module_exists('i18n_variable')) {
-    $variable_realm_list_language = variable_get('variable_realm_list_language', array());
-    $ecas_variables = array(
-      ECAS_EMAIL_ERROR_MESSAGE,
-      ECAS_EMAIL_ERROR_MESSAGE_SOCIAL,
-      ECAS_LOGIN_MESSAGE,
-      ECAS_WARNING_MESSAGE,
-    );
-    variable_set('variable_realm_list_language', array_merge($variable_realm_list_language, $ecas_variables));
   }
 }
 
@@ -97,14 +93,7 @@ function ecas_requirements($phase) {
  * Sets the default value for the new variables and make them translatable.
  */
 function ecas_update_7001() {
-  if (module_exists('i18n_variable')) {
-    $variable_realm_list_language = variable_get('variable_realm_list_language', array());
-    $ecas_variables = array(
-      ECAS_EMAIL_ERROR_MESSAGE,
-      ECAS_EMAIL_ERROR_MESSAGE_SOCIAL,
-      ECAS_LOGIN_MESSAGE,
-      ECAS_WARNING_MESSAGE,
-    );
-    variable_set('variable_realm_list_language', array_merge($variable_realm_list_language, $ecas_variables));
-  }
+  variable_set(ECAS_EMAIL_ERROR_MESSAGE, _ecas_get_default_missing_mail_variable());
+  variable_set(ECAS_EMAIL_ERROR_MESSAGE_SOCIAL, _ecas_get_default_missing_mail_social_variable());
+  _ecas_set_variables_translatable();
 }
