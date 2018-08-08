@@ -41,8 +41,9 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     return;
   }
 
-  // Don't add the language suffix for sitemap.*** and ecas.
-  if (strpos($path, 'sitemap.') === 0 || strpos($path, 'ecas') === 0) {
+  // Don't add the language suffix for "sitemap.***" and paths starting with
+  // "ecas" or "ecas" followed by alphanumeric characters.
+  if (!preg_match("/^ecas$|^ecas[a-zA-Z0-9]|^sitemap\./m", $path)) {
     return;
   }
 
