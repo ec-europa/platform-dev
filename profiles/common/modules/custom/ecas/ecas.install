@@ -88,12 +88,3 @@ function ecas_requirements($phase) {
   }
   return $requirements;
 }
-
-/**
- * Sets the default value for the new variables and make them translatable.
- */
-function ecas_update_7001() {
-  variable_set(ECAS_EMAIL_ERROR_MESSAGE, _ecas_get_default_missing_mail_variable());
-  variable_set(ECAS_EMAIL_ERROR_MESSAGE_SOCIAL, _ecas_get_default_missing_mail_social_variable());
-  _ecas_set_variables_translatable();
-}

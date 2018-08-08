@@ -152,7 +152,7 @@ function ecas_admin_settings() {
     '#rows' => 5,
     '#description' => t('Message on the warning page when a blocked account user is trying to log in'),
   );
-  $ecas_error_message_email = variable_get(ECAS_EMAIL_ERROR_MESSAGE, array('value' => '', 'format' => NULL));
+  $ecas_error_message_email = variable_get(ECAS_EMAIL_ERROR_MESSAGE, _ecas_get_default_missing_mail_variable());
   $form['param'][ECAS_EMAIL_ERROR_MESSAGE] = array(
     '#type' => 'text_format',
     '#title' => t('Error message text in case of an missing e-mail address'),
@@ -161,7 +161,7 @@ function ecas_admin_settings() {
     '#format' => isset($ecas_error_message_email['format']) ? $ecas_error_message_email['format'] : filter_default_format(),
     '#required' => TRUE,
   );
-  $ecas_error_message_email_social = variable_get(ECAS_EMAIL_ERROR_MESSAGE_SOCIAL, array('value' => '', 'format' => NULL));
+  $ecas_error_message_email_social = variable_get(ECAS_EMAIL_ERROR_MESSAGE_SOCIAL, _ecas_get_default_missing_mail_social_variable());
   $form['param'][ECAS_EMAIL_ERROR_MESSAGE_SOCIAL] = array(
     '#type' => 'text_format',
     '#title' => t('Error message text in case of an missing e-mail address when using social network'),

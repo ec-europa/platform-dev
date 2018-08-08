@@ -16,6 +16,7 @@ function ecas_variable_info($options) {
     'description' => t('Text supplying information about the error caused by the absence of the e-mail in the EU Login profile.'),
     'required' => TRUE,
     'group' => 'ecas',
+    'default' => _ecas_get_default_missing_mail_variable(),
     'localize' => TRUE,
   );
 
@@ -24,6 +25,7 @@ function ecas_variable_info($options) {
     'title' => t('Error message text in case of an missing e-mail address when using social network', array(), $options),
     'description' => t('Alternative text supplying information about the error caused by the absence of the e-mail in the EU Login profile created from social network.'),
     'group' => 'ecas',
+    'default' => _ecas_get_default_missing_mail_social_variable(),
     'localize' => TRUE,
   );
 
