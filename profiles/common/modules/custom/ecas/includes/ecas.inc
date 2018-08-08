@@ -152,7 +152,7 @@ function _ecas_menu(array &$items) {
     'title' => 'Access to this site is refused',
     'page callback' => 'ecas_profile_error_page',
     'page arguments' => array(1),
-    'access callback' => 'user_is_anonymous',
+    'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
 
@@ -369,9 +369,10 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
   // Let the opportunity to modules to alter user roles.
   drupal_alter('ecas_user_roles', $edit['roles'], $user, $user_info, $args);
 
-  // We gave to possibility to others modules to treat the case, now we control
-  // The existence of the user e-mail.
-  // If it is not there, then we block the Drupal user creation and login.
+  // We just gave the possibility to others modules to treat the case, now we
+  // control the existence of the user e-mail.
+  // If it is not there, then we block the Drupal user creation and login to
+  // display an error page instead.
   if (empty($edit['mail']) && empty($user->mail)) {
     $path_end = ECAS_EMAIL_ERROR_MESSAGE;
     if (!empty($user_info['cas:employeeType']) && ('v' == $user_info['cas:employeeType'])) {
@@ -755,7 +756,7 @@ function ecas_profile_error_page($error_type = '') {
     'error_text' => t("The reason is unknown. Please contact the site's administrator"),
   );
   // Manage the error text to display on the error page.
-  if (!empty($error_type) && ($error_text = variable_get($error_type, _ecas_get_default_error_message_value($error_type)))) {
+  if (!empty($error_type) && ($error_text = _ecas_get_error_message_value($error_type))) {
     $theme_variables['error_text'] = _ecas_filter_text($error_text);
   }
 
@@ -915,22 +916,29 @@ function ecas_get_user_department($user_info) {
 }
 
 /**
- * Gets the default error message value for the specified variable.
+ * Gets the error message value for the specified variable.
  *
  * @param string $variable_name
  *   The name of the variable related to the error message.
  *
- * @return array
- *   The error message default value.
+ * @return array|bool
+ *   The error message value; or FALSE if not found.
  */
-function _ecas_get_default_error_message_value($variable_name) {
+function _ecas_get_error_message_value($variable_name) {
   switch ($variable_name) {
     case ECAS_EMAIL_ERROR_MESSAGE:
-      return _ecas_get_default_missing_mail_variable();
+      $default_value = _ecas_get_default_missing_mail_variable();
+      break;
 
     case ECAS_EMAIL_ERROR_MESSAGE_SOCIAL:
-      return _ecas_get_default_missing_mail_social_variable();
+      $default_value = _ecas_get_default_missing_mail_social_variable();
+      break;
+
+    default:
+      return FALSE;
   }
+
+  return variable_get($variable_name, $default_value);
 }
 
 /**

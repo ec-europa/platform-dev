@@ -61,10 +61,10 @@ function ecas_token_info() {
 function ecas_tokens($type, $tokens, array $data = array(), array $options = array()) {
   switch ($type) {
     case 'ecas-illustration':
-      return _ecas_illustration_token($tokens);
+      return _ecas_illustration_tokens($tokens);
 
     case 'ecas-url':
-      return _ecas_url_token($tokens);
+      return _ecas_url_tokens($tokens);
   }
 }
 
@@ -80,7 +80,7 @@ function ecas_tokens($type, $tokens, array $data = array(), array $options = arr
  *
  * @see ecas_tokens()
  */
-function _ecas_illustration_token(array $tokens) {
+function _ecas_illustration_tokens(array $tokens) {
   $replacements = array();
   $module_img_repo = drupal_get_path('module', 'ecas') . '/tokens_images/';
 
@@ -145,7 +145,7 @@ function _ecas_illustration_token(array $tokens) {
  *
  * @see ecas_tokens()
  */
-function _ecas_url_token(array $tokens) {
+function _ecas_url_tokens(array $tokens) {
   $replacements = array();
 
   foreach ($tokens as $name => $original) {

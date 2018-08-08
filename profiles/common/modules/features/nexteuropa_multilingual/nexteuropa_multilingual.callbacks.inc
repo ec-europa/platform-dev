@@ -43,8 +43,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
   // Don't add the language suffix for "sitemap.***" and paths starting with
   // "ecas" or "ecas" followed by alphanumeric characters.
-  if (preg_match("/^ecas$|^ecas[a-zA-Z0-9]|^sitemap\./m", $path)) {
-    watchdog('gilles', $path);
+  if (preg_match('/^ecas$|^ecas[a-zA-Z0-9]|^sitemap\./m', $path)) {
     return;
   }
 
