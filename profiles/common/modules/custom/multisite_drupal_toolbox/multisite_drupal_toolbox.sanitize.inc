@@ -314,6 +314,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
   $attrarr = array();
   $mode = 0;
   $attrname = '';
+  $skip = FALSE;
 
   while (drupal_strlen($attr) != 0) {
     // Was the last operation successful?
@@ -435,7 +436,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
 
   // Check the current HTML element for additional attribute rules.
   $parsed_attributes = array();
-  $add_nofollow = FALSE;
+  $force_nofollow_rel = FALSE;
   foreach ($attrarr as $attrname => $attrinfo) {
     $parsed_attribute = $attrname;
     $attribute_options = (isset($allowed_attributes[$attrname]) ? $allowed_attributes[$attrname] : array());
@@ -451,188 +452,312 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
       }
 
       // Additional validation of attribute values.
-      if ($attrname == 'style') {
-        // Ok, let us validate individual style properties (decode entities
-        // now).
-        $dirty_properties = array_filter(array_map('trim', explode(';', decode_entities($attrinfo['value']))));
-        $sanitized_properties = array();
-        foreach ($dirty_properties as $dirty_property) {
-          // Separate property name from its value.
-          if (!preg_match('#^([a-zA-Z][-a-zA-Z]*)\s*:\s*(.*)$#', $dirty_property, $property_matches)) {
-            // Ignore properties that do not match the format "property-name:
-            // value".
+      switch ($attrname) {
+        case 'style':
+          $attrinfo['value'] = multisite_drupal_toolbox_filter_xss_style_attribute($attrinfo['value'], $allowed_style_urls, $allowed_properties);
+
+          // If the value is empty, no need to keep it in the display.
+          if (empty($attrinfo['value'])) {
             continue;
           }
-          $property_name = drupal_strtolower($property_matches[1]);
-          $property_value = &$property_matches[2];
-          if (!isset($allowed_properties[$property_name])) {
-            // Ignore property if not whitelisted in filter settings.
+          break;
+
+        case 'class':
+          $attrinfo['value'] = multisite_drupal_toolbox_filter_xss_class_attribute($attrinfo['value'], $allowed_class_names);
+
+          // If the value is empty, no need to keep it in the display.
+          if (empty($attrinfo['value'])) {
             continue;
           }
+          break;
 
-          // Check style property syntax.
-          if (!preg_match($allowed_properties[$property_name], $property_value)) {
-            // Ignore property if value does not match syntax rules.
+        case 'id':
+          $attrinfo['value'] = multisite_drupal_toolbox_filter_xss_id_attribute($attrinfo['value'], $allowed_element_ids);
+
+          // If the value is empty, no need to keep it in the display.
+          if (empty($attrinfo['value'])) {
             continue;
           }
+          break;
 
-          // If property value comes with url(...), then we want to check if
-          // it's allowed or not.
-          if (strpos($property_value, 'url(') !== FALSE) {
-            if (count($allowed_style_urls) <= 0) {
-              // Ignore property if no rules have been specified.
-              continue;
-            }
+        case 'title':
+        case 'alt':
+          $attrinfo['value'] = filter_xss($attrinfo['value']);
 
-            // This is like $regexp_uri in
-            // wysiwyg_filter_get_style_property_groups(), but it now contains 2
-            // capturing groups [1] for the URL itself (including delimiters)
-            // and [2] the first delimiter (if any).
-            if (!preg_match('`url\(\s*(([\'"]?)(?:[^)]|(?<=\\\\)\\))+[\'"]?)\s*\)`', $property_value, $url) || empty($url[1])) {
-              // Ignore property if found to be malformed here.
-              continue;
-            }
-            if (!empty($url[2])) {
-              if (drupal_substr($url[1], -1) != $url[2]) {
-                // Ignore property if start and end delimiters don't match.
-                continue;
-              }
-              // Remove delimiters.
-              $url[1] = drupal_substr($url[1], 1, -1);
-            }
-            // Remove backslashes that could have been used to escape
-            // parentheses, commas, whitespace characters, single quotes or
-            // double quotes. http://www.w3.org/TR/CSS2/syndata.html#uri
-            $url = preg_replace('`\\\\([(),\'"\s])`', '\1', $url[1]);
+          // If the value is empty, no need to keep it in the display.
+          if (empty($attrinfo['value'])) {
+            continue;
+          }
+          break;
 
-            // Ignore property if URL fails the check for bad protocols.
-            if (multisite_drupal_toolbox_filter_xss_bad_protocol($url) != $url) {
-              continue;
-            }
+        case 'href':
+          $attrinfo['value'] = filter_xss_bad_protocol($attrinfo['value']);
+          if ($element == 'a' && !$force_nofollow_rel) {
+            $force_nofollow_rel = multisite_drupal_toolbox_is_nofollow_link($attrinfo['value'], $nofollow_policy, $nofollow_domains);
+          }
 
-            // Check URL against advanced filter rules.
-            $match_found = FALSE;
-            foreach ($allowed_style_urls as $regexp) {
-              if (preg_match($regexp, $url)) {
-                $match_found = TRUE;
-                break;
-              }
-            }
-            if (!$match_found) {
-              // Ignore property if URL does not match any rule.
-              continue;
-            }
+          // If the value is empty, no need to keep it in the display.
+          if (empty($attrinfo['value'])) {
+            continue;
+          }
+          break;
+
+        default:
+          // All attribute values are checked for bad protocols.
+          // This is the same exact method used by Drupal's filter_xss().
+          // Unlike attributes managed in previous cases, the attribute is
+          // left; even if there is no value to set because some javascript or
+          // display features require it like ckeditor_lite one for the display
+          // of the related metadata attribute like: data-changedata="".
+          if (preg_match('/\[([^\s\[\]:]*):([^\[\]]*)\]/', $attrinfo['value'])) {
+            $attrinfo['value'] = filter_xss($attrinfo['value']);
           }
           else {
-            // Filter property value for bad protocols (note that property
-            // value has already been decoded).
-            $property_value = multisite_drupal_toolbox_filter_xss_bad_protocol($property_value);
+            $attrinfo['value'] = filter_xss_bad_protocol($attrinfo['value']);
           }
-
-          // Sanitized property name and value (check_plain'd here).
-          $sanitized_properties[] = $property_name . ':' . check_plain($property_value);
-        }
-
-        if (empty($sanitized_properties)) {
-          // Ignore the whole style attribute if no property remains.
-          continue;
-        }
-
-        $attrinfo['value'] = implode('; ', $sanitized_properties);
-      }
-      elseif ($attrname == 'class') {
-        // Validate class names based on advanced rules specified in filter
-        // settings panel. Note that property value is decoded now and
-        // check_plain'd at end. Since the colon sign is not allowed, there's no
-        // need here to check for bad protocols.
-        $dirty_names = array_filter(array_map('trim', explode(' ', decode_entities($attrinfo['value']))));
-        $valid_names = array();
-        foreach ($dirty_names as $dirty_name) {
-          foreach ($allowed_class_names as $regexp) {
-            if (preg_match($regexp, $dirty_name)) {
-              $valid_names[] = $dirty_name;
-            }
-          }
-        }
-        if (empty($valid_names)) {
-          // Ignore attribute if no class name remains after validation.
-          continue;
-        }
-        $attrinfo['value'] = check_plain(implode(' ', $valid_names));
-      }
-      elseif ($attrname == 'id') {
-        // Validate element IDs based on advanced rules specified in filter
-        // settings panel. Note that property value is decoded now and
-        // check_plain'd at end. Since the colon sign is not allowed, there's no
-        // need here to check for bad protocols.
-        if (count($allowed_element_ids) <= 0) {
-          // Ignore attribute if no rules have been specified.
-          continue;
-        }
-        // Decode value so we can easilly check it.
-        $attrinfo['value'] = decode_entities($attrinfo['value']);
-        // Pattern starts valid, but it should match all specified rules.
-        $match_found = FALSE;
-        foreach ($allowed_element_ids as $regexp) {
-          if (preg_match($regexp, $attrinfo['value'])) {
-            $match_found = TRUE;
-            break;
-          }
-        }
-        if (!$match_found) {
-          // Ignore attribute if it contains invalid value.
-          continue;
-        }
-        // Element ID is valid, check_plain result.
-        $attrinfo['value'] = check_plain($attrinfo['value']);
-      }
-      else {
-        // All attribute values are checked for bad protocols. This is the same
-        // exact method used by Drupal's filter_xss().
-        if (preg_match('/\[([^\s\[\]:]*):([^\[\]]*)\]/', $attrinfo['value'])) {
-          $attrinfo['value'] = filter_xss($attrinfo['value']);
-        }
-        else {
-          $attrinfo['value'] = filter_xss_bad_protocol($attrinfo['value']);
-        }
-        // If this is <a href> element, then check domain name for
-        // rel="nofollow" policies in effect.
-        if ($element == 'a' && $attrname == 'href' && $nofollow_policy != 'disabled' && !$add_nofollow) {
-          $domain_found = FALSE;
-          foreach ($nofollow_domains as $domain) {
-            // Escape dots.
-            $domain = str_replace('.', '\.', $domain);
-            if (preg_match('#://.*' . $domain . '([^a-z0-9]|$)#i', $attrinfo['value'])) {
-              $domain_found = TRUE;
-              break;
-            }
-          }
-          if (($nofollow_policy == 'blacklist' && $domain_found) || ($nofollow_policy == 'whitelist' && !$domain_found)) {
-            $add_nofollow = TRUE;
-          }
-        }
+          break;
       }
 
-      // Build parsed attribute value.
       $parsed_attribute .= '=' . $attrinfo['delimiter'] . $attrinfo['value'] . $attrinfo['delimiter'];
     }
 
     $parsed_attributes[$attrname] = $parsed_attribute;
   }
 
-  // Do we have a link where rel="nofollow" should be added?
-  if ($add_nofollow) {
-    if (empty($parsed_attributes['rel'])) {
-      $parsed_attributes['rel'] = 'rel="nofollow"';
-    }
-    elseif (strpos($parsed_attributes['rel'], 'nofollow') === FALSE) {
-      // Since we know the attribute is well formed, we can use drupal_substr(),
-      // which is faster than preg_replace().
-      $parsed_attributes['rel'] = drupal_substr($parsed_attributes['rel'], 0, -1) . ' nofollow' . drupal_substr($parsed_attributes['rel'], -1);
-    }
+  // If no need to force the "nofollow" value in "rel" attribute we can stop
+  // here.
+  if (!$force_nofollow_rel) {
+    return $parsed_attributes;
+  }
+
+  // It is required to add the the "nofollow" value in the hyperlink tag.
+  if (empty($parsed_attributes['rel'])) {
+    $parsed_attributes['rel'] = 'rel="nofollow"';
+  }
+  elseif (strpos($parsed_attributes['rel'], 'nofollow') === FALSE) {
+    // Since we know the attribute is well formed, we can use drupal_substr(),
+    // which is faster than preg_replace().
+    $parsed_attributes['rel'] = drupal_substr($parsed_attributes['rel'], 0, -1) . ' nofollow' . drupal_substr($parsed_attributes['rel'], -1);
   }
 
   return $parsed_attributes;
+}
+
+/**
+ * Determine if a hyperlink HTML tag must have the "nofollow" rel attribute.
+ *
+ * @param string $link_url
+ *   The hyperlink url set in the hyperlink HTML tag.
+ * @param string $nofollow_policy
+ *   The policy to follow to set or not the "nofollow" value:
+ *   - 'disabled': The automatic check is disabled, the "nofollow" value is set
+ *     manually.
+ *   - 'blacklist': The "nofollow" value is set based on a black list of
+ *     URL domains.
+ *   - 'whitelist': The "nofollow" value is set based on a white list of
+ *     URL domains.
+ * @param array $nofollow_domains
+ *   The list of URL to use for the check; optional if
+ *   $nofollow_policy = 'disabled'.
+ *
+ * @return bool
+ *   TRUE if the "nofollow" MUST set; otherwise FALSE.
+ */
+function multisite_drupal_toolbox_is_nofollow_link($link_url, $nofollow_policy, array $nofollow_domains) {
+  if ('disabled' == $nofollow_policy) {
+    return FALSE;
+  }
+
+  foreach ($nofollow_domains as $domain) {
+    // Escape dots.
+    $domain = str_replace('.', '\.', $domain);
+    if (preg_match('#://.*' . $domain . '([^a-z0-9]|$)#i', $link_url)) {
+      return ($nofollow_policy == 'blacklist');
+    }
+  }
+
+  return ($nofollow_policy == 'whitelist');
+}
+
+/**
+ * Filters HTML "id" attribute to prevent XSS vulnerabilities.
+ *
+ * @param string $id_value
+ *   The value of the "id" attribute to filter.
+ * @param array $allowed_element_ids
+ *   The elements allowed in the value of the "id" attribute to filter.
+ *
+ * @return string
+ *   The filtered value.
+ */
+function multisite_drupal_toolbox_filter_xss_id_attribute($id_value, array $allowed_element_ids) {
+  // Validate element IDs based on advanced rules specified in filter
+  // settings panel. Note that property value is decoded now and
+  // check_plain'd at end. Since the colon sign is not allowed, there's no
+  // need here to check for bad protocols.
+  if (count($allowed_element_ids) <= 0) {
+    // Ignore attribute if no rules have been specified.
+    return $id_value;
+  }
+  // Decode value so we can easily check it.
+  $id_value = decode_entities($id_value);
+  // Pattern starts valid, but it should match all specified rules.
+  $match_found = FALSE;
+  foreach ($allowed_element_ids as $regexp) {
+    if (preg_match($regexp, $id_value)) {
+      $match_found = TRUE;
+      break;
+    }
+  }
+
+  if (!$match_found) {
+    // Ignore attribute if it contains invalid value.
+    return '';
+  }
+
+  // Element ID is valid, check_plain result.
+  return check_plain($id_value);
+}
+
+/**
+ * Filters HTML "class" attribute to prevent XSS vulnerabilities.
+ *
+ * @param string $class_attribute
+ *   The value of the "class" attribute to filter.
+ * @param array $allowed_class_names
+ *   The name values allowed in the value of the "class" attribute to filter.
+ *
+ * @return string
+ *   The filtered value.
+ */
+function multisite_drupal_toolbox_filter_xss_class_attribute($class_attribute, array $allowed_class_names) {
+  // Validate class names based on advanced rules specified in filter
+  // settings panel. Note that property value is decoded now and
+  // check_plain'd at end. Since the colon sign is not allowed, there's no
+  // need here to check for bad protocols.
+  $dirty_names = array_filter(array_map('trim', explode(' ', decode_entities($class_attribute))));
+  $valid_names = array();
+  foreach ($dirty_names as $dirty_name) {
+    foreach ($allowed_class_names as $regexp) {
+      if (preg_match($regexp, $dirty_name)) {
+        $valid_names[] = $dirty_name;
+      }
+    }
+  }
+
+  if (empty($valid_names)) {
+    // Ignore attribute if no class name remains after validation.
+    return '';
+  }
+
+  return check_plain(implode(' ', $valid_names));
+}
+
+/**
+ * Filters HTML "style" attribute to prevent XSS vulnerabilities.
+ *
+ * @param string $style_value
+ *   The value of the "style" attribute to filter.
+ * @param array $allowed_style_urls
+ *   Array of URL authorized in CSS url pointer; I.E. "url()".
+ * @param array $style_allowed_properties
+ *   Array of style properties and their values that are allowed in the
+ *   "style" attribute value.
+ *   It is an associative array keyed by the allowed property names and
+ *   the values are the regex rule used in the filtering process of the
+ *   property value.
+ *
+ * @return string
+ *   The filtered value.
+ */
+function multisite_drupal_toolbox_filter_xss_style_attribute($style_value, array $allowed_style_urls, array $style_allowed_properties) {
+  // Ok, let us validate individual style properties (decode entities
+  // now).
+  $dirty_properties = array_filter(array_map('trim', explode(';', decode_entities($style_value))));
+  $sanitized_properties = array();
+  foreach ($dirty_properties as $dirty_property) {
+    // Separate property name from its value.
+    if (!preg_match('#^([a-zA-Z][-a-zA-Z]*)\s*:\s*(.*)$#', $dirty_property, $property_matches)) {
+      // Ignore properties that do not match the format "property-name:
+      // value".
+      continue;
+    }
+    $property_name = drupal_strtolower($property_matches[1]);
+    $property_value = &$property_matches[2];
+    if (!isset($style_allowed_properties[$property_name])) {
+      // Ignore property if not whitelisted in filter settings.
+      continue;
+    }
+
+    // Check style property syntax.
+    if (!preg_match($style_allowed_properties[$property_name], $property_value)) {
+      // Ignore property if value does not match syntax rules.
+      continue;
+    }
+
+    // If property value comes with url(...), then we want to check if
+    // it's allowed or not.
+    if (strpos($property_value, 'url(') !== FALSE) {
+      if (count($allowed_style_urls) <= 0) {
+        // Ignore property if no rules have been specified.
+        continue;
+      }
+
+      // This is like $regexp_uri in
+      // wysiwyg_filter_get_style_property_groups(), but it now contains 2
+      // capturing groups [1] for the URL itself (including delimiters)
+      // and [2] the first delimiter (if any).
+      if (!preg_match('`url\(\s*(([\'"]?)(?:[^)]|(?<=\\\\)\\))+[\'"]?)\s*\)`', $property_value, $url) || empty($url[1])) {
+        // Ignore property if found to be malformed here.
+        continue;
+      }
+      if (!empty($url[2])) {
+        if (drupal_substr($url[1], -1) != $url[2]) {
+          // Ignore property if start and end delimiters don't match.
+          continue;
+        }
+        // Remove delimiters.
+        $url[1] = drupal_substr($url[1], 1, -1);
+      }
+      // Remove backslashes that could have been used to escape
+      // parentheses, commas, whitespace characters, single quotes or
+      // double quotes. http://www.w3.org/TR/CSS2/syndata.html#uri
+      $url = preg_replace('`\\\\([(),\'"\s])`', '\1', $url[1]);
+
+      // Ignore property if URL fails the check for bad protocols.
+      if (multisite_drupal_toolbox_filter_xss_bad_protocol($url) != $url) {
+        continue;
+      }
+
+      // Check URL against advanced filter rules.
+      $match_found = FALSE;
+      foreach ($allowed_style_urls as $regexp) {
+        if (preg_match($regexp, $url)) {
+          $match_found = TRUE;
+          break;
+        }
+      }
+      if (!$match_found) {
+        // Ignore property if URL does not match any rule.
+        continue;
+      }
+    }
+    else {
+      // Filter property value for bad protocols (note that property
+      // value has already been decoded).
+      $property_value = multisite_drupal_toolbox_filter_xss_bad_protocol($property_value);
+    }
+
+    // Sanitized property name and value (check_plain'd here).
+    $sanitized_properties[] = $property_name . ':' . check_plain($property_value);
+  }
+
+  if (empty($sanitized_properties)) {
+    // Ignore the whole style attribute if no property remains.
+    return '';
+  }
+
+  return implode('; ', $sanitized_properties);
 }
 
 /**
