@@ -1,0 +1,147 @@
+diff --git a/scheduler_workbench.admin.inc b/scheduler_workbench.admin.inc
+new file mode 100755
+index 0000000..403f006
+--- /dev/null
++++ b/scheduler_workbench.admin.inc
+@@ -0,0 +1,18 @@
++<?php
++
++/**
++ * Form callback for the settings form.
++ *
++ * @see system_settings_form()
++ */
++function scheduler_workbench_allowed_status_form($form, &$form_state) {
++  $options = workbench_moderation_state_labels();
++  $form['scheduler_workbench_allowed_status'] = array(
++    '#type' => 'checkboxes',
++    '#title' => t('Allowed Workbench Moderation status for scheduling publication'),
++    '#options' => $options,
++    '#default_value' => variable_get('scheduler_workbench_allowed_status', array()),
++    '#description' => t('Choose status to allow revisions for scheduling publication. When Scheduler Workbench tries to publish a revision i will check if the current state is one of the selected from this list.'),
++  );
++  return system_settings_form($form);
++}
+diff --git a/scheduler_workbench.install b/scheduler_workbench.install
+new file mode 100755
+index 0000000..1bfe0c4
+--- /dev/null
++++ b/scheduler_workbench.install
+@@ -0,0 +1,46 @@
++<?php
++
++/**
++ * @file
++ * Install, update and uninstall functions for the scheduler_workbench module.
++ */
++
++/**
++ * Implements hook_install().
++ */
++function scheduler_workbench_install() {
++  _scheduler_workbench_status();
++}
++
++/**
++ * Implements hook_uninstall().
++ */
++function scheduler_workbench_uninstall() {
++  variable_del('scheduler_workbench_allowed_status');
++}
++
++/**
++ * Implements hook_update_N().
++ */
++function scheduler_workbench_update_7001() {
++  if (!variable_set('scheduler_workbench_allowed_status', array())) {
++    _scheduler_workbench_status();
++  }
++}
++
++/**
++ * Sets the allowed status that can be scheduled for publication.
++ */
++function _scheduler_workbench_status() {
++  $transitions = workbench_moderation_transitions();
++  $status = array();
++  foreach ($transitions as $key => $value) {
++    if ($value->to_name != 'published') {
++      unset($transitions[$key]);
++    }
++    else {
++      $status[] = $value->from_name;
++    }
++  }
++  variable_set('scheduler_workbench_allowed_status', $status);
++}
+diff --git a/scheduler_workbench.module b/scheduler_workbench.module
+index 868435e..0d44b5a 100755
+--- a/scheduler_workbench.module
++++ b/scheduler_workbench.module
+@@ -7,6 +7,22 @@
+  */
+
+ /**
++ * Implements hook_menu().
++ */
++function scheduler_workbench_menu() {
++  $items['admin/config/content/scheduler_workbench'] = array(
++    'title' => 'Workbench Scheduler publication states',
++    'description' => 'Select the states that can be scheduled for publication',
++    'page callback' => 'drupal_get_form',
++    'page arguments' => array('scheduler_workbench_allowed_status_form'),
++    'access arguments' => array('administer scheduler workbench'),
++    'file' => 'scheduler_workbench.admin.inc',
++    'weight' => 0,
++    'type' => MENU_NORMAL_ITEM,
++  );
++  return $items;
++}
++/**
+  * Implements hook_form_node_type_form_alter().
+  *
+  * Alters node_type forms to add fields to scheduler.
+@@ -46,12 +62,15 @@ function scheduler_workbench_form_node_type_form_alter(&$form, $form_state) {
+  * Implements hook_permission().
+  */
+ function scheduler_workbench_permission() {
+-  return array(
+-    'override default scheduler time' => array(
+-      'title' => t('Override default scheduler time'),
+-      'description' => t('Allow users to override the default un-publish schedule time'),
+-    ),
++  $permissions['override default scheduler time'] = array(
++    'title' => t('Override default scheduler time'),
++    'description' => t('Allow users to override the default un-publish schedule time'),
++  );
++  $permissions['scheduler workbench'] = array(
++    'title' => t('Administer Scheduler Workbench'),
++    'description' => t('Perform administration tasks for Scheduler Workbench.'),
+   );
++  return $permissions;
+ }
+
+ /**
+@@ -252,6 +271,22 @@ function _scheduler_workbench_scheduler_unpublish(&$node) {
+  *   Node being published
+  */
+ function _scheduler_workbench_scheduler_pre_publish(&$node) {
++  // Get status allowed to be published.
++  $status = variable_get('scheduler_workbench_allowed_status', array());
++  foreach ($status as $key => $value) {
++    if ($value === 0) {
++      unset($status[$key]);
++    }
++  }
++  // Check if the revision current status allows it to be published.
++  if (!in_array($node->workbench_moderation['my_revision']->state, $status)) {
++    $options = array(
++      "%node" => $node->nid,
++      '%status' => $node->workbench_moderation['my_revision']->state,
++    );
++    watchdog("scheduler_workbench", t("Node %node can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
++    return;
++  }
+   if ($state = variable_get('scheduler_publish_moderation_state_' . $node->type, FALSE)) {
+     if (!empty($node->workbench_moderation['my_revision']) &&
+       $node->workbench_moderation['my_revision']->state == $state
