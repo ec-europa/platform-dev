@@ -77,13 +77,13 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
   // Some paths should not have a suffix.
   $exceptions = array();
-  $exceptions[] = variable_get('file_public_path', conf_path() . '/files');
-  $exceptions[] = 'system/files';
-  $exceptions[] = 'sitemap';
-  $exceptions[] = 'ecas';
+  $exceptions[] = '#^/?' . variable_get('file_public_path', conf_path() . '/files') . '#';
+  $exceptions[] = '#^/?system/files#';
+  $exceptions[] = '#^/?sitemap#';
+  $exceptions[] = '#^\/?ecas[a-zA-Z0-9]|^\/?ecas$#';
 
   foreach ($exceptions as $exception) {
-    if (preg_match("#^/?$exception#", $path)) {
+    if (preg_match($exception, $path)) {
       return;
     }
   }
