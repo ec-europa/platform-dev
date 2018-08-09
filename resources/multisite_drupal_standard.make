@@ -669,6 +669,10 @@ projects[scheduler_workbench][version] = 1.3
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
 ; https://www.drupal.org/project/scheduler_workbench/issues/2048999
 projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/scheduler_workbench-revision_publish-2048999-45.patch
+; Allow publication of revisions with selected status
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
+; https://www.drupal.org/project/scheduler_workbench/issues/2991363
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2018-08-08/scheduler_workbench-allowed_status-2991363-1.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.24
