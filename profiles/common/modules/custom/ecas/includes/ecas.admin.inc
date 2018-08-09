@@ -5,10 +5,6 @@
  * Administration forms for the ECAS module.
  */
 
-// Include the minimum codebase for this module.
-$constants_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.constants.inc';
-include_once $constants_ecas_module_include;
-
 /**
  * Implements hook_help().
  *
@@ -142,19 +138,36 @@ function ecas_admin_settings() {
     '#description' => t('Status of the user account after creation'),
   );
 
-  $form['param']['ecas_login_message'] = array(
+  $form['param'][ECAS_LOGIN_MESSAGE] = array(
     '#type' => 'textfield',
     '#title' => t('Login message'),
-    '#default_value' => variable_get('ecas_login_message', ECAS_DEFAULT_LOGIN_MESSAGE),
+    '#default_value' => variable_get(ECAS_LOGIN_MESSAGE, ECAS_DEFAULT_LOGIN_MESSAGE),
     '#description' => t('Status message shown to the user after login. Available placeholders: %ecas_username'),
   );
-  $form['param']['ecas_warning_message'] = array(
+  $form['param'][ECAS_WARNING_MESSAGE] = array(
     '#type' => 'textarea',
     '#title' => t('Warning page message'),
-    '#default_value' => variable_get('ecas_warning_message', ECAS_DEFAULT_WARNING_MESSAGE),
+    '#default_value' => variable_get(ECAS_WARNING_MESSAGE, ECAS_DEFAULT_WARNING_MESSAGE),
     '#cols' => 60,
     '#rows' => 5,
     '#description' => t('Message on the warning page when a blocked account user is trying to log in'),
+  );
+  $ecas_error_message_email = variable_get(ECAS_EMAIL_ERROR_MESSAGE, _ecas_get_default_missing_mail_variable());
+  $form['param'][ECAS_EMAIL_ERROR_MESSAGE] = array(
+    '#type' => 'text_format',
+    '#title' => t('Error message text in case of an missing e-mail address'),
+    '#description' => t('Text supplying information about the error caused by the absence of the e-mail in the EU Login profile.'),
+    '#default_value' => $ecas_error_message_email['value'],
+    '#format' => isset($ecas_error_message_email['format']) ? $ecas_error_message_email['format'] : filter_default_format(),
+    '#required' => TRUE,
+  );
+  $ecas_error_message_email_social = variable_get(ECAS_EMAIL_ERROR_MESSAGE_SOCIAL, _ecas_get_default_missing_mail_social_variable());
+  $form['param'][ECAS_EMAIL_ERROR_MESSAGE_SOCIAL] = array(
+    '#type' => 'text_format',
+    '#title' => t('Error message text in case of an missing e-mail address when using social network'),
+    '#description' => t('Alternative text supplying information about the error caused by the absence of the e-mail in the EU Login profile created from social network.'),
+    '#default_value' => $ecas_error_message_email_social['value'],
+    '#format' => isset($ecas_error_message_email_social['format']) ? $ecas_error_message_email_social['format'] : filter_default_format(),
   );
 
   $form['param']['ecas_update_mail_address'] = array(
@@ -232,32 +245,6 @@ function ecas_admin_settings() {
     );
   }
 
-  // Commented out. No longer working and reactivating it breaks ECAS logic.
-  /*$form['param']['ecas_pages_method'] = array(
-  '#type' => 'radios',
-  '#title' => t('Force ECAS authentication on specific pages'),
-  '#options' => array(
-  ECAS_LOGIN_EXLUDE_PAGES => t('All pages except those listed'),
-  ECAS_LOGIN_INCLUDE_PAGES => t('Only the listed pages'),
-  ),
-  '#default_value' => variable_get('ecas_pages_method',
-  ECAS_LOGIN_INCLUDE_PAGES),
-  );
-  $args = array(
-  '%blog' => 'blog',
-  '%blog-wildcard' => 'blog/*',
-  '%front' => '<front>',
-  );
-  $form['param']['ecas_pages'] = array(
-  '#type' => 'textarea',
-  '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
-  '#default_value' => variable_get('ecas_pages', ECAS_DEFAULT_PAGES),
-  '#description' => t("Specify pages by using their paths.
-  Enter one path per line. The '*' character is a wildcard.
-  Example paths are %blog for the blog page and %blog-wildcard for
-  every personal blog. %front is the front page.", $args),
-  );
-   */
   // FPFIS Common SETTINGS.
   // Checkbox to enable or disable the whole FPFIS integration stuff.
   $form['param']['ecas_use_shared_fpfis'] = array(
