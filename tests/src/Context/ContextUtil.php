@@ -12,6 +12,22 @@ use Behat\Mink\Element\Element;
 trait ContextUtil {
 
   /**
+   * Determine if the a user is already logged in.
+   *
+   * Override the existing loggedIn method from DrupalExtension,
+   * to skip login form test in user/login page
+   * (because ecas revokes permissions for this page).
+   */
+  public function loggedIn() {
+    $session = $this->getSession();
+    $session->visit($this->locatePath('/'));
+
+    // Check if the 'logged-in' class is present on the page.
+    $element = $session->getPage();
+    return $element->find('css', 'body.logged-in');
+  }
+
+  /**
    * Returns whether or not Pathauto is enabled for the given entity.
    *
    * @param string $entity_type
