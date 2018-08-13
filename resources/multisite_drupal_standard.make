@@ -252,6 +252,13 @@ projects[extlink][version] = "1.18"
 
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
+; facetapi_map_assoc() does not check if index exists.
+; Note: This patch is to be remoaved with the future version 7.x-1.6.
+; Indeed, the patch has already been pushed with the #2373023 d.o. issue.
+; https://www.drupal.org/project/facetapi/issues/2768779 
+; and https://www.drupal.org/node/2373023
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2042
+projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-2768779-facetapi_map_assoc-undefined-index.patch
 
 projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
