@@ -91,8 +91,7 @@ projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.5"
 
 projects[better_formats][subdir] = "contrib"
-projects[better_formats][version] = "1.0-beta1"
-projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_format-strict-warning-1717470-11.patch
+projects[better_formats][version] = "1.0-beta2"
 
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
