@@ -559,11 +559,10 @@ projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_fo
 ; https://www.drupal.org/node/2744405
 projects[og][patch][] = https://www.drupal.org/files/issues/og_default_state_pending_2744405_11650415-20.patch
 
-projects[og_linkchecker][download][branch] = 7.x-1.x
-projects[og_linkchecker][download][revision] = 7257d0e
+projects[og_linkchecker][download][branch] = 7.x-2.x
+projects[og_linkchecker][download][revision] = 976f7ef
 projects[og_linkchecker][download][type] = git
 projects[og_linkchecker][subdir] = "contrib"
-projects[og_linkchecker][patch][] = patches/og_linkchecker-001-og_linkchecker-og-2-x-compatibility-2214661-2.patch
 
 projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
