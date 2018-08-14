@@ -126,6 +126,25 @@ function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form
 /**
  * Implements hook_form_FORM_ID_alter().
  */
+function tmgmt_poetry_form_tmgmt_translator_form_alter(&$form, &$form_state) {
+  $translator = $form_state['tmgmt_translator'];
+  if ($translator->plugin == "poetry") {
+    array_unshift($form['#submit'], '_tmgmt_poetry_process_translator_contacts');
+  }
+}
+
+/**
+ * Helper function to force translator contacts to be lowercase.
+ */
+function _tmgmt_poetry_process_translator_contacts(&$form, &$form_state) {
+  foreach ($form_state['values']['settings']['contacts'] as $key => $contact) {
+    $form_state['values']['settings']['contacts'][$key] = drupal_strtolower($contact);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
 function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) {
   $translator = FALSE;
   // Reference to the translation job object.
