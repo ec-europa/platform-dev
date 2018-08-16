@@ -74,7 +74,7 @@ index 0000000..c89076b
 diff --git a/scheduler_workbench.module b/scheduler_workbench.module
 old mode 100644
 new mode 100755
-index 868435e..1056448
+index 868435e..4840f89
 --- a/scheduler_workbench.module
 +++ b/scheduler_workbench.module
 @@ -7,6 +7,22 @@
@@ -112,16 +112,45 @@ index 868435e..1056448
 +  $permissions['override default scheduler time'] = array(
 +    'title' => t('Override default scheduler time'),
 +    'description' => t('Allow users to override the default un-publish schedule time'),
-   );
++  );
 +  $permissions['scheduler workbench'] = array(
 +    'title' => t('Administer Scheduler Workbench'),
 +    'description' => t('Perform administration tasks for Scheduler Workbench.'),
-+  );
+   );
 +  return $permissions;
  }
 
  /**
-@@ -253,6 +272,23 @@ function _scheduler_workbench_scheduler_unpublish(&$node) {
+@@ -161,6 +180,7 @@ function scheduler_workbench_node_update($node) {
+   // Only update database if we need to (un)publish this node at some date
+   // otherwise the user probably cleared out the (un)publish dates so we should
+   // remove the record.
++  //print_R($node);
+   if (!empty($node->revision_publish_on)) {
+     $publish_on = _scheduler_strtotime($node->revision_publish_on);
+     drupal_register_shutdown_function('_scheduler_workbench_save_scheduler_record', array(
+@@ -172,7 +192,19 @@ function scheduler_workbench_node_update($node) {
+     $replacements = array(
+       '@publish_time' => format_date($publish_on, 'custom', $date_format),
+     );
+-    drupal_set_message(t('This revision is unpublished and will be published @publish_time.', $replacements), 'status', FALSE);
++    $message = t('This revision is unpublished and will be published @publish_time.', $replacements);
++    // Check if the current status will be published.
++    $allowed_status = variable_get('scheduler_workbench_allowed_status', array());
++    foreach ($allowed_status as $key => $value) {
++      // If the status is not enabled we remove it from allowed status.
++      if (trim($value) != trim($key)) {
++        unset($allowed_status[$key]);
++      }
++    }
++    if (in_array($node->workbench_moderation['my_revision']->state, $allowed_status)) {
++      $message .= t('The current status @status is not allowed to be published, you will need to update the status.', array('@status' => $node->workbench_moderation['my_revision']->state));
++    }
++    drupal_set_message($message, 'status', FALSE);
+   }
+ }
+
+@@ -253,6 +285,23 @@ function _scheduler_workbench_scheduler_unpublish(&$node) {
   */
  function _scheduler_workbench_scheduler_pre_publish(&$node) {
    if ($state = variable_get('scheduler_publish_moderation_state_' . $node->type, FALSE)) {
