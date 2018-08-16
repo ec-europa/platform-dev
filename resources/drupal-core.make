@@ -65,3 +65,14 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-revision-
 ; http://drupal.org/node/601776
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-548
 projects[drupal][patch][] = https://www.drupal.org/files/601776-contact-core-134.patch
+
+; URL alias load is inconsistent if there are more then one alias
+; https://www.drupal.org/project/drupal/issues/1160764
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1993
+projects[drupal][patch][] = https://www.drupal.org/files/issues/1160764-34-path_load_order.patch
+
+; Image alternative text loses text preceding colon upon leaving plain-text editor or upon saving node
+; https://www.drupal.org/project/drupal/issues/2859006
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2001
+projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-no_protocol_filter-2105841-111-D7.patch
+
