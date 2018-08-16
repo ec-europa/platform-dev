@@ -1,7 +1,80 @@
+diff --git a/scheduler_workbench.admin.inc b/scheduler_workbench.admin.inc
+new file mode 100755
+index 0000000..823cb82
+--- /dev/null
++++ b/scheduler_workbench.admin.inc
+@@ -0,0 +1,18 @@
++<?php
++
++/**
++ * Form callback for the settings form.
++ *
++ * @see system_settings_form()
++ */
++function scheduler_workbench_allowed_status_form($form, &$form_state) {
++  $options = workbench_moderation_state_labels();
++  $form['scheduler_workbench_allowed_status'] = array(
++    '#type' => 'checkboxes',
++    '#title' => t('Allowed Workbench Moderation status for scheduling publication'),
++    '#options' => $options,
++    '#default_value' => variable_get('scheduler_workbench_allowed_status', array()),
++    '#description' => t('Choose status to allow revisions for scheduling publication. When Scheduler Workbench tries to publish a revision it will check if the current state is one of the selected from this list.'),
++  );
++  return system_settings_form($form);
++}
+diff --git a/scheduler_workbench.install b/scheduler_workbench.install
+new file mode 100755
+index 0000000..c89076b
+--- /dev/null
++++ b/scheduler_workbench.install
+@@ -0,0 +1,43 @@
++<?php
++
++/**
++ * @file
++ * Install, update and uninstall functions for the scheduler_workbench module.
++ */
++
++/**
++ * Implements hook_install().
++ */
++function scheduler_workbench_install() {
++  _scheduler_workbench_define_allowed_status();
++}
++
++/**
++ * Implements hook_uninstall().
++ */
++function scheduler_workbench_uninstall() {
++  variable_del('scheduler_workbench_allowed_status');
++}
++
++/**
++ * Implements hook_update_N().
++ */
++function scheduler_workbench_update_7001() {
++  if (!variable_set('scheduler_workbench_allowed_status', array())) {
++    _scheduler_workbench_define_allowed_status();
++  }
++}
++
++/**
++ * Sets the allowed status that can be scheduled for publication.
++ */
++function _scheduler_workbench_define_allowed_status() {
++  $transitions = workbench_moderation_transitions();
++  $status = array();
++  foreach ($transitions as $key => $value) {
++    if ($value->to_name == 'published') {
++      $status[] = $value->from_name;
++    }
++  }
++  variable_set('scheduler_workbench_allowed_status', $status);
++}
 diff --git a/scheduler_workbench.module b/scheduler_workbench.module
 old mode 100644
 new mode 100755
-index 868435e..4f577e5
+index 868435e..7c4f17e
 --- a/scheduler_workbench.module
 +++ b/scheduler_workbench.module
 @@ -7,6 +7,22 @@
@@ -48,30 +121,33 @@ index 868435e..4f577e5
  }
 
  /**
-@@ -161,6 +180,7 @@ function scheduler_workbench_node_update($node) {
-   // Only update database if we need to (un)publish this node at some date
-   // otherwise the user probably cleared out the (un)publish dates so we should
-   // remove the record.
-+  //print_R($node);
-   if (!empty($node->revision_publish_on)) {
-     $publish_on = _scheduler_strtotime($node->revision_publish_on);
-     drupal_register_shutdown_function('_scheduler_workbench_save_scheduler_record', array(
-@@ -172,7 +192,13 @@ function scheduler_workbench_node_update($node) {
+@@ -141,7 +160,14 @@ function scheduler_workbench_scheduler_node_form_submit($form, $form_state) {
+  */
+ function scheduler_workbench_node_validate($node, $form) {
+   $date_format = variable_get('scheduler_date_format', SCHEDULER_DATE_FORMAT);
+-
++  if (!empty($node->revision_publish_on) || !empty($node->publish_on) ) {
++    // Check if the current status will be published.
++    $allowed_status = variable_get('scheduler_workbench_allowed_status', array());
++    if (!in_array($node->workbench_moderation_state_new, $allowed_status)) {
++      $message = t('The current status @status is not allowed to be published, you will need to update the status.', array('@status' => $node->workbench_moderation_state_new));
++      drupal_set_message($message, 'status', FALSE);
++    }
++  }
+   if (!empty($node->revision_publish_on) && !is_numeric($node->revision_publish_on)) {
+     $publishtime = _scheduler_strtotime($node->revision_publish_on);
+     if ($publishtime === FALSE) {
+@@ -172,7 +198,8 @@ function scheduler_workbench_node_update($node) {
      $replacements = array(
        '@publish_time' => format_date($publish_on, 'custom', $date_format),
      );
 -    drupal_set_message(t('This revision is unpublished and will be published @publish_time.', $replacements), 'status', FALSE);
 +    $message = t('This revision is unpublished and will be published @publish_time.', $replacements);
-+    // Check if the current status will be published.
-+    $allowed_status = variable_get('scheduler_workbench_allowed_status', array());
-+    if (!in_array($node->workbench_moderation_state_new, $allowed_status)) {
-+      $message .= t('The current status @status is not allowed to be published, you will need to update the status.', array('@status' => $node->workbench_moderation_state_new));
-+    }
 +    drupal_set_message($message, 'status', FALSE);
    }
  }
 
-@@ -253,6 +279,23 @@ function _scheduler_workbench_scheduler_unpublish(&$node) {
+@@ -253,6 +280,23 @@ function _scheduler_workbench_scheduler_unpublish(&$node) {
   */
  function _scheduler_workbench_scheduler_pre_publish(&$node) {
    if ($state = variable_get('scheduler_publish_moderation_state_' . $node->type, FALSE)) {
