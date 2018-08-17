@@ -4,7 +4,7 @@
  * EUROPA search module.
  */
 
-define('NEXTEUROPA_EUROPA_SEARCH_EUROPA_SEARCH_URL', 'http://ec.europa.eu/geninfo/query/resultaction.jsp');
+define('NEXTEUROPA_EUROPA_SEARCH_EUROPA_SEARCH_URL', 'https://ec.europa.eu/search');
 define('NEXTEUROPA_EUROPA_SEARCH_EUROPA_SEARCH_QUERY_SOURCE', '');
 
 /**
