@@ -137,8 +137,10 @@ function tmgmt_poetry_form_tmgmt_translator_form_alter(&$form, &$form_state) {
  * Helper function to force translator contacts to be lowercase.
  */
 function _tmgmt_poetry_process_translator_contacts(&$form, &$form_state) {
-  foreach ($form_state['values']['settings']['contacts'] as $key => $contact) {
-    $form_state['values']['settings']['contacts'][$key] = drupal_strtolower($contact);
+  if (!empty($form_state['values']['settings']['contacts'])) {
+    foreach ($form_state['values']['settings']['contacts'] as $key => $contact) {
+      $form_state['values']['settings']['contacts'][$key] = drupal_strtolower($contact);
+    }
   }
 }
 
