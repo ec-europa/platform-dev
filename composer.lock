@@ -377,24 +377,27 @@
         },
         {
             "name": "ec-europa/qa-automation",
-            "version": "3.0.1",
+            "version": "3.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ec-europa/qa-automation.git",
-                "reference": "28a1c4d9eeab90f7d419641c3b0439a577054ba0"
+                "reference": "8ee4f4cf0df04035b983b33670f3628c3456dca4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ec-europa/qa-automation/zipball/28a1c4d9eeab90f7d419641c3b0439a577054ba0",
-                "reference": "28a1c4d9eeab90f7d419641c3b0439a577054ba0",
+                "url": "https://api.github.com/repos/ec-europa/qa-automation/zipball/8ee4f4cf0df04035b983b33670f3628c3456dca4",
+                "reference": "8ee4f4cf0df04035b983b33670f3628c3456dca4",
                 "shasum": ""
             },
             "require": {
                 "cpliakas/git-wrapper": "^1.7",
                 "drupal/coder": "8.2.12",
+                "phing/phing": "~2.16.0",
                 "php": ">=5.2.0",
+                "squizlabs/php_codesniffer": "2.9.0",
                 "symfony/console": "~2.3.10|^2.4.2|~3.0",
-                "symfony/finder": "^3.2"
+                "symfony/finder": "^3.2",
+                "wimg/php-compatibility": "^8.1"
             },
             "require-dev": {
                 "phpunit/phpunit": ">=3.7 <5.0"
@@ -410,7 +413,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Performs automated QA checks and extra php codesniffs for the subsite starterkit.",
-            "time": "2017-08-11T13:44:36+00:00"
+            "time": "2018-01-26T14:17:36+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
