@@ -76,3 +76,6 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/1160764-34-path_
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2001
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-no_protocol_filter-2105841-111-D7.patch
 
+; Set the session's cookie lifetime to 0 so that cookies are deleted when the browser is closed.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-900
+projects[drupal][patch][] = patches/set-session-cookie-lifetime-0.patch
