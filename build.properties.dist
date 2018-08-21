@@ -211,6 +211,18 @@ phpcs.progress = 1
 # The location of the file containing the global configuration options.
 phpcs.global.config = ${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
 
+# QA Automation configuration
+# -------------------
+
+# The directory where phpcs can be found.
+toolkit.dir.bin = ${project.basedir}/bin
+
+# The directory to search for modules and themes to review.
+lib.dir = ${project.basedir}/profiles
+
+# The directory where the make files are stored.
+resources.dir = ${project.basedir}/resources
+
 
 # Host configuration
 # ------------------
