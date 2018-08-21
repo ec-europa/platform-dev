@@ -11,7 +11,7 @@ try {
                 checkout scm
                 sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
                 sh './bin/phing setup-php-codesniffer'
-                sh './bin/phpcs --standard=Platform --report=full --report=source --report=summary -s'
+                sh './bin/phpcs --standard=Platform --report=full --report=source --report=summary -s ./profiles/'
             }
         }
     }
