@@ -9,10 +9,17 @@ try {
             stage('Check') {
                 deleteDir()
                 checkout scm
-                echo "Changed files to process: " + getChangedFiles(false)
-                sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
-                sh './bin/phing setup-php-codesniffer'
-                sh './bin/phpcs --standard=Platform --report=full --report=source --report=summary -s --ignore=*/libraries/* ' + getChangedFiles(false)
+                String directory = /^profiles\/.*$/
+                def changedFiles = getChangedFiles(directory, false)
+                if (changedFiles) {
+                  echo "Changed files to process: " + getChangedFiles(directory, false)
+                  sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
+                  sh './bin/phing setup-php-codesniffer'
+                  sh './bin/phpcs --standard=Platform --report=full --report=source --report=summary -s --ignore=*/libraries/* ' + getChangedFiles(directory, false)
+                }
+                else {
+                  echo "Skipping phpcs, no files to scan."
+                }
             }
         }
     }
@@ -149,32 +156,33 @@ void executeStages(String label) {
 }
 
 /**
- * @todo: path from param to start from (matching regex)
  * @todo: Test excludes from the ignore path (libraries) on the phpcs command line?
  */
 @NonCPS
-def getChangedFiles(lastSuccessfulBuild = true) {
-  if (lastSuccessfulBuild) {
-    def changes = [] as Set
-    build = currentBuild
-    while(build != null && build.result != 'SUCCESS') {
-      changedFiles = getChangedFilesFromBuild(build)
-      changes.plus(changedFiles)
-      build = build.previousBuild
-    }
-    return changes
+def getChangedFiles(directory, lastSuccessfulBuild = true) {
+  if (!lastSuccessfulBuild) {
+    return getChangedFilesFromBuild(directory, currentBuild)
   }
 
-  return getChangedFilesFromBuild(currentBuild)
+  def changes = [] as Set
+  build = currentBuild
+  while(build != null && build.result != 'SUCCESS') {
+    changedFiles = getChangedFilesFromBuild(directory, build)
+    changes.plus(changedFiles)
+    build = build.previousBuild
+  }
+  return changes
+
 }
 
-def getChangedFilesFromBuild(build) {
+def getChangedFilesFromBuild(directory, build) {
   def changes = [] as Set
-
   for (changeLog in build.changeSets) {
     for(entry in changeLog.items) {
       for(file in entry.affectedFiles) {
+        if (${file.path} ==~ directory) {
           changes.add("./${file.path}")
+        }
       }
     }
   }
