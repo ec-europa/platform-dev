@@ -49,3 +49,28 @@ define('ECAS_GATEWAY', 2);
 define('ECAS_DEFAULT_PAGES', '');
 define('ECAS_LOGIN_EXLUDE_PAGES', 0);
 define('ECAS_LOGIN_INCLUDE_PAGES', 1);
+
+/**
+ * ECAS group for CEM team users.
+ */
+define('ECAS_CEM_ECAS_GROUP', 'COMM_CEM');
+
+/**
+ * Name of the email message error variable.
+ */
+define('ECAS_EMAIL_ERROR_MESSAGE', 'ecas_email_error_message');
+
+/**
+ * Name of the variable for the social network email message error variable.
+ */
+define('ECAS_EMAIL_ERROR_MESSAGE_SOCIAL', 'ecas_email_error_message_social');
+
+/**
+ * Name of the login message variable.
+ */
+define('ECAS_LOGIN_MESSAGE', 'ecas_login_message');
+
+/**
+ * Name of the warning message variable.
+ */
+define('ECAS_WARNING_MESSAGE', 'ecas_warning_message');

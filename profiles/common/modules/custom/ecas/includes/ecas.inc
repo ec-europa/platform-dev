@@ -6,11 +6,6 @@
  */
 
 /**
- * ECAS group for CEM team users.
- */
-define('ECAS_CEM_ECAS_GROUP', 'COMM_CEM');
-
-/**
  * Checks if the given user is an ECAS user.
  *
  * @param object $user
@@ -152,6 +147,15 @@ function _ecas_menu(array &$items) {
     'type' => MENU_CALLBACK,
   );
 
+  // Error page with only a error type set.
+  $items['ecas_profile_error/%'] = array(
+    'title' => 'Access to this site is refused',
+    'page callback' => 'ecas_profile_error_page',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -180,10 +184,20 @@ function ecas_menu_check() {
  * Redirects the user to the account request page.
  */
 function account_request() {
+  $account_request_url = ecas_get_account_request_url();
+  drupal_goto($account_request_url);
+}
+
+/**
+ * Gets the URL for the EU Login account creation form.
+ *
+ * @return string
+ *   The creation form URL.
+ */
+function ecas_get_account_request_url() {
   $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
   $return_url = url('ecas', array('absolute' => TRUE));
-  $account_request_url = str_replace('%local_ecas_url%', $return_url, $account_request_url);
-  drupal_goto($account_request_url);
+  return str_replace('%local_ecas_url%', $return_url, $account_request_url);
 }
 
 /**
@@ -335,7 +349,8 @@ function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()
 function ecas_sync_user_info(&$user, array $user_info, array $args) {
   $edit = array();
   // Update the user mail in the users table.
-  if (variable_get('ecas_update_mail_address', TRUE)) {
+  if (variable_get('ecas_update_mail_address', TRUE)
+    && (!empty($user_info['cas:email']))) {
     $edit['mail'] = $user_info['cas:email'];
   }
 
@@ -354,7 +369,29 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
   // Let the opportunity to modules to alter user roles.
   drupal_alter('ecas_user_roles', $edit['roles'], $user, $user_info, $args);
 
+  // We just gave the possibility to others modules to treat the case, now we
+  // control the existence of the user e-mail.
+  // If it is not there, then we block the Drupal user creation and login to
+  // display an error page instead.
+  if (empty($edit['mail']) && empty($user->mail)) {
+    $path_end = ECAS_EMAIL_ERROR_MESSAGE;
+    if (!empty($user_info['cas:employeeType']) && ('v' == $user_info['cas:employeeType'])) {
+      $path_end = ECAS_EMAIL_ERROR_MESSAGE_SOCIAL;
+    }
+    $language = language_default();
+    if (!empty($user_info['cas:locale'])) {
+      $enabled_language_list = language_list('enabled');
+      $enabled_language_list = reset($enabled_language_list);
+      if (isset($enabled_language_list[$user_info['cas:locale']])) {
+        $language = $enabled_language_list[$user_info['cas:locale']];
+      }
+    }
+
+    drupal_goto('ecas_profile_error/' . $path_end, array('language' => $language));
+  }
+
   // Fix : save file object replaced by fid by user_save function.
+  // That will be useful in the hook_info_ecas_update implementations.
   $picture = $user->picture;
   user_save($user, $edit);
   $user->mail = $user_info['cas:email'];
@@ -442,12 +479,6 @@ function ecas_login_check() {
 
     if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY) || ($force_login === ECAS_LOGIN))) {
       $ecas_name = phpCAS::getUser();
-      // @codingStandardsIgnoreStart: NEPT-1332: To be fixed during refactoring.
-      $ecas_attributes = phpCAS::getAttributes();
-      $ecas_groups = $ecas_attributes['cas:groups'];
-      $ecas_email = $ecas_attributes['cas:email'];
-      // @codingStandardsIgnoreEnd
-      // Try to log into Drupal.
       $account = user_load_by_name($ecas_name);
 
       // Extra process to filter ECAS user.
@@ -712,6 +743,63 @@ function ecas_warning_page() {
 }
 
 /**
+ * Page displaying error message when the EU login profile is malformed.
+ *
+ * @param string $error_type
+ *   The variable name of the error text to display in the page.
+ *
+ * @return string
+ *   The page display content.
+ */
+function ecas_profile_error_page($error_type = '') {
+  $theme_variables = array(
+    'error_text' => t("The reason is unknown. Please contact the site's administrator"),
+  );
+  // Manage the error text to display on the error page.
+  if (!empty($error_type) && ($error_text = _ecas_get_error_message_value($error_type))) {
+    $theme_variables['error_text'] = _ecas_filter_text($error_text);
+  }
+
+  return theme('ecas_profile_error_page', $theme_variables);
+}
+
+/**
+ * Filters a content.
+ *
+ * @param string|array $raw_text
+ *   The content to filter.
+ *   If the value is an array, it must contains the following key:
+ *   - 'value': The text to be filtered.
+ *   - 'format':  The machine name of the filter format to be used to filter the
+ *   text.
+ *
+ * @return string
+ *   The filtered text.
+ */
+function _ecas_filter_text($raw_text) {
+  if (is_array($raw_text)) {
+    return check_markup($raw_text['value'], $raw_text['format']);
+  }
+
+  return check_markup($raw_text);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ecas_theme() {
+  return array(
+    'ecas_profile_error_page' => array(
+      'variables' =>
+        array(
+          'error_text' => NULL,
+        ),
+      'template' => 'theme/templates/ecas-profile-error-page',
+    ),
+  );
+}
+
+/**
  * Initializes the phpCas client.
  */
 function _ecas_init_phpcas_client() {
@@ -825,4 +913,100 @@ function ecas_get_user_department($user_info) {
   }
 
   return array();
+}
+
+/**
+ * Gets the error message value for the specified variable.
+ *
+ * @param string $variable_name
+ *   The name of the variable related to the error message.
+ *
+ * @return array|bool
+ *   The error message value; or FALSE if not found.
+ */
+function _ecas_get_error_message_value($variable_name) {
+  switch ($variable_name) {
+    case ECAS_EMAIL_ERROR_MESSAGE:
+      $default_value = _ecas_get_default_missing_mail_variable();
+      break;
+
+    case ECAS_EMAIL_ERROR_MESSAGE_SOCIAL:
+      $default_value = _ecas_get_default_missing_mail_social_variable();
+      break;
+
+    default:
+      return FALSE;
+  }
+
+  return variable_get($variable_name, $default_value);
+}
+
+/**
+ * Gets the default value for the ECAS_EMAIL_ERROR_MESSAGE variable.
+ *
+ * @return array
+ *   Associative array setting the value and the format of the text set for
+ *   the error message text in case of a missing e-mail in EU Login profile.
+ */
+function _ecas_get_default_missing_mail_variable() {
+  $text = <<< EOF
+<p><strong>The received EU login data that concern you does not include an e-mail address.</strong></p>
+<p>The features proposed by this site like event notifications, newsletters, etc. require this address.</p>
+<p>Please check your EU Login account or contact the <a href="https://webgate.ec.europa.eu/cas/contact.html">EU login team.</a></p>
+EOF;
+  return array(
+    'value' => $text,
+    'format' => 'full_html',
+  );
+}
+
+/**
+ * Gets the default value for the ECAS_EMAIL_ERROR_MESSAGE_SOCIAL variable.
+ *
+ * @return array
+ *   Associative array setting the value and the format of the text set for
+ *   the error message text in case of a missing e-mail in EU Login profile.
+ */
+function _ecas_get_default_missing_mail_social_variable() {
+  $text = <<< EOF
+<p><strong>The received EU login data that concern you does not include an e-mail address.</strong></p>
+<p>The features proposed by this site like event notifications, newsletters, etc. require this address.</p>
+<p><strong>If you are using a Facebook account</strong> to log in this site, please ensure you give the authorization to communicate your e-mail address to EU Login.</p>
+<h3>To consult these Facebook settings</h3>
+<p>Please follow these steps:</p>
+<ol>
+    <li>Go to your Facebook settings, in the "Apps and websites" page (<a href="https://www.facebook.com/settings?tab=applications">https://www.facebook.com/settings?tab=applications</a>)
+    </li>
+    <li>Click on the "View and edit" link display blow the "EU Login" label;</li>
+    <li>Check that your e-mail address is displayed on the displayed popup and the box is checked on its right<br/>[ecas-illustration:fb-apps-settings-edit]
+    </li>
+</ol>
+<p>If your e-mail address is not displayed or the box is not checked, you can redo the EU login registration via Facebook or create a specific EU Login account by filling this form located here:<br/>
+[ecas-url:account-request-link].
+</p>
+<p></p>
+<h3>To allow EU Login receiving the e-mail address</h3>
+<p>Please follow these steps:</p>
+<ol>
+    <li>Go to your Facebook settings, in the "Apps and websites" page (<a href="https://www.facebook.com/settings?tab=applications">https://www.facebook.com/settings?tab=applications</a>)
+    </li>
+    <li>Check the box beside the "EU Login" block and click the "Remove button" on the left<br/>[ecas-illustration:fb-apps-settings-form]
+    </li>
+    <li>Confirm the removal<br/>[ecas-illustration:fb-apps-settings-confirm]</li>
+    <li>Ensure you are correctly logged out from EU Login.</li>
+    <li>Redo the login process via Facebook by ensuring you authorize EU Login to receive the e-mail address.<br/>
+        It occurs if the e-mail address transmission is mentioned in the authorization popup<br/>[ecas-illustration:fb-apps-login-confirmation]<br/>
+        If the e-mail address transmission is not mentioned, click the "Edit this" in the authorization popup and check the box displayed on the right of your e-mail address<br/>[ecas-illustration:fb-apps-login-settings-edit].
+    </li>
+    <li>Confirm by clicking the blue button "Continues as {your user name}"</li>
+</ol>
+<p></p>
+<h3>In case of issue</h3>
+<p>If nothing above works, please contact the <a href="https://webgate.ec.europa.eu/cas/contact.html">EU login team.</a>
+</p>
+EOF;
+  return array(
+    'value' => $text,
+    'format' => 'full_html',
+  );
 }

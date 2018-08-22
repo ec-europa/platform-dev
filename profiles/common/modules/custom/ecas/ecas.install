@@ -5,12 +5,19 @@
  * Install, uninstall, update and schema hooks for the ECAS module.
  */
 
+include_once 'includes/ecas.install.inc';
+
 /**
  * Implements hook_install().
  */
 function ecas_install() {
   $t = get_t();
-  variable_set('ecas_warning_message', $t('Your account is not yet approved'));
+
+  variable_set(ECAS_WARNING_MESSAGE, 'Your account is not yet approved');
+  variable_set(ECAS_EMAIL_ERROR_MESSAGE, _ecas_get_default_missing_mail_variable());
+  variable_set(ECAS_EMAIL_ERROR_MESSAGE_SOCIAL, _ecas_get_default_missing_mail_social_variable());
+
+  _ecas_set_variables_translatable();
 
   // Check for Curl support.
   if (!function_exists('curl_version')) {
