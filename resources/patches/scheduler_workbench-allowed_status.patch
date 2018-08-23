@@ -74,7 +74,7 @@ index 0000000..c89076b
 diff --git a/scheduler_workbench.module b/scheduler_workbench.module
 old mode 100644
 new mode 100755
-index 868435e..7c4f17e
+index 868435e..ad28c8e
 --- a/scheduler_workbench.module
 +++ b/scheduler_workbench.module
 @@ -7,6 +7,22 @@
@@ -112,11 +112,11 @@ index 868435e..7c4f17e
 +  $permissions['override default scheduler time'] = array(
 +    'title' => t('Override default scheduler time'),
 +    'description' => t('Allow users to override the default un-publish schedule time'),
-+  );
+   );
 +  $permissions['scheduler workbench'] = array(
 +    'title' => t('Administer Scheduler Workbench'),
 +    'description' => t('Perform administration tasks for Scheduler Workbench.'),
-   );
++  );
 +  return $permissions;
  }
 
@@ -171,3 +171,36 @@ index 868435e..7c4f17e
      if (!empty($node->workbench_moderation['my_revision']) &&
        $node->workbench_moderation['my_revision']->state == $state
      ) {
+@@ -319,6 +363,15 @@ function scheduler_workbench_form_workbench_moderation_moderate_form_alter(&$for
+ function scheduler_workbench_revision_publish($current, $state) {
+   workbench_moderation_moderate($current, $state);
+   $create_publishing_revision = variable_get('scheduler_publish_revision_' . $current->type, 0) == 1;
++  // Check if the revision current status allows it to be published.
++  if (!in_array($current->workbench_moderation['my_revision']->state, $allowed_status)) {
++    $options = array(
++      "%node" => $current->nid,
++      '%status' => $current->workbench_moderation['my_revision']->state,
++    );
++    watchdog("scheduler_workbench", t("Node %node can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
++    return;
++  }
+   if ($create_publishing_revision) {
+     $current->revision = TRUE;
+     $current->log = t('Saved by Scheduler workbench on @now.', array(
+@@ -348,6 +401,16 @@ function scheduler_workbench_scheduler_allow_publishing($node) {
+     // If this state is one that the current user can access, return TRUE.
+     if ($permitted_states = workbench_moderation_states_next($current_state, $draft_owner, $node)) {
+       $allowed = isset($permitted_states[$published_state]);
++    } // Get status allowed to be published.
++    $allowed_status = variable_get('scheduler_workbench_allowed_status', array());
++    // Check if the revision current status allows it to be published.
++    if (!in_array($node->workbench_moderation['my_revision']->state, $allowed_status)) {
++      $options = array(
++        "%node" => $node->nid,
++        '%status' => $node->workbench_moderation['my_revision']->state,
++      );
++      watchdog("scheduler_workbench", t("Node %node can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
++      $allowed = FALSE;
+     }
+   }
+
