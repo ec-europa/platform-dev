@@ -104,6 +104,16 @@ class PiwikRulesContext implements Context {
   }
 
   /**
+   * The Piwik should be configurable with at least sideId and Paths.
+   *
+   * @Given The piwik is well configured with id :id and paths :piwik_paths
+   */
+  public function thePiwikIsWellConfiguredWithIdAndPaths($id, $piwik_paths) {
+    $this->variables->setVariable('nexteuropa_piwik_site_id', $id);
+    $this->variables->setVariable('nexteuropa_piwik_site_path', $piwik_paths);
+  }
+
+  /**
    * Gets the PIWIK rules overview.
    *
    * @return Element

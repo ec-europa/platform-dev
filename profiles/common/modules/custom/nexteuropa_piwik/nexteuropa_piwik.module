@@ -160,12 +160,13 @@ function _nexteuropa_piwik_generate_json() {
   $id = variable_get('nexteuropa_piwik_site_id', '');
   $instance = variable_get('nexteuropa_piwik_site_instance', '');
   $site_section = variable_get('nexteuropa_piwik_site_section', '');
+  $site_path = _nexteuropa_piwik_site_path_array();
 
   // Get page status code for visibility filtering.
   $status = drupal_get_http_header('status');
-  $is404 = $is403 = FALSE;
 
   // Track 404 & 403 pages.
+  $is404 = $is403 = FALSE;
   switch ($status) {
     case '404 Not Found':
       $is404 = TRUE;
@@ -174,12 +175,7 @@ function _nexteuropa_piwik_generate_json() {
     case '403 Forbidden':
       $is403 = TRUE;
       break;
-
-    default:
-      break;
   }
-
-  $site_path = _nexteuropa_piwik_site_path_array();
 
   // Create settings array.
   $webtools_piwik_settings = array(
@@ -274,7 +270,7 @@ function _nexteuropa_piwik_visibility_pages() {
 
     foreach ($site_path_array as $path) {
       // Is the path match hte domain?
-      if (strpos($current_url, trim($path)) !== FALSE) {
+      if (strpos($current_url, $path) !== FALSE) {
         $matching_root = TRUE;
         continue;
       }
@@ -573,13 +569,16 @@ function _nexteuropa_piwik_get_latest_rule($rules_array) {
 /**
  * Custom function that returns a formatted list of site paths.
  *
- * @return array|mixed|null
+ * @return array
  *   An array of domains for which to track.
  */
 function _nexteuropa_piwik_site_path_array() {
-  return array_map(function ($path) {
-    return str_replace("\r", "", preg_replace('#^https?://#', '', $path));
-  }, explode(PHP_EOL, variable_get('nexteuropa_piwik_site_path', '')));
+  $func = function ($path) {
+    return preg_replace('#^https?://#', '', trim($path));
+  };
+  $site_paths = explode(PHP_EOL, variable_get('nexteuropa_piwik_site_path', ''));
+
+  return array_map($func, $site_paths);
 }
 
 /**
