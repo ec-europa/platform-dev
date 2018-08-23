@@ -33,7 +33,6 @@ function version_management_permission() {
  */
 function version_management_menu() {
   $items = array();
-
   $items['admin/config/content/version_management/settings'] = array(
     'title' => 'Version management',
     'description' => 'Adjust version management edit options.',
@@ -43,7 +42,6 @@ function version_management_menu() {
     'file' => 'version_management.admin.inc',
     'file path' => drupal_get_path('module', 'version_management'),
   );
-
   return $items;
 }
 
