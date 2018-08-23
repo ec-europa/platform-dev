@@ -182,6 +182,8 @@ projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.6"
+; https://www.drupal.org/sa-contrib-2018-013
+projects[entity][patch][] = https://cgit.drupalcode.org/entity/patch/?id=044cbb31d94989466790801e40c17154de789216
 
 projects[entity_translation][subdir] = "contrib"
 projects[entity_translation][version] = "1.0-beta5"
