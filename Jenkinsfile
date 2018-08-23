@@ -10,12 +10,12 @@ try {
                 deleteDir()
                 checkout scm
                 String directory = /^profiles\/.*$/
-                def changedFiles = getChangedFiles(directory, false)
+                def changedFiles = getChangedFiles(directory)
                 if (changedFiles) {
-                  echo "Changed files to process: " + getChangedFiles(directory, false)
+                  echo "Changed files to process: " + changedFiles
                   sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
                   sh './bin/phing setup-php-codesniffer'
-                  sh './bin/phpcs --standard=Platform --report=full --report=source --report=summary -s --ignore=*/libraries/* ' + getChangedFiles(directory, false)
+                  sh './bin/phpcs --standard=Platform --report=full --report=source --report=summary -s --ignore=*/libraries/* ' + changedFiles
                 }
                 else {
                   echo "Skipping phpcs, no files to scan."
@@ -159,33 +159,22 @@ void executeStages(String label) {
  * @todo: Test excludes from the ignore path (libraries) on the phpcs command line?
  */
 @NonCPS
-def getChangedFiles(directory, lastSuccessfulBuild = true) {
-  if (!lastSuccessfulBuild) {
-    return getChangedFilesFromBuild(directory, currentBuild)
-  }
-
+def getChangedFiles(directory) {
   def changes = [] as Set
   build = currentBuild
+
   while(build != null && build.result != 'SUCCESS') {
-    changedFiles = getChangedFilesFromBuild(directory, build)
-    changes.plus(changedFiles)
-    build = build.previousBuild
-  }
-  return changes
-
-}
-
-def getChangedFilesFromBuild(directory, build) {
-  def changes = [] as Set
-  for (changeLog in build.changeSets) {
-    for(entry in changeLog.items) {
-      for(file in entry.affectedFiles) {
-        if (${file.path} ==~ directory) {
-          changes.add("./${file.path}")
+    for (changeLog in build.changeSets) {
+      for(entry in changeLog.items) {
+        for(file in entry.affectedFiles) {
+          if (file.path ==~ directory) {
+            changes.add("./${file.path}")
+          }
         }
       }
     }
+    build = build.previousBuild
   }
-  return changes.join(',')
-}
+  return changes.join(' ')
 
+}
