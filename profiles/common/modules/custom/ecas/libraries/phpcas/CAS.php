@@ -35,6 +35,7 @@
  * @ingroup public
  */
 
+
 //
 // hack by Vangelis Haniotakis to handle the absence of $_SERVER['REQUEST_URI']
 // in IIS
