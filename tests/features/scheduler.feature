@@ -6,6 +6,11 @@ Feature: Scheduler features
 
   Background:
     Given I am logged in as a user with the 'administrator' role
+    When I go to "admin/config/content/scheduler_workbench"
+    And I check the box "Validated"
+    And I press "Save configuration"
+    Then I should see the text "The configuration options have been saved."
+    Then the "Validated" checkbox should be checked
 
   Scenario: User can schedule a date to publish a content
     When I go to "node/add/page"
@@ -25,6 +30,7 @@ Feature: Scheduler features
     And I run cron
     And I visit the "page" content with title "Next content"
     Then I should see the text "Revision state: Published"
+
   Scenario: User can schedule a date to unpublish a content
     When I go to "node/add/page"
     And I fill in "Title" with "Old content"
