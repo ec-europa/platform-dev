@@ -1,0 +1,13 @@
+diff --git a/sites/default/default.settings.php b/sites/default/default.settings.php
+index a152b287e9..bc306cd81d 100644
+--- a/sites/default/default.settings.php
++++ b/sites/default/default.settings.php
+@@ -333,7 +333,7 @@ ini_set('session.gc_maxlifetime', 200000);
+  * created to the cookie expires, i.e. when the browser is expected to discard
+  * the cookie. The value 0 means "until the browser is closed".
+  */
+-ini_set('session.cookie_lifetime', 2000000);
++ini_set('session.cookie_lifetime', 0);
+ 
+ /**
+  * If you encounter a situation where users post a large amount of text, and
