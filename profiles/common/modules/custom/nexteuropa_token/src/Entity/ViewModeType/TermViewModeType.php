@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Entity\ViewModeType\TermViewModeType.
- */
-
 namespace Drupal\nexteuropa_token\Entity\ViewModeType;
 
 /**

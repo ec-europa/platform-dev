@@ -17,14 +17,23 @@ Feature: Check Piwik
   Scenario: Check if the PIWIK script is embedded into the page correctly
     Given I am on the homepage
     Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"is403\":false,\"instance\":\"\"}"
+    # The meta tag below must be present in order that the PIWIK script works correctly (see NEPT-1042).
+    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
 
   Scenario: Check if the PIWIK script flags non existing pages
     Given I go to "falsepage"
     Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":true,\"is403\":false,\"instance\":\"\"}"
+    # The meta tag below must be present in order that the PIWIK script works correctly (see NEPT-1042).
+    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
 
   Scenario: Check if the PIWIK script flags forbidden pages
-    Given I go to "ecaslogout"
+    Given these modules are enabled
+      | modules            |
+      | ecas_env           |
+    And I go to "ecaslogout"
     Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"is403\":true,\"instance\":\"\"}"
+    # The meta tag below must be present in order that the PIWIK script works correctly (see NEPT-1042).
+    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
 
   @delete_piwik_rules
   Scenario: View advanced PIWIK rules.
@@ -57,9 +66,9 @@ Feature: Check Piwik
   @delete_piwik_rules
   Scenario: Remove a PIWIK rule.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
-    And I create the following multilingual "page" content:
-      | language | title  | field_ne_body         |
-      | en       | Test   | The test body content |
+    And "page" content:
+      | title     | field_ne_body         |
+      | Test page | The test body content |
     And the following PIWIK rules:
       | Rule language | Rule path       | Rule path type | Rule section         |
       | all           | ^admin/*        | regexp         | Regexp based section |
@@ -80,9 +89,9 @@ Feature: Check Piwik
     And the following PIWIK rules:
       | Rule language | Rule path       | Rule path type | Rule section         |
       | en            | content/test    | direct         | Direct path section  |
-    And I create the following multilingual "page" content:
-      | language | title | field_ne_body |
-      | en       | Test  | Test          |
+    And "page" content:
+      | title | field_ne_body | status |
+      | Test  | Test          | 1      |
     And I go to "content/test_en"
     Then the response should contain "\"siteSection\":\"Direct path section\""
 
@@ -92,8 +101,8 @@ Feature: Check Piwik
     And the following PIWIK rules:
       | Rule language | Rule path       | Rule path type | Rule section         |
       | all           | ^content/*      | regexp         | Regexp based section |
-    And I create the following multilingual "page" content:
-      | language | title              | field_ne_body     |
-      | en       | Testing Title no 1 | Body content no 1 |
+    And "page" content:
+      | title              | field_ne_body     | status |
+      | Testing Title no 1 | Body content no 1 | 1      |
     When I go to "content/testing-title-no-1_en"
     Then the response should contain "\"siteSection\":\"Regexp based section\""

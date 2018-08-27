@@ -1,19 +1,15 @@
 <?php
 
-/**
- * @file
- * Provides Next Europa TMGMT DGT FTT translator UI plugin controller.
- */
-
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorUIController;
 
-use \TMGMTDefaultTranslatorUIController;
-use \TMGMTTranslator;
+use TMGMTDefaultTranslatorUIController;
+use TMGMTTranslator;
 
 /**
  * TMGMT DGT FTT translator plugin controller.
  */
 class TmgmtDgtFttTranslatorUiController extends TMGMTDefaultTranslatorUIController {
+
   /**
    * Overrides TMGMTDefaultTranslatorUIController::pluginSettingsForm().
    */

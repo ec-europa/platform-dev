@@ -9,6 +9,16 @@ include_once 'wiki_og.features.inc';
 include_once 'wiki_og.views_alter.inc';
 
 /**
+ * Implements hook_modules_enabled().
+ */
+function wiki_og_modules_enabled($modules) {
+  if (in_array('wiki_og', $modules)) {
+    // Force feature revert to update og permissions.
+    features_revert(array('wiki_og' => array('og_features_permission')));
+  }
+}
+
+/**
  * Implements hook_menu().
  */
 function wiki_og_menu() {

@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * @file
+ * Install file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function tmgmt_dgt_connector_install() {
+  // New tmgmt_dgt_connector translator.
+  $translator = entity_import('tmgmt_translator', '{
+    "name" : "tmgmt_dgt_connector",
+    "label" : "TMGMT DGT Translator",
+    "description" : "",
+    "weight" : "-1000",
+    "plugin" : "tmgmt_dgt_connector",
+    "settings" : {
+      "auto_accept" : 0,
+      "settings" : {
+        "counter" : "",
+        "code" : "WEB",
+        "website_identifier" : "my-website",
+        "callback_user" : "",
+        "callback_password" : "",
+        "poetry_user" : "",
+        "poetry_password" : ""
+      },
+      "organization" : {
+        "responsable" : "DIGIT",
+        "auteur" : "IE/CE/DIGIT",
+        "demandeur" : "IE/CE/DIGIT/A/3"
+      },
+      "contacts" : {
+        "auteur" : "ecusername",
+        "secretaire" : "ecusername",
+        "contact" : "ecusername",
+        "responsable" : "ecusername"
+      },
+      "feedback_contacts" : {
+        "to" : "email@email.eu",
+        "cc" : "email@email.eu"
+      },
+      "remote_languages_mappings" : { "en" : "en" }
+    },
+    "rdf_mapping" : []
+  }');
+  $translator->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function tmgmt_dgt_connector_uninstall() {
+  // Delete the tmgmt_dgt_connector translator.
+  // Note tmgmt_translator_load is not stable in uninstall cases; it returns
+  // FALSE while the translator exists in the DB.
+  // That is why we pass by EntityFieldQuery.
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', 'tmgmt_translator')
+    ->propertyCondition('name', 'tmgmt_dgt_connector')
+    ->execute();
+  if (!empty($result['tmgmt_translator'])) {
+    $controller = entity_get_controller('tmgmt_translator');
+    // Since the entity controller handles the deletion of the attached
+    // entities (messages, job items) we just need to invoke it directly.
+    $controller->delete(array_keys($result['tmgmt_translator']));
+  }
+}

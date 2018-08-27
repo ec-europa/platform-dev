@@ -5,7 +5,7 @@
  * Contains NexteuropaCoreSubContext.
  */
 
-use \Drupal\DrupalExtension\Context\DrupalSubContextBase;
+use Drupal\DrupalExtension\Context\DrupalSubContextBase;
 
 /**
  * Behat context for the test setup related to Nexteuropa core tokens.
@@ -37,7 +37,7 @@ class NexteuropaCoreSubContext extends DrupalSubContextBase {
           0 => 'tid',
         ),
       ),
-      'locked' => 0,
+      'locked' => 1,
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(

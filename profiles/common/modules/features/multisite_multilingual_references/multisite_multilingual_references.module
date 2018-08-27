@@ -307,97 +307,160 @@ function multisite_multilingual_references_entity_view($entity, $type, $view_mod
     $current_lang_code = _multisite_multilingual_references_get_current_lang();
 
     foreach ($entity->content as $k => $content) {
-
-      // Look for "html" (WYSIWYG) fields.
-      if (isset($content['#field_type']) && ($content['#field_type'] == 'text_with_summary' || $content['#field_type'] == 'text_long')) {
-
-        if (isset($content['#items']) && is_array($content['#items'])) {
-          foreach ($content['#items'] as $item_k => $item) {
-            if (isset($content[$item_k]) && isset($content[$item_k]['#markup']) && !empty($content[$item_k]['#markup'])) {
-              // Get all href to nodes in the field.
-              $dom = new DOMDocument();
-              if (multisite_drupal_toolbox_load_html($dom, mb_convert_encoding($content[$item_k]['#markup'], 'HTML-ENTITIES', 'UTF-8'))) {
-                foreach ($dom->getElementsByTagName('a') as $link_node) {
-                  if ($link_node && $link_node->hasAttributes()) {
-
-                    $path = $link_node->getAttribute('href');
-                    // Process valid paths only.
-                    if (url_is_external($path)) {
-                      continue;
-                    }
-
-                    // If we find the marker attribute (introduced in added
-                    // links to avoid parsing the wrong links), then remove
-                    // marker and skip proccessing this link.
-                    if ($link_node->getAttribute('skipattr')) {
-                      $link_node->removeAttribute('skipattr');
-                      continue;
-                    }
-
-                    list($link_lang, $link_path) = _multisite_multilingual_references_clean_path($path);
-
-                    $source_path = drupal_lookup_path('source', $link_path, $link_lang);
-                    if (!$source_path) {
-                      $source_path = $link_path;
-                    }
-
-                    // Get node object and lang from source path; if no node
-                    // found, skip proccessing this link.
-                    $source_node = menu_get_object('node', 1, $source_path);
-                    if (!$source_node) {
-                      continue;
-                    }
-                    $source_lang = $source_node->language;
-                    $source_title = $link_node->nodeValue;
-
-                    // If is a node link added with 'Link plugin'.
-                    if (strpos($link_node->getAttribute('type'), 'length=0') === FALSE) {
-                      $source_title = $link_node->nodeValue;
-                      $type = 'link';
-                    }
-                    else {
-                      $type = NULL;
-                    }
-
-                    if ($source_lang != LANGUAGE_NONE && $source_lang != $current_lang_code) {
-                      // Languages mismatch. Get a link replacement (either
-                      // changed path to matching language node, or added class
-                      // to later display list of available translations of the
-                      // node).
-                      _multisite_multilingual_references_get_link_replacement(array(&$link_node, &$dom), $current_lang_code, $source_path, $source_title, MULTISITE_MULTILINGUAL_REFERENCES_CLASS, $type);
-                    }
-                  }
-                }
-              }
-
-              // Set new field content.
-              $entity->content[$k][$item_k]['#markup'] = $dom->saveHTML();
-            }
-          }
-        }
+      // If content is not array, then it is not targeted by the
+      // following process.
+      if (!is_array($content)) {
+        continue;
       }
 
-      // Look for "node-reference" fields.
-      if (isset($content['#field_type']) && isset($content['#entity_type']) && 'entityreference' == $content['#field_type']  && 'node' == $content['#entity_type']) {
-        if (isset($content['#items']) && is_array($content['#items'])) {
-          foreach ($content['#items'] as $item_k => $item) {
-            // If the current markup is a link.
-            if (isset($content[$item_k]) && isset($content[$item_k]['#markup']) && FALSE !== strrpos($content[$item_k]['#markup'], '</a>')) {
-              $source_path = 'node/' . $item['entity']->nid;
-              $source_lang = $item['entity']->language;
-              $source_title = $item['entity']->title;
-              if ($source_lang != LANGUAGE_NONE && $source_lang != $current_lang_code) {
-                // Languages mismatch. Get a link replacement (either changed
-                // path to matching language node, or added class to later
-                // display list of available translations of the node).
-                $link_replacement = _multisite_multilingual_references_get_link_replacement($content[$item_k]['#markup'], $current_lang_code, $source_path, $source_title, MULTISITE_MULTILINGUAL_REFERENCES_CLASS);
-                if ($link_replacement) {
-                  $entity->content[$k][$item_k]['#markup'] = $link_replacement;
+      // If content has no field type defined, then it is not targeted by the
+      // following process.
+      if (!isset($content['#field_type'])) {
+        continue;
+      }
+
+      // Look for "html" (WYSIWYG) fields.
+      switch ($content['#field_type']) {
+        case 'text_with_summary':
+        case  'text_long':
+          if (isset($content['#items']) && is_array($content['#items'])) {
+            foreach ($content['#items'] as $item_k => $item) {
+              if (isset($content[$item_k]) && isset($content[$item_k]['#markup']) && !empty($content[$item_k]['#markup'])) {
+                // Get all href to nodes in the field.
+                $dom = new DOMDocument();
+                if (multisite_drupal_toolbox_load_html($dom, mb_convert_encoding($content[$item_k]['#markup'], 'HTML-ENTITIES', 'UTF-8'))) {
+                  _multisite_multilingual_references_add_widget_in_html($dom, $current_lang_code);
                 }
+
+                // Set new field content.
+                $entity->content[$k][$item_k]['#markup'] = $dom->saveHTML();
               }
             }
           }
-        }
+          break;
+
+        case 'entityreference':
+          // Update links only if the 'entityreference' field contains nodes as
+          // items.
+          if (!isset($content['#entity_type']) || ('node' != $content['#entity_type'])) {
+            break;
+          }
+
+          if (!isset($content['#items']) || !is_array($content['#items'])) {
+            break;
+          }
+
+          foreach ($content['#items'] as $item_k => $item) {
+            if (isset($content[$item_k]) && isset($content[$item_k]['#markup'])) {
+              $link_replacement = _multisite_multilingual_references_get_widget_from_entityreference($content[$item_k]['#markup'], $item, $current_lang_code);
+              if ($link_replacement) {
+                $entity->content[$k][$item_k]['#markup'] = $link_replacement;
+              }
+            }
+          }
+          break;
+      }
+    }
+  }
+}
+
+/**
+ * Gets the module's widget from a "entity reference" field item.
+ *
+ * The widget will be used to replace the internal link in the
+ * field item markup.
+ *
+ * @param string $field_item_markup
+ *   The HTML markup of the field item to treat.
+ * @param array $field_item
+ *   The array with the info of the field item to treat.
+ * @param string $lang_code
+ *   The code of the language used as reference for the widget generation.
+ *
+ * @return bool|string
+ *   The HTML of the module's widget or FALSE if the conditions to generate the
+ *   widget are not fulfilled.
+ */
+function _multisite_multilingual_references_get_widget_from_entityreference($field_item_markup, array $field_item, $lang_code) {
+  // Rapid check in order to see if the markup contains a link.
+  // if not, return false.
+  if (FALSE !== strrpos($field_item_markup, '</a>')) {
+    return FALSE;
+  }
+
+  $source_lang = $field_item['entity']->language;
+
+  // Languages match. No need to continue the process.
+  if ($source_lang == LANGUAGE_NONE || $source_lang == $lang_code) {
+    return FALSE;
+  }
+
+  $source_path = 'node/' . $field_item['entity']->nid;
+  $source_title = $field_item['entity']->title;
+
+  // Get a link replacement (either changed
+  // path to matching language node, or added class to later
+  // display list of available translations of the node).
+  return _multisite_multilingual_references_get_link_replacement($field_item_markup, $lang_code, $source_path, $source_title, MULTISITE_MULTILINGUAL_REFERENCES_CLASS);
+}
+
+/**
+ * Replaces internal links in a HTML DOM object by the module's widget.
+ *
+ * @param DOMDocument $dom
+ *   The DOM object where replacing the internal links.
+ * @param string $current_lang_code
+ *   The current interface language.
+ */
+function _multisite_multilingual_references_add_widget_in_html(DOMDocument $dom, $current_lang_code) {
+  foreach ($dom->getElementsByTagName('a') as $link_node) {
+    if ($link_node && $link_node->hasAttributes()) {
+
+      $path = $link_node->getAttribute('href');
+      // Process valid paths only.
+      if (url_is_external($path)) {
+        continue;
+      }
+
+      // If we find the marker attribute (introduced in added
+      // links to avoid parsing the wrong links), then remove
+      // marker and skip proccessing this link.
+      if ($link_node->getAttribute('skipattr')) {
+        $link_node->removeAttribute('skipattr');
+        continue;
+      }
+
+      list($link_lang, $link_path) = _multisite_multilingual_references_clean_path($path);
+
+      $source_path = drupal_lookup_path('source', $link_path, $link_lang);
+      if (!$source_path) {
+        $source_path = $link_path;
+      }
+
+      // Get node object and lang from source path; if no node
+      // found, skip proccessing this link.
+      $source_node = menu_get_object('node', 1, $source_path);
+      if (!$source_node) {
+        continue;
+      }
+      $source_lang = $source_node->language;
+      $source_title = $link_node->nodeValue;
+
+      // If is a node link added with 'Link plugin'.
+      if (strpos($link_node->getAttribute('type'), 'length=0') === FALSE) {
+        $source_title = $link_node->nodeValue;
+        $type = 'link';
+      }
+      else {
+        $type = NULL;
+      }
+
+      if ($source_lang != LANGUAGE_NONE && $source_lang != $current_lang_code) {
+        // Languages mismatch. Get a link replacement (either
+        // changed path to matching language node, or added class
+        // to later display list of available translations of the
+        // node).
+        _multisite_multilingual_references_get_link_replacement(array(&$link_node, &$dom), $current_lang_code, $source_path, $source_title, MULTISITE_MULTILINGUAL_REFERENCES_CLASS, $type);
       }
     }
   }

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\MessageContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
@@ -16,10 +11,11 @@ use Drupal\DrupalExtension\Context\MessageContext as DrupalExtensionMessageConte
  * @package Drupal\nexteuropa\Context
  */
 class MessageContext extends DrupalExtensionMessageContext {
+
   /**
    * Checks if the current page contains the given error message.
    *
-   * @param PyStringNode $message
+   * @param \Behat\Gherkin\Node\PyStringNode $message
    *   PyStringNode containing the text to be checked.
    *
    * @Then I should see this following error message:
@@ -211,7 +207,6 @@ class MessageContext extends DrupalExtensionMessageContext {
     }
   }
 
-
   /**
    * Internal callback to check for a specific message in a given context.
    *
@@ -267,7 +262,6 @@ class MessageContext extends DrupalExtensionMessageContext {
     }
   }
 
-
   /**
    * Helps to determine if the current page is an admin page.
    *
@@ -280,6 +274,13 @@ class MessageContext extends DrupalExtensionMessageContext {
 
     // Retrieve the page path from the URL.
     $path = str_replace($base_url . '/', '', $url);
+
+    $list_pages = variable_get('cce_basic_config_admin_pages', array());
+    foreach ($list_pages as $page) {
+      if (strpos($path, $page) === 0) {
+        return FALSE;
+      }
+    }
 
     return path_is_admin($path);
   }
