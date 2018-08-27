@@ -14,11 +14,15 @@ Table of content:
 Installation
 ------------
 
-The feature needs to be enabled by an administrator, it is not available in feature set.
-The path to the library version is defined for all instances as $util_dir . '/phpcas/CAS.php'
+The feature needs to be enabled by an administrator, it is not available in 
+feature set.
+The path to the library version is defined for all MULTISITE instances as 
+$util_dir . '/phpcas/CAS.php'
 
-*However* that path can be overriden by setting a new value to 'FPFIS_ECAS_PATH' in your settings.php
-If no value constant is defined for FPFIS_ECAS_PATH, the library path will fallback to custom modules ecas/libraries subfolder.
+*However* that path can be overridden by setting a new value to 
+'FPFIS_ECAS_PATH' in your settings.php
+If no value constant is defined for FPFIS_ECAS_PATH, the library path will 
+fallback to the NextEuropa platform "vendor" repository (vendor/jasic/phpcas).
 
 Usage
 -----
@@ -29,7 +33,7 @@ After credentials are rightly submitted, a user page is created and user is redi
 An entry is created in the authmap table:
 
 | aid | uid | authname | module |
-|-----|----:|----------|--------|
+|-----:|----:|----------:|--------:|
 |   1 |   6 | leperde  | ecas   |
 
 <dl>
@@ -82,8 +86,10 @@ admin/people/import_en
 
 Debugging
 ---------
-The feature ecas_env uses the libraries located in
-custom/ecas/libraries/phpcas/CAS/Client.php
+In order to manage connections to the Ecas server (EU Login service), 
+the feature depends on the **"Ecas"** module and the "**jasig/phpCAS**" library 
+available from the "vendor" repository of the platform.
+
 You can create an account and use it to test on website that are set up as LOW
 in the "Assurance Level of the application".
 To create an external account go to
@@ -105,5 +111,6 @@ you need to provide some extra configuration in your settings.php file
 
 The values can be retrieved from dorstenia server. 
 
-Please also have a look at [dorstenia common settings doc](https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/fpfis-platform-settings/browse?at=dorstenia)
+Please also have a look at 
+[dorstenia common settings doc](https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/fpfis-platform-settings/browse?at=dorstenia)<br />
 If you have more questions, please contact "COMM Europa Management"
