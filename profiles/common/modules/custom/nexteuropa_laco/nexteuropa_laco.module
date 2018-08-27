@@ -97,10 +97,10 @@ function _nexteuropa_laco_generate_json() {
   $selectors = variable_get(
     'nexteuropa_laco_icon_include',
     array(
-      '#content-wrapper',
+      '#block-system-main',
       '#sidebar-left',
       '#sidebar-right',
-      '.page-content row',
+      '.page-content aside',
     )
   );
   $webtools_laco_settings = array(
