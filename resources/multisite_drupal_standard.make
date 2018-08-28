@@ -1103,7 +1103,7 @@ projects[atomium][version] = 2.11
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.13
+projects[ec_europa][download][tag] = 0.0.14
 
 ; ==============
 ; Custom modules
