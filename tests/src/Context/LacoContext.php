@@ -42,19 +42,6 @@ class LacoContext implements Context {
   public function aValidLacoHasBeenConfigured() {
     $this->variableContext->setVariable('nexteuropa_laco_enable_laco_icon_feature', 1);
     $this->variableContext->setVariable('nexteuropa_laco_smartloader_prurl', 'http://europa.eu/webtools/load.js');
-    /*$this->variableContext->setVariable('nexteuropa_laco_icon_include', array(
-      '#block-system-main',
-      '#sidebar-left',
-      '#sidebar-right',
-      '.page-content aside',
-    ));
-    $this->variableContext->setVariable('nexteuropa_laco_icon_exclude', array());
-    $this->variableContext->setVariable('nexteuropa_laco_icon_document_coverage', 'any');
-    $this->variableContext->setVariable('nexteuropa_laco_icon_page_coverage', 'any');
-    $this->variableContext->setVariable('nexteuropa_laco_icon_language_coverage', 'eu');
-    $this->variableContext->setVariable('nexteuropa_laco_icon_type', 'dot');
-    $this->variableContext->setVariable('nexteuropa_laco_visibility_pages', 0);
-    $this->variableContext->setVariable('nexteuropa_laco_excluded_paths', "admin\nadmin/ *\nbatch\nnode/add*\nnode/ * / * \nuser/ * / *");*/
   }
 
 }
