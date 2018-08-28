@@ -29,12 +29,14 @@ page (path: admin/config/regional/nexteuropa_laco).
 
 The feature is configured for a site that uses a default installation of the 
 NextEuropa platform but the module allows configuring the feature on 
-the "Next Europa LACO - Settings" page.
-For each parameter describe in the WebTools Language Coverage 
-[Technical documentation](https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Language+Coverage+-+Technical+details).
+the "Next Europa LACO - Settings" page.<br />
+For each parameter described in the WebTools Language Coverage 
+[Technical documentation](https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Language+Coverage+-+Technical+details),
+a feature setting is to be defined.
 
-On this settings page, it is also possible to define which page must be covered 
-by the LACO icon feature.
+On this settings page, the "Pages where the LACO icon feature must be active" 
+settings allow defining which pages must be processed for adding the LACO icon
+beside hyperlinks.
 
 Current status
 -----

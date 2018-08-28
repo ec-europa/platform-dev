@@ -126,7 +126,7 @@ function nexteuropa_laco_settings_form($form, &$form_state) {
   // Pages visibility settings.
   $form['nexteuropa_laco_icon_settings']['page_vis_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Pages where to include or exclude the LACO icon'),
+    '#title' => t('Pages where the LACO icon feature must be active'),
   );
   $options = array(
     t('Every page except the listed pages'),
