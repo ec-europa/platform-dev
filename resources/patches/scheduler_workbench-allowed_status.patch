@@ -175,13 +175,13 @@ index 868435e..ad28c8e
  function scheduler_workbench_revision_publish($current, $state) {
    workbench_moderation_moderate($current, $state);
    $create_publishing_revision = variable_get('scheduler_publish_revision_' . $current->type, 0) == 1;
-+  // Check if the revision current status allows it to be published.
++  $allowed_status = variable_get('scheduler_workbench_allowed_status', array());
 +  if (!in_array($current->workbench_moderation['my_revision']->state, $allowed_status)) {
 +    $options = array(
 +      "%node" => $current->nid,
 +      '%status' => $current->workbench_moderation['my_revision']->state,
 +    );
-+    watchdog("scheduler_workbench", t("Node %node can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
++    watchdog("scheduler_workbench", t("Node %node with status %status, can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
 +    return;
 +  }
    if ($create_publishing_revision) {
@@ -199,7 +199,7 @@ index 868435e..ad28c8e
 +        "%node" => $node->nid,
 +        '%status' => $node->workbench_moderation['my_revision']->state,
 +      );
-+      watchdog("scheduler_workbench", t("Node %node can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
++      watchdog("scheduler_workbench", t("Node %node with status %status, can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
 +      $allowed = FALSE;
      }
    }
