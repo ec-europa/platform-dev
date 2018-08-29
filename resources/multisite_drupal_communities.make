@@ -23,11 +23,10 @@ projects[og-delete][patch][] = patches/og_delete-warning_fix-issue-3629.patch
 # https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6319
 projects[og][patch][] = http://www.drupal.org/files/issues/2411041-og-og_is_member-2.patch
 
-projects[og_linkchecker][download][branch] = 7.x-1.x 
-projects[og_linkchecker][download][revision] = 7257d0e
+projects[og_linkchecker][download][branch] = 7.x-2.x
+projects[og_linkchecker][download][revision] = 976f7ef
 projects[og_linkchecker][download][type] = git
-projects[og_linkchecker][subdir] = contrib
-projects[og_linkchecker][patch][] = https://www.drupal.org/files/issues/og_linkchecker-og-2-x-compatibility-2214661-2.patch
+projects[og_linkchecker][subdir] = "contrib"
 
 ; ==============
 ; Custom modules
