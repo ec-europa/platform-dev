@@ -160,10 +160,10 @@ index 868435e..ad28c8e
 +      }
 +    }
 +    // Check if the revision current status allows it to be published.
-+    if (!in_array($node->workbench_moderation['my_revision']->state, $allowed_status)) {
++    if (!in_array($node->workbench_moderation['current']->state, $allowed_status)) {
 +      $options = array(
 +        "%node" => $node->nid,
-+        '%status' => $node->workbench_moderation['my_revision']->state,
++        '%status' => $node->workbench_moderation['current']->state,
 +      );
 +      watchdog("scheduler_workbench", t("Node %node can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
 +      return;
