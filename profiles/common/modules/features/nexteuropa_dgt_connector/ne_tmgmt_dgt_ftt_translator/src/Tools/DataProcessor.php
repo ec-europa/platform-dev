@@ -263,7 +263,7 @@ trait DataProcessor {
    * @param string $requester_code
    *   Requester code.
    *
-   * @return array|bool
+   * @return array
    *   An array with an identifier data or FALSE in case of errors.
    */
   public function getIdentifier(TMGMTJob $job, $node_id, $requester_code) {
