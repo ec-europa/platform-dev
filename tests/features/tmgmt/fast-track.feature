@@ -50,7 +50,7 @@ Feature: Fast track
       number: 40012
       version: 0
       part: 0
-      product: REV
+      product: EDT
     status:
       -
         type: request
@@ -148,6 +148,7 @@ Feature: Fast track
     And I press "Apply"
     Then I should see "Revision state: Validated"
     And Poetry service received request should contain the following text:
+      | <produit>EDT</produit>                                        |
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
       | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
@@ -188,7 +189,7 @@ Feature: Fast track
       number: 40013
       version: 0
       part: 0
-      product: REV
+      product: EDT
     status:
       -
         type: request
