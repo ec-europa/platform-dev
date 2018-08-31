@@ -14,7 +14,7 @@ platform.site.theme_default = ec_resp
 ecl.version = 0.21.0
 
 # The default EC Europa theme release
-ec_europa.version = 0.0.11
+ec_europa.version = 0.0.14
 
 # The default Atomium and Europa theme build properties.
 # Used only if default theme is set to "ec_europa".
