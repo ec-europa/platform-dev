@@ -140,11 +140,11 @@ function _ecas_menu(array &$items) {
     'type' => MENU_SUGGESTED_ITEM,
   );
 
-  // NEPT-520: the use of eu login in the path has 2 objectives:
+  // NEPT-520: the use of eu login in the path has 2 goals:
   // The first is to give a path value aligned with the new official name of
   // the European SSO tool.
-  // The second is to avoid to complicate the suffix based language negotiation
-  // process by adding an exception in the "ecas" path exception in the
+  // The second is avoiding to complicate the suffix based language negotiation
+  // process by adding an new exception in the "ecas" path exception in the
   // process.
   // see nexteuropa_multilingual_language_negotiation_url_rewrite_callback().
   $items['eulogin_warning/%'] = array(
@@ -231,7 +231,7 @@ function ecas_login_page() {
   }
   catch (Exception $e) {
     watchdog_exception('user', $e);
-    _ecas_warning_goto('unkown',
+    _ecas_warning_goto(ECAS_WARNING_REASON_UNKNOWN,
       NULL,
       'The EU login connection failed.');
   }
@@ -372,7 +372,8 @@ function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()
  *
  * Update information: core mail address, profile, Content Profile, roles, ...
  * When all information has been synced, this function invokes the
- * info_ecas_update() hook in all enabled modules that implement it.
+ * ecas_sync_user_info() and ecas_user_roles_alter() hooks in all enabled
+ * modules that implement it.
  *
  * @param object $user
  *   A user object.
@@ -384,7 +385,7 @@ function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()
  *   These values will be used to fill fields/profiles/...
  * @param array $args
  *   Extra parameters, not used directly in this function but passed to the
- *   info_ecas_update() hook.
+ *   ecas_sync_user_info() and ecas_user_roles_alter() hooks.
  *
  * @return array
  *   An array of fields and values to save like user_save() uses.
@@ -492,7 +493,7 @@ function ecas_login_check() {
     _ecas_warning_goto(
       ECAS_WARNING_REASON_UNKNOWN,
       NULL,
-      'ECAS authentication failed for unknown reason.'
+      'ECAS authentication failed for unexpected reasons.'
     );
   }
 
@@ -506,7 +507,7 @@ function ecas_login_check() {
     _ecas_warning_goto(
       ECAS_WARNING_REASON_INCOMPLETE_USER,
       NULL,
-      'Login process failed for "%ecas_name" because of a EU login user with missing required attributes.',
+      'Login process failed for "%ecas_name" because of an EU login user with missing required attributes.',
       array(
         '%ecas_name' => !empty($ecas_name) ? $ecas_name : 'Unknown user name',
       )
@@ -520,8 +521,8 @@ function ecas_login_check() {
 
   // Check if the user has not been logged in and arrives in this process by
   // mistake.
-  // If it happens, we redirect him to front page and ask him to log out and
-  // log in again.
+  // If it happens, we redirect him to the front page and ask him to log out
+  // and log in again.
   if (
     isset($account->data['ecas_login_date']) &&
     ($account->data['ecas_login_date'] == $ecas_attributes['cas:loginDate'])
@@ -538,7 +539,7 @@ function ecas_login_check() {
       ['@url' => $url]
     );
     drupal_set_message($msg, 'error');
-    // NO need to continue, Redirect the user to the front page.
+    // No need to continue, redirect the user to the front page.
     drupal_goto('<front>');
   }
 
@@ -551,13 +552,14 @@ function ecas_login_check() {
     drupal_alter('ecas_extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
   }
 
-  // Synchronize data between Drupal user object and Ecas one according to the
+  // Synchronize data between Drupal user object and Ecas ones according to the
   // site specificity.
   // There is no save inside, that will be do after further validations.
   $account_edit = ecas_sync_user_info($account, $ecas_attributes, $ecas_sync_user_info_args);
 
-  // Before saving the Check the validity of the user.
-  // The ecas user must have an defined e-mail; otherwise the drupal
+  // Before saving and as we gave a last chance to other modules to change the
+  // user data, check the validity of the user that must be saved.
+  // The ecas user must have a defined e-mail; otherwise the drupal
   // authentication is denied.
   if (empty($account_edit['mail'])) {
     _ecas_warning_goto(
@@ -570,7 +572,8 @@ function ecas_login_check() {
     );
   }
 
-  // Check that the email is not present for another account.
+  // Check that the email is not used for another account; otherwise the drupal
+  // authentication is denied.
   if (ecas_is_email_already_used($account_edit['mail'], $account)) {
     _ecas_warning_goto(
       ECAS_WARNING_REASON_EXISTING_EMAIL,
@@ -1103,10 +1106,10 @@ function _ecas_session_end() {
 }
 
 /**
- * Get the full URL for the homepage of the site.
+ * Get the full URL of the homepage of the site.
  *
  * @return string
- *   The full URL for the homepage of the site.
+ *   The full URL of the homepage of the site.
  */
 function _ecas_get_site_frontpage_full_url() {
   return url('<front>', ['absolute' => TRUE]);
@@ -1122,7 +1125,7 @@ function _ecas_get_site_frontpage_full_url() {
  * @param string $message
  *   (Optional) A message to use in order to log the redirection event.
  * @param array $message_args
- *   (Optional) Array of variables to replace in the message on display or
+ *   (Optional) Array of variables to replace in the log message on display or
  *   NULL if message is already translated or not possible to
  *   translate.
  *
@@ -1153,57 +1156,11 @@ function _ecas_warning_goto($path_page_argument, $language = NULL, $message = NU
 }
 
 /**
- * Checks if the e-mail address is not already used by a user.
- *
- * It does not use "user_load_by_mail" because this function is case sensitive
- * with some DB types.
- *
- * @param string $email
- *   The e-mail to control.
- * @param object $account
- *   (optional) An account to exclude from the control.
- *
- * @return bool
- *   True if the e-mail is already used by a user; otherwise FALSE.
- *
- * @see user_load_by_mail()
- * @see user_account_form_validate()
- */
-function _ecas_is_email_already_used($email, $account = NULL) {
-  $email = trim($email);
-
-  $query = db_select('users')
-    ->fields('users', array('uid'))
-    ->condition('mail', db_like($email), 'LIKE')
-    ->range(0, 1);
-
-  if (!empty($account)) {
-    $query->condition('uid', $account->uid, '<>');
-  }
-
-  return (bool) $query->execute()->fetchField();
-}
-
-/**
  * Filters a variable text value.
- *
- * @param string $raw_text
- *   The content to filter.
- *   If the value is an array, it must contains the following key:
- *   - 'value': The text to be filtered.
- *   - 'format':  The machine name of the filter format to be used to filter the
- *   text.
- *
- * @return string
- *   The filtered text.
- */
-
-/**
- * Filters a content.
  *
  * @param array $raw_text_parameters
  *   Associative array of data required by the filter process:
- *   - 'value': The content value to filter.
+ *   - 'value': The text value to filter.
  *   - 'format': (optional) The filter id to be used during the process.
  *
  * @return string
