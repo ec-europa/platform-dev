@@ -93,3 +93,4 @@ define('ECAS_WARNING_REASON_EXISTING_EMAIL', 'mail_already_exists');
 define('ECAS_WARNING_REASON_NOT_CREATED', 'not_created');
 define('ECAS_WARNING_REASON_BLOCKED', 'account_blocked');
 define('ECAS_WARNING_REASON_INCOMPLETE_USER', 'ecas_incomplete_user');
+define('ECAS_WARNING_REASON_UNKNOWN', 'ecas_incomplete_user');
