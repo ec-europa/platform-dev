@@ -142,19 +142,56 @@ function ecas_admin_settings() {
     '#description' => t('Status of the user account after creation'),
   );
 
-  $form['param']['ecas_login_message'] = array(
+  $form['param'][ECAS_LOGIN_MESSAGE] = array(
     '#type' => 'textfield',
     '#title' => t('Login message'),
-    '#default_value' => variable_get('ecas_login_message', ECAS_DEFAULT_LOGIN_MESSAGE),
+    '#default_value' => variable_get(ECAS_LOGIN_MESSAGE, _ecas_get_default_login_message()),
     '#description' => t('Status message shown to the user after login. Available placeholders: %ecas_username'),
   );
-  $form['param']['ecas_warning_message'] = array(
-    '#type' => 'textarea',
+
+  $form['param'][ECAS_WARNING_MESSAGE] = array(
+    '#type' => 'text_format',
     '#title' => t('Warning page message'),
-    '#default_value' => variable_get('ecas_warning_message', ECAS_DEFAULT_WARNING_MESSAGE),
     '#cols' => 60,
     '#rows' => 5,
     '#description' => t('Message on the warning page when a blocked account user is trying to log in'),
+  );
+  _ecas_text_format_set_default_value($form['param'], ECAS_WARNING_MESSAGE);
+
+  $form['param'][ECAS_WARNING_MESSAGE_NO_EMAIL] = array(
+    '#type' => 'text_format',
+    '#title' => t('Error message text in case of an missing e-mail address'),
+    '#cols' => 60,
+    '#rows' => 5,
+    '#description' => t('Text supplying information about the error caused by the an e-mail in the EU Login profile used in another.'),
+  );
+  _ecas_text_format_set_default_value(
+    $form['param'],
+    ECAS_WARNING_MESSAGE_NO_EMAIL
+  );
+
+  $form['param'][ECAS_WARNING_MESSAGE_EXISTING_EMAIL] = array(
+    '#type' => 'text_format',
+    '#title' => t('Error message text in case of an e-mail address already used'),
+    '#cols' => 60,
+    '#rows' => 5,
+    '#description' => t('Text supplying information about the error caused by the an e-mail in the EU Login profile used in another.'),
+  );
+  _ecas_text_format_set_default_value(
+    $form['param'],
+    ECAS_WARNING_MESSAGE_EXISTING_EMAIL
+  );
+
+  $form['param'][ECAS_WARNING_MESSAGE_NOT_CREATED] = array(
+    '#type' => 'text_format',
+    '#title' => t('Error message text in case of an drupal user is not created'),
+    '#cols' => 60,
+    '#rows' => 5,
+    '#description' => t('Text supplying information about the error caused by the non-creation of Drupal user from an EU Login profile.'),
+  );
+  _ecas_text_format_set_default_value(
+    $form['param'],
+    ECAS_WARNING_MESSAGE_NOT_CREATED
   );
 
   $form['param']['ecas_update_mail_address'] = array(
@@ -232,32 +269,6 @@ function ecas_admin_settings() {
     );
   }
 
-  // Commented out. No longer working and reactivating it breaks ECAS logic.
-  /*$form['param']['ecas_pages_method'] = array(
-  '#type' => 'radios',
-  '#title' => t('Force ECAS authentication on specific pages'),
-  '#options' => array(
-  ECAS_LOGIN_EXLUDE_PAGES => t('All pages except those listed'),
-  ECAS_LOGIN_INCLUDE_PAGES => t('Only the listed pages'),
-  ),
-  '#default_value' => variable_get('ecas_pages_method',
-  ECAS_LOGIN_INCLUDE_PAGES),
-  );
-  $args = array(
-  '%blog' => 'blog',
-  '%blog-wildcard' => 'blog/*',
-  '%front' => '<front>',
-  );
-  $form['param']['ecas_pages'] = array(
-  '#type' => 'textarea',
-  '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
-  '#default_value' => variable_get('ecas_pages', ECAS_DEFAULT_PAGES),
-  '#description' => t("Specify pages by using their paths.
-  Enter one path per line. The '*' character is a wildcard.
-  Example paths are %blog for the blog page and %blog-wildcard for
-  every personal blog. %front is the front page.", $args),
-  );
-   */
   // FPFIS Common SETTINGS.
   // Checkbox to enable or disable the whole FPFIS integration stuff.
   $form['param']['ecas_use_shared_fpfis'] = array(
@@ -311,4 +322,28 @@ function _ecas_domains() {
   );
   drupal_alter('ecas_domains', $known_ecas_domains);
   return $known_ecas_domains;
+}
+
+/**
+ * Sets the default value of a text_format form input based on a variable.
+ *
+ * @param array $form_param_input
+ *   The 'param' item of the form input containing the where to set the
+ *   default value.
+ * @param string $variable_name
+ *   The variable name containing the default value.
+ */
+function _ecas_text_format_set_default_value(array &$form_param_input, $variable_name) {
+
+  $value = variable_get($variable_name, _ecas_get_default_warning_message($variable_name));
+
+  if (is_array($value)) {
+    $form_param_input[$variable_name]['#default_value'] = $value['value'];
+    $form_param_input[$variable_name]['#format'] = $value['format'];
+
+    return;
+  }
+
+  $form_param_input[$variable_name]['#default_value'] = $value;
+  $form_param_input[$variable_name]['#format'] = filter_default_format();
 }

@@ -6,11 +6,6 @@
  */
 
 /**
- * ECAS group for CEM team users.
- */
-define('ECAS_CEM_ECAS_GROUP', 'COMM_CEM');
-
-/**
  * Checks if the given user is an ECAS user.
  *
  * @param object $user
@@ -27,6 +22,7 @@ function _is_ecas_user($user) {
       }
     }
   }
+
   return FALSE;
 }
 
@@ -146,7 +142,14 @@ function _ecas_menu(array &$items) {
     'type' => MENU_SUGGESTED_ITEM,
   );
 
-  $items['ecas_warning/%'] = array(
+  // NEPT-520: the use of eu login in the path has 2 objectives:
+  // The first is to give a path value aligned with the new official name of
+  // the European SSO tool.
+  // The second is to avoid to complicate the suffix based language negotiation
+  // process by adding an exception in the "ecas" path exception in the
+  // process.
+  // see nexteuropa_multilingual_language_negotiation_url_rewrite_callback().
+  $items['eulogin_warning/%'] = array(
     'title' => 'EU Login warning',
     'page callback' => 'ecas_warning_page',
     'page arguments' => array(1),
@@ -155,6 +158,22 @@ function _ecas_menu(array &$items) {
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ecas_theme() {
+  return array(
+    'ecas_profile_warning_page' => array(
+      'variables' =>
+        array(
+          'warning_title' => NULL,
+          'warning_text' => NULL,
+        ),
+      'template' => 'theme/templates/ecas-profile-warning-page',
+    ),
+  );
 }
 
 /**
@@ -192,7 +211,15 @@ function account_request() {
  * Redirects the user to the ECAS login page.
  */
 function ecas_login_page() {
-  ecas_login_check();
+  try {
+    ecas_login_check();
+  }
+  catch (Exception $e) {
+    watchdog_exception('user', $e);
+    _ecas_warning_goto('unkown',
+      NULL,
+      'The EU login connection failed.');
+  }
 
   $destination = variable_get('site_frontpage', 'node');
 
@@ -256,18 +283,21 @@ function ecas_logout($full_logout = TRUE) {
  */
 function ecas_save_page() {
   // The page is saved only if it is not done already.
-  if (!isset($_SESSION['ecas_goto'])) {
-    if (arg(0) == 'ecas') {
-      // Saving the ECAS page does not make sense, use HTTP referer (absolute
-      // URL) instead.
-      $referer = (isset($_GET['referer'])) ? $_GET['referer'] : $_SERVER['HTTP_REFERER'];
-      $_SESSION['ecas_goto'] = $referer;
-    }
-    else {
-      // Save the Drupal path (i.e. not an absolute URL).
-      $_SESSION['ecas_goto'] = $_GET['q'];
-    }
+  if (isset($_SESSION['ecas_goto'])) {
+    return;
   }
+
+  if (arg(0) == 'ecas') {
+    // Saving the ECAS page does not make sense, use HTTP referer (absolute
+    // URL) instead.
+    $referer = (isset($_GET['referer'])) ? $_GET['referer'] : $_SERVER['HTTP_REFERER'];
+    $_SESSION['ecas_goto'] = $referer;
+
+    return;
+  }
+
+  // Save the Drupal path (i.e. not an absolute URL).
+  $_SESSION['ecas_goto'] = $_GET['q'];
 }
 
 /**
@@ -294,18 +324,19 @@ function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()
   $field_lastname = trim(variable_get('ecas_profile_core_lastname_field', 'field_lastname'));
   $field_ecasmail = trim(variable_get('ecas_profile_core_ecas_email_field', 'field_ecas_mail'));
   $field_ecascreator = trim(variable_get('ecas_profile_core_ecas_creator_field', 'field_creator'));
+  $user_fields = field_info_instances('user', 'user');
 
   // You can now access the fields without knowing the language.
-  if (!empty($field_firstname) && isset($user->{$field_firstname})) {
+  if (!empty($field_firstname) && isset($user_fields[$field_firstname])) {
     $edit[$field_firstname][LANGUAGE_NONE][0]['value'] = $user_info['cas:firstName'];
   }
-  if (!empty($field_lastname) && isset($user->{$field_lastname})) {
+  if (!empty($field_lastname) && isset($user_fields[$field_lastname])) {
     $edit[$field_lastname][LANGUAGE_NONE][0]['value'] = $user_info['cas:lastName'];
   }
-  if (!empty($field_ecasmail) && isset($user->{$field_ecasmail})) {
+  if (!empty($field_ecasmail) && isset($user_fields[$field_ecasmail])) {
     $edit[$field_ecasmail][LANGUAGE_NONE][0]['value'] = $user_info['cas:email'];
   }
-  if (!empty($field_ecascreator) && isset($user->{$field_ecascreator})) {
+  if (!empty($field_ecascreator) && isset($user_fields[$field_ecascreator])) {
     if ($user_info['cas:domain'] == 'external') {
       $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'];
     }
@@ -333,9 +364,18 @@ function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()
  * @param array $args
  *   Extra parameters, not used directly in this function but passed to the
  *   info_ecas_update() hook.
+ *
+ * @return array
+ *   An array of fields and values to save like user_save() uses.
+ *   For example array('name' => 'My name').
+ *   Key / value pairs added to the $edit['data'] will be serialized and
+ *   saved in the {users.data} column.
+ *
+ * @see user_save()
  */
 function ecas_sync_user_info(&$user, array $user_info, array $args) {
-  $edit = array();
+  $edit = (array) $user;
+
   // Update the user mail in the users table.
   if (variable_get('ecas_update_mail_address', TRUE)) {
     $edit['mail'] = $user_info['cas:email'];
@@ -356,14 +396,7 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
   // Let the opportunity to modules to alter user roles.
   drupal_alter('ecas_user_roles', $edit['roles'], $user, $user_info, $args);
 
-  // Fix : save file object replaced by fid by user_save function.
-  $picture = $user->picture;
-  user_save($user, $edit);
-  $user->mail = $user_info['cas:email'];
-  $user->picture = $picture;
-
-  // Old hook implementation. we keep it for backward compatibility.
-  module_invoke_all('info_ecas_update', $user, $user_info, $args);
+  return $edit;
 }
 
 /**
@@ -407,167 +440,155 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
 function ecas_login_check() {
   global $user;
 
-  $force_login = _ecas_force_login();
   if ($user->uid) {
     // The user has an uid, and it is > 0 (which is anonymous user's uid) do
     // nothing because user is already logged into Drupal.
+    return;
   }
-  elseif ($force_login != ECAS_NO_LOGIN) {
-    $ecas_sync_user_info_args = array();
 
-    // Start a new Drupal session.
-    drupal_session_start();
-
-    ecas_save_page();
-
-    _ecas_init_phpcas_client();
-
-    // Adds an optional "domain" parameter to the login URL - this allows Drupal
-    // admins to specify the default ecas domain to be displayed on the login
-    // page when none could be found in the cookies sent by the browser.
-    $ecas_domain = (string) variable_get('ecas_domain', '');
-    if (drupal_strlen($ecas_domain)) {
-      $initial_server_login_url = phpCAS::getServerLoginURL();
-      $custom_server_login_url = sprintf('%s&domain=%s', $initial_server_login_url, urlencode($ecas_domain));
-      phpCAS::setServerLoginURL($custom_server_login_url);
-    }
-
-    // Preparing validation URL to retrieve attributes as well :
-    $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
-    $validate_server_url = 'https://' . FPFIS_ECAS_URL . ':' . FPFIS_ECAS_PORT;
-    $validate_server_url .= FPFIS_ECAS_URI . '/TicketValidationService?assuranceLevel=' . $assurance_level . '&ticketTypes=SERVICE,PROXY&userDetails=true&groups=*';
-    phpCAS::setServerServiceValidateURL($validate_server_url);
-
-    if ($force_login === ECAS_LOGIN) {
-      phpCAS::forceAuthentication();
-    }
-
-    if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY) || ($force_login === ECAS_LOGIN))) {
-      $ecas_name = phpCAS::getUser();
-      // @codingStandardsIgnoreStart: NEPT-1332: To be fixed during refactoring.
-      $ecas_attributes = phpCAS::getAttributes();
-      $ecas_groups = $ecas_attributes['cas:groups'];
-      $ecas_email = $ecas_attributes['cas:email'];
-      // @codingStandardsIgnoreEnd
-      // Try to log into Drupal.
-      $account = user_load_by_name($ecas_name);
-
-      // Extra process to filter ECAS user.
-      drupal_alter('ecas_extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
-    }
-    else {
-      // These variables will be checked by later conditions.
-      $account = FALSE;
-      $ecas_name = NULL;
-      $ecas_email = NULL;
-    }
-
-    // Check that the email is not present for another account.
-    if (!$account && !empty($ecas_email)) {
-      $account_check = user_load_by_mail(strtolower(trim($ecas_email)));
-      if ($account_check) {
-        watchdog('user', 'Login denied for %ecas_name with same email but different username.',
-          array(
-            '%ecas_name' => $ecas_name,
-          ));
-        session_destroy();
-        // Since an account exists with the same email,
-        // We cannot ensure that the user is the same as in Ecas,
-        // So we absolutely want to redirect the user
-        // to the ECAS warning page - thus, we unset any previously
-        // set destination.
-        _ecas_unset_destination();
-        drupal_goto('ecas_warning/notfound');
-      }
-    }
-
-    // Check if no email from Ecas .
-    if (!$account && empty($ecas_email)) {
-      watchdog('user', 'Login denied for %ecas_name without email.',
-        array('%ecas_name' => $ecas_name));
-      session_destroy();
-      // Since no account exists, and no email from Ecas.
-      // We cannot authorise an user without email,
-      // So we absolutely want to redirect the user
-      // to the ECAS warning page - thus, we unset any previously
-      // set destination.
-      _ecas_unset_destination();
-      drupal_goto('ecas_warning/nomail');
-    }
-
-    // If we don't have a valid user register them.
-    if (!$account && !empty($ecas_name)) {
-
-      $account = ecas_create_user($ecas_name);
-
-      if ($account && $account->uid > 0) {
-        $_SESSION['ecas_goto'] = sprintf('user/%d/edit', $account->uid);
-      }
-
-      // Set a session variable to denote this the initial login.
-      $_SESSION['ecas_first_login'] = TRUE;
-
-      // Also set an extra parameter for ecas_sync_user_info() -- this allows
-      // other modules to detect a user creation.
-      $ecas_sync_user_info_args['ecas_user_creation'] = TRUE;
-    }
-
-    // Final check to make sure we have a good user.
-    if ($account && $account->uid > 0) {
-      // Retrieve information about the user from ECAS attributes.
-      $user_info = phpCAS::getAttributes();
-
-      // Update her information.
-      if (!empty($user_info)) {
-        ecas_sync_user_info($account, $user_info, $ecas_sync_user_info_args);
-      }
-      else {
-        $args = array(':username' => $account->name);
-        drupal_set_message(t('Warning: no information could be found for username :username', $args));
-      }
-
-      if ($account->status == 0) {
-        // Case when account is blocked.
-        watchdog('user', 'Login denied for %ecas_name as blocked user.',
-          array('%ecas_name' => $ecas_name));
-        session_destroy();
-
-        $user = drupal_anonymous_user();
-
-        // Since the user is blocked, we absolutely want to redirect the user
-        // to the ECAS warning page - thus, we unset any previously set
-        // destination.
-        _ecas_unset_destination();
-        drupal_goto('ecas_warning/blocked');
-      }
-      else {
-        $user = $account;
-        user_login_finalize();
-
-        // Optionally set a non-secure cookie meaning "the user has logged in
-        // using HTTPS and should not use HTTP for the duration of this
-        // session".
-        $http_cookie_name = variable_get('ecas_sticky_cookie_name', 'drupal_stick_to_https');
-        if (drupal_strlen($http_cookie_name)) {
-          global $base_path;
-          setcookie($http_cookie_name, variable_get('ecas_sticky_cookie_value', 'y'), 0, $base_path, '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
-        }
-
-        // @todo It is not possible to reliably translate dynamic content using
-        //   the t() function. This should be done using i18n_variable instead.
-        // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3637
-        // @codingStandardsIgnoreStart
-        drupal_set_message(t(variable_get('ecas_login_message', ECAS_DEFAULT_LOGIN_MESSAGE), array('%ecas_username' => $user->name)));
-        // @codingStandardsIgnoreEnd
-        ecas_login_page();
-      }
-    }
-    // If we have a good user.
-    else {
-      unset($_SESSION['phpCAS']);
-      $user = drupal_anonymous_user();
-    }
+  $force_login = _ecas_force_login();
+  if ($force_login == ECAS_NO_LOGIN) {
+    return;
   }
+
+  $ecas_sync_user_info_args = array();
+
+  // Start a new Drupal session.
+  drupal_session_start();
+
+  ecas_save_page();
+
+  _ecas_init_phpcas_client();
+  _ecas_prepare_phpcas_url();
+
+  if ($force_login === ECAS_LOGIN) {
+    phpCAS::forceAuthentication();
+  }
+
+  // Check the user is authenticated by ecas.
+  // if not, we stop here with a warning message page.
+  if (!phpCAS::isAuthenticated()) {
+    _ecas_warning_goto(
+      ECAS_WARNING_REASON_UNKNOWN,
+      NULL,
+      'ECAS authentication failed for unknown reason.'
+    );
+  }
+
+  // Get ecas user data.
+  $ecas_name = phpCAS::getUser();
+  $ecas_attributes = phpCAS::getAttributes();
+
+  // If no ecas attribute are available, we cannot achieve the user login.
+  // We stop the process and redirect the user to the warning page.
+  if (empty($ecas_attributes) || empty($ecas_name)) {
+    _ecas_warning_goto(
+      ECAS_WARNING_REASON_INCOMPLETE_USER,
+      NULL,
+      'Login process failed for "%ecas_name" because of a EU login user with missing required attributes.',
+      array(
+        '%ecas_name' => !empty($ecas_name) ? $ecas_name : 'Unknown user name',
+      )
+    );
+  }
+
+  $ecas_user_language = ecas_get_ecas_user_language($ecas_attributes);
+
+  // Prepare the Drupal user object.
+  $account = _ecas_prepare_drupal_user($ecas_name, $ecas_attributes);
+
+  // Check if the user has not been logged in and arrives in this process by
+  // mistake.
+  // If it happens, we redirect him to front page and ask him to log out and
+  // log in again.
+  if (
+    isset($account->data['ecas_login_date']) &&
+    ($account->data['ecas_login_date'] == $ecas_attributes['cas:loginDate'])
+  ) {
+
+    $msg = 'Rejected ECAS reused login: %n (ECAS)';
+    watchdog('user', $msg, array('%n' => $account->name), WATCHDOG_NOTICE);
+
+    _ecas_session_end();
+
+    $url = phpCAS::getServerLogoutURL() . '?url=' . _ecas_get_site_frontpage_full_url();
+    $msg = t(
+      'Your EU Login session needs to be renewed. For security reasons, please <a href="@url">logout and login again</a>.',
+      ['@url' => $url]
+    );
+    drupal_set_message($msg, 'error');
+    // NO need to continue, Redirect the user to the front page.
+    drupal_goto('<front>');
+  }
+
+  // Also set an extra parameter for ecas_sync_user_info() -- this allows
+  // other modules to detect a user creation.
+  $ecas_sync_user_info_args['ecas_user_creation'] = $_SESSION['ecas_first_login'];
+
+  // Allow to modify the object of the already existing user accounts.
+  if (empty($_SESSION['ecas_first_login'])) {
+    drupal_alter('ecas_extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
+  }
+
+  // Synchronize data between Drupal user object and Ecas one according to the
+  // site specificity.
+  // There is no save inside, that will be do after further validations.
+  $account_edit = ecas_sync_user_info($account, $ecas_attributes, $ecas_sync_user_info_args);
+
+  // Before saving the Check the validity of the user.
+  // The ecas user must have an defined e-mail; otherwise the drupal
+  // authentication is denied.
+  if (empty($account_edit['mail'])) {
+    _ecas_warning_goto(
+      ECAS_WARNING_REASON_NO_EMAIL,
+      $ecas_user_language,
+      'Login denied for %ecas_name because it has no e-mail defined.',
+      array(
+        '%ecas_name' => $ecas_name,
+      )
+    );
+  }
+
+  // Check that the email is not present for another account.
+  if (ecas_is_email_already_used($account_edit['mail'], $account)) {
+    _ecas_warning_goto(
+      ECAS_WARNING_REASON_EXISTING_EMAIL,
+      $ecas_user_language,
+      'Login denied for %ecas_name because the e-mail is already used by another account.',
+      array(
+        '%ecas_name' => $ecas_name,
+      )
+    );
+  }
+
+  // Time to save the user.
+  $saved_account = ecas_save_user($account, $account_edit, $ecas_attributes, $ecas_name, $ecas_sync_user_info_args);
+
+  // Finalize the user login.
+  $user = $saved_account;
+  user_login_finalize();
+
+  // Optionally set a non-secure cookie meaning "the user has logged in
+  // using HTTPS and should not use HTTP for the duration of this
+  // session".
+  $http_cookie_name = variable_get('ecas_sticky_cookie_name', 'drupal_stick_to_https');
+  if (drupal_strlen($http_cookie_name)) {
+    global $base_path;
+    setcookie($http_cookie_name, variable_get('ecas_sticky_cookie_value', 'y'), 0, $base_path, '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
+  }
+
+  // Check if it is the first login, if yes, redirect the user to user edit
+  // form.
+  if (!empty($_SESSION['ecas_first_login'])) {
+    $_SESSION['ecas_goto'] = sprintf('user/%d/edit', $user->uid);
+  }
+
+  $message = variable_get(ECAS_LOGIN_MESSAGE, _ecas_get_default_login_message());
+  $message = format_string(
+    $message,
+    array('%ecas_username' => $user->name)
+  );
+  drupal_set_message(filter_xss($message));
 }
 
 /**
@@ -660,6 +681,329 @@ function ecas_block_info() {
 }
 
 /**
+ * Page callback; displays the 'ecas_warning_page' page.
+ *
+ * @param string $reason
+ *   The id of the warning reason.
+ *
+ * @return string
+ *   The themed warning page display.
+ */
+function ecas_warning_page($reason) {
+  $theme_variables = array('warning_title' => t("Your site's account cannot be created"));
+
+  switch ($reason) {
+    case ECAS_WARNING_REASON_BLOCKED:
+      $theme_variables['warning_title'] = t("Your site's account is currently blocked");
+      $message_key = ECAS_WARNING_MESSAGE;
+      break;
+
+    case ECAS_WARNING_REASON_NO_EMAIL:
+      $message_key = ECAS_WARNING_MESSAGE_NO_EMAIL;
+      break;
+
+    case ECAS_WARNING_REASON_EXISTING_EMAIL:
+      $message_key = ECAS_WARNING_MESSAGE_EXISTING_EMAIL;
+      break;
+
+    case ECAS_WARNING_REASON_NOT_CREATED:
+      $message_key = ECAS_WARNING_MESSAGE_NOT_CREATED;
+      break;
+
+    case ECAS_WARNING_REASON_INCOMPLETE_USER:
+      $message_key = ECAS_WARNING_MESSAGE_INCOMPLETE_USER;
+      break;
+
+    default:
+      $theme_variables['warning_text'] = t("The reason is unknown. Please contact the site's administrator.");
+
+      return theme('ecas_profile_warning_page', $theme_variables);
+
+  }
+
+  $message = variable_get($message_key, _ecas_get_default_warning_message($message_key));
+  // NEPT-520: Fallback process for sites that has set the ecas variable values
+  // before the i18n variable integration in the ecas module.
+  // That should be removed in a next platform major release because the proper
+  // implementation of a hook_update forbidden in a minor version.
+  if (!is_array($message)) {
+    // @codingStandardsIgnoreStart: NEPT-520: To be removed in the same time as
+    // the hook_update implementation.
+    $message = array('value' => t($message));
+    // @codingStandardsIgnoreEnd
+  }
+  $theme_variables['warning_text'] = _ecas_filter_variable_text($message);
+
+  return theme('ecas_profile_warning_page', $theme_variables);
+}
+
+/**
+ * Creates an ECAS user.
+ *
+ * @param string $ecas_name
+ *   The ECAS name of the user.
+ * @param array $defaults
+ *   An array of user fields and properties to save on the user object.
+ *
+ * @return false|\stdClass
+ *   The user object, or FALSE if the user could not be created.
+ */
+function ecas_create_user($ecas_name, $defaults = array()) {
+  $user_default = array_merge(array(
+    'name' => $ecas_name,
+    'pass' => user_password(),
+    'init' => $ecas_name,
+    'status' => variable_get('ecas_account_option', 1),
+    'access' => REQUEST_TIME,
+    'auth_ecas' => 'ecas_' . $ecas_name,
+    'mail' => variable_get('ecas_default_mail_address', ECAS_DEFAULT_MAIL_ADDRESS),
+  ), $defaults);
+
+  // Now save the user.
+  $account = user_save(drupal_anonymous_user(), $user_default);
+
+  // Register the user has ECAS authentication.
+  db_insert('authmap')
+    ->fields(array(
+      'authname' => $ecas_name,
+      'uid' => $account->uid,
+      'module' => 'ecas',
+    ))
+    ->execute();
+
+  watchdog('user', 'new user: %n (ECAS)', array('%n' => $account->name), WATCHDOG_NOTICE, l(t('edit user'), sprintf('admin/user/edit/%d', $account->uid)));
+
+  if ($account) {
+    $account = user_load_by_name($account->name);
+  }
+
+  return $account;
+}
+
+/**
+ * Saves the Drupal user object from ecas synchronized data.
+ *
+ * @param object $account
+ *   The Drupal user object on which the saving action is done.
+ * @param array $edit
+ *   An array of fields and values to save.
+ * @param array $ecas_user_info
+ *   Associative array with the user related ecas attributes.
+ * @param string $ecas_name
+ *   The user related ecas name.
+ * @param array $args
+ *   Extra parameters, not used directly in this function but passed to the
+ *   info_ecas_update() hook.
+ *
+ * @return bool|Object
+ *   A fully-loaded $user object upon successful save or FALSE if the
+ *   save failed.
+ *
+ * @see user_save()
+ */
+function ecas_save_user($account, $edit, array $ecas_user_info, $ecas_name, array $args = array()) {
+  // Fix : save file object replaced by fid by user_save function.
+  // See at the end of the function.
+  if (isset($account->picture)) {
+    $picture = $account->picture;
+  }
+
+  // Set the ecas_login_date user attribute based on 'cas:loginDate' value.
+  $edit['data']['ecas_login_date'] = $ecas_user_info['cas:loginDate'];
+
+  $account = user_save($account, $edit);
+
+  // Check to make sure we have a good Drupal user.
+  if (!$account || $account->uid == 0) {
+    watchdog(
+      'user',
+      'Drupal user save failed for %ecas_name.',
+      array('%ecas_name' => $ecas_name),
+      WATCHDOG_ERROR
+    );
+
+    return FALSE;
+  }
+
+  if (!empty($_SESSION['ecas_first_login'])) {
+    // Register the user has ECAS authentication.
+    db_insert('authmap')
+      ->fields(array(
+        'authname' => $account->name,
+        'uid' => $account->uid,
+        'module' => 'ecas',
+      ))
+      ->execute();
+
+    watchdog(
+      'user',
+      'new user: %n (ECAS)',
+      array('%n' => $account->name),
+      WATCHDOG_NOTICE,
+      l(t('edit user'), sprintf('admin/user/edit/%d', $account->uid))
+    );
+  }
+
+  // Ensure the the picture is correctly set in the account object
+  // before passing to the hook_info_ecas_update().
+  if (isset($picture)) {
+    $account->picture = $picture;
+  }
+  // Old hook implementation. we keep it for backward compatibility.
+  module_invoke_all('info_ecas_update', $account, $ecas_user_info, $args);
+
+  return $account;
+}
+
+/**
+ * Gets the user's department structure.
+ *
+ * @param array $user_info
+ *   The user's attributes retrieved from the LDAP.
+ *
+ * @return array
+ *   The service to which the user belongs:
+ *    - 'dg': User's DG Acronym or FALSE if not given;
+ *    - 'directorate': User's directorate name or FALSE if not given;
+ *    - 'unit': User's unit name or FALSE if not given;
+ *    - 'sub_unit': User's sub-unit name or FALSE if not given;
+ *    - 'full_name": The full name of the user's department.
+ *
+ * @see phpCAS::getAttributes()
+ */
+function ecas_get_user_department($user_info) {
+  if (!empty($user_info['cas:departmentNumber'])) {
+    $department = array('full_name' => $user_info['cas:departmentNumber']);
+    $organizations = explode('.', $user_info['cas:departmentNumber']);
+
+    $department += array(
+      'dg' => (!empty($organizations[0])) ? $organizations[0] : FALSE,
+      'directorate' => (!empty($organizations[1])) ? $organizations[1] : FALSE,
+      'unit' => (!empty($organizations[2])) ? $organizations[2] : FALSE,
+      'sub_unit' => (!empty($organizations[3])) ? $organizations[3] : FALSE,
+    );
+
+    return $department;
+  }
+
+  return array();
+}
+
+/**
+ * Gets the user language code for a specified ecas user.
+ *
+ * @param array $user_info
+ *   Associative array with the user data coming from ecas.
+ *   All array keys are prefixed by 'cas:'.
+ *
+ * @return object|bool
+ *   The drupal language object associated to the ecas user language or FALSE
+ *   if not found.
+ */
+function ecas_get_ecas_user_language(array $user_info = array()) {
+  if (empty($user_info['cas:locale'])) {
+    return FALSE;
+  }
+
+  $user_locale = $user_info['cas:locale'];
+  $enabled_language_list = language_list('enabled');
+  $enabled_language_list = reset($enabled_language_list);
+
+  return isset($enabled_language_list[$user_locale]) ? $enabled_language_list[$user_locale] : FALSE;
+}
+
+/**
+ * Checks if the e-mail address is not already used by a user.
+ *
+ * It does not use "user_load_by_mail" because this function is case sensitive
+ * with some DB types.
+ *
+ * @param string $email
+ *   The e-mail to control.
+ * @param object $account
+ *   (optional) An account to exclude from the control.
+ *
+ * @return bool
+ *   True if the e-mail is already used by a user; otherwise FALSE.
+ *
+ * @see user_load_by_mail()
+ * @see user_account_form_validate()
+ */
+function ecas_is_email_already_used($email, $account = NULL) {
+  $email = trim($email);
+
+  $query = db_select('users')
+    ->fields('users', array('uid'))
+    ->condition('mail', db_like($email), 'LIKE')
+    ->range(0, 1);
+
+  if (!empty($account) && !empty($account->uid)) {
+    $query->condition('uid', $account->uid, '<>');
+  }
+
+  return (bool) $query->execute()->fetchField();
+}
+
+/**
+ * Initializes the phpCas client.
+ */
+function _ecas_init_phpcas_client() {
+  $server_version     = (string) variable_get('cas_version', '2.0');
+  $server_ecas_server = FPFIS_ECAS_URL;
+  $server_port        = FPFIS_ECAS_PORT;
+  $server_uri         = FPFIS_ECAS_URI;
+  $start_session      = (boolean) FALSE;
+
+  // Drupal takes care of its own session.
+  $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
+
+  // Before using the phpCas client, we optionally set it in debug mode.
+  if (variable_get('ecas_phpcas_debug', FALSE)) {
+    $logpath = variable_get('ecas_phpcas_debug_logpath', constant('ECAS_DEFAULT_DEBUG_LOGPATH'));
+    // As specified in ecas_admin_settings(), we do not check whether the
+    // logpath is writable or not.
+    if (drupal_strlen($logpath)) {
+      phpCAS::setDebug($logpath);
+    }
+  }
+
+  phpCAS::client(
+    $server_version,
+    $server_ecas_server,
+    $server_port,
+    $server_uri,
+    $start_session,
+    $assurance_level
+  );
+  phpCAS::setNoCasServerValidation();
+
+  foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
+    phpCAS::setExtraCurlOption($key, $value);
+  }
+}
+
+/**
+ * Sets the URL used by the phpCas client.
+ */
+function _ecas_prepare_phpcas_url() {
+  // Adds an optional "domain" parameter to the login URL - this allows Drupal
+  // admins to specify the default ecas domain to be displayed on the login
+  // page when none could be found in the cookies sent by the browser.
+  $ecas_domain = (string) variable_get('ecas_domain', '');
+  if (drupal_strlen($ecas_domain)) {
+    $initial_server_login_url = phpCAS::getServerLoginURL();
+    $custom_server_login_url = sprintf('%s&domain=%s', $initial_server_login_url, urlencode($ecas_domain));
+    phpCAS::setServerLoginURL($custom_server_login_url);
+  }
+
+  // Preparing validation URL to retrieve attributes as well :
+  $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
+  $validate_server_url = 'https://' . FPFIS_ECAS_URL . ':' . FPFIS_ECAS_PORT;
+  $validate_server_url .= FPFIS_ECAS_URI . '/TicketValidationService?assuranceLevel=' . $assurance_level . '&ticketTypes=SERVICE,PROXY&userDetails=true&groups=*';
+  phpCAS::setServerServiceValidateURL($validate_server_url);
+}
+
+/**
  * Determines whether cas login should be enforced for this page load.
  *
  * This is done based on the redirection settings for this module.
@@ -749,148 +1093,198 @@ function _ecas_force_login() {
 }
 
 /**
- * Page callback; displays the 'ecas_warning_page' page.
- *
- * @param string $reason
- *   REason for warning message.
+ * End session and set global variable $user to anonymous.
  */
-function ecas_warning_page($reason) {
+function _ecas_session_end() {
+  global $user;
 
-  $output = '';
+  session_destroy();
 
-  switch ($reason) {
-    case 'blocked':
-      $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('Account blocked') . '</h2>';
-      $output .= '<p>' . variable_get('ecas_warning_message', t('Your account is not yet approved')) . '</p>';
-      break;
-
-    case 'notfound':
-      $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('Account not found') . '</h2>';
-      $output .= '<p>' . t('Sorry, we cannot found your account.') . '</p>';
-      break;
-
-    case 'nomail':
-      $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('No email found') . '</h2>';
-      $output .= '<p>' . t('Sorry, we cannot log you in without a valid email.');
-      $output .= '</br>' . t('Please complete your EU-Login account or contact EU-Login support.') . '</p>';
-      break;
-
-  }
-   return $output;
+  $user = drupal_anonymous_user();
 }
 
 /**
- * Initializes the phpCas client.
+ * Get the full URL for the homepage of the site.
+ *
+ * @return string
+ *   The full URL for the homepage of the site.
  */
-function _ecas_init_phpcas_client() {
-  $server_version     = (string) variable_get('cas_version', '2.0');
-  $server_ecas_server = FPFIS_ECAS_URL;
-  $server_port        = FPFIS_ECAS_PORT;
-  $server_uri         = FPFIS_ECAS_URI;
-  $start_session      = (boolean) FALSE;
-
-  // Drupal takes care of its own session.
-  $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
-
-  // Before using the phpCas client, we optionally set it in debug mode.
-  if (variable_get('ecas_phpcas_debug', FALSE)) {
-    $logpath = variable_get('ecas_phpcas_debug_logpath', constant('ECAS_DEFAULT_DEBUG_LOGPATH'));
-    // As specified in ecas_admin_settings(), we do not check whether the
-    // logpath is writable or not.
-    if (drupal_strlen($logpath)) {
-      phpCAS::setDebug($logpath);
-    }
-  }
-
-  phpCAS::client(
-    $server_version,
-    $server_ecas_server,
-    $server_port,
-    $server_uri,
-    $start_session,
-    $assurance_level
-  );
-  phpCAS::setNoCasServerValidation();
-
-  foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
-    phpCAS::setExtraCurlOption($key, $value);
-  }
+function _ecas_get_site_frontpage_full_url() {
+  return url('<front>', ['absolute' => TRUE]);
 }
 
 /**
- * Creates an ECAS user.
+ * Triggers the redirection to the ecas warning page with the right parameters.
  *
- * @param string $ecas_name
- *   The ECAS name of the user.
- * @param array $defaults
- *   An array of user fields and properties to save on the user object.
+ * @param string $path_page_argument
+ *   The warning page argument to use for the redirection.
+ * @param object $language
+ *   The language to append to the path used in the redirection.
+ * @param string $message
+ *   (Optional) A message to use in order to log the redirection event.
+ * @param array $message_args
+ *   (Optional) Array of variables to replace in the message on display or
+ *   NULL if message is already translated or not possible to
+ *   translate.
  *
- * @return false|\stdClass
- *   The user object, or FALSE if the user could not be created.
+ * @see drupal_goto()
  */
-function ecas_create_user($ecas_name, $defaults = array()) {
-  $user_default = array_merge(array(
-    'name' => $ecas_name,
-    'pass' => user_password(),
-    'init' => $ecas_name,
-    'status' => variable_get('ecas_account_option', 1),
-    // @todo Use REQUEST_TIME instead of time().
-    'access' => time(),
-    'auth_ecas' => 'ecas_' . $ecas_name,
-    'mail' => variable_get('ecas_default_mail_address', ECAS_DEFAULT_MAIL_ADDRESS),
-  ), $defaults);
-
-  // Now save the user.
-  $account = user_save(drupal_anonymous_user(), $user_default);
-
-  // Register the user has ECAS authentication.
-  db_insert('authmap')
-    ->fields(array(
-      'authname' => $ecas_name,
-      'uid' => $account->uid,
-      'module' => 'ecas',
-    ))
-    ->execute();
-
-  watchdog('user', 'new user: %n (ECAS)', array('%n' => $account->name), WATCHDOG_NOTICE, l(t('edit user'), sprintf('admin/user/edit/%d', $account->uid)));
-
-  if ($account) {
-    $account = user_load_by_name($account->name);
+function _ecas_warning_goto($path_page_argument, $language = NULL, $message = NULL, array $message_args = array()) {
+  if (!empty($message)) {
+    watchdog('user', $message, $message_args, WATCHDOG_ERROR);
   }
 
-  return $account;
+  if (empty($language)) {
+    $language = language_default();
+  }
+
+  _ecas_session_end();
+
+  // Ensure that the user is correctly redirected to warning page because
+  // if drupal_goto() detects an internal path in destination parameter, it
+  // will use it instead of the submitted parameters, see function code.
+  if (isset($_REQUEST['destination'])) {
+    unset($_REQUEST['destination']);
+  }
+  if (isset($_REQUEST['edit']['destination'])) {
+    unset($_REQUEST['edit']['destination']);
+  }
+
+  drupal_goto('eulogin_warning/' . $path_page_argument, array('language' => $language));
 }
 
 /**
- * Gets the user's department structure.
+ * Filters a variable text value.
  *
- * @param array $user_info
- *   The user's attributes retrieved from the LDAP.
+ * @param string $raw_text
+ *   The content to filter.
+ *   If the value is an array, it must contains the following key:
+ *   - 'value': The text to be filtered.
+ *   - 'format':  The machine name of the filter format to be used to filter the
+ *   text.
+ *
+ * @return string
+ *   The filtered text.
+ */
+
+/**
+ * Filters a content.
+ *
+ * @param array $raw_text_parameters
+ *   Associative array of data required by the filter process:
+ *   - 'value': The content value to filter.
+ *   - 'format': (optional) The filter id to be used during the process.
+ *
+ * @return string
+ *   The filtered variable value.
+ */
+function _ecas_filter_variable_text(array $raw_text_parameters) {
+  if (!empty($raw_text_parameters['format'])) {
+    return check_markup($raw_text_parameters['value'], $raw_text_parameters['format']);
+  }
+
+  return check_markup($raw_text_parameters['value']);
+}
+
+/**
+ * Gets the default value of a message linked to a specific warning.
+ *
+ * @param string $related_variable_name
+ *   The name of the variable related to the default value to retrieve.
  *
  * @return array
- *   The service to which the user belongs:
- *    - 'dg': User's DG Acronym or FALSE if not given;
- *    - 'directorate': User's directorate name or FALSE if not given;
- *    - 'unit': User's unit name or FALSE if not given;
- *    - 'sub_unit': User's sub-unit name or FALSE if not given;
- *    - 'full_name": The full name of the user's department.
+ *   The default message value and the format to apply on it.
  *
- * @see phpCAS::getAttributes()
+ * @see ecas_warning_page()
+ * @see ecas_variable_info()
+ * @see ecas_admin_settings()
  */
-function ecas_get_user_department($user_info) {
-  if (!empty($user_info['cas:departmentNumber'])) {
-    $department = array('full_name' => $user_info['cas:departmentNumber']);
-    $organizations = explode('.', $user_info['cas:departmentNumber']);
+function _ecas_get_default_warning_message($related_variable_name) {
+  switch ($related_variable_name) {
+    case ECAS_WARNING_MESSAGE:
+      $value = 'Your account is not yet approved';
+      break;
 
-    $department += array(
-      'dg' => (!empty($organizations[0])) ? $organizations[0] : FALSE,
-      'directorate' => (!empty($organizations[1])) ? $organizations[1] : FALSE,
-      'unit' => (!empty($organizations[2])) ? $organizations[2] : FALSE,
-      'sub_unit' => (!empty($organizations[3])) ? $organizations[3] : FALSE,
-    );
+    case ECAS_WARNING_MESSAGE_NO_EMAIL:
+      $value = 'We cannot log you in without a valid email. <br />Please complete your EU-Login account or contact EU-Login support.';
+      break;
 
-    return $department;
+    case ECAS_WARNING_MESSAGE_EXISTING_EMAIL:
+      $value = 'We cannot log you in as the e-mail of your EU Login e-mail is already used by another account. <br />Please log in with this existing account';
+      break;
+
+    case ECAS_WARNING_MESSAGE_NOT_CREATED:
+      $value = 'An error occurred that prevent us to create your account.';
+      break;
+
+    case ECAS_WARNING_MESSAGE_INCOMPLETE_USER:
+      $value = 'We do not receive all required data of your EU Login. That prevent us to create your account.<br />
+      Please complete your EU-Login account or contact EU-Login support';
+      break;
+
+    default:
+      $value = "The reason is unknown. Please contact the site's administrator";
+      break;
   }
 
-  return array();
+  return array(
+    'value' => $value,
+    'format' => 'filtered_html',
+  );
+}
+
+/**
+ * Gets the default value of a login message variable.
+ *
+ * @return string
+ *   The default message value.
+ *
+ * @see ecas_warning_page()
+ * @see ecas_variable_info()
+ * @see ecas_admin_settings()
+ */
+function _ecas_get_default_login_message() {
+  return 'Logged in via EU Login as %ecas_username.';
+}
+
+/**
+ * Prepares the Drupal user based on the ECAS user data.
+ *
+ * @param string $ecas_name
+ *   The Ecas user name.
+ * @param array $ecas_user_attributes
+ *   The Ecas user attributes.
+ *
+ * @return object
+ *   The Drupal user object as already registered or a default object with the
+ *   minimum properties needed for validity checks: name, new, init, password,
+ *   status, auth_ecas, mail, access.
+ */
+function _ecas_prepare_drupal_user($ecas_name, array $ecas_user_attributes = array()) {
+  $account = user_load_by_name($ecas_name);
+
+  if ($account) {
+    // Set a session variable to denote this is not the initial login.
+    $_SESSION['ecas_first_login'] = FALSE;
+    return $account;
+  }
+  // Prepare the account object to use the same validity check mechanism
+  // for known and unknown users.
+  // Logic based on an initial set to anonymous user is taken from user module.
+  $account = drupal_anonymous_user();
+  $account->name = $ecas_name;
+  $account->pass = user_password();
+  $account->init = $ecas_name;
+  $account->status = variable_get('ecas_account_option', 1);
+  $account->auth_ecas = 'ecas_' . $ecas_name;
+  $account->access = REQUEST_TIME;
+  $account->timezone = variable_get('date_default_timezone', @date_default_timezone_get());
+  if (!empty($ecas_user_attributes['cas:email'])) {
+    $account->mail = $ecas_user_attributes['cas:email'];
+  }
+
+  // Set a session variable to denote this is the initial login.
+  $_SESSION['ecas_first_login'] = TRUE;
+
+  return $account;
 }

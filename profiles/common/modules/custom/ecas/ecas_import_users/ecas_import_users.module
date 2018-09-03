@@ -174,7 +174,17 @@ function _ecas_import_users_groups_dn() {
  * Form construction for the ldap handled user form.
  */
 function ecas_import_user_ldap_user_form($form, &$form_state) {
-  $result = getLdapEntries(_ecas_import_users_groups_dn(), 'cn=DG_*', array('cn'));
+  try {
+    $result = getLdapEntries(_ecas_import_users_groups_dn(), 'cn=DG_*', array('cn'));
+  }
+  catch (Exception $e) {
+    $result = array();
+    watchdog_exception('ecas_import_user', $e, 'LDAP connection failure occurred.');
+    drupal_set_message(
+      t('The feature cannot be used properly because of a LDAP connection failure'),
+      'error'
+    );
+  }
 
   $rows_dg = array();
   for ($i = 0; $i < $result['count']; ++$i) {
@@ -489,42 +499,64 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
 
   $imported_users = array();
   foreach ($users as $value) {
-    if ($value != '0') {
-      list($uid, $mail, $firstname, $lastname, $domain, $departmentnumber) = explode('|', $value);
-      $account = user_load_by_name($uid);
-      // If the user account doesn't exit.
-      if (!$account) {
-
-        // 1 is "active", 0 is "blocked".
-        $account = ecas_create_user($uid, array(
-          'status' => variable_get('ecas_import_users_default_status', 1),
-        ));
-
-        if ($account && $account->uid > 0) {
-          // Save user profile data.
-          ecas_sync_user_info(
-              $account,
-              array(
-                'cas:email' => $mail,
-                'cas:firstName' => $firstname,
-                'cas:lastName' => $lastname,
-                'cas:domain' => $domain,
-                'cas:departmentNumber' => $departmentnumber,
-              ),
-              // This allows other modules to detect a user creation.
-              array('ecas_import_users_user_creation' => TRUE)
-          );
-          drupal_set_message(t('User @user_uid imported', array('@user_uid' => $uid)));
-          $imported_users[] = $uid;
-        }
-        else {
-          drupal_set_message(t('User @user_uid not imported', array('@user_uid' => $uid)));
-        }
-      }
-      else {
-        drupal_set_message(t('User @user_uid not imported', array('@user_uid' => $uid)));
-      }
+    if (empty($value)) {
+      continue;
     }
+
+    list($uid, $mail, $firstname, $lastname, $domain, $departmentnumber) = explode('|', $value);
+    $account = user_load_by_name($uid);
+
+    // If the user account exit, we continue with the next one, no update.
+    if ($account) {
+      drupal_set_message(t('User @user_uid not imported because it already exists.', array('@user_uid' => $uid)));
+      continue;
+    }
+
+    // Let's prepare the account object from ladp data.
+    $ldap_attributes = array(
+      'cas:email' => $mail,
+      'cas:firstName' => $firstname,
+      'cas:lastName' => $lastname,
+      'cas:domain' => $domain,
+      'cas:departmentNumber' => $departmentnumber,
+    );
+    $account = _ecas_prepare_drupal_user($uid, $ldap_attributes);
+
+    $ecas_sync_user_info_args = array('ecas_import_users_user_creation' => $account->new);
+
+    // Let's sync other ladp user data on drupal user ones according to the
+    // site specificity.
+    // There is no save inside, that will be do after further validations.
+    $account_edit = ecas_sync_user_info(
+      $account,
+      $ldap_attributes,
+      // This allows other modules to detect a user creation.
+      $ecas_sync_user_info_args
+    );
+
+    // Check the validity of the user.
+    // The ecas user must have an defined e-mail; otherwise the drupal
+    // authentication is denied.
+    if (empty($account_edit['mail'])) {
+      drupal_set_message(t('User @user_uid not imported because the e-mail is missing.', array('@user_uid' => $uid)));
+      continue;
+    }
+
+    // Check that the email is not present for another account.
+    if (ecas_is_email_already_used($account_edit['mail'], $account)) {
+      drupal_set_message(t('User @user_uid not imported because the e-mail is already used by another account.', array('@user_uid' => $uid)));
+      continue;
+    }
+
+    // Time to save the user.
+    $saved_account = ecas_save_user($account, $account_edit, $ldap_attributes, $uid, $ecas_sync_user_info_args);
+
+    if (!$saved_account || ($account->uid === 0)) {
+      drupal_set_message(t('User @user_uid not imported because an issue during the Drupal user saving.', array('@user_uid' => $uid)));
+      continue;
+    }
+
+    $imported_users[] = $uid;
   }
   module_invoke_all('ecas_users_imported', array('imported_users' => $imported_users));
 
