@@ -1239,28 +1239,38 @@ function _ecas_filter_variable_text(array $raw_text_parameters) {
 function _ecas_get_default_warning_message($related_variable_name) {
   switch ($related_variable_name) {
     case ECAS_WARNING_MESSAGE:
-      $value = 'Your account is not yet approved';
+      $value = '<p>Your account is not yet approved</p>';
       break;
 
     case ECAS_WARNING_MESSAGE_NO_EMAIL:
-      $value = 'We cannot log you in without a valid email. <br />Please complete your EU-Login account or contact EU-Login support.';
+      $value = <<< EOF
+      <p>We cannot log you in without a valid email.</p> 
+      <p>Please complete your EU-Login account or contact <a href="https://ecas.ec.europa.eu/cas/contact.html">EU-Login support</a>.</p>
+EOF;
       break;
 
     case ECAS_WARNING_MESSAGE_EXISTING_EMAIL:
-      $value = 'We cannot log you in as the e-mail of your EU Login e-mail is already used by another account. <br />Please log in with this existing account';
+      $value = <<< EOF
+      <p>We cannot log you in as the e-mail of your EU Login e-mail is already used by another account.</p> 
+      <p>Please log in with this existing account.</p>
+EOF;
       break;
 
     case ECAS_WARNING_MESSAGE_NOT_CREATED:
-      $value = 'An error occurred that prevent us to create your account.';
+      $value = <<< EOF
+      <p>An error occurred that prevent us to create your account.</p>
+EOF;
       break;
 
     case ECAS_WARNING_MESSAGE_INCOMPLETE_USER:
-      $value = 'We do not receive all required data of your EU Login. That prevent us to create your account.<br />
-      Please complete your EU-Login account or contact EU-Login support';
+      $value = <<< EOF
+      <p>We do not receive all required data of your EU Login. That prevent us to create your account.</p>  
+      <p>Please complete your EU-Login account or contact <a href="https://ecas.ec.europa.eu/cas/contact.html">EU-Login support</a>.</p>
+EOF;
       break;
 
     default:
-      $value = "The reason is unknown. Please contact the site's administrator";
+      $value = "<p>The reason is unknown. Please contact the site's administrator.</p>";
       break;
   }
 

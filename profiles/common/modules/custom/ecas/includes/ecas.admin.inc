@@ -190,6 +190,20 @@ function ecas_admin_settings() {
     ECAS_WARNING_MESSAGE_NOT_CREATED
   );
 
+  $form['param'][ECAS_WARNING_MESSAGE_INCOMPLETE_USER] = array(
+    '#type' => 'text_format',
+    '#title' => t('Error message text in case of an ecas user is incomplete'),
+    '#cols' => 60,
+    '#rows' => 5,
+    '#description' => t(
+      'Text supplying information about the error because the EU Login profile does not contain the required data, other then the email.'
+    ),
+  );
+  _ecas_text_format_set_default_value(
+    $form['param'],
+    ECAS_WARNING_MESSAGE_INCOMPLETE_USER
+  );
+
   $form['param']['ecas_update_mail_address'] = array(
     '#type' => 'checkbox',
     '#title' => t("Update the user's mail address at login time."),
