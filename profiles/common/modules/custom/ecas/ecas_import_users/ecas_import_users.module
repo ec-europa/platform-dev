@@ -174,17 +174,7 @@ function _ecas_import_users_groups_dn() {
  * Form construction for the ldap handled user form.
  */
 function ecas_import_user_ldap_user_form($form, &$form_state) {
-  try {
-    $result = getLdapEntries(_ecas_import_users_groups_dn(), 'cn=DG_*', array('cn'));
-  }
-  catch (Exception $e) {
-    $result = array();
-    watchdog_exception('ecas_import_user', $e, 'LDAP connection failure occurred.');
-    drupal_set_message(
-      t('The feature cannot be used properly because of a LDAP connection failure'),
-      'error'
-    );
-  }
+  $result = getLdapEntries(_ecas_import_users_groups_dn(), 'cn=DG_*', array('cn'));
 
   $rows_dg = array();
   for ($i = 0; $i < $result['count']; ++$i) {
