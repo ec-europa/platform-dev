@@ -1,0 +1,7 @@
+name = Nexteuropa security
+description = Set up the settings for honeypot module
+package = Nexteuropa
+core = 7.x
+dependencies[] = features
+dependencies[] = honeypot
+features[features_api][] = api:2
