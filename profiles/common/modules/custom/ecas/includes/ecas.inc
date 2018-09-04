@@ -568,6 +568,17 @@ function ecas_login_check() {
   // Time to save the user.
   $saved_account = ecas_save_user($account, $account_edit, $ecas_attributes, $ecas_name, $ecas_sync_user_info_args);
 
+  if (empty($saved_account->status)) {
+    _ecas_warning_goto(
+      ECAS_WARNING_REASON_BLOCKED,
+      $ecas_user_language,
+      'Login denied for %ecas_name because the account is not active yet.',
+      array(
+        '%ecas_name' => $ecas_name,
+      )
+    );
+  }
+
   // Finalize the user login.
   $user = $saved_account;
   user_login_finalize();
