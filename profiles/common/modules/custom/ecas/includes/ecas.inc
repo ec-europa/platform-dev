@@ -495,8 +495,14 @@ function ecas_login_check() {
 
   $ecas_user_language = ecas_get_ecas_user_language($ecas_attributes);
 
+  // Let's check after an existing Drupal account.
+  $account = user_load_by_name($ecas_name);
+  // Let's already give the chance to other module to alter the
+  // account structure.
+  drupal_alter('ecas_extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
+
   // Prepare the Drupal user object.
-  $account = _ecas_prepare_drupal_user($ecas_name, $ecas_attributes);
+  $account = ecas_prepare_drupal_user($ecas_name, $account, $ecas_attributes);
 
   // Check if the user has not been logged in and arrives in this process by
   // mistake.
@@ -525,11 +531,6 @@ function ecas_login_check() {
   // Also set an extra parameter for ecas_sync_user_info() -- this allows
   // other modules to detect a user creation.
   $ecas_sync_user_info_args['ecas_user_creation'] = $_SESSION['ecas_first_login'];
-
-  // Allow to modify the object of the already existing user accounts.
-  if (empty($_SESSION['ecas_first_login'])) {
-    drupal_alter('ecas_extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
-  }
 
   // Synchronize data between Drupal user object and Ecas ones according to the
   // site specificity.
@@ -916,6 +917,51 @@ function ecas_get_ecas_user_language(array $user_info = array()) {
 }
 
 /**
+ * Prepares the Drupal user based on the ECAS user data.
+ *
+ * @param string $ecas_name
+ *   The Ecas user name.
+ * @param object $account
+ *   An already existing Drupal user account linked to the Ecas user.
+ * @param array $ecas_user_attributes
+ *   The Ecas user attributes.
+ *
+ * @return object
+ *   The Drupal user object as already registered or a default object with the
+ *   minimum properties needed for validity checks: name, new, init, password,
+ *   status, auth_ecas, mail, access.
+ */
+function ecas_prepare_drupal_user($ecas_name, $account = NULL, array $ecas_user_attributes = array()) {
+  if ($account) {
+    // Set a session variable to denote this is an initial login (uid = 0) or
+    // not.
+    $_SESSION['ecas_first_login'] = empty($account->uid);
+
+    return $account;
+  }
+
+  // Prepare the account object to use the same validity check mechanism
+  // for known and unknown users.
+  // Logic based on an initial set to anonymous user is taken from user module.
+  $account = drupal_anonymous_user();
+  $account->name = $ecas_name;
+  $account->pass = user_password();
+  $account->init = $ecas_name;
+  $account->status = variable_get('ecas_account_option', 1);
+  $account->auth_ecas = 'ecas_' . $ecas_name;
+  $account->access = REQUEST_TIME;
+  $account->timezone = variable_get('date_default_timezone', @date_default_timezone_get());
+  if (!empty($ecas_user_attributes['cas:email'])) {
+    $account->mail = $ecas_user_attributes['cas:email'];
+  }
+
+  // Set a session variable to denote this is an initial login.
+  $_SESSION['ecas_first_login'] = TRUE;
+
+  return $account;
+}
+
+/**
  * Checks if the e-mail address is not already used by a user.
  *
  * It does not use "user_load_by_mail" because this function is case sensitive
@@ -1234,46 +1280,4 @@ function _ecas_get_default_warning_message($related_variable_name) {
  */
 function _ecas_get_default_login_message() {
   return 'Logged in via EU Login as %ecas_username.';
-}
-
-/**
- * Prepares the Drupal user based on the ECAS user data.
- *
- * @param string $ecas_name
- *   The Ecas user name.
- * @param array $ecas_user_attributes
- *   The Ecas user attributes.
- *
- * @return object
- *   The Drupal user object as already registered or a default object with the
- *   minimum properties needed for validity checks: name, new, init, password,
- *   status, auth_ecas, mail, access.
- */
-function _ecas_prepare_drupal_user($ecas_name, array $ecas_user_attributes = array()) {
-  $account = user_load_by_name($ecas_name);
-
-  if ($account) {
-    // Set a session variable to denote this is not the initial login.
-    $_SESSION['ecas_first_login'] = FALSE;
-    return $account;
-  }
-  // Prepare the account object to use the same validity check mechanism
-  // for known and unknown users.
-  // Logic based on an initial set to anonymous user is taken from user module.
-  $account = drupal_anonymous_user();
-  $account->name = $ecas_name;
-  $account->pass = user_password();
-  $account->init = $ecas_name;
-  $account->status = variable_get('ecas_account_option', 1);
-  $account->auth_ecas = 'ecas_' . $ecas_name;
-  $account->access = REQUEST_TIME;
-  $account->timezone = variable_get('date_default_timezone', @date_default_timezone_get());
-  if (!empty($ecas_user_attributes['cas:email'])) {
-    $account->mail = $ecas_user_attributes['cas:email'];
-  }
-
-  // Set a session variable to denote this is the initial login.
-  $_SESSION['ecas_first_login'] = TRUE;
-
-  return $account;
 }
