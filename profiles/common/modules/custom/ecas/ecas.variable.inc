@@ -40,6 +40,18 @@ function ecas_variable_info($options) {
     'localize' => TRUE,
   );
 
+  $variables[ECAS_WARNING_MESSAGE_INCOMPLETE_USER] = array(
+    'type' => 'text_format',
+    'title' => t('Error message text in case of an ecas user is incomplete', array(), $options),
+    'default' => _ecas_get_default_warning_message(ECAS_WARNING_MESSAGE_INCOMPLETE_USER),
+    'description' => t(
+      'Text supplying information about the error because the EU Login profile does not contain the required data, other then the email.'
+    ),
+    'required' => TRUE,
+    'group' => 'ecas',
+    'localize' => TRUE,
+  );
+
   $variables[ECAS_LOGIN_MESSAGE] = array(
     'type' => 'string',
     'title' => t('Login message', array(), $options),
