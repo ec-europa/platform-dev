@@ -259,7 +259,7 @@ projects[facetapi][version] = "1.5"
 ; facetapi_map_assoc() does not check if index exists.
 ; Note: This patch is to be remoaved with the future version 7.x-1.6.
 ; Indeed, the patch has already been pushed with the #2373023 d.o. issue.
-; https://www.drupal.org/project/facetapi/issues/2768779 
+; https://www.drupal.org/project/facetapi/issues/2768779
 ; and https://www.drupal.org/node/2373023
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2042
 projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-2768779-facetapi_map_assoc-undefined-index.patch
@@ -292,15 +292,15 @@ projects[feeds][version] = "2.0-beta3"
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
-; So far, the module does not have any official release. 
-; The following declaration is based on the one recommended by the 
-; nexteuropa_newsroom team to sub-sites; including the patch 
+; So far, the module does not have any official release.
+; The following declaration is based on the one recommended by the
+; nexteuropa_newsroom team to sub-sites; including the patch
 ; "feeds_et_link_support-2078069-3.patch".
 projects[feeds_et][subdir] = "contrib"
 projects[feeds_et][download][type] = git
 projects[feeds_et][download][revision] = bf0d6d00b1a80a630d4266b04c254f2335177346
 projects[feeds_et][download][branch] = 7.x-1.x
-; Add support for link fields, patch required for the nexteuropa_newsroom module; 
+; Add support for link fields, patch required for the nexteuropa_newsroom module;
 ; see module README file.
 ; https://www.drupal.org/node/2078069
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2018
@@ -379,6 +379,9 @@ projects[geophp][download][revision] = 2777c5e
 projects[geophp][download][type] = git
 projects[geophp][subdir] = "contrib"
 
+projects[honeypot][subdir] = "contrib"
+projects[honeypot][version] = "1.25"
+
 projects[hidden_captcha][subdir] = "contrib"
 projects[hidden_captcha][version] = "1.0"
 
@@ -390,7 +393,7 @@ projects[i18n][version] = "1.24"
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
-; Call "18n_taxonomy_translate_terms" on a non-translated taxonomy term 
+; Call "18n_taxonomy_translate_terms" on a non-translated taxonomy term
 ; triggers a "PHP Fatal error: Call to a member function get_translations() on boolean"
 ; https://www.drupal.org/project/i18n/issues/2984895
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2006

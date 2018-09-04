@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Install the feature nexteuropa_security.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_security_enable() {
+  // Activation message.
+  drupal_set_message(t('Nexteuropa security feature is now active on your site.'));
+
+  // Configuration for the system settings and the honeypot module.
+  module_load_include('module', 'honeypot');
+  variable_set('honeypot_protect_all_forms', 1);
+}
