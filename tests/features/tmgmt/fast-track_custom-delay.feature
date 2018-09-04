@@ -48,7 +48,7 @@ Feature: Fast track
       number: 40012
       version: 0
       part: 0
-      product: REV
+      product: EDT
     status:
       -
         type: request

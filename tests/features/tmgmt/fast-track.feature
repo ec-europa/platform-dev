@@ -118,7 +118,8 @@ Feature: Fast track
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
               "USING" : { "node" : [ "node" ],
-               "delay" : "2017-12-01 15:00:00"
+               "delay" : "2017-12-01 15:00:00",
+               "dgt_ftt_workflow_code" : "STS"
               },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
@@ -144,11 +145,20 @@ Feature: Fast track
     When I select "Needs Review" from "state"
     And I press "Apply"
     Then I should see "Revision state: Needs Review"
+    And Poetry service received request should contain the following text:
+      | <produit>EDT</produit>                                        |
+      | <titre>Test page</titre>                                      |
+      | <organisationResponsable>DIGIT</organisationResponsable>      |
+      | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
+      | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
+      | <applicationReference>FPFIS</applicationReference>            |
+      | <delai>01/12/2017</delai>                                     |
+      | <attributionsDelai>01/12/2017</attributionsDelai>             |
     When I select "Validated" from "state"
     And I press "Apply"
     Then I should see "Revision state: Validated"
     And Poetry service received request should contain the following text:
-      | <produit>EDT</produit>                                        |
+      | <produit>TRA</produit>                                        |
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
       | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
