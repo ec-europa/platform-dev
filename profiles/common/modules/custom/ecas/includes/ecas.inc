@@ -379,7 +379,7 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
 
   // Update the user mail in the users table.
   if (variable_get('ecas_update_mail_address', TRUE)) {
-    $edit['mail'] = $user_info['cas:email'];
+    $edit['mail'] = (isset($user_info['cas:email'])) ? $user_info['cas:email'] : '';
   }
 
   // Update extra core user fields.
@@ -1248,38 +1248,38 @@ function _ecas_filter_variable_text(array $raw_text_parameters) {
 function _ecas_get_default_warning_message($related_variable_name) {
   switch ($related_variable_name) {
     case ECAS_WARNING_MESSAGE:
-      $value = '<p>Your account is not yet approved</p>';
+      $value = 'Your account is not yet approved';
       break;
 
     case ECAS_WARNING_MESSAGE_NO_EMAIL:
       $value = <<< EOF
-      <p>We cannot log you in without a valid email.</p> 
-      <p>Please complete your EU-Login account or contact <a href="https://ecas.ec.europa.eu/cas/contact.html">EU-Login support</a>.</p>
+      We cannot log you in without a valid email.<br />
+      Please complete your EU-Login account or contact <a href="https://ecas.ec.europa.eu/cas/contact.html">EU-Login support</a>.
 EOF;
       break;
 
     case ECAS_WARNING_MESSAGE_EXISTING_EMAIL:
       $value = <<< EOF
-      <p>We cannot log you in as the e-mail of your EU Login e-mail is already used by another account.</p> 
-      <p>Please log in with this existing account.</p>
+      We cannot log you in as the e-mail of your EU Login e-mail is already used by another account.<br /> 
+      Please log in with this existing account.
 EOF;
       break;
 
     case ECAS_WARNING_MESSAGE_NOT_CREATED:
       $value = <<< EOF
-      <p>An error occurred that prevent us to create your account.</p>
+      An error occurred that prevent us to create your account.
 EOF;
       break;
 
     case ECAS_WARNING_MESSAGE_INCOMPLETE_USER:
       $value = <<< EOF
-      <p>We do not receive all required data of your EU Login. That prevent us to create your account.</p>  
-      <p>Please complete your EU-Login account or contact <a href="https://ecas.ec.europa.eu/cas/contact.html">EU-Login support</a>.</p>
+      We do not receive all required data of your EU Login. That prevent us to create your account.<br /> 
+      Please complete your EU-Login account or contact <a href="https://ecas.ec.europa.eu/cas/contact.html">EU-Login support</a>.
 EOF;
       break;
 
     default:
-      $value = "<p>The reason is unknown. Please contact the site's administrator.</p>";
+      $value = "The reason is unknown. Please contact the site's administrator.";
       break;
   }
 
