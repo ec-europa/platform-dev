@@ -128,7 +128,7 @@ function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form
  */
 function tmgmt_poetry_form_tmgmt_translator_form_alter(&$form, &$form_state) {
   $translator = $form_state['tmgmt_translator'];
-  if (_tmgmt_poetry_tmgmt_plugin($translator->plugin)) {
+  if (_tmgmt_poetry_has_poetry_plugin($translator->plugin)) {
     array_unshift($form['#submit'], '_tmgmt_poetry_process_translator_contacts');
   }
 }
@@ -1392,7 +1392,7 @@ function _tmgmt_poetry_create_job_and_item($lg_code, TMGMTPoetryJob $main_job, $
  * @return bool
  *   Returns TRUE if the plugin is one of poetry or tmgmt_dgt_connector.
  */
-function _tmgmt_poetry_tmgmt_plugin($plugin) {
+function _tmgmt_poetry_has_poetry_plugin($plugin) {
   if (in_array($plugin, array('poetry', 'tmgmt_dgt_connector'))) {
     return TRUE;
   }
