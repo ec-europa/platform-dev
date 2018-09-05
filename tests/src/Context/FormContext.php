@@ -154,6 +154,8 @@ EOS;
   }
 
   /**
+   * Check for field value.
+   *
    * @Then The field :arg1 should containt :arg2
    */
   public function theFieldShouldContaint($arg1, $arg2) {
@@ -163,7 +165,8 @@ EOS;
     $field = $page->findField($arg1);
     $actual = $field->getValue();
     if ($actual !== $arg2) {
-      throw new \Exception(sprintf('The value %s is different from %s.', $actual, $arg2));
+      throw new Exception(sprintf('The value %s is different from %s.', $actual, $arg2));
     }
   }
+
 }
