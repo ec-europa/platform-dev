@@ -24,10 +24,10 @@ index 0000000..823cb82
 +}
 diff --git a/scheduler_workbench.install b/scheduler_workbench.install
 new file mode 100755
-index 0000000..c89076b
+index 0000000..b6d9167
 --- /dev/null
 +++ b/scheduler_workbench.install
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,34 @@
 +<?php
 +
 +/**
@@ -47,15 +47,6 @@ index 0000000..c89076b
 + */
 +function scheduler_workbench_uninstall() {
 +  variable_del('scheduler_workbench_allowed_status');
-+}
-+
-+/**
-+ * Implements hook_update_N().
-+ */
-+function scheduler_workbench_update_7001() {
-+  if (!variable_set('scheduler_workbench_allowed_status', array())) {
-+    _scheduler_workbench_define_allowed_status();
-+  }
 +}
 +
 +/**
@@ -165,7 +156,7 @@ index 868435e..ad28c8e
 +        "%node" => $node->nid,
 +        '%status' => $node->workbench_moderation['current']->state,
 +      );
-+      watchdog("scheduler_workbench", t("Node %node can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
++      watchdog("scheduler_workbench", t("Node %node with status %status can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
 +      return;
 +    }
      if (!empty($node->workbench_moderation['my_revision']) &&
