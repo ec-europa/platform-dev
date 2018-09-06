@@ -34,10 +34,10 @@ Feature: Fast track
         author: IE/CE/DIGIT
         requester: IE/CE/DIGIT/A/3
       contacts:
-        author: JOHN_SMITH
-        secretary: JOHN_SMITH
-        contact: JOHN_SMITH
-        responsible: JOHN_SMITH
+        author: john_smith
+        secretary: john_smith
+        contact: john_smith
+        responsible: john_smith
       feedback_contacts:
         email_to: john.smith@example.com
         email_cc: john.smith@example.com
@@ -155,10 +155,6 @@ Feature: Fast track
       | <applicationReference>FPFIS</applicationReference>            |
       | <delai>01/12/2017</delai>                                     |
       | <attributionsDelai>01/12/2017</attributionsDelai>             |
-      | <contacts type="auteur">    <contactNickname>john_smith</contactNickname>    </contacts>             |
-      | <contacts type="secretaire">    <contactNickname>john_smith</contactNickname>    </contacts>             |
-      | contacts type="contact">    <contactNickname>john_smith</contactNickname>    </contacts>            |
-      | <contacts type="responsable">    <contactNickname>john_smith</contactNickname>    </contacts>            |
 
   Scenario: Optional action parameters.
     Given I update the "dgt_ftt" translator settings with the following values:
