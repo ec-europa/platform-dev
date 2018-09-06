@@ -34,10 +34,10 @@ Feature: Fast track
         author: IE/CE/DIGIT
         requester: IE/CE/DIGIT/A/3
       contacts:
-        author: john_smith
-        secretary: john_smith
-        contact: john_smith
-        responsible: john_smith
+        author: JOHN_SMITH
+        secretary: JOHN_SMITH
+        contact: JOHN_SMITH
+        responsible: JOHN_SMITH
       feedback_contacts:
         email_to: john.smith@example.com
         email_cc: john.smith@example.com
@@ -155,6 +155,10 @@ Feature: Fast track
       | <applicationReference>FPFIS</applicationReference>            |
       | <delai>01/12/2017</delai>                                     |
       | <attributionsDelai>01/12/2017</attributionsDelai>             |
+      | <contacts type="auteur">    <contactNickname>john_smith</contactNickname>    </contacts>             |
+      | <contacts type="secretaire">    <contactNickname>john_smith</contactNickname>    </contacts>             |
+      | contacts type="contact">    <contactNickname>john_smith</contactNickname>    </contacts>            |
+      | <contacts type="responsable">    <contactNickname>john_smith</contactNickname>    </contacts>            |
 
   Scenario: Optional action parameters.
     Given I update the "dgt_ftt" translator settings with the following values:
@@ -311,3 +315,33 @@ Feature: Fast track
       | <workflowCode>STS</workflowCode>                                     |
       | <delai>01/12/2017</delai>                                            |
       | <attributionsDelai>01/12/2017</attributionsDelai>                    |
+
+  Scenario: When we configure the Fast Track translator contacts with uppercase and it's changed to lowercase
+    Given I am logged in as a user with the "administrator" role
+    And The module is enabled
+      | modules                  |
+      | ne_tmgmt_dgt_ftt_translator |
+    When I am on "admin/config/regional/tmgmt_translator/manage/dgt_ftt_en"
+    And I fill in "Counter" with "UPPERCASE"
+    And I fill in "Requester code" with "UPPERCASE"
+    And I fill in "Callback User" with "UPPERCASE"
+    And I fill in "Callback Password" with "UPPERCASE"
+    And I fill in "DGT FTT - username" with "UPPERCASE"
+    And I fill in "DGT FTT - password" with "UPPERCASE"
+    And I fill in "DGT FTT - workflow code" with "UPPERCASE"
+    And I fill in "Responsible" with "UPPERCASE"
+    And I fill in "DG Author" with "UPPERCASE"
+    And I fill in "edit-settings-organization-requester" with "UPPERCASE"
+    And I fill in "edit-settings-contacts-author" with "UPPERCASE"
+    And I fill in "edit-settings-contacts-secretary" with "UPPERCASE"
+    And I fill in "edit-settings-contacts-contact" with "UPPERCASE"
+    And I fill in "edit-settings-contacts-responsible" with "UPPERCASE"
+    And I fill in "Email to" with "UPPERCASE@example.com"
+    And I fill in "Email CC" with "UPPERCASE@example.com"
+    And I press "Save translator"
+    Then I should see the success message "The configuration options have been saved."
+    And I am on "admin/config/regional/tmgmt_translator/manage/dgt_ftt_en"
+    Then The field "edit-settings-contacts-author" should containt "uppercase"
+    And The field "edit-settings-contacts-secretary" should containt "uppercase"
+    And The field "edit-settings-contacts-contact" should containt "uppercase"
+    And The field "edit-settings-contacts-responsible" should containt "uppercase"
