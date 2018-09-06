@@ -671,8 +671,11 @@ projects[scheduler_workbench][version] = 1.3
 projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/scheduler_workbench-revision_publish-2048999-45.patch
 ; Allow publication of revisions with selected status. This patch requires the patch from issue https://www.drupal.org/project/scheduler_workbench/issues/2048999
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
-; This patch requieres the patch https://www.drupal.org/files/issues/scheduler_workbench-revision_publish-2048999-45.patch from
+; This patch requieres https://www.drupal.org/files/issues/scheduler_workbench-revision_publish-2048999-45.patch from
 ; this issue https://www.drupal.org/project/scheduler_workbench/issues/2048999.
+; It is based on the issue https://www.drupal.org/project/scheduler_workbench/issues/1955938 but the patch on
+; the issue doesn't take into account the changes introduced on issue
+; https://www.drupal.org/project/scheduler_workbench/issues/2048999, so we created a local patch for it.
 projects[scheduler_workbench][patch][] = patches/scheduler_workbench-allowed_status.patch
 
 projects[select_or_other][subdir] = "contrib"
