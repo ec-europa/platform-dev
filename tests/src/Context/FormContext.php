@@ -11,6 +11,25 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
 class FormContext extends RawDrupalContext {
 
   /**
+   * Removes the honeypot limit of 5 seconds in the forms.
+   *
+   * @BeforeScenario
+   */
+  public function removeHoneypotTimeLimit() {
+    variable_set('honeypot_time_limit', 0);
+  }
+
+  /**
+   * Resets the default limit value in honeypot of 5 seconds.
+   *
+   * @AfterScenario
+   */
+  public function resetHoneypotTimeLimit() {
+    // module_load_include('module', 'honeypot');
+    variable_set('honeypot_time_limit', 5);
+  }
+
+  /**
    * Checks, that form element with specified label is visible on page.
    *
    * @Then /^(?:|I )should see an? "(?P<label>[^"]*)" form element$/
