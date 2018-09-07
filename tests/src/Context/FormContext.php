@@ -25,7 +25,6 @@ class FormContext extends RawDrupalContext {
    * @AfterScenario
    */
   public function resetHoneypotTimeLimit() {
-    // module_load_include('module', 'honeypot');
     variable_set('honeypot_time_limit', 5);
   }
 
