@@ -16,6 +16,7 @@ dependencies[] = features
 dependencies[] = field_group
 dependencies[] = file_entity
 dependencies[] = filter
+dependencies[] = honeypot
 dependencies[] = i18n_field
 dependencies[] = i18n_node
 dependencies[] = i18n_taxonomy

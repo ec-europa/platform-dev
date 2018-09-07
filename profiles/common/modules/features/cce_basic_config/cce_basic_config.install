@@ -533,6 +533,10 @@ function cce_basic_config_enable() {
 
   // My Account.
   variable_set('user_logout_data_image', 'log-out');
+
+  // Configuration for the settings of honeypot module.
+  // module_load_include('module', 'honeypot');
+  variable_set('honeypot_protect_all_forms', 1);
 }
 
 /**
