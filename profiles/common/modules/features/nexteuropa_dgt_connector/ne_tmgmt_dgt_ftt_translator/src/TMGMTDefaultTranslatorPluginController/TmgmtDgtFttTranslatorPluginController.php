@@ -118,6 +118,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     if ($node = $this->getNodeFromTmgmtJob($jobs[0])) {
       // Getting the identifier data.
       $identifier = $this->getIdentifier($jobs[0], $node->nid, $parameters['requester_code']);
+      $identifier['identifier.product'] = 'EDT';
 
       // Getting the request data.
       $data = $this->getRequestData($jobs, $node, $parameters['delay']);
