@@ -824,8 +824,8 @@ function ecas_save_user($account, $edit, array $ecas_user_info, $ecas_name, arra
 
   // Set the ecas_login_date user attribute based on 'cas:loginDate' value.
   if (isset($ecas_user_info['cas:loginDate'])) {
-   $edit['data']['ecas_login_date'] = $ecas_user_info['cas:loginDate'];
-   $account->access = REQUEST_TIME;
+    $edit['data']['ecas_login_date'] = $ecas_user_info['cas:loginDate'];
+    $account->access = REQUEST_TIME;
   }
   $account = user_save($account, $edit);
 
