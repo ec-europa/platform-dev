@@ -13,7 +13,7 @@
 use Drupal\nexteuropa_piwik\Entity\PiwikRule;
 
 /**
- * Define default path exclusion list to remove tracking from admin pages.
+ * Define default path exclusion list to remove tracking from setting pages.
  */
 define('NEXTEUROPA_PIWIK_PAGES', "admin\nadmin/*\nbatch\nnode/add*\nnode/*/*\nuser/*/*");
 
@@ -127,16 +127,8 @@ function nexteuropa_piwik_process_maintenance_page(&$variables) {
  * @see nexteuropa_piwik_preprocess_maintenance_page()
  */
 function _nexteuropa_piwik_add_load_js_to_page() {
-  global $user;
 
-  $id = variable_get('nexteuropa_piwik_site_id', '');
-
-  // Get page status code for visibility filtering.
-  $status = drupal_get_http_header('Status');
-  // 1. Check if the piwik account number has a value.
-  // 2. Track page views based on visibility value.
-  // 3. Check if we should track the currently active user's role.
-  if (preg_match('/^\d{1,}$/', $id) && (_nexteuropa_piwik_visibility_pages() || $status == '404 Not Found') && _nexteuropa_piwik_visibility_roles($user)) {
+  if (_nexteuropa_piwik_is_trackable()) {
     // Loading variables.
     $smartloader_prurl = variable_get('nexteuropa_piwik_smartloader_prurl', '');
 
@@ -155,27 +147,43 @@ function _nexteuropa_piwik_add_load_js_to_page() {
 
 /**
  * Helper function to generate the required json.
+ *
+ * @return array
+ *   The element to be rendered as a script tag.
  */
 function _nexteuropa_piwik_generate_json() {
+
+  if (!_nexteuropa_piwik_is_trackable()) {
+    return array();
+  }
+
   $id = variable_get('nexteuropa_piwik_site_id', '');
   $instance = variable_get('nexteuropa_piwik_site_instance', '');
-
-  $site_path = variable_get('nexteuropa_piwik_site_path', '');
   $site_section = variable_get('nexteuropa_piwik_site_section', '');
+  $site_path = _nexteuropa_piwik_site_path_array();
 
   // Get page status code for visibility filtering.
-  $status = drupal_get_http_header('Status');
+  $status = drupal_get_http_header('status');
 
-  // Strip http & https from site_path variable and transforming in to array.
-  $site_path = preg_replace('#^https?://#', '', $site_path);
-  $site_path = explode(PHP_EOL, $site_path);
+  // Track 404 & 403 pages.
+  $is404 = $is403 = FALSE;
+  switch ($status) {
+    case '404 Not Found':
+      $is404 = TRUE;
+      break;
+
+    case '403 Forbidden':
+      $is403 = TRUE;
+      break;
+  }
+
   // Create settings array.
   $webtools_piwik_settings = array(
     'utility' => variable_get('nexteuropa_piwik_utility', 'piwik'),
     'siteID' => $id,
     'sitePath' => $site_path,
-    'is404' => FALSE,
-    'is403' => FALSE,
+    'is404' => $is404,
+    'is403' => $is403,
     'instance' => $instance,
   );
 
@@ -192,16 +200,6 @@ function _nexteuropa_piwik_generate_json() {
     $webtools_piwik_settings['search']['count'] = $results_count;
   }
 
-  // Track file not found (404) pages.
-  if ($status == '404 Not Found') {
-    $webtools_piwik_settings['is404'] = TRUE;
-  }
-
-  // Track forbidden (403) accesses.
-  if ($status == '403 Forbidden') {
-    $webtools_piwik_settings['is403'] = TRUE;
-  }
-
   if (!empty($site_section)) {
     $webtools_piwik_settings['siteSection'] = $site_section;
   }
@@ -214,6 +212,7 @@ function _nexteuropa_piwik_generate_json() {
   }
 
   $webtools_piwik_settings = strip_tags(drupal_json_encode($webtools_piwik_settings));
+
   return array(
     '#type' => 'html_tag',
     '#tag' => 'script',
@@ -223,6 +222,7 @@ function _nexteuropa_piwik_generate_json() {
     '#weight' => '99999',
     '#value' => $webtools_piwik_settings,
   );
+
 }
 
 /**
@@ -254,44 +254,78 @@ function _nexteuropa_piwik_visibility_roles($account) {
 }
 
 /**
+ * Return TRUE if widget should be enabled.
+ */
+function _nexteuropa_piwik_is_trackable() {
+  $is_trackable = &drupal_static(__FUNCTION__);
+  if (!isset($is_trackable)) {
+    global $user;
+    $id = variable_get('nexteuropa_piwik_site_id', '');
+    // 1. Check if the piwik account number has a value.
+    // 2. Track page views based on visibility value.
+    if (preg_match('/^\d{1,}$/', $id) && (_nexteuropa_piwik_visibility_pages()) && _nexteuropa_piwik_visibility_roles($user)) {
+      $is_trackable = TRUE;
+    }
+    else {
+      $is_trackable = FALSE;
+    }
+  }
+
+  return $is_trackable;
+}
+
+/**
  * Return TRUE if widget should be enabled for the current page.
  */
 function _nexteuropa_piwik_visibility_pages() {
-  static $page_match;
 
-  // Cache visibility setting in hook_init for hook_footer.
-  if (!isset($page_match)) {
+  $page_match = FALSE;
 
-    $visibility = variable_get('nexteuropa_piwik_visibility_pages', 0);
-    $setting_pages = variable_get('nexteuropa_piwik_pages', NEXTEUROPA_PIWIK_PAGES);
+  // Check if path matches any defined piwik path.
+  $site_path_array = _nexteuropa_piwik_site_path_array();
+  $request_uri = request_uri();
 
-    // Match path if necessary.
-    if (!empty($setting_pages)) {
-      // Convert path to lowercase. This allows comparison of the same path
-      // with different case. Ex: /Page, /page, /PAGE.
-      $pages = drupal_strtolower($setting_pages);
-      if ($visibility < 2) {
-        // Convert the Drupal path to lowercase.
-        $path = drupal_strtolower(drupal_get_path_alias());
-        // Compare the lowercase internal and lowercase path alias (if any).
-        $page_match = drupal_match_path($path, $pages);
-        if ($path != $_GET['q']) {
-          $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
-        }
-        // When $visibility has a value of 0, the tracking code is displayed on
-        // all pages except those listed in $pages. When set to 1, it
-        // is displayed only on those pages listed in $pages.
-        $page_match = !($visibility xor $page_match);
+  foreach ($site_path_array as $path) {
+    // Check if path matches the current URI.
+    if (strpos($request_uri, $path) !== FALSE) {
+      $page_match = TRUE;
+      continue;
+    }
+  }
+
+  // If path does not match any defined piwik path, return FALSE.
+  if (!$page_match) {
+    return FALSE;
+  }
+
+  $visibility = variable_get('nexteuropa_piwik_visibility_pages', 0);
+  $setting_pages = variable_get('nexteuropa_piwik_pages', NEXTEUROPA_PIWIK_PAGES);
+
+  // Check if path matches the setting pages.
+  if (!empty($setting_pages)) {
+    // Convert path to lowercase. This allows comparison of the same path
+    // with different case. Ex: /Page, /page, /PAGE.
+    $pages = drupal_strtolower($setting_pages);
+    if ($visibility < 2) {
+      // Convert the Drupal path to lowercase.
+      $path = drupal_strtolower(drupal_get_path_alias());
+
+      // Compare the lowercase internal and lowercase path alias (if any).
+      $page_match = drupal_match_path($path, $pages);
+      if ($path != $_GET['q']) {
+        $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
       }
-      else {
-        $page_match = FALSE;
-      }
+
+      // When $visibility has a value of 0, the tracking code is displayed on
+      // all pages except those listed in $pages. When set to 1, it
+      // is displayed only on those pages listed in $pages.
+      $page_match = !($visibility xor $page_match);
     }
     else {
-      $page_match = TRUE;
+      $page_match = FALSE;
     }
-
   }
+
   return $page_match;
 }
 
@@ -362,6 +396,7 @@ function nexteuropa_piwik_rule_label($piwik_rule) {
 
   return t('Rule ID: [NEW]');
 }
+
 /**
  * Access callback for the  rule entity..
  *
@@ -539,10 +574,31 @@ function _nexteuropa_piwik_filter_results($results, $path, $lang_code) {
  * @param array $rules_array
  *   An array with the PiwikRule objects keyed by the id.
  *
- * @return PiwikRule
+ * @return \Drupal\nexteuropa_piwik\Entity\PiwikRule
  *   PiwikRule entity.
  */
 function _nexteuropa_piwik_get_latest_rule($rules_array) {
   ksort($rules_array, SORT_DESC);
   return array_pop($rules_array);
+}
+
+/**
+ * Custom function that returns a formatted list of piwik paths.
+ *
+ * @return array
+ *   An array of piwik paths to track.
+ */
+function _nexteuropa_piwik_site_path_array() {
+
+  $piwik_paths = variable_get('nexteuropa_piwik_site_path', '');
+  if (empty($piwik_paths)) {
+    return array();
+  }
+
+  $func = function ($path) {
+    return preg_replace('#^https?://#', '', trim($path));
+  };
+  $site_paths = explode(PHP_EOL, $piwik_paths);
+
+  return array_map($func, $site_paths);
 }
