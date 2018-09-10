@@ -210,12 +210,6 @@ function ecas_admin_settings() {
     '#default_value' => variable_get('ecas_update_mail_address', 1),
     '#description' => t('If this option is checked, the ECAS module will replace the mail address of the user with the one retrieved from the ECAS/LDAP instance.'),
   );
-  $form['param']['ecas_default_mail_address'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Default mail address'),
-    '#default_value' => variable_get('ecas_default_mail_address', ECAS_DEFAULT_MAIL_ADDRESS),
-    '#description' => t('This address will be assigned to the user if the previous option is disabled.'),
-  );
 
   // ECAS has these extra user profile fields:
   // - 'First name field'
