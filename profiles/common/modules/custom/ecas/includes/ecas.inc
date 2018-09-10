@@ -824,8 +824,10 @@ function ecas_save_user($account, $edit, array $ecas_user_info, $ecas_name, arra
   }
 
   // Set the ecas_login_date user attribute based on 'cas:loginDate' value.
-  $edit['data']['ecas_login_date'] = $ecas_user_info['cas:loginDate'];
-
+  if (isset($ecas_user_info['cas:loginDate'])) {
+    $edit['data']['ecas_login_date'] = $ecas_user_info['cas:loginDate'];
+    $account->access = REQUEST_TIME;
+  }
   $account = user_save($account, $edit);
 
   // Check to make sure we have a good Drupal user.
@@ -960,8 +962,8 @@ function ecas_prepare_drupal_user($ecas_name, $account = NULL, array $ecas_user_
   $account->init = $ecas_name;
   $account->status = variable_get('ecas_account_option', 1);
   $account->auth_ecas = 'ecas_' . $ecas_name;
-  $account->access = REQUEST_TIME;
   $account->timezone = variable_get('date_default_timezone', @date_default_timezone_get());
+  $account->is_new = 1;
   if (!empty($ecas_user_attributes['cas:email'])) {
     $account->mail = $ecas_user_attributes['cas:email'];
   }
