@@ -208,12 +208,6 @@ function ecas_admin_settings() {
     ECAS_WARNING_MESSAGE_INCOMPLETE_USER
   );
 
-  $form['param']['ecas_update_mail_address'] = array(
-    '#type' => 'checkbox',
-    '#title' => t("Update the user's mail address at login time."),
-    '#default_value' => variable_get('ecas_update_mail_address', 1),
-    '#description' => t('If this option is checked, the ECAS module will replace the mail address of the user with the one retrieved from the ECAS/LDAP instance.'),
-  );
   $form['param']['ecas_default_mail_address'] = array(
     '#type' => 'textfield',
     '#title' => t('Default mail address'),
