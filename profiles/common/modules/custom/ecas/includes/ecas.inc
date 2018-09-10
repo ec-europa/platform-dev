@@ -79,7 +79,6 @@ function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
  * sending a mail with erroneous instructions.
  */
 function _ecas_user_pass_validate($form, &$form_state) {
-
   $name = trim($form_state['values']['name']);
 
   // Try to load by email.
