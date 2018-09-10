@@ -5,10 +5,6 @@
  * Administration forms for the ECAS module.
  */
 
-// Include the minimum codebase for this module.
-$constants_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.constants.inc';
-include_once $constants_ecas_module_include;
-
 /**
  * Implements hook_help().
  *
