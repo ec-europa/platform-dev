@@ -512,7 +512,7 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
     );
     $account = ecas_prepare_drupal_user($uid, NULL, $ldap_attributes);
 
-    $ecas_sync_user_info_args = array('ecas_import_users_user_creation' => $account->new);
+    $ecas_sync_user_info_args = array('ecas_import_users_user_creation' => $account->is_new);
 
     // Let's sync other ladp user data on drupal user ones according to the
     // site specificity.
@@ -528,13 +528,13 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
     // The ecas user must have an defined e-mail; otherwise the drupal
     // authentication is denied.
     if (empty($account_edit['mail'])) {
-      drupal_set_message(t('User @user_uid not imported because the e-mail is missing.', array('@user_uid' => $uid)));
+      drupal_set_message(t('User @user_uid is not imported because the e-mail is missing.', array('@user_uid' => $uid)), 'error');
       continue;
     }
 
     // Check that the email is not present for another account.
     if (ecas_is_email_already_used($account_edit['mail'], $account)) {
-      drupal_set_message(t('User @user_uid not imported because the e-mail is already used by another account.', array('@user_uid' => $uid)));
+      drupal_set_message(t('User @user_uid is not imported because the e-mail is already used by another account.', array('@user_uid' => $uid)), 'error');
       continue;
     }
 
@@ -542,10 +542,11 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
     $saved_account = ecas_save_user($account, $account_edit, $ldap_attributes, $uid, $ecas_sync_user_info_args);
 
     if (!$saved_account || ($account->uid === 0)) {
-      drupal_set_message(t('User @user_uid not imported because an issue during the Drupal user saving.', array('@user_uid' => $uid)));
+      drupal_set_message(t('User @user_uid is not imported correctly because of an issue during the Drupal user saving.', array('@user_uid' => $uid)), 'error');
       continue;
     }
 
+    drupal_set_message(t('User @user_uid is imported correctly.', array('@user_uid' => $uid)));
     $imported_users[] = $uid;
   }
   module_invoke_all('ecas_users_imported', array('imported_users' => $imported_users));
