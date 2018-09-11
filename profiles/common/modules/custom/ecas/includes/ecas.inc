@@ -537,8 +537,8 @@ function ecas_login_check() {
   $account_edit = ecas_sync_user_info($account, $ecas_attributes, $ecas_sync_user_info_args);
 
   // Before saving and as we gave a last chance to other modules to change the
-  // user data, check the validity of the user must be saved.
-  // The ecas user must have an defined e-mail; otherwise the drupal
+  // user data, check the validity of the user that must be saved.
+  // The ecas user must have a defined e-mail; otherwise the drupal
   // authentication is denied.
   if (empty($account_edit['mail'])) {
     _ecas_warning_goto(
@@ -597,6 +597,7 @@ function ecas_login_check() {
     $_SESSION['ecas_goto'] = sprintf('user/%d/edit', $user->uid);
   }
 
+  // Before ending, display the login success message.
   $message = variable_get(ECAS_LOGIN_MESSAGE, _ecas_get_default_login_message());
   $message = format_string(
     $message,
@@ -736,15 +737,16 @@ function ecas_warning_page($reason) {
   }
 
   $message = variable_get($message_key, _ecas_get_default_warning_message($message_key));
-  // NEPT-520: Fallback process for sites that has set the ecas variable values
+  // NEPT-520: Fallback process for sites that have set the ecas variable values
   // before the i18n variable integration in the ecas module.
-  // That should be removed in a next platform major release because the proper
-  // implementation of a hook_update forbidden in a minor version.
   if (!is_array($message)) {
-    // @codingStandardsIgnoreStart: NEPT-520: To be removed in the same time as
-    // the hook_update implementation.
-    $message = array('value' => t($message));
-    // @codingStandardsIgnoreEnd
+    watchdog(
+      'user',
+      'The %message_key value is not updated to set the text filter to apply on it. Please update the ECAS settings.',
+      array('%message_key' => $message_key),
+      WATCHDOG_WARNING
+    );
+    $message = array('value' => $message);
   }
   $theme_variables['warning_text'] = _ecas_filter_variable_text($message);
 
@@ -929,6 +931,38 @@ function ecas_get_ecas_user_language(array $user_info = array()) {
 }
 
 /**
+ * Checks if the e-mail address is not already used by a user.
+ *
+ * It does not use "user_load_by_mail" because this function is case sensitive
+ * with some DB types.
+ *
+ * @param string $email
+ *   The e-mail to control.
+ * @param object $account
+ *   (optional) An account to exclude from the control.
+ *
+ * @return bool
+ *   True if the e-mail is already used by a user; otherwise FALSE.
+ *
+ * @see user_load_by_mail()
+ * @see user_account_form_validate()
+ */
+function ecas_is_email_already_used($email, $account = NULL) {
+  $email = trim($email);
+
+  $query = db_select('users')
+    ->fields('users', array('uid'))
+    ->condition('mail', db_like($email), 'LIKE')
+    ->range(0, 1);
+
+  if (!empty($account) && !empty($account->uid)) {
+    $query->condition('uid', $account->uid, '<>');
+  }
+
+  return (bool) $query->execute()->fetchField();
+}
+
+/**
  * Prepares the Drupal user based on the ECAS user data.
  *
  * @param string $ecas_name
@@ -963,46 +997,17 @@ function ecas_prepare_drupal_user($ecas_name, $account = NULL, array $ecas_user_
   $account->auth_ecas = 'ecas_' . $ecas_name;
   $account->timezone = variable_get('date_default_timezone', @date_default_timezone_get());
   $account->is_new = 1;
+  // Leave email uncontrolled yet, the control on the email value
+  // will be done later, after giving the opportunity to other modules to
+  // implement their own check or email setting.
   if (!empty($ecas_user_attributes['cas:email'])) {
     $account->mail = $ecas_user_attributes['cas:email'];
   }
 
-  // Set a session variable to denote this is an initial login.
+  // Set a session variable to denote this is the initial login.
   $_SESSION['ecas_first_login'] = TRUE;
 
   return $account;
-}
-
-/**
- * Checks if the e-mail address is not already used by a user.
- *
- * It does not use "user_load_by_mail" because this function is case sensitive
- * with some DB types.
- *
- * @param string $email
- *   The e-mail to control.
- * @param object $account
- *   (optional) An account to exclude from the control.
- *
- * @return bool
- *   True if the e-mail is already used by a user; otherwise FALSE.
- *
- * @see user_load_by_mail()
- * @see user_account_form_validate()
- */
-function ecas_is_email_already_used($email, $account = NULL) {
-  $email = trim($email);
-
-  $query = db_select('users')
-    ->fields('users', array('uid'))
-    ->condition('mail', db_like($email), 'LIKE')
-    ->range(0, 1);
-
-  if (!empty($account) && !empty($account->uid)) {
-    $query->condition('uid', $account->uid, '<>');
-  }
-
-  return (bool) $query->execute()->fetchField();
 }
 
 /**
