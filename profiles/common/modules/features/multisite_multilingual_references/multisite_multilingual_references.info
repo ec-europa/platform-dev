@@ -1,5 +1,5 @@
 name = Multisite multilingual references
-description = Replaces link to node with link to translation in the user's language, or allows the user to choose from the available translations.
+description = DEPRECATED, it will be removed in the platform version 2.6. 
 package = Multisite Features
 core = 7.x
 dependencies[] = features
