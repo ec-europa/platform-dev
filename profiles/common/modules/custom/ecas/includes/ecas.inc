@@ -619,6 +619,7 @@ function ecas_login_check() {
     $_SESSION['ecas_goto'] = sprintf('user/%d/edit', $user->uid);
   }
 
+  // Before ending, display the login success message.
   $message = variable_get(ECAS_LOGIN_MESSAGE, _ecas_get_default_login_message());
   $message = format_string(
     $message,
@@ -736,15 +737,16 @@ function ecas_warning_page($reason) {
   }
 
   $message = variable_get($message_key, _ecas_get_default_warning_message($message_key));
-  // NEPT-520: Fallback process for sites that has set the ecas variable values
+  // NEPT-520: Fallback process for sites that have set the ecas variable values
   // before the i18n variable integration in the ecas module.
-  // That should be removed in a next platform major release because the proper
-  // implementation of a hook_update forbidden in a minor version.
   if (!is_array($message)) {
-    // @codingStandardsIgnoreStart: NEPT-520: To be removed in the same time as
-    // the hook_update implementation.
-    $message = array('value' => t($message));
-    // @codingStandardsIgnoreEnd
+    watchdog(
+      'user',
+      'The %message_key value is not updated to set the text filter to apply on it. Please update the ECAS settings.',
+      array('%message_key' => $message_key),
+      WATCHDOG_WARNING
+    );
+    $message = array('value' => $message);
   }
   $theme_variables['warning_text'] = _ecas_filter_variable_text($message);
 
