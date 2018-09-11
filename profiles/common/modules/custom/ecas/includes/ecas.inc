@@ -350,8 +350,8 @@ function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()
  *
  * Update information: core mail address, profile, Content Profile, roles, ...
  * When all information has been synced, this function invokes the
- * cas_sync_user_info() and ecas_user_roles_alter() hooks in all enabled
- * modules that implement them.
+ * ecas_sync_user_info() and ecas_user_roles_alter() hooks in all enabled
+ * modules that implement it.
  *
  * @param object $user
  *   A user object.
@@ -520,7 +520,7 @@ function ecas_login_check() {
     $url = phpCAS::getServerLogoutURL() . '?url=' . _ecas_get_site_frontpage_full_url();
     $msg = t(
       'Your EU Login session needs to be renewed. For security reasons, please <a href="@url">logout and login again</a>.',
-      ['@url' => $url]
+      array('@url' => $url)
     );
     drupal_set_message($msg, 'error');
     // No need to continue, redirect the user to the front page.
@@ -605,22 +605,6 @@ function ecas_login_check() {
   );
   drupal_set_message(filter_xss($message));
 }
-
-/**
- * Internal function to unset destination from request.
- */
-function _ecas_unset_destination() {
-  // We cannot ensure that the user is the same as in Ecas,
-  // So we absolutely want to redirect the user
-  // to the ECAS warning page - thus, we unset any previously set destination.
-  if (isset($_REQUEST['destination'])) {
-    unset($_REQUEST['destination']);
-  }
-  if (isset($_REQUEST['edit']['destination'])) {
-    unset($_REQUEST['edit']['destination']);
-  }
-}
-
 
 /**
  * Check to see if we need to display the logout menu.

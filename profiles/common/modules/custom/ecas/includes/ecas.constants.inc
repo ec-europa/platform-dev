@@ -83,7 +83,7 @@ define('ECAS_WARNING_MESSAGE_NOT_CREATED', 'ecas_not_created_message');
 /**
  * Name of the ecas incomplete user  message variable.
  */
-define('ECAS_WARNING_MESSAGE_INCOMPLETE_USER', 'ecas_incomplete_user_message');
+define('ECAS_WARNING_MESSAGE_INCOMPLETE_USER', 'unknown');
 
 /**
  * Ids for the different reasons causing a ECAS login failures.
