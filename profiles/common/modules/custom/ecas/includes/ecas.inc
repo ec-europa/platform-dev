@@ -542,7 +542,7 @@ function ecas_login_check() {
     $url = phpCAS::getServerLogoutURL() . '?url=' . _ecas_get_site_frontpage_full_url();
     $msg = t(
       'Your EU Login session needs to be renewed. For security reasons, please <a href="@url">logout and login again</a>.',
-      ['@url' => $url]
+      array('@url' => $url)
     );
     drupal_set_message($msg, 'error');
     // No need to continue, redirect the user to the front page.
