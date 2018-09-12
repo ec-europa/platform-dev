@@ -23,7 +23,7 @@ function nexteuropa_multilingual_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Recent translation jobs';
+  $handler->display->display_options['title'] = 'Recent jobs';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'tmgmt_views_job_access';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -363,7 +363,7 @@ function nexteuropa_multilingual_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'admin/tmgmt/recent-changes';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'Recent translation jobs';
+  $handler->display->display_options['menu']['title'] = 'Recent jobs';
   $handler->display->display_options['menu']['weight'] = '1';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;

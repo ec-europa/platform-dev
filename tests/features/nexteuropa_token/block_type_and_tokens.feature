@@ -28,11 +28,11 @@ Feature: Test the creation of new block type (bean) and the display of them in a
     When I go to "/block/add"
     And I click "Block type For Behat"
     And I fill in "Label" with "Label For Behat test on the block"
-    And I fill in "Title" with "Title For Behat test on the block"
+    And I fill in the content's title with "Title For Behat test on the block"
     And I press "Save"
     Then I should see "Block type For Behat Title For Behat test on the block has been created."
     When I go to "/node/add/page"
-    And I fill in "Title" with "This is a page with a new block type in a token"
+    And I fill in the content's title with "This is a page with a new block type in a token"
     And I select "Full HTML" from "Text format"
     And I click the "Insert internal content" button in the "Body" WYSIWYG editor
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title

@@ -22,7 +22,6 @@ function e_library_og_enable() {
   drupal_flush_all_caches();
 }
 
-
 /**
  * Remove block from the context.
  */
@@ -36,17 +35,6 @@ function e_library_og_disable() {
 
   // Activation message.
   drupal_set_message(t('E-library feature is now disabled on your site.'));
-}
-
-
-/**
- * Hook_modules_enabled.
- */
-function e_library_og_modules_enabled($modules) {
-  if (in_array('e_library_og', $modules)) {
-    // Force feature revert to update og permissions.
-    features_revert(array('e_library_og' => array('og_features_permission')));
-  }
 }
 
 /**

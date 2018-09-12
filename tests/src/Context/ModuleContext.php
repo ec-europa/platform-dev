@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\ModuleContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Drupal\DrupalExtension\Context\RawDrupalContext;
@@ -38,7 +33,7 @@ class ModuleContext extends RawDrupalContext {
    * | blog     |
    * | book     |
    *
-   * @param TableNode $modules_table
+   * @param \Behat\Gherkin\Node\TableNode $modules_table
    *   The table listing modules.
    *
    * @Given the/these module/modules is/are enabled
@@ -65,6 +60,41 @@ class ModuleContext extends RawDrupalContext {
   }
 
   /**
+   * Disables one or more modules.
+   *
+   * Provide modules data in the following format:
+   *
+   * | modules  |
+   * | blog     |
+   * | book     |
+   *
+   * @param \Behat\Gherkin\Node\TableNode $modules_table
+   *   The table listing modules.
+   *
+   * @Given the/these module/modules is/are not enabled
+   */
+  public function disableModule(TableNode $modules_table) {
+    $cache_flushing = FALSE;
+    $message = array();
+    foreach ($modules_table->getHash() as $row) {
+      if (module_exists($row['modules'])) {
+        if (module_disable($row)) {
+          $message[] = $row['modules'];
+        }
+        else {
+          $cache_flushing = TRUE;
+        }
+      }
+    }
+
+    assert($message, isEmpty(), sprintf('Module "%s" not correctly disabled', implode(', ', $message)));
+
+    if ($cache_flushing) {
+      drupal_flush_all_caches();
+    }
+  }
+
+  /**
    * Enables one or more Feature Set(s).
    *
    * Provide feature set names in the following format:
@@ -73,7 +103,7 @@ class ModuleContext extends RawDrupalContext {
    * | Events      |
    * | Links       |
    *
-   * @param TableNode $featureset_table
+   * @param \Behat\Gherkin\Node\TableNode $featureset_table
    *   The table listing feature set titles.
    *
    * @Given the/these featureSet/FeatureSets is/are enabled
@@ -103,6 +133,17 @@ class ModuleContext extends RawDrupalContext {
       // Necessary for rebuilding the menu after enabling some specific
       // features.
       drupal_flush_all_caches();
+    }
+  }
+
+  /**
+   * Check if the a module is enabled.
+   *
+   * @Then Module :arg1 should be enabled
+   */
+  public function moduleShouldBeEnabled($arg1) {
+    if (!module_exists($arg1)) {
+      throw new \InvalidArgumentException("The module '{$arg1}' is not enabled.");
     }
   }
 

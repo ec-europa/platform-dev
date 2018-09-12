@@ -11,6 +11,11 @@ include_once 'cce_basic_config.file_default_displays.inc';
 include_once 'cce_basic_config.default_password_policy.inc';
 
 /**
+ * CEM role machine name.
+ */
+define('CCE_BASIC_CONFIG_CEM_ROLE_NAME', 'cem');
+
+/**
  * Implements hook_menu_alter().
  */
 function cce_basic_config_menu_alter(&$items) {
@@ -367,6 +372,25 @@ function cce_basic_config_preprocess_container(&$variables) {
       $variables['theme_hook_suggestions'][] = $hook_suggestion . $suffix;
     }
     $variables['theme_hook_suggestions'][] = $prefix . $suffix;
+  }
+}
+
+/**
+ * Implements hook_entitycache_node_load().
+ *
+ * See https://www.drupal.org/project/entitycache/issues/2877280
+ * Nept-352.
+ */
+function cce_basic_config_entitycache_node_load(&$entities) {
+  $arg = arg();
+  if (count($arg) == 3 && $arg[0] == 'node' && $arg[2] == 'edit') {
+    $nid = $arg[1];
+    if (isset($entities[$nid])) {
+      $last_changed = node_last_changed($nid);
+      $entity = $entities[$nid];
+      $entity->changed = $last_changed;
+      $entities[$nid] = $entity;
+    }
   }
 }
 
