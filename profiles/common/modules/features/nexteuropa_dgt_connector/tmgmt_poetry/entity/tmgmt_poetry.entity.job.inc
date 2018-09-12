@@ -97,8 +97,8 @@ class TMGMTPoetryJob extends TMGMTJob {
    */
   public function hasPoetryTranslator() {
     $translator = $this->getTranslator();
-    if (!empty($translator)) {
-      return in_array($translator->plugin, ['poetry', 'tmgmt_dgt_connector']);
+    if (isset($translator->plugin)) {
+      return _tmgmt_poetry_has_poetry_plugin($translator->plugin);
     }
     return FALSE;
   }
