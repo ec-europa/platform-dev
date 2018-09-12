@@ -516,7 +516,7 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
     // Let's sync other ladp user data on drupal user ones according to the
     // site specificity.
     // There is no save inside, that will be do after further validations.
-    $account_edit = ecas_sync_user_info(
+    $account_edit = ecas_sync_drupal_user_with_ecas_info(
       $account,
       $ldap_attributes,
       // This allows other modules to detect a user creation.
@@ -538,7 +538,7 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
     }
 
     // Time to save the user.
-    $saved_account = ecas_save_user($account, $account_edit, $ldap_attributes, $uid, $ecas_sync_user_info_args);
+    $saved_account = ecas_save_user($account, $account_edit, $ldap_attributes, $ecas_sync_user_info_args);
 
     if (!$saved_account || ($account->uid === 0)) {
       drupal_set_message(t('User @user_uid is not imported correctly because of an issue during the Drupal user saving.', array('@user_uid' => $uid)), 'error');

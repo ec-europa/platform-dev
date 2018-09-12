@@ -316,7 +316,7 @@ function ecas_save_page() {
  *   time.
  *   It is the same array structure as in the user_save().
  *
- * @see ecas_sync_user_info()
+ * @see ecas_sync_drupal_user_with_ecas_info()
  */
 function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()) {
   $field_firstname = trim(variable_get('ecas_profile_core_firstname_field', 'field_firstname'));
@@ -346,12 +346,43 @@ function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()
 }
 
 /**
- * Update various information of a given user.
+ * Update various information of a given user and save them.
  *
  * Update information: core mail address, profile, Content Profile, roles, ...
  * When all information has been synced, this function invokes the
- * ecas_sync_user_info() and ecas_user_roles_alter() hooks in all enabled
- * modules that implement it.
+ * info_ecas_update() hook in all enabled modules that implement it.
+ *
+ * @param object $user
+ *   A user object.
+ * @param array $user_info
+ *   An associative array with the following interesting keys:
+ *   - mail: mail address.
+ *   - givenname: first name.
+ *   - sn: last name.
+ *   These values will be used to fill fields/profiles/...
+ * @param array $args
+ *   Extra parameters, not used directly in this function but passed to the
+ *   info_ecas_update() hook.
+ *
+ * @deprecated
+ *   Use the combination of ecas_sync_drupal_user_on_ecas_info() and
+ *   ecas_save_user() instead.
+ */
+function ecas_sync_user_info(&$user, array $user_info, array $args) {
+  $account_edit = ecas_sync_drupal_user_on_ecas_info($user, $user_info, $args);
+  ecas_save_user($user, $account_edit, $user_info, $args);
+}
+
+/**
+ * Synchronizes the Drupal user with the Ecas data.
+ *
+ * Update information: core mail address, profile, Content Profile, roles, ...
+ *
+ * When all information has been synced, this function invokes the
+ * hook_ecas_sync_user_info() and hook_ecas_user_roles_alter() hooks.
+ *
+ * The function does not save the synchronized user object. That must be done
+ * later through ecas_save_user().
  *
  * @param object $user
  *   A user object.
@@ -371,9 +402,9 @@ function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()
  *   Key / value pairs added to the $edit['data'] will be serialized and
  *   saved in the {users.data} column.
  *
- * @see user_save()
+ * @see ecas_save_user()
  */
-function ecas_sync_user_info(&$user, array $user_info, array $args) {
+function ecas_sync_drupal_user_with_ecas_info(&$user, array $user_info, array $args) {
   $edit = (array) $user;
 
   // Update the user mail in the users table.
@@ -534,7 +565,7 @@ function ecas_login_check() {
   // Synchronize data between Drupal user object and Ecas ones according to the
   // site specificity.
   // There is no save inside, that will be do after further validations.
-  $account_edit = ecas_sync_user_info($account, $ecas_attributes, $ecas_sync_user_info_args);
+  $account_edit = ecas_sync_drupal_user_with_ecas_info($account, $ecas_attributes, $ecas_sync_user_info_args);
 
   // Before saving and as we gave a last chance to other modules to change the
   // user data, check the validity of the user that must be saved.
@@ -789,8 +820,6 @@ function ecas_create_user($ecas_name, $defaults = array()) {
  *   An array of fields and values to save.
  * @param array $ecas_user_info
  *   Associative array with the user related ecas attributes.
- * @param string $ecas_name
- *   The user related ecas name.
  * @param array $args
  *   Extra parameters, not used directly in this function but passed to the
  *   info_ecas_update() hook.
@@ -801,11 +830,18 @@ function ecas_create_user($ecas_name, $defaults = array()) {
  *
  * @see user_save()
  */
-function ecas_save_user($account, $edit, array $ecas_user_info, $ecas_name, array $args = array()) {
+function ecas_save_user($account, $edit, array $ecas_user_info, array $args = array()) {
   // Fix : save file object replaced by fid by user_save function.
   // See at the end of the function.
   if (isset($account->picture)) {
     $picture = $account->picture;
+  }
+
+  // Store the user name first to use it in watchdog in case of failure and
+  // $account loses it during the saving operation.
+  $name = 'Unknown user';
+  if (isset($account->name)) {
+    $name = $account->name;
   }
 
   // Set the ecas_login_date user attribute based on 'cas:loginDate' value.
@@ -813,14 +849,15 @@ function ecas_save_user($account, $edit, array $ecas_user_info, $ecas_name, arra
     $edit['data']['ecas_login_date'] = $ecas_user_info['cas:loginDate'];
     $account->access = REQUEST_TIME;
   }
+
   $account = user_save($account, $edit);
 
   // Check to make sure we have a good Drupal user.
   if (!$account || $account->uid == 0) {
     watchdog(
       'user',
-      'Drupal user save failed for %ecas_name.',
-      array('%ecas_name' => $ecas_name),
+      'Drupal user save failed for %name.',
+      array('%name' => $name),
       WATCHDOG_ERROR
     );
 
