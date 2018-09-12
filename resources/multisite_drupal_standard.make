@@ -245,7 +245,7 @@ projects[facetapi][version] = "1.5"
 ; facetapi_map_assoc() does not check if index exists.
 ; Note: This patch is to be remoaved with the future version 7.x-1.6.
 ; Indeed, the patch has already been pushed with the #2373023 d.o. issue.
-; https://www.drupal.org/project/facetapi/issues/2768779 
+; https://www.drupal.org/project/facetapi/issues/2768779
 ; and https://www.drupal.org/node/2373023
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2042
 projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-2768779-facetapi_map_assoc-undefined-index.patch
@@ -281,15 +281,15 @@ projects[feeds][version] = "2.0-beta3"
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
-; So far, the module does not have any official release. 
-; The following declaration is based on the one recommended by the 
-; nexteuropa_newsroom team to sub-sites; including the patch 
+; So far, the module does not have any official release.
+; The following declaration is based on the one recommended by the
+; nexteuropa_newsroom team to sub-sites; including the patch
 ; "feeds_et_link_support-2078069-3.patch".
 projects[feeds_et][subdir] = "contrib"
 projects[feeds_et][download][type] = git
 projects[feeds_et][download][revision] = bf0d6d00b1a80a630d4266b04c254f2335177346
 projects[feeds_et][download][branch] = 7.x-1.x
-; Add support for link fields, patch required for the nexteuropa_newsroom module; 
+; Add support for link fields, patch required for the nexteuropa_newsroom module;
 ; see module README file.
 ; https://www.drupal.org/node/2078069
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2018
@@ -302,10 +302,13 @@ projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
 
 projects[field_group][subdir] = "contrib"
-projects[field_group][version] = "1.5"
+projects[field_group][version] = "1.6"
 ; https://www.drupal.org/node/2604284
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
+; https://www.drupal.org/node/2926605
+projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group-remove-array_parents-2494385-11.patch
+
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.21"
