@@ -2094,3 +2094,10 @@ function cce_basic_config_update_7226() {
 
   features_revert($components_to_revert);
 }
+
+/**
+ * Remove the multisite_version variable NEPT-2065.
+ */
+function cce_basic_config_update_7227() {
+  variable_del('multisite_version');
+}
