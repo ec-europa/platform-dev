@@ -18,33 +18,41 @@ module_load_include('inc', 'cce_basic_config', 'cce_basic_config.install');
  */
 function cce_basic_config_requirements($phase) {
   $t = get_t();
-  $requirements['install_tag'] = array(
-    'title' => $t('Tag'),
-    'value' => $t('%profile_tag ', array(
-      '%profile_tag' => variable_get('multisite_version'),
-    )),
-    'severity' => REQUIREMENT_INFO,
-    'weight' => -8,
-  );
-
-  if (file_exists(DRUPAL_ROOT . '/continuousphp.package')) {
-    if ($continuousphp_package = file_get_contents(DRUPAL_ROOT . '/continuousphp.package')) {
-      $info = drupal_json_decode($continuousphp_package, TRUE);
+  $requirements = array();
+  if (file_exists(DRUPAL_ROOT . '/.version')) {
+    if ($version = file_get_contents(DRUPAL_ROOT . '/.version')) {
       $t = get_t();
-      $requirements['git_ref'] = array(
-        'title' => $t('Git ref'),
-        'value' => $info['ref'],
-        'severity' => REQUIREMENT_INFO,
-        'weight' => -7,
-      );
-      $requirements['git_commit'] = array(
-        'title' => $t('Git commit'),
-        'value' => l($info['commit'], 'https://github.com/ec-europa/platform-dev/commit/' . $info['commit']),
+      $requirements['install_tag'] = array(
+        'title' => $t('Platform Tag'),
+        'value' => $version,
         'severity' => REQUIREMENT_INFO,
         'weight' => -7,
       );
     }
   }
+  if (file_exists(DRUPAL_ROOT . '/.commit')) {
+    if ($commit = file_get_contents(DRUPAL_ROOT . '/.commit')) {
+      $t = get_t();
+      $requirements['commit_nr'] = array(
+        'title' => $t('Commit number'),
+        'value' => l($commit, 'https://github.com/ec-europa/platform-dev/commit/' . $commit),
+        'severity' => REQUIREMENT_INFO,
+        'weight' => -6,
+      );
+    }
+  }
+  if (file_exists(DRUPAL_ROOT . '/.timestamp')) {
+    if ($timestamp = file_get_contents(DRUPAL_ROOT . '/.timestamp')) {
+      $t = get_t();
+      $requirements['install_stamp'] = array(
+        'title' => $t('Installation time'),
+        'value' => format_date($timestamp, 'long'),
+        'severity' => REQUIREMENT_INFO,
+        'weight' => -5,
+      );
+    }
+  }
+
   return $requirements;
 }
 
