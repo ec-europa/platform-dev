@@ -491,7 +491,6 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
           break;
 
         case 'href':
-          // Ensure href tokens are replaced before filtering.
           $tokens = token_scan($attrinfo['value']);
           if (!$tokens) {
             $attrinfo['value'] = multisite_drupal_toolbox_filter_xss_bad_protocol($attrinfo['value']);
