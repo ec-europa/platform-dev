@@ -491,7 +491,11 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
           break;
 
         case 'href':
-          $attrinfo['value'] = filter_xss_bad_protocol($attrinfo['value']);
+          $tokens = token_scan($attrinfo['value']);
+          if (!$tokens) {
+            $attrinfo['value'] = multisite_drupal_toolbox_filter_xss_bad_protocol($attrinfo['value']);
+          }
+
           if ($element == 'a' && !$force_nofollow_rel) {
             $force_nofollow_rel = multisite_drupal_toolbox_is_nofollow_link($attrinfo['value'], $nofollow_policy, $nofollow_domains);
           }
