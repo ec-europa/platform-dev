@@ -596,7 +596,7 @@ function ecas_login_check() {
   }
 
   // Time to save the user.
-  $saved_account = ecas_save_user($account, $account_edit, $ecas_attributes, $ecas_name, $ecas_sync_user_info_args);
+  $saved_account = ecas_save_user($account, $account_edit, $ecas_attributes, $ecas_sync_user_info_args);
 
   if (empty($saved_account->status)) {
     _ecas_warning_goto(
