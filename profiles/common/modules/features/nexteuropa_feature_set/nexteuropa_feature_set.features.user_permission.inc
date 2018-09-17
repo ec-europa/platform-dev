@@ -210,15 +210,6 @@ function nexteuropa_feature_set_user_default_permissions() {
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'manage feature multisite_multilingual_references'.
-  $permissions['manage feature multisite_multilingual_references'] = array(
-    'name' => 'manage feature multisite_multilingual_references',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'multisite_drupal_features_set_standard',
-  );
-
   // Exported permission: 'manage feature multisite_notifications_core'.
   $permissions['manage feature multisite_notifications_core'] = array(
     'name' => 'manage feature multisite_notifications_core',

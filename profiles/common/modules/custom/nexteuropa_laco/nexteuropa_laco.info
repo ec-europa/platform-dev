@@ -2,6 +2,7 @@ name = NextEuropa LACO
 description = Integration with Webtools Language Coverage (LACO) service.
 core = 7.x
 package = NextEuropa
+configure = admin/config/regional/nexteuropa_laco
 
 dependencies[] = registry_autoload
 registry_autoload[] = PSR-4
