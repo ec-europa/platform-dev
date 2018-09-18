@@ -449,7 +449,7 @@
       });
 
       var fragment = CKEDITOR.htmlParser.fragment.fromHtml(content);
-      var writer = new CKEDITOR.htmlParser.basicWriter();
+      var writer = new CKEDITOR.htmlWriter();
       filter.applyTo(fragment);
       fragment.writeHtml(writer);
       return writer.getHtml();
