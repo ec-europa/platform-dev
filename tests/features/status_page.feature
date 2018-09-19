@@ -30,15 +30,12 @@ Scenario: Show git informations in report
     """
      2.1.39
     """
-  Given a file named ".timestamp" with:
-    """
-     1537352606
-    """
   When I visit "admin/reports/status"
   Then I should see "Platform Tag" in the "nept_element:system-status-report" element
   Then I should see "2.1.39" in the "nept_element:system-status-report" element
+  # Test the absence of the file file with the installtion date
   Then I should see "Installation time" in the "nept_element:system-status-report" element
-  Then I should see "Wednesday, 19 September, 2018 - 12:23" in the "nept_element:system-status-report" element
+  Then I should see "Information not available on the server." in the "nept_element:system-status-report" element
   # Test that the commit is shown and links to Github.
   Then I should see "Commit number" in the "nept_element:system-status-report" element
   When I click 'cacf5a1ae174810f50575478206055bd5668e058'
