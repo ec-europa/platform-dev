@@ -1,6 +1,6 @@
 diff --git a/scheduler_workbench.admin.inc b/scheduler_workbench.admin.inc
 new file mode 100755
-index 0000000..823cb82
+index 0000000..2b903b1
 --- /dev/null
 +++ b/scheduler_workbench.admin.inc
 @@ -0,0 +1,18 @@
@@ -17,17 +17,17 @@ index 0000000..823cb82
 +    '#type' => 'checkboxes',
 +    '#title' => t('Allowed Workbench Moderation status for scheduling publication'),
 +    '#options' => $options,
-+    '#default_value' => variable_get('scheduler_workbench_allowed_status', array()),
-+    '#description' => t('Choose status to allow revisions for scheduling publication. When Scheduler Workbench tries to publish a revision it will check if the current state is one of the selected from this list.'),
++    '#default_value' => _scheduler_workbench_allowed_status(),
++    '#description' => t('This is a list of status from Workbench Moderation. By default, the status enabled are those with a transition to the publish status, currently (@status). You can choose what status to allow revisions for scheduling publication. When Scheduler Workbench tries to publish a revision it will check if the current state is one of the selected from this list.', array('@status' => implode(',', _scheduler_workbench_allowed_status()))),
 +  );
 +  return system_settings_form($form);
 +}
 diff --git a/scheduler_workbench.install b/scheduler_workbench.install
 new file mode 100755
-index 0000000..b6d9167
+index 0000000..897fbc1
 --- /dev/null
 +++ b/scheduler_workbench.install
-@@ -0,0 +1,34 @@
+@@ -0,0 +1,28 @@
 +<?php
 +
 +/**
@@ -53,19 +53,13 @@ index 0000000..b6d9167
 + * Sets the allowed status that can be scheduled for publication.
 + */
 +function _scheduler_workbench_define_allowed_status() {
-+  $transitions = workbench_moderation_transitions();
-+  $status = array();
-+  foreach ($transitions as $key => $value) {
-+    if ($value->to_name == 'published') {
-+      $status[] = $value->from_name;
-+    }
-+  }
++  $status = _scheduler_workbench_allowed_status();
 +  variable_set('scheduler_workbench_allowed_status', $status);
 +}
 diff --git a/scheduler_workbench.module b/scheduler_workbench.module
 old mode 100644
 new mode 100755
-index 868435e..ad28c8e
+index 868435e..29d0f84
 --- a/scheduler_workbench.module
 +++ b/scheduler_workbench.module
 @@ -7,6 +7,22 @@
@@ -75,15 +69,15 @@ index 868435e..ad28c8e
 + * Implements hook_menu().
 + */
 +function scheduler_workbench_menu() {
-+  $items['admin/config/content/scheduler_workbench'] = array(
-+    'title' => 'Workbench Scheduler publication states',
++  $items['admin/config/content/scheduler/scheduler_workbench'] = array(
++    'title' => 'Workbench Scheduler status',
 +    'description' => 'Select the states that can be scheduled for publication',
 +    'page callback' => 'drupal_get_form',
 +    'page arguments' => array('scheduler_workbench_allowed_status_form'),
 +    'access arguments' => array('scheduler workbench'),
 +    'file' => 'scheduler_workbench.admin.inc',
-+    'weight' => 0,
-+    'type' => MENU_NORMAL_ITEM,
++    'weight' => 25,
++    'type' => MENU_LOCAL_TASK,
 +  );
 +  return $items;
 +}
@@ -103,11 +97,11 @@ index 868435e..ad28c8e
 +  $permissions['override default scheduler time'] = array(
 +    'title' => t('Override default scheduler time'),
 +    'description' => t('Allow users to override the default un-publish schedule time'),
-   );
++  );
 +  $permissions['scheduler workbench'] = array(
 +    'title' => t('Administer Scheduler Workbench'),
 +    'description' => t('Perform administration tasks for Scheduler Workbench.'),
-+  );
+   );
 +  return $permissions;
  }
 
@@ -119,7 +113,7 @@ index 868435e..ad28c8e
 -
 +  if (!empty($node->revision_publish_on) || !empty($node->publish_on) ) {
 +    // Check if the current status will be published.
-+    $allowed_status = variable_get('scheduler_workbench_allowed_status', array());
++    $allowed_status = _scheduler_workbench_allowed_status();
 +    if (!in_array($node->workbench_moderation_state_new, $allowed_status)) {
 +      $message = t('The current status @status is not allowed to be published, you will need to update the status.', array('@status' => $node->workbench_moderation_state_new));
 +      drupal_set_message($message, 'status', FALSE);
@@ -143,7 +137,7 @@ index 868435e..ad28c8e
  function _scheduler_workbench_scheduler_pre_publish(&$node) {
    if ($state = variable_get('scheduler_publish_moderation_state_' . $node->type, FALSE)) {
 +    // Get status allowed to be published.
-+    $allowed_status = variable_get('scheduler_workbench_allowed_status', array());
++    $allowed_status = _scheduler_workbench_allowed_status();
 +    foreach ($allowed_status as $key => $value) {
 +      // If the status is not enabled we remove it from allowed status.
 +      if (trim($value) != trim($key)) {
@@ -166,7 +160,7 @@ index 868435e..ad28c8e
  function scheduler_workbench_revision_publish($current, $state) {
    workbench_moderation_moderate($current, $state);
    $create_publishing_revision = variable_get('scheduler_publish_revision_' . $current->type, 0) == 1;
-+  $allowed_status = variable_get('scheduler_workbench_allowed_status', array());
++  $allowed_status = _scheduler_workbench_allowed_status();
 +  if (!in_array($current->workbench_moderation['my_revision']->state, $allowed_status)) {
 +    $options = array(
 +      "%node" => $current->nid,
@@ -178,12 +172,12 @@ index 868435e..ad28c8e
    if ($create_publishing_revision) {
      $current->revision = TRUE;
      $current->log = t('Saved by Scheduler workbench on @now.', array(
-@@ -348,6 +401,16 @@ function scheduler_workbench_scheduler_allow_publishing($node) {
-     // If this state is one that the current user can access, return TRUE.
+@@ -349,7 +402,35 @@ function scheduler_workbench_scheduler_allow_publishing($node) {
      if ($permitted_states = workbench_moderation_states_next($current_state, $draft_owner, $node)) {
        $allowed = isset($permitted_states[$published_state]);
-+    } // Get status allowed to be published.
-+    $allowed_status = variable_get('scheduler_workbench_allowed_status', array());
+     }
++    // Get status allowed to be published.
++    $allowed_status = _scheduler_workbench_allowed_status();
 +    // Check if the revision current status allows it to be published.
 +    if (!in_array($node->workbench_moderation['my_revision']->state, $allowed_status)) {
 +      $options = array(
@@ -192,6 +186,25 @@ index 868435e..ad28c8e
 +      );
 +      watchdog("scheduler_workbench", t("Node %node with status %status, can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
 +      $allowed = FALSE;
-     }
++    }
    }
 
+   return $allowed;
+ }
++
++/**
++ * Return status allowed to be scheduled for transition.
++ */
++function _scheduler_workbench_allowed_status() {
++  $allowed_status = variable_get('scheduler_workbench_allowed_status', array());
++  if (count($allowed_status) == 0) {
++    $transitions = workbench_moderation_transitions();
++    $status = array();
++    foreach ($transitions as $key => $value) {
++      if ($value->to_name == 'published') {
++        $allowed_status[] = $value->from_name;
++      }
++    }
++  }
++  return $allowed_status;
++}

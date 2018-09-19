@@ -47,7 +47,7 @@ Feature: Scheduler features
     Then I should see the text "Revision state: Expired"
 
   Scenario: User can schedule a date to publish a content
-    When I go to "admin/config/content/scheduler_workbench"
+    When I go to "admin/config/content/scheduler/scheduler_workbench"
     And I check the box "Validated"
     And I press "Save configuration"
     Then I should see the text "The configuration options have been saved."
@@ -71,7 +71,7 @@ Feature: Scheduler features
     Then I should see the text "Revision state: Published"
 
 Scenario: User can create a new revision and schedule its publication
-    When I go to "admin/config/content/scheduler_workbench"
+    When I go to "admin/config/content/scheduler/scheduler_workbench"
     And I check the box "Validated"
     And I press "Save configuration"
     Then I should see the text "The configuration options have been saved."
