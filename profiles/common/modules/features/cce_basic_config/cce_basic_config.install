@@ -18,40 +18,57 @@ module_load_include('inc', 'cce_basic_config', 'cce_basic_config.install');
  */
 function cce_basic_config_requirements($phase) {
   $t = get_t();
+
+  if ($phase != 'runtime') {
+    return array();
+  }
+
   $requirements = array();
+  $default_message = $t('Information not available on the server.');
+
+  // Platform version number; tag.
+  $version = $default_message;
+  $version_severity = REQUIREMENT_WARNING;
   if (file_exists(DRUPAL_ROOT . '/.version')) {
-    if ($version = file_get_contents(DRUPAL_ROOT . '/.version')) {
-      $t = get_t();
-      $requirements['install_tag'] = array(
-        'title' => $t('Platform Tag'),
-        'value' => $version,
-        'severity' => REQUIREMENT_INFO,
-        'weight' => -7,
-      );
-    }
+    $version = file_get_contents(DRUPAL_ROOT . '/.version');
+    $version_severity = REQUIREMENT_INFO;
   }
+  $requirements['install_tag'] = array(
+    'title' => $t('Platform Tag'),
+    'value' => $version,
+    'severity' => $version_severity,
+    'weight' => -7,
+  );
+
+  // Platform release related commit.
+  $commit_link = $default_message;
+  $commit_severity = REQUIREMENT_WARNING;
   if (file_exists(DRUPAL_ROOT . '/.commit')) {
-    if ($commit = file_get_contents(DRUPAL_ROOT . '/.commit')) {
-      $t = get_t();
-      $requirements['commit_nr'] = array(
-        'title' => $t('Commit number'),
-        'value' => l($commit, 'https://github.com/ec-europa/platform-dev/commit/' . $commit),
-        'severity' => REQUIREMENT_INFO,
-        'weight' => -6,
-      );
-    }
+    $commit = file_get_contents(DRUPAL_ROOT . '/.commit');
+    $commit_link = l($commit, 'https://github.com/ec-europa/platform-dev/commit/' . $commit);
+    $commit_severity = REQUIREMENT_INFO;
   }
+  $requirements['commit_nr'] = array(
+    'title' => $t('Commit number'),
+    'value' => $commit_link,
+    'severity' => $commit_severity,
+    'weight' => -6,
+  );
+
+  // Platform installation time.
+  $timestamp = $default_message;
+  $timestamp_severity = REQUIREMENT_WARNING;
   if (file_exists(DRUPAL_ROOT . '/.timestamp')) {
-    if ($timestamp = file_get_contents(DRUPAL_ROOT . '/.timestamp')) {
-      $t = get_t();
-      $requirements['install_stamp'] = array(
-        'title' => $t('Installation time'),
-        'value' => format_date($timestamp, 'long'),
-        'severity' => REQUIREMENT_INFO,
-        'weight' => -5,
-      );
-    }
+    $timestamp = file_get_contents(DRUPAL_ROOT . '/.timestamp');
+    $timestamp = format_date($timestamp, 'long');
+    $timestamp_severity = REQUIREMENT_INFO;
   }
+  $requirements['install_stamp'] = array(
+    'title' => $t('Installation time'),
+    'value' => $timestamp,
+    'severity' => $timestamp_severity,
+    'weight' => -5,
+  );
 
   return $requirements;
 }
