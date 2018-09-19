@@ -2097,3 +2097,12 @@ function cce_basic_config_update_7226() {
 
   features_revert($components_to_revert);
 }
+
+/**
+ * Force the activation of honeypot.
+ */
+function cce_basic_config_update_7227() {
+  if (!module_exists('honeypot')) {
+    module_enable(array('honeypot'));
+  }
+}
