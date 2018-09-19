@@ -22,14 +22,24 @@ Scenario: Show git informations in report
   I need to be able to see the git branch and latest commit message
 
   Given I am logged in as an administrator
-  Given a file named "continuousphp.package" with:
+  Given a file named ".commit" with:
     """
-      {"build_id":"1439fb37-6ba2-44f1-9a04-0db661589364","ref":"refs\/tags\/2.1.39","commit":"a6e6719f52250422dbe8e80e39494199d97754c0"}
+      cacf5a1ae174810f50575478206055bd5668e058
+    """
+  Given a file named ".version" with:
+    """
+     2.1.39
+    """
+  Given a file named ".timestamp" with:
+    """
+     1537352606
     """
   When I visit "admin/reports/status"
-  Then I should see "Git ref" in the "nept_element:system-status-report" element
-  Then I should see "refs/tags/2.1.39" in the "nept_element:system-status-report" element
+  Then I should see "Platform Tag" in the "nept_element:system-status-report" element
+  Then I should see "2.1.39" in the "nept_element:system-status-report" element
+  Then I should see "Installation time" in the "nept_element:system-status-report" element
+  Then I should see "Wednesday, 19 September, 2018 - 12:23" in the "nept_element:system-status-report" element
   # Test that the commit is shown and links to Github.
-  And I should see "Git commit" in the "nept_element:system-status-report" element
-  When I click 'a6e6719f52250422dbe8e80e39494199d97754c0'
-  Then I should see the text "NEXTEUROPA-6056"
+  Then I should see "Commit number" in the "nept_element:system-status-report" element
+  When I click 'cacf5a1ae174810f50575478206055bd5668e058'
+  Then I should see the text "NEPT-1615"
