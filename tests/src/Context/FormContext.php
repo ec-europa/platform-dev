@@ -4,6 +4,7 @@ namespace Drupal\nexteuropa\Context;
 
 use Behat\Mink\Exception\ElementNotFoundException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Exception;
 
 /**
  * Form context.
@@ -150,6 +151,22 @@ EOS;
    */
   protected function fixStepArgument($argument) {
     return str_replace('\\"', '"', $argument);
+  }
+
+  /**
+   * Check for field value.
+   *
+   * @Then The field :arg1 should containt :arg2
+   */
+  public function theFieldShouldContaint($arg1, $arg2) {
+    $arg1 = $this->fixStepArgument($arg1);
+    $arg2 = $this->fixStepArgument($arg2);
+    $page = $this->getSession()->getPage();
+    $field = $page->findField($arg1);
+    $actual = $field->getValue();
+    if ($actual !== $arg2) {
+      throw new Exception(sprintf('The value %s is different from %s.', $actual, $arg2));
+    }
   }
 
 }
