@@ -393,7 +393,7 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
 function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $args) {
   $user_cas_groups = array();
   if (!empty($user_info['cas:groups']) && !empty($user_info['cas:groups']['cas:group'])) {
-    $user_cas_groups = $user_info['cas:groups']['cas:group'];
+    $user_cas_groups = (array) $user_info['cas:groups']['cas:group'];
   }
 
   $cem_role = user_role_load_by_name(CCE_BASIC_CONFIG_CEM_ROLE_NAME);

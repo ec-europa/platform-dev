@@ -509,10 +509,10 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I fill in "Label" with "Testing translation metadata including special chars like &"
-    And inside fieldset "Contact usernames" I fill in "Author" with "Janssen & Janssen auteur"
-    And inside fieldset "Contact usernames" I fill in "Secretaire" with "Janssen & Janssen secretary"
-    And inside fieldset "Contact usernames" I fill in "Contact" with "Janssen & Janssen contact"
-    And inside fieldset "Contact usernames" I fill in "Responsible" with "Janssen & Janssen responsible"
+    And inside fieldset "Contact usernames" I fill in "Author" with "AUTEUR"
+    And inside fieldset "Contact usernames" I fill in "Secretaire" with "SECRETARY"
+    And inside fieldset "Contact usernames" I fill in "Contact" with "CONTACT"
+    And inside fieldset "Contact usernames" I fill in "Responsible" with "RESPONSIBLE"
     And inside fieldset "Organization" I fill in "Responsable" with "& DG/directorate/unit who is responsible"
     And inside fieldset "Organization" I fill in "Author" with "& DG/directorate/unit from which the document comes"
     And inside fieldset "Organization" I fill in "Requester" with "& DG/directorate/unit of the person submitting the request"
@@ -524,11 +524,11 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: my-website - Testing translation metadata including special chars like &"
     And the translation request has the following contacts:
-      | type        | nickname                      |
-      | auteur      | Janssen & Janssen auteur      |
-      | secretaire  | Janssen & Janssen secretary   |
-      | contact     | Janssen & Janssen contact     |
-      | responsable | Janssen & Janssen responsible |
+      | type        | nickname    |
+      | auteur      | auteur      |
+      | secretaire  | secretary   |
+      | contact     | contact     |
+      | responsable | responsible |
     And the translation request has organisationResponsable "& DG/directorate/unit who is responsible"
     And the translation request has organisationAuteur "& DG/directorate/unit from which the document comes"
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"

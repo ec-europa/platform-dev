@@ -8,5 +8,4 @@ dependencies[] = media_internet
 dependencies[] = wysiwyg
 dependencies[] = media
 dependencies[] = media_wysiwyg
-dependencies[] = media_wysiwyg_view_mode
 features[features_api][] = api:2

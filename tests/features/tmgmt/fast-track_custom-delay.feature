@@ -48,7 +48,7 @@ Feature: Fast track
       number: 40012
       version: 0
       part: 0
-      product: REV
+      product: EDT
     status:
       -
         type: request
@@ -150,10 +150,19 @@ Feature: Fast track
     When I select "Needs Review" from "state"
     And I press "Apply"
     Then I should see "Revision state: Needs Review"
+    And Poetry service received request should contain the following text:
+      | <produit>EDT</produit>                                        |
+      | <titre>Test page</titre>                                      |
+      | <organisationResponsable>DIGIT</organisationResponsable>      |
+      | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
+      | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
+      | <applicationReference>FPFIS</applicationReference>            |
+      | <delai>01/12/2017</delai>                                     |
     When I select "Validated" from "state"
     And I press "Apply"
     Then I should see "Revision state: Validated"
     And Poetry service received request should contain the following text:
+      | <produit>TRA</produit>                                        |
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
       | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
