@@ -95,18 +95,6 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function loggedIn() {
-    $session = $this->getSession();
-    $session->visit($this->locatePath('/'));
-
-    // Check if the 'logged-in' class is present on the page.
-    $element = $session->getPage();
-    return $element->find('css', 'body.logged-in');
-  }
-
-  /**
    * Visit a node page given its type and title.
    *
    * @param string $type
@@ -129,6 +117,30 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     $path = url($path, ['base_url' => '', 'absolute' => TRUE]);
     // Visit newly created node page.
     $this->visitPath($path);
+  }
+
+  /**
+   * Check a radio button selected by its id.
+   *
+   * @param string $id
+   *   The id of the element.
+   *
+   * @see \Drupal\DrupalExtension\Context\MinkContext::assertSelectRadioById
+   *
+   * @When I select the radio button with the id :id
+   */
+  public function assertSelectRadioById($id) {
+    $element = $this->getSession()->getPage();
+    $radiobutton = $element->findById($id);
+    if ($radiobutton === NULL) {
+      throw new \Exception(sprintf(
+        'The radio button with "%s" was not found on the page %s',
+        $id,
+        $this->getSession()->getCurrentUrl()
+      ));
+    }
+    $value = $radiobutton->getAttribute('value');
+    $radiobutton->selectOption($value, FALSE);
   }
 
   /**
@@ -341,6 +353,35 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       throw new \Exception(sprintf('No element "%s" with the attribute "%s" set to "%s" was not found on the page %s', $tag, $attribute, $value, $this->getSession()->getCurrentUrl()));
     }
     return $found_elements;
+  }
+
+  /**
+   * Creates content of the given type and a moderation state.
+   *
+   * @param string $type
+   *   The created content type.
+   * @param string $state
+   *   The moderation state of the created content.
+   * @param \Behat\Gherkin\Node\TableNode $fields
+   *   The values set for the content fields.
+   *   The table contains 2 column: one for the field name and one
+   *   for the field value.
+   *
+   * @Given I am viewing a/an :type( content) with :state moderation state:
+   */
+  public function assertViewingNodeWithModerationState($type, $state, TableNode $fields) {
+    $node = (object) array(
+      'type' => $type,
+      'workbench_moderation_state_new' => $state,
+    );
+    foreach ($fields->getRowsHash() as $field => $value) {
+      $node->{$field} = $value;
+    }
+
+    $saved = $this->nodeCreate($node);
+
+    // Set internal browser on the node.
+    $this->getSession()->visit($this->locatePath('/node/' . $saved->nid));
   }
 
 }

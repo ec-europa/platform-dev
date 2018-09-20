@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.57"
+projects[drupal][version] = "7.59"
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -65,3 +65,17 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-revision-
 ; http://drupal.org/node/601776
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-548
 projects[drupal][patch][] = https://www.drupal.org/files/601776-contact-core-134.patch
+
+; URL alias load is inconsistent if there are more then one alias
+; https://www.drupal.org/project/drupal/issues/1160764
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1993
+projects[drupal][patch][] = https://www.drupal.org/files/issues/1160764-34-path_load_order.patch
+
+; Image alternative text loses text preceding colon upon leaving plain-text editor or upon saving node
+; https://www.drupal.org/project/drupal/issues/2859006
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2001
+projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-no_protocol_filter-2105841-111-D7.patch
+
+; Set the session's cookie lifetime to 0 so that cookies are deleted when the browser is closed.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-900
+projects[drupal][patch][] = patches/set-session-cookie-lifetime-0.patch

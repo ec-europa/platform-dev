@@ -57,6 +57,7 @@ function cce_basic_config_install() {
   // Create contributor editor roles.
   multisite_config_service('user')->createRole('contributor', 3);
   multisite_config_service('user')->createRole('editor', 4);
+  multisite_config_service('user')->createRole(CCE_BASIC_CONFIG_CEM_ROLE_NAME, 5);
 
   // Body field base creation.
   _cce_basic_config_body_field_base_add();
@@ -398,7 +399,8 @@ function cce_basic_config_install() {
       ->fields(array('captcha_type' => NULL, 'form_id' => 'user_pass'))
       ->execute();
   }
-
+  // Configure text formats.
+  _cce_basic_config_text_formats();
   // Create WYSIWYG profile for Full HTML text format.
   multisite_config_service('wysiwyg')->createProfile('full_html', 'ckeditor');
 
@@ -453,6 +455,32 @@ function cce_basic_config_install() {
   }
 
   multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.4.8.ccd0038');
+
+  // Create WYSIWYG profile for Filtered  HTML text format.
+  multisite_config_service('wysiwyg')->createProfile('filtered_html', 'ckeditor');
+
+  $plugin_settings = array(
+    'default' => array(
+      'Bold',
+      'Italic',
+      'Underline',
+      'BulletedList',
+      'NumberedList',
+      'Undo',
+      'Link',
+      'Unlink',
+      'Anchor',
+      'TextColor',
+      'BGColor',
+      'Blockquote',
+      'Font',
+      'FontSize',
+      'Maximize',
+    ),
+  );
+  foreach ($plugin_settings as $group => $buttons) {
+    multisite_config_service('wysiwyg')->addButtonsToProfile('filtered_html', $group, $buttons);
+  }
 
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
   // in a regular feature since it includes the path to where the Print PDF

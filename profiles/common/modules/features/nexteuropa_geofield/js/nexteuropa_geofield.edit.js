@@ -70,14 +70,16 @@
       if (settings.nexteuropa_geojson.map) {
         loadedMap = jQuery.parseJSON(settings.nexteuropa_geojson.map);
         drawnItems = L.geoJson(loadedMap).addTo(map);
-        // Popups are not pre-populated.
-        if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
-          for (key in drawnItems._layers) {
+        for (key in drawnItems._layers) {
+          if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
             // Create forms elements to manage popups content.
             layer_properties = drawnItems._layers[key].feature.properties;
             createLabel(key, layer_properties.name, layer_properties.description);
-            objects_count++;
           }
+          objects_count++;
+        }
+        // Popups are not pre-populated.
+        if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
           updateGeoJsonField();
           updatePopups();
         }
@@ -296,6 +298,15 @@
           if (geojson_map.features[i].geometry.type == 'Point') {
             for (id in geojson_map.features[i].geometry.coordinates) {
               geojson_map.features[i].geometry.coordinates[id] = parseFloat(geojson_map.features[i].geometry.coordinates[id].toFixed(4));
+            }
+          }
+          else if (geojson_map.features[i].geometry.type == 'LineString') {
+            for (id in geojson_map.features[i].geometry.coordinates) {
+              if (typeof geojson_map.features[i].geometry.coordinates[0][id] == 'undefined') {
+                continue;
+              }
+              geojson_map.features[i].geometry.coordinates[0][id][0] = parseFloat(geojson_map.features[i].geometry.coordinates[id][0].toFixed(4));
+              geojson_map.features[i].geometry.coordinates[0][id][1] = parseFloat(geojson_map.features[i].geometry.coordinates[id][1].toFixed(4));
             }
           }
           else {

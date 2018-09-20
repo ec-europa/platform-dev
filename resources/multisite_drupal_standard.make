@@ -72,7 +72,7 @@ projects[apachesolr_multisitesearch][subdir] = "contrib"
 projects[apachesolr_multisitesearch][version] = "1.1"
 
 projects[autologout][subdir] = "contrib"
-projects[autologout][version] = "4.4"
+projects[autologout][version] = "4.5"
 ; Issue #2739114 : Change warning message to be more user friendly
 ; https://www.drupal.org/node/2739114
 projects[autologout][patch][] = https://www.drupal.org/files/issues/change-warning-message-2739114-15.patch
@@ -157,7 +157,7 @@ projects[context_entity_field][version] = "1.1"
 projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entity-references.patch
 
 projects[context_og][subdir] = "contrib"
-projects[context_og][version] = "2.1" 
+projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][download][branch] = 7.x-1.x
@@ -192,7 +192,7 @@ projects[diff][download][revision] = b1b09189d52380a008c9cb29b879e3aa140ec2e0
 projects[diff][download][type] = git
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.14"
+projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -211,25 +211,15 @@ projects[entity][version] = "1.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1025
 projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
-projects[entity_translation][download][branch] = 7.x-1.x
-projects[entity_translation][download][revision] = edd540b2e1180db45ad1cea14843daa19e13878a
-projects[entity_translation][download][type] = git
 projects[entity_translation][subdir] = "contrib"
+projects[entity_translation][version] = "1.0"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-63.patch
-; Update to entity_translation beta6
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-539
-; https://www.drupal.org/node/2859223
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-strict_warning_only_variables_should_be_passed_by_reference-2859223-2.patch
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
 ; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
 ; https://www.drupal.org/node/2741407
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
-; https://www.drupal.org/node/2743685
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-pathauto_update-2743685-2_0.patch
-; https://www.drupal.org/node/2877074
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -252,6 +242,13 @@ projects[extlink][version] = "1.18"
 
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
+; facetapi_map_assoc() does not check if index exists.
+; Note: This patch is to be remoaved with the future version 7.x-1.6.
+; Indeed, the patch has already been pushed with the #2373023 d.o. issue.
+; https://www.drupal.org/project/facetapi/issues/2768779 
+; and https://www.drupal.org/node/2373023
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2042
+projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-2768779-facetapi_map_assoc-undefined-index.patch
 
 projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
@@ -283,6 +280,21 @@ projects[feeds][version] = "2.0-beta3"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
+; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
+; So far, the module does not have any official release. 
+; The following declaration is based on the one recommended by the 
+; nexteuropa_newsroom team to sub-sites; including the patch 
+; "feeds_et_link_support-2078069-3.patch".
+projects[feeds_et][subdir] = "contrib"
+projects[feeds_et][download][type] = git
+projects[feeds_et][download][revision] = bf0d6d00b1a80a630d4266b04c254f2335177346
+projects[feeds_et][download][branch] = 7.x-1.x
+; Add support for link fields, patch required for the nexteuropa_newsroom module; 
+; see module README file.
+; https://www.drupal.org/node/2078069
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2018
+projects[feeds_et][patch][] = "https://www.drupal.org/files/issues/feeds_et_link_support-2078069-3.patch"
+
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.2"
 
@@ -296,10 +308,7 @@ projects[field_group][version] = "1.5"
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.4"
-; https://www.drupal.org/node/2893132
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-672
-projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
+projects[file_entity][version] = "2.21"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.11"
@@ -310,6 +319,10 @@ projects[filefield_sources_plupload][version] = "1.1"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7572
 ; https://www.drupal.org/node/2705523
 projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/issues/filefield_sources_plupload-metadata_persistance-2705523.patch
+; Fix ajax file updload
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1844
+; https://www.drupal.org/project/filefield_sources_plupload/issues/2466505
+projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/issues/filefield-sources-plupload-ajax-wrapper-2466505-1.patch
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
@@ -387,10 +400,10 @@ projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
 projects[jplayer][subdir] = "contrib"
-projects[jplayer][version] = "2.0-beta1"
-
-projects[jqmulti][subdir] = "contrib"
-projects[jqmulti][version] = "1.0"
+projects[jplayer][version] = "2.0"
+; https://www.drupal.org/project/jplayer/issues/2977834
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1657
+projects[jplayer][patch][] = https://www.drupal.org/files/issues/2018-06-06/2977834-2.patch
 
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.7"
@@ -430,7 +443,7 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.16
+projects[media][version] = 2.19
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
@@ -529,9 +542,9 @@ projects[nagios][subdir] = "contrib"
 ; https://www.drupal.org/node/2854854
 projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-support-2854854-5.patch
 
-projects[nexteuropa_newsroom][download][type] = get
-projects[nexteuropa_newsroom][download][file_type] = "zip"
-projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference/archive/master.zip
+projects[nexteuropa_newsroom][download][type] = git
+projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
+projects[nexteuropa_newsroom][download][tag] = v3.5.2
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
@@ -590,6 +603,7 @@ projects[plupload][subdir] = "contrib"
 projects[plupload][download][branch] = 7.x-1.x
 projects[plupload][download][revision] = bba974c6f3224346a1acae4181a700b55129e6e1
 projects[plupload][download][type] = git
+projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/files_not_uploaded_in_subdir-2974466.patch
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
@@ -606,18 +620,40 @@ projects[rate][patch][] = patches/rate-translate_description-1178.patch
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.3"
 
+projects[redirect][subdir] = "contrib"
+; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
+projects[redirect][download][branch] = 7.x-1.x
+projects[redirect][download][revision] = add3c695f613fbeec23b7259e59936f60a6b6da6
+; Increase size of source field to hold long URLs
+; https://www.drupal.org/project/redirect/issues/2057615
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1943
+projects[redirect][patch][] = https://www.drupal.org/files/issues/2018-06-24/redirect-increase-size-fields-to-900-2057615-35.patch
+; Prevent new redirects from being deleted on cron runs.
+; https://www.drupal.org/node/1396446
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
+projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05-09/redirect-purge-from-created-1396446-54.patch
+; Prevent duplicate hashes causing database exceptions
+; https://www.drupal.org/node/2260499
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1946
+; The creation of a specific patch based on
+; https://www.drupal.org/files/issues/redirect-duplicate_redirect_save_handling-2260499-11.patch
+; is necessary because it is in conflict with the 2 other "Redirect" patches and rerolling the D.o issue
+; is not possible as the 2 others are not committed in the DEV branch.
+projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch
+
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
 
 projects[registry_autoload][subdir] = "contrib"
 projects[registry_autoload][version] = 1.3
+; class_implements(): Class Drupal\integration\Backend\Entity\
+; BackendEntityController does not exist and could not be loaded entity.module:1480
+; https://www.drupal.org/node/2870868
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1950
+projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issues/autoload_bootstrap_dependency_issues-2870868-2.patch
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.10"
-; #2851567 rules_init() and cache rebuilding are broken
-; https://www.drupal.org/project/rules/issues/2851567
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1325
-projects[rules][patch][2851567] = https://www.drupal.org/files/issues/rules_init_and_cache-2851567-8.patch
+projects[rules][version] = "2.11"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
@@ -626,7 +662,7 @@ projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
 
 projects[select_or_other][subdir] = "contrib"
-projects[select_or_other][version] = 2.22
+projects[select_or_other][version] = 2.24
 
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
@@ -672,6 +708,13 @@ projects[term_reference_tree][patch][1514794] = https://www.drupal.org/files/i18
 ; https://www.drupal.org/project/term_reference_tree/issues/1277268
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2000
 projects[term_reference_tree][patch][] = https://www.drupal.org/files/issues/slider_layout_broken_in_ie8-1277268-25.patch
+; PHP Fatal Error Call to undefined method i18n_object_wrapper::
+; strings_update().
+; It fixes a bug reproducible on sub-sites like BRP but not on fresh install
+; of the platform.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1987
+; https://www.drupal.org/node/2082573
+projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-06-24/i18n-fatal-error-undefined-strings_update-2082573-54.patch
 
 projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 8119fa2
@@ -688,11 +731,19 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_transl
 ; https://www.drupal.org/node/2812863
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-60
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
+; #2362321 : Check source length limits
+; https://www.drupal.org/node/2362321
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1802
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-12/check_source_length-d7-2362321-37.patch
+; #2955245 : i18nviews strings are not shown on sources view
+; https://www.drupal.org/node/2955245
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
 ; #1058912: Prevent recursive tokens
-; https://www.drupal.org/node/1058912          
+; https://www.drupal.org/node/1058912
 projects[token][patch][] = https://www.drupal.org/files/token-1058912-88-limit-token-depth.patch
 
 projects[token_filter][subdir] = "contrib"
@@ -793,15 +844,15 @@ projects[workbench_access][subdir] = "contrib"
 projects[workbench_access][version] = "1.4"
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.6"
+projects[workbench_email][version] = "3.12"
 ; Issue #2501321: Add email subject and message to Features.
-; https://www.drupal.org/node/2501321
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
-projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
-; Issue only reproducible on NextEuropa platform
 ; https://www.drupal.org/node/2590385
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
-projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/2018-07-13/workbench_email-feature_revert_lock-3.patch
+; Issue #2985968: Notice: Undefined index: config_container in workbench_email_form_submit().
+; https://www.drupal.org/project/workbench_email/issues/2985968
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1996
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/2018-07-16/php_notice_undefined_index-config_container-1.patch
 
 projects[drafty][subdir] = "contrib"
 projects[drafty][version] = "1.0-rc1"
@@ -818,14 +869,28 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; Issue #2825391 Fix current state for transition rules
 ; https://www.drupal.org/node/2825391
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
-projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/workbench_moderation_fix_rules_current_state-2825391-42.patch
+projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch
 
-projects[workbench_og][subdir] = "contrib"
-projects[workbench_og][version] = "2.0-beta1"
+; Workbench_og does not have a stable version that allows applying the 2
+; patches needed to fix the issues NEPT-296 AND NEPT-1866.
+; To unblock the situation, the module maintainer has accepted to include
+; the patch for NEPT-296 through the commit used below.
+; Except the fix, this commit does not add anything to the module version
+; previously used by the platform (7.x-2.0-beta1).
+; NEPT-296 covers:
 ; Content not accessible after being published - node_access not updated
 ; Issue https://www.drupal.org/node/2835937
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-296
-projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
+projects[workbench_og][subdir] = "contrib"
+projects[workbench_og][type] = module
+projects[workbench_og][download][type] = git
+projects[workbench_og][download][revision] = 511caed35326ec7f328e794dc4be21eb33c5ae86
+projects[workbench_og][download][branch] = 7.x-2.x
+; Check access for users to view content that was created by them and don't
+; belong to an organic group.
+; Issue https://www.drupal.org/project/workbench_og/issues/2006134
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
+projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][version] = "2.4"
@@ -837,7 +902,7 @@ projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.3"
+projects[xmlsitemap][version] = "2.4"
 ; Using rel="alternate" rather than multiple sitemaps by language context
 ; https://www.drupal.org/node/1670086
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
@@ -1037,15 +1102,15 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.6
+projects[ec_resp][download][tag] = 2.3.9
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.7
+projects[atomium][version] = 2.11
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.10
+projects[ec_europa][download][tag] = 0.0.14
 
 ; ==============
 ; Custom modules
@@ -1055,4 +1120,4 @@ projects[nexteuropa_poetry][subdir] = "contrib"
 projects[nexteuropa_poetry][type] = module
 projects[nexteuropa_poetry][download][type] = git
 projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
-projects[nexteuropa_poetry][download][branch] = master
+projects[nexteuropa_poetry][download][tag] = 0.1.0
