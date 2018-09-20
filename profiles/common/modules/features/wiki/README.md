@@ -20,7 +20,7 @@ Wiki uses 3 modules to work. Wiki_core is not designed to work alone, but with o
 There are 2 ways to activate the feature:
 1. Like any Drupal modules via the "Modules" admin page or with the Drush command.
 2. Like a "Feature set" through the Feature set admin page (path: admin/structure/feature-set_en).<br />
-Then, Enable the "wiki" feature and click on the "Validate" button.
+Then, Enable the "wiki" feature under "Communication" section, and click on the "Validate" button.
 
 [Go to top](#table-of-content)
 
@@ -31,7 +31,7 @@ Then, Enable the "wiki" feature and click on the "Validate" button.
 Wiki feature adds a "Wikis" link in the main menu with the Wikis list.
 
 ### Create a Wiki page
-Every authenticated user can propose a wiki page. Wiki page is then published after a authorized user has approved it.
+Every authenticated user can propose a wiki page. Wiki page is then published after an authorized user has approved it.
 Create a wiki:
 1. Log in.
 2. Select "wiki" among the "Create content" options
