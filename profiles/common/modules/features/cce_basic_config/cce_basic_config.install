@@ -2099,10 +2099,12 @@ function cce_basic_config_update_7226() {
 }
 
 /**
- * Force the activation of honeypot.
+ * Force the activation of honeypot and force it in all forms.
  */
 function cce_basic_config_update_7227() {
   if (!module_exists('honeypot')) {
     module_enable(array('honeypot'));
   }
+  // Configuration for the settings of honeypot module.
+  variable_set('honeypot_protect_all_forms', 1);
 }
