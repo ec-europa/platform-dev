@@ -789,6 +789,9 @@ function multisite_drupal_toolbox_filter_xss_bad_protocol($string) {
   $allowed_protocols = array(
     'http' => 1,
     'https' => 1,
+    'mailto' => 1,
+    'tel' => 1,
+    'webcal' => 1,
   );
 
   // Iteratively remove any invalid protocol found.
