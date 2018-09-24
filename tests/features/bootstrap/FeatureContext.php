@@ -331,7 +331,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
           $this->saveScreenshot($fileName, $this->screenshotsPath);
           print "Screenshot for '{$stepText}' placed in " . $this->screenshotsPath . DIRECTORY_SEPARATOR . $fileName . "\n";
         }
-	    }
+      }
     }
   }
 
