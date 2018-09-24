@@ -330,7 +330,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         $fileName = preg_replace('#[^a-zA-Z0-9\._-]#', '', $stepText) . '.png';
         if (is_writable($this->screenshotsPath)) {
           $this->saveScreenshot($fileName, $this->screenshotsPath);
-          print "Screenshot for '{$stepText}' placed in " . $this->screenshotsPath . DIRECTORY_SEPARATOR . $fileName . "\n";
+          print "Screenshot for '{$stepText}' saved as " . $fileName . "\n";
         }
       }
     }
