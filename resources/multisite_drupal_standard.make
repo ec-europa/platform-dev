@@ -235,7 +235,21 @@ projects[entityreference_prepopulate][version] = "1.5"
 projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.14"
+projects[eu_cookie_compliance][version] = "1.25"
+; After updating the module, a warning message appears about undefined
+; withdraw_message, consent_storage_method and disabled_javascripts indexes.
+; https://www.drupal.org/project/eu_cookie_compliance/issues/2985520
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
+projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-31/undefined_indexes_warning_after_update-2985520-5.patch
+; Popup doesn't close after clicking Decline button.
+; https://www.drupal.org/project/eu_cookie_compliance/issues/2985509
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
+projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-13/eu_cookie_compliance-close_popup-2985509-1.patch
+; Key to json hash cannot be "class" as it is a reserved word, use of "let"
+; is not supported by all browsers as is ECMAScript.
+; https://www.drupal.org/project/eu_cookie_compliance/issues/2986882
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
+projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-26/eu_cookie_compliance-javascript-errors-2986882-3.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
@@ -252,9 +266,6 @@ projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-27687
 
 projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
-
-projects[fblikebutton][subdir] = "contrib"
-projects[fblikebutton][version] = "2.6"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.10"
@@ -372,13 +383,18 @@ projects[hidden_captcha][subdir] = "contrib"
 projects[hidden_captcha][version] = "1.0"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.18"
+projects[i18n][version] = "1.24"
 ; Language field display should default to hidden.
 ; https://www.drupal.org/node/1350638
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
+; Call "18n_taxonomy_translate_terms" on a non-translated taxonomy term 
+; triggers a "PHP Fatal error: Call to a member function get_translations() on boolean"
+; https://www.drupal.org/project/i18n/issues/2984895
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2006
+projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-07-10/i18n_taxonomy-i18n_taxonomy_translate_terms_get_translations-2984895-1.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
@@ -515,15 +531,12 @@ projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.22"
 
-; A recent version of the Migrate module is pinned that contains a fix for
-; https://www.drupal.org/node/2504517
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
-; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
-projects[migrate][download][branch] = 7.x-2.x
-projects[migrate][download][revision] = bdb5a86116295df7c35fbb39bdd4397f743498c1
-projects[migrate][download][type] = git
 projects[migrate][subdir] = contrib
-projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909252-1.patch
+projects[migrate][version] = "2.11"
+; Migration::applyMappings() problem with handle multifield subfields.
+; https://www.drupal.org/project/migrate/issues/2588341
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2000
+projects[migrate][patch][2588341] = https://www.drupal.org/files/issues/2018-06-25/2588341-9.patch
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0"
@@ -597,6 +610,7 @@ projects[plupload][subdir] = "contrib"
 projects[plupload][download][branch] = 7.x-1.x
 projects[plupload][download][revision] = bba974c6f3224346a1acae4181a700b55129e6e1
 projects[plupload][download][type] = git
+projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/files_not_uploaded_in_subdir-2974466.patch
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
@@ -1103,7 +1117,7 @@ projects[atomium][version] = 2.11
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.13
+projects[ec_europa][download][tag] = 0.0.14
 
 ; ==============
 ; Custom modules

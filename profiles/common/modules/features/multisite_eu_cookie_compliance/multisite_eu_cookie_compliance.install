@@ -5,6 +5,8 @@
  * Install the feature multisite_eu_cookie_compliance.
  */
 
+include_once 'multisite_eu_cookie_compliance.install.inc';
+
 /**
  * Implements hook_install().
  */
@@ -14,39 +16,34 @@ function multisite_eu_cookie_compliance_install() {
 }
 
 /**
+ * Implements hook_uninstall().
+ */
+function multisite_eu_cookie_compliance_uninstall() {
+  drupal_uninstall_modules(array('eu_cookie_compliance'));
+}
+
+/**
  * Implements hook_enable().
  *
  * Revert feature component.
  */
 function multisite_eu_cookie_compliance_enable() {
-  // For some unknown reason, we need to manually trigger the rebuild of the
-  // variables in features.
-  // @todo Investigate.
-  $popup_settings = array(
-    'popup_enabled' => 1,
-    'popup_clicking_confirmation' => 0,
-    'popup_position' => 0,
-    'popup_info' => array(
-      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
-      'format' => "full_html",
-    ),
-    'popup_agreed_enabled' => 0,
-    'popup_hide_agreed' => 0,
-    'popup_agreed' => array(
-      'value' => '<h2 class="ecl-heading ecl-heading--h2">Thank you for accepting cookies</h2><p>You can now hide this message or find out more about cookies.</p>',
-      'format' => 'full_html',
-    ),
-    'popup_link' => 'http://ec.europa.eu/cookies/index_en.htm',
-    'popup_height' => '60',
-    'popup_width' => '100%',
-    'popup_delay' => '1',
-    'popup_bg_hex' => '0779BF',
-    'popup_text_hex' => 'ffffff',
-  );
+  $popup_settings = _multisite_eu_cookie_compliance_get_eu_cookie_compliance_default_settings();
+  variable_set('eu_cookie_compliance', $popup_settings);
 
-  global $language;
-  $lang = ($language->language) ? $language->language : 'en';
-  variable_set('eu_cookie_compliance_' . $lang, $popup_settings);
+  variable_set('eu_cookie_compliance_cookie_lifetime', 100);
+
+  variable_set('eu_cookie_compliance_domain', '');
+
+  // Enable the variable translation via i18n variable, if enabled.
+  // Code derived from eu_cookie_compliance_update_7001().
+  if (module_exists('i18n_variable')) {
+    $controller = variable_realm_controller('language');
+    $old_variables = $controller->getEnabledVariables();
+    $old_list = variable_children($old_variables);
+    $variables = array_merge($old_list, array('eu_cookie_compliance'));
+    $controller->setRealmVariable('list', $variables);
+  }
 
   // Activation message.
   drupal_set_message(t('EU Cookie Compliance feature is now active on your site.'));
@@ -56,5 +53,34 @@ function multisite_eu_cookie_compliance_enable() {
  * Implements hook_disable().
  */
 function multisite_eu_cookie_compliance_disable() {
+  module_disable(array('eu_cookie_compliance'));
   drupal_set_message(t('EU Cookie Compliance feature is now disabled on your site.'));
+}
+
+/**
+ * NEPT-2026: Update module settings based on the new implementation.
+ */
+function multisite_eu_cookie_compliance_update_7001() {
+  // Remove the settings related to unused languages.
+  // This part is not covered by the eu_cookie_compliance update hooks.
+  $languages = language_list('enabled');
+  $enabled_languages_variable_names = array();
+  foreach ($languages as $language) {
+    $enabled_languages_variable_names[] = 'eu_cookie_compliance_' . $language->language;
+  }
+  $enabled_languages_variable_names += array('eu_cookie_compliance_domain', 'eu_cookie_compliance_cookie_lifetime');
+
+  $variable_to_delete = db_select('variable', 'v')
+    ->condition('name', $enabled_languages_variable_names, 'NOT IN')
+    ->condition('name', '%eu_cookie_compliance_%', 'LIKE')
+    ->fields(v, array('name'))
+    ->execute()
+    ->fetchCol();
+  // If no name is retrieved, that means there is no useless variable
+  // definition, and we can stop the process now.
+  if (!$variable_to_delete) {
+    return;
+  }
+
+  db_delete('variable')->condition('name', $variable_to_delete, 'IN')->execute();
 }
