@@ -9,6 +9,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\AfterStepScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
@@ -324,7 +325,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   public function takeScreenshotAfterFailedStep($event) {
     if ($event->getTestResult()->getResultCode() === TestResult::FAILED) {
       $driver = $this->getSession()->getDriver();
-      if ($driver instanceof \Behat\Mink\Driver\Selenium2Driver) {
+      if ($driver instanceof Selenium2Driver) {
         $stepText = $event->getStep()->getText();
         $fileName = preg_replace('#[^a-zA-Z0-9\._-]#', '', $stepText) . '.png';
         if (is_writable($this->screenshotsPath)) {
