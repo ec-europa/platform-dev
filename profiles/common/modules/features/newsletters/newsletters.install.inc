@@ -12,18 +12,7 @@ function _newsletters_install_soft_config_simplenews() {
   // Use soft config for newsletters comment form location.
   multisite_config_service('comment')->setThreadingCommentForContentType('simplenews', 1);
 
-  // Create the content type.
-  // Data taken of the content type from newletters.features.inc.
   $t = get_t();
-  $simplenews = array(
-    'type' => 'simplenews',
-    'name' => $t('Simplenews newsletter'),
-    'base' => 'node_content',
-    'description' => $t('A newsletter issue to be sent to subscribed email addresses.'),
-  );
-  $node_type = node_type_set_defaults($simplenews);
-  node_add_body_field($node_type, $t('Body'));
-  node_type_save($node_type);
   // Create new fields.
   // Data taken from newsletters.features.field_base.inc.
   $fields = array(
