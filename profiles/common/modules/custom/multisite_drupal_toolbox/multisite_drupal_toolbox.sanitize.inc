@@ -772,11 +772,7 @@ function multisite_drupal_toolbox_filter_xss_style_attribute($style_value, array
  *     function
  *   - Output is not filtered using check_plain, this should be done by the
  *     calling function after this function has been called.
- *   - This function limits protocols to:
- *       - http
- *       - https
- *       - mailto
- *       - tel
+ *   - This function limits protocols to: http, https, mailto or tel.
  *
  * @param string $string
  *   The string to filter the bad protocols.
@@ -800,7 +796,7 @@ function multisite_drupal_toolbox_filter_xss_bad_protocol($string) {
     if ($colonpos > 0) {
       // We found a colon, possibly a protocol.
       $protocol = drupal_substr($string, 0, $colonpos);
-      
+
       // If the potential protocol contains a slash, question mark or hash, it
       // cannot be part of the URL scheme.
       if (preg_match('![/?#]!', $protocol)) {
