@@ -383,5 +383,31 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     // Set internal browser on the node.
     $this->getSession()->visit($this->locatePath('/node/' . $saved->nid));
   }
-
+  /**
+   * Creates a node with a fixed nid.
+   *
+   * @Given Node :title of type :type with nid :nid
+   * @param string $title
+   *   The title of the new node.
+   * @param string $type
+   *   The content type of the new node.
+   * @param string $nid
+   *   The nid of the new node.
+   */
+  public function nodeOfTypeWithNid($title, $type, $nid) {
+    if (node_load($nid)) {
+      throw new \Exception(sprintf("A node with nid %s already exists.", $nid));
+    }
+    $node = new \stdClass();
+    $node->nid = $nid;
+    $node->title = $title;
+    $node->type= $type;
+    $node->status = 1;
+    $node->is_new = true;
+    $node = node_submit($node);
+    node_save($node);
+    if ($node->nid != $nid) {
+     throw new \Exception(sprintf('Node was not created.'));
+    }
+  }
 }

@@ -34,3 +34,18 @@ Feature: Testing wrong token association for Next Europa token module
     And I click "Edit draft"
     And I press "Delete"
     And I press "Delete"
+
+  @javascript
+  Scenario: Checking WYSIWYG tokens substitution
+    Given Node "This is a page i want to reference" of type "page" with nid "150"
+    When I go to "node/add/page"
+    And I fill in "Title" with "Node with tokens"
+    And I fill in the rich text editor "Body" with "[node:150:url][node:150:link]"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    Then I visit the "page" content with title "Node with tokens"
+    Then I should see "content/page-i-want-reference_en"
+    And I should see the link "This is a page i want to reference"
+    Then I click "This is a page i want to reference"
+    And I should see the heading "This is a page i want to reference"
