@@ -44,9 +44,6 @@ pipeline:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
       - ./bin/phing install-platform -D'platform.profile.name'=${PLATFORM_PROFILE=multisite_drupal_standard} -D'platform.site.theme_default'=${THEME_DEFAULT=ec_europa} -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub'
-    when:
-      matrix:
-        CODE_COMPLIANCE: 0
 
   phpcs:
     group: check
