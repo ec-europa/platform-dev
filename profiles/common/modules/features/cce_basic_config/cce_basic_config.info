@@ -156,7 +156,6 @@ features[variable][] = media__wysiwyg_browser_plugins
 features[variable][] = media__wysiwyg_upload_directory
 features[variable][] = menu_options_article
 features[variable][] = menu_parent_article
-features[variable][] = multisite_version
 features[variable][] = node_admin_theme
 features[variable][] = node_options_article
 features[variable][] = node_preview_article
