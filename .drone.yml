@@ -44,6 +44,9 @@ pipeline:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
       - ./bin/phing install-platform -D'platform.profile.name'=${PLATFORM_PROFILE=multisite_drupal_standard} -D'platform.site.theme_default'=${THEME_DEFAULT=ec_europa} -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub'
+    when:
+      matrix:
+        CODE_COMPLIANCE: 0
 
   phpcs:
     group: check
@@ -79,199 +82,239 @@ matrix:
       BEHAT_PROFILE: default
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 0
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 1
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 2
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 3
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 4
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 0
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 1
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 2
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 3
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 4
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: communities_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 0
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: communities_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 1
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: communities_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 2
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: communities_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 3
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: communities_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 4
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: communities
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 0
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: communities
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 1
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: communities
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 2
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: communities
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 3
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: communities
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 4
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
       IMAGE_PHP:
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 0
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 1
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 2
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 3
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 4
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 0
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 1
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 2
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 3
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 4
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: communities_ec_resp
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 0
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: communities_ec_resp
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 1
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: communities_ec_resp
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 2
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: communities_ec_resp
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 3
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: communities_ec_resp
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 4
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: communities
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 0
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: communities
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 1
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: communities
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 2
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: communities
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 3
+      CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: communities
       IMAGE_PHP: fpfis/php71-dev
       BEHAT_PART: 4
+      CODE_COMPLIANCE: 0
