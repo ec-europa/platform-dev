@@ -50,25 +50,31 @@ pipeline:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
       - ./bin/phpcs
-
-  behat:
-    group: behat
-    image: ${IMAGE_PHP=fpfis/php56-dev}
-    commands:
-      - ./bin/behat -c tests/behat.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default}
+    where:
+      ${CODE_COMPLIANCE=0}:
+        - 1
 
   phpunit:
     group: test
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
       - ./bin/phpunit -c tests/phpunit.xml
+    where:
+      ${CODE_COMPLIANCE=0}:
+        - 1
 
+  behat:
+    group: behat
+    image: ${IMAGE_PHP=fpfis/php56-dev}
+    commands:
+      - ./bin/behat -c tests/behat.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default}
 matrix:
   include:
-    - PLATFORM_PROFILE: multisite_drupal_standard
+    -
+      CODE_COMPLIANCE: 1
+      PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
-      IMAGE_PHP:
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
