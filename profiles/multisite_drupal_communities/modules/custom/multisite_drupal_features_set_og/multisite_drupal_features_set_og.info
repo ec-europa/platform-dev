@@ -271,16 +271,6 @@ feature_sets[multisite_mediagallery_community][font] = 'multisite-icon-pictures'
 feature_sets[multisite_mediagallery_community][enable][] = multisite_mediagallery_community
 feature_sets[multisite_mediagallery_community][disable][] = multisite_mediagallery_community
 
-; Multilingualism
-feature_sets[multisite_multilingual_references][title] = 'Multisite Multilingual reference'
-feature_sets[multisite_multilingual_references][description] = 'Replaces link to node with link to translation in the user\'s language, or allows the user to choose from the available translations.'
-feature_sets[multisite_multilingual_references][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/uYbhAg'
-feature_sets[multisite_multilingual_references][category] = 'Multilingualism'
-feature_sets[multisite_multilingual_references][icon] = ''
-feature_sets[multisite_multilingual_references][font] = 'multisite-icon-new-tab'
-feature_sets[multisite_multilingual_references][enable][] = multisite_multilingual_references
-feature_sets[multisite_multilingual_references][disable][] = multisite_multilingual_references
-
 feature_sets[multilingual_tools][title] = 'Multilingual tools'
 feature_sets[multilingual_tools][description] = 'Provide tools to enhance the translation tasks.'
 feature_sets[multilingual_tools][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/WobhAg'
