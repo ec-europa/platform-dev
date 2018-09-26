@@ -173,3 +173,28 @@ Feature: TMGMT Poetry Client features
     And I press "Save as completed"
     Then I should see "None" in the "Spanish" row
     And I should see "My page 1 ES" in the "Spanish" row
+
+  Scenario: When we configure the Small Jobs translator contacts with uppercase and it's changed to lowercase
+    Given I am logged in as a user with the "administrator" role
+    And The module is enabled
+      | modules                  |
+      | tmgmt_dgt_connector |
+    When I am on "admin/config/regional/tmgmt_translator/manage/tmgmt_dgt_connector_en"
+    And I fill in "Counter" with "UPPERCASE"
+    And I fill in "Requester code" with "UPPERCASE"
+    And I fill in "Callback User" with "UPPERCASE"
+    And I fill in "Callback Password" with "UPPERCASE"
+    And I fill in "Poetry User" with "UPPERCASE"
+    And I fill in "Poetry Password" with "UPPERCASE"
+    And I fill in "edit-settings-contacts-auteur" with "UPPERCASE"
+    And I fill in "edit-settings-contacts-secretaire" with "UPPERCASE"
+    And I fill in "edit-settings-contacts-contact" with "UPPERCASE"
+    And I fill in "edit-settings-contacts-responsable" with "UPPERCASE"
+    And I press "Save translator"
+    Then I should see the success message "The configuration options have been saved."
+    And I am on "admin/config/regional/tmgmt_translator/manage/tmgmt_dgt_connector_en"
+    Then The field "edit-settings-contacts-auteur" should containt "uppercase"
+    And The field "edit-settings-contacts-secretaire" should containt "uppercase"
+    And The field "edit-settings-contacts-contact" should containt "uppercase"
+    And The field "edit-settings-contacts-responsable" should containt "uppercase"
+

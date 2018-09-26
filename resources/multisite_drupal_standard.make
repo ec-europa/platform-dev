@@ -211,25 +211,15 @@ projects[entity][version] = "1.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1025
 projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
-projects[entity_translation][download][branch] = 7.x-1.x
-projects[entity_translation][download][revision] = edd540b2e1180db45ad1cea14843daa19e13878a
-projects[entity_translation][download][type] = git
 projects[entity_translation][subdir] = "contrib"
+projects[entity_translation][version] = "1.0"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-63.patch
-; Update to entity_translation beta6
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-539
-; https://www.drupal.org/node/2859223
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-strict_warning_only_variables_should_be_passed_by_reference-2859223-2.patch
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
 ; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
 ; https://www.drupal.org/node/2741407
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
-; https://www.drupal.org/node/2743685
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-pathauto_update-2743685-2_0.patch
-; https://www.drupal.org/node/2877074
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -252,6 +242,13 @@ projects[extlink][version] = "1.18"
 
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
+; facetapi_map_assoc() does not check if index exists.
+; Note: This patch is to be remoaved with the future version 7.x-1.6.
+; Indeed, the patch has already been pushed with the #2373023 d.o. issue.
+; https://www.drupal.org/project/facetapi/issues/2768779 
+; and https://www.drupal.org/node/2373023
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2042
+projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-2768779-facetapi_map_assoc-undefined-index.patch
 
 projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
@@ -600,6 +597,7 @@ projects[plupload][subdir] = "contrib"
 projects[plupload][download][branch] = 7.x-1.x
 projects[plupload][download][revision] = bba974c6f3224346a1acae4181a700b55129e6e1
 projects[plupload][download][type] = git
+projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/files_not_uploaded_in_subdir-2974466.patch
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
@@ -625,7 +623,7 @@ projects[redirect][download][revision] = add3c695f613fbeec23b7259e59936f60a6b6da
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1943
 projects[redirect][patch][] = https://www.drupal.org/files/issues/2018-06-24/redirect-increase-size-fields-to-900-2057615-35.patch
 ; Prevent new redirects from being deleted on cron runs.
-; https://www.drupal.org/node/1396446 
+; https://www.drupal.org/node/1396446
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
 projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05-09/redirect-purge-from-created-1396446-54.patch
 ; Prevent duplicate hashes causing database exceptions
@@ -633,9 +631,9 @@ projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1946
 ; The creation of a specific patch based on
 ; https://www.drupal.org/files/issues/redirect-duplicate_redirect_save_handling-2260499-11.patch
-; is necessary because it is in conflict with the 2 other "Redirect" patches and rerolling the D.o issue 
+; is necessary because it is in conflict with the 2 other "Redirect" patches and rerolling the D.o issue
 ; is not possible as the 2 others are not committed in the DEV branch.
-projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch 
+projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
@@ -840,15 +838,15 @@ projects[workbench_access][subdir] = "contrib"
 projects[workbench_access][version] = "1.4"
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.6"
+projects[workbench_email][version] = "3.12"
 ; Issue #2501321: Add email subject and message to Features.
-; https://www.drupal.org/node/2501321
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
-projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
-; Issue only reproducible on NextEuropa platform
 ; https://www.drupal.org/node/2590385
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
-projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/2018-07-13/workbench_email-feature_revert_lock-3.patch
+; Issue #2985968: Notice: Undefined index: config_container in workbench_email_form_submit().
+; https://www.drupal.org/project/workbench_email/issues/2985968
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1996
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/2018-07-16/php_notice_undefined_index-config_container-1.patch
 
 projects[drafty][subdir] = "contrib"
 projects[drafty][version] = "1.0-rc1"
@@ -1106,7 +1104,7 @@ projects[atomium][version] = 2.11
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.13
+projects[ec_europa][download][tag] = 0.0.14
 
 ; ==============
 ; Custom modules
