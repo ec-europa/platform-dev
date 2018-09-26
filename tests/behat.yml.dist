@@ -1,4 +1,6 @@
 default:
+  autoload:
+    - {{ platform.build.dir }}/features/bootstrap/
   suites:
     default:
       contexts:
