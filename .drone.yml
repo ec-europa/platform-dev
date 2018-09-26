@@ -50,18 +50,18 @@ pipeline:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
       - ./bin/phpcs
-    where:
-      ${CODE_COMPLIANCE=0}:
-        - 1
+    when:
+      matrix:
+        CODE_COMPLIANCE: 1
 
   phpunit:
     group: test
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
       - ./bin/phpunit -c tests/phpunit.xml
-    where:
-      ${CODE_COMPLIANCE=0}:
-        - 1
+    when:
+      matrix:
+        CODE_COMPLIANCE: 1
 
   behat:
     group: behat
