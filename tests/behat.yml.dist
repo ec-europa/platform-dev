@@ -41,7 +41,7 @@ default:
         - Drupal\nexteuropa\Context\DrushContext:
             drush_bin: '{{ drush.bin }}'
             db_dump_location: '{{ drush.db.dump }}'
-        - EC\Behat\PoetryExtension\Context\PoetryContext
+        - EC\Behat\PoetryExtension\Context\PoetryContext:
             service:
               host: 'localhost'
               port: '28080'
