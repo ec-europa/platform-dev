@@ -67,7 +67,7 @@ default:
       service:
         host: 'localhost'
         port: '28080'
-        endpoint: 'wsdl'
+        endpoint: 'http://localhost:28080/wsdl'
       application:
         base_url: '{{ behat.base_url }}'
         endpoint: '/poetry/notification'
