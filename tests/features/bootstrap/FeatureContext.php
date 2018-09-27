@@ -568,25 +568,24 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @Then I wait :sec seconds
    */
   public function wait($sec) {
-      sleep($sec);
+    sleep($sec);
   }
 
   /**
-   * Click on the element with the provided xpath query
+   * Click on the element with the provided xpath query.
    *
    * @When /^I click on the element with xpath "([^"]*)"$/
    */
-  public function iClickOnTheElementWithXPath($xpath)
-  {
-      $session = $this->getSession(); // get the mink session
-      $element = $session->getPage()->find(
-          'xpath',
-          $session->getSelectorsHandler()->selectorToXpath('xpath', $xpath)
-      );
-      if (NULL === $element) {
-          throw new \InvalidArgumentException(sprintf('Could not evaluate XPath: "%s"', $xpath));
-      }
-      $element->click();
+  public function iClickOnTheElementWithxPath($xpath) {
+    $session = $this->getSession();
+    $element = $session->getPage()->find(
+      'xpath',
+      $session->getSelectorsHandler()->selectorToXpath('xpath', $xpath)
+    );
+    if (NULL === $element) {
+      throw new \InvalidArgumentException(sprintf('Could not evaluate XPath: "%s"', $xpath));
+    }
+    $element->click();
   }
 
   /**
