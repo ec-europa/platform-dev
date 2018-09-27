@@ -76,37 +76,37 @@ pipeline:
         CODE_COMPLIANCE: 0
 matrix:
   include:
-    - CODE_COMPLIANCE: 1
-    - PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_europa
-      BEHAT_PROFILE: default
-      IMAGE_PHP: fpfis/php56-dev
-      BEHAT_PART: 0
-      CODE_COMPLIANCE: 0
+    # - CODE_COMPLIANCE: 1
+    # - PLATFORM_PROFILE: multisite_drupal_standard
+    #   THEME_DEFAULT: ec_europa
+    #   BEHAT_PROFILE: default
+    #   IMAGE_PHP: fpfis/php56-dev
+    #   BEHAT_PART: 0
+    #   CODE_COMPLIANCE: 0
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 1
       CODE_COMPLIANCE: 0
-    - PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_europa
-      BEHAT_PROFILE: default
-      IMAGE_PHP: fpfis/php56-dev
-      BEHAT_PART: 2
-      CODE_COMPLIANCE: 0
-    - PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_europa
-      BEHAT_PROFILE: default
-      IMAGE_PHP: fpfis/php56-dev
-      BEHAT_PART: 3
-      CODE_COMPLIANCE: 0
-    - PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_europa
-      BEHAT_PROFILE: default
-      IMAGE_PHP: fpfis/php56-dev
-      BEHAT_PART: 4
-      CODE_COMPLIANCE: 0
+    # - PLATFORM_PROFILE: multisite_drupal_standard
+    #   THEME_DEFAULT: ec_europa
+    #   BEHAT_PROFILE: default
+    #   IMAGE_PHP: fpfis/php56-dev
+    #   BEHAT_PART: 2
+    #   CODE_COMPLIANCE: 0
+    # - PLATFORM_PROFILE: multisite_drupal_standard
+    #   THEME_DEFAULT: ec_europa
+    #   BEHAT_PROFILE: default
+    #   IMAGE_PHP: fpfis/php56-dev
+    #   BEHAT_PART: 3
+    #   CODE_COMPLIANCE: 0
+    # - PLATFORM_PROFILE: multisite_drupal_standard
+    #   THEME_DEFAULT: ec_europa
+    #   BEHAT_PROFILE: default
+    #   IMAGE_PHP: fpfis/php56-dev
+    #   BEHAT_PART: 4
+    #   CODE_COMPLIANCE: 0
     # - PLATFORM_PROFILE: multisite_drupal_standard
     #   THEME_DEFAULT: ec_resp
     #   BEHAT_PROFILE: standard_ec_resp
