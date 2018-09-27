@@ -67,7 +67,7 @@ pipeline:
     group: behat
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
-      - ./bin/behat -c tests/behat.yml -p standard_ec_resp
+      - ./bin/behat -c tests/behat.yml -p standard_ec_resp --tags poetry
     when:
       matrix:
         CODE_COMPLIANCE: 0
