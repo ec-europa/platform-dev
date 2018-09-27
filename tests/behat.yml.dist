@@ -65,9 +65,9 @@ default:
   extensions:
     EC\Behat\PoetryExtension:
       service:
-        host: 'localhost'
+        host: 'web'
         port: '28080'
-        endpoint: 'http://localhost:28080/wsdl'
+        endpoint: 'http://web:28080/wsdl'
       application:
         base_url: '{{ behat.base_url }}'
         endpoint: '/poetry/notification'
