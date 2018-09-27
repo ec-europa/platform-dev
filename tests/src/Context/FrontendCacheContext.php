@@ -80,7 +80,7 @@ class FrontendCacheContext implements Context {
    */
   protected function getServer() {
     if (!$this->server) {
-      $this->server = new Server($this->mockServerPort, 'localhost');
+      $this->server = new Server($this->mockServerPort, 'web');
 
       $this->server->start();
 
