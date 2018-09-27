@@ -7,9 +7,6 @@ services:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     environment:
       - DOCUMENT_ROOT=/test/platform-dev
-    ports:
-      - 8080:8080
-      - 28080:28080
   mysql:
     image: percona/percona-server:5.6
     environment:
@@ -70,7 +67,7 @@ pipeline:
     group: behat
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
-      - ./bin/behat -c tests/balancer/behat.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default}
+      - ./bin/behat -c tests/behat.yml -p standard_ec_resp
     when:
       matrix:
         CODE_COMPLIANCE: 0
