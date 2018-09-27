@@ -64,9 +64,6 @@ default:
         tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip"
   extensions:
     EC\Behat\PoetryExtension:
-      service:
-        host: 'web'
-        port: '28080'
       application:
         base_url: '{{ behat.base_url }}'
         endpoint: '/poetry/notification'
