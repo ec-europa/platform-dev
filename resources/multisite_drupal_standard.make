@@ -292,15 +292,15 @@ projects[feeds][version] = "2.0-beta3"
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
-; So far, the module does not have any official release. 
-; The following declaration is based on the one recommended by the 
-; nexteuropa_newsroom team to sub-sites; including the patch 
+; So far, the module does not have any official release.
+; The following declaration is based on the one recommended by the
+; nexteuropa_newsroom team to sub-sites; including the patch
 ; "feeds_et_link_support-2078069-3.patch".
 projects[feeds_et][subdir] = "contrib"
 projects[feeds_et][download][type] = git
 projects[feeds_et][download][revision] = bf0d6d00b1a80a630d4266b04c254f2335177346
 projects[feeds_et][download][branch] = 7.x-1.x
-; Add support for link fields, patch required for the nexteuropa_newsroom module; 
+; Add support for link fields, patch required for the nexteuropa_newsroom module;
 ; see module README file.
 ; https://www.drupal.org/node/2078069
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2018
@@ -442,7 +442,15 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.3"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.4"
+projects[link][version] = "1.5"
+; Issue #2975586: Title field assumed when it may not exist
+; https://www.drupal.org/node/2974486
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2008
+projects[link][patch][] = https://www.drupal.org/files/issues/2018-05-24/2974486-Title-field-assumed-when-it-may-not-exist.patch
+; Static link text cannot be translated
+; https://www.drupal.org/project/link/issues/949604
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2008
+projects[link][patch][] = https://www.drupal.org/files/issues/2018-08-30/link-949604-63-fixed.patch
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.3"
