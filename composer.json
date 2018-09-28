@@ -53,5 +53,8 @@
   "config": {
     "bin-dir": "bin/",
     "process-timeout": 1200
+  },
+  "require-dev": {
+    "ec-europa/oe-poetry-behat": "~0.3"
   }
 }
