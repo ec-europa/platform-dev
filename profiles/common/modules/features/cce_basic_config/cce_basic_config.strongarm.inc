@@ -358,15 +358,6 @@ example.org';
 
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
-  $strongarm->name = 'multisite_version';
-  $strongarm->value = '2.3';
-  $export['multisite_version'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
   $strongarm->name = 'node_admin_theme';
   $strongarm->value = '0';
   $export['node_admin_theme'] = $strongarm;

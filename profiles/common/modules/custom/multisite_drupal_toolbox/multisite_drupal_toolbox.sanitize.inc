@@ -765,45 +765,44 @@ function multisite_drupal_toolbox_filter_xss_style_attribute($style_value, array
 }
 
 /**
- * Processes an style property value.
- *
- * Also ensures it does not contain an URL with a disallowed protocol (only
- * http/https are allowed here).
+ * Filters bad protocols from a given string.
  *
  * This function is based on Drupal's filter_xss_bad_protocol(). Differences:
- * 1) It does not decode input string.
- *    It should be done by the caller before calling us.
- * 2) It does not apply check_plain() to result.
- *    It should be done by the caller after calling us.
- * 3) It allows a lot less protocols.
+ *   - It does not decode input string, this should be done by the calling
+ *     function
+ *   - Output is not filtered using check_plain, this should be done by the
+ *     calling function after this function has been called.
+ *   - This function limits protocols to: http, https, mailto or tel.
  *
  * @param string $string
- *   The string with the style property value.
+ *   The string to filter the bad protocols.
  *
  * @return string
  *   Cleaned up version of $string.
  *
- * @see wysiwyg_filter_xss_bad_protocol()
+ * @see filter_xss_bad_protocol()
  */
 function multisite_drupal_toolbox_filter_xss_bad_protocol($string) {
   $allowed_protocols = array(
     'http' => 1,
     'https' => 1,
+    'mailto' => 1,
+    'tel' => 1,
   );
 
-  // Iteratively remove any invalid protocol found.
   do {
     $before = $string;
     $colonpos = strpos($string, ':');
     if ($colonpos > 0) {
-      // We found a colon, possibly a protocol. Verify.
+      // We found a colon, possibly a protocol.
       $protocol = drupal_substr($string, 0, $colonpos);
-      // If a colon is preceded by a slash, question mark or hash, it cannot
-      // possibly be part of the URL scheme. This must be a relative URL,
-      // which inherits the (safe) protocol of the base document.
+
+      // If the potential protocol contains a slash, question mark or hash, it
+      // cannot be part of the URL scheme.
       if (preg_match('![/?#]!', $protocol)) {
         break;
       }
+
       // Per RFC2616, section 3.2.3 (URI Comparison) scheme comparison must
       // be case-insensitive Check if this is a disallowed protocol.
       if (!isset($allowed_protocols[drupal_strtolower($protocol)])) {
@@ -811,5 +810,6 @@ function multisite_drupal_toolbox_filter_xss_bad_protocol($string) {
       }
     }
   } while ($before != $string);
+
   return $string;
 }
