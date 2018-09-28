@@ -18,3 +18,22 @@ function nexteuropa_feature_set_install() {
   multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $permissions);
 
 }
+
+/**
+ * NEPT-1985: Delete "multisite_multilingual_references" related permission.
+ */
+function nexteuropa_feature_set_update_7001() {
+  $affected_roles = user_roles(TRUE, 'manage feature multisite_multilingual_references');
+  foreach ($affected_roles as $rid => $user_role) {
+    // Anonymous and authenticated user roles can be their name translated,
+    // see user_roles().
+    // They must be treated separately.
+    if (($rid === DRUPAL_ANONYMOUS_RID) || ($rid === DRUPAL_AUTHENTICATED_RID)) {
+      continue;
+    }
+    multisite_config_service('user')->revokePermission($user_role, 'manage feature multisite_multilingual_references');
+  }
+
+  multisite_config_service('user')->revokePermission('anonymous user', 'manage feature multisite_multilingual_references');
+  multisite_config_service('user')->revokePermission('authenticated user', 'manage feature multisite_multilingual_references');
+}

@@ -445,7 +445,15 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.3"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.4"
+projects[link][version] = "1.5"
+; Issue #2975586: Title field assumed when it may not exist
+; https://www.drupal.org/node/2974486
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2008
+projects[link][patch][] = https://www.drupal.org/files/issues/2018-05-24/2974486-Title-field-assumed-when-it-may-not-exist.patch
+; Static link text cannot be translated
+; https://www.drupal.org/project/link/issues/949604
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2008
+projects[link][patch][] = https://www.drupal.org/files/issues/2018-08-30/link-949604-63-fixed.patch
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.3"
@@ -613,6 +621,7 @@ projects[plupload][subdir] = "contrib"
 projects[plupload][download][branch] = 7.x-1.x
 projects[plupload][download][revision] = bba974c6f3224346a1acae4181a700b55129e6e1
 projects[plupload][download][type] = git
+projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/files_not_uploaded_in_subdir-2974466.patch
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
@@ -793,17 +802,18 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.18
-
+projects[views][version] = 3.20
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
 projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_empty_not_empty_filter_error-1818176-37.patch
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
-; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
-; https://www.drupal.org/node/2908538
-projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
+; Reset of Exposed Published Status filter with "Remember last selection" results in:
+; Undefined index: status in views_handler_filter->store_exposed_input()
+; https://www.drupal.org/project/views/issues/2961962
+; The patch of this issue fixes the PHP error: https://www.drupal.org/project/views/issues/2900405
+projects[views][patch][] = https://www.drupal.org/files/issues/views-check-exposed-identifier.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
