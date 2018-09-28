@@ -2127,19 +2127,19 @@ function cce_basic_config_update_7226() {
 }
 
 /**
- * Force the activation of honeypot and force it in all forms.
+ * Remove the multisite_version variable NEPT-2065.
  */
 function cce_basic_config_update_7227() {
+  variable_del('multisite_version');
+}
+
+/**
+ * Force the activation of honeypot and force it in all forms.
+ */
+function cce_basic_config_update_7228() {
   if (!module_exists('honeypot')) {
     module_enable(array('honeypot'));
   }
   // Configuration for the settings of honeypot module.
   variable_set('honeypot_protect_all_forms', 1);
-}
-
-/**
- * Remove the multisite_version variable NEPT-2065.
- */
-function cce_basic_config_update_7227() {
-  variable_del('multisite_version');
 }
