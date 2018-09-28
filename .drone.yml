@@ -7,9 +7,6 @@ services:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     environment:
       - DOCUMENT_ROOT=/test/platform-dev
-    ports:
-      - 8080:8080
-      - 28080:28080
   mysql:
     image: percona/percona-server:5.6
     environment:
