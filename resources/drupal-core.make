@@ -80,7 +80,7 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-no_protoc
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-900
 projects[drupal][patch][] = patches/set-session-cookie-lifetime-0.patch
 
-; Allow urls with ( and ) https://www.drupal.org/files/issues/filter-urlfilter-i18n-1657886-39.patch.
+; Filter "Convert URLs into links" doesn't support multilingual web addresses.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1995
 ; See https://www.drupal.org/project/drupal/issues/1657886.
 projects[drupal][patch][] = https://www.drupal.org/files/issues/2018-09-28/filter-urlfilter-i18n-1657886-40.patch
