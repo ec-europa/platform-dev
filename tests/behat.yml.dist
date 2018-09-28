@@ -64,6 +64,8 @@ default:
         tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip"
   extensions:
     EC\Behat\PoetryExtension:
+      service:
+        host: 'web'
       application:
         base_url: '{{ behat.base_url }}'
         endpoint: '/poetry/notification'
