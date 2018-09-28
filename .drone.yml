@@ -35,15 +35,16 @@ pipeline:
     commands:
       - composer install
 
+  # Missing from Jenkins: -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET' -D'integration.server.port'='$HTTP_MOCK_PORT' -D'varnish.server.port'='$HTTP_MOCK_PORT'
   build-platform:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
-      - ./bin/phing build-platform-dev -D'platform.profile.name'=${PLATFORM_PROFILE=multisite_drupal_standard} -D'composer.bin'='/usr/local/bin/composer' -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub'
+      - ./bin/phing build-platform-dev -D'composer.bin'='/usr/local/bin/composer' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub' -D'behat.browser.name='phantomjs' -D'platform.profile.name'=${PLATFORM_PROFILE=multisite_drupal_standard} -D'platform.site.theme_default'='$THEME_DEFAULT'
 
   install-platform:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
-      - ./bin/phing install-platform -D'platform.profile.name'=${PLATFORM_PROFILE=multisite_drupal_standard} -D'platform.site.theme_default'=${THEME_DEFAULT=ec_europa} -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub'
+      - ./bin/phing install-platform -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'platform.profile.name'=${PLATFORM_PROFILE=multisite_drupal_standard} -D'platform.site.theme_default'=${THEME_DEFAULT=ec_europa}
 
   phpcs:
     group: check
