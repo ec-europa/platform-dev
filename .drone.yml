@@ -71,7 +71,7 @@ pipeline:
     group: behat
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
-      - ./bin/behat -c build/balancer/behat.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
+      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
     when:
       matrix:
         CODE_COMPLIANCE: 0
