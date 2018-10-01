@@ -306,7 +306,10 @@ projects[field_group][version] = "1.6"
 ; https://www.drupal.org/node/2604284
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
+; After update from 1.5 to 1.6 empty field groups (because of field permissions) 
+; are now being displayed as empty groups
 ; https://www.drupal.org/node/2926605
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2016
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group-remove-array_parents-2494385-11.patch
 
 
