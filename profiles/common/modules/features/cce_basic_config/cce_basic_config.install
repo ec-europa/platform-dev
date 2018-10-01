@@ -561,6 +561,9 @@ function cce_basic_config_enable() {
 
   // My Account.
   variable_set('user_logout_data_image', 'log-out');
+
+  // Configuration for the settings of honeypot module.
+  variable_set('honeypot_protect_all_forms', 1);
 }
 
 /**
@@ -2128,4 +2131,15 @@ function cce_basic_config_update_7226() {
  */
 function cce_basic_config_update_7227() {
   variable_del('multisite_version');
+}
+
+/**
+ * Force the activation of honeypot and force it in all forms.
+ */
+function cce_basic_config_update_7228() {
+  if (!module_exists('honeypot')) {
+    module_enable(array('honeypot'));
+  }
+  // Configuration for the settings of honeypot module.
+  variable_set('honeypot_protect_all_forms', 1);
 }

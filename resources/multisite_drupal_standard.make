@@ -259,7 +259,7 @@ projects[facetapi][version] = "1.5"
 ; facetapi_map_assoc() does not check if index exists.
 ; Note: This patch is to be remoaved with the future version 7.x-1.6.
 ; Indeed, the patch has already been pushed with the #2373023 d.o. issue.
-; https://www.drupal.org/project/facetapi/issues/2768779 
+; https://www.drupal.org/project/facetapi/issues/2768779
 ; and https://www.drupal.org/node/2373023
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2042
 projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-2768779-facetapi_map_assoc-undefined-index.patch
@@ -382,6 +382,9 @@ projects[geophp][subdir] = "contrib"
 projects[hidden_captcha][subdir] = "contrib"
 projects[hidden_captcha][version] = "1.0"
 
+projects[honeypot][subdir] = "contrib"
+projects[honeypot][version] = "1.25"
+
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.24"
 ; Language field display should default to hidden.
@@ -390,7 +393,7 @@ projects[i18n][version] = "1.24"
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
-; Call "18n_taxonomy_translate_terms" on a non-translated taxonomy term 
+; Call "18n_taxonomy_translate_terms" on a non-translated taxonomy term
 ; triggers a "PHP Fatal error: Call to a member function get_translations() on boolean"
 ; https://www.drupal.org/project/i18n/issues/2984895
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2006
