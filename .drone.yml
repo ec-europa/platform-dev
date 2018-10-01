@@ -71,13 +71,13 @@ pipeline:
     group: behat
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
-      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
+      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict --tags testingthisthing
     when:
       matrix:
         CODE_COMPLIANCE: 0
 matrix:
   include:
-    # - CODE_COMPLIANCE: 1
+     - CODE_COMPLIANCE: 1
     # - PLATFORM_PROFILE: multisite_drupal_standard
     #   THEME_DEFAULT: ec_europa
     #   BEHAT_PROFILE: default
