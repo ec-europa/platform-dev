@@ -65,7 +65,7 @@ default:
   extensions:
     EC\Behat\PoetryExtension:
       service:
-        host: '0.0.0.0'
+        host: 'behat'
         port: '28080'
         endpoint: '/service'
         wsdl: '/wsdl'
