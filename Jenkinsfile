@@ -126,6 +126,7 @@ void executeStages(String label) {
         }
 
         stage('Test ' + label) {
+            sh './bin/drush -r build/ update-website --path=tests/updaters/'
             sh './bin/phpunit -c tests/phpunit.xml'
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {
