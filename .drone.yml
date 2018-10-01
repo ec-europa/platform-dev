@@ -7,9 +7,6 @@ services:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     environment:
       - DOCUMENT_ROOT=/test/platform-dev
-    ports:
-      - 8080:8080
-      - 28080:28080
   mysql:
     image: percona/percona-server:5.6
     environment:
@@ -42,7 +39,7 @@ pipeline:
   build-platform:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
-      - ./bin/phing build-platform-dev -D'composer.bin'='/usr/local/bin/composer' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub' -D'behat.browser.name'='phantomjs' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='$THEME_DEFAULT'
+      - ./bin/phing build-platform-dev -D'composer.bin'='/usr/local/bin/composer' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub' -D'behat.browser.name'='phantomjs' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_europa}'
 
   install-platform:
     image: ${IMAGE_PHP=fpfis/php56-dev}
@@ -77,7 +74,7 @@ pipeline:
         CODE_COMPLIANCE: 0
 matrix:
   include:
-     - CODE_COMPLIANCE: 1
+    - CODE_COMPLIANCE: 1
     # - PLATFORM_PROFILE: multisite_drupal_standard
     #   THEME_DEFAULT: ec_europa
     #   BEHAT_PROFILE: default
