@@ -13,7 +13,7 @@ Feature: Fast track
       | es        |
     And the following Poetry settings:
     """
-      address: http://web:28080/wsdl
+      address: http://behat:28080/wsdl
       method: requestService
     """
     And I request to change the variable "ne_dgt_rules_translator" to "dgt_ftt"
