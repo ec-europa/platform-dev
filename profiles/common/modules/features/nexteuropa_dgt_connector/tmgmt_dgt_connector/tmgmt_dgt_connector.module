@@ -130,3 +130,24 @@ function tmgmt_dgt_connector_tmgmt_translator_plugin_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function tmgmt_dgt_connector_form_tmgmt_translator_form_alter(&$form, &$form_state) {
+  $translator = $form_state['tmgmt_translator'];
+  if (_tmgmt_poetry_has_poetry_plugin($translator->plugin)) {
+    array_unshift($form['#submit'], '_tmgmt_dgt_connector_process_translator_contacts');
+  }
+}
+
+/**
+ * Helper function to force translator contacts to be lowercase.
+ */
+function _tmgmt_dgt_connector_process_translator_contacts(&$form, &$form_state) {
+  if (!empty($form_state['values']['settings']['contacts'])) {
+    foreach ($form_state['values']['settings']['contacts'] as $key => $contact) {
+      $form_state['values']['settings']['contacts'][$key] = drupal_strtolower($contact);
+    }
+  }
+}
