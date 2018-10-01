@@ -452,11 +452,7 @@ projects[media][version] = 2.19
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
 
 projects[media_avportal][subdir] = "contrib"
-projects[media_avportal][version] = "1.2"
-; Support the new AV Portal web service.
-; https://www.drupal.org/node/2891051
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1198
-projects[media_avportal][patch][] = https://www.drupal.org/files/issues/2018-09-24/media_avportal-new-service-support-2891051-23.patch
+projects[media_avportal][version] = "1.3"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
