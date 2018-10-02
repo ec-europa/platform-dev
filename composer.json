@@ -2,7 +2,7 @@
   "require": {
     "php": ">=5.4.0",
     "drupal/phingdrushtask": "^1.1",
-    "drupol/phingbehattask": "^1.0",
+    "aleach/phingbehattask": "dev-master",
     "drush/drush": "8.0.5",
     "ec-europa/qa-automation": "^3.0",
     "ext-json": "*",
@@ -40,6 +40,18 @@
           "reference": "master"
         }
       }
+    },
+    {
+      "type":"package",
+      "package": {
+        "name": "aleach/phingbehattask",
+        "version":"master",
+        "source": {
+          "url": "https://github.com/aleach/phingbehattask.git",
+          "type": "git",
+          "reference":"master"
+        }
+      }
     }
   ],
   "scripts": {
@@ -52,11 +64,7 @@
   },
   "config": {
     "bin-dir": "bin/",
-<<<<<<< HEAD
     "process-timeout": 1200,
     "sort-packages": true
-=======
-    "process-timeout": 1200
->>>>>>> Revert "NEPT-1606: Attempting to include oe-poetry-behat dependency in the main project, rather than the build"
   }
 }
