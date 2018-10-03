@@ -4,19 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "36dc553965d349f145c64109f7b0afc5",
+    "content-hash": "43838fd3aa20b57a57c0f61ffacfd05d",
     "packages": [
-        {
-            "name": "aleach/phingbehattask",
-            "version": "master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aleach/phingbehattask.git",
-                "reference": "master"
-            },
-            "type": "library",
-            "time": "2018-10-02T15:56:56+00:00"
-        },
         {
             "name": "cpliakas/git-wrapper",
             "version": "1.7.0",
@@ -110,7 +99,7 @@
             "version": "8.2.12",
             "source": {
                 "type": "git",
-                "url": "https://git.drupal.org/project/coder.git",
+                "url": "https://github.com/klausi/coder.git",
                 "reference": "984c54a7b1e8f27ff1c32348df69712afd86b17f"
             },
             "dist": {
@@ -803,11 +792,6 @@
                 }
             ],
             "description": "VersionControl_Git is a library that provides OO interface to handle Git repository.",
-<<<<<<< HEAD
-            "time": "2018-01-29T21:14:27+00:00"
-=======
-            "time": "2017-08-23T19:37:51+00:00"
->>>>>>> NEPT-1606: Temporarily use forked repo.
         },
         {
             "name": "pfrenssen/phpcs-pre-push",
@@ -3645,7 +3629,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "aleach/phingbehattask": 20,
         "pear/versioncontrol_git": 20
     },
     "prefer-stable": true,

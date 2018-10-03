@@ -2,7 +2,7 @@
   "require": {
     "php": ">=5.4.0",
     "drupal/phingdrushtask": "^1.1",
-    "aleach/phingbehattask": "dev-master",
+    "drupol/phingbehattask": "^1.0",
     "drush/drush": "8.0.5",
     "ec-europa/qa-automation": "^3.0",
     "ext-json": "*",
@@ -38,18 +38,6 @@
           "url": "https://gist.github.com/498fc52fea3f965f6640.git",
           "type": "git",
           "reference": "master"
-        }
-      }
-    },
-    {
-      "type":"package",
-      "package": {
-        "name": "aleach/phingbehattask",
-        "version":"master",
-        "source": {
-          "url": "https://github.com/aleach/phingbehattask.git",
-          "type": "git",
-          "reference":"master"
         }
       }
     }
