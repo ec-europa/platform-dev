@@ -452,7 +452,7 @@ projects[media][version] = 2.19
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
 
 projects[media_avportal][subdir] = "contrib"
-projects[media_avportal][version] = "1.2"
+projects[media_avportal][version] = "1.3"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
