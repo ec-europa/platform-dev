@@ -32,6 +32,7 @@ class TokenContext implements Context {
    * Replace the token value.
    *
    * @param string $text
+   *   The text to check for replacement.
    *
    * @return string
    *   The text after token replacement.
@@ -48,6 +49,7 @@ class TokenContext implements Context {
    * Replace the token value with the id of the last created node.
    *
    * @param string $text
+   *   The text to check for replacement.
    *
    * @return string
    *   The text after token replacement.
@@ -55,4 +57,5 @@ class TokenContext implements Context {
   public function replaceByLastNid($text) {
     return str_replace('last-created-node-id', $this->drupalContext->getLastNode(), $text);
   }
+
 }
