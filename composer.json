@@ -2,7 +2,7 @@
   "require": {
     "php": ">=5.4.0",
     "drupal/phingdrushtask": "^1.1",
-    "aleach/phingbehattask": "dev-master",
+    "aleach/phingbehattask": "dev-dev",
     "drush/drush": "8.0.5",
     "ec-europa/qa-automation": "^3.0",
     "ext-json": "*",
