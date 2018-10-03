@@ -4,19 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da98878d79eb2527eb98c42a47f17c14",
+    "content-hash": "6351c738b576a780677ffb950eb2c8be",
     "packages": [
-        {
-            "name": "aleach/phingbehattask",
-            "version": "master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aleach/phingbehattask.git",
-                "reference": "master"
-            },
-            "type": "library",
-            "time": "2018-10-15T10:22:34+00:00"
-        },
         {
             "name": "cpliakas/git-wrapper",
             "version": "1.7.0",
@@ -227,6 +216,64 @@
                 "source": "http://cgit.drupalcode.org/phingdrushtask"
             },
             "time": "2016-12-02T20:39:55+00:00"
+        },
+        {
+            "name": "drupol/phingbehattask",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/drupol/phingbehattask.git",
+                "reference": "582ad620ae1d166d39df782e4c2728729c62a9df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/drupol/phingbehattask/zipball/582ad620ae1d166d39df782e4c2728729c62a9df",
+                "reference": "582ad620ae1d166d39df782e4c2728729c62a9df",
+                "shasum": ""
+            },
+            "require": {
+                "phing/phing": "~2.1"
+            },
+            "require-dev": {
+                "behat/behat": "^3.2",
+                "bovigo/assert": "^1.7",
+                "drupal/coder": "^8.2",
+                "mockery/mockery": "^0.9",
+                "phpunit/phpunit": "^5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Phing\\Behat\\": "src/",
+                    "Phing\\Behat\\Tests\\": "./tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Pol Dellaiera",
+                    "email": "pol.dellaiera@protonmail.com",
+                    "role": "Author"
+                },
+                {
+                    "name": "Antonio De Marco",
+                    "email": "antonio@nuvole.org",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Behat task for Phing.",
+            "homepage": "https://github.com/drupol/phingbehattask",
+            "keywords": [
+                "Behat",
+                "ci",
+                "continuous integration",
+                "phing",
+                "test"
+            ],
+            "time": "2018-10-15T10:22:34+00:00"
         },
         {
             "name": "drush/drush",
@@ -1845,7 +1892,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "aleach/phingbehattask": 20,
         "pear/versioncontrol_git": 20,
         "roave/security-advisories": 20
     },
