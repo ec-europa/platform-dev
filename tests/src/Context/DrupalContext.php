@@ -413,4 +413,12 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     }
   }
 
+  /**
+   * Get last create node nid.
+   */
+  public function getLastNode() {
+    $this->rememberCurrentLastNode();
+    return $this->maxNodeId;
+  }
+
 }

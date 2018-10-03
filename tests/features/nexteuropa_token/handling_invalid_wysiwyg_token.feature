@@ -37,13 +37,15 @@ Feature: Testing wrong token association for Next Europa token module
 
   @javascript
   Scenario: Checking WYSIWYG tokens substitution
-    Given Node "This is a page i want to reference" of type "page" with nid "150"
+    Given I am viewing an "page" content:
+     | title            | This is a page i want to reference                               |
     When I go to "node/add/page"
     And I fill in "Title" with "Node with tokens"
-    And I fill in the rich text editor "Body" with "<a href='[node:150:url]'>Node link</a>[node:150:link]"
+    And I fill in the rich text editor "Body" with token "<a href='[node:last-created-node-id:url]'>Node link</a>[node:last-created-node-id:link]"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
+    And I break
     Then I visit the "page" content with title "Node with tokens"
     And I click "Node link"
     And I should see the heading "This is a page i want to reference"
