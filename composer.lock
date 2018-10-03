@@ -99,7 +99,7 @@
             "version": "8.2.12",
             "source": {
                 "type": "git",
-                "url": "https://github.com/klausi/coder.git",
+                "url": "https://git.drupal.org/project/coder.git",
                 "reference": "984c54a7b1e8f27ff1c32348df69712afd86b17f"
             },
             "dist": {
@@ -219,16 +219,16 @@
         },
         {
             "name": "drupol/phingbehattask",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupol/phingbehattask.git",
-                "reference": "68c236e4a215856d115d55009a53c6e07d6bd294"
+                "reference": "2a3f9cc16a99f4eb2ea3dbb08f6ca39975cc5cf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupol/phingbehattask/zipball/68c236e4a215856d115d55009a53c6e07d6bd294",
-                "reference": "68c236e4a215856d115d55009a53c6e07d6bd294",
+                "url": "https://api.github.com/repos/drupol/phingbehattask/zipball/2a3f9cc16a99f4eb2ea3dbb08f6ca39975cc5cf5",
+                "reference": "2a3f9cc16a99f4eb2ea3dbb08f6ca39975cc5cf5",
                 "shasum": ""
             },
             "require": {
@@ -239,9 +239,7 @@
                 "bovigo/assert": "^1.7",
                 "drupal/coder": "^8.2",
                 "mockery/mockery": "^0.9",
-                "phpunit/php-code-coverage": "^4.0",
-                "phpunit/phpunit": "^5.6",
-                "satooshi/php-coveralls": "^1.0"
+                "phpunit/phpunit": "^5.6"
             },
             "type": "library",
             "autoload": {
@@ -275,7 +273,7 @@
                 "phing",
                 "test"
             ],
-            "time": "2016-11-24T09:43:44+00:00"
+            "time": "2018-10-03T12:13:55+00:00"
         },
         {
             "name": "drush/drush",
@@ -793,7 +791,7 @@
                 }
             ],
             "description": "VersionControl_Git is a library that provides OO interface to handle Git repository.",
-            "time": "2017-08-23 19:37:51"
+            "time": "2017-08-23T19:37:51+00:00"
         },
         {
             "name": "pfrenssen/phpcs-pre-push",
