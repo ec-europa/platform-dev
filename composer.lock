@@ -8,11 +8,11 @@
     "packages": [
         {
             "name": "aleach/phingbehattask",
-            "version": "dev",
+            "version": "master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aleach/phingbehattask.git",
-                "reference": "dev"
+                "reference": "master"
             },
             "type": "library",
             "time": "2018-10-15T10:22:34+00:00"
