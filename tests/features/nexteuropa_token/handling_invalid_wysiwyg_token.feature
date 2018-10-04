@@ -45,7 +45,6 @@ Feature: Testing wrong token association for Next Europa token module
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
-    And I break
     Then I visit the "page" content with title "Node with tokens"
     And I click "Node link"
     And I should see the heading "This is a page i want to reference"
