@@ -600,7 +600,7 @@ projects[plupload][download][type] = git
 projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/files_not_uploaded_in_subdir-2974466.patch
 
 projects[print][subdir] = "contrib"
-projects[print][version] = "2.0"
+projects[print][version] = "2.1"
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
