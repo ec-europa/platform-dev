@@ -5,7 +5,8 @@ default:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_port: {{ integration.server.port }}
         - Drupal\nexteuropa\Context\ModuleContext
-        - FeatureContext
+        - FeatureContext:
+            screenshots_path: '{{ behat.screenshots.path }}'
         - Drupal\nexteuropa\Context\AgnosticBatchContext
         - Drupal\nexteuropa\Context\ApacheSolrContext
         - Drupal\nexteuropa\Context\BlockContext
