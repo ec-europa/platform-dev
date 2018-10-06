@@ -24,10 +24,10 @@ index 0000000..2b903b1
 +}
 diff --git a/scheduler_workbench.install b/scheduler_workbench.install
 new file mode 100755
-index 0000000..897fbc1
+index 0000000..c11e28d
 --- /dev/null
 +++ b/scheduler_workbench.install
-@@ -0,0 +1,28 @@
+@@ -0,0 +1,14 @@
 +<?php
 +
 +/**
@@ -36,30 +36,16 @@ index 0000000..897fbc1
 + */
 +
 +/**
-+ * Implements hook_install().
-+ */
-+function scheduler_workbench_install() {
-+  _scheduler_workbench_define_allowed_status();
-+}
-+
-+/**
 + * Implements hook_uninstall().
 + */
 +function scheduler_workbench_uninstall() {
 +  variable_del('scheduler_workbench_allowed_status');
 +}
 +
-+/**
-+ * Sets the allowed status that can be scheduled for publication.
-+ */
-+function _scheduler_workbench_define_allowed_status() {
-+  $status = _scheduler_workbench_allowed_status();
-+  variable_set('scheduler_workbench_allowed_status', $status);
-+}
 diff --git a/scheduler_workbench.module b/scheduler_workbench.module
 old mode 100644
 new mode 100755
-index 868435e..29d0f84
+index 868435e..733c180
 --- a/scheduler_workbench.module
 +++ b/scheduler_workbench.module
 @@ -7,6 +7,22 @@
@@ -179,10 +165,10 @@ index 868435e..29d0f84
 +    // Get status allowed to be published.
 +    $allowed_status = _scheduler_workbench_allowed_status();
 +    // Check if the revision current status allows it to be published.
-+    if (!in_array($node->workbench_moderation['my_revision']->state, $allowed_status)) {
++    if (!in_array($node->workbench_moderation['current']->state, $allowed_status)) {
 +      $options = array(
 +        "%node" => $node->nid,
-+        '%status' => $node->workbench_moderation['my_revision']->state,
++        '%status' => $node->workbench_moderation['current']->state,
 +      );
 +      watchdog("scheduler_workbench", t("Node %node with status %status, can't be published, check status allowed to be published."), $options, WATCHDOG_INFO);
 +      $allowed = FALSE;
@@ -197,12 +183,12 @@ index 868435e..29d0f84
 + */
 +function _scheduler_workbench_allowed_status() {
 +  $allowed_status = variable_get('scheduler_workbench_allowed_status', array());
-+  if (count($allowed_status) == 0) {
++  if ($allowed_status == array()) {
 +    $transitions = workbench_moderation_transitions();
 +    $status = array();
 +    foreach ($transitions as $key => $value) {
 +      if ($value->to_name == 'published') {
-+        $allowed_status[] = $value->from_name;
++        $allowed_status[$value->from_name] = $value->from_name;
 +      }
 +    }
 +  }
