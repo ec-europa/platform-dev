@@ -75,11 +75,11 @@ matrix:
   include:
     - CODE_COMPLIANCE: 1
     - PLATFORM_PROFILE: multisite_drupal_communities
-        THEME_DEFAULT: ec_resp
-        BEHAT_PROFILE: communities_ec_resp
-        IMAGE_PHP: fpfis/php56-dev
-        BEHAT_PART: 1
-        CODE_COMPLIANCE: 0
+      THEME_DEFAULT: ec_resp
+      BEHAT_PROFILE: communities_ec_resp
+      IMAGE_PHP: fpfis/php56-dev
+      BEHAT_PART: 1
+      CODE_COMPLIANCE: 0
 #    - PLATFORM_PROFILE: multisite_drupal_communities
 #      THEME_DEFAULT: ec_resp
 #      BEHAT_PROFILE: communities_ec_resp
