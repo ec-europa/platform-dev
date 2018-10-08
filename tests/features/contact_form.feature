@@ -84,14 +84,7 @@ Feature: Contact Form
     | ”(),:;<>[\]@example.com       |
     | just”not”right@example.com    |
 
-  Scenario: Verify that mail is sent when anonymous (captcha disabled)
-    #Disable captcha while testing
-    Given I am logged in as a user with the 'administrator' role
-    When I am on "/admin/config/people/captcha_en"
-    And I select "- No challenge -" from "edit-captcha-form-id-overview-captcha-captcha-points-contact-site-form-captcha-type"
-    And I press the "Save configuration" button
-    Then I should see the text "The CAPTCHA settings have been saved."
-    #Test the form submission
+  Scenario: Verify that mail is sent when anonymous
     Given I am not logged in
     When I am on "contact"
     And I fill in "Your name" with "name"
