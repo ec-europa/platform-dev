@@ -148,7 +148,7 @@ behat.options.strict = true
 behat.options.verbosity = 2
 
 # Load balancer Phing task configuration.
-behat.load_balancer.containers = 2
+behat.load_balancer.containers = 1
 behat.load_balancer.root = ${behat.dir}
 behat.load_balancer.destination = ${behat.dir}/balancer
 behat.load_balancer.import = ${behat.yml.path}

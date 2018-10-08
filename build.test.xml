@@ -114,10 +114,10 @@
             destination="${behat.load_balancer.destination}"
             import="${behat.load_balancer.import}"
         >
-            <filterProfile name="default" tags="wip,communities,ec_resp_theme,theme_wip"/>
-            <filterProfile name="communities" tags="wip,ec_resp_theme,theme_wip,communities"/>
-            <filterProfile name="standard_ec_resp" tags="wip,ec_europa_theme,communities"/>
-            <filterProfile name="communities_ec_resp" tags="wip,ec_europa_theme,communities"/>
+            <filterProfile name="default" tags=""/>
+            <filterProfile name="communities" tags=""/>
+            <filterProfile name="standard_ec_resp" tags=""/>
+            <filterProfile name="communities_ec_resp" tags=""/>
         </behat:balancer>
     </target>
 
