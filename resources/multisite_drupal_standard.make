@@ -767,7 +767,7 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.0"
+projects[uuid][version] = "1.2"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -901,6 +901,12 @@ projects[xmlsitemap][version] = "2.4"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
 projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/xmlsitemap-using_rel_alternate-1670086-50.patch
 projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch
+; TypeError: Argument 1 passed to xmlsitemap_node_create_link() must be an instance of stdClass, boolean given.
+; The issue contain 2 patches but only one is applicable for the version 2.4.
+; The second will be necessary with 2.5.
+; https://www.drupal.org/project/xmlsitemap/issues/2986847
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2082
+projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/2018-07-19/xmlsitemap-2986847-2.patch
 
 
 ; =========
