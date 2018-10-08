@@ -1,4 +1,4 @@
-@api @poetry_mock @i18n @poetry
+@api @i18n @poetry
 Feature: TMGMT Poetry features
   In order to request Carts translations with Poetry service.
   As an Administrator
@@ -33,8 +33,8 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: I can translate contents with TMGMT Cart.
     When I am viewing a multilingual "page" content:
-      | language | title     | field_ne_body | status |
-      | en       | My page 1 | Short body    | 1      |
+      | language | title     | field_ne_body |
+      | en       | My page 1 | Short body    |
     And I click "Translate" in the "primary_tabs" region
     Then I should see "There are 0 items in the translation cart."
 
@@ -43,8 +43,8 @@ Feature: TMGMT Poetry features
     And I should see "There is 1 item in the translation cart."
 
     When I am viewing a multilingual "page" content:
-      | language | title     | field_ne_body | status |
-      | en       | My page 2 | Short body 2  | 1      |
+      | language | title     | field_ne_body |
+      | en       | My page 2 | Short body 2  |
     And I click "Translate" in the "primary_tabs" region
     Then I should see "There is 1 item in the translation cart."
 
@@ -87,6 +87,9 @@ Feature: TMGMT Poetry features
     And I click "In progress" in the "French" row
     And I press "Save"
     And I click "Needs review" in the "French" row
+    When I fill in the following:
+      | edit-title-field0value-translation   | FR My Page 2    |
+      | edit-field-ne-body0value-translation | FR Short body 2 |
     And I press "Save as completed"
     Then I should see "None" in the "French" row
 

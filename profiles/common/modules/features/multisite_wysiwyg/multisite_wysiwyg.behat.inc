@@ -17,8 +17,6 @@ use function bovigo\assert\assert;
  */
 class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubContextInterface {
 
-  use \Drupal\nexteuropa\Context\ContextUtil;
-
   /**
    * The Drupal driver manager.
    *
@@ -325,6 +323,38 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     }
 
     assert($row, isNotEmpty(), sprintf('Failed to find a row containing "%s" in the Wysiwyg modal on the page %s', $search, $this->getSession()->getCurrentUrl()));
+  }
+
+  /**
+   * Retrieve a table row containing specified text from a given element.
+   *
+   * NEPT-1741: This method is a copy of
+   * \Drupal\nexteuropa\Context\ContextUtil::getTableRow().
+   * It is a temporary fix to unblock the toolkit build in order to wait for
+   * the resolution of the "OPENEUROPA-303" ticket.
+   *
+   * @param \Behat\Mink\Element\Element $element
+   *   The DOM element where to search in.
+   * @param string $search
+   *   The text to search for in the table row.
+   *
+   * @return \Behat\Mink\Element\NodeElement
+   *   The row containing the searched text.
+   *
+   * @throws \Exception
+   */
+  public function getTableRow(Element $element, $search) {
+    $rows = $element->findAll('css', 'tr');
+    if (empty($rows)) {
+      throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()->getCurrentUrl()));
+    }
+
+    foreach ($rows as $row) {
+      if (strpos($row->getText(), $search) !== FALSE) {
+        return $row;
+      }
+    }
+    throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
   }
 
 }

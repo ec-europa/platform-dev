@@ -143,31 +143,10 @@ function cce_basic_config_strongarm() {
 
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
-  $strongarm->name = 'filter_fallback_format';
-  $strongarm->value = 'plain_text';
-  $export['filter_fallback_format'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
   $strongarm->name = 'i18n_select_nodes';
   $strongarm->value = 0;
   $export['i18n_select_nodes'] = $strongarm;
 
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
-  $strongarm->name = 'i18n_string_allowed_formats';
-  $strongarm->value = array(
-    'full_html' => 'full_html',
-    'plain_text' => 'plain_text',
-    'filtered_html' => 0,
-    'basic_html' => 0,
-  );
   $export['i18n_string_allowed_formats'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -373,15 +352,6 @@ example.org';
   $strongarm->name = 'menu_parent_article';
   $strongarm->value = 'main-menu:0';
   $export['menu_parent_article'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
-  $strongarm->name = 'multisite_version';
-  $strongarm->value = '2.3';
-  $export['multisite_version'] = $strongarm;
 
   $strongarm = new stdClass();
   /* Edit this to true to make a default strongarm disabled initially */

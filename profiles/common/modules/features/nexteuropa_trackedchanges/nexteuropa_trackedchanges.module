@@ -632,6 +632,11 @@ function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $co
     $settings['lite']['isTracking'] = (bool) variable_get('ckeditor_lite_istracking', FALSE);
   }
 
+  if (empty($settings['extraPlugins']) || (strpos($settings['extraPlugins'], 'lite') === FALSE)) {
+    // Ckeditor lite is an extra plugin. If it is not set, no need to continue.
+    return;
+  }
+
   if ($state == 'create') {
     $is_btn_disabled = variable_get('nexteuropa_trackedchanges_disable_track_on_create');
     if ($is_btn_disabled) {

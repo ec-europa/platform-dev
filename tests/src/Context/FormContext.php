@@ -4,11 +4,30 @@ namespace Drupal\nexteuropa\Context;
 
 use Behat\Mink\Exception\ElementNotFoundException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Exception;
 
 /**
  * Form context.
  */
 class FormContext extends RawDrupalContext {
+
+  /**
+   * Removes the honeypot limit of 5 seconds in the forms.
+   *
+   * @BeforeScenario
+   */
+  public function removeHoneypotTimeLimit() {
+    variable_set('honeypot_time_limit', 0);
+  }
+
+  /**
+   * Resets the default limit value in honeypot of 5 seconds.
+   *
+   * @AfterScenario
+   */
+  public function resetHoneypotTimeLimit() {
+    variable_set('honeypot_time_limit', 5);
+  }
 
   /**
    * Checks, that form element with specified label is visible on page.
@@ -153,16 +172,18 @@ EOS;
   }
 
   /**
-   * Check button doesn't exist.
+   * Check for field value.
    *
-   * @Then I (should )not see the button :button
-   * @Then I (should )not see the :button button
+   * @Then The field :arg1 should containt :arg2
    */
-  public function assertNoButton($button) {
-    $element = $this->getSession()->getPage();
-    $buttonObj = $element->findButton($button);
-    if (!empty($buttonObj)) {
-      throw new \Exception(sprintf("The button '%s' was found on the page %s", $button, $this->getSession()->getCurrentUrl()));
+  public function theFieldShouldContaint($arg1, $arg2) {
+    $arg1 = $this->fixStepArgument($arg1);
+    $arg2 = $this->fixStepArgument($arg2);
+    $page = $this->getSession()->getPage();
+    $field = $page->findField($arg1);
+    $actual = $field->getValue();
+    if ($actual !== $arg2) {
+      throw new Exception(sprintf('The value %s is different from %s.', $actual, $arg2));
     }
   }
 
