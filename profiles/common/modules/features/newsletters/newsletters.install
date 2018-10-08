@@ -27,7 +27,7 @@ function newsletters_install() {
   // Activate entity translation for simplenews content type.
   variable_set('language_content_type_simplenews', ENTITY_TRANSLATION_ENABLED);
 
-  _newsletters_install_soft_config_simplenews();
+  _newsletters_set_simplenews_content_type();
 }
 
 /**
@@ -61,7 +61,7 @@ function newsletters_update_7001(&$sandbox) {
     variable_set('language_content_type_simplenews', ENTITY_TRANSLATION_ENABLED);
 
     // Configure title_field and field_groups.
-    _newsletters_soft_config_title_field();
+    _newsletters_add_title_field_to_simplenews();
   }
 
   // How many nodes should be processed per pass.

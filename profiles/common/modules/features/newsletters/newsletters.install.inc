@@ -8,7 +8,7 @@
 /**
  * Soft configure simplenews content type.
  */
-function _newsletters_install_soft_config_simplenews() {
+function _newsletters_set_simplenews_content_type() {
   // Use soft config for newsletters comment form location.
   multisite_config_service('comment')->setThreadingCommentForContentType('simplenews', 1);
 
@@ -269,9 +269,9 @@ function _newsletters_install_soft_config_simplenews() {
 }
 
 /**
- * Add translations to simplenews content type.
+ * Add title_field to simplenews content type.
  */
-function _newsletters_soft_config_title_field() {
+function _newsletters_add_title_field_to_simplenews() {
   $t = get_t();
 
   // Field instance for title_field.
@@ -325,27 +325,29 @@ function _newsletters_soft_config_title_field() {
     field_update_instance($instance_info);
   }
 
-  $groups = field_group_read_groups(array(
-    'entity_type' => 'node',
-    'bundle' => 'simplenews',
-    'mode' => 'form',
-  ));
+  $service = multisite_config_service('field_group');
 
-  if (field_group_exists('group_newsletter_metadata', 'node', 'simplenews', 'form')) {
-    $group_newsletter_metadata = $groups['node']['simplenews']['form']['group_newsletter_metadata'];
-    $group_newsletter_metadata->children[0] = 'field_related_contents';
-    $group_newsletter_metadata->children[1] = 'field_tags';
-    $group_newsletter_metadata->children[2] = 'language';
-  }
+  $service->createFieldGroup('Content', 'group_simplenews', 'node', 'simplenews')
+    ->setChildren(array(
+      'title_field',
+      'field_simplenews_term',
+      'body',
+    ))
+    ->setType('tab')->setFormatter('closed')->setWeight(0)
+    ->setInstanceSetting('classes', 'group-simplenews field-group-tab')
+    ->setInstanceSetting('required_fields', TRUE)
+    ->save();
 
-  if (field_group_exists('group_simplenews', 'node', 'simplenews', 'form')) {
-    field_group_group_save($group_newsletter_metadata);
-    $group_simplenews = $groups['node']['simplenews']['form']['group_simplenews'];
-    $group_simplenews->children[0] = 'body';
-    $group_simplenews->children[1] = 'field_simplenews_term';
-    $group_simplenews->children[2] = 'title_field';
-    field_group_group_save($group_simplenews);
-  }
+  $service->createFieldGroup('Metadata', 'group_newsletter_metadata', 'node', 'simplenews')
+    ->setChildren(array(
+      'field_related_contents',
+      'language',
+      'field_tags',
+    ))
+    ->setType('tab')->setFormatter('closed')->setWeight(10)
+    ->setInstanceSetting('classes', 'group-newsletter-metadata field-group-tab')
+    ->setInstanceSetting('required_fields', TRUE)
+    ->save();
 }
 
 /**
