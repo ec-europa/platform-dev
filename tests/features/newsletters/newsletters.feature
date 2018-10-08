@@ -29,7 +29,7 @@ Feature: newsletter feature
     Given I am logged in as a user with the 'administrator' role
     When  I go to "node/add/simplenews"
     Then  I should see the text "Create Simplenews newsletter"
-    When  I fill in "title_field[en][0][value]" with "Newsletter behat"
+    When  I fill in the content's title with "Newsletter behat"
     And   I fill in the rich text editor "Body" with "body for Newsletter behat"
     And   I select the radio button "Newsletter behat category"
     And   I press "Save"
