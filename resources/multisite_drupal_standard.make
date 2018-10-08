@@ -576,7 +576,7 @@ projects[plupload][download][revision] = bba974c6f3224346a1acae4181a700b55129e6e
 projects[plupload][download][type] = git
 
 projects[print][subdir] = "contrib"
-projects[print][version] = "2.0"
+projects[print][version] = "2.2"
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.6"
