@@ -18,7 +18,7 @@ projects[administration_language_negotiation][subdir] = "contrib"
 projects[administration_language_negotiation][version] = "1.4"
 
 projects[advagg][subdir] = "contrib"
-projects[advagg][version] = "2.30"
+projects[advagg][version] = "2.33"
 
 projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.3"
