@@ -129,41 +129,41 @@ matrix:
       BEHAT_PART: 0
       CODE_COMPLIANCE: 0
       BEHAT_TAGS: "--tags @drone_tracked_changes&&@drone_varnish"
-    - PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_europa
-      BEHAT_PROFILE: default
-      IMAGE_PHP: fpfis/php56-dev
-      BEHAT_PART: 1
-      CODE_COMPLIANCE: 0
-      BEHAT_TAGS: "--tags @drone_tracked_changes&&@drone_varnish"
-    - PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_europa
-      BEHAT_PROFILE: default
-      IMAGE_PHP: fpfis/php56-dev
-      BEHAT_PART: 2
-      CODE_COMPLIANCE: 0
-      BEHAT_TAGS: "--tags @drone_tracked_changes&&@drone_varnish"
+#    - PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_europa
+#      BEHAT_PROFILE: default
+#      IMAGE_PHP: fpfis/php56-dev
+#      BEHAT_PART: 1
+#      CODE_COMPLIANCE: 0
+#      BEHAT_TAGS: "--tags @drone_tracked_changes&&@drone_varnish"
+#    - PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_europa
+#      BEHAT_PROFILE: default
+#      IMAGE_PHP: fpfis/php56-dev
+#      BEHAT_PART: 2
+#      CODE_COMPLIANCE: 0
+#      BEHAT_TAGS: "--tags @drone_tracked_changes&&@drone_varnish"
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 0
       CODE_COMPLIANCE: 0
-      BEHAT_TAGS: ""
+      BEHAT_TAGS: "--tags @drone_tracked_changes&&@drone_poetry"
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 1
       CODE_COMPLIANCE: 0
-      BEHAT_TAGS: "" # --tags @drone_varnish&&@drone_images&&@drone_solr&&@drone_multilingual
+      BEHAT_TAGS: "--tags @drone_multilingual&&@drone_solr"
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 2
       CODE_COMPLIANCE: 0
-      BEHAT_TAGS: ""
+      BEHAT_TAGS: "--tags @drone_images&&drone_varnish"
 #    - PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_europa
 #      BEHAT_PROFILE: default
