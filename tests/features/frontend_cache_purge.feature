@@ -527,8 +527,8 @@ Feature:
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
-    Then an error is logged with type "nexteuropa_varnish" and a message matching "Clear operation failed for target http://localhost:[0-9]*: 401 Unauthorized"
-@tag_test
+    Then an error is logged with type "nexteuropa_varnish" and a message matching "Clear operation failed for target http://(web|behat|localhost):[0-9]*: 401 Unauthorized"
+
   Scenario: Paths to purge are logged.
     Given the default purge rule is disabled
     And the following cache purge rules:
