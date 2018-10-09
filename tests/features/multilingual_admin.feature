@@ -85,7 +85,7 @@ Feature: Content translation
     When I click "New draft" in the "primary_tabs" region
     Then I should see the text "New Message!"
 
-  @theme_wip
+  @theme_wip @drone_multilingual
   # It is in wip for the europa theme because it implies a step referring a
   # region. This must be evaluate deeper before being able to know how to deal with.
  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1217.
