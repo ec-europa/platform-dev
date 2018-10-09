@@ -67,7 +67,7 @@ class ApacheSolrContext implements Context {
    */
   protected function getServer() {
     if (!$this->server) {
-      $this->server = new Server($this->mockServerPort, 'behat');
+      $this->server = new Server($this->mockServerPort, 'localhost');
 
       $this->server->start();
 
