@@ -126,7 +126,7 @@ matrix:
       THEME_DEFAULT: ec_europa
       BEHAT_PROFILE: default
       IMAGE_PHP: fpfis/php56-dev
-      BEHAT_PART: 0
+      BEHAT_PART: 1
       CODE_COMPLIANCE: 0
       BEHAT_TAGS: "@drone_tracked_changes,@drone_varnish"
 #    - PLATFORM_PROFILE: multisite_drupal_standard
