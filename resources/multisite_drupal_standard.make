@@ -245,7 +245,7 @@ projects[facetapi][version] = "1.5"
 ; facetapi_map_assoc() does not check if index exists.
 ; Note: This patch is to be remoaved with the future version 7.x-1.6.
 ; Indeed, the patch has already been pushed with the #2373023 d.o. issue.
-; https://www.drupal.org/project/facetapi/issues/2768779 
+; https://www.drupal.org/project/facetapi/issues/2768779
 ; and https://www.drupal.org/node/2373023
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2042
 projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-2768779-facetapi_map_assoc-undefined-index.patch
@@ -281,15 +281,15 @@ projects[feeds][version] = "2.0-beta3"
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
-; So far, the module does not have any official release. 
-; The following declaration is based on the one recommended by the 
-; nexteuropa_newsroom team to sub-sites; including the patch 
+; So far, the module does not have any official release.
+; The following declaration is based on the one recommended by the
+; nexteuropa_newsroom team to sub-sites; including the patch
 ; "feeds_et_link_support-2078069-3.patch".
 projects[feeds_et][subdir] = "contrib"
 projects[feeds_et][download][type] = git
 projects[feeds_et][download][revision] = bf0d6d00b1a80a630d4266b04c254f2335177346
 projects[feeds_et][download][branch] = 7.x-1.x
-; Add support for link fields, patch required for the nexteuropa_newsroom module; 
+; Add support for link fields, patch required for the nexteuropa_newsroom module;
 ; see module README file.
 ; https://www.drupal.org/node/2078069
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2018
@@ -452,7 +452,7 @@ projects[media][version] = 2.19
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
 
 projects[media_avportal][subdir] = "contrib"
-projects[media_avportal][version] = "1.2"
+projects[media_avportal][version] = "1.3"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
@@ -767,7 +767,7 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.0"
+projects[uuid][version] = "1.2"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -797,8 +797,7 @@ projects[views_bootstrap][subdir] = "contrib"
 projects[views_bootstrap][version] = "3.1"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.4"
-
+projects[views_bulk_operations][version] = "3.5"
 ; Rules actions 'View and display' only works if Bulk Ops field is in 'master' of a view.
 ; https://www.drupal.org/node/2856974
 projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/non_master_views_actions_2856974-2.patch
@@ -902,6 +901,12 @@ projects[xmlsitemap][version] = "2.4"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
 projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/xmlsitemap-using_rel_alternate-1670086-50.patch
 projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch
+; TypeError: Argument 1 passed to xmlsitemap_node_create_link() must be an instance of stdClass, boolean given.
+; The issue contain 2 patches but only one is applicable for the version 2.4.
+; The second will be necessary with 2.5.
+; https://www.drupal.org/project/xmlsitemap/issues/2986847
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2082
+projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/2018-07-19/xmlsitemap-2986847-2.patch
 
 
 ; =========
