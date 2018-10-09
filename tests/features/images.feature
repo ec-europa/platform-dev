@@ -4,7 +4,7 @@ Feature: Images
   As a contributor
   I can attach images to content
 
-  @theme_wip
+  @theme_wip @drone_images
   # It is in WIP because the image display is not integrated in europa yet.
   # see NEPT-1243
   Scenario: Add a caption to an Article image
