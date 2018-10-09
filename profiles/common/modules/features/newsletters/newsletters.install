@@ -5,6 +5,8 @@
  * Code for newslettter feature install.
  */
 
+module_load_include('inc', 'newsletters', 'newsletters.install');
+
 /**
  * Implements hook_enable().
  */
@@ -19,10 +21,13 @@ function newsletters_enable() {
 }
 
 /**
- * Use soft config for newsletters comment form location.
+ * Use soft config for comment form location and simplenews content type.
  */
 function newsletters_install() {
-  multisite_config_service('comment')->setThreadingCommentForContentType('simplenews', 1);
+  // Activate entity translation for simplenews content type.
+  variable_set('language_content_type_simplenews', ENTITY_TRANSLATION_ENABLED);
+
+  _newsletters_set_simplenews_content_type();
 }
 
 /**
@@ -31,4 +36,49 @@ function newsletters_install() {
 function newsletters_disable() {
   multisite_drupal_toolbox_remove_block_context('site_wide', '0');
   drupal_set_message(t('Newsletters feature is now disabled on your site.'));
+}
+
+/**
+ * Update the title field of existing newsletters if any.
+ */
+function newsletters_update_7001(&$sandbox) {
+  // If this is the first pass through this update
+  // function then set some variables.
+  if (!isset($sandbox['total'])) {
+    $result = db_query("SELECT nid FROM {node} WHERE type='simplenews'");
+    $sandbox['total'] = $result->rowCount();
+    $sandbox['current'] = 0;
+
+    // Check if the content type has content translation.
+    $translation_support = variable_get('language_content_type_simplenews', 0);
+
+    if ($translation_support == 2) {
+      // Using content translation.
+      return;
+    }
+
+    // Activate entity translation.
+    variable_set('language_content_type_simplenews', ENTITY_TRANSLATION_ENABLED);
+
+    // Configure title_field and field_groups.
+    _newsletters_add_title_field_to_simplenews();
+  }
+
+  // How many nodes should be processed per pass.
+  $nodes_per_pass = 10;
+
+  // Get the nodes to process during this pass.
+  $result = db_query_range("SELECT nid FROM {node} WHERE type='simplenews'", $sandbox['current'], $nodes_per_pass);
+  while ($row = $result->fetchAssoc()) {
+    // Update the fields of the nodes.
+    _newsletters_node_update($row);
+    // Increment "current" by 1.
+    $sandbox['current']++;
+
+  }
+  // Set the value for finished.
+  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  if ($sandbox['#finished'] === 1) {
+    drupal_set_message(t('@nodes nodes were processed', array('@nodes' => $sandbox['total'])));
+  }
 }

@@ -1407,7 +1407,12 @@ function multisite_drupal_toolbox_mail_alter(&$message) {
     // Recipient_user is an alias of user.
     $data['recipient_user'] = $recipient_user;
     $aliases = array('recipient_user' => 'user');
-    $body = $message['body']['0'];
+    if (isset($message['body']['body'])) {
+      $body = $message['body']['body'];
+    }
+    else {
+      $body = $message['body']['0'];
+    }
     // Replace token.
     $message['body']['0'] = token_replace($body, $data, array('aliases' => $aliases));
   }
