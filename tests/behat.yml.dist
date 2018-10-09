@@ -44,6 +44,7 @@ default:
         - Drupal\nexteuropa\Context\PoetryContext
         - Drupal\nexteuropa\Context\RulesContext
         - Drupal\nexteuropa\Context\LacoContext
+        - Drupal\nexteuropa\Context\TokenContext
         - OpenEuropa\Behat\TransformationContext:
             elements:
               nept_element:block:page-language-switcher: '.block-language-selector-page'
