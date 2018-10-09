@@ -384,4 +384,15 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     $this->getSession()->visit($this->locatePath('/node/' . $saved->nid));
   }
 
+  /**
+   * Get last created node nid.
+   *
+   * @return int
+   *   The nid of the node.
+   */
+  public function getLastNode() {
+    $this->rememberCurrentLastNode();
+    return $this->maxNodeId;
+  }
+
 }
