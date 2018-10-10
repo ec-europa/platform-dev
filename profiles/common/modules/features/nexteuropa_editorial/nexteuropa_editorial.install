@@ -85,6 +85,9 @@ function nexteuropa_editorial_install() {
 
     // System.
     'access administration pages',
+
+    // Scheduler.
+    'schedule (un)publishing of nodes',
   );
   multisite_config_service('user')->grantPermission(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $permissions, 'nexteuropa_editorial');
 
