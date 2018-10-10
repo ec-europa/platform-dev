@@ -68,7 +68,7 @@ index 0000000..c11e28d
 diff --git a/scheduler_workbench.module b/scheduler_workbench.module
 old mode 100644
 new mode 100755
-index 868435e..2cf8729
+index 868435e..673b5cc
 --- a/scheduler_workbench.module
 +++ b/scheduler_workbench.module
 @@ -7,6 +7,22 @@
@@ -123,7 +123,7 @@ index 868435e..2cf8729
 +  if (!empty($node->revision_publish_on) || !empty($node->publish_on) ) {
 +    // Check if the current status will be published.
 +    $allowed_status = _scheduler_workbench_allowed_status();
-+    if (!in_array($node->workbench_moderation_state_new, $allowed_status)) {
++    if (!in_array($node->workbench_moderation_state_new, $allowed_status) || $allowed_status[$node->workbench_moderation_state_new] == 0) {
 +      $message = t('The current status @status is not allowed to be published, you will need to update the status.', array('@status' => $node->workbench_moderation_state_new));
 +      drupal_set_message($message, 'status', FALSE);
 +    }
@@ -165,7 +165,15 @@ index 868435e..2cf8729
      if (!empty($node->workbench_moderation['my_revision']) &&
        $node->workbench_moderation['my_revision']->state == $state
      ) {
-@@ -319,6 +363,15 @@ function scheduler_workbench_form_workbench_moderation_moderate_form_alter(&$for
+@@ -299,7 +343,6 @@ function scheduler_workbench_form_workbench_moderation_moderate_form_alter(&$for
+   if (!empty($form['node']['#value'])) {
+     $node = $form['node']['#value'];
+     if (($state = variable_get('scheduler_publish_moderation_state_' . $node->type, FALSE)) &&
+-      !empty($node->workbench_moderation['published']) &&
+       !empty($node->publish_on)
+     ) {
+       $date_format = variable_get('scheduler_date_format', SCHEDULER_DATE_FORMAT);
+@@ -319,6 +362,15 @@ function scheduler_workbench_form_workbench_moderation_moderate_form_alter(&$for
  function scheduler_workbench_revision_publish($current, $state) {
    workbench_moderation_moderate($current, $state);
    $create_publishing_revision = variable_get('scheduler_publish_revision_' . $current->type, 0) == 1;
@@ -181,7 +189,7 @@ index 868435e..2cf8729
    if ($create_publishing_revision) {
      $current->revision = TRUE;
      $current->log = t('Saved by Scheduler workbench on @now.', array(
-@@ -349,7 +402,35 @@ function scheduler_workbench_scheduler_allow_publishing($node) {
+@@ -349,7 +401,35 @@ function scheduler_workbench_scheduler_allow_publishing($node) {
      if ($permitted_states = workbench_moderation_states_next($current_state, $draft_owner, $node)) {
        $allowed = isset($permitted_states[$published_state]);
      }

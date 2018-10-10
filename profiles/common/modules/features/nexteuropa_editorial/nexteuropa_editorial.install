@@ -162,6 +162,8 @@ function nexteuropa_editorial_install() {
   multisite_config_service('workbench_moderation')->createModerationState('archived', 'Archived', 'Content is not published anymore', 100);
   multisite_config_service('workbench_moderation')->createModerationState('validated', 'Validated', 'Approved by administrator', 10);
 
+  // Set "contributor" permissions.
+  multisite_config_service('user')->grantPermission('contributor', "schedule publishing of nodes", 'scheduler');
   // Build transitions (not transitions provided by workbench_moderation).
   $transitions = array(
     array('from' => 'published', 'to' => 'needs_review'),
