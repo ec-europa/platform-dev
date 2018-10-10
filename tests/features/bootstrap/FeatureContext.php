@@ -9,15 +9,34 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\AfterStepScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Gherkin\Node\PyStringNode;
+use Behat\Testwork\Tester\Result\TestResult;
 
 /**
  * Contains generic step definitions.
  */
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
+
+  /**
+   * The location of the screenshots that are generated when tests fail.
+   *
+   * @var string
+   */
+  protected $screenshotsPath;
+
+  /**
+   * FeatureContext constructor.
+   *
+   * @param string $screenshots_path
+   *   The location of the screenshots that are generated when tests fail.
+   */
+  public function __construct($screenshots_path) {
+    $this->screenshotsPath = $screenshots_path;
+  }
 
   /**
    * Checks that a 403 Access Denied error occurred.
@@ -295,6 +314,25 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
       }
       $message .= "----------\n";
       throw new \Exception($message);
+    }
+  }
+
+  /**
+   * Take screenshot after failed test and save it in the configured folder.
+   *
+   * @AfterStep
+   */
+  public function takeScreenshotAfterFailedStep($event) {
+    if ($event->getTestResult()->getResultCode() === TestResult::FAILED) {
+      $driver = $this->getSession()->getDriver();
+      if ($driver instanceof Selenium2Driver) {
+        $stepText = $event->getStep()->getText();
+        $fileName = preg_replace('#[^a-zA-Z0-9\._-]#', '', $stepText) . '.png';
+        if (is_writable($this->screenshotsPath)) {
+          $this->saveScreenshot($fileName, $this->screenshotsPath);
+          print "Screenshot for '{$stepText}' saved as " . $fileName . "\n";
+        }
+      }
     }
   }
 
