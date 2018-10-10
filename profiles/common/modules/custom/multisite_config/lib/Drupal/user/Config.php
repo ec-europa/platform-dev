@@ -103,7 +103,6 @@ class Config extends ConfigBase {
       // Use code from user_role_grant_permissions() in order to be able
       // to force medule field in special cases.
       $modules = user_permission_get_modules();
-      print_R($modules);
       // Grant new permissions for the role.
       foreach ($permissions as $name) {
         $modules[$name] = isset($modules[$name]) ? $modules[$name] : $module;
