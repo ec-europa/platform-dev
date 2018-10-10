@@ -196,7 +196,7 @@ index 868435e..673b5cc
 +    // Get status allowed to be published.
 +    $allowed_status = _scheduler_workbench_allowed_status();
 +    // Check if the revision current status allows it to be published.
-+    if (!in_array($node->workbench_moderation['current']->state, $allowed_status)) {
++    if (!in_array($node->workbench_moderation['current']->state, $allowed_status) || $allowed_status[$node->workbench_moderation['current']->state] === 0) {
 +      $options = array(
 +        "%node" => $node->nid,
 +        '%status' => $node->workbench_moderation['current']->state,
