@@ -85,6 +85,23 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
+   * Configure tmgmt_poetry to use tmgmt_poetry_mock.
+   *
+   * @Given tmgmt_poetry is configured to use tmgmt_poetry_mock on host :arg1
+   */
+  public function tmgmtPoetryIsConfiguredToUseTmgmtPoetryMockOnHost($host) {
+    global $base_url;
+
+    $base_url = $host;
+
+    $this->variables['poetry_service'] = variable_get('poetry_service');
+
+    $poetry_service = tmgmt_poetry_mock_service_configuration();
+
+    variable_set('poetry_service', $poetry_service);
+  }
+
+  /**
    * Reset the 'numero' column in the poetry_map table.
    *
    * @BeforeScenario @resetPoetryNumero
