@@ -1,0 +1,29 @@
+--- entity_translation.module	2018-10-11 11:27:00.560619510 +0200
++++ entity_translation.module	2018-10-11 115:27:12.560619510 +0200
+@@ -1841,9 +1841,14 @@
+   if (empty($handler)) {
+     return LANGUAGE_NONE;
+   }
++  if (entity_translation_enabled($entity_type, $entity)) {
+-  $langcode = $handler->getActiveLanguage();
++    $langcode = $handler->getActiveLanguage();
+-  return !empty($langcode) ? $langcode : $handler->getLanguage();
++    return $langcode ? $langcode : $handler->getLanguage();
+-}
++  }
++  else {
++    return $handler->getLanguage();
++  }
++}
+ 
+ /**
+  * Translation handler factory.
+@@ -1867,6 +1872,8 @@
+     $entity_info = entity_get_info($entity_type);
+     return new EntityTranslationDefaultHandler($entity_type, $entity_info, $entity);
+   }
++
++  return NULL;
+ }
+ 
+ /**
