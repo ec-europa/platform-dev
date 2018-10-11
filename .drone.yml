@@ -156,7 +156,7 @@ matrix:
       IMAGE_PHP: fpfis/php56-dev
       BEHAT_PART: 1
       CODE_COMPLIANCE: 0
-      BEHAT_TAGS: "@drone_multilingual,@drone_solr"
+      BEHAT_TAGS: "@drone_multilingual"
     - PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       BEHAT_PROFILE: standard_ec_resp
