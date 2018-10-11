@@ -79,3 +79,7 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-no_protoc
 ; Set the session's cookie lifetime to 0 so that cookies are deleted when the browser is closed.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-900
 projects[drupal][patch][] = patches/set-session-cookie-lifetime-0.patch
+
+
+; File directory doesn't look to be writable which causes another error because the field_name value is not set.
+projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-undefinedindex_fileupload-1903010-4.patch
