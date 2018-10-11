@@ -8,7 +8,7 @@ Feature: TMGMT Poetry features
     Given the module is enabled
       |modules                |
       |tmgmt_poetry_mock      |
-    And tmgmt_poetry is configured to use tmgmt_poetry_mock on host "http://web:8080"
+    And tmgmt_poetry is configured to use tmgmt_poetry_mock on host "http://web:8080/build"
     And the following languages are available:
       | languages |
       | pt-pt     |
