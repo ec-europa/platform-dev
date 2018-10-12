@@ -886,7 +886,7 @@ projects[workbench_og][download][branch] = 7.x-2.x
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][download][version] = "2.4"
+projects[wysiwyg][download][version] = "2.5"
 ; Fix remote js loading on ckeditor plugin
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
