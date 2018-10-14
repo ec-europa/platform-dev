@@ -609,7 +609,12 @@ projects[quicktabs][patch][2222805] = https://www.drupal.org/files/issues/quickt
 
 projects[rate][subdir] = "contrib"
 projects[rate][version] = "1.7"
+; Description should be translatable
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1178
 projects[rate][patch][] = patches/rate-translate_description-1178.patch
+; Undefined property: stdClass::$timezone in rate_expiration module
+; https://www.drupal.org/project/rate/issues/1421016
+projects[rate][patch][] = https://www.drupal.org/files/issues/rate-is_null_fix-1421016-9.patch
 
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.3"
