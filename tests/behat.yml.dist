@@ -42,6 +42,7 @@ default:
         - EC\Behat\PoetryExtension\Context\PoetryContext
         - Drupal\nexteuropa\Context\PoetryContext
         - Drupal\nexteuropa\Context\RulesContext
+        - Drupal\nexteuropa\Context\LacoContext
         - OpenEuropa\Behat\TransformationContext:
             elements:
               nept_element:block:page-language-switcher: '.block-language-selector-page'
@@ -65,7 +66,9 @@ default:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
+      browser_name: '{{ behat.browser.name }}'
       selenium2:
+        browser: '{{ behat.browser.name }}'
         wd_host: '{{ behat.wd_host.url }}'
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'

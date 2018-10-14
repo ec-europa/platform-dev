@@ -210,25 +210,15 @@ projects[entity][version] = "1.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1025
 projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
-projects[entity_translation][download][branch] = 7.x-1.x
-projects[entity_translation][download][revision] = edd540b2e1180db45ad1cea14843daa19e13878a
-projects[entity_translation][download][type] = git
 projects[entity_translation][subdir] = "contrib"
+projects[entity_translation][version] = "1.0"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-63.patch
-; Update to entity_translation beta6
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-539
-; https://www.drupal.org/node/2859223
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-strict_warning_only_variables_should_be_passed_by_reference-2859223-2.patch
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
 ; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
 ; https://www.drupal.org/node/2741407
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
-; https://www.drupal.org/node/2743685
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-pathauto_update-2743685-2_0.patch
-; https://www.drupal.org/node/2877074
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -244,13 +234,34 @@ projects[entityreference_prepopulate][version] = "1.5"
 projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.14"
+projects[eu_cookie_compliance][version] = "1.25"
+; After updating the module, a warning message appears about undefined
+; withdraw_message, consent_storage_method and disabled_javascripts indexes.
+; https://www.drupal.org/project/eu_cookie_compliance/issues/2985520
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
+projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-31/undefined_indexes_warning_after_update-2985520-5.patch
+; Popup doesn't close after clicking Decline button.
+; https://www.drupal.org/project/eu_cookie_compliance/issues/2985509
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
+projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-13/eu_cookie_compliance-close_popup-2985509-1.patch
+; Key to json hash cannot be "class" as it is a reserved word, use of "let"
+; is not supported by all browsers as is ECMAScript.
+; https://www.drupal.org/project/eu_cookie_compliance/issues/2986882
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
+projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-26/eu_cookie_compliance-javascript-errors-2986882-3.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
 
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
+; facetapi_map_assoc() does not check if index exists.
+; Note: This patch is to be remoaved with the future version 7.x-1.6.
+; Indeed, the patch has already been pushed with the #2373023 d.o. issue.
+; https://www.drupal.org/project/facetapi/issues/2768779 
+; and https://www.drupal.org/node/2373023
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2042
+projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-2768779-facetapi_map_assoc-undefined-index.patch
 
 projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
@@ -371,13 +382,18 @@ projects[hidden_captcha][subdir] = "contrib"
 projects[hidden_captcha][version] = "1.0"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.18"
+projects[i18n][version] = "1.24"
 ; Language field display should default to hidden.
 ; https://www.drupal.org/node/1350638
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
+; Call "18n_taxonomy_translate_terms" on a non-translated taxonomy term 
+; triggers a "PHP Fatal error: Call to a member function get_translations() on boolean"
+; https://www.drupal.org/project/i18n/issues/2984895
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2006
+projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-07-10/i18n_taxonomy-i18n_taxonomy_translate_terms_get_translations-2984895-1.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
@@ -514,15 +530,12 @@ projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.22"
 
-; A recent version of the Migrate module is pinned that contains a fix for
-; https://www.drupal.org/node/2504517
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
-; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
-projects[migrate][download][branch] = 7.x-2.x
-projects[migrate][download][revision] = bdb5a86116295df7c35fbb39bdd4397f743498c1
-projects[migrate][download][type] = git
 projects[migrate][subdir] = contrib
-projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909252-1.patch
+projects[migrate][version] = "2.11"
+; Migration::applyMappings() problem with handle multifield subfields.
+; https://www.drupal.org/project/migrate/issues/2588341
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2000
+projects[migrate][patch][2588341] = https://www.drupal.org/files/issues/2018-06-25/2588341-9.patch
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0"
@@ -596,6 +609,7 @@ projects[plupload][subdir] = "contrib"
 projects[plupload][download][branch] = 7.x-1.x
 projects[plupload][download][revision] = bba974c6f3224346a1acae4181a700b55129e6e1
 projects[plupload][download][type] = git
+projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/files_not_uploaded_in_subdir-2974466.patch
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
@@ -645,11 +659,7 @@ projects[registry_autoload][version] = 1.3
 projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issues/autoload_bootstrap_dependency_issues-2870868-2.patch
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.10"
-; #2851567 rules_init() and cache rebuilding are broken
-; https://www.drupal.org/project/rules/issues/2851567
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1325
-projects[rules][patch][2851567] = https://www.drupal.org/files/issues/rules_init_and_cache-2851567-8.patch
+projects[rules][version] = "2.11"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
@@ -658,7 +668,7 @@ projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
 
 projects[select_or_other][subdir] = "contrib"
-projects[select_or_other][version] = 2.22
+projects[select_or_other][version] = 2.24
 
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
@@ -840,15 +850,15 @@ projects[workbench_access][subdir] = "contrib"
 projects[workbench_access][version] = "1.4"
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.6"
+projects[workbench_email][version] = "3.12"
 ; Issue #2501321: Add email subject and message to Features.
-; https://www.drupal.org/node/2501321
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
-projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
-; Issue only reproducible on NextEuropa platform
 ; https://www.drupal.org/node/2590385
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
-projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/2018-07-13/workbench_email-feature_revert_lock-3.patch
+; Issue #2985968: Notice: Undefined index: config_container in workbench_email_form_submit().
+; https://www.drupal.org/project/workbench_email/issues/2985968
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1996
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/2018-07-16/php_notice_undefined_index-config_container-1.patch
 
 projects[drafty][subdir] = "contrib"
 projects[drafty][version] = "1.0-rc1"
@@ -882,6 +892,11 @@ projects[workbench_og][type] = module
 projects[workbench_og][download][type] = git
 projects[workbench_og][download][revision] = 511caed35326ec7f328e794dc4be21eb33c5ae86
 projects[workbench_og][download][branch] = 7.x-2.x
+; Check access for users to view content that was created by them and don't
+; belong to an organic group.
+; Issue https://www.drupal.org/project/workbench_og/issues/2006134
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
+projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][version] = "2.4"
@@ -893,7 +908,7 @@ projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.3"
+projects[xmlsitemap][version] = "2.4"
 ; Using rel="alternate" rather than multiple sitemaps by language context
 ; https://www.drupal.org/node/1670086
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
@@ -1101,9 +1116,7 @@ projects[atomium][version] = 2.11
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-; TODO: Change this temporal branch and put the tag once the temporal branch is merged in ec_europa
-; TODO: projects[ec_europa][download][tag] = 0.0.13
-projects[ec_europa][download][branch] = nept-1315-ec-europa
+projects[ec_europa][download][tag] = 0.0.15
 
 ; ==============
 ; Custom modules

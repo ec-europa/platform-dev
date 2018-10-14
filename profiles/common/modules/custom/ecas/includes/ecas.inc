@@ -393,7 +393,7 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
 function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $args) {
   $user_cas_groups = array();
   if (!empty($user_info['cas:groups']) && !empty($user_info['cas:groups']['cas:group'])) {
-    $user_cas_groups = $user_info['cas:groups']['cas:group'];
+    $user_cas_groups = (array) $user_info['cas:groups']['cas:group'];
   }
 
   $cem_role = user_role_load_by_name(CCE_BASIC_CONFIG_CEM_ROLE_NAME);
@@ -579,16 +579,24 @@ function ecas_login_check() {
  * Check to see if we need to display the logout menu.
  *
  * @return bool
- *   TRUE if the user is logged via ECAS, FALSE otherwise.
+ *   TRUE if the user is logged via ECAS,
+ *   FALSE otherwise.
  */
 function ecas_menu_logout_check() {
   global $user;
-  $access = FALSE;
-  if ($user->uid) {
-    // We provide access to this menu entry only if we are logged via ECAS.
-    $access = isset($_SESSION['phpCAS']) && $_SESSION['phpCAS']['user'] === $user->name;
+
+  if (!user_is_logged_in()) {
+    return FALSE;
   }
-  return $access;
+
+  // We provide access to this menu entry only if we are logged via ECAS.
+  if (isset($_SESSION['phpCAS']) && isset($user->name)) {
+    if ($_SESSION['phpCAS']['user'] === $user->name) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
 }
 
 /**
