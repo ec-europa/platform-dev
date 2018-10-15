@@ -71,7 +71,7 @@ Feature: TMGMT Poetry features
     And I fill in "Poetry Password" with "poetry_password"
     And I press the "Save translator" button
 
-  @cleanup-tmgmt-poetry-website-identifier @theme_wip @drone_poetry
+  @cleanup-tmgmt-poetry-website-identifier @theme_wip @drone_poetry @drone_poetry_single
   Scenario: Check that sending translation request adds website name in title.
     Given I am logged in as a user with the "administrator" role
     When I am viewing a multilingual "page" content:
