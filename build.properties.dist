@@ -125,10 +125,10 @@ behat.yml.template = ${behat.dir}/behat.yml.dist
 behat.yml.path = ${behat.dir}/behat.yml
 
 # The base URL to use in Behat tests.
-behat.base_url = http://localhost
+behat.base_url = http://web
 
 # The URL of the Behat webdriver host.
-behat.wd_host.url = http://localhost:8643/wd/hub
+behat.wd_host.url = http://selenium:8643/wd/hub
 
 # The browser to use for javascript testing.
 behat.browser.name = phantomjs
