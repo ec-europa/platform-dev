@@ -86,7 +86,7 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: my-website - My page"
 
-  @javascript @cleanup-tmgmt-poetry-website-identifier @poetry_mock_cleanup_translator @theme_wip @drone_poetry
+  @javascript @cleanup-tmgmt-poetry-website-identifier @poetry_mock_cleanup_translator @theme_wip @drone_poetry @drone_poetry_single
   Scenario: Send translation request including a website identifier with
   characters that have a special meaning in HTML.
     Given I am logged in as a user with the "administrator" role
@@ -108,7 +108,7 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: />&mywebsite< - My page"
 
-  @resetPoetryNumero @theme_wip @drone_poetry
+  @resetPoetryNumero @theme_wip @drone_poetry @drone_poetry_single
   Scenario: Checking the counter init request.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
