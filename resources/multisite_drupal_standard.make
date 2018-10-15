@@ -223,6 +223,13 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-pathauto_update-2743685-2_0.patch
 ; https://www.drupal.org/node/2877074
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
+; Refactor the entity_translation_language() callback to make it bundle-specific.
+; The bug only Exists in platform 2.4, The patch does not applied as is. So, we
+; produce a local one without the module tests update.
+; https://www.drupal.org/node/2877074
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2101
+projects[entity_translation][patch][] = patches/et-bundle_language_with_test-2877074-nept-2101.patch
+
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
