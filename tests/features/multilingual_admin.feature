@@ -95,6 +95,7 @@ Feature: Content translation
       | en        |
       | fr        |
     And I request to change the variable "file_private_path" to "sites/default/files/private_files"
+    And the cache has been cleared
     When I go to "file/add"
     And I attach the file "/tests/files/logo.png" to "edit-upload-upload"
     And I press "Next"
