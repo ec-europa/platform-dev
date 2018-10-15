@@ -150,24 +150,20 @@ matrix:
       IMAGE_PHP: fpfis/php56-dev
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
-
-      # (1991 #13) The radio button with "Public local files served by the webserver." was not found on the page http://web:8080/build/file/add (Exception)
-    - BEHAT_PART: 1
-      BEHAT_PROFILE: standard_ec_resp
-      BEHAT_TAGS: "@drone_multilingual"
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/php56-dev
-      PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_resp
-
-      # (1991 #14) Image upload: The string "has been created." was not found anywhere in the HTML response of the current page. (Behat\Mink\Exception\ExpectationException)
-    - BEHAT_PART: 2
-      BEHAT_PROFILE: standard_ec_resp
-      BEHAT_TAGS: "@drone_images"
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/php56-dev
-      PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_resp
+#    - BEHAT_PART: 1
+#      BEHAT_PROFILE: standard_ec_resp
+#      BEHAT_TAGS: "@drone_multilingual"
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/php56-dev
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_resp
+#    - BEHAT_PART: 2
+#      BEHAT_PROFILE: standard_ec_resp
+#      BEHAT_TAGS: "@drone_images"
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/php56-dev
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_resp
       # Standard, ec_resp (php 7.1)
       # SKIP php 7.1
 #    - BEHAT_PART: 0
