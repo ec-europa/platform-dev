@@ -28,7 +28,6 @@ clone:
 
 pipeline:
   composer-install:
-    group: prepare
     image: ${IMAGE_PHP=fpfis/php56-dev}
     volumes:
       - /cache:/cache
@@ -46,7 +45,6 @@ pipeline:
       - ./bin/phing install-platform -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_europa}'
 
   phpcs:
-    group: check
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
       - ./bin/phpcs
@@ -55,7 +53,6 @@ pipeline:
         CODE_COMPLIANCE: 1
 
   phpunit:
-    group: test
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
       - ./bin/phpunit -c tests/phpunit.xml
@@ -64,7 +61,6 @@ pipeline:
         CODE_COMPLIANCE: 1
 
   behat:
-    group: behat
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
       - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict --tags "${BEHAT_TAGS}"
