@@ -219,16 +219,16 @@
         },
         {
             "name": "drupol/phingbehattask",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupol/phingbehattask.git",
-                "reference": "2a3f9cc16a99f4eb2ea3dbb08f6ca39975cc5cf5"
+                "reference": "582ad620ae1d166d39df782e4c2728729c62a9df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupol/phingbehattask/zipball/2a3f9cc16a99f4eb2ea3dbb08f6ca39975cc5cf5",
-                "reference": "2a3f9cc16a99f4eb2ea3dbb08f6ca39975cc5cf5",
+                "url": "https://api.github.com/repos/drupol/phingbehattask/zipball/582ad620ae1d166d39df782e4c2728729c62a9df",
+                "reference": "582ad620ae1d166d39df782e4c2728729c62a9df",
                 "shasum": ""
             },
             "require": {
@@ -273,7 +273,7 @@
                 "phing",
                 "test"
             ],
-            "time": "2018-10-03T12:13:55+00:00"
+            "time": "2018-10-15T10:22:34+00:00"
         },
         {
             "name": "drush/drush",
