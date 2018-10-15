@@ -37,12 +37,12 @@ pipeline:
   build-platform:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
-      - ./bin/phing build-platform-dev -D'composer.bin'='/usr/local/bin/composer' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub' -D'behat.browser.name'='phantomjs' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_europa}'
+      - ./bin/phing build-platform-dev -D'composer.bin'='/usr/local/bin/composer' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub' -D'behat.browser.name'='phantomjs' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
 
   install-platform:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
-      - ./bin/phing install-platform -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_europa}'
+      - ./bin/phing install-platform -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
 
   phpcs:
     image: ${IMAGE_PHP=fpfis/php56-dev}
