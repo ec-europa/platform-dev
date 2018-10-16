@@ -83,13 +83,3 @@ Feature: Contact Form
     | Abc..123@example.com          |
     | ”(),:;<>[\]@example.com       |
     | just”not”right@example.com    |
-
-  Scenario: Verify that mail is sent when anonymous
-    Given I am not logged in
-    When I am on "contact"
-    And I fill in "Your name" with "name"
-    And I fill in "Your e-mail address" with "test@test.com"
-    And I fill in "Subject" with "Subject"
-    And I fill in "Message" with "Message"
-    And I press the "Send message" button
-    Then I should see the text "Your message has been sent."
