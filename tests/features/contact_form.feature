@@ -30,9 +30,9 @@ Feature: Contact Form
     And I fill in "Subject" with "Complaint"
     And I fill in "Message" with "I am not happy with this contact page"
     And I press the "Send message" button
-    Then I should see the following error messages:
-      | error messages                   |
-      | Math question field is required. |
+    Then I should see the following success messages:
+      | success messages                   |
+      | Your message has been sent. |
 
   @javascript
   Scenario: Administrator user can submit the contact page in ec_resp theme
