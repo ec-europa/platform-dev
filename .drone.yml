@@ -130,25 +130,25 @@ matrix:
 #    - BEHAT_PART: 0
 #      BEHAT_PROFILE: default
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php71-dev
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_europa
 #    - BEHAT_PART: 1
 #      BEHAT_PROFILE: default
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php71-dev
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_europa
 #    - BEHAT_PART: 2
 #      BEHAT_PROFILE: default
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php71-dev
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_europa
 #    - BEHAT_PART: 3
 #      BEHAT_PROFILE: default
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php71-dev
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_europa
 
@@ -182,23 +182,23 @@ matrix:
 #      BEHAT_PROFILE: standard_ec_resp
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php71-dev
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
 #      THEME_DEFAULT: ec_resp
 #    - BEHAT_PART: 1
 #      BEHAT_PROFILE: standard_ec_resp
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php71-dev
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_resp
 #    - BEHAT_PART: 2
 #      BEHAT_PROFILE: standard_ec_resp
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php71-dev
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_resp
 #    - BEHAT_PART: 3
 #      BEHAT_PROFILE: standard_ec_resp
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php71-dev
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_resp
