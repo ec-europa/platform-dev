@@ -37,7 +37,7 @@ pipeline:
   build-platform:
     image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6-ubuntu}
     commands:
-      - ./bin/phing build-platform-dev -D'composer.bin'='/usr/local/bin/composer' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub' -D'behat.browser.name'='phantomjs' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+      - ./bin/phing build-platform-dev -D'composer.bin'='/usr/bin/composer' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub' -D'behat.browser.name'='phantomjs' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
 
   install-platform:
     image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6-ubuntu}

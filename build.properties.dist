@@ -68,7 +68,7 @@ platform.make = ${platform.resources.dir}/${platform.profile.name}.make
 platform.bin = ${project.basedir}/bin
 phing.bin = ${project.basedir}/bin/phing
 drush.bin = ${project.basedir}/bin/drush
-composer.bin = /usr/bin/composer
+composer.bin = composer.phar
 phantomjs.bin = ${project.basedir}/bin/phantomjs
 
 # The build location
