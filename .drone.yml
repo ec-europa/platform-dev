@@ -81,7 +81,7 @@ matrix:
     - BEHAT_PART: 0
       BEHAT_PROFILE: communities_ec_resp
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/php71-dev
+      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
       PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
 
@@ -96,7 +96,7 @@ matrix:
     - BEHAT_PART: 0
       BEHAT_PROFILE: communities
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/php71-dev
+      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
       PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
 
