@@ -739,7 +739,8 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 ; #2362321 : Check source length limits
 ; https://www.drupal.org/node/2362321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1802
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-12/check_source_length-d7-2362321-37.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2029
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-09-17/check_source_length-d7-2362321-41.patch
 ; #2955245 : i18nviews strings are not shown on sources view
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
