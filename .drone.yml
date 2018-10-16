@@ -119,6 +119,12 @@ matrix:
       IMAGE_PHP: fpfis/php56-dev
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 3
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/php56-dev
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
       # Standard, ec_europa (php 7.1)
       # SKIP php 7.1
 #    - BEHAT_PART: 0
@@ -134,6 +140,12 @@ matrix:
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_europa
 #    - BEHAT_PART: 2
+#      BEHAT_PROFILE: default
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/php71-dev
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_europa
+#    - BEHAT_PART: 3
 #      BEHAT_PROFILE: default
 #      CODE_COMPLIANCE: 0
 #      IMAGE_PHP: fpfis/php71-dev
@@ -159,6 +171,12 @@ matrix:
       IMAGE_PHP: fpfis/php56-dev
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 3
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/php56-dev
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
       # Standard, ec_resp (php 7.1)
 #    - BEHAT_PART: 0
 #      BEHAT_PROFILE: standard_ec_resp
@@ -173,6 +191,12 @@ matrix:
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_resp
 #    - BEHAT_PART: 2
+#      BEHAT_PROFILE: standard_ec_resp
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/php71-dev
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_resp
+#    - BEHAT_PART: 3
 #      BEHAT_PROFILE: standard_ec_resp
 #      CODE_COMPLIANCE: 0
 #      IMAGE_PHP: fpfis/php71-dev
