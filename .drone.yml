@@ -67,6 +67,16 @@ pipeline:
     when:
       matrix:
         CODE_COMPLIANCE: 0
+        
+  upload-screenshots:
+    image: drillster/drone-rsync
+    user: web_asda
+    secrets: [ plugin_key, plugin_hosts ]
+    source: screenshots/
+    target: ${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/screenshots/${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/
+    when:
+      status: [ success, failure ]
+      
 matrix:
   include:
     - CODE_COMPLIANCE: 1
