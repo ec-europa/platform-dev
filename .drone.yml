@@ -72,7 +72,7 @@ pipeline:
     image: drillster/drone-rsync
     user: web_asda
     secrets: [ plugin_key, plugin_hosts ]
-    source: screenshots/
+    source: tests/screenshots/
     target: ${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/screenshots/${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/
     when:
       status: [ success, failure ]
