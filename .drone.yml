@@ -63,62 +63,62 @@ pipeline:
   behat:
     image: ${IMAGE_PHP=fpfis/php56-dev}
     commands:
-      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict --tags "${BEHAT_TAGS}"
+      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
     when:
       matrix:
         CODE_COMPLIANCE: 0
 matrix:
   include:
-#    - CODE_COMPLIANCE: 1
+    - CODE_COMPLIANCE: 1
       # Communities, ec_resp (php 5.6)
-#    - BEHAT_PART: 0
-#      BEHAT_PROFILE: communities_ec_resp
-#      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php56-dev
-#      PLATFORM_PROFILE: multisite_drupal_communities
-#      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: communities_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/php56-dev
+      PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
       # Communities, ec_resp (php 7.1)
-#    - BEHAT_PART: 0
-#      BEHAT_PROFILE: communities_ec_resp
-#      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php71-dev
-#      PLATFORM_PROFILE: multisite_drupal_communities
-#      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: communities_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/php71-dev
+      PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
 
       # Communities, ec_europa (php 5.6)
-#    - BEHAT_PART: 0
-#      BEHAT_PROFILE: communities
-#      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php56-dev
-#      PLATFORM_PROFILE: multisite_drupal_communities
-#      THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: communities
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/php56-dev
+      PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
       # Communities, ec_europa (php 7.1)
-#    - BEHAT_PART: 0
-#      BEHAT_PROFILE: communities
-#      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php71-dev
-#      PLATFORM_PROFILE: multisite_drupal_communities
-#      THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: communities
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/php71-dev
+      PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
 
       # Standard, ec_europa (php 5.6)
-#    - BEHAT_PART: 0
-#      BEHAT_PROFILE: default
-#      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php56-dev
-#      PLATFORM_PROFILE: multisite_drupal_standard
-#      THEME_DEFAULT: ec_europa
-#    - BEHAT_PART: 1
-#      BEHAT_PROFILE: default
-#      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php56-dev
-#      PLATFORM_PROFILE: multisite_drupal_standard
-#      THEME_DEFAULT: ec_europa
-#    - BEHAT_PART: 2
-#      BEHAT_PROFILE: default
-#      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php56-dev
-#      PLATFORM_PROFILE: multisite_drupal_standard
-#      THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/php56-dev
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 1
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/php56-dev
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 2
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/php56-dev
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
       # Standard, ec_europa (php 7.1)
       # SKIP php 7.1
 #    - BEHAT_PART: 0
@@ -141,31 +141,25 @@ matrix:
 #      THEME_DEFAULT: ec_europa
 
       # Standard, ec_resp (php 5.6)
-      # (1991 #12) Tracked changes, Then I should see the success message "NextEuropa Tracked Changes feature is now active on your site."
-      # (1991 #12) Poetry, Notice: Undefined index: file in /test/platform-dev/profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry_mock/src/Mock/PoetryMock.php line 665
     - BEHAT_PART: 0
       BEHAT_PROFILE: standard_ec_resp
-      BEHAT_TAGS: "@drone_tracked_changes"
       CODE_COMPLIANCE: 0
       IMAGE_PHP: fpfis/php56-dev
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
-#    - BEHAT_PART: 1
-#      BEHAT_PROFILE: standard_ec_resp
-#      BEHAT_TAGS: "@drone_multilingual"
-#      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php56-dev
-#      PLATFORM_PROFILE: multisite_drupal_standard
-#      THEME_DEFAULT: ec_resp
-#    - BEHAT_PART: 2
-#      BEHAT_PROFILE: standard_ec_resp
-#      BEHAT_TAGS: "@drone_images"
-#      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/php56-dev
-#      PLATFORM_PROFILE: multisite_drupal_standard
-#      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 1
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/php56-dev
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 2
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/php56-dev
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
       # Standard, ec_resp (php 7.1)
-      # SKIP php 7.1
 #    - BEHAT_PART: 0
 #      BEHAT_PROFILE: standard_ec_resp
 #      PLATFORM_PROFILE: multisite_drupal_standard
