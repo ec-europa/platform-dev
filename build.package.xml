@@ -149,8 +149,8 @@
             <istrue value="${platform.build.files.dir}" />
             <then>
                 <mkdir dir="${platform.build.files.dir}/private_files" />
-                <chown file="${platform.build.files.dir}" user="web" />
-                <chown file="${platform.build.files.dir}/private_files" user="web" />
+                <chown file="${platform.build.files.dir}" user="www-data.www-data" />
+                <chown file="${platform.build.files.dir}/private_files" user="www-data.www-data" />
                 <chmod file="${platform.build.files.dir}" mode="0777" />
                 <chmod file="${platform.build.files.dir}/private_files" mode="0777" />
             </then>
