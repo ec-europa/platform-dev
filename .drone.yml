@@ -30,8 +30,8 @@ pipeline:
   site-build:
     image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6-ubuntu}
     volumes:
-    - /cache/ec-europa/platform-dev/composer:/root/.composer/cache
-    - /cache/ec-europa/platform-dev/drush:/root/.drush/cache
+    - /cache/${DRONE_REPO}/composer:/root/.composer/cache
+    - /cache/${DRONE_REPO}/drush:/root/.drush/cache
     commands:
       - composer install --ansi --no-suggest --no-progress
       - ./bin/phing build-platform-dev -D'composer.bin'='/usr/bin/composer' -D'behat.screenshots.path'='/test/platform-dev/tests/screenshots' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub' -D'behat.browser.name'='phantomjs' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
