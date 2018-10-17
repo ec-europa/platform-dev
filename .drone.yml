@@ -27,21 +27,13 @@ clone:
     tags: true
 
 pipeline:
-  composer-install:
+  site-build:
     image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6-ubuntu}
     volumes:
       - /cache:/cache
     commands:
-      - composer install
-
-  build-platform:
-    image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6-ubuntu}
-    commands:
+      - composer install --ansi --no-suggest --no-progress
       - ./bin/phing build-platform-dev -D'composer.bin'='/usr/bin/composer' -D'behat.screenshots.path'='/test/platform-dev/tests/screenshots' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub' -D'behat.browser.name'='phantomjs' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
-
-  install-platform:
-    image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6-ubuntu}
-    commands:
       - ./bin/phing install-platform -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
 
   phpcs:
