@@ -174,7 +174,7 @@
     <!-- Install Composer dependencies for the build system. -->
     <target name="install-build-dependencies">
         <composer command="install" composer="${composer.bin}">
-            <arg value="--working-dir=${project.basedir}" />
+            <arg value="--working-dir=${project.basedir} --ansi --no-suggest --no-progress" />
         </composer>
     </target>
 
