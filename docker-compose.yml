@@ -11,7 +11,7 @@ services:
       PHP_IDE_CONFIG: "serverName=Test"
   web:
     # image: fpfis/httpd-php-dev:7.1
-    image: fpfis/php56-dev
+    image: fpfis/httpd-php-dev:5.6-ubuntu
     working_dir: /var/www/html
     ports:
       - 8080:8080
