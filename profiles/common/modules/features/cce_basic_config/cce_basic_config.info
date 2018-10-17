@@ -130,11 +130,6 @@ features[variable][] = file_private_path
 features[variable][] = filter_fallback_format
 features[variable][] = i18n_select_nodes
 features[variable][] = i18n_string_allowed_formats
-features[variable][] = image_captcha_bilinear_interpolation
-features[variable][] = image_captcha_distortion_amplitude
-# The image_captcha_fonts variable is set in cce_basic_config_strongarm_alter().
-# Please do not remove this entry when re-exporting the variables.
-features[variable][] = image_captcha_fonts
 features[variable][] = jquery_update_compression_type
 features[variable][] = jquery_update_jquery_admin_version
 features[variable][] = jquery_update_jquery_cdn
