@@ -149,6 +149,7 @@
             <istrue value="${platform.build.files.dir}" />
             <then>
                 <mkdir dir="${platform.build.files.dir}" />
+                <mkdir dir="${platform.build.files.dir}/print_pdf" />
                 <chmod file="${platform.build.files.dir}" mode="0777" />
                 <mkdir dir="${platform.build.files.dir}/private_files" />
                 <chmod file="${platform.build.files.dir}/private_files" mode="0777" />
