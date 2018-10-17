@@ -160,15 +160,20 @@
 
 	<!-- Setup file directory -->
     <target name="setup-files-directory">
-        <chown file="${platform.build.dir}" user="www-data.www-data" />
 		 <if>
             <istrue value="${platform.build.files.dir}" />
             <then>
+                <mkdir dir="${platform.build.files.dir}" />
                 <chmod file="${platform.build.files.dir}" mode="0777" />
                 <mkdir dir="${platform.build.files.dir}/private_files" />
                 <chmod file="${platform.build.files.dir}/private_files" mode="0777" />
             </then>
         </if>
+    </target>
+
+    <!-- Chown build directory -->
+    <target name="chown-build-directory">
+        <chown file="${platform.build.dir}" user="www-data.www-data" />
     </target>
 
     <!-- Install Composer dependencies for the build system. -->
@@ -181,7 +186,7 @@
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess, setup-files-directory" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess, setup-files-directory, chown-build-directory" />
 
     <target
         name="build-platform-dist"
