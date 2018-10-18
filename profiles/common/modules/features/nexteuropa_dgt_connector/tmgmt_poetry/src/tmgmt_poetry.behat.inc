@@ -248,16 +248,16 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     for ($i = 0; $i < $wait; $i++) {
       try {
         if ($lambda($this, $args)) {
-          return true;
+          return TRUE;
         }
-      } catch (Exception $e) {
-        // do nothing
+      }
+      catch (Exception $e) {
         $lastErrorMessage = $e->getMessage();
       }
       sleep(1);
     }
 
-    return false;
+    return FALSE;
   }
 
   /**
@@ -274,7 +274,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     // Checking if the given field is available.
     $complete = $this->spin(function ($context, $args) {
       $context->getSession()->getPage()->fillField($args['field'], $args['date']);
-      return true;
+      return TRUE;
     }, $args);
 
     if (!$complete) {
