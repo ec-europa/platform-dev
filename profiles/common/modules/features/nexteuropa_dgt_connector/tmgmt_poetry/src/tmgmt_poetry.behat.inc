@@ -230,18 +230,56 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
+   * Attempt a procedure up to a given time limit.
+   *
+   * @param callable $lambda
+   *   The function to execute, must return a true value (cast)
+   * @param $args
+   *   Additional arguments to pass to the function.
+   * @param int $wait
+   *   The amount of times to repeat (1 per second).
+   *
+   * @return bool
+   *   Whether the function executed successfully or not.
+   */
+  public function spin(callable $lambda, $args, $wait = 5) {
+    $lastErrorMessage = '';
+
+    for ($i = 0; $i < $wait; $i++) {
+      try {
+        if ($lambda($this, $args)) {
+          return true;
+        }
+      } catch (Exception $e) {
+        // do nothing
+        $lastErrorMessage = $e->getMessage();
+      }
+      sleep(1);
+    }
+
+    return false;
+  }
+
+  /**
    * Generate a relative date for job deadline.
    *
    * @When I fill in :arg1 with a relative date of :arg2 days
    */
   public function iFillInWithArelativeDateOfDays($field, $number) {
+    $args = [
+      'field' => $field,
+      'date' => date('d/m/Y', strtotime("{$number} day")),
+    ];
+
     // Checking if the given field is available.
-    if (!$this->getSession()->getPage()->findField($field)) {
+    $complete = $this->spin(function ($context, $args) {
+      $context->getSession()->getPage()->fillField($args['field'], $args['date']);
+      return true;
+    }, $args);
+
+    if (!$complete) {
       throw new ExpectationException("Field '$field' not found.", $this->getSession());
     }
-
-    $relative_date = date('d/m/Y', strtotime("{$number} day"));
-    $this->getSession()->getPage()->fillField($field, $relative_date);
   }
 
   /**
