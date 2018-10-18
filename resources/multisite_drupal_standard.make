@@ -310,10 +310,16 @@ projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
 
 projects[field_group][subdir] = "contrib"
-projects[field_group][version] = "1.5"
+projects[field_group][version] = "1.6"
 ; https://www.drupal.org/node/2604284
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
+; After update from 1.5 to 1.6 empty field groups (because of field permissions) 
+; are now being displayed as empty groups
+; https://www.drupal.org/node/2926605
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2016
+projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group-remove-array_parents-2494385-11.patch
+
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.21"
@@ -621,7 +627,7 @@ projects[plupload][download][type] = git
 projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/files_not_uploaded_in_subdir-2974466.patch
 
 projects[print][subdir] = "contrib"
-projects[print][version] = "2.0"
+projects[print][version] = "2.2"
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
@@ -630,7 +636,12 @@ projects[quicktabs][patch][2222805] = https://www.drupal.org/files/issues/quickt
 
 projects[rate][subdir] = "contrib"
 projects[rate][version] = "1.7"
+; Description should be translatable
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1178
 projects[rate][patch][] = patches/rate-translate_description-1178.patch
+; Undefined property: stdClass::$timezone in rate_expiration module
+; https://www.drupal.org/project/rate/issues/1421016
+projects[rate][patch][] = https://www.drupal.org/files/issues/rate-is_null_fix-1421016-9.patch
 
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.3"
@@ -749,7 +760,8 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 ; #2362321 : Check source length limits
 ; https://www.drupal.org/node/2362321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1802
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-12/check_source_length-d7-2362321-37.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2029
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-09-17/check_source_length-d7-2362321-41.patch
 ; #2955245 : i18nviews strings are not shown on sources view
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
@@ -788,7 +800,7 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.0"
+projects[uuid][version] = "1.2"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -819,8 +831,7 @@ projects[views_bootstrap][subdir] = "contrib"
 projects[views_bootstrap][version] = "3.1"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.4"
-
+projects[views_bulk_operations][version] = "3.5"
 ; Rules actions 'View and display' only works if Bulk Ops field is in 'master' of a view.
 ; https://www.drupal.org/node/2856974
 projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/non_master_views_actions_2856974-2.patch
