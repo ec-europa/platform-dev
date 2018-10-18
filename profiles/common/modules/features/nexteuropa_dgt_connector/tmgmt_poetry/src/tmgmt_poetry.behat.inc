@@ -80,7 +80,6 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    */
   private function getCurrentNodeId() {
     $url = $this->getSession()->getCurrentUrl();
-    var_export($url);
     preg_match_all('/node\/(\d*)/', $url, $matches);
     return (isset($matches[1][0]) ? $matches[1][0] : FALSE);
   }
