@@ -65,7 +65,7 @@ pipeline:
     source: tests/screenshots/
     target: ${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/screenshots/${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/
     when:
-      status: [ success, failure ]
+      status: [ failure ]
       
 matrix:
   include:
