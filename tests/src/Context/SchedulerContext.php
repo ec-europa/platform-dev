@@ -83,7 +83,7 @@ class SchedulerContext implements Context {
     if (NULL === $element) {
       throw new \InvalidArgumentException(sprintf('Could not find: "%s"', $arg1));
     }
-    $scheduler = date('H:i:10', time() + 60);
+    $scheduler = date('H:i:10', '+1 minutes');
     $element->setValue($scheduler);
   }
 
