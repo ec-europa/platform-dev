@@ -17,6 +17,8 @@ use Drupal\nexteuropa\Context\VariableContext;
  */
 class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContextInterface {
 
+  use  Drupal\nexteuropa\Context\ContextUtil;
+
   public $nodeId;
   public $jobId;
   public $jobReference;
@@ -227,37 +229,6 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
         )
       );
     }
-  }
-
-  /**
-   * Attempt a procedure up to a given time limit.
-   *
-   * @param callable $lambda
-   *   The function to execute, must return a true value (cast)
-   * @param $args
-   *   Additional arguments to pass to the function.
-   * @param int $wait
-   *   The amount of times to repeat (1 per second).
-   *
-   * @return bool
-   *   Whether the function executed successfully or not.
-   */
-  public function spin(callable $lambda, $args, $wait = 5) {
-    $lastErrorMessage = '';
-
-    for ($i = 0; $i < $wait; $i++) {
-      try {
-        if ($lambda($this, $args)) {
-          return TRUE;
-        }
-      }
-      catch (Exception $e) {
-        $lastErrorMessage = $e->getMessage();
-      }
-      sleep(1);
-    }
-
-    return FALSE;
   }
 
   /**
