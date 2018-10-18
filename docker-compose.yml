@@ -5,7 +5,9 @@ services:
     image: fpfis/httpd-php-dev:5.6-ubuntu
     working_dir: /var/www/html
     volumes:
-    - .:/var/www/html
+      - .:/var/www/html
+      - ~/.composer/cache:/root/.composer/cache
+      - ~/.drush/cache:/root/.drush/cache
     environment:
       XDEBUG_CONFIG: "remote_enable=1 remote_host=${DOCKER_HOST_IP} remote_port=9000 idekey=PHPSTORM remote_autostart=1"
       PHP_IDE_CONFIG: "serverName=Test"
@@ -28,15 +30,9 @@ services:
       MYSQL_DATABASE: 'drupal'
       MYSQL_USER: 'dbuser'
       MYSQL_PASSWORD: 'dbpass'
-  # Spawn a Selenium server which also includes a VNC server on localhost:5900 (the password is "secret")
   selenium:
-    # image: selenium/standalone-chrome-debug:3.11
     image: wernight/phantomjs
     environment:
       - DISPLAY=:99
       - SE_OPTS=-debug
-    ports:
-      - "5900:5900"
-    expose:
-      - '8910'
     command: "phantomjs --webdriver=8910 --ignore-ssl-errors=true --ssl-protocol=any"
