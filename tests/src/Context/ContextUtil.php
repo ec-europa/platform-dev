@@ -101,7 +101,9 @@ trait ContextUtil {
    * @return bool
    *   Whether the function executed successfully or not.
    */
-  public function spin(callable $lambda, array $args = [], $repeat = 10) {
+  public function spin(callable $lambda, array $args = [], $repeat = 50) {
+    $errorMessage = '';
+
     for ($i = 0; $i < $repeat; $i++) {
       try {
         if ($lambda($this, $args)) {
@@ -109,8 +111,9 @@ trait ContextUtil {
         }
       }
       catch (Exception $e) {
+        $errorMessage .= $e->getMessage();
       }
-      usleep(100);
+      usleep(100000);
     }
 
     return FALSE;
