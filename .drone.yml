@@ -33,6 +33,9 @@ pipeline:
       - composer install --ansi --no-suggest --no-progress
       - ./bin/phing build-platform-dev -D'composer.bin'='/usr/bin/composer' -D'behat.screenshots.path'='/test/platform-dev/tests/screenshots' -D'behat.base_url'='http://web:8080/build' -D'behat.wd_host.url'='http://selenium:8910/wd/hub' -D'behat.browser.name'='phantomjs' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
       - ./bin/phing install-platform -D'drupal.db.host'='mysql' -D'drupal.db.user'='root' -D'drupal.db.password'='' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+    volumes:
+      - /cache/${DRONE_REPO}-${DRONE_JOB_NUMBER}/composer:/root/.cache/composer
+      - /cache/${DRONE_REPO}-${DRONE_JOB_NUMBER}/drush:/root/.drush/cache
 
   phpcs:
     image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6-ubuntu}
