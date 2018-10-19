@@ -242,14 +242,13 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     ];
 
     // Checking if the given field is available.
-    $complete = $this->spin(function ($context, $args) {
+    $this->spin(function ($context, $args) {
       $context->getSession()->getPage()->fillField($args['field'], $args['date']);
-      return TRUE;
+      $value = $this->getSession()->getPage()->findField($args['field'])->getValue();
+      return $value === $args['date'];
     }, $args);
 
-    if (!$complete) {
-      throw new ExpectationException("Field '$field' not found.", $this->getSession());
-    }
+    $this->getSession()->getPage()->findField($args['field']);
   }
 
   /**
