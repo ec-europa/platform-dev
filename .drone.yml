@@ -56,7 +56,7 @@ pipeline:
   behat:
     image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6-ubuntu}
     commands:
-      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
+      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict --tags "${BEHAT_TAGS}"
     when:
       matrix:
         CODE_COMPLIANCE: 0
@@ -72,114 +72,115 @@ pipeline:
       
 matrix:
   include:
-    - CODE_COMPLIANCE: 1
-      # Communities, ec_resp (php 5.6)
-    - BEHAT_PART: 0
-      BEHAT_PROFILE: communities_ec_resp
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
-      PLATFORM_PROFILE: multisite_drupal_communities
-      THEME_DEFAULT: ec_resp
-      # Communities, ec_resp (php 7.1)
-    - BEHAT_PART: 0
-      BEHAT_PROFILE: communities_ec_resp
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
-      PLATFORM_PROFILE: multisite_drupal_communities
-      THEME_DEFAULT: ec_resp
-
-      # Communities, ec_europa (php 5.6)
-    - BEHAT_PART: 0
-      BEHAT_PROFILE: communities
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
-      PLATFORM_PROFILE: multisite_drupal_communities
-      THEME_DEFAULT: ec_europa
-      # Communities, ec_europa (php 7.1)
-    - BEHAT_PART: 0
-      BEHAT_PROFILE: communities
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
-      PLATFORM_PROFILE: multisite_drupal_communities
-      THEME_DEFAULT: ec_europa
-
-      # Standard, ec_europa (php 5.6)
-    - BEHAT_PART: 0
-      BEHAT_PROFILE: default
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
-      PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_europa
-    - BEHAT_PART: 1
-      BEHAT_PROFILE: default
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
-      PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_europa
-    - BEHAT_PART: 2
-      BEHAT_PROFILE: default
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
-      PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_europa
-    - BEHAT_PART: 3
-      BEHAT_PROFILE: default
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
-      PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_europa
-      # Standard, ec_europa (php 7.1)
-      # SKIP php 7.1
+#    - CODE_COMPLIANCE: 1
+#      # Communities, ec_resp (php 5.6)
+#    - BEHAT_PART: 0
+#      BEHAT_PROFILE: communities_ec_resp
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_communities
+#      THEME_DEFAULT: ec_resp
+#      # Communities, ec_resp (php 7.1)
+#    - BEHAT_PART: 0
+#      BEHAT_PROFILE: communities_ec_resp
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_communities
+#      THEME_DEFAULT: ec_resp
+#
+#      # Communities, ec_europa (php 5.6)
+#    - BEHAT_PART: 0
+#      BEHAT_PROFILE: communities
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_communities
+#      THEME_DEFAULT: ec_europa
+#      # Communities, ec_europa (php 7.1)
+#    - BEHAT_PART: 0
+#      BEHAT_PROFILE: communities
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_communities
+#      THEME_DEFAULT: ec_europa
+#
+#      # Standard, ec_europa (php 5.6)
 #    - BEHAT_PART: 0
 #      BEHAT_PROFILE: default
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_europa
 #    - BEHAT_PART: 1
 #      BEHAT_PROFILE: default
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_europa
 #    - BEHAT_PART: 2
 #      BEHAT_PROFILE: default
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_europa
 #    - BEHAT_PART: 3
 #      BEHAT_PROFILE: default
 #      CODE_COMPLIANCE: 0
-#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_europa
-
-      # Standard, ec_resp (php 5.6)
-    - BEHAT_PART: 0
-      BEHAT_PROFILE: standard_ec_resp
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
-      PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_resp
+#      # Standard, ec_europa (php 7.1)
+#      # SKIP php 7.1
+##    - BEHAT_PART: 0
+##      BEHAT_PROFILE: default
+##      CODE_COMPLIANCE: 0
+##      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+##      PLATFORM_PROFILE: multisite_drupal_standard
+##      THEME_DEFAULT: ec_europa
+##    - BEHAT_PART: 1
+##      BEHAT_PROFILE: default
+##      CODE_COMPLIANCE: 0
+##      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+##      PLATFORM_PROFILE: multisite_drupal_standard
+##      THEME_DEFAULT: ec_europa
+##    - BEHAT_PART: 2
+##      BEHAT_PROFILE: default
+##      CODE_COMPLIANCE: 0
+##      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+##      PLATFORM_PROFILE: multisite_drupal_standard
+##      THEME_DEFAULT: ec_europa
+##    - BEHAT_PART: 3
+##      BEHAT_PROFILE: default
+##      CODE_COMPLIANCE: 0
+##      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+##      PLATFORM_PROFILE: multisite_drupal_standard
+##      THEME_DEFAULT: ec_europa
+#
+#      # Standard, ec_resp (php 5.6)
+#    - BEHAT_PART: 0
+#      BEHAT_PROFILE: standard_ec_resp
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_resp
     - BEHAT_PART: 1
       BEHAT_PROFILE: standard_ec_resp
       CODE_COMPLIANCE: 0
       IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
-    - BEHAT_PART: 2
-      BEHAT_PROFILE: standard_ec_resp
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
-      PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_resp
-    - BEHAT_PART: 3
-      BEHAT_PROFILE: standard_ec_resp
-      CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
-      PLATFORM_PROFILE: multisite_drupal_standard
-      THEME_DEFAULT: ec_resp
+      BEHAT_TAGS: "@javascript&&@maximizedwindow&&@theme_wip&&@drone_poetry"
+#    - BEHAT_PART: 2
+#      BEHAT_PROFILE: standard_ec_resp
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_resp
+#    - BEHAT_PART: 3
+#      BEHAT_PROFILE: standard_ec_resp
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:5.6-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_resp
       # Standard, ec_resp (php 7.1)
 #    - BEHAT_PART: 0
 #      BEHAT_PROFILE: standard_ec_resp
