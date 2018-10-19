@@ -96,26 +96,24 @@ trait ContextUtil {
    * @param array $args
    *   Additional arguments to pass to the function.
    * @param int $repeat
-   *   The amount of times to repeat (1 per second).
+   *   The amount of times to repeat (1 per 100ms).
    *
    * @return bool
    *   Whether the function executed successfully or not.
    */
-  public function spin(callable $lambda, array $args = [], $repeat = 5) {
+  public function spin(callable $lambda, array $args = [], $repeat = 50) {
     $errorMessage = '';
 
     for ($i = 0; $i < $repeat; $i++) {
       try {
         if ($lambda($this, $args)) {
-          var_export("Field return was true\n");
           return TRUE;
         }
       }
       catch (Exception $e) {
         $errorMessage .= $e->getMessage();
       }
-      var_export("Napping\n\n");
-      sleep(1);
+      usleep(100000);
     }
 
     return FALSE;
