@@ -410,23 +410,6 @@ function cce_basic_config_install() {
   );
   variable_set('rate_widgets', $rate_widgets);
 
-  if (db_table_exists('captcha_points')) {
-    db_insert('captcha_points')
-      ->fields(array('captcha_type' => NULL, 'form_id' => 'forum_node_form'))
-      ->execute();
-
-    db_insert('captcha_points')
-      ->fields(array('captcha_type' => NULL, 'form_id' => 'user_login'))
-      ->execute();
-
-    db_insert('captcha_points')
-      ->fields(array('captcha_type' => NULL, 'form_id' => 'user_login_block'))
-      ->execute();
-
-    db_insert('captcha_points')
-      ->fields(array('captcha_type' => NULL, 'form_id' => 'user_pass'))
-      ->execute();
-  }
   // Configure text formats.
   _cce_basic_config_text_formats();
   // Create WYSIWYG profile for Full HTML text format.
@@ -1023,7 +1006,6 @@ function cce_basic_config_update_7191() {
 /**
  * Set default configuration for menu items.
  *
- * Set configuration for captcha module.
  * Date field migration.
  */
 function cce_basic_config_update_7192() {
@@ -1116,23 +1098,6 @@ function cce_basic_config_update_7192() {
     ->condition('link_path', 'user')
     ->condition('menu_name', 'user-menu')
     ->execute();
-
-  // Captcha.
-  variable_set('captcha_default_challenge', 'image_captcha/Image');
-  $path = drupal_get_path('module', 'captcha');
-  variable_set('image_captcha_fonts', array(
-    $path . '/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf' => $path . '/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf',
-    $path . '/image_captcha/fonts/Tuffy/Tuffy.ttf' => $path . '/image_captcha/fonts/Tuffy/Tuffy.ttf',
-  ));
-  variable_set('image_captcha_distortion_amplitude', '5');
-  variable_set('image_captcha_bilinear_interpolation', 1);
-
-  if (db_table_exists('captcha_points')) {
-    db_update('captcha_points')
-      ->fields(array('captcha_type' => 'default'))
-      ->condition('form_id', 'contact_site_form')
-      ->execute();
-  }
 
   // Revoke 'administer varnish' permissions.
   foreach (array_keys(user_roles()) as $rid) {
@@ -1383,7 +1348,6 @@ function cce_basic_config_update_7199() {
  *
  * Define admin pages that should use default theme.
  * Disable user contact form for anonymous.
- * Activate captcha of user contact form.
  */
 function cce_basic_config_update_7200() {
   variable_set('jquery_update_jquery_version', '1.10');
@@ -1405,14 +1369,6 @@ function cce_basic_config_update_7200() {
   user_role_revoke_permissions(1, array(
     'access user contact forms',
   ));
-
-  // Activate captcha of user contact form.
-  if (db_table_exists('captcha_points')) {
-    db_update('captcha_points')
-      ->fields(array('captcha_type' => 'default'))
-      ->condition('form_id', 'contact_personal_form')
-      ->execute();
-  }
 
   variable_set('multisite_version', '2.0');
 }
@@ -1631,19 +1587,11 @@ function cce_basic_config_update_7207() {
     $dynamic_variables['print_pdf_pdf_tool'] = reset($pdf_tool);
   }
 
-  // Dynamically set the 'image_captcha_fonts' variable. It cannot be exported
-  // in a regular feature since it hard codes the paths to where the fonts are
-  // installed that are used for the image captchas.  These are different
-  // depending on the installation profile that is used.
-  $dynamic_variables['image_captcha_fonts'] = array(
-    drupal_get_path('module', 'image_captcha') . '/fonts/Tuffy/Tuffy_Bold.ttf',
-    drupal_get_path('module', 'image_captcha') . '/fonts/Tuffy/Tuffy.ttf',
-  );
-
   // Add the dynamic variables to the exported component.
   foreach ($dynamic_variables as $variable => $value) {
     variable_set($variable, $value);
   }
+
 }
 
 /**
