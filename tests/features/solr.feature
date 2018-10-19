@@ -1,4 +1,4 @@
-@api @drone_solr
+@api
 Feature:
   In order to optimize the search in a site
   Or to create custom search pages and facets
