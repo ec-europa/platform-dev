@@ -113,7 +113,7 @@ trait ContextUtil {
       catch (Exception $e) {
         $errorMessage .= $e->getMessage();
       }
-      usleep(100000);
+      $this->getSession()->wait(100);
     }
 
     return FALSE;
