@@ -5,7 +5,6 @@
  * Contains \TmgmtPoetrySubContext.
  */
 
-use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalContext;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
@@ -247,7 +246,8 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
         $this->getSession()->getPage()->findField($args['field']);
         $context->getSession()->getPage()->fillField($args['field'], $args['date']);
         return TRUE;
-      } catch (Exception $e) {
+      }
+      catch (Exception $e) {
         return FALSE;
       }
     }, $args);
