@@ -556,7 +556,6 @@ Feature:
     And I press "Save"
     Then the web front end cache received a request authenticated with user "usr" and password "pass"
 
-  @drone_varnish
   Scenario: Authentication failures are logged.
     Given the default purge rule is disabled
     And the following cache purge rules:
