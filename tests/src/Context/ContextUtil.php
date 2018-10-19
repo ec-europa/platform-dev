@@ -107,12 +107,14 @@ trait ContextUtil {
     for ($i = 0; $i < $repeat; $i++) {
       try {
         if ($lambda($this, $args)) {
+          var_export("Field return was true\n");
           return TRUE;
         }
       }
       catch (Exception $e) {
         $errorMessage .= $e->getMessage();
       }
+      var_export("Napping\n\n");
       sleep(1);
     }
 
