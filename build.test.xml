@@ -135,7 +135,6 @@
         </behat:balancer>
     </target>
 
-
     <!-- Run Behat tests. -->
     <target name="behat" description="Run Behat tests.">
         <foreach param="filename" absparam="config" target="behat-suite">
