@@ -71,7 +71,7 @@ Feature: TMGMT Poetry features
     And I fill in "Poetry Password" with "poetry_password"
     And I press the "Save translator" button
 
-  @cleanup-tmgmt-poetry-website-identifier @theme_wip @drone_poetry @drone_poetry_single
+  @cleanup-tmgmt-poetry-website-identifier @theme_wip
   Scenario: Check that sending translation request adds website name in title.
     Given I am logged in as a user with the "administrator" role
     When I am viewing a multilingual "page" content:
@@ -86,7 +86,7 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: my-website - My page"
 
-  @javascript @cleanup-tmgmt-poetry-website-identifier @poetry_mock_cleanup_translator @theme_wip @drone_poetry @drone_poetry_single
+  @javascript @cleanup-tmgmt-poetry-website-identifier @poetry_mock_cleanup_translator @theme_wip
   Scenario: Send translation request including a website identifier with
   characters that have a special meaning in HTML.
     Given I am logged in as a user with the "administrator" role
@@ -108,7 +108,7 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: />&mywebsite< - My page"
 
-  @resetPoetryNumero @theme_wip @drone_poetry @drone_poetry_single
+  @resetPoetryNumero @theme_wip
   Scenario: Checking the counter init request.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
@@ -187,7 +187,7 @@ Feature: TMGMT Poetry features
     Then I should see "The translation for Title in English 1 has been accepted."
     And I should see "The translation of Title in English 1 to French is finished and can now be reviewed."
 
-  @javascript @theme_wip @drone_poetry
+  @javascript @theme_wip
   Scenario: Request main job before other translations + request a new translation.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
@@ -220,7 +220,7 @@ Feature: TMGMT Poetry features
     And I press "Save as completed"
     Then I should see "None" in the "Italian" row
 
-  @javascript @theme_wip @drone_poetry
+  @javascript @theme_wip
   Scenario: Test not sending one job and moving to another job.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
@@ -252,7 +252,7 @@ Feature: TMGMT Poetry features
     And I press "Save as completed"
     Then I should see "None" in the "French" row
 
-  @javascript @theme_wip @drone_poetry
+  @javascript @theme_wip
   Scenario: Request main job before other translations.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
@@ -284,7 +284,7 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "Italian" row
     And I should see "None" in the "French" row
 
-  @javascript @theme_wip @drone_poetry
+  @javascript @theme_wip
   Scenario: Test rejection of a translation.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
@@ -312,7 +312,7 @@ Feature: TMGMT Poetry features
     Then I should see "Aborted" in the "French" row
     And I press the "Delete" button
 
-  @javascript @theme_wip @drone_poetry
+  @javascript @theme_wip
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
     Given I am logged in as a user with the "administrator" role
     And the vocabulary "Vocabulary Test" is created
@@ -375,7 +375,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
 
-  @javascript @theme_wip @drone_poetry
+  @javascript @theme_wip
   Scenario Outline: Request translation of a basic page into French.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
@@ -495,7 +495,7 @@ Feature: TMGMT Poetry features
     Then I should see the text '<tmgmt_poetry_ignore value="[node:1:link]{Title in English 1 as Link}"/>'
     And I should see the text '<tmgmt_poetry_ignore value="[node:2:link]{Title in English 2 as Link}"/>'
 
-  @javascript @theme_wip @drone_poetry
+  @javascript @theme_wip
   Scenario: Fill in metadata when requesting a translation.
     Given I am logged in as a user with the "administrator" role
     And I go to "node/add/page"
@@ -534,7 +534,7 @@ Feature: TMGMT Poetry features
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
 
-  @javascript @maximizedwindow @theme_wip @drone_poetry
+  @javascript @maximizedwindow @theme_wip
   Scenario: Adding new languages to the ongoing translation request
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group
@@ -583,7 +583,7 @@ Feature: TMGMT Poetry features
     And I should not see "Request addition of new languages"
     And I should see the success message "The following languages were added to the ongoing translation request: German, Italian"
 
-  @javascript @theme_wip @drone_poetry
+  @javascript @theme_wip
   Scenario: Accepting the translation of the main requested language when additional languages were added.
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group
@@ -659,7 +659,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
 
-  @javascript @theme_wip @drone_poetry
+  @javascript @theme_wip
   Scenario: Rejecting and resending translation request
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group
@@ -695,7 +695,7 @@ Feature: TMGMT Poetry features
     And I should see "In progress" in the "Portuguese" row
     And I should see "Please wait for the translation request to be accepted before further update options."
 
-  @javascript @theme_wip @drone_poetry
+  @javascript @theme_wip
   Scenario: Resending translation request while translation process is ongoing
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group
@@ -730,7 +730,7 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has version to 1
 
-  @theme_wip @drone_poetry
+  @theme_wip
   Scenario: Check the limit 'version' and 'partie' of the request
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group
@@ -779,7 +779,7 @@ Feature: TMGMT Poetry features
     And the translation request has version to 0
     And the translation request has partie to 0
 
-  @javascript @theme_wip @drone_poetry
+  @javascript @theme_wip
   Scenario Outline: Check not-poetry translator still works with poetry enabled.
     Given <translatorType> translator "Translator <translatorType>" is available
     And I am logged in as a user with the 'administrator' role
