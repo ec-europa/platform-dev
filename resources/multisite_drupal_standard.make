@@ -192,11 +192,10 @@ projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
-projects[easy_breadcrumb][version] = "2.12"
-; Issue #2290941 : Breadcrumb shows escaped HTML tags on core admin pages
-; https://www.drupal.org/node/2290941
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6753
-projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/check-plain-vs-filter-xss_0_1.patch
+projects[easy_breadcrumb][version] = "2.15"
+; Issue #2973420 : 	Undefined index: html in template_preprocess_easy_breadcrumb()
+; https://www.drupal.org/node/2973420
+projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/2018-05-16/easy_breadcrumb-undefined_index_html-2973420-2.patch
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -445,7 +444,7 @@ projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.9"
 
 projects[libraries][subdir] = "contrib"
-projects[libraries][version] = "2.3"
+projects[libraries][version] = "2.5"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.5"
@@ -1135,7 +1134,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.9
+projects[ec_resp][download][tag] = 2.3.10
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.11
@@ -1143,7 +1142,7 @@ projects[atomium][version] = 2.11
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.14
+projects[ec_europa][download][tag] = 0.0.15
 
 ; ==============
 ; Custom modules
