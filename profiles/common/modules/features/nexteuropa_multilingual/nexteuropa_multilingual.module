@@ -371,6 +371,8 @@ function _nexteuropa_multilingual_warning_message(&$form, $node) {
   $warning_message_languages = variable_get('nexteuropa_multilingual_warning_message_languages');
   if (!empty($warning_message_languages)) {
     $message = token_replace($warning_message_languages, array('node' => $node));
+    $allow_tags = array('a', 'em', 'strong', 'cite', 'code', 'b', 'i', 'span');
+    $message = filter_xss($message, $allow_tags);
     $variables = array(
       'message' => $message,
       'message_attributes' => array('id' => 'nexteuropa-multilingual-warning-message-languages'),

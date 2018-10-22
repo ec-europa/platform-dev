@@ -532,7 +532,7 @@ projects[migrate][subdir] = contrib
 projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909252-1.patch
 
 projects[mimemail][subdir] = "contrib"
-projects[mimemail][version] = "1.0"
+projects[mimemail][version] = "1.1"
 
 projects[nagios][download][branch] = 7.x-1.x
 projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23

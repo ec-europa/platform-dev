@@ -54,9 +54,8 @@ class MultisiteBusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCas
   public function testViews() {
 
     $this->privileged_user = $this->drupalCreateUserWithRole('administrator');
-    module_disable(array('captcha'));
     $this->drupalLogin($this->privileged_user);
-    module_enable(array('jiraquestions', 'image_captcha'));
+    module_enable(array('jiraquestions'));
     $this->drupalGet('admin/reports/business-indicators');
 
     // Create users.
