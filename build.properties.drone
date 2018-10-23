@@ -1,19 +1,19 @@
 # Drone properties
 #
 
-composer.bin = '/usr/bin/composer'
-behat.screenshots.path = '/test/platform-dev/tests/screenshots'
-behat.base_url = 'http://web:8080/build'
-behat.wd_host.url = 'http://selenium:8910/wd/hub'
-behat.browser.name = 'phantomjs'
+composer.bin = /usr/bin/composer
+behat.screenshots.path = /test/platform-dev/tests/screenshots
+behat.base_url = http://web:8080/build
+behat.wd_host.url = http://selenium:8910/wd/hub
+behat.browser.name = 'phantomjs
 
-behat.poetry.host = 'behat'
-behat.poetry.port = '28080'
-behat.poetry.endpoint = '/service'
-behat.poetry.wsdl = '/wsdl'
-behat.poetry.username = 'username'
-behat.poetry.password = 'password'
+behat.poetry.host = behat
+behat.poetry.port = 28080
+behat.poetry.endpoint = /service
+behat.poetry.wsdl = /wsdl
+behat.poetry.username = username
+behat.poetry.password = password
 
-drupal.db.host = 'mysql'
-drupal.db.user = 'root'
-drupal.db.password = ''
+drupal.db.host = mysql
+drupal.db.user = root
+drupal.db.password =
