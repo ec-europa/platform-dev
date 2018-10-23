@@ -18,7 +18,7 @@ Feature: TMGMT Poetry features
     And I change the variable "nexteuropa_poetry_notification_password" to "bar"
     And I change the variable "nexteuropa_poetry_service_username" to "bar"
     And I change the variable "nexteuropa_poetry_service_password" to "foo"
-    And I change the poetry variable "nexteuropa_poetry_service_wsdl" to "{{ wdsl }}"
+    And I change the poetry variable "nexteuropa_poetry_service_wsdl" to "{{ wsdl }}"
     And Poetry service uses the following settings:
     """
       username: foo
