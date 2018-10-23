@@ -32,6 +32,7 @@ pipeline:
     commands:
       - composer install --ansi --no-suggest --no-progress
       - ./bin/phing build-platform-dev -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+      - ./bin/phing setup-drone-file-system -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
       - ./bin/phing install-platform  -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
     volumes:
       - /cache/${DRONE_REPO}-${DRONE_JOB_NUMBER}/composer:/root/.cache/composer
