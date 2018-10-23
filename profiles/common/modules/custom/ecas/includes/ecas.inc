@@ -774,7 +774,13 @@ function _ecas_init_phpcas_client() {
     $start_session,
     $assurance_level
   );
-  phpCAS::setNoCasServerValidation();
+
+  if (variable_get('ecas_do_cert_validation', TRUE)) {
+    phpCAS::setCasServerCACert(drupal_get_path('module', 'ecas') . '/ecas.crt', TRUE);
+  }
+  else {
+    phpCAS::setNoCasServerValidation();
+  }
 
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
     phpCAS::setExtraCurlOption($key, $value);
