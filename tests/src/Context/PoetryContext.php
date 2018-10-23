@@ -34,24 +34,10 @@ class PoetryContext implements Context {
    * @param string $wsdl
    *   The wsdl to use in the tests.
    */
-  public function __construct($wsdl)
-  {
+  public function __construct($wsdl) {
     $this->params = [
       'wsdl' => $wsdl,
     ];
-  }
-
-  /**
-   * Get a parameter.
-   *
-   * @param string $item
-   *   The parameter to get.
-   *
-   * @return mixed
-   *   The value of the parameter.
-   */
-  private function getParam($item) {
-    return array_key_exists($item, $this->params) ? $this->params[$item] : NULL;
   }
 
   /**
@@ -64,6 +50,12 @@ class PoetryContext implements Context {
     $this->variables = $environment->getContext(VariableContext::class);
   }
 
+  /**
+   * Get the token replacements.
+   *
+   * @return array
+   *   A keyed array of the token and token value.
+   */
   public function getReplacements() {
     $replacements = [];
 

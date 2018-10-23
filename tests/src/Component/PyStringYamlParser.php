@@ -38,6 +38,7 @@ class PyStringYamlParser {
    * Get the Yaml array.
    *
    * @return array
+   *   The yaml array.
    */
   public function getYaml() {
     $this->process();
