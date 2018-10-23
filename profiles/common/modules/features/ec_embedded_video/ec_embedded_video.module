@@ -91,13 +91,6 @@ function _ec_embedded_video_preprocess_media_vimeo_video(&$variables) {
  * Preprocess function for media_avportal_video.
  */
 function _ec_embedded_video_preprocess_media_avportal_video(&$variables) {
-  $query = array(
-    'ref' => $variables['video_id'],
-    'starttime' => 0,
-    'endtime' => 0,
-  );
-  $variables['url'] = url('//ec.europa.eu/avservices/play.cfm', array('query' => $query, 'external' => TRUE));
-
   // Don't use cookie compliant for avportal video.
   $variables['ec_embedded_video_url'] = $variables['url'];
 }
