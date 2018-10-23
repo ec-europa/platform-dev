@@ -5,6 +5,7 @@ default:
     default:
       contexts:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
+            mock_server_host: {{ behat.poetry.host }}
             mock_server_port: {{ integration.server.port }}
         - Drupal\nexteuropa\Context\ModuleContext
         - FeatureContext:
@@ -32,6 +33,7 @@ default:
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\nexteuropa\Context\WebtoolsContext
         - Drupal\nexteuropa\Context\FrontendCacheContext:
+            mock_server_host: {{ behat.poetry.host }}
             mock_server_port: {{ varnish.server.port }}
         - Drupal\nexteuropa\Context\DatabaseLogContext
         - Drupal\nexteuropa\Context\PathautoContext
