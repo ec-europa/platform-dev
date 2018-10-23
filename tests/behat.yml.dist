@@ -43,7 +43,8 @@ default:
             drush_bin: '{{ drush.bin }}'
             db_dump_location: '{{ drush.db.dump }}'
         - EC\Behat\PoetryExtension\Context\PoetryContext
-        - Drupal\nexteuropa\Context\PoetryContext
+        - Drupal\nexteuropa\Context\PoetryContext:
+            wsdl: 'http://{{ behat.poetry.host }}:{{ behat.poetry.port }}{{ behat.poetry.wsdl }}'
         - Drupal\nexteuropa\Context\RulesContext
         - Drupal\nexteuropa\Context\LacoContext
         - Drupal\nexteuropa\Context\TokenContext
@@ -65,12 +66,12 @@ default:
   extensions:
     EC\Behat\PoetryExtension:
       service:
-        host: 'behat'
-        port: '28080'
-        endpoint: '/service'
-        wsdl: '/wsdl'
-        username: 'username'
-        password: 'password'
+        host: '{{ behat.poetry.host }}'
+        port: '{{ behat.poetry.port }}'
+        endpoint: '{{ behat.poetry.endpoint }}'
+        wsdl: '{{ behat.poetry.wsdl }}'
+        username: '{{ behat.poetry.username }}'
+        password: '{{ behat.poetry.password }}'
       application:
         base_url: '{{ behat.base_url }}'
         endpoint: '/poetry/notification'

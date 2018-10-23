@@ -159,6 +159,14 @@ behat.load_balancer.root = ${behat.dir}
 behat.load_balancer.destination = ${behat.dir}/balancer
 behat.load_balancer.import = ${behat.yml.path}
 
+# Poetry extension
+behat.poetry.host = localhost
+behat.poetry.port = 28080
+behat.poetry.endpoint = /service
+behat.poetry.wsdl = /wsdl
+behat.poetry.username = username
+behat.poetry.password = password
+
 # PHPUnit configuration
 # -------------------
 
