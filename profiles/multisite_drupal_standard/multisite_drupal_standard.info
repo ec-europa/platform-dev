@@ -21,7 +21,6 @@ dependencies[] = file
 dependencies[] = rdf
 dependencies[] = locale
 
-dependencies[] = captcha
 dependencies[] = entity
 dependencies[] = ctools
 dependencies[] = token
@@ -36,8 +35,6 @@ dependencies[] = context_entity_field
 dependencies[] = date
 dependencies[] = features
 dependencies[] = rate
-dependencies[] = hidden_captcha
-dependencies[] = image_captcha
 dependencies[] = file_entity
 dependencies[] = media
 dependencies[] = password_policy
