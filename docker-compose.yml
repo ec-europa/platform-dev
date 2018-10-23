@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/var/www/html
       - ~/.composer/cache:/root/.composer/cache
-      - ~/.drush/cache:/root/.drush/cache
+#      - ~/.drush/cache:/root/.drush/cache
     environment:
       XDEBUG_CONFIG: "remote_enable=1 remote_host=${DOCKER_HOST_IP} remote_port=9000 idekey=PHPSTORM remote_autostart=1"
       PHP_IDE_CONFIG: "serverName=Test"
