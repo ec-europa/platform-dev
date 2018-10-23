@@ -25,7 +25,7 @@ Feature: TMGMT Poetry Cart features
     """
     And the following Poetry settings:
     """
-        address: http://behat:28080/wsdl
+        address: {{ wsdl }}
         method: requestService
     """
     And Poetry will return the following "response.status" message response:

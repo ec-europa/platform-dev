@@ -83,6 +83,12 @@
                     <token key="behat.base_url" value="${behat.base_url}" />
                     <token key="behat.wd_host.url" value="${behat.wd_host.url}" />
                     <token key="behat.browser.name" value="${behat.browser.name}" />
+                    <token key="behat.poetry.host" value="${behat.poetry.host}" />
+                    <token key="behat.poetry.port" value="${behat.poetry.port}" />
+                    <token key="behat.poetry.endpoint" value="${behat.poetry.endpoint}" />
+                    <token key="behat.poetry.wsdl" value="${behat.poetry.wsdl}" />
+                    <token key="behat.poetry.username" value="${behat.poetry.username}" />
+                    <token key="behat.poetry.password" value="${behat.poetry.password}" />
                     <token key="platform.build.dir" value="${platform.build.dir}" />
                     <token key="behat.screenshots.path" value="${behat.screenshots.path}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />

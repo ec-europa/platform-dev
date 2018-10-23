@@ -22,6 +22,39 @@ class PoetryContext implements Context {
   protected $variables;
 
   /**
+   * Parameters passed from the configuration.
+   *
+   * @var array
+   */
+  protected $params = [];
+
+  /**
+   * PoetryContext constructor.
+   *
+   * @param string $wsdl
+   *   The wsdl to use in the tests.
+   */
+  public function __construct($wsdl)
+  {
+    $this->params = [
+      'wsdl' => $wsdl,
+    ];
+  }
+
+  /**
+   * Get a parameter.
+   *
+   * @param string $item
+   *   The parameter to get.
+   *
+   * @return mixed
+   *   The value of the parameter.
+   */
+  private function getParam($item) {
+    return array_key_exists($item, $this->params) ? $this->params[$item] : NULL;
+  }
+
+  /**
    * Gathers other contexts we rely on, before the scenario starts.
    *
    * @BeforeScenario @poetry
@@ -44,7 +77,11 @@ class PoetryContext implements Context {
    */
   public function theFollowingPoetrySettings(PyStringNode $string) {
     $parser = new PyStringYamlParser($string);
-    $this->variables->setVariable('poetry_service', $parser->parse());
+    $yaml = $parser->parse()
+      ->replace(['{{ wsdl }}' => $this->getParam('wsdl')])
+      ->getYaml();
+
+    $this->variables->setVariable('poetry_service', $yaml);
   }
 
 }

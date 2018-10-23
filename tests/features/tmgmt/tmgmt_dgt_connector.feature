@@ -26,7 +26,7 @@ Feature: TMGMT Poetry features
     """
     And the following Poetry settings:
     """
-        address: http://behat:28080/wsdl
+        address: {{ wsdl }}
         method: requestService
     """
 

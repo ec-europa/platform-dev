@@ -339,7 +339,7 @@ class IntegrationLayerContext implements Context {
   public function createIntegrationLayerProducer(PyStringNode $node) {
     $this->setupTestBackend();
     $parser = new PyStringYamlParser($node);
-    $configuration = $parser->parse();
+    $configuration = $parser->parse()->getYaml();
     $this->assertValidConfiguration($configuration);
 
     /** @var \Drupal\integration_producer\AbstractProducer $producer */
@@ -377,7 +377,7 @@ class IntegrationLayerContext implements Context {
   public function createIntegrationLayerConsumer(PyStringNode $node) {
     $this->setupTestBackend();
     $parser = new PyStringYamlParser($node);
-    $configuration = $parser->parse();
+    $configuration = $parser->parse()->getYaml();
     $this->assertValidConfiguration($configuration);
     assert($configuration, hasKey('backend'));
 
@@ -413,7 +413,7 @@ class IntegrationLayerContext implements Context {
   public function createIntegrationLayerResourceSchema(PyStringNode $node) {
     $this->setupTestBackend();
     $parser = new PyStringYamlParser($node);
-    $configuration = $parser->parse();
+    $configuration = $parser->parse()->getYaml();
     assert($configuration, hasKey('name'));
     assert($configuration, hasKey('fields'));
     assert($configuration['fields'], isOfType('array'));
@@ -482,7 +482,7 @@ class IntegrationLayerContext implements Context {
   public function assertProducedDocument($producer_name, $type, $title, PyStringNode $node) {
     $this->setupTestBackend();
     $parser = new PyStringYamlParser($node);
-    $expected = $parser->parse();
+    $expected = $parser->parse()->getYaml();
 
     $nodes = node_load_multiple([], ['title' => $title, 'type' => $type], TRUE);
     assert($nodes, isNotEmpty());
