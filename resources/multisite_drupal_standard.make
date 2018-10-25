@@ -1052,6 +1052,14 @@ libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v6.1.4.zip
 libraries[mpdf][destination] = "libraries"
+; The Drupal timezone is overridden by the mpdf one.
+; As the version 6.1 is frozen, the patch has not been accepted.
+; That is why it is a "local" patch.
+; Nevertheless, the fix has been introduced in mpdf 7+.
+; So, it will be removed when the library will be upgraded in version
+; 2.6 of the platform.
+; https://github.com/mpdf/mpdf/pull/892
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2111
 libraries[mpdf][patch][] = patches/mpdf_timezone.patch
 
 ; Leaflet
