@@ -21,7 +21,7 @@ projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.30"
 
 projects[advanced_help][subdir] = "contrib"
-projects[advanced_help][version] = "1.3"
+projects[advanced_help][version] = "1.4"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.8"
@@ -449,7 +449,7 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.19
+projects[media][version] = 2.20
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
@@ -898,7 +898,7 @@ projects[workbench_og][download][branch] = 7.x-2.x
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][download][version] = "2.4"
+projects[wysiwyg][download][version] = "2.5"
 ; Fix remote js loading on ckeditor plugin
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
