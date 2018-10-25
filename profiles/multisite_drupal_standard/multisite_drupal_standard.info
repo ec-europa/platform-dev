@@ -33,7 +33,6 @@ dependencies[] = context_layouts
 dependencies[] = context_entity_field
 
 dependencies[] = date
-dependencies[] = diff
 dependencies[] = features
 dependencies[] = rate
 dependencies[] = file_entity

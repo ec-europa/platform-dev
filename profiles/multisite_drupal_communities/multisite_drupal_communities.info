@@ -19,7 +19,6 @@ dependencies[] = ctools
 dependencies[] = current_search
 dependencies[] = dashboard
 dependencies[] = date
-dependencies[] = diff
 dependencies[] = easy_breadcrumb
 dependencies[] = email
 dependencies[] = entity
