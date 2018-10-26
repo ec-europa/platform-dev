@@ -775,8 +775,9 @@ function _ecas_init_phpcas_client() {
     $assurance_level
   );
 
-  if (variable_get('ecas_do_cert_validation', TRUE)) {
-    phpCAS::setCasServerCACert(drupal_get_path('module', 'ecas') . '/ecas.crt', TRUE);
+  $cert_path = variable_get('ecas_cerificate_path', '');
+  if ($cert_path) {
+    phpCAS::setCasServerCACert($cert_path, TRUE);
   }
   else {
     phpCAS::setNoCasServerValidation();

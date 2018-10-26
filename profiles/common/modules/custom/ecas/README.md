@@ -24,6 +24,13 @@ localhost/ecas URL
 To test the user_sync functionality however, you need to add some configuration
 to your settings.php file.
 More information can be found in the debugging section of the 
+
+## Certificate path
+The variable ecas_cerificate_path should be set in order to set client
+certificate path so PHPCAS library can validate the server to be sure we are
+using the right one.
+
+
  [readme of feature "ecas_env"](../../features/ecas_env/README.md)
 
 Usage

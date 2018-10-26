@@ -78,6 +78,21 @@ function ecas_requirements($phase) {
       $requirements['ecas_library']['severity'] = REQUIREMENT_ERROR;
       $requirements['ecas_library']['description'] = $t("The phpcas version (%version) is not correct for ECAS module.", array('%version' => $cas_version));
     }
+
+    if (empty(variable_get('ecas_cerificate_path', ''))) {
+      if (module_exists('advanced_help')) {
+        $description = $t('ECAS certificate path is not set. Read more !here', array('!here' => advanced_help_l($t('here'), "admin/help/ah/ecas")));
+      }
+      else {
+        $description = $t('ECAS certificate path is not set. Consult the README file.');
+      }
+
+      $requirements['ecas_path'] = array(
+        'title' => $t('ECAS Certificate Path.'),
+        'severity' => REQUIREMENT_INFO,
+        'description' => $description,
+      );
+    }
   }
   return $requirements;
 }
