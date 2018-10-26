@@ -24,10 +24,19 @@ function newsletters_enable() {
  * Use soft config for comment form location and simplenews content type.
  */
 function newsletters_install() {
-  // Activate entity translation for simplenews content type.
-  variable_set('language_content_type_simplenews', ENTITY_TRANSLATION_ENABLED);
-
   _newsletters_set_simplenews_content_type();
+
+  // Activate "entity translation" for simplenews content type if enabled;
+  // otherwise, fall back to "content translation" if enabled.
+  // This is needed because newsletter can be used in the standard profile
+  // where "entity translation" is enabled but in the communities profiles as
+  // well where "entity translation" is disabled.
+  if (module_exists('entity_translation')) {
+    variable_set('language_content_type_simplenews', ENTITY_TRANSLATION_ENABLED);
+  }
+  else {
+    variable_set('language_content_type_simplenews', TRANSLATION_ENABLED);
+  }
 }
 
 /**
@@ -45,20 +54,33 @@ function newsletters_update_7001(&$sandbox) {
   // If this is the first pass through this update
   // function then set some variables.
   if (!isset($sandbox['total'])) {
-    $result = db_query("SELECT nid FROM {node} WHERE type='simplenews'");
-    $sandbox['total'] = $result->rowCount();
-    $sandbox['current'] = 0;
 
     // Check if the content type has content translation.
     $translation_support = variable_get('language_content_type_simplenews', 0);
-
-    if ($translation_support == 2) {
+    $translation_mechanism = array(
+      ENTITY_TRANSLATION_ENABLED,
+      TRANSLATION_ENABLED,
+    );
+    if (in_array($translation_support, $translation_mechanism)) {
       // Using content translation.
       return;
     }
 
-    // Activate entity translation.
-    variable_set('language_content_type_simplenews', ENTITY_TRANSLATION_ENABLED);
+    $query = db_select('node', 'n')
+      ->condition('type', 'simplenews')
+      ->fields('n', array('nid'));
+    $result = $query->countQuery()->execute()->fetchField();
+    $sandbox['total'] = $result;
+    $sandbox['current'] = 0;
+
+    // Activate entity translation for "simplenews" content type if enabled;
+    // otherwise, fall back to content translation if enabled.
+    if (module_exists('entity_translation')) {
+      variable_set('language_content_type_simplenews', ENTITY_TRANSLATION_ENABLED);
+    }
+    else {
+      variable_set('language_content_type_simplenews', TRANSLATION_ENABLED);
+    }
 
     // Configure title_field and field_groups.
     _newsletters_add_title_field_to_simplenews();
@@ -68,7 +90,11 @@ function newsletters_update_7001(&$sandbox) {
   $nodes_per_pass = 10;
 
   // Get the nodes to process during this pass.
-  $result = db_query_range("SELECT nid FROM {node} WHERE type='simplenews'", $sandbox['current'], $nodes_per_pass);
+  $query = db_select('node', 'n')
+    ->condition('type', 'simplenews')
+    ->fields('n', array('nid'))
+    ->range($sandbox['current'], $nodes_per_pass);
+  $result = $query->execute();
   while ($row = $result->fetchAssoc()) {
     // Update the fields of the nodes.
     _newsletters_node_update($row);
