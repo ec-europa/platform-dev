@@ -727,3 +727,10 @@ function nexteuropa_multilingual_entity_info_alter(&$entity_info) {
     }
   }
 }
+
+/**
+ * Implements hook_xmlsitemap_url_based_negotiation_alter().
+ */
+function nexteuropa_multilingual_xmlsitemap_url_based_negotiation_alter(&$method_list) {
+  $method_list[] = 'nexteuropa_multilingual_url_suffix';
+}
