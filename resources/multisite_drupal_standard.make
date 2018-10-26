@@ -306,7 +306,7 @@ projects[field_group][version] = "1.6"
 ; https://www.drupal.org/node/2604284
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
-; After update from 1.5 to 1.6 empty field groups (because of field permissions) 
+; After update from 1.5 to 1.6 empty field groups (because of field permissions)
 ; are now being displayed as empty groups
 ; https://www.drupal.org/node/2926605
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2016
@@ -1052,6 +1052,15 @@ libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v6.1.4.zip
 libraries[mpdf][destination] = "libraries"
+; The Drupal timezone is overridden by the mpdf one.
+; As the version 6.1 is frozen, the patch has not been accepted.
+; That is why it is a "local" patch.
+; Nevertheless, the fix has been introduced in mpdf 7+.
+; So, it will be removed when the library will be upgraded in version
+; 2.6 of the platform.
+; https://github.com/mpdf/mpdf/pull/892
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2111
+libraries[mpdf][patch][] = patches/mpdf_timezone.patch
 
 ; Leaflet
 libraries[leaflet][destination] = "libraries"
