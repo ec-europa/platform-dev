@@ -397,6 +397,13 @@ function ecas_login_check() {
       // @codingStandardsIgnoreEnd
       // Try to log into Drupal.
       $account = user_load_by_name($ecas_name);
+      
+      if (!$account) {
+        // Try to load user by mail
+        $account = user_load_by_mail($ecas_email);
+
+        $account = ecas_upgrade_existing_user($account, $ecas_name);
+      }
 
       // Extra process to filter ECAS user.
       drupal_alter('ecas_extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
@@ -729,6 +736,39 @@ function ecas_create_user($ecas_name, $defaults = array()) {
   if ($account) {
     $account = user_load_by_name($account->name);
   }
+
+  return $account;
+}
+
+/**
+ * Updates an existing username with the ECAS name
+ * and registers the user that has ECAS authentication (authmap table).
+ *
+ * @param array $account
+ *    The user account
+ * @param string $ecas_name
+ *    The ECAS name of the user.
+ *
+ * @return FALSE|\stdClass
+ *    The updated user object or FALSE if the user could not be loaded.
+ *
+ * @see ecas_login_check().
+ */
+function ecas_upgrade_existing_user($account, $ecas_name) {
+  if (!$account) {
+    return FALSE;
+  }
+
+  $account->name = $ecas_name;
+  user_save($account);
+
+  db_insert('authmap')
+    ->fields(array(
+      'authname' => $ecas_name,
+      'uid' => $account->uid,
+      'module' => 'ecas',
+    ))
+    ->execute();
 
   return $account;
 }
