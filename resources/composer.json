@@ -17,7 +17,8 @@
     "bex/behat-screenshot-image-driver-img42": "^1.0",
     "phpunit/phpunit": "^5.0",
     "ec-europa/oe-poetry-behat": "~0.3",
-    "openeuropa/behat-transformation-context": "^0.1"
+    "openeuropa/behat-transformation-context": "^0.1",
+    "jfhovinne/updater" : "^1.1"
   },
   "autoload": {
     "psr-4": {
