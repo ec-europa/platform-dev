@@ -25,18 +25,6 @@ function newsletters_enable() {
  */
 function newsletters_install() {
   _newsletters_set_simplenews_content_type();
-
-  // Activate "entity translation" for simplenews content type if enabled;
-  // otherwise, fall back to "content translation" if enabled.
-  // This is needed because newsletter can be used in the standard profile
-  // where "entity translation" is enabled but in the communities profiles as
-  // well where "entity translation" is disabled.
-  if (module_exists('entity_translation')) {
-    variable_set('language_content_type_simplenews', ENTITY_TRANSLATION_ENABLED);
-  }
-  else {
-    variable_set('language_content_type_simplenews', TRANSLATION_ENABLED);
-  }
 }
 
 /**
@@ -45,66 +33,4 @@ function newsletters_install() {
 function newsletters_disable() {
   multisite_drupal_toolbox_remove_block_context('site_wide', '0');
   drupal_set_message(t('Newsletters feature is now disabled on your site.'));
-}
-
-/**
- * Update the title field of existing newsletters if any.
- */
-function newsletters_update_7001(&$sandbox) {
-  // If this is the first pass through this update
-  // function then set some variables.
-  if (!isset($sandbox['total'])) {
-
-    // Check if the content type has content translation.
-    $translation_support = variable_get('language_content_type_simplenews', 0);
-    $translation_mechanism = array(
-      ENTITY_TRANSLATION_ENABLED,
-      TRANSLATION_ENABLED,
-    );
-    if (in_array($translation_support, $translation_mechanism)) {
-      // Using content translation.
-      return;
-    }
-
-    $query = db_select('node', 'n')
-      ->condition('type', 'simplenews')
-      ->fields('n', array('nid'));
-    $result = $query->countQuery()->execute()->fetchField();
-    $sandbox['total'] = $result;
-    $sandbox['current'] = 0;
-
-    // Activate entity translation for "simplenews" content type if enabled;
-    // otherwise, fall back to content translation if enabled.
-    if (module_exists('entity_translation')) {
-      variable_set('language_content_type_simplenews', ENTITY_TRANSLATION_ENABLED);
-    }
-    else {
-      variable_set('language_content_type_simplenews', TRANSLATION_ENABLED);
-    }
-
-    // Configure title_field and field_groups.
-    _newsletters_add_title_field_to_simplenews();
-  }
-
-  // How many nodes should be processed per pass.
-  $nodes_per_pass = 10;
-
-  // Get the nodes to process during this pass.
-  $query = db_select('node', 'n')
-    ->condition('type', 'simplenews')
-    ->fields('n', array('nid'))
-    ->range($sandbox['current'], $nodes_per_pass);
-  $result = $query->execute();
-  while ($row = $result->fetchAssoc()) {
-    // Update the fields of the nodes.
-    _newsletters_node_update($row);
-    // Increment "current" by 1.
-    $sandbox['current']++;
-
-  }
-  // Set the value for finished.
-  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
-  if ($sandbox['#finished'] === 1) {
-    drupal_set_message(t('@nodes nodes were processed', array('@nodes' => $sandbox['total'])));
-  }
 }

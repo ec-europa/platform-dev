@@ -2,8 +2,7 @@ name = Newsletters
 description = publish and send newsletters to lists of subscribers
 core = 7.x
 package = Multisite Features
-php = 5.2.4
-multisite version = 2.0
+
 dependencies[] = bounce
 dependencies[] = mailsystem
 dependencies[] = mimemail
