@@ -4,6 +4,7 @@ core = 7.x
 package = NextEuropa
 configure = admin/config/system/nexteuropa-tokens
 
+dependencies[] = diff
 dependencies[] = nexteuropa_token
 dependencies[] = wysiwyg
 dependencies[] = views

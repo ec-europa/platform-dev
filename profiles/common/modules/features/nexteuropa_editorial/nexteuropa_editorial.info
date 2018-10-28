@@ -3,6 +3,7 @@ description = Provides editorial teams with workflow capabilities.
 core = 7.x
 package = NextEuropa
 dependencies[] = cce_basic_config
+dependencies[] = diff
 dependencies[] = i18n_taxonomy
 dependencies[] = linkchecker
 dependencies[] = linkchecker_bean

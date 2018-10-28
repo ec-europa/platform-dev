@@ -2,6 +2,7 @@ name = NextEuropa webtools
 description = Provides webtools block type
 core = 7.x
 package = NextEuropa
+dependencies[] = diff
 dependencies[] = field_group
 dependencies[] = file
 dependencies[] = link
