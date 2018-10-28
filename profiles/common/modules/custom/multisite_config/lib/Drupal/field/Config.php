@@ -75,4 +75,42 @@ class Config extends ConfigBase {
     field_update_field($info);
   }
 
+  /**
+   * Create the field base definition of the 'title_field'.
+   *
+   * If the field base already exist, it returns directly the field base info.
+   *
+   * @return array
+   *   The $field array with field base info.
+   */
+  public function createTitleField() {
+    if ($field = field_info_field('title_field')) {
+      return $field;
+    }
+
+    // Exported field_base: 'title_field'.
+    $title_field_base = array(
+      'active' => 1,
+      'cardinality' => 1,
+      'deleted' => 0,
+      'entity_types' => array(),
+      'field_name' => 'title_field',
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'entity_translation_sync' => FALSE,
+        'max_length' => 255,
+      ),
+      'translatable' => 1,
+      'type' => 'text',
+    );
+
+    return field_create_field($title_field_base);
+  }
+
 }
