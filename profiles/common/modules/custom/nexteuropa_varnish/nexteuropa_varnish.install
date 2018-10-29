@@ -11,6 +11,13 @@ include_once 'nexteuropa_varnish.helper.inc';
  * Implements hook_schema().
  */
 function nexteuropa_varnish_schema() {
+  /*
+   *  Nept-2055: Drush error while uninstall and enable the module.
+   *  Here it is needed to have the constant "NEXTEUROPA_VARNISH_CACHE_TABLE"
+   *  available, which it is defined within ".module" file.
+   */
+  module_load_include('module', 'nexteuropa_varnish');
+
   $schema = array();
 
   $schema['nexteuropa_varnish_cache_purge_rule'] = array(
