@@ -114,7 +114,7 @@ function nexteuropa_pages_update_7201() {
     ))
     ->setType('tab')->setFormatter('closed')->setWeight(0)
     ->setInstanceSetting('classes', 'group-page-content field-group-tab')
-    ->setInstanceSetting('required_fields', TRUE)
+    ->setInstanceSetting('required_fields', 1)
     ->save();
 
   $service->createFieldGroup('Metadata', 'group_page_metadata', 'node', 'page')
@@ -127,7 +127,7 @@ function nexteuropa_pages_update_7201() {
     ))
     ->setType('tab')->setFormatter('closed')->setWeight(10)
     ->setInstanceSetting('classes', 'group-page-metadata field-group-tab')
-    ->setInstanceSetting('required_fields', TRUE)
+    ->setInstanceSetting('required_fields', 1)
     ->save();
 }
 

@@ -237,7 +237,6 @@ function _newsletters_set_simplenews_content_type() {
     ->setChildren($field_group_content_children)
     ->setType('tab')->setFormatter('closed')->setWeight(0)
     ->setInstanceSetting('classes', 'group-newsletter-content field-group-tab')
-    ->setInstanceSetting('required_fields', TRUE)
     ->save();
 
   $service->createFieldGroup('Metadata', 'group_newsletter_metadata', 'node', 'simplenews')
@@ -248,6 +247,5 @@ function _newsletters_set_simplenews_content_type() {
     ))
     ->setType('tab')->setFormatter('closed')->setWeight(10)
     ->setInstanceSetting('classes', 'group-newsletter-metadata field-group-tab')
-    ->setInstanceSetting('required_fields', TRUE)
     ->save();
 }

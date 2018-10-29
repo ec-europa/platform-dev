@@ -26,20 +26,29 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    *   Entity type machine name.
    * @param string $bundle
    *   Bundle machine name.
+   * @param string $mode
+   *   Field group mode; either "form" or "display".
    */
-  public function __construct($label, $group_name, $entity_type, $bundle) {
+  public function __construct($label, $group_name, $entity_type, $bundle, $mode = 'form') {
     $this->definition = new \stdClass();
-    $this->definition->identifier = "$group_name|$entity_type|$bundle|form";
+    $this->definition->identifier = "$group_name|$entity_type|$bundle|$mode";
     $this->definition->group_name = $group_name;
     $this->definition->entity_type = $entity_type;
     $this->definition->bundle = $bundle;
-    $this->definition->mode = 'form';
+    $this->definition->mode = $mode;
     $this->definition->parent_name = '';
     $this->definition->label = $label;
     $this->definition->weight = '0';
     $this->definition->children = array();
-    $this->definition->format_type = '';
-    $this->definition->format_settings = array();
+    $this->definition->format_type = 'tab';
+    $this->definition->format_settings = array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'field-group-tab',
+        'required_fields' => 1,
+      ),
+    );
     return $this;
   }
 
