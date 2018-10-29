@@ -82,19 +82,36 @@ function ecas_requirements($phase) {
     $requirements['ecas_library']['description'] = $t("The phpcas version (%version) is not correct for ECAS module.", array('%version' => $cas_version));
   }
 
-  if (!empty(variable_get('ecas_certificate_path', ''))) {
+  if ($cert_path = variable_get('ecas_certificate_path', '')) {
+    if (!file_exists($cert_path)) {
+      $requirements['ecas_path'] = array(
+        'title' => $t('CAS Certificate Path'),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => $t('Not found'),
+        'description' => $t('The ECAS certificate file path is set but the file is not found. Please check its configuration.'),
+      );
+
+      return $requirements;
+    }
+
+    $requirements['ecas_path'] = array(
+      'title' => $t('CAS Certificate File Path'),
+      'severity' => REQUIREMENT_OK,
+      'value' => $t('Defined'),
+    );
+
     return $requirements;
   }
 
   if (module_exists('advanced_help')) {
-    $description = $t('To set the ECAS certificate path, please read more !here', array('!here' => advanced_help_l($t('here'), "admin/help/ah/ecas")));
+    $description = $t('To set the ECAS certificate file path, please read more !here', array('!here' => advanced_help_l($t('here'), "admin/help/ah/ecas")));
   }
   else {
-    $description = $t('To set the ECAS certificate path, please consult the README file of the module.');
+    $description = $t('To set the ECAS certificate file path, please consult the README file of the module.');
   }
 
   $requirements['ecas_path'] = array(
-    'title' => $t('CAS Certificate Path'),
+    'title' => $t('CAS Certificate File filePath'),
     'severity' => REQUIREMENT_WARNING,
     'value' => $t('Not configured'),
     'description' => $description,
