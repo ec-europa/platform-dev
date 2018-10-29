@@ -775,7 +775,7 @@ function _ecas_init_phpcas_client() {
     $assurance_level
   );
 
-  $cert_path = variable_get('ecas_cerificate_path', '');
+  $cert_path = variable_get('ecas_certificate_path', '');
   if ($cert_path) {
     phpCAS::setCasServerCACert($cert_path, TRUE);
   }
