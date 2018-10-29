@@ -19,6 +19,8 @@
 
         <echo msg="Delete previous build." />
         <delete dir="${phing.project.build.dir}" includeemptydirs="true" failonerror="false" />
+        <echo msg="Delete previous contrib folder. profiles/${platform.profile.name}/modules/contrib" />
+        <delete dir="profiles/${platform.profile.name}/modules/contrib" includeemptydirs="true" failonerror="false" />
     </target>
 
     <!-- Make Drupal core. -->
