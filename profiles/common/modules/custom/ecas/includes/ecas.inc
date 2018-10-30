@@ -781,7 +781,14 @@ function _ecas_init_phpcas_client() {
     $start_session,
     $assurance_level
   );
-  phpCAS::setNoCasServerValidation();
+
+  $cert_path = variable_get('ecas_certificate_path', '');
+  if ($cert_path) {
+    phpCAS::setCasServerCACert($cert_path, TRUE);
+  }
+  else {
+    phpCAS::setNoCasServerValidation();
+  }
 
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
     phpCAS::setExtraCurlOption($key, $value);
