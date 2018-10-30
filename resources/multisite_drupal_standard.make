@@ -161,15 +161,6 @@ projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.14"
-; Issue #2908901 : Dropbutton arrow width glitch on CJK locale (translation with space)
-; https://www.drupal.org/node/2908901
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2007
-; It may be usefull for site such as EEAS which have such a language enable.
-projects[ctools][patch][2908901] = https://www.drupal.org/files/issues/ctools-fix_arrow_style-2908901-13.patch
-; Issue #2455597 : Hardcoded version info breaks update report with git deploy
-; https://www.drupal.org/node/2455597
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2007
-projects[ctools][patch][] = https://www.drupal.org/files/issues/hard-coded-version-info-2455597-7.patch
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
