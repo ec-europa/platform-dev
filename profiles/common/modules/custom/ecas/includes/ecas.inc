@@ -172,30 +172,36 @@ function ecas_user_logout($account) {
 }
 
 /**
- * Checks the menu.
+ * Checks the menu access.
  *
  * @return bool
- *   TRUE when the user is anonymous, or when the path does not start with the
- *   string 'admin/structure/menu'.
+ *   TRUE when the user is anonymous, or when the path of the displayed page
+ *   correspond to 'ecas' or 'account_request'.
+ *
+ * @see ecas_login_page()
+ * @see account_request()
  */
 function ecas_menu_check() {
-  global $user;
-  $access = FALSE;
-  if ($user->uid == 0) {
+  if (user_is_anonymous()) {
     // Access and display ECAS page if anonymous.
-    $access = TRUE;
+    return TRUE;
   }
-  if (strpos($_GET['q'], 'admin/structure/menu') !== FALSE) {
-    // Access and display ECAS page if go to menu admin interface.
-    $access = TRUE;
-  }
-  return $access;
+
+  // If the user is already logged, then return FALSE only if the displayed
+  // page does not correspond to one of the path listed below.
+  $limited_acess_paths = array(
+    'ecas',
+    'account_request',
+  );
+
+  return in_array(current_path(), $limited_acess_paths);
 }
 
 /**
  * Redirects the user to the account request page.
  */
 function account_request() {
+  _ecas_logged_user_profile_redirect();
   $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
   $return_url = url('ecas', array('absolute' => TRUE));
   $account_request_url = str_replace('%local_ecas_url%', $return_url, $account_request_url);
@@ -206,6 +212,7 @@ function account_request() {
  * Redirects the user to the ECAS login page.
  */
 function ecas_login_page() {
+  _ecas_logged_user_profile_redirect();
   ecas_login_check();
 
   $destination = variable_get('site_frontpage', 'node');
@@ -888,4 +895,20 @@ function _ecas_session_end() {
  */
 function _ecas_get_url_site_frontpage() {
   return url(variable_get('site_frontpage', 'node'), ['absolute' => TRUE]);
+}
+
+/**
+ * Redirect any logged users to their profile page with a status message.
+ *
+ * The status message indicates to the user that he is already logged.
+ *
+ * @see ecas_login_page()
+ * @see account_request()
+ */
+function _ecas_logged_user_profile_redirect() {
+  if (!user_is_anonymous()) {
+    global $user;
+    drupal_set_message(t('You are already logged, dear %ecas_username.', array('%ecas_username' => $user->name)));
+    drupal_goto('user/' . $user->uid);
+  }
 }
