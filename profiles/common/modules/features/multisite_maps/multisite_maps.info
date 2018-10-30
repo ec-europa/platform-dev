@@ -3,6 +3,7 @@ description = Create multiple customized maps based on FusionMaps API
 core = 7.x
 package = Multisite_features
 dependencies[] = cce_basic_config
+dependencies[] = diff
 dependencies[] = number
 dependencies[] = xml_field
 features[ctools][] = strongarm:strongarm:1

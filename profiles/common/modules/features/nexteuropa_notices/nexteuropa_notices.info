@@ -2,6 +2,7 @@ name = Nexteuropa Notices
 description = Provide web masters with a convenient way to control the display of notices on a web site.
 core = 7.x
 package = NextEuropa
+dependencies[] = diff
 dependencies[] = nexteuropa_core
 dependencies[] = nexteuropa_multilingual
 features[bean_type][] = notice

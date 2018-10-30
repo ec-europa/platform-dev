@@ -3,6 +3,7 @@ description = Contributors can add video and pictures in galleries.
 core = 7.x
 package = Multisite Core Features
 dependencies[] = cce_basic_config
+dependencies[] = diff
 dependencies[] = multisite_block_carousel
 features[ctools][] = field_group:field_group:1
 features[ctools][] = file_entity:file_default_displays:1

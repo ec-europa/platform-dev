@@ -3,6 +3,7 @@ description = Add Gallery content type for display in a galleries page and block
 core = 7.x
 package = NextEuropa
 dependencies[] = cce_basic_config
+dependencies[] = diff
 dependencies[] = ds
 dependencies[] = ec_embedded_video
 dependencies[] = field_group
