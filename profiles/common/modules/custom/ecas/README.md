@@ -8,6 +8,7 @@ Table of content:
 - [Installation](#installation)
 - [Webmaster](#webmaster)
 - [Site builder](#site-builder)
+- [CA Certificate path](#ca-certificate-path)
 - [Usage](#usage)
 
 [Go to top](#table-of-content)
@@ -23,8 +24,14 @@ On development environment, the EU login works by default when you are reaching
 localhost/ecas URL
 To test the user_sync functionality however, you need to add some configuration
 to your settings.php file.
-More information can be found in the debugging section of the 
- [readme of feature "ecas_env"](../../features/ecas_env/README.md)
+More information can be found in the debugging section of the [readme of feature "ecas_env"](../../features/ecas_env/README.md)
+
+## CA Certificate path
+The variable "ecas_certificate_path" allows setting the path of the CA certificate of the ECAS server.
+So Ecas module can use it in order to validate content sent from the ECAS server.
+
+The Ecas module does not need it in order to run but it is nevertheless recommended to set it in the 
+settings file of the site.
 
 Usage
 -----
