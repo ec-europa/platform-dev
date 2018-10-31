@@ -74,7 +74,7 @@ function nexteuropa_varnish_purge_all_confirm($form, &$form_state) {
     $form_state['redirect'] = 'admin/config/system/nexteuropa-varnish/purge/all';
   }
   else {
-    $form_state['redirect'] = 'admin/config/system/nexteuropa-varnish/purge/varnish';;
+    $form_state['redirect'] = 'admin/config/system/nexteuropa-varnish/purge/varnish';
   }
 }
 
