@@ -4,7 +4,9 @@ workspace:
 
 services:
   web:
-    image: ${IMAGE_PHP=fpfis/fpfis/httpd-php-dev:5.6}
+    image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6}
+    volumnes:
+      - ./my.conf:/etc/apache2/conf-enabled/my.conf
     environment:
       - DOCUMENT_ROOT=/test/platform-dev
   mysql:
@@ -56,6 +58,8 @@ pipeline:
 
   behat:
     image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6}
+    volumnes:
+      - ./my.conf:/etc/apache2/conf-enabled/my.conf
     commands:
       - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
     when:
