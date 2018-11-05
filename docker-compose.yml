@@ -1,29 +1,23 @@
 version: '2'
 services:
-  behat:
-    # image: fpfis/httpd-php-dev:7.1
-    image: fpfis/httpd-php-dev:5.6-ubuntu
-    working_dir: /var/www/html
-    volumes:
-      - .:/var/www/html
-      - ~/.composer/cache:/root/.composer/cache
-#      - ~/.drush/cache:/root/.drush/cache
-    environment:
-      XDEBUG_CONFIG: "remote_enable=1 remote_host=${DOCKER_HOST_IP} remote_port=9000 idekey=PHPSTORM remote_autostart=1"
-      PHP_IDE_CONFIG: "serverName=Test"
   web:
     # image: fpfis/httpd-php-dev:7.1
-    image: fpfis/httpd-php-dev:5.6-ubuntu
-    working_dir: /var/www/html
-    ports:
-      - 8080:8080
+    image: fpfis/httpd-php-dev:5.6
+    working_dir: ${PWD}
     volumes:
-      - .:/var/www/html
+      - ${PWD}:${PWD}
+      - ~/.composer/cache:/root/.composer/cache
+      - ${PWD}/my.conf:/etc/apache2/conf-enabled/my.conf
+#      - ~/.drush/cache:/root/.drush/cache
     environment:
-      XDEBUG_CONFIG: "remote_enable=1 remote_host=${DOCKER_HOST_IP} remote_port=9000 idekey=PHPSTORM remote_autostart=1"
+      XDEBUG_CONFIG: "idekey=cloud9ide remote_connect_back=0 remote_host=${DOCKER_HOST_IP} remote_enable=1"
       PHP_IDE_CONFIG: "serverName=Test"
+      DOCUMENT_ROOT: "${PWD}/build"
+      VIRTUAL_HOST: "http://web:8080/"
   mysql:
     image: percona/percona-server:5.6
+    ports:
+      - 3306:3306
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_ROOT_PASSWORD: 'secret'
@@ -32,6 +26,8 @@ services:
       MYSQL_PASSWORD: 'dbpass'
   selenium:
     image: wernight/phantomjs
+    ports:
+      - 8910:8910
     environment:
       - DISPLAY=:99
       - SE_OPTS=-debug
