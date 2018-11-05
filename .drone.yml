@@ -60,7 +60,7 @@ pipeline:
     commands:
       - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
     volumes:
-      - ./my.conf:/etc/apache2/conf-enabled/my.conf
+      - /test/platform-dev/my.conf:/etc/apache2/conf-enabled/my.conf
     when:
       matrix:
         CODE_COMPLIANCE: 0
