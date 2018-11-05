@@ -7,15 +7,18 @@ services:
     image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6}
     environment:
       - DOCUMENT_ROOT=/test/platform-dev
+    pull: true
   mysql:
     image: percona/percona-server:5.6
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    pull: true
   selenium:
     image: wernight/phantomjs
     environment:
       - DISPLAY=:99
       - SE_OPTS=-debug
+    pull: true
     command: "phantomjs --webdriver=8910 --ignore-ssl-errors=true --ssl-protocol=any"
 
 clone:
