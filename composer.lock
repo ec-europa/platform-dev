@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "43838fd3aa20b57a57c0f61ffacfd05d",
+    "content-hash": "28aee05baea87dfe25a5f1da8db06211",
     "packages": [
         {
             "name": "cpliakas/git-wrapper",
@@ -99,7 +99,7 @@
             "version": "8.2.12",
             "source": {
                 "type": "git",
-                "url": "https://github.com/klausi/coder.git",
+                "url": "https://git.drupal.org/project/coder.git",
                 "reference": "984c54a7b1e8f27ff1c32348df69712afd86b17f"
             },
             "dist": {
@@ -793,7 +793,7 @@
                 }
             ],
             "description": "VersionControl_Git is a library that provides OO interface to handle Git repository.",
-            "time": "2017-08-23 19:37:51"
+            "time": "2017-08-23T19:37:51+00:00"
         },
         {
             "name": "pfrenssen/phpcs-pre-push",
@@ -1620,7 +1620,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4.0",
+        "php": ">=5.6",
         "ext-json": "*",
         "ext-phar": "*",
         "ext-xml": "*"
