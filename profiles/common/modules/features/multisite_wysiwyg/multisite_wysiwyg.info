@@ -2,10 +2,13 @@ name = Multisite WYSIWYG
 description = Alters wysiwyg settings for CKEditor.
 core = 7.x
 package = Multisite Core Features
+php = 5.6
+
 dependencies[] = cce_basic_config
 dependencies[] = features
 dependencies[] = media_internet
 dependencies[] = wysiwyg
 dependencies[] = media
 dependencies[] = media_wysiwyg
+
 features[features_api][] = api:2
