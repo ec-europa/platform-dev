@@ -5,6 +5,8 @@
  * Code for newslettter feature install.
  */
 
+module_load_include('inc', 'newsletters', 'newsletters.install');
+
 /**
  * Implements hook_enable().
  */
@@ -19,10 +21,10 @@ function newsletters_enable() {
 }
 
 /**
- * Use soft config for newsletters comment form location.
+ * Use soft config for comment form location and simplenews content type.
  */
 function newsletters_install() {
-  multisite_config_service('comment')->setThreadingCommentForContentType('simplenews', 1);
+  _newsletters_set_simplenews_content_type();
 }
 
 /**
