@@ -129,7 +129,7 @@ class LanguageCoverageService {
         $this->setDebugHeader('Menu item not found');
         $this->setStatus('404 Not found');
       }
-      exit;
+      drupal_exit();
     }
     else {
       $this->setDebugHeader('Full bootstrap fallback');
@@ -171,7 +171,26 @@ class LanguageCoverageService {
       ->fetchAllAssoc('language');
     $found = $translations && array_key_exists($language, $translations);
     if (!$found) {
-      $this->setDebugHeader("Translation for {$path} in {$language} not found or not published");
+      $tnid = db_select('node', 'n')
+        ->fields('n', ['tnid'])
+        ->condition('n.nid', $nid)
+        ->condition('n.status', 1)
+        ->execute()
+        ->fetchField();
+
+      if (!empty($tnid)) {
+        $translations = db_select('node', 'n')
+          ->fields('n', ['language'])
+          ->condition('n.tnid', $tnid)
+          ->condition('n.status', 1)
+          ->execute()
+          ->fetchAllAssoc('language');
+
+        $found = $translations && array_key_exists($language, $translations);
+      }
+      else {
+        $this->setDebugHeader("Translation for {$path} in {$language} not found or not published");
+      }
     }
     return $found;
   }
