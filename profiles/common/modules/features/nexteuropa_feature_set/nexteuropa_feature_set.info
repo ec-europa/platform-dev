@@ -3,6 +3,7 @@ description = A module that package some configuration for feature set uses
 core = 7.x
 package = NextEuropa
 dependencies[] = features
+dependencies[] = feature_set
 dependencies[] = multisite_drupal_features_set_standard
 features[features_api][] = api:2
 features[user_permission][] = manage feature contact_form
