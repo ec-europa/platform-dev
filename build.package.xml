@@ -67,6 +67,10 @@
             <include name="*.*" />
           </fileset>
         </delete>
+        <composer command="install" composer="${composer.bin}">
+          <arg value="--working-dir=${platform.build.profiles.dir}/${platform.profile.name}/libraries/mpdf" />
+          <arg value="--no-dev" />
+        </composer>
         <!-- Copy the "mpdf-platform-specific-fonts/ttfonts" folder into libraries/mpdf. -->
         <copy todir="${platform.build.dir}/profiles/multisite_drupal_standard/libraries/mpdf/ttfonts">
             <fileset dir="${platform.resources.dir}/patches/mpdf-platform-specific-fonts/ttfonts">
