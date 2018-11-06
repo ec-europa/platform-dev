@@ -223,6 +223,9 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
+; Issue #10558568 : Broken updates due to Classes living in .module files
+; https://www.drupal.org/node/2441965#comment-10558568
+projects[entitycache][patch][] = https://github.com/ec-europa/fpfis-scheduler/blob/remove-patches/fixes/PlatformUpgrade/2.5/entitycache_fix_upgrade_path_cty.patch
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
