@@ -2,14 +2,23 @@ name = Multisite communities platform
 description = Install with starting features pre-configured and modules required by the multisite platform.
 core = 7.x
 
+;modules that we enable but are nice to have
 dependencies[] = admin_menu
 dependencies[] = advanced_help
+dependencies[] = help
+dependencies[] = quicktabs
+
+
+;are these really needed?
 dependencies[] = bootstrap_gallery
 dependencies[] = color
 dependencies[] = contextual
-dependencies[] = current_search
+
+;nexteuropa_feature_set generates issue when in cce_basic_config @FIXME
+dependencies[] = feature_set
+dependencies[] = multisite_drupal_features_set_og
+
 dependencies[] = email
-dependencies[] = entity
 dependencies[] = entityreference_prepopulate
 dependencies[] = fast_404
 dependencies[] = features
@@ -18,13 +27,13 @@ dependencies[] = file
 dependencies[] = filefield_sources_plupload
 dependencies[] = flag
 dependencies[] = fpa
-dependencies[] = help
-dependencies[] = i18n_string
+
 dependencies[] = i18n_translation
 dependencies[] = i18nviews
 dependencies[] = link
 dependencies[] = list
 dependencies[] = locale
+dependencies[] = mediafield
 dependencies[] = menu_attributes
 dependencies[] = menu_block
 dependencies[] = menu_token
@@ -32,7 +41,6 @@ dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_settings_og
 dependencies[] = number
 dependencies[] = options
-dependencies[] = quicktabs
 dependencies[] = search
 dependencies[] = tagclouds
 dependencies[] = taxonomy_browser
@@ -42,10 +50,8 @@ dependencies[] = username_enumeration_prevention
 dependencies[] = uuid
 dependencies[] = video
 dependencies[] = views_bootstrap
-
 ;custom modules
 dependencies[] = multisite_drupal_access
-dependencies[] = multisite_drupal_features_set_og
 dependencies[] = multisite_workbench_moderation_view
 
 ;features

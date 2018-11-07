@@ -2,36 +2,41 @@ name = Multisite platform standard
 description = Install with start features pre-configured and modules required by the multisite platform.
 core = 7.x
 
+;modules that we enable but are nice to have
+dependencies[] = admin_menu
+dependencies[] = advanced_help
+dependencies[] = help
+dependencies[] = quicktabs
+
+;are these really needed?
+dependencies[] = bootstrap_gallery
 dependencies[] = color
 dependencies[] = contextual
-dependencies[] = help
+
+
 dependencies[] = list
 dependencies[] = number
 dependencies[] = options
 dependencies[] = search
 dependencies[] = file
 dependencies[] = locale
-
-dependencies[] = entity
 dependencies[] = fast_404
-dependencies[] = current_search
 
 dependencies[] = features
 dependencies[] = multisite_workbench_moderation_view
-dependencies[] = bootstrap_gallery
 dependencies[] = views_bootstrap
 dependencies[] = uuid
 dependencies[] = translation
 dependencies[] = menu_block
-dependencies[] = quicktabs
-dependencies[] = advanced_help
 dependencies[] = tmgmt
 dependencies[] = menu_token
 dependencies[] = menu_attributes
+;nexteuropa_feature_set generates issue when in cce_basic_config @FIXME
+dependencies[] = feature_set
+dependencies[] = nexteuropa_feature_set
 dependencies[] = i18nviews
 dependencies[] = email
 dependencies[] = taxonomy_browser
-dependencies[] = admin_menu
 dependencies[] = tagclouds
 dependencies[] = link
 dependencies[] = fpa

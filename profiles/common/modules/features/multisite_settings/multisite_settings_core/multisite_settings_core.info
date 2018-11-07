@@ -4,6 +4,7 @@ core = 7.x
 package = Multisite Core Features
 dependencies[] = administration_language_negotiation
 dependencies[] = cce_basic_config
+dependencies[] = current_search
 dependencies[] = context
 dependencies[] = menu
 dependencies[] = strongarm
