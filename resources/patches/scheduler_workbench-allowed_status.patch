@@ -120,7 +120,7 @@ index 868435e..89caacb
  function scheduler_workbench_node_validate($node, $form) {
    $date_format = variable_get('scheduler_date_format', SCHEDULER_DATE_FORMAT);
 -
-+  if (!empty($node->revision_publish_on) || !empty($node->publish_on) ) {
++  if ('published' != $node->workbench_moderation_state_new && !empty($node->revision_publish_on) || !empty($node->publish_on) ) {
 +    // Check if the current status will be published.
 +    $allowed_status = _scheduler_workbench_allowed_status();
 +    if (!in_array($node->workbench_moderation_state_new, $allowed_status) || $allowed_status[$node->workbench_moderation_state_new] === 0) {
