@@ -102,7 +102,7 @@ function nexteuropa_varnish_purge_all_form($form, &$form_state, $arg) {
 function nexteuropa_varnish_purge_all_form_submit($form, &$form_state) {
   $arg = $form_state['build_info']['args'][0];
   $arg == 'all' ? $type = "Drupal and Varnish" : $type = "Varnish";
-  $confirm_message = t('The !type caches have been fully flushed.', array('type' => $type));
+  $confirm_message = t('The !type caches have been fully flushed.', array('!type' => $type));
   $message_level = 'status';
   // First clear the actual backend cache (usually DrupalDatabaseCache).
   // Otherwise the web frontend cache will receive again outdated cached
