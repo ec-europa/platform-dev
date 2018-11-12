@@ -18,3 +18,4 @@ features[field_instance][] = node-gallerymedia-group_content_access
 features[field_instance][] = node-gallerymedia-og_group_ref
 features[variable][] = "pathauto_node_gallerymedia_pattern"
 files[] = tests/multisite_mediagallery_community.extra.test
+files[] = views/views_handler_area_media_link.inc
