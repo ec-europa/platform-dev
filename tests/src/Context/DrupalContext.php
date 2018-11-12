@@ -353,9 +353,9 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    * @param string $arg1
    *   Selector css.
    *
-   * @Then I click on selector :arg1
+   * @Then I click on element :arg1
    */
-  public function iClickOnSelector($arg1) {
+  public function iClickOnElement($arg1) {
       $session = $this->getSession();
       $element = $session->getPage()->find("css", $arg1);
       if (NULL === $element) {
@@ -371,9 +371,9 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    * @param string $arg2
    *   Option text.
    *
-   * @Then I click on option :arg1 from selector :arg2
+   * @Then I click on option :arg1 from element :arg2
    */
-  public function iClickOnOptionFromSelector($arg1, $arg2) {
+  public function iClickOnOptionFromElement($arg1, $arg2) {
     $session = $this->getSession();
     $element = $session->getPage()->find("css", $arg2);
     if (NULL === $element) {
