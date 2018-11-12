@@ -55,3 +55,30 @@ Feature: Webtools Language Coverage (LACO) service can check the language covera
       | content/title-english_en?text=abc  | de       | 404      |
       | content/title-english_fr?text=abc  | de       | 404      |
       | not-existing-path                  | en       | 404      |
+
+  Scenario: Content language coverage tested with content translations.
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | fr        |
+      | de        |
+    And I am viewing a multilingual content translated "article" content:
+      | language | title             |
+      | en       | Title in English  |
+      | fr       | Titre en Français |
+    Then I should get the following language coverage responses:
+      | path                               | language | response |
+      | content/title-english              | en       | 200      |
+      | content/title-english              | fr       | 200      |
+      | content/title-english_en           | en       | 200      |
+      | content/title-english_fr           | fr       | 200      |
+      | content/title-english_it           | it       | 404      |
+      | content/title-english?text=abc     | en       | 200      |
+      | content/title-english_en?text=abc  | en       | 200      |
+      | content/title-english_fr?text=abc  | fr       | 200      |
+      | content/title-english              | pl       | 404      |
+      | content/title-english              | de       | 404      |
+      | content/title-english?text=abc     | de       | 404      |
+      | content/title-english_en?text=abc  | de       | 404      |
+      | content/title-english_fr?text=abc  | de       | 404      |
+      | not-existing-path                  | en       | 404      |
