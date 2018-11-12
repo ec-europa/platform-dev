@@ -54,37 +54,3 @@ function multisite_mediagallery_community_form_gallerymedia_node_form_alter(&$fo
     }
   }
 }
-
-/**
- * Implemets hook_views_pre_render().
- */
-function multisite_mediagallery_community_views_pre_render(&$view) {
-  if ($view->name == 'galleries' && $view->current_display == 'page') {
-    $output = '';
-    $og = og_context();
-
-    if ($og) {
-      $gid = $og['gid'];
-
-      // Check if user has permissions to create content for the community and
-      // render the button 'Create content'.
-      if (og_is_member('node', $gid) && og_user_access('node', $gid, 'create gallerymedia content') && user_access('create gallerymedia content')) {
-        $output .= l(t('Create a Media Gallery'), 'node/add/gallerymedia', array(
-          'attributes' => array(
-            'type' => 'add',
-            'action_bar' => 'single',
-            'btn_group' => 'single',
-          ),
-          'query' => array(
-            'og_group_ref' => $og['gid'],
-          ),
-        ));
-      }
-    }
-
-    // Add menu to the exsiting header.
-    if (isset($view->header['area'])) {
-      $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
-    }
-  }
-}
