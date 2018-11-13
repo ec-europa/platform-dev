@@ -9,6 +9,9 @@ Table of content:
 - [Webmaster](#webmaster)
 - [Site builder](#site-builder)
 - [CA Certificate path](#ca-certificate-path)
+- [Hooks provided](#hooks-provided)
+- [Dependencies](#dependencies)
+- [Other modules](#Other-modules)
 - [Usage](#usage)
 
 [Go to top](#table-of-content)
