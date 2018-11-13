@@ -1,0 +1,44 @@
+diff --git a/entity/tmgmt.entity.job_item.inc b/entity/tmgmt.entity.job_item.inc
+index b1e7114..b2cd7fa 100644
+--- a/entity/tmgmt.entity.job_item.inc
++++ b/entity/tmgmt.entity.job_item.inc
+@@ -409,13 +409,38 @@ class TMGMTJobItem extends Entity {
+       $variables = array('!source' => l($this->getSourceLabel(), $uri['path']));
+     }
+     $return = $this->setState(TMGMT_JOB_ITEM_STATE_REVIEW, $message, $variables, $type);
+-    // Auto accept the trganslation if the translator is configured for it.
++    // Auto accept the translation if the translator is configured for it.
+     if ($this->getTranslator()->getSetting('auto_accept')) {
++      $this->validateFieldMaxLength($this->data);
+       $this->acceptTranslation();
+     }
+     return $return;
+   }
+ 
++  /**
++   * Validate each item field against its default max length allowed.
++   * This way it avoids exception while saving on the database.
++   * "File import failed with the following message: SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'field_teste_value'"
++   *
++   * @param $data
++   * @throws TMGMTException
++   */
++  private function validateFieldMaxLength($data) {
++
++    foreach ($data as $field_name => $field_data) {
++      $field_info = field_info_field($field_name);
++      if ($field_info !== NULL && isset($field_info['settings']['max_length'], $field_data[0]['value']['#translation']['#text'])) {
++        $max_allowed_length = $field_info['settings']['max_length'];
++        $translation_length = drupal_strlen($field_data[0]['value']['#translation']['#text']);
++        if ($max_allowed_length < $translation_length) {
++          // By setting the state it avoids a second try to be finished with a false successful message "Successfully imported file."
++          $this->setState(TMGMT_JOB_ITEM_STATE_ACTIVE, 'Failed to validate file, import aborted.', array(), 'error');
++          throw new TMGMTException(t('The data on %field_name should be equal or less than %max_allowed_length characters, found %translation_length characters!', array('%field_name' => $field_name, '%max_allowed_length' => $max_allowed_length, '%translation_length' => translation_length)));
++        }
++      }
++    }
++  }
++
+   /**
+    * Sets the state of the job item to 'accepted'.
+    */
