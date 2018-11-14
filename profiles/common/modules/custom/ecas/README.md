@@ -1,7 +1,7 @@
 Ecas module
 ======================
 
-The module aims to provide an authentication method to Drupal using ECAS
+The module aims to provide an authentication method to Drupal using EU Login
  
 Table of content:
 =================
@@ -30,10 +30,10 @@ to your settings.php file.
 More information can be found in the debugging section of the [readme of feature "ecas_env"](../../features/ecas_env/README.md)
 
 ## CA Certificate path
-The variable "ecas_certificate_path" allows setting the path of the CA certificate of the ECAS server.
-So Ecas module can use it in order to validate content sent from the ECAS server.
+The variable "ecas_certificate_path" allows setting the path of the CA certificate of the EU Login server.
+So Eu login module can use it in order to validate content sent from the EU Login server.
 
-The Ecas module does not need it in order to run but it is nevertheless recommended to set it in the 
+The Eu login module does not need it in order to run but it is nevertheless recommended to set it in the
 settings file of the site.
 
 ## Hooks provided
@@ -71,31 +71,31 @@ defined, typically in settings.php
 
 ### FPFIS COMMON library :
 This is a php library used for all the php applications of the flexible plateform (FPFIS).
-The important data in this library for the ECAS module are :
-- ECAS settings (url, port, ...)
+The important data in this library for the EU Login module are :
+- EU Login settings (url, port, ...)
 - LDAP settings (credentials, base DN, ...)
 
 ### Drupal Dependencies :
 
-- ECAS : Provides single sign-on ECAS
+- ECAS : Provides single sign-on EU Login
 Required by:
 -- ECAS extra (enabled),
 -- ECAS import users (enabled)
-- ECAS extras : Provides extra features to the ECAS module
+- ECAS extras : Provides extra features to the EU Login module
 Requires:
 -- ECAS (enabled),
 -- Views (enabled),
 Chaos tools (enabled),
 Views Bulk Operations (enabled),
 Entity API (enabled)
-- ECAS import users : Create users accounts from ECAS accounts (in LDAP).
+- ECAS import users : Create users accounts from EU Login accounts (in LDAP).
 Requires:
 ECAS (enabled)
 
 
 ## Other modules
 ### core ECAS module :
-This module allows to login to a drupal instance with an ECAS account.
+This module allows to login to a drupal instance with an EU Login account.
 During the first login, the module creates a drupal account with the data from the LDAP (username, password, email, ...).
 With drupal 6 the module was compatible with the modules node_profile, profile to store users data in users profiles, nodes and CCK fields.
 
@@ -114,7 +114,7 @@ Same updates as the core module. This module must populate the following fields 
 - user-user-field_lastname
 
 ### ecas_extra :
-This module allows to moderate the access to a drupal instance with ECAS accounts.
+This module allows to moderate the access to a drupal instance with EU Login accounts.
 The new users that logged in for the first time with their ecas accounts are put in a pending list and must wait the
 validation of a moderator. An email is sent when the account is authorized or rejected.
 The module needs the following drupal modules : views, views bulk operation.
