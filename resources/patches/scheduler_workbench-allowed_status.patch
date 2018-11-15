@@ -124,7 +124,7 @@ index 868435e..89caacb
 +    // Check if the current status will be published.
 +    $allowed_status = _scheduler_workbench_allowed_status();
 +    if (!in_array($node->workbench_moderation_state_new, $allowed_status) || $allowed_status[$node->workbench_moderation_state_new] === 0) {
-+      $message = t('The current status @status is not allowed to be published, you will need to update the status.', array('@status' => $node->workbench_moderation_state_new));
++      $message = t('The current status is @status and it is not allowed to be published on a future date, you will need to update the status.', array('@status' => $node->workbench_moderation_state_new));
 +      drupal_set_message($message, 'status', FALSE);
 +    }
 +  }
