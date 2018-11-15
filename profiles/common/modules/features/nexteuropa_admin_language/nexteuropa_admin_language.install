@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * @file
+ * Nexteuropa_admin_language install file.
+ */
+
+/**
+ * Implements hook_enable().
+ *
+ * Sets the "administration_language_negotiation" settings.
+ */
+function nexteuropa_admin_language_enable() {
+  // Set administration_language_negotiation as default language negotiation.
+  multisite_config_service('locale')->addLanguageNegotiation('language-administration');
+  variable_set('administration_language_negotiation_default', 'en');
+}
+
+/**
+ * Implements hook_disable().
+ *
+ * Unset "administration_language_negotiation" settings.
+ */
+function nexteuropa_admin_language_disable() {
+  // Disable the  administration language negotiation.
+  // The administration_language_negotiation disabling is done with the
+  // uninstall.
+  multisite_config_service('locale')->disableLanguageNegotiation('language-administration');
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Uninstall "administration_language_negotiation" module.
+ */
+function nexteuropa_admin_language_uninstall() {
+  // The disable cannot be done in the hook_disable() because when XDebug is
+  // enabled.
+  // That generates a "Fatal error: Maximum function nesting level".
+  module_disable(array('administration_language_negotiation'));
+  drupal_uninstall_modules(array('administration_language_negotiation'));
+}

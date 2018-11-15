@@ -19,7 +19,7 @@ class MultisiteNotificationsCoreSubContext extends RawDrupalContext implements D
   /**
    * The Drupal driver manager.
    *
-   * @var \Drupal\DrupalDriverManager;
+   * @var \Drupal\DrupalDriverManager
    */
   protected $drupal;
 
@@ -33,7 +33,7 @@ class MultisiteNotificationsCoreSubContext extends RawDrupalContext implements D
   /**
    * Constructs a NexteuropaSubContext object.
    *
-   * @param DrupalDriverManager $drupal
+   * @param \Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {

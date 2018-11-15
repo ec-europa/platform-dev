@@ -17,14 +17,14 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   /**
    * The Drupal driver manager.
    *
-   * @var \Drupal\DrupalDriverManager;
+   * @var \Drupal\DrupalDriverManager
    */
   protected $drupal;
 
   /**
    * Constructs a NextEuropaEditorialSubContext object.
    *
-   * @param DrupalDriverManager $drupal
+   * @param \Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {
@@ -74,18 +74,16 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
       throw new \InvalidArgumentException("The '$group' group does not have a '$role' role.");
     }
 
-    // Get the currently logged in user from DrupalContext.
-    /** @var \Drupal\DrupalExtension\Context\DrupalContext $context */
-    $context = $this->getContext('\Drupal\DrupalExtension\Context\DrupalContext');
-    if (empty($context->user)) {
+    // Get the currently logged in user.
+    if (!($user = $this->getUserManager()->getCurrentUser())) {
       throw new \Exception('Cannot assign anonymous user to a group.');
     }
 
     // Subscribe the user to the group.
-    og_group($entity_type, $entity_id, array('entity' => $context->user));
+    og_group($entity_type, $entity_id, array('entity' => $user));
 
     // Grant the OG role to the user.
-    og_role_grant($entity_type, $entity_id, $context->user->uid, $rid);
+    og_role_grant($entity_type, $entity_id, $user->uid, $rid);
   }
 
   /**

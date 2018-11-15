@@ -9,13 +9,6 @@ include_once 'nexteuropa_core.features.inc';
 include_once 'nexteuropa_core.tokens.inc';
 
 /**
- * Implements hook_init().
- */
-function nexteuropa_core_init() {
-
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  */
 function nexteuropa_core_form_taxonomy_overview_terms_alter(&$form, $form_state) {

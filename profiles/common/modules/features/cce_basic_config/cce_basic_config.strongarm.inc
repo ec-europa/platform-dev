@@ -89,7 +89,7 @@ function cce_basic_config_strongarm() {
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'date_first_day';
-  $strongarm->value = '0';
+  $strongarm->value = '1';
   $export['date_first_day'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -143,31 +143,10 @@ function cce_basic_config_strongarm() {
 
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
-  $strongarm->name = 'filter_fallback_format';
-  $strongarm->value = 'plain_text';
-  $export['filter_fallback_format'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
   $strongarm->name = 'i18n_select_nodes';
   $strongarm->value = 0;
   $export['i18n_select_nodes'] = $strongarm;
 
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
-  $strongarm->name = 'i18n_string_allowed_formats';
-  $strongarm->value = array(
-    'full_html' => 'full_html',
-    'plain_text' => 'plain_text',
-    'filtered_html' => 0,
-    'basic_html' => 0,
-  );
   $export['i18n_string_allowed_formats'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -296,25 +275,18 @@ example.org';
   $export['linkchecker_scan_blocks'] = $strongarm;
 
   $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_scan_comments';
-  $strongarm->value = 0;
-  $export['linkchecker_scan_comments'] = $strongarm;
+  $strongarm->name = 'linkchecker_scan_node_article';
+  $strongarm->value = 1;
+  $export['linkchecker_scan_node_article'] = $strongarm;
 
   $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_scan_nodetypes';
-  $strongarm->value = array(
-    'article' => 'article',
-    'page' => 'page',
-  );
-  $export['linkchecker_scan_nodetypes'] = $strongarm;
+  $strongarm->name = 'linkchecker_scan_node_page';
+  $strongarm->value = 1;
+  $export['linkchecker_scan_node_page'] = $strongarm;
 
   $strongarm = new stdClass();
   /* Edit this to true to make a default strongarm disabled initially */
@@ -380,15 +352,6 @@ example.org';
   $strongarm->name = 'menu_parent_article';
   $strongarm->value = 'main-menu:0';
   $export['menu_parent_article'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
-  $strongarm->name = 'multisite_version';
-  $strongarm->value = '2.3';
-  $export['multisite_version'] = $strongarm;
 
   $strongarm = new stdClass();
   /* Edit this to true to make a default strongarm disabled initially */
@@ -1046,20 +1009,6 @@ video
     'admin/help',
   );
   $export['cce_basic_config_admin_pages'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'image_captcha_bilinear_interpolation';
-  $strongarm->value = 1;
-  $export['image_captcha_bilinear_interpolation'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'image_captcha_distortion_amplitude';
-  $strongarm->value = '5';
-  $export['image_captcha_distortion_amplitude'] = $strongarm;
 
   return $export;
 }
