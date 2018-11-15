@@ -89,7 +89,7 @@ Feature: Scheduler features
     And I should see the text "The 'publish on' date must be in the future"
     And I change the variable "scheduler_publish_past_date_page" to "schedule"
     And I press the "Save" button
-    Then I should see the text "The current status draft is not allowed to be published, you will need to update the status."
+    Then I should see the text "The current status is draft and it is not allowed to be published, you will need to update the status."
     And I should see the text "Revision state: Draft"
     Given I am logged in as a user with the 'administrator' role
     Then I am on "admin/config/system/cron_en"
