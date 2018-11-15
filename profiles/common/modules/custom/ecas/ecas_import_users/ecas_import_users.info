@@ -1,5 +1,5 @@
-name = ECAS import users
-description = Create users accounts from ECAS accounts (in LDAP).
+name = EU Login import users
+description = Create users accounts from EU Login accounts (in LDAP).
 package = "ECAS"
 core = 7.x
 php = 5.2.4
