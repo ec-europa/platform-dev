@@ -607,9 +607,6 @@ projects[pathauto][patch][] = https://www.drupal.org/files/issues/pathauto-patch
 projects[pathauto_persist][subdir] = "contrib"
 projects[pathauto_persist][version] = "1.4"
 
-projects[piwik][subdir] = "contrib"
-projects[piwik][version] = "2.9"
-
 ; Instead of using a stable version of the plupload module, we stick here to a
 ; more recent git revision in order to solve unexpected failures with a
 ; plupload JS library patch included in the default Drush make file of the
