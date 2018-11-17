@@ -1,8 +1,14 @@
 diff --git a/entity/tmgmt.entity.job_item.inc b/entity/tmgmt.entity.job_item.inc
-index 7b0582f..22426cd 100644
+index b1e7114..5f1a083 100644
 --- a/entity/tmgmt.entity.job_item.inc
 +++ b/entity/tmgmt.entity.job_item.inc
-@@ -417,6 +417,14 @@ class TMGMTJobItem extends Entity {
+@@ -411,11 +411,141 @@ class TMGMTJobItem extends Entity {
+     $return = $this->setState(TMGMT_JOB_ITEM_STATE_REVIEW, $message, $variables, $type);
+     // Auto accept the trganslation if the translator is configured for it.
+     if ($this->getTranslator()->getSetting('auto_accept')) {
++      $this->validateFieldMaxLength($this->data);
+       $this->acceptTranslation();
+     }
      return $return;
    }
  
@@ -14,33 +20,24 @@ index 7b0582f..22426cd 100644
 +   * @param $data
 +   * @throws TMGMTException
 +   */
-   /**
-    * Validate each item field against its default max length allowed.
-    * This way it avoids exception while saving on the database.
-@@ -429,18 +437,122 @@ class TMGMTJobItem extends Entity {
- 
-     foreach ($data as $field_name => $field_data) {
-       $field_info = field_info_field($field_name);
--      if (is_array($field_info) && isset($field_info['settings']['max_length'], $field_data[0]['value']['#translation']['#text'])) {
--        $max_allowed_length = $field_info['settings']['max_length'];
--        $translation_length = drupal_strlen($field_data[0]['value']['#translation']['#text']);
--        if ( $max_allowed_length < $translation_length) {
++  private function validateFieldMaxLength($data) {
++
++    foreach ($data as $field_name => $field_data) {
++      $field_info = field_info_field($field_name);
 +
 +      // Skip fields type "text_with_summary" which the column type is "longtext/bg", such as body field..
 +      if ($field_info !== NULL) {
 +        $max_allowed_length = $this->fieldSettingsLength($field_info);
 +        $translation_length = $this->fieldDataLength($field_info, $field_data);
 +        if (is_numeric($max_allowed_length) && $max_allowed_length < $translation_length) {
-           // By setting the state it avoids a second try to be finished with a false successful message "Successfully imported file."
--          // $this->setState(TMGMT_JOB_ITEM_STATE_ACTIVE, 'Failed to validate file, import aborted.', array(), 'error');
--          throw new TMGMTException(t('The data on %field_name should be equal or less than %max_allowed_length characters, found %translation_length characters!', array('%field_name' => $field_name, '%max_allowed_length' => $max_allowed_length, '%translation_length' => translation_length)));
++          // By setting the state it avoids a second try to be finished with a false successful message "Successfully imported file."
 +          $this->setState(TMGMT_JOB_ITEM_STATE_ACTIVE, 'Failed to validate file, import aborted.', array(), 'error');
 +          throw new TMGMTException(t('The data on %field_name should be equal or less than %max_allowed_length characters, found %translation_length characters!', array('%field_name' => $field_name, '%max_allowed_length' => $max_allowed_length, '%translation_length' => $translation_length)));
-         }
-       }
-     }
-   }
- 
++        }
++      }
++    }
++  }
++
 +  /**
 +   * @param $field_name
 +   * @param $field_data
@@ -142,6 +139,7 @@ index 7b0582f..22426cd 100644
 +  function linkDataLength($data, $column = 'title') {
 +    return $data[0][$column]['#translation']['#text'];
 +  }
++
 +
    /**
     * Sets the state of the job item to 'accepted'.
