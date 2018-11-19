@@ -580,17 +580,19 @@ function _disable_content_type($type) {
 function multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight = '-10') {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  // Make some modifications.
-  $block_to_add = array(
-    'module' => $module,
-    'delta' => $delta,
-    'region' => $region,
-    'weight' => $weight,
-  );
-  // Add modification to the context.
-  $context->reactions['block']['blocks'][$block_title] = $block_to_add;
-  // Update the context.
-  module_invoke('context', 'save', $context);
+  if ($context) {
+    // Make some modifications.
+    $block_to_add = array(
+      'module' => $module,
+      'delta' => $delta,
+      'region' => $region,
+      'weight' => $weight,
+    );
+    // Add modification to the context.
+    $context->reactions['block']['blocks'][$block_title] = $block_to_add;
+    // Update the context.
+    module_invoke('context', 'save', $context);
+  }
 }
 
 /**
@@ -611,10 +613,12 @@ function _add_block_context($context_name, $block_title, $module, $delta, $regio
 function multisite_drupal_toolbox_remove_block_context($context_name, $block_title) {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  // Remove element from the context.
-  unset($context->reactions['block']['blocks'][$block_title]);
-  // Update the context.
-  module_invoke('context', 'save', $context);
+  if ($context) {
+    // Remove element from the context.
+    unset($context->reactions['block']['blocks'][$block_title]);
+    // Update the context.
+    module_invoke('context', 'save', $context);
+  }
 }
 
 /**
@@ -636,9 +640,11 @@ function multisite_drupal_toolbox_add_views_context($context_name, $view_title) 
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
   // Add modification to the context.
-  $context->conditions['views']['values'][$view_title] = $view_title;
-  // Update the context.
-  module_invoke('context', 'save', $context);
+  if ($context) {
+    $context->conditions['views']['values'][$view_title] = $view_title;
+    // Update the context.
+    module_invoke('context', 'save', $context);
+  }
 }
 
 /**
@@ -659,10 +665,12 @@ function _add_views_context($context_name, $view_title) {
 function multisite_drupal_toolbox_remove_views_context($context_name, $view_title) {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  // Remove element from the context.
-  unset($context->conditions['views']['values'][$view_title]);
-  // Update the context.
-  module_invoke('context', 'save', $context);
+  if ($context) {
+    // Remove element from the context.
+    unset($context->conditions['views']['values'][$view_title]);
+    // Update the context.
+    module_invoke('context', 'save', $context);
+  }
 }
 
 /**
@@ -683,10 +691,12 @@ function _remove_views_context($context_name, $view_title) {
 function multisite_drupal_toolbox_add_content_type_context($context_name, $content_type) {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  // Add modification to the context.
-  $context->conditions['node']['values'][$content_type] = $content_type;
-  // Update the context.
-  module_invoke('context', 'save', $context);
+  if ($context) {
+    // Add modification to the context.
+    $context->conditions['node']['values'][$content_type] = $content_type;
+    // Update the context.
+    module_invoke('context', 'save', $context);
+  }
 }
 
 /**
@@ -707,10 +717,12 @@ function _add_content_type_context($context_name, $content_type) {
 function multisite_drupal_toolbox_remove_content_type_context($context_name, $content_type) {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  // Remove element from the context.
-  unset($context->conditions['node']['values'][$content_type]);
-  // Update the context.
-  module_invoke('context', 'save', $context);
+  if ($context) {
+    // Remove element from the context.
+    unset($context->conditions['node']['values'][$content_type]);
+    // Update the context.
+    module_invoke('context', 'save', $context);
+  }
 }
 
 /**
@@ -731,10 +743,12 @@ function _remove_content_type_context($context_name, $content_type) {
 function multisite_drupal_toolbox_add_path_context($context_name, $path) {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  // Add modification to the context.
-  $context->conditions['path']['values'][$path] = $path;
-  // Update the context.
-  module_invoke('context', 'save', $context);
+  if ($context) {
+    // Add modification to the context.
+    $context->conditions['path']['values'][$path] = $path;
+    // Update the context.
+    module_invoke('context', 'save', $context);
+  }
 }
 
 /**
@@ -755,10 +769,12 @@ function _add_path_context($context_name, $path) {
 function multisite_drupal_toolbox_remove_path_context($context_name, $path) {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  // Remove element from the context.
-  unset($context->conditions['path']['values'][$path]);
-  // Update the context.
-  module_invoke('context', 'save', $context);
+  if ($context) {
+    // Remove element from the context.
+    unset($context->conditions['path']['values'][$path]);
+    // Update the context.
+    module_invoke('context', 'save', $context);
+  }
 }
 
 /**

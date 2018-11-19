@@ -199,6 +199,25 @@ class MultilingualContext extends RawDrupalContext {
   }
 
   /**
+   * Create a node along with its translations and visit its node page.
+   *
+   * @param string $type
+   *   Content type machine name.
+   * @param \Behat\Gherkin\Node\TableNode $table
+   *   List of available languages and title translations.
+   *
+   * @Given /^I am viewing a multilingual content translated "([^"]*)" content:$/
+   */
+  public function iAmViewingMultilingualContentTranslatedContent($type, TableNode $table) {
+    $node = $this->createMultilingualContentTranslatedContent($type, $table);
+
+    // Get node path without any base path by setting 'base_url' and 'absolute'.
+    $path = url('node/' . $node->nid, array('base_url' => '', 'absolute' => TRUE));
+    // Visit newly created node page.
+    $this->visitPath($path);
+  }
+
+  /**
    * Get a node by specifying its type and title.
    *
    * @param string $label
@@ -839,6 +858,54 @@ class MultilingualContext extends RawDrupalContext {
         menu_delete($menu);
       }
     }
+  }
+
+  /**
+   * Create a node along with its content translations.
+   *
+   * @param string $type
+   *   Content type machine name.
+   * @param \Behat\Gherkin\Node\TableNode $table
+   *   List of available languages and field translations.
+   *
+   * @return object
+   *   The created node translation for the original language.
+   *
+   * @Given I create the following content translated multilingual :arg1 content:
+   */
+  public function createMultilingualContentTranslatedContent($type, TableNode $table) {
+    $translations = [];
+    foreach ($table->getHash() as $row) {
+      $node = (object) $row;
+      $node->type = $type;
+      $node->status = TRUE;
+      // If the node is managed by Workbench Moderation, mark it as published.
+      if (workbench_moderation_node_moderated($node)) {
+        $node->workbench_moderation_state_new = self::MODERATION_PUBLISHED;
+      }
+      $translations[$node->language] = $node;
+    }
+
+    // Consider the first defined language as the default one.
+    $node = array_shift($translations);
+    $node = $this->nodeCreate($node);
+
+    // Apply Pathauto settings.
+    $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
+
+    $node->tnid = $node->nid;
+
+    // Save node (first language).
+    node_save($node);
+
+    // Add others languages.
+    foreach ($translations as $node_translation) {
+      $node_translation->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node_translation->language);
+      $node_translation->tnid = $node->nid;
+      $this->nodeCreate($node_translation);
+    }
+
+    return $node;
   }
 
 }
