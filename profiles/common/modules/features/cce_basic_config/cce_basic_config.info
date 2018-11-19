@@ -41,7 +41,6 @@ dependencies[] = print_mail
 dependencies[] = print_pdf
 dependencies[] = print_ui
 dependencies[] = print_pdf_mpdf
-dependencies[] = rate
 dependencies[] = rules
 dependencies[] = rules_scheduler
 dependencies[] = search

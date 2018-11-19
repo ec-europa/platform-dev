@@ -34,7 +34,6 @@ dependencies[] = context_entity_field
 
 dependencies[] = date
 dependencies[] = features
-dependencies[] = rate
 dependencies[] = file_entity
 dependencies[] = media
 dependencies[] = password_policy
