@@ -705,7 +705,7 @@ Feature:
 
   Scenario: As administrator, I want to flush Drupal and Varnish through the purge admin interface
     When I go to "admin/config/system/nexteuropa-varnish/general"
-    And I click "Clear drupal cache as well"
+    And I check "Clear drupal cache as well"
     And I press "Purge caches"
     Then I should see "Are you sure you want to purge Varnish and Drupal cache ?"
     And I should see "The action you are about to perform has a deep impact on the site's performance!"
