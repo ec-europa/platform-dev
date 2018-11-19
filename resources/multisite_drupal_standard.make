@@ -223,6 +223,13 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-pathauto_update-2743685-2_0.patch
 ; https://www.drupal.org/node/2877074
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
+; Refactor the entity_translation_language() callback to make it bundle-specific.
+; The bug only Exists in platform 2.4, The patch does not applied as is. So, we
+; produce a local one without the module tests update.
+; https://www.drupal.org/node/2877074
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2101
+projects[entity_translation][patch][] = patches/et-bundle_language_with_test-2877074-nept-2101.patch
+
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
@@ -549,7 +556,7 @@ projects[migrate][download][type] = git
 projects[migrate][subdir] = contrib
 
 projects[mimemail][subdir] = "contrib"
-projects[mimemail][version] = "1.0-beta4"
+projects[mimemail][version] = "1.1"
 
 projects[nagios][download][branch] = 7.x-1.x
 projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
@@ -624,7 +631,7 @@ projects[plupload][download][revision] = bba974c6f3224346a1acae4181a700b55129e6e
 projects[plupload][download][type] = git
 
 projects[print][subdir] = "contrib"
-projects[print][version] = "2.0"
+projects[print][version] = "2.2"
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
@@ -723,7 +730,8 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 ; #2362321 : Check source length limits
 ; https://www.drupal.org/node/2362321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1802
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-12/check_source_length-d7-2362321-37.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2029
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-09-17/check_source_length-d7-2362321-41.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
@@ -758,7 +766,7 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.0-beta2"
+projects[uuid][version] = "1.2"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -880,6 +888,12 @@ projects[xmlsitemap][version] = "2.4"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
 projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/xmlsitemap-using_rel_alternate-1670086-50.patch
 projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch
+; TypeError: Argument 1 passed to xmlsitemap_node_create_link() must be an instance of stdClass, boolean given.
+; The issue contain 2 patches but only one is applicable for the version 2.4.
+; The second will be necessary with 2.5.
+; https://www.drupal.org/project/xmlsitemap/issues/2986847
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2082
+projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/2018-07-19/xmlsitemap-2986847-2.patch
 
 
 ; =========
