@@ -771,7 +771,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/295524
 ; 2960458 : Check source length limits when option "Auto accept finished translations" is active
 ; https://www.drupal.org/project/tmgmt/issues/2960458
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1913
-projects[tmgmt][patch][] = patches/check-length-limits-when-auto-accept-translation-2960458.patch
+projects[tmgmt][patch][] = patches/check-maxlength-limit-when-auto-accept-translation-2960458.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
