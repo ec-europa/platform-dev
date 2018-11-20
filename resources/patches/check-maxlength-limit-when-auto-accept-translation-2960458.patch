@@ -1,8 +1,8 @@
 diff --git a/entity/tmgmt.entity.job_item.inc b/entity/tmgmt.entity.job_item.inc
-index b1e7114..074b60a 100644
+index b1e7114..b540cf2 100644
 --- a/entity/tmgmt.entity.job_item.inc
 +++ b/entity/tmgmt.entity.job_item.inc
-@@ -409,12 +409,153 @@ class TMGMTJobItem extends Entity {
+@@ -409,12 +409,154 @@ class TMGMTJobItem extends Entity {
        $variables = array('!source' => l($this->getSourceLabel(), $uri['path']));
      }
      $return = $this->setState(TMGMT_JOB_ITEM_STATE_REVIEW, $message, $variables, $type);
@@ -70,6 +70,7 @@ index b1e7114..074b60a 100644
 +        case 'link_field':
 +          $data = $this->linkDataLength($field_data);
 +          break;
++        case 'text_long':
 +        case 'text_with_summary':
 +          $data = $this->textSummaryDataLength($field_data);
 +          break;
@@ -138,7 +139,7 @@ index b1e7114..074b60a 100644
 +     *  The max number of characters allowed.
 +     */
 +    private function linkTitleLengthSettings(&$field_info, $entity_type = 'node') {
-+      // May have many bundles, in case of the same field being attached to more than one content type, however the settings are the same, so just pick up the first one.
++      // May have many bundles, in case of the same field being attached to many content type, however the settings are the same, so just pick up the first one.
 +      $bundle = isset($field_info['bundles'][$entity_type][0]) ? $field_info['bundles'][$entity_type][0] : NULL;
 +      $field_instance = field_info_instance($entity_type, $field_info['field_name'], $bundle);
 +
