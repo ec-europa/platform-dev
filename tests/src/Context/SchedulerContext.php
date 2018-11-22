@@ -3,6 +3,7 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 
 /**
  * Context for configuring the SchedulerContext.
@@ -15,6 +16,24 @@ class SchedulerContext implements Context {
    * @var VariableContext
    */
   protected $variableContext;
+
+  /**
+   * The Mink context.
+   *
+   * @var MinkContext
+   */
+  protected $mink;
+
+  /**
+   * Gathers other contexts we rely on, before the scenario starts.
+   *
+   * @BeforeScenario
+   */
+  public function gatherContexts(BeforeScenarioScope $scope) {
+    $environment = $scope->getEnvironment();
+
+    $this->mink = $environment->getContext(MinkContext::class);
+  }
 
   /**
    * Update unpublishing date of a node.
@@ -37,6 +56,36 @@ class SchedulerContext implements Context {
     else {
       throw new \InvalidArgumentException("Node '{$title}' of type '{$type}' not found.");
     }
+  }
+
+  /**
+   * Adds the current day with format Y-m-d.
+   *
+   * @Then I fill in :arg1 with current day
+   */
+  public function iFillInWithCurrentDay($arg1) {
+    $page = $this->mink->getSession()->getPage();
+    $element = $page->findField($arg1);
+    if (NULL === $element) {
+      throw new \InvalidArgumentException(sprintf('Could not find: "%s"', $arg1));
+    }
+    $element->setValue(date('Y-m-d'));
+  }
+
+  /**
+   * Adds future time from now to the field with format H:m+1:10.
+   *
+   * @Then I fill in :arg1 with future time
+   */
+  public function iFillInWithFutureTime($arg1) {
+    $page = $this->mink->getSession()->getPage();
+    $element = $page->findField($arg1);
+    if (NULL === $element) {
+      throw new \InvalidArgumentException(sprintf('Could not find: "%s"', $arg1));
+    }
+    date_default_timezone_set(drupal_get_user_timezone());
+    $scheduler = date('H:i:10', strtotime('+1 minutes'));
+    $element->setValue($scheduler);
   }
 
 }
