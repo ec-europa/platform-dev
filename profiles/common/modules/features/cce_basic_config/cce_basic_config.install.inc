@@ -501,7 +501,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view advanced help topic',
     'view alert message',
     'view private files',
-    'view rate results page',
     'view the administration theme',
   );
   // Depending on the platform profile, some default platform modules are not

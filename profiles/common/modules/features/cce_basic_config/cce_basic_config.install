@@ -348,68 +348,6 @@ function cce_basic_config_install() {
     }
   }
 
-  // Add a fivestar rate widget.
-  $path = drupal_get_path('module', 'rate');
-  $rate_widgets = array(
-    (object) array(
-      'name' => 'rate_fivestar',
-      'tag' => 'vote',
-      'title' => 'rate_fivestar',
-      'node_types' => array(),
-      'comment_types' => array(),
-      'options' => array(
-        0 => array(
-          0 => '0',
-          1 => '1',
-        ),
-        1 => array(
-          0 => '25',
-          1 => '2',
-        ),
-        2 => array(
-          0 => '50',
-          1 => '3',
-        ),
-        3 => array(
-          0 => '75',
-          1 => '4',
-        ),
-        4 => array(
-          0 => '100',
-          1 => '5',
-        ),
-      ),
-      'template' => 'fivestar',
-      'node_display' => '2',
-      'teaser_display' => FALSE,
-      'comment_display' => '2',
-      'node_display_mode' => '1',
-      'teaser_display_mode' => '1',
-      'comment_display_mode' => '1',
-      'roles' => array(
-        2 => '2',
-        3 => 0,
-        1 => 0,
-        4 => 0,
-        5 => 0,
-      ),
-      'allow_voting_by_author' => 1,
-      'noperm_behaviour' => '1',
-      'displayed' => '1',
-      'displayed_just_voted' => '2',
-      'description' => '',
-      'description_in_compact' => TRUE,
-      'delete_vote_on_second_click' => '0',
-      'use_source_translation' => TRUE,
-      'value_type' => 'percent',
-      'theme' => 'rate_template_fivestar',
-      'css' => $path . '/templates/fivestar/fivestar.css',
-      'js' => $path . '/templates/fivestar/fivestar.js',
-      'translate' => TRUE,
-    ),
-  );
-  variable_set('rate_widgets', $rate_widgets);
-
   // Configure text formats.
   _cce_basic_config_text_formats();
   // Create WYSIWYG profile for Full HTML text format.
@@ -898,98 +836,11 @@ function cce_basic_config_update_7170() {
 }
 
 /**
- * Add rate widget fivestar.
+ * No action.
  */
 function cce_basic_config_update_7180() {
   // Check if rate widget fivestar already exists.
-  $rate_widgets = variable_get("rate_widgets");
-  if (!$rate_widgets || count($rate_widgets) == 0) {
-    $rate_widgets = array();
-  }
-  else {
-    foreach ($rate_widgets as $rate_widget) {
-      if ($rate_widget->name == 'rate_fivestar') {
-        // The widget fivestar already exists.
-        return;
-      }
-    }
-  }
-  $module_path = drupal_get_path('module', 'rate');
-
-  $rate_widgets[1] = (object) array(
-    'name' => 'rate_fivestar',
-    'tag' => 'vote',
-    'title' => 'rate_fivestar',
-    'node_types' => array(),
-    'comment_types' => array(),
-    'options' => array(
-      0 => array(
-        0 => '0',
-        1 => '1',
-      ),
-      1 => array(
-        0 => '25',
-        1 => '2',
-      ),
-      2 => array(
-        0 => '50',
-        1 => '3',
-      ),
-      3 => array(
-        0 => '75',
-        1 => '4',
-      ),
-      4 => array(
-        0 => '100',
-        1 => '5',
-      ),
-    ),
-    'template' => 'fivestar',
-    'node_display' => '2',
-    'teaser_display' => FALSE,
-    'comment_display' => '2',
-    'node_display_mode' => '1',
-    'teaser_display_mode' => '1',
-    'comment_display_mode' => '1',
-    'roles' => array(
-      2 => '2',
-      3 => 0,
-      1 => 0,
-      4 => 0,
-      5 => 0,
-    ),
-    'allow_voting_by_author' => 1,
-    'noperm_behaviour' => '1',
-    'displayed' => '1',
-    'displayed_just_voted' => '2',
-    'description' => '',
-    'description_in_compact' => TRUE,
-    'delete_vote_on_second_click' => '0',
-    'use_source_translation' => TRUE,
-    'value_type' => 'percent',
-    'theme' => 'rate_template_fivestar',
-    'css' => $module_path . '/templates/fivestar/fivestar.css',
-    'js' => $module_path . '/templates/fivestar/fivestar.js',
-    'translate' => TRUE,
-  );
-  variable_set("rate_widgets", $rate_widgets);
-}
-
-/**
- * Force home and myworkbench menu items at left in main menu.
- */
-function cce_basic_config_update_7190() {
-  db_update('menu_links')
-    ->fields(array('weight' => '-30'))
-    ->condition('link_title', 'My workbench', '=')
-    ->condition('menu_name', 'main-menu', '=')
-    ->execute();
-
-  db_update('menu_links')
-    ->fields(array('weight' => '-50'))
-    ->condition('link_title', 'Home', '=')
-    ->condition('menu_name', 'main-menu', '=')
-    ->execute();
+  // This hook_update force fivestar rate, we remove it.
 }
 
 /**
@@ -1514,20 +1365,21 @@ function cce_basic_config_update_7204() {
   // The Rate module has moved to the modules subdirectory in the profile. The
   // module hardcodes the locations of its CSS and JS attachments inside a
   // variable. Update these so they point to the correct location.
-  $path = drupal_get_path('module', 'rate');
-  $rate_widgets = variable_get('rate_widgets', array());
+  if (module_exists('rate')) {
+    $path = drupal_get_path('module', 'rate');
+    $rate_widgets = variable_get('rate_widgets', array());
 
-  foreach ($rate_widgets as &$rate_widget) {
-    foreach (array('css', 'js') as $attachment) {
-      // @codingStandardsIgnoreStart: NEPT-1308: The following code tries to remove static urls from the database.
-      if (!empty($rate_widget->$attachment) && strpos($rate_widget->$attachment, 'sites/all/modules/contributed/rate') === 0) {
-        $rate_widget->$attachment = str_replace('sites/all/modules/contributed/rate', $path, $rate_widget->attachment);
+    foreach ($rate_widgets as &$rate_widget) {
+      foreach (array('css', 'js') as $attachment) {
+        // @codingStandardsIgnoreStart: NEPT-1308: The following code tries to remove static urls from the database.
+        if (!empty($rate_widget->$attachment) && strpos($rate_widget->$attachment, 'sites/all/modules/contributed/rate') === 0) {
+          $rate_widget->$attachment = str_replace('sites/all/modules/contributed/rate', $path, $rate_widget->attachment);
+        }
+        // @codingStandardsIgnoreEnd
       }
-      // @codingStandardsIgnoreEnd
     }
+    variable_set('rate_widgets', $rate_widgets);
   }
-
-  variable_set('rate_widgets', $rate_widgets);
 }
 
 /**
@@ -2016,7 +1868,6 @@ function cce_basic_config_update_7226() {
     'view own files',
     'view own private files',
     'view private files',
-    'view rate results page',
     'view the administration theme',
   );
   // Depending on the platform profile or the site, some default platform

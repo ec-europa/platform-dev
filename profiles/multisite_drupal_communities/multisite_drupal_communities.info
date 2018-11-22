@@ -67,7 +67,6 @@ dependencies[] = print
 dependencies[] = print_mail
 dependencies[] = print_pdf
 dependencies[] = quicktabs
-dependencies[] = rate
 dependencies[] = rdf
 dependencies[] = realname
 dependencies[] = rules

@@ -4,6 +4,7 @@ core = 7.x
 package = Multisite Core Features
 dependencies[] = apachesolr
 dependencies[] = cce_basic_config
+dependencies[] = rate
 dependencies[] = survey_core
 dependencies[] = translation
 features[ctools][] = field_group:field_group:1
