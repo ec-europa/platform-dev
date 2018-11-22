@@ -32,6 +32,8 @@ function _is_ecas_user($user) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Remove the possibility to edit all the info synchronized from ecas.
  */
 function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   $user = user_load($form['#user']->uid);
@@ -70,13 +72,15 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Add a warning for users trying to recover their password.
  */
 function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
   array_unshift($form['#validate'], '_ecas_user_pass_validate');
 }
 
 /**
- * Validate the user/password form.
+ * Warn users trying to recover EU login password from Drupal at user/password.
  *
  * If the given user is an ECAS user, provide an ECAS-related URL instead of
  * sending a mail with erroneous instructions.
@@ -218,11 +222,6 @@ function ecas_login_page() {
   if ($_SESSION['ecas_goto']) {
     $destination = $_SESSION['ecas_goto'];
     unset($_SESSION['ecas_goto']);
-  }
-  else {
-    $destination = variable_get('site_frontpage', 'node');
-    global $user;
-    drupal_set_message(t('You are already logged, dear %ecas_username.', array('%ecas_username' => $user->name)));
   }
 
   $force_proto = variable_get('ecas_force_proto', FALSE);
@@ -437,6 +436,7 @@ function ecas_login_check() {
   if ($user->uid) {
     // The user has an uid, and it is > 0 (which is anonymous user's uid) do
     // nothing because user is already logged into Drupal.
+    drupal_set_message(t('You are already logged, dear %ecas_username.', array('%ecas_username' => $user->name)));
     return;
   }
 
@@ -571,7 +571,6 @@ function ecas_login_check() {
         // @codingStandardsIgnoreStart
         drupal_set_message(t(variable_get('ecas_login_message', ECAS_DEFAULT_LOGIN_MESSAGE), array('%ecas_username' => $user->name)));
         // @codingStandardsIgnoreEnd
-        ecas_login_page();
       }
     }
   }
