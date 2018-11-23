@@ -34,7 +34,6 @@ dependencies[] = file
 dependencies[] = file_entity
 dependencies[] = filefield_sources_plupload
 dependencies[] = flag
-dependencies[] = fpa
 dependencies[] = help
 dependencies[] = i18n
 dependencies[] = i18n_field

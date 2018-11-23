@@ -85,7 +85,6 @@ dependencies[] = admin_menu
 dependencies[] = tagclouds
 dependencies[] = link
 dependencies[] = transliteration
-dependencies[] = fpa
 dependencies[] = flag
 dependencies[] = entityreference_prepopulate
 dependencies[] = username_enumeration_prevention
