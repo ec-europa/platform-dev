@@ -21,7 +21,7 @@ projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.30"
 
 projects[advanced_help][subdir] = "contrib"
-projects[advanced_help][version] = "1.3"
+projects[advanced_help][version] = "1.4"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.8"
@@ -91,9 +91,11 @@ projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.5"
 
 projects[better_formats][subdir] = "contrib"
-projects[better_formats][version] = "1.0-beta1"
-projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_format-strict-warning-1717470-11.patch
-
+projects[better_formats][version] = "1.0-beta2"
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-157
+; Apply patch to fix xss injection
+projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_formats-2896131-6-missing-check_plain-when-showing-filter-name.patch
+ 
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
@@ -306,7 +308,7 @@ projects[field_group][version] = "1.6"
 ; https://www.drupal.org/node/2604284
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
-; After update from 1.5 to 1.6 empty field groups (because of field permissions) 
+; After update from 1.5 to 1.6 empty field groups (because of field permissions)
 ; are now being displayed as empty groups
 ; https://www.drupal.org/node/2926605
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2016
@@ -449,7 +451,7 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.19
+projects[media][version] = 2.20
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
@@ -532,7 +534,7 @@ projects[migrate][subdir] = contrib
 projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909252-1.patch
 
 projects[mimemail][subdir] = "contrib"
-projects[mimemail][version] = "1.0"
+projects[mimemail][version] = "1.1"
 
 projects[nagios][download][branch] = 7.x-1.x
 projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
@@ -544,7 +546,7 @@ projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-suppor
 
 projects[nexteuropa_newsroom][download][type] = git
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
-projects[nexteuropa_newsroom][download][tag] = v3.5.2
+projects[nexteuropa_newsroom][download][tag] = v3.5.5
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
@@ -665,6 +667,18 @@ projects[scheduler][version] = 1.5
 
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
+; Allow to schedule the publish date of a revision
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
+; https://www.drupal.org/project/scheduler_workbench/issues/2048999
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-47_0.patch
+; Allow publication of revisions with selected status. This patch requires the patch from issue https://www.drupal.org/project/scheduler_workbench/issues/2048999
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
+; This patch requieres https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-46.patch from
+; this issue https://www.drupal.org/project/scheduler_workbench/issues/2048999.
+; It is based on the issue https://www.drupal.org/project/scheduler_workbench/issues/1955938 but the patch on
+; the issue doesn't take into account the changes introduced on issue
+; https://www.drupal.org/project/scheduler_workbench/issues/2048999, so we created a local patch for it.
+projects[scheduler_workbench][patch][] = patches/scheduler_workbench-allowed_status.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.24
@@ -898,7 +912,7 @@ projects[workbench_og][download][branch] = 7.x-2.x
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][download][version] = "2.4"
+projects[wysiwyg][download][version] = "2.5"
 ; Fix remote js loading on ckeditor plugin
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
@@ -907,18 +921,12 @@ projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.4"
+projects[xmlsitemap][version] = "2.6"
 ; Using rel="alternate" rather than multiple sitemaps by language context
 ; https://www.drupal.org/node/1670086
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
-projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/xmlsitemap-using_rel_alternate-1670086-50.patch
-projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch
-; TypeError: Argument 1 passed to xmlsitemap_node_create_link() must be an instance of stdClass, boolean given.
-; The issue contain 2 patches but only one is applicable for the version 2.4.
-; The second will be necessary with 2.5.
-; https://www.drupal.org/project/xmlsitemap/issues/2986847
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2082
-projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/2018-07-19/xmlsitemap-2986847-2.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2083
+projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/2018-10-17/xmlsitemap-multilingual_rel_alternate-1670086-99.patch
 
 
 ; =========
@@ -1052,6 +1060,15 @@ libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v6.1.4.zip
 libraries[mpdf][destination] = "libraries"
+; The Drupal timezone is overridden by the mpdf one.
+; As the version 6.1 is frozen, the patch has not been accepted.
+; That is why it is a "local" patch.
+; Nevertheless, the fix has been introduced in mpdf 7+.
+; So, it will be removed when the library will be upgraded in version
+; 2.6 of the platform.
+; https://github.com/mpdf/mpdf/pull/892
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2111
+libraries[mpdf][patch][] = patches/mpdf_timezone.patch
 
 ; Leaflet
 libraries[leaflet][destination] = "libraries"
