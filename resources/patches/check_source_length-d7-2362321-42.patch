@@ -1,0 +1,145 @@
+diff --git a/ui/tmgmt_ui.module b/ui/tmgmt_ui.module
+index 1dbac91..2aff5cd 100644
+--- a/ui/tmgmt_ui.module
++++ b/ui/tmgmt_ui.module
+@@ -661,6 +661,7 @@ function tmgmt_ui_translation_review_form_defaults($form, &$form_state, TMGMTJob
+     '#type' => 'submit',
+     '#value' => t('Save as completed'),
+     '#access' => $item->isNeedsReview(),
++    '#validate' => array('tmgmt_ui_validate_accept'),
+   );
+   $form['actions']['save'] = array(
+     '#type' => 'submit',
+@@ -680,6 +681,23 @@ function tmgmt_ui_translation_review_form_defaults($form, &$form_state, TMGMTJob
+   return $form;
+ }
+ 
++/**
++ * Perform translation validation before it is accepted.
++ *
++ * @param array $form
++ *   An associative array containing the structure of the form.
++ * @param array $form_state
++ *   An associative array containing the current state of the form.
++ */
++function tmgmt_ui_validate_accept(array $form, array &$form_state) {
++  foreach ($form_state['values'] as $key => $value) {
++    if (is_array($value) && isset($value['translation']) && empty($value['translation'])) {
++      // Check if translation is empty.
++      form_set_error($key . '][translation', t('The field is empty', array(), array('context' => 'tmgmt_ui')));
++    }
++  }
++}
++
+ /**
+  * Helper function to output ajaxid.
+  *
+@@ -702,7 +720,7 @@ function tmgmt_ui_review_form_element_ajaxid($parent_key) {
+  * @param array $form_state
+  *   Drupal form form_state object.
+  * @param $data
+- *   Flatened array of translation data items.
++ *   Flattened array of translation data items.
+  * @param $job_item
+  *   The job item related to this data.
+  * @param $zebra
+@@ -710,6 +728,9 @@ function tmgmt_ui_review_form_element_ajaxid($parent_key) {
+  *   translation item with alternating colors.
+  * @param $parent_key
+  *   The key for $data.
++ *
++ * @return array
++ *   The form elements.
+  */
+ function _tmgmt_ui_review_form_element(&$form_state, $data, TMGMTJobItem $job_item, &$zebra, $parent_key) {
+   $flip = array(
+@@ -823,6 +844,10 @@ function _tmgmt_ui_review_form_element(&$form_state, $data, TMGMTJobItem $job_it
+         '#title' => t('Translation'),
+         '#disabled' => $job_item->isAccepted(),
+       );
++
++      // Add #maxlength attribute when field has it set in its settings.
++      _tmgmt_ui_set_maxLength($form, $parent_key, $target_key);
++
+       $form[$target_key]['source'] = array(
+         '#type' => 'textarea',
+         '#default_value' => $data[$key]['#text'],
+@@ -844,6 +869,78 @@ function _tmgmt_ui_review_form_element(&$form_state, $data, TMGMTJobItem $job_it
+   return $form;
+ }
+ 
++/**
++ * A helper controller to add #maxlength attribute when field has it set in its settings.
++ *
++ * @param array $form
++ *   An array of form elements.
++ * @param string $parent_key
++ *   A string with field_name.
++ * @param string $target_key
++ *   A string with the field property using pipe as delimiter.
++ */
++function _tmgmt_ui_set_maxLength(&$form, $parent_key, $target_key) {
++  if ($field = field_info_field($parent_key)) {
++    switch ($field['type']) {
++      case 'text_long':
++      case 'text_with_summary':
++        if ($field['columns']['value']['size'] !== 'big') {
++          // Skipping extra large chars limit, >4G chars allowed, used by default on text_with_summary and text_long field type.
++          $form[$target_key]['translation']['#maxlength'] = $field['columns']['value']['size'];
++        }
++        break;
++
++      case 'link_field':
++        _tmgmt_ui_set_link_maxLength($form, $field, $target_key);
++        break;
++
++      default:
++        // eg: text_field.
++        if (isset($field['settings']['max_length'])) {
++          $form[$target_key]['translation']['#maxlength'] = $field['settings']['max_length'];
++        }
++        break;
++    }
++  }
++}
++
++/**
++ * Helper function to control/set maxLength for link field type.
++ *
++ * @param array $form
++ * @param array $field
++ * @param string $target_key
++ */
++function _tmgmt_ui_set_link_maxLength(array &$form, array &$field, $target_key) {
++  // Only title may have a limited character number set.
++  // Assuming $target_key has always the same pattern with pipe "|".
++  $target_keys = explode('|', $target_key);
++  $sub_field = array_pop($target_keys);
++  $allowed_sub_fields = array(
++    'title',
++    'url',
++  );
++
++  if ($sub_field === 'title') {
++    // Remember only variable can be passed by reference!
++    $entity_type = array_keys($field['bundles']);
++    $entity_type = reset($entity_type);
++    $bundle = isset($field['bundles'][$entity_type][0]) ? $field['bundles'][$entity_type][0] : NULL;
++    $field_instance = field_info_instance($entity_type, $field['field_name'], $bundle);
++
++    if (isset($field_instance['settings']['title_maxlength'])) {
++      $form[$target_key]['translation']['#maxlength'] = $field_instance['settings']['title_maxlength'];
++    }
++  }
++  elseif (!empty($field['columns']) && in_array($sub_field, $allowed_sub_fields, TRUE)) {
++    $column_length = isset($field['columns'][$sub_field]['length']) ? $field['columns'][$sub_field]['length'] : NULL;
++
++    if ($column_length) {
++      $form[$target_key]['translation']['#maxlength'] = $column_length;
++    }
++  }
++}
++
+ /**
+  * Review form revert action callback.
+  */
