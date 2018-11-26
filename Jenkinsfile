@@ -129,7 +129,7 @@ void executeStages(String label) {
             sh './bin/drush -r build/ update-website --path=tests/updaters/'
             sh './bin/phpunit -c tests/phpunit.xml'
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-                timeout(time: 2, unit: 'HOURS') {
+                timeout(time: 3, unit: 'HOURS') {
                     if (env.WD_BROWSER_NAME == 'phantomjs') {
                         sh "phantomjs --webdriver=${env.WD_HOST}:${env.WD_PORT} &"
                     }
