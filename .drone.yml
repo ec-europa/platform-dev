@@ -210,3 +210,40 @@ matrix:
 #      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
 #      PLATFORM_PROFILE: multisite_drupal_standard
 #      THEME_DEFAULT: ec_resp
+
+  slack-notify-published:
+    image: plugins/slack
+    secrets: [ slack_webhook ]
+    channel: ci
+    username: corebot
+    icon_url: https://d30y9cdsu7xlg0.cloudfront.net/png/62766-200.png
+    when:
+      event: tag
+      status: [ success, failure ]
+    template: >
+      {{#success build.status}}
+        Platform ${DRONE_TAG} has been released and is available at https://asda.fpfis.tech.ec.europa.eu/ec-europa/platform-dev/dist/platform-${DRONE_TAG}.tar.gz
+        Docker image fpfis/platform:${DRONE_TAG} is ready for use
+        Minor subsites update to playground has started !
+      {{else}}
+        Platform ${DRONE_TAG} failed to be released
+      {{/success}}
+
+  slack-notify-released-rc:
+    image: plugins/slack
+    secrets: [ slack_webhook ]
+    channel: ci
+    username: corebot
+    icon_url: https://d30y9cdsu7xlg0.cloudfront.net/png/62766-200.png
+    when:
+      event: push
+      branch: release-*
+      status: [ success, failure ]
+    template: >
+      {{#success build.status}}
+        Platform ${DRONE_BRANCH} release candidate is available at
+        https://asda.fpfis.tech.ec.europa.eu/ec-europa/platform-dev/dist/platform-${DRONE_BRANCH}.tar.gz
+        Docker image fpfis/platform:${DRONE_BRANCH} is ready for use
+      {{else}}
+        Platform ${DRONE_BRANCH} failed release candidate
+      {{/success}}
