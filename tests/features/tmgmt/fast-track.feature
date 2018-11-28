@@ -18,6 +18,7 @@ Feature: Fast track
     """
     And I request to change the variable "ne_dgt_rules_translator" to "dgt_ftt"
 
+  @ec_europa_theme
   Scenario: Fast track workflow.
     Given I update the "dgt_ftt" translator settings with the following values:
     """
