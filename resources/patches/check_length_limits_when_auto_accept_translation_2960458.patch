@@ -1,21 +1,37 @@
 diff --git a/entity/tmgmt.entity.job_item.inc b/entity/tmgmt.entity.job_item.inc
-index b1e7114..aba162b 100644
+index b1e7114..8bc4bfd 100644
 --- a/entity/tmgmt.entity.job_item.inc
 +++ b/entity/tmgmt.entity.job_item.inc
-@@ -409,12 +409,154 @@ class TMGMTJobItem extends Entity {
+@@ -401,21 +401,180 @@ class TMGMTJobItem extends Entity {
+ 
+   /**
+    * Sets the state of the job item to 'needs review'.
++   *
++   * @param string $message
++   * @param array $variables
++   * @param string $type
++   * @return int
++   * @throws TMGMTException
+    */
+-  public function needsReview($message = NULL, $variables = array(), $type = 'status') {
+-    if (!isset($message)) {
++  public function needsReview($message = NULL, array $variables = array(), $type = 'status') {
++    if ($message === NULL) {
+       $uri = $this->getSourceUri();
+       $message = 'The translation for !source needs to be reviewed.';
        $variables = array('!source' => l($this->getSourceLabel(), $uri['path']));
      }
      $return = $this->setState(TMGMT_JOB_ITEM_STATE_REVIEW, $message, $variables, $type);
 -    // Auto accept the trganslation if the translator is configured for it.
 +    // Auto accept the translation if the translator is configured for it.
      if ($this->getTranslator()->getSetting('auto_accept')) {
--      $this->acceptTranslation();
-+        $this->validateFieldMaxLength($this->data);
-+        $this->acceptTranslation();
-+      }
-+      return $return;
-+    }
++      $this->validateFieldMaxLength($this->data);
+       $this->acceptTranslation();
+     }
 +
+     return $return;
+   }
+ 
 +    /**
 +     * Validate each item field against its default max length allowed.
 +     * This way it avoids exception while saving on the database.
@@ -75,9 +91,10 @@ index b1e7114..aba162b 100644
 +          $data = $this->textSummaryLongData($field_data);
 +          break;
 +        default:
-+          $data = $field_data[0]['value']['#translation']['#text'];
++          $data = isset($field_data[0]['value']['#translation']['#text']) ? $field_data[0]['value']['#translation']['#text'] : NULL;
 +          break;
 +      }
++
 +      return drupal_strlen($data);
 +    }
 +
@@ -85,20 +102,21 @@ index b1e7114..aba162b 100644
 +     * Get the translation data from the text_with_summary and or text_long field type.
 +     *
 +     * @param array $data
-+     *   The data from translation file.
++     *   The data elements from translation file.
 +     * @param string $column
 +     *   The column can be value and or summary.
 +     *
 +     * @return mixed
 +     */
 +    private function textSummaryLongData(array &$data, $column = 'value') {
-+      return $data[0][$column]['#translation']['#text'];
++      return isset($data[0][$column]['#translation']['#text']) ? $data[0][$column]['#translation']['#text'] : NULL;
 +    }
 +
 +    /**
 +     * Manage field settings length.
 +     *
 +     * @param array $field_info.
++     *  The object field elements.
 +     * @return int|mixed|null
 +     */
 +    private function fieldSettingsLength(array &$field_info) {
@@ -106,41 +124,45 @@ index b1e7114..aba162b 100644
 +        case 'link_field':
 +          $length = $this->linkTitleLengthSettings($field_info);
 +          break;
++
 +        case 'text_long':
 +        case 'text_with_summary':
 +          $length = $this->textSummaryLongLengthSettings($field_info);
 +          break;
++
 +        default:
 +          $length = $field_info['settings']['max_length'];
 +          break;
 +      }
++
 +      return $length;
 +    }
 +
 +    /**
-+     * Get length of the text_with_summary and or text_long field type.
++     * Get text_with_summary and text_long field type length.
 +     *
 +     * @param array $field_info
-+     *   The field info object.
++     *   The object field elements.
 +     * @param string $column
 +     *   The column name: {value, summary and format}.
 +     * @return mixed
-+     *   If the size was set while creating the field or null if nothing has been set.
 +     */
 +    public function textSummaryLongLengthSettings(array &$field_info, $column = 'value') {
-+      return $field_info['columns'][$column]['size'];
++      return isset($field_info['columns'][$column]['size']) ? $field_info['columns'][$column]['size'] : NULL;
 +    }
 +
 +    /**
 +     * Get the custom length on link field type from settings.
 +     * The length which was set while creating the bundle, otherwise it is 128 characters by default.
 +     *
-+     * @param $entity_type
++     * @param array $field_info
++     *   The object field elements.
++     * @param string $entity_type
 +     *   The entity type for the instance.
 +     * @return int|null
 +     *  The max number of characters allowed.
 +     */
-+    private function linkTitleLengthSettings(&$field_info, $entity_type = 'node') {
++    private function linkTitleLengthSettings(array &$field_info, $entity_type = 'node') {
 +      // May have many bundles, in case of the same field being attached to many content type, however the settings are the same, so just pick up the first one.
 +      $bundle = isset($field_info['bundles'][$entity_type][0]) ? $field_info['bundles'][$entity_type][0] : NULL;
 +      $field_instance = field_info_instance($entity_type, $field_info['field_name'], $bundle);
@@ -151,15 +173,16 @@ index b1e7114..aba162b 100644
 +    /**
 +     * Get the translation data from link field type.
 +     *
-+     * @param $data
++     * @param array $data
++     *   The data elements from translation file.
 +     * @param string $column
++     *   The element name, such as title and summary.
 +     * @return mixed
 +     */
-+    private function linkData(&$data, $column = 'title') {
-+      return $data[0][$column]['#translation']['#text'];
-     }
--    return $return;
--  }
- 
++    private function linkData(array &$data, $column = 'title') {
++      return isset($data[0][$column]['#translation']['#text']) ? $data[0][$column]['#translation']['#text'] : NULL;
++    }
++
    /**
     * Sets the state of the job item to 'accepted'.
+    */
