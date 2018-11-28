@@ -75,7 +75,7 @@ Feature: Feature set menu
     Then I should not see the text "F.A.Q"
     Then I should not see the text "Press Release"
     Then I should not see the text "Site activity"
-    Then I should not see the text "Maxlength"
+#    Then I should not see the text "Maxlength"
     Then I should not see the text "News"
     Then I should not see the text "Newsletters"
     Then I should not see the text "GIS field"
