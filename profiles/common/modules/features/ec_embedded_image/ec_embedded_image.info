@@ -9,8 +9,6 @@ dependencies[] = media_internet
 
 features[ctools][] = file_entity:file_default_displays:1
 features[features_api][] = api:2
-features[field_base][] = field_file_image_alt_text
-features[field_base][] = field_file_image_title_text
 features[field_instance][] = file-image-field_file_image_alt_text
 features[field_instance][] = file-image-field_file_image_title_text
 features[file_display][] = image__default__media_flickr_image
