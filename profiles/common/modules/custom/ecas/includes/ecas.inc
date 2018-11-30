@@ -32,6 +32,8 @@ function _is_ecas_user($user) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Remove the possibility to edit all the info synchronized from ecas.
  */
 function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   $user = user_load($form['#user']->uid);
@@ -70,13 +72,15 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Add a warning for users trying to recover their password.
  */
 function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
   array_unshift($form['#validate'], '_ecas_user_pass_validate');
 }
 
 /**
- * Validate the user/password form.
+ * Warn users trying to recover EU login password from Drupal at user/password.
  *
  * If the given user is an ECAS user, provide an ECAS-related URL instead of
  * sending a mail with erroneous instructions.
@@ -201,7 +205,6 @@ function ecas_menu_check() {
  * Redirects the user to the account request page.
  */
 function account_request() {
-  _ecas_logged_user_profile_redirect();
   $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
   $return_url = url('ecas', array('absolute' => TRUE));
   $account_request_url = str_replace('%local_ecas_url%', $return_url, $account_request_url);
@@ -212,10 +215,7 @@ function account_request() {
  * Redirects the user to the ECAS login page.
  */
 function ecas_login_page() {
-  _ecas_logged_user_profile_redirect();
   ecas_login_check();
-
-  $destination = variable_get('site_frontpage', 'node');
 
   // If it is the user's first CAS login and initial login redirection is
   // enabled, go to the set page.
@@ -436,6 +436,7 @@ function ecas_login_check() {
   if ($user->uid) {
     // The user has an uid, and it is > 0 (which is anonymous user's uid) do
     // nothing because user is already logged into Drupal.
+    drupal_set_message(t('You are already logged, dear %ecas_username.', array('%ecas_username' => $user->name)));
     return;
   }
 
@@ -570,7 +571,6 @@ function ecas_login_check() {
         // @codingStandardsIgnoreStart
         drupal_set_message(t(variable_get('ecas_login_message', ECAS_DEFAULT_LOGIN_MESSAGE), array('%ecas_username' => $user->name)));
         // @codingStandardsIgnoreEnd
-        ecas_login_page();
       }
     }
   }
@@ -902,20 +902,4 @@ function _ecas_session_end() {
  */
 function _ecas_get_url_site_frontpage() {
   return url(variable_get('site_frontpage', 'node'), ['absolute' => TRUE]);
-}
-
-/**
- * Redirect any logged users to their profile page with a status message.
- *
- * The status message indicates to the user that he is already logged.
- *
- * @see ecas_login_page()
- * @see account_request()
- */
-function _ecas_logged_user_profile_redirect() {
-  if (!user_is_anonymous()) {
-    global $user;
-    drupal_set_message(t('You are already logged, dear %ecas_username.', array('%ecas_username' => $user->name)));
-    drupal_goto('user/' . $user->uid);
-  }
 }
