@@ -1,4 +1,4 @@
-@api @ec_resp_theme
+@api @ec_resp_theme @javascript
 Feature: Automated logout
   In order to automate the action to log out from the platform
   As an administrator
