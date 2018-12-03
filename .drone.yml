@@ -38,7 +38,8 @@ services:
     pull: true
     when:
       event: [ push, pull_request, tag ]
-      branch: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
   mysql:
     image: percona/percona-server:5.6
     environment:
@@ -46,7 +47,8 @@ services:
     pull: true
     when:
       event: [ push, pull_request, tag ]
-      branch: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
   selenium:
     image: wernight/phantomjs
     environment:
@@ -56,7 +58,8 @@ services:
     command: "phantomjs --webdriver=8910 --ignore-ssl-errors=true --ssl-protocol=any"
     when:
       event: [ push, pull_request, tag ]
-      branch: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
 
 # ==============================================================================
 # pipeline =====================================================================
@@ -81,7 +84,8 @@ pipeline:
       - /cache/${DRONE_REPO}-${DRONE_JOB_NUMBER}/composer:/root/.cache/composer
     when:
       event: [push, tag, pull_request]
-      branch: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
 
   # Run phpcs tests
   phpcs:
@@ -92,7 +96,8 @@ pipeline:
       matrix:
         CODE_COMPLIANCE: 1
       event: [push, tag, pull_request]
-      branch: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
 
   # Run phpunit tests
   phpunit:
@@ -103,7 +108,8 @@ pipeline:
       matrix:
         CODE_COMPLIANCE: 1
       event: [push, tag, pull_request]
-      branch: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
 
   # Run behat tests
   behat:
@@ -113,8 +119,9 @@ pipeline:
     when:
       matrix:
         CODE_COMPLIANCE: 0
-    event: [push, tag, pull_request]
-    branch: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+      event: [push, tag, pull_request]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
 
   # If error on behat test, upload screenshots
   upload-screenshots:
@@ -126,7 +133,8 @@ pipeline:
     when:
       status: [ failure ]
       event: [push, tag, pull_request]
-      branch: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
 
   # Slack notification
   slack-notify-published:
@@ -137,7 +145,8 @@ pipeline:
     icon_url: https://d30y9cdsu7xlg0.cloudfront.net/png/62766-200.png
     when:
       event: [push, tag, pull_request]
-      branch:[ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
       status: [ success, failure ]
     template: >
       {{#success build.status}}
