@@ -1,0 +1,480 @@
+# ==============================================================================
+# Pull request clone ===========================================================
+# ==============================================================================
+# Use plugin to checkout pull requests for caching issue:
+# https://github.com/drone/drone/issues/2390
+# ==============================================================================
+clone:
+  git:
+    image: plugins/git:next
+    depth: 1
+    # The tags property is not documented but can be found in the following snippet of code
+    # https://github.com/drone-plugins/drone-git/blob/master/plugin.go#L153
+    tags: true
+    when:
+      event: [ push, pull_request, tag ]
+  git:
+    image: plugins/git
+    when:
+      event: [ deployment ]
+
+# ==============================================================================
+# Workspace location ===========================================================
+# ==============================================================================
+# Define the build path inside the container ( Here /test/ssk )
+# ==============================================================================
+workspace: 
+  base: /test 
+  path: platform
+
+# ==============================================================================
+# Main services ================================================================
+# ==============================================================================
+services:
+  web:
+    image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6}
+    environment:
+      - DOCUMENT_ROOT=/test/platform-dev
+    pull: true
+    when:
+      event: [ push, pull_request, tag ]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+  mysql:
+    image: percona/percona-server:5.6
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    pull: true
+    when:
+      event: [ push, pull_request, tag ]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+  selenium:
+    image: wernight/phantomjs
+    environment:
+      - DISPLAY=:99
+      - SE_OPTS=-debug
+    pull: true
+    command: "phantomjs --webdriver=8910 --ignore-ssl-errors=true --ssl-protocol=any"
+    when:
+      event: [ push, pull_request, tag ]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+
+# ==============================================================================
+# pipeline =====================================================================
+# ==============================================================================
+pipeline:
+
+  # ============================================================================
+  # Build install and tests ====================================================
+  # ============================================================================
+  # Build and install developement platform and run phpcs and behat tests
+  # ============================================================================
+
+  # Build and install platform
+  site-build:
+    image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6}
+    commands:
+      - composer install --ansi --no-suggest --no-progress
+      - ./bin/phing build-platform-dev -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+      - ./bin/phing setup-drone-file-system -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+      - ./bin/phing install-platform  -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+    volumes:
+      - /cache/${DRONE_REPO}-${DRONE_JOB_NUMBER}/composer:/root/.cache/composer
+    when:
+      event: [push, tag, pull_request]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+
+  # Run phpcs tests
+  phpcs:
+    image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6}
+    commands:
+      - ./bin/phpcs
+    when:
+      matrix:
+        CODE_COMPLIANCE: 1
+      event: [push, tag, pull_request]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+
+  # Run phpunit tests
+  phpunit:
+    image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6}
+    commands:
+      - ./bin/phpunit -c tests/phpunit.xml
+    when:
+      matrix:
+        CODE_COMPLIANCE: 1
+      event: [push, tag, pull_request]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+
+  # Run behat tests
+  behat:
+    image: ${IMAGE_PHP=fpfis/httpd-php-dev:5.6}
+    commands:
+      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
+    when:
+      matrix:
+        CODE_COMPLIANCE: 0
+      event: [push, tag, pull_request]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+
+  # If error on behat test, upload screenshots
+  upload-screenshots:
+    image: drillster/drone-rsync
+    user: web_asda
+    secrets: [ plugin_key, plugin_hosts ]
+    source: tests/screenshots/
+    target: ${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/screenshots/${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/
+    when:
+      status: [ failure ]
+      event: [push, tag, pull_request]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+
+  # Slack notification
+  slack-notify-published:
+    image: plugins/slack
+    secrets: [ slack_webhook ]
+    channel: ci
+    username: corebot
+    icon_url: https://d30y9cdsu7xlg0.cloudfront.net/png/62766-200.png
+    when:
+      event: [push, tag, pull_request]
+      branch:
+        include: [ nept-1606 , nept-1606-test , NEPT-1606-gervase ]
+      status: [ success, failure ]
+    template: >
+      {{#success build.status}}
+        {{repo.name}}@{{build.branch}} <{{build.link}}|passed> the site upgrade test.
+      {{else}}
+        {{repo.name}}@{{build.branch}} <{{build.link}}|failed> the site upgrade test.
+        Screenshots for failed behat steps can be found at: https://asda.fpfis.tech.ec.europa.eu/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/screenshots/${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/
+      {{/success}}
+
+  # ============================================================================
+  # Release and tags ===========================================================
+  # ============================================================================
+  # Build distribution package and upload to github
+  # ============================================================================
+  build-platform-dist:
+    image: fpfis/httpd-php-dev:5.6
+    commands:
+      - composer install --ansi
+      - ./bin/phing build-multisite-dist -Dcomposer.bin=$(which composer) -logger phing.listener.AnsiColorLogger
+      - echo ${DRONE_TAG=rc} > build/.version
+      - echo ${DRONE_COMMIT_SHA} > build/.commit
+    when:
+      event: [ tag, push ]
+      branch: release-*
+
+  publish-git:
+    image: fpfis/drone-plugin-git-deploy
+    source: build
+    target_repo: git@github.com:ec-europa/platform-deploy.git
+    target_folder: deployed
+    clean: true
+    secrets: [ deploy_key ]
+    message: "Deployed ${DRONE_COMMIT_SHA} ${DRONE_TAG} [SKIP CI]"
+    tag: ${DRONE_TAG}
+    target_branch: ${DRONE_BRANCH}
+    excludes:
+      - composer.json
+      - composer.lock
+    when:
+      event: [ push, tag ]
+      branch: release-*
+      
+
+  # For 2.4 sites :
+  trigger-subsite-upgrade:
+    image: fpfis/php56-build
+    secrets: [ GITHUB_API_TOKEN ]
+    commands:
+      - "ghcli file:update ec-europa reps-austria-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c" 
+      - "ghcli file:update ec-europa reps-barcelona-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-belgium-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-bulgaria-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-ceskarepublika-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-croatia-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-cyprus-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-denmark-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-deutschland-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-estonia-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-finland-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-france-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-greece-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-hungary-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-ireland-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-italy-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-latvia-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-lietuva-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-luxembourg-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-malta-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-netherlands-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-polska-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-portugal-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-romania-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-slovakia-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-slovenia-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-spain-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-sweden-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+      - "ghcli file:update ec-europa reps-unitedkingdom-reference build.lock.props 'Updated platform to version ${DRONE_TAG}' 'platform.package.version = ${DRONE_TAG}' 'master' -c"
+    when:
+      event: tag
+      branch: release-2.4
+
+  # For 2.3 sites :
+  trigger-subsite-upgrade:
+    image: fpfis/php56-build
+    secrets: [ GITHUB_API_TOKEN ]
+    commands:
+      - echo "I would upgrade 2.3 sites if given any"
+    when:
+      event: tag
+      branch: release-2.3
+
+  prepare-dockerfile:
+    image: fpfis/php56-build
+    commands:
+      - echo -e "FROM fpfis/httpd-php:7.1\nADD build /var/www/html" > Dockerfile
+    when:
+      event: [ push, tag ]
+      branch: [ release-* ]
+
+  build-and-push:
+    image: plugins/docker
+    repo: fpfis/platform
+    auto_tag: true
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    when:
+      event: tag
+      
+  build-and-push-branch:
+    image: plugins/docker
+    repo: fpfis/platform
+    tags: ${DRONE_BRANCH}
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    when:
+      event: push
+      branch: release-*
+      
+  create-tarball:
+    image: fpfis/php56-dev
+    commands:
+      - tar cz build > platform-${DRONE_COMMIT_SHA}.tar.gz
+    when:
+      event: [ push ]
+      branch: release-*
+
+  link-release:
+    image: fpfis/php56-dev
+    commands:
+      - ln -s platform-${DRONE_COMMIT_SHA}.tar.gz platform-${DRONE_BRANCH}.tar.gz
+    when:
+      event: [ push, tag ]
+      branch: release-*
+
+  link-tag:
+    image: fpfis/php56-dev
+    commands:
+      - ln -s platform-${DRONE_COMMIT_SHA}.tar.gz platform-${DRONE_TAG}.tar.gz
+    when:
+      event: tag
+
+  upload-build:
+    image: drillster/drone-rsync 
+    user: web_asda
+    secrets: [ plugin_key, plugin_hosts ]
+    source: ./platform-*.tar.gz
+    target: ${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/dist/
+    when:
+      event: [ push, tag ]
+      branch: release-*
+
+      
+  slack-notify-published:
+    image: plugins/slack
+    secrets: [ slack_webhook ]
+    channel: ci
+    username: corebot
+    icon_url: https://d30y9cdsu7xlg0.cloudfront.net/png/62766-200.png
+    when:
+      event: tag
+      status: [ success, failure ]
+    template: >
+      {{#success build.status}}
+        Platform ${DRONE_TAG} has been released and is available at https://asda.fpfis.tech.ec.europa.eu/ec-europa/platform-dev/dist/platform-${DRONE_TAG}.tar.gz
+        Docker image fpfis/platform:${DRONE_TAG} is ready for use
+        Minor subsites update to playground has started !
+      {{else}}
+        Platform ${DRONE_TAG} failed to be released
+      {{/success}}
+
+  slack-notify-released-rc:
+    image: plugins/slack
+    secrets: [ slack_webhook ]
+    channel: ci
+    username: corebot
+    icon_url: https://d30y9cdsu7xlg0.cloudfront.net/png/62766-200.png
+    when:
+      event: push
+      branch: release-*
+      status: [ success, failure ]
+    template: >
+      {{#success build.status}}
+        Platform ${DRONE_BRANCH} release candidate is available at
+        https://asda.fpfis.tech.ec.europa.eu/ec-europa/platform-dev/dist/platform-${DRONE_BRANCH}.tar.gz
+        Docker image fpfis/platform:${DRONE_BRANCH} is ready for use
+      {{else}}
+        Platform ${DRONE_BRANCH} failed release candidate
+      {{/success}}
+
+
+
+# ============================================================================
+# Matrix =====================================================================
+# ============================================================================
+# Matrix used for test different platform profile in parallel
+# ============================================================================
+matrix:
+  include:
+    - CODE_COMPLIANCE: 1
+      # Communities, ec_resp (php 5.6)
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: communities_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-dev:5.6
+      PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+      # Communities, ec_resp (php 7.1)
+      # SKIP php 7.1
+#    - BEHAT_PART: 0
+#      BEHAT_PROFILE: communities_ec_resp
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_communities
+#      THEME_DEFAULT: ec_resp
+
+      # Communities, ec_europa (php 5.6)
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: communities
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-dev:5.6
+      PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+      # Communities, ec_europa (php 7.1)
+      # SKIP php 7.1
+#    - BEHAT_PART: 0
+#      BEHAT_PROFILE: communities
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_communities
+#      THEME_DEFAULT: ec_europa
+
+      # Standard, ec_europa (php 5.6)
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-dev:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 1
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-dev:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 2
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-dev:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 3
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-dev:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+      # Standard, ec_europa (php 7.1)
+      # SKIP php 7.1
+#    - BEHAT_PART: 0
+#      BEHAT_PROFILE: default
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_europa
+#    - BEHAT_PART: 1
+#      BEHAT_PROFILE: default
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_europa
+#    - BEHAT_PART: 2
+#      BEHAT_PROFILE: default
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_europa
+#    - BEHAT_PART: 3
+#      BEHAT_PROFILE: default
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_europa
+
+      # Standard, ec_resp (php 5.6)
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-dev:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 1
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-dev:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 2
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-dev:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 3
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-dev:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+      # Standard, ec_resp (php 7.1)
+#    - BEHAT_PART: 0
+#      BEHAT_PROFILE: standard_ec_resp
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      THEME_DEFAULT: ec_resp
+#    - BEHAT_PART: 1
+#      BEHAT_PROFILE: standard_ec_resp
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_resp
+#    - BEHAT_PART: 2
+#      BEHAT_PROFILE: standard_ec_resp
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_resp
+#    - BEHAT_PART: 3
+#      BEHAT_PROFILE: standard_ec_resp
+#      CODE_COMPLIANCE: 0
+#      IMAGE_PHP: fpfis/httpd-php-dev:7.1-ubuntu
+#      PLATFORM_PROFILE: multisite_drupal_standard
+#      THEME_DEFAULT: ec_resp
