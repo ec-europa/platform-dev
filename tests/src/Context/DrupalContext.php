@@ -354,6 +354,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     }
     return $found_elements;
   }
+
   /**
    * Click on a selector element.
    *
@@ -363,13 +364,14 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    * @Then I click on element :arg1
    */
   public function iClickOnElement($arg1) {
-      $session = $this->getSession();
-      $element = $session->getPage()->find("css", $arg1);
-      if (NULL === $element) {
-          throw new \Exception(sprintf('Could not find: "%s"', $arg1));
-      }
-      $element->click();
+    $session = $this->getSession();
+    $element = $session->getPage()->find("css", $arg1);
+    if (NULL === $element) {
+      throw new \Exception(sprintf('Could not find: "%s"', $arg1));
+    }
+    $element->click();
   }
+
   /**
    * Click on a selector element option.
    *
@@ -384,11 +386,11 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     $session = $this->getSession();
     $element = $session->getPage()->find("css", $arg2);
     if (NULL === $element) {
-        throw new \Exception(sprintf('Could not find selector: "%s"', $arg2));
+      throw new \Exception(sprintf('Could not find selector: "%s"', $arg2));
     }
     $element = $element->find("xpath", 'option[text()="' . $arg1 . '"]');
     if (NULL === $element) {
-        throw new \Exception(sprintf('Could not find text: "%s"', $arg1));
+      throw new \Exception(sprintf('Could not find text: "%s"', $arg1));
     }
     $element->click();
   }
