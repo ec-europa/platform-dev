@@ -12,7 +12,7 @@ Feature: Embedded images
     And there is a media gallery content type with a field to embed images from flickr
     And I am logged in as a user with the 'contributor' role
 
-  @wip
+  @resetNodeTypes
   Scenario Outline: Embed Flickr photoset via media asset field
     When I go to "node/add/test-media-gallery"
     And I fill in "title" with "<title>"
@@ -20,10 +20,11 @@ Feature: Embedded images
     Then the media browser opens
     When I fill in "File URL or media resource" with "<url>"
     And I press "Next"
+    When I press "Save"
     Then the media browser closes
     And I see the "Flickr set" preview
     When I press "Save"
-    Then I should see the success message "Media Gallery <title> has been created."
+    Then I should see the text "Media Gallery <title> has been created."
 
     Examples:
     | title              | url                                                                 |
