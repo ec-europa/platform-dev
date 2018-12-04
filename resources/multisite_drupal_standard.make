@@ -546,7 +546,7 @@ projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-suppor
 
 projects[nexteuropa_newsroom][download][type] = git
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
-projects[nexteuropa_newsroom][download][tag] = v3.5.2
+projects[nexteuropa_newsroom][download][tag] = v3.5.5
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
@@ -667,6 +667,18 @@ projects[scheduler][version] = 1.5
 
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
+; Allow to schedule the publish date of a revision
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
+; https://www.drupal.org/project/scheduler_workbench/issues/2048999
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-47_0.patch
+; Allow publication of revisions with selected status. This patch requires the patch from issue https://www.drupal.org/project/scheduler_workbench/issues/2048999
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
+; This patch requieres https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-46.patch from
+; this issue https://www.drupal.org/project/scheduler_workbench/issues/2048999.
+; It is based on the issue https://www.drupal.org/project/scheduler_workbench/issues/1955938 but the patch on
+; the issue doesn't take into account the changes introduced on issue
+; https://www.drupal.org/project/scheduler_workbench/issues/2048999, so we created a local patch for it.
+projects[scheduler_workbench][patch][] = patches/scheduler_workbench-allowed_status.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.24
