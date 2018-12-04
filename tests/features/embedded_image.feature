@@ -12,7 +12,7 @@ Feature: Embedded images
     And there is a media gallery content type with a field to embed images from flickr
     And I am logged in as a user with the 'contributor' role
 
-  @resetNodeTypes
+  @wip @resetNodeTypes
   Scenario Outline: Embed Flickr photoset via media asset field
     When I go to "node/add/test-media-gallery"
     And I fill in "title" with "<title>"
