@@ -86,7 +86,7 @@ default:
         wd_host: '{{ behat.wd_host.url }}'
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
-      ajax_timeout: 10
+      ajax_timeout: 30
     Drupal\nexteuropa\Extensions\DrupalExtension:
       api_driver: 'drupal'
       blackbox: ~
