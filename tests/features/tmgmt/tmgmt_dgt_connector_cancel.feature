@@ -5,7 +5,10 @@ Feature: TMGMT Poetry features
   I want to be able to cancel translation requests
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
+    Given the module is enabled
+      | modules                  |
+      | tmgmt_dgt_connector_cart |
+    And I am logged in as a user with the 'administrator' role
     And the following languages are available:
       | languages |
       | en        |
