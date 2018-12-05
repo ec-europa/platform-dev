@@ -8,7 +8,7 @@ Feature: Change tracking features
     Given the cache has been cleared
     And I am logged in as a user with the 'administrator' role
 
-  @ec_europa_theme @increase_timeout
+  @ec_europa_theme
   Scenario: As administrator, I can enable/disable the "NextEuropa Tracked Changes" feature if tracked changes are not
   detected on fields that use this profile
     When I go to "admin/structure/feature-set"
@@ -28,7 +28,7 @@ Feature: Change tracking features
     When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
     Then the response should not contain "Tracked changes logs status"
 
-  @ec_europa_theme @increase_timeout
+  @ec_europa_theme
   Scenario: As administrator, I could not disable the "NextEuropa Tracked Changes" feature if tracked changes are detected
   on fields that use this profile
     When I go to "admin/structure/feature-set"
