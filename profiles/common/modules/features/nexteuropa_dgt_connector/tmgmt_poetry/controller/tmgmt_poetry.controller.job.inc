@@ -13,8 +13,7 @@
 class TMGMTPoetryJobController extends TMGMTJobController {
 
   /**
-   * When using #cart, sub jobs are already created when we are in the checkout page.
-   * So here we delete these sub jobs.
+   * When using #cart, delete all jobs and sub jobs (job items).
    */
   public function delete($ids, $transaction = NULL) {
 
@@ -23,9 +22,9 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     }
 
     $ids_iterate = $ids;
-    foreach($ids_iterate as $id_iterate) {
+    foreach ($ids_iterate as $id_iterate) {
       $related_jobs = tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $id_iterate, TRUE);
-      foreach($related_jobs as $related_job) {
+      foreach ($related_jobs as $related_job) {
         $ids[] = $related_job->tjid;
       }
     }

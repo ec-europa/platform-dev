@@ -47,7 +47,6 @@ Feature: TMGMT Poetry features
         message: OK
     """
 
-  @test
   Scenario: I can add contents to cart.
     Given I go to "admin/tmgmt/dgt_cart"
     When I am viewing a multilingual "page" content:
