@@ -23,4 +23,5 @@ function _solr_config_place_facets() {
   multisite_drupal_toolbox_add_block_context('search', 'facetapi-odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'facetapi', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', $region, -17);
   multisite_drupal_toolbox_add_block_context('search', 'facetapi-GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'facetapi', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', $region, -16);
   multisite_drupal_toolbox_add_block_context('search', 'apachesolr_search-sort', 'apachesolr_search', 'sort', $region, -10);
+  multisite_drupal_toolbox_add_block_context('search', 'current_search-standard', 'current_search', 'standard', $region, -10);
 }

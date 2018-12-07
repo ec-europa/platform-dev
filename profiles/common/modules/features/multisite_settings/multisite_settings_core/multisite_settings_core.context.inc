@@ -57,18 +57,6 @@ function multisite_settings_core_context_default_contexts() {
       ),
     ),
   );
-  $context->reactions = array(
-    'block' => array(
-      'blocks' => array(
-        'current_search-standard' => array(
-          'module' => 'current_search',
-          'delta' => 'standard',
-          'region' => 'sidebar_left',
-          'weight' => '-10',
-        ),
-      ),
-    ),
-  );
   $context->condition_mode = 0;
 
   // Translatables
