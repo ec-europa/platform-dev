@@ -14,11 +14,14 @@ class TMGMTPoetryJobController extends TMGMTJobController {
 
   /**
    * When using #cart, delete all jobs and sub jobs (job items).
+   *
+   * @param $ids
+   * @param DatabaseTransaction|NULL $transaction
    */
-  public function delete($ids, $transaction = NULL) {
+  public function delete($ids, DatabaseTransaction $transaction = NULL) {
 
     if (!is_array($ids)) {
-      $ids = [$ids];
+      $ids = (array)$ids;
     }
 
     $ids_iterate = $ids;
