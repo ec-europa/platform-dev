@@ -233,8 +233,10 @@ projects[entityreference][version] = "1.5"
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
-projects[entityreference_prepopulate][version] = "1.5"
-projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
+projects[entityreference_prepopulate][version] = "1.7"
+; Allow friendly field identifiers in URL.
+; https://www.drupal.org/project/entityreference_prepopulate/issues/1809776
+projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
@@ -546,7 +548,7 @@ projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-suppor
 
 projects[nexteuropa_newsroom][download][type] = git
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
-projects[nexteuropa_newsroom][download][tag] = v3.5.2
+projects[nexteuropa_newsroom][download][tag] = v3.5.5
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"

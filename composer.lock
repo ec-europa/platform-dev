@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9fbd13e4f786ada61ea4ea92d685db4",
+    "content-hash": "614b51c9aab097457bf56316a6cbca0f",
     "packages": [
         {
             "name": "cpliakas/git-wrapper",
@@ -1885,7 +1885,8 @@
         "php": ">=5.4.0",
         "ext-json": "*",
         "ext-phar": "*",
-        "ext-xml": "*"
+        "ext-xml": "*",
+        "ext-tidy": "^2.0"
     },
     "platform-dev": []
 }
