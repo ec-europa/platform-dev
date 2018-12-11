@@ -1,11 +1,18 @@
-About Varnish
-=============
+Table of Contents
+- [About Varnish](#about-varnish)
+- [Nexteuropa Varnish](#nexteuropa-varnish)
+    - [Requirements](#requirements)
+    - [Default rule](#default-content-purge-rule)
+
+
+# About Varnish
+
 Varnish is a very fast reverse-proxy system which serves static 
 files and anonymous page views based on the previously processed
 requests.
 
-Nexteuropa Varnish
-==================
+# Nexteuropa Varnish
+
 The Nexteuropa Varnish module provides functionality which allows to
 send customized HTTP request to the Varnish server based on the
 configured 'purge rules'.
@@ -147,3 +154,6 @@ To do so, the following line must be added to the settings file:
 Once it is added, no purge request will be sent to Varnish and the "Purge all caches" button will be disabled.
 
 Nevertheless, it is still possible to manage the purge rules during the blocking period.
+
+# Testing varnish calls
+

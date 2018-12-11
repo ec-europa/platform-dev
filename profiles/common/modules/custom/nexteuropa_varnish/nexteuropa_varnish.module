@@ -315,37 +315,25 @@ function _nexteuropa_varnish_purge_paths($paths) {
 
   watchdog(
     'nexteuropa_varnish',
-    'Clearing paths: @paths',
+    'Clearing regular expression patterns: @paths',
     array(
       '@paths' => implode(', ', $paths),
     ),
     WATCHDOG_INFO
   );
 
-  // Escape the paths for usage in a regular expression. Also remove leading
-  // slashes.
+  // Escape the paths for usage in a regular expression.
   $escaped_paths = array_map(
     function ($path) {
-      return preg_quote(ltrim($path, '/'));
+      // Check if the regular expression is valid.
+      if (@preg_match($path, NULL) === false) {
+        return $path;
+      }
+      else {
+       drupal_set_message('Wrong path found' . $path);
+      }
     },
     $paths
-  );
-
-  // Replace glob wildcard patterns * and ?
-  $escaped_paths = array_map(
-    function ($path) {
-      $replacements = array(
-        '\*' => '[^/]*',
-        '\?' => '[^/]',
-      );
-
-      return str_replace(
-        array_keys($replacements),
-        array_values($replacements),
-        $path
-      );
-    },
-    $escaped_paths
   );
 
   _nexteuropa_varnish_varnish_requests_send($escaped_paths);
@@ -451,7 +439,7 @@ function _nexteuropa_varnish_prepare_request_options($path_regexp_rules = array(
   $sent_regexp = '';
   if (!empty($path_regexp_rules)) {
     $invalidate_type = 'regexp-multiple';
-    $sent_regexp = '^(' . implode('|', $path_regexp_rules) . ')$';
+    $sent_regexp = implode('|', $path_regexp_rules);
   }
 
   // Preparing the requests for Varnish server(s).

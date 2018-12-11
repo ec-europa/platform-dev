@@ -36,7 +36,6 @@ class NexteuropaVarnishCachePurgeRuleEntityUIController extends EntityDefaultUIC
     if ($entity->type() == PurgeRuleType::PATHS) {
       $paths_cell_content = check_plain(implode(', ', $entity->paths()));
     }
-
     array_unshift($additional_cols, $paths_cell_content);
 
     $content_type_names = node_type_get_names();
