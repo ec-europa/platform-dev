@@ -286,11 +286,11 @@ function nexteuropa_token_ckeditor_views_pre_render(&$view) {
       drupal_add_js(drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/js/delete_history.js', array('weight' => 1));
     }
   }
-  foreach ($view->result as $key=>$result) {
-    if (strlen($result->node_title) >= 100) {
-      // Shorten the title if it is too long. Show in the table just the first 95 characters and then the last 10 chars of the title.
-      $result->node_title = substr($result->node_title, 0, 95) . " [...] " . substr($result->node_title, -10);
-      $view->result[$key]= $result;
+  foreach ($view->result as $key => $result) {
+    if (drupal_strlen($result->node_title) >= 100) {
+      // Shorten the title if it is too long. Only show first and last chars.
+      $result->node_title = drupal_substr($result->node_title, 0, 95) . " [...] " . drupal_substr($result->node_title, -10);
+      $view->result[$key] = $result;
     }
   }
 }
