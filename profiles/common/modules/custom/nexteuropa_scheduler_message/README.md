@@ -1,0 +1,22 @@
+This module checks when a node or revision is saved and is scheduled for publication.
+When this happens it checks the publication date and, if it is after the limit date
+configured on the module, shows a message.
+
+By default, if nothing is configured, the module has this values:
+* Message to show (nexteuropa_scheduler_message_text): 
+    This node has been scheduled to be published at or after %date. Please ensure your changes will not lead to the premature publication of sensitive information.
+* Date to check (nexteuropa_scheduler_message_time):
+    2019-03-30 00:00:00
+
+It is possible to override these values by configuring the values on the settings.php file like this:
+* To change the message to show:
+    // The text %date will be replaced by the date value from nexteuropa_scheduler_message_text (see below).
+    // If nexteuropa_scheduler_message_text is not configured, it will use the default value (check Date to check (nexteuropa_scheduler_message_time)).
+    $conf['nexteuropa_scheduler_message_text'] = 'Replace text %date';  
+* To change the date to check:
+     // Use the format shown here, also take into account that this date will always use CET as timezone.
+    $conf['nexteuropa_scheduler_message_time'] = '2019-03-30 01:00:00'; 
+
+You can check the value of both parameters, if you have "administer scheduler" permissions. I will show the default values or the values from settings.php, if they
+are configured:
+* admin/config/content/scheduler/scheduler_message
