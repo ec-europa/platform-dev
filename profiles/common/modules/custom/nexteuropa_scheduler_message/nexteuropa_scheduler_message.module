@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Drupal Module: NextEuropa Scheduler Message.
+ *
+ * Add a message to show when scheduling the publication of a node or review.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_scheduler_message_menu() {
+  $items = array();
+  $items['admin/config/content/scheduler/scheduler_message'] = array(
+    'title' => 'Scheduling Message',
+    'description' => 'Configure a message when scheduling the publication of a node or revision',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('administer scheduler'),
+    'page arguments' => array('nexteuropa_scheduler_message_settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 35,
+    'file' => 'nexteuropa_scheduler_admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function nexteuropa_scheduler_message_node_presave($node) {
+  $time_to_check = _nexteuropa_scheduler_message_get_time();
+  $time_to_publish = new DateTime($node->publish_on);
+  if (isset($node->publish_on) && !empty($node->publish_on) && $time_to_publish >= $time_to_check) {
+    drupal_set_message(_nexteuropa_scheduler_message_replace());
+  }
+}
+
+/**
+ * Get the message and replace the date.
+ */
+function _nexteuropa_scheduler_message_replace() {
+  $time_to_check = _nexteuropa_scheduler_message_get_time();
+  $message = variable_get('nexteuropa_scheduler_message_text', "This node has been scheduled to be published at or after %date. Please ensure your changes will not lead to the premature publication of sensitive information.");
+  $date = $time_to_check->format('r');
+  $message = str_replace('%date', $date, $message);
+  return $message;
+}
+
+/**
+ * Returns the limit date to check.
+ */
+function _nexteuropa_scheduler_message_get_time() {
+  return new DateTime(variable_get('nexteuropa_scheduler_message_time', '2019-03-30 00:00:00'));
+}
