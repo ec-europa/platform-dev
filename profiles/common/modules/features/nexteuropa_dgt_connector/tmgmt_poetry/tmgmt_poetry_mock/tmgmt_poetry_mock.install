@@ -62,7 +62,7 @@ function tmgmt_poetry_mock_uninstall() {
   // That is why we pass by EntityFieldQuery.
   $query = new EntityFieldQuery();
   $result = $query->entityCondition('entity_type', 'tmgmt_translator')
-    ->propertyCondition('name', 'tmgmt_poetry_test_translator')
+    ->propertyCondition('name', '. PoetryMock::TRANSLATOR_NAME . ')
     ->execute();
   if (!empty($result['tmgmt_translator'])) {
     $controller = entity_get_controller('tmgmt_translator');
@@ -75,7 +75,7 @@ function tmgmt_poetry_mock_uninstall() {
   // Code is inspired by tmgmt_cron().
   $query = new EntityFieldQuery();
   $result = $query->entityCondition('entity_type', 'tmgmt_job')
-    ->propertyCondition('translator', 'tmgmt_poetry_test_translator')
+    ->propertyCondition('translator', '. PoetryMock::TRANSLATOR_NAME . ')
     ->execute();
   if (!empty($result['tmgmt_job'])) {
     $controller = entity_get_controller('tmgmt_job');
