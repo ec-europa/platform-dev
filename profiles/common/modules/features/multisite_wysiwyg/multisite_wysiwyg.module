@@ -226,7 +226,7 @@ function _multisite_wysiwyg_auto_disable_resize(array &$settings, array $context
   if ($context['profile']->editor == 'ckeditor') {
     // Only disable resize if autogrow is enabled and
     // removePlugins is empty or does not already contain 'resize'.
-    if (strpos($settings['extraPlugins'], 'autogrow') !== FALSE && (empty($settings['removePlugins']) || strpos($settings['removePlugins'], 'resize') === FALSE)) {
+    if (isset($settings['extraPlugins']) && strpos($settings['extraPlugins'], 'autogrow') !== FALSE && isset($settings['removePlugins']) && (empty($settings['removePlugins']) || strpos($settings['removePlugins'], 'resize') === FALSE)) {
       $settings['removePlugins'] .= (empty($settings['removePlugins']) ? 'resize' : ',resize');
     }
   }
