@@ -32,6 +32,9 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     // This namespace must be applied even if the node edit forms are displayed
     // with the admin theme.
     $settings['bodyClass'] = 'ecl-editor';
+
+    // Automatically disable resize.
+    _multisite_wysiwyg_auto_disable_resize($settings, $context);
   }
 }
 
@@ -119,6 +122,7 @@ function multisite_wysiwyg_wysiwyg_plugin($editor, $version) {
         'load' => TRUE,
         'extensions' => array('Link' => t('CKEditor Link hreflang')),
       ),
+      'autogrow' => _multisite_wysiwyg_enable_auto_grow(),
     );
   }
 }
@@ -185,4 +189,45 @@ function _multisite_wysiwyg_get_ckeditor_css_paths($default_theme = NULL) {
   cache_set($cache_id, $css_file_paths, 'cache', CACHE_TEMPORARY);
 
   return $css_file_paths;
+}
+
+/**
+ * Enable AutoGrow Plugin.
+ *
+ * @return array
+ *   A list of settings to enable the plugin.
+ */
+function _multisite_wysiwyg_enable_auto_grow() {
+  return array(
+    'url' => 'https://sdk.ckeditor.com/samples/autogrow.html',
+    'extensions' => array('autogrow' => t('AutoGrow plugin')),
+    'options' => array(
+      // This sets some default values which can be override in:
+      // hook_wsiwyg_editor_settings_alter and or hook_form_alter.
+      'autoGrow_maxHeight' => variable_get('multisite_autoGrow_maxHeight', 600),
+      'autoGrow_minHeight' => variable_get('multisite_autoGrow_minHeight', 400),
+      'autoGrow_onStartup' => TRUE,
+    ),
+    'load' => TRUE,
+    // The plugin is bundled with CKEditor, no need to set 'path' or 'filename'.
+    'internal' => TRUE,
+  );
+}
+
+/**
+ * Disable resize as recommended.
+ *
+ * @param array $settings
+ *   A settings list which can be alter.
+ * @param array $context
+ *   A context list.
+ */
+function _multisite_wysiwyg_auto_disable_resize(array &$settings, array $context) {
+  if ($context['profile']->editor == 'ckeditor') {
+    // Only disable resize if autogrow is enabled and
+    // removePlugins is empty or does not already contain 'resize'.
+    if (strpos($settings['extraPlugins'], 'autogrow') !== FALSE && (empty($settings['removePlugins']) || strpos($settings['removePlugins'], 'resize') === FALSE)) {
+      $settings['removePlugins'] .= (empty($settings['removePlugins']) ? 'resize' : ',resize');
+    }
+  }
 }
