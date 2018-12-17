@@ -918,6 +918,9 @@ projects[wysiwyg][download][version] = "2.5"
 ; Fix remote js loading on ckeditor plugin
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
+; CKEditor height does not reflect the rows attribute
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
+projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
