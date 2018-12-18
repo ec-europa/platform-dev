@@ -233,8 +233,10 @@ projects[entityreference][version] = "1.5"
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
-projects[entityreference_prepopulate][version] = "1.5"
-projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
+projects[entityreference_prepopulate][version] = "1.7"
+; Allow friendly field identifiers in URL.
+; https://www.drupal.org/project/entityreference_prepopulate/issues/1809776
+projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
@@ -259,7 +261,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.6"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.10"
+projects[features][version] = "2.11"
 ; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
 ; https://www.drupal.org/node/1437264
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4759
