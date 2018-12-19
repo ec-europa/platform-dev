@@ -261,7 +261,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.6"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.10"
+projects[features][version] = "2.11"
 ; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
 ; https://www.drupal.org/node/1437264
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4759
@@ -692,6 +692,10 @@ projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
 ; https://www.drupal.org/node/2801239
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-121
 projects[simplenews][patch][] = https://www.drupal.org/files/issues/entitycache_issue-2801239-3.patch
+; Add hook_drush_sql_sync_sanitize
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2100
+; https://www.drupal.org/project/simplenews/issues/3017665#comment-12879291
+projects[simplenews][patch][] = https://www.drupal.org/files/issues/2018-12-03/Add_hook_drush_sql_sync_sanitize-3017665-4.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
