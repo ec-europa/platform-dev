@@ -692,6 +692,10 @@ projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
 ; https://www.drupal.org/node/2801239
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-121
 projects[simplenews][patch][] = https://www.drupal.org/files/issues/entitycache_issue-2801239-3.patch
+; Add hook_drush_sql_sync_sanitize
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2100
+; https://www.drupal.org/project/simplenews/issues/3017665#comment-12879291
+projects[simplenews][patch][] = https://www.drupal.org/files/issues/2018-12-03/Add_hook_drush_sql_sync_sanitize-3017665-4.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
