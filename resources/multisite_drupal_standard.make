@@ -765,6 +765,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-09-17/check_
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
+projects[tmgmt][patch][] = patches/translation_not_taking_in_account_the_source_data_update.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"

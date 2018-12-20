@@ -1,0 +1,62 @@
+diff --git a/sources/entity/tmgmt_entity.plugin.inc b/sources/entity/tmgmt_entity.plugin.inc
+index 90cf76e..66a0b89 100644
+--- a/sources/entity/tmgmt_entity.plugin.inc
++++ b/sources/entity/tmgmt_entity.plugin.inc
+@@ -49,6 +49,12 @@ class TMGMTEntitySourcePluginController extends TMGMTDefaultSourcePluginControll
+     $handler = entity_translation_get_handler($job_item->item_type, $entity);
+     $handler->setFormLanguage($job_item->getJob()->target_language);
+ 
++    // Copy over because if entity is not update, $entity_wrapper->save() won't work.
++    $entity_metadata_value = $this->manageEmptyFieldUpdate($entity, $job_item->getData(), $job->source_language, $job->target_language);
++    if ($entity_metadata_value) {
++      $entity = $entity_metadata_value;
++    }
++
+     entity_save($job_item->item_type, $entity);
+ 
+     $translation = array(
+@@ -107,4 +113,44 @@ class TMGMTEntitySourcePluginController extends TMGMTDefaultSourcePluginControll
+ 
+     return array();
+   }
++
++  /**
++   * A controller method to check when the original entity has been updated.
++   *
++   * In this case, if the field has been empty, the translation process does not take the update field,
++   * however, while saving the translated entity the updated field should be taken into account.
++   *
++   * @param $entity
++   *   The entity.
++   * @param $data_to_translate
++   *   A structured data array.
++   * @param string $source_language
++   *   The original language code.
++   * @param string $target_language
++   *   The language code to be translated to.
++   *
++   * @return The value of the wrapped data. If the data property is not altered, NULL
++   *    is returned.
++   */
++  public function manageEmptyFieldUpdate($entity, array $data_to_translate, $source_language, $target_language) {
++    // Filter the fields that are translated, and loop to the rest.
++    $cache = _field_info_field_cache();
++    $info = $cache->getBundleInstances($entity->entity_type, $entity->type);
++    $fields = array_diff_key($info, $data_to_translate);
++    $entity_wrapper = entity_metadata_wrapper($entity->entity_type, $entity->nid);
++
++    $has_empty_field = FALSE;
++    foreach ($fields as $field_name => $data) {
++      // Not all the fields has language index, such as "field groups"
++      if (is_array($entity->$field_name) && array_key_exists($target_language, $entity->$field_name) &&
++        (!array_key_exists($source_language, $entity->$field_name) || empty($entity->$field_name[$source_language]))
++      ) {
++        $entity_wrapper->language($target_language)->$field_name->value->set(NULL);
++        $has_empty_field = TRUE;
++      }
++    }
++
++    return $has_empty_field ? $entity_wrapper->value() : NULL;
++  }
++
+ }
