@@ -24,11 +24,11 @@ function nexteuropa_varnish_menu() {
     'file' => 'nexteuropa_varnish.admin.inc',
   );
 
-  $items['admin/config/system/nexteuropa-varnish/purge_all'] = array(
+  $items['admin/config/system/nexteuropa-varnish/purge/%'] = array(
     'title' => 'Next Europa Varnish - Purge confirmation',
-    'description' => 'Confirmation form for the varnish purge flush.',
+    'description' => 'Confirmation form for Drupal and Varnish purge.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('nexteuropa_varnish_purge_all_form'),
+    'page arguments' => array('nexteuropa_varnish_purge_all_form', 5),
     'access callback' => '_nexteuropa_varnish_purge_all_access',
     'file' => 'nexteuropa_varnish.admin.inc',
     'type' => MENU_CALLBACK,
