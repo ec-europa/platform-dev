@@ -35,16 +35,17 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
     ),
   );
 
-  // This fieldset just serves as a container for the part of the form
+  // This fieldset just serves as a container for the part of the form.
   // that gets rebuilt.
   $form['specifics'] = array(
     '#type' => 'item',
     '#prefix' => '<div id="specifics-for-cache-purge-type">',
     '#suffix' => '</div>',
   );
-  // code here to populate the positions container
+  // Code here to populate the scope container.
+  // @TODO views paths?
   if (isset($form_state['scope'])) {
-    $warning = '<h2>Here is the 200 first results matching your regex</h2>';
+    $warning = '<h2>Here is the 100 first results matching your regex</h2>';
     $warning .= '<h3>Your rule was not saved, to save it click "Save" button</h3>';
     $form['scope']['#prefix'] = '<div class="messages status">';
     $form['scope']['#suffix'] = '</div>';
@@ -60,7 +61,7 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
       '#title' => t('Paths'),
       '#type' => 'textarea',
       '#default_value' => isset($purge_rule->paths) ? $purge_rule->paths : '',
-      '#attributes' => array (
+      '#attributes' => array(
         'placeholder' => t('Enter one regular expression per line'),
       ),
       '#required' => TRUE,
@@ -89,7 +90,6 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
   return $form;
 }
 
-
 /**
  * Custom validate function, checks if regex is valid.
  */
@@ -104,40 +104,38 @@ function _nexteuropa_varnish_regex_validate($form, &$form_state) {
 }
 
 /**
- * Custom function checks which site URLs match the regex pattern. 
+ * Custom function checks which site URLs match the regex pattern.
  */
 function _nexteuropa_varnish_check_scope(&$form, &$form_state) {
-
+  $$output = '';
   $regex = _nexteuropa_varnish_gather_expressions($form_state['values']['paths']);
-
-  //TODO use drupal_match_path?
   $query = db_select('url_alias', 'u')
-             ->fields('u');
-
+    ->fields('u');
   $or = db_or();
-  $or->condition('source', $regex, 'REGEXP');
   $or->condition('alias', $regex, 'REGEXP');
   $query->condition($or);
   $query = $query->extend('PagerDefault')->limit(100);
   $results = $query->execute();
 
-  $headers = array('Source', 'URL alias');
+  $headers = array('URL alias');
   $rows = array();
   foreach ($results as $u) {
-    $rows[] = array($u->source, $u->alias);
+    $rows[] = array($u->alias);
   }
-  $output = theme('table', array('header' => $headers, 'rows' => $rows)) . theme('pager');
+  if (!empty($rows)) {
+    $output = theme('table', array('header' => $headers, 'rows' => $rows)) . theme('pager');
+  }
+
   $form_state['rebuild'] = TRUE;
   $form_state['scope'] = $output;
 }
 
-
 /**
- *  Custom function that gather the regex entered into one single expression.
+ * Custom function that gather the regex entered into one single expression.
  */
 function _nexteuropa_varnish_gather_expressions($paths) {
   $regex = preg_split("/[\r\n]+/", $paths);
-  $regex = implode('|',$regex);
+  $regex = implode('|', $regex);
   return $regex;
 }
 
@@ -161,7 +159,7 @@ function _nexteuropa_varnish_paths_description() {
     t('Regex validation is done at save. For example, if you try saving <b>*</b> alone, you will get an error.'),
   );
 
-   $description = '<p>' . t('You can check your expression at the
+  $description = '<p>' . t('You can check your expression at the
         <a href="@regex101">Regex101 page</a>.',
           array('@regex101' => 'https://regex101.com')
         ) . '</p>';

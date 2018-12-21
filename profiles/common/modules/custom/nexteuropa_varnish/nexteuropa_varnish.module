@@ -325,11 +325,21 @@ function _nexteuropa_varnish_purge_paths($paths) {
   $escaped_paths = array_map(
     function ($regex) {
       // Check if the regular expression is valid.
-      if (@preg_match('/' . $regex . '/', NULL) !== false) {
+      if (@preg_match('/' . $regex . '/', NULL) !== FALSE) {
         return $regex;
       }
       else {
-       drupal_set_message(t('Please !check_config, the regex %regex you are trying to flush is not valid. We suggest you review and save your regex rules again using the documentation available and the "Check Scope" button. In case of doubt, please contact your site administrator or the devops team.', array('!check_config' => l(t('check your varnish rules'), 'admin/config/system/nexteuropa-varnish/purge_rules'), '%regex' => $regex)), 'error');
+        drupal_set_message(
+          t(
+            'Please !check_config, the regex %regex you are trying to flush is not valid. We suggest you review and save your regex rules again using the documentation available and the "Check Scope" button. In case of doubt, please contact your site administrator or the devops team.',
+            array(
+              '!check_config' => l(
+                t('check your varnish rules'),
+                'admin/config/system/nexteuropa-varnish/purge_rules'),
+              '%regex' => $regex,
+            )
+            ),
+        'error');
       }
     },
     $paths
