@@ -1944,7 +1944,11 @@ function cce_basic_config_update_7228() {
 }
 
 /**
- * Set value for cce_basic_config feature in database after removing var date_api_version without 
+ * Set new value for cce_basic_config feature in database.
+ * 
+ * date_api_version must be removed from cce_basic_config feature and this
+ * feature must not be reverted. 
+ * Recreate the value of the feature in database without the variable.
  */
 function cce_basic_config_update_7229() {
   module_load_include('inc', 'features', "features.export");
