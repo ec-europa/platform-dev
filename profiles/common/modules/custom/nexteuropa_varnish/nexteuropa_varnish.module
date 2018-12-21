@@ -312,7 +312,6 @@ function _nexteuropa_varnish_purge_paths($paths) {
   // certain pages. To make it more precise, we need to have full knowledge of
   // all possible base URLs. This can be improved later on.
   cache_clear_all('*', 'cache_page', TRUE);
-
   watchdog(
     'nexteuropa_varnish',
     'Clearing regular expression patterns: @paths',
@@ -324,18 +323,17 @@ function _nexteuropa_varnish_purge_paths($paths) {
 
   // Escape the paths for usage in a regular expression.
   $escaped_paths = array_map(
-    function ($path) {
+    function ($regex) {
       // Check if the regular expression is valid.
-      if (@preg_match($path, NULL) === false) {
-        return $path;
+      if (@preg_match('/' . $regex . '/', NULL) !== false) {
+        return $regex;
       }
       else {
-       drupal_set_message('Wrong path found' . $path);
+       drupal_set_message(t('Please !check_config, the regex %regex you are trying to flush is not valid. We suggest you review and save your regex rules again using the documentation available and the "Check Scope" button. In case of doubt, please contact your site administrator or the devops team.', array('!check_config' => l(t('check your varnish rules'), 'admin/config/system/nexteuropa-varnish/purge_rules'), '%regex' => $regex)), 'error');
       }
     },
     $paths
   );
-
   _nexteuropa_varnish_varnish_requests_send($escaped_paths);
 }
 
