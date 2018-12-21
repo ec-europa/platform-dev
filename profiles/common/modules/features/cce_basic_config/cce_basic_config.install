@@ -1945,8 +1945,8 @@ function cce_basic_config_update_7228() {
 
 /**
  * Set new value for cce_basic_config feature in database.
- * 
- * Variable date_api_version must be removed from cce_basic_config feature and 
+ *
+ * Variable date_api_version must be removed from cce_basic_config feature and
  * this feature must not be reverted.
  * Recreate the value of the feature in database without the variable.
  */
