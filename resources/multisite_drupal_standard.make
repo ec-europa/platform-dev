@@ -95,7 +95,7 @@ projects[better_formats][version] = "1.0-beta2"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-157
 ; Apply patch to fix xss injection
 projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_formats-2896131-6-missing-check_plain-when-showing-filter-name.patch
- 
+
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
@@ -1034,7 +1034,7 @@ libraries[iCalcreator][download][destination] = "../common/libraries"
 libraries[iCalcreator][patch][2707373] = https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
 
 ; imgAreaSelect 0.9.10
-libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
+libraries[jquery.imgareaselect][download][url] = https://github.com/odyniec/imgareaselect/archive/v0.9.10.zip
 libraries[jquery.imgareaselect][download][type]= "file"
 libraries[jquery.imgareaselect][download][request_type]= "get"
 libraries[jquery.imgareaselect][download][file_type] = "zip"
