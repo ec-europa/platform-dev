@@ -99,10 +99,25 @@ Feature: Check Piwik
   Scenario: Assert that the regular expression based PIWIK rule is triggered and embedded correctly.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
     And the following PIWIK rules:
-      | Rule language | Rule path       | Rule path type | Rule section         |
-      | all           | ^content/*      | regexp         | Regexp based section |
+      | Rule language | Rule path                                     | Rule path type | Rule section         |
+      | all           | ^content/.*                                    | regexp         | Regexp based section |
+      | all           | ^content/priorities.*                          | regexp         | priorities           |
+      | all           | ^content/prioritiesstate-union-speeches.*      | regexp         | prioritiessou        |
+      | all           | ^content/prioritiesstate-union-speeches-2018.* | regexp         | prioritiessou2018    |
     And "page" content:
-      | title              | field_ne_body     | status |
-      | Testing Title no 1 | Body content no 1 | 1      |
+      | title                                    | field_ne_body          | status |
+      | Testing Title no 1                       | Body content no 1      | 1      |
+      | Priorities                               | Body content no 2      | 1      |
+      | Prioritiesstate union speeches           | Body content no 3      | 1      | 
+      | Prioritiesstate union speeches 2018      | Body content no 4      | 1      |
+      | Prioritiesstate union speeches 2018 test | Body content no 5      | 1      |
     When I go to "content/testing-title-no-1_en"
     Then the response should contain "\"siteSection\":\"Regexp based section\""
+    When I go to "content/priorities_en"
+    Then the response should contain "\"siteSection\":\"priorities\""
+    When I go to "content/prioritiesstate-union-speeches_en"
+    Then the response should contain "\"siteSection\":\"prioritiessou\""
+    When I go to "content/prioritiesstate-union-speeches-2018_en"
+    Then the response should contain "\"siteSection\":\"prioritiessou2018\""
+    When I go to "content/prioritiesstate-union-speeches-2018-test_en"
+    Then the response should contain "\"siteSection\":\"prioritiessou2018\""
