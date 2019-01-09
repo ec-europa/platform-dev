@@ -161,16 +161,12 @@ projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.10"
+projects[date][version] = "2.11-beta1"
 ; Issue #2305049: Wrong timezone handling in migrate process.
 ; https://www.drupal.org/node/2305049
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
-; Fix PHP 7.1 Error on Exposed Date Filter.
-; https://www.drupal.org/node/2889759
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1672
-projects[date][patch][] = https://www.drupal.org/files/issues/date-php7Offset-2889759-2.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
