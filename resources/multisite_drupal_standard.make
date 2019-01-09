@@ -180,6 +180,18 @@ projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
 ; https://www.drupal.org/node/2889759
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1672
 projects[date][patch][] = https://www.drupal.org/files/issues/date-php7Offset-2889759-2.patch
+; PHP 7.1 no longer converts string to arrays the first time a value is assigned with square bracket notation.
+; https://www.drupal.org/node/2995679
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2204
+projects[date][patch][] = https://www.drupal.org/files/issues/2018-08-28/date-array_conversion-2995679-2-D7.patch
+; Fix PHP 7 tests.
+; https://www.drupal.org/node/2889636
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2204
+projects[date][patch][] = https://www.drupal.org/files/issues/date-2889636-7.patch
+; String Offset errors on edit page using PHP 7.1.0.
+; https://www.drupal.org/node/2843367
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2204
+projects[date][patch][] = https://www.drupal.org/files/issues/2843367-php71-string-offset-26.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
