@@ -26,10 +26,13 @@ Feature: E-Library
     When I select "Published" from "edit-state"
     And I press "Apply"
     Then I should see "Revision state: Published"
-    And I click "Edit"
-    And I click "Delete"
-    And I click "Delete"
- @wip
+    Then I click "New draft"
+    And I press the "Delete" button
+    Then I should see "Are you sure you want to delete"
+    And I press the "Delete" button
+    Then I should see "has been deleted."
+
+@wip
   Scenario: A contributor can propose a document and an administrator can publish it and the contributor can see it in the elibrary list
     Given users:
      | name             | mail                 | pass        | roles       |
@@ -53,7 +56,11 @@ Feature: E-Library
     And I click "E-library"
     Then I should see "Document title"
     When I click "Document title"
-    Then I should see "Document title"
-    And I click "Edit"
+    And I break
+    Then I should see "New draft"
     And I click "Delete"
     And I click "Delete"
+
+
+
+
