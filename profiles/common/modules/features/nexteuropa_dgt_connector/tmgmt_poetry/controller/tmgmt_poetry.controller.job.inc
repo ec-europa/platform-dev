@@ -15,14 +15,14 @@ class TMGMTPoetryJobController extends TMGMTJobController {
   /**
    * When using #cart, delete all jobs and sub jobs (job items).
    *
-   * @param $ids
-   * @param DatabaseTransaction|NULL $transaction
+   * @param array|int $ids
+   *   The job id/s.
+   * @param DatabaseTransaction|null $transaction
+   *   The transaction.
    */
   public function delete($ids, DatabaseTransaction $transaction = NULL) {
 
-    if (!is_array($ids)) {
-      $ids = (array)$ids;
-    }
+    $ids = (array) $ids;
 
     $ids_iterate = $ids;
     foreach ($ids_iterate as $id_iterate) {
@@ -33,7 +33,6 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     }
 
     parent::delete($ids, $transaction);
-
   }
 
   /**
