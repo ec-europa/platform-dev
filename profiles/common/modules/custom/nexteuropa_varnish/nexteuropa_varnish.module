@@ -251,6 +251,7 @@ function _nexteuropa_varnish_get_paths_to_purge($node) {
 
   $is_default_rule = variable_get('nexteuropa_varnish_default_purge_rule', FALSE);
 
+  // If we clear the current path, add current path.
   if (($exist_node_path_rule || $is_default_rule)) {
     $node_paths = _nexteuropa_varnish_get_node_paths($node);
     $paths = array_merge($paths, $node_paths);
@@ -527,16 +528,18 @@ function _nexteuropa_varnish_get_node_paths($node) {
 
       foreach ($lang_codes as $lang_code) {
         if (isset($all_languages[$lang_code])) {
-          $paths[$lang_code] = url(
+          $url = url(
             $entity_uri['path'],
             $entity_uri['options'] + array('language' => $all_languages[$lang_code])
           );
+          $paths[$lang_code] = preg_quote($url, '/');
         }
       }
     }
     else {
       $lang_code = entity_language('node', $node);
-      $paths[$lang_code] = url($entity_uri['path'], $entity_uri['options']);
+      $url = url($entity_uri['path'], $entity_uri['options']);
+      $paths[$lang_code] = preg_quote($url, '/');
     }
   }
 
