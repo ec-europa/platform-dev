@@ -140,7 +140,7 @@ Feature: news standard and news core
     And I have the "administrator member" role in the "Public community 1" group
     When I go to "communities_directory/my"
     And I click "Public community 1"
-    Then I should see "members list" in the "sidebar_left" region
+    Then I should see "Members list" in the "sidebar_left" region
     And I should see the link "contributor2" in the "sidebar_left" region
     And I should see the text "Highlighted news" in the "content_top" region
     And I should see the link "News test 2 public highlighted" in the "content_top" region
