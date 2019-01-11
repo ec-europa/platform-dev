@@ -22,11 +22,8 @@ class TMGMTPoetryJobController extends TMGMTJobController {
    */
   public function delete($ids, DatabaseTransaction $transaction = NULL) {
 
-   // $ids = (array) $ids;
-    if (!is_array($ids)) {
-      //  $ids = [$ids];
-      $ids = (array)$ids;
-    }
+    $ids = (array) $ids;
+
     $ids_iterate = $ids;
     foreach ($ids_iterate as $id_iterate) {
       $related_jobs = tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $id_iterate, TRUE)->fetchAll();
