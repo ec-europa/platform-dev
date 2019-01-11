@@ -37,8 +37,8 @@ class NexteuropaVarnishCachePurgeRuleEntityUIController extends EntityDefaultUIC
       $paths_cell_content = check_plain(implode(', ', $entity->paths()));
     }
     array_unshift($additional_cols, $paths_cell_content);
-
-    $content_type_names = node_type_get_names();
+    $all = array('all' => 'All');
+    $content_type_names = $all + node_type_get_names();
     $content_type_label = $content_type_names[$entity->content_type];
     array_unshift($additional_cols, $content_type_label);
 

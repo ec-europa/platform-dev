@@ -11,11 +11,12 @@ use Drupal\nexteuropa_varnish\PurgeRuleType;
  * Generates the cache purge rule editing form.
  */
 function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_rule, $op = 'edit', $entity_type = NULL) {
+  $all = array('all' => 'All');
   $form['content_type'] = array(
     '#title' => t('Content Type'),
     '#type' => 'select',
     '#empty_option' => '',
-    '#options' => node_type_get_names(),
+    '#options' => $all + node_type_get_names(),
     '#default_value' => isset($purge_rule->content_type) ? $purge_rule->content_type : '',
     '#required' => TRUE,
   );

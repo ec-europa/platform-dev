@@ -251,7 +251,6 @@ function _nexteuropa_varnish_get_paths_to_purge($node) {
 
   $is_default_rule = variable_get('nexteuropa_varnish_default_purge_rule', FALSE);
 
-  // If we clear the current path, add current path.
   if (($exist_node_path_rule || $is_default_rule)) {
     $node_paths = _nexteuropa_varnish_get_node_paths($node);
     $paths = array_merge($paths, $node_paths);
@@ -283,11 +282,12 @@ function nexteuropa_varnish_get_node_purge_rules($node) {
     $rules = $cache->data;
     return $rules;
   }
-
+  $type = $node->type;
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'nexteuropa_varnish_cache_purge_rule')
-    ->propertyCondition('content_type', $node->type);
+    ->addTag('allow_all_entity')
+    ->addMetaData('type', $type);
   $result = $query->execute();
 
   if (isset($result['nexteuropa_varnish_cache_purge_rule'])) {
@@ -303,6 +303,17 @@ function nexteuropa_varnish_get_node_purge_rules($node) {
 }
 
 /**
+ * Implements hook_query_TAG_alter().
+ *
+ * Alters the query for finding rules applying to all.
+ */
+function nexteuropa_varnish_query_allow_all_entity_alter(QueryAlterableInterface $query) {
+  $type = $query->getMetaData('type');
+  $or = db_or()->condition('content_type', 'all')->condition('content_type', $type);
+  $query->condition($or);
+}
+
+/**
  * Purges certain paths on the web frontend cache.
  */
 function _nexteuropa_varnish_purge_paths($paths) {
@@ -313,38 +324,42 @@ function _nexteuropa_varnish_purge_paths($paths) {
   // certain pages. To make it more precise, we need to have full knowledge of
   // all possible base URLs. This can be improved later on.
   cache_clear_all('*', 'cache_page', TRUE);
+
   watchdog(
     'nexteuropa_varnish',
-    'Clearing regular expression patterns: @paths',
+    'Clearing paths: @paths',
     array(
       '@paths' => implode(', ', $paths),
     ),
     WATCHDOG_INFO
   );
 
-  // Escape the paths for usage in a regular expression.
+  // Escape the paths for usage in a regular expression. Also remove leading
+  // slashes.
   $escaped_paths = array_map(
-    function ($regex) {
-      // Check if the regular expression is valid.
-      if (@preg_match('/' . $regex . '/', NULL) !== FALSE) {
-        return $regex;
-      }
-      else {
-        drupal_set_message(
-          t(
-            'Please !check_config, the regex %regex you are trying to flush is not valid. We suggest you review and save your regex rules again using the documentation available and the "Check Scope" button. In case of doubt, please contact your site administrator or the devops team.',
-            array(
-              '!check_config' => l(
-                t('check your varnish rules'),
-                'admin/config/system/nexteuropa-varnish/purge_rules'),
-              '%regex' => $regex,
-            )
-            ),
-        'error');
-      }
+    function ($path) {
+      return preg_quote(ltrim($path, '/'));
     },
     $paths
   );
+
+  // Replace glob wildcard patterns * and ?
+  $escaped_paths = array_map(
+    function ($path) {
+      $replacements = array(
+        '\*' => '[^/]*',
+        '\?' => '[^/]',
+      );
+
+      return str_replace(
+        array_keys($replacements),
+        array_values($replacements),
+        $path
+      );
+    },
+    $escaped_paths
+  );
+
   _nexteuropa_varnish_varnish_requests_send($escaped_paths);
 }
 
@@ -448,7 +463,7 @@ function _nexteuropa_varnish_prepare_request_options($path_regexp_rules = array(
   $sent_regexp = '';
   if (!empty($path_regexp_rules)) {
     $invalidate_type = 'regexp-multiple';
-    $sent_regexp = implode('|', $path_regexp_rules);
+    $sent_regexp = '^(' . implode('|', $path_regexp_rules) . ')$';
   }
 
   // Preparing the requests for Varnish server(s).
@@ -528,18 +543,16 @@ function _nexteuropa_varnish_get_node_paths($node) {
 
       foreach ($lang_codes as $lang_code) {
         if (isset($all_languages[$lang_code])) {
-          $url = url(
+          $paths[$lang_code] = url(
             $entity_uri['path'],
             $entity_uri['options'] + array('language' => $all_languages[$lang_code])
           );
-          $paths[$lang_code] = preg_quote($url, '/');
         }
       }
     }
     else {
       $lang_code = entity_language('node', $node);
-      $url = url($entity_uri['path'], $entity_uri['options']);
-      $paths[$lang_code] = preg_quote($url, '/');
+      $paths[$lang_code] = url($entity_uri['path'], $entity_uri['options']);
     }
   }
 
