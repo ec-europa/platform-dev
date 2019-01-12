@@ -20,7 +20,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
    * @param DatabaseTransaction|null $transaction
    *   The transaction.
    */
-  public function delete($ids, DatabaseTransaction $transaction = NULL) {
+  public function delete($ids, $transaction = NULL) {
 
     $ids = (array) $ids;
 
