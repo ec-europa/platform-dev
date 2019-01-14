@@ -38,10 +38,27 @@ Feature:
       /yet-another-page
       """
     And I press the "Save" button
+    Then I should see the error message "Regex is invalid."
+    Then I fill "Paths" with:
+      """
+      ^\/
+      ^\/all-basic-pages
+      ^\/yet-another-page
+      """
     Then I see an overview with the following cache purge rules:
       | Content Type | Paths to Purge                         |
-      | Basic page   | /, /all-basic-pages, /yet-another-page |
+      | Basic page   | ^\/, ^\/all-basic-pages, ^\/yet-another-page
 
+  Scenario: Check scope of the rule.
+    When I go to "/admin/config/system/nexteuropa-varnish/purge_rules"
+    And I click "Add cache purge rule"
+    And I select "Basic page" from "Content Type"
+    And I fill "Paths" with
+      """
+      ^content\/global-editorial-team
+      """
+    And I press the   "Check scope" button
+    Then I should see the success message "Here is the 100 first results matching your regex"
   Scenario: Remove a purge rule.
     Given the following cache purge rules:
       | Content Type | Paths to Purge      |

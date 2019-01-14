@@ -3,6 +3,13 @@ Table of Contents
 - [Nexteuropa Varnish](#nexteuropa-varnish)
     - [Requirements](#requirements)
     - [Default rule](#default-content-purge-rule)
+    - [Custom rule](#custom-entity---purge-rule)
+    - [Add and maintain rules](#how-to-add-and-maintain-purge-rule)
+    - [Rules logic](#purge-rules-logic)
+    - [Behat](#tests-and-custom-behat-feature-context)
+    - [Developer's notes](#developers-notes)
+    - [Blocking of the rules](#blocking-temporary-the-purge-mechanism)
+ - [Varnish Mock](#testing-varnish-calls)
 
 
 # About Varnish
