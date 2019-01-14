@@ -60,7 +60,7 @@ content type path in the 'Purge rules' configuration.
 The default configuration page proposes a "Purge all caches" button too.
 
 Once it is clicked, this button will trigger:
-- The cleaning of the Drupal cache;
+- The cleaning of the Drupal cache if the checkbox is also ticked;
 - The purging of **ALL** site's entries indexed in the Varnish cache.
 
 Clicking on it has impact on the site's performance as it forces Drupal to rebuild all requested pages.
@@ -83,6 +83,7 @@ and click on the **'Add cache purge rule'** link.
 You will be redirected to the **'Add cache purge rule'** form.
 
 In the first step you need to choose a content type for which the new rule will be applied.
+You can choose to apply the rule to all content type. It only applies to nodes type for the moment.
 After picking the content type the next step is to choose the purge target.
 
 The 'Paths of the node the action is performed on' option will perform a purge
@@ -90,10 +91,10 @@ on any path that belongs to the specific content type.
 This option is not available while the default purge rule is enabled.
 
 The 'A specific list of paths' option allows to define a set of paths
-that are going to be purged.
-The textfield allows some wildcards characters:
-- '*' (asterisk) matches any number of any characters including none
-- '?' (question mark) matches any single character
+that are going to be purged thanks to a regex pattern.
+
+After you created the regex, you can press the "Check scope" button to evaluate if the regex is 
+built to return the paths you would expect.
 
 After setting up a rule you need to submit it by clicking the **'Save'** button.
 
@@ -157,3 +158,24 @@ Nevertheless, it is still possible to manage the purge rules during the blocking
 
 # Testing varnish calls
 
+In order to test varnish on C9 environement, please perform these steps:
+
+1. Make sure your environement is up to date. See FAQs on confluence for more information or type :
+```
+sudo salt-call state.apply tools.varnish-mock
+```
+
+2. Add this to your settings.php file
+```
+$conf['nexteuropa_varnish_request_method'] = "PURGE";
+$conf['nexteuropa_varnish_http_targets'] = array ("http://127.0.0.1:6081");
+$conf['nexteuropa_varnish_tag'] = "drupal-760";
+$conf['nexteuropa_varnish_request_user'] = "user";
+$conf['nexteuropa_varnish_request_password'] = "password";
+$conf['nexteuropa_varnish_http_timeout'] = "30";
+```
+3. Launch the mock
+```varnish-mock```
+
+4. By default, the mock prints information on console. Output file can be used with the "-filePath" parameter:
+Type ```varnish-mock -h``` to get help
