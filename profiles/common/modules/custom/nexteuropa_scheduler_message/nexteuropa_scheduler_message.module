@@ -30,7 +30,7 @@ function nexteuropa_scheduler_message_menu() {
  */
 function nexteuropa_scheduler_message_node_presave($node) {
   $time_to_check = _nexteuropa_scheduler_message_get_time();
-  if (is_numeric($node->publish_on) && (int)$node->publish_on == $node->publish_on) {
+  if (is_numeric($node->publish_on) && (int) $node->publish_on == $node->publish_on) {
     $time_to_publish = DateTime::createFromFormat("U", $node->publish_on);
   }
   else {
@@ -39,7 +39,7 @@ function nexteuropa_scheduler_message_node_presave($node) {
   // Always convert the date to the Brussels time for the comparation.
   $time_to_publish->setTimezone(new DateTimeZone('Europe/Brussels'));
   if (isset($node->publish_on) && !empty($node->publish_on) && $time_to_publish->format('r') >= $time_to_check->format('r')) {
-    drupal_set_message(_nexteuropa_scheduler_message_replace($time_to_publish)) ;
+    drupal_set_message(_nexteuropa_scheduler_message_replace($time_to_publish));
   }
 }
 
