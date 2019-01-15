@@ -4,13 +4,13 @@ configured on the module, shows a message.
 
 By default, if nothing is configured, the module has this values:
 * Message to show (nexteuropa_scheduler_message_text): 
-    This node has been scheduled to be published at or after %date. Please ensure your changes will not lead to the premature publication of sensitive information.
+    This node scheduled publication date, %date_to_publish, is at or after %date_to_check. Please ensure your changes will not lead to the premature publication of sensitive information.
 * Date to check (nexteuropa_scheduler_message_time):
     2019-03-30 00:00:00
 
 It is possible to override these values by configuring the values on the settings.php file like this:
 * To change the message to show:
-    // The text %date will be replaced by the date value from nexteuropa_scheduler_message_text (see below).
+    // The text %date_to_check will be replaced by the date value from nexteuropa_scheduler_message_text (see below).
     // If nexteuropa_scheduler_message_text is not configured, it will use the default value (check Date to check (nexteuropa_scheduler_message_time)).
     $conf['nexteuropa_scheduler_message_text'] = 'Replace text %date';  
 * To change the date to check:
