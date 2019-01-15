@@ -21,7 +21,7 @@ projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.30"
 
 projects[advanced_help][subdir] = "contrib"
-projects[advanced_help][version] = "1.3"
+projects[advanced_help][version] = "1.4"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.8"
@@ -91,9 +91,11 @@ projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.5"
 
 projects[better_formats][subdir] = "contrib"
-projects[better_formats][version] = "1.0-beta1"
-projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_format-strict-warning-1717470-11.patch
-
+projects[better_formats][version] = "1.0-beta2"
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-157
+; Apply patch to fix xss injection
+projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_formats-2896131-6-missing-check_plain-when-showing-filter-name.patch
+ 
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
@@ -231,8 +233,10 @@ projects[entityreference][version] = "1.5"
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
-projects[entityreference_prepopulate][version] = "1.5"
-projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
+projects[entityreference_prepopulate][version] = "1.7"
+; Allow friendly field identifiers in URL.
+; https://www.drupal.org/project/entityreference_prepopulate/issues/1809776
+projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
@@ -245,7 +249,7 @@ projects[facetapi][version] = "1.5"
 ; facetapi_map_assoc() does not check if index exists.
 ; Note: This patch is to be remoaved with the future version 7.x-1.6.
 ; Indeed, the patch has already been pushed with the #2373023 d.o. issue.
-; https://www.drupal.org/project/facetapi/issues/2768779 
+; https://www.drupal.org/project/facetapi/issues/2768779
 ; and https://www.drupal.org/node/2373023
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2042
 projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-2768779-facetapi_map_assoc-undefined-index.patch
@@ -257,7 +261,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.6"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.10"
+projects[features][version] = "2.11"
 ; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
 ; https://www.drupal.org/node/1437264
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4759
@@ -281,15 +285,15 @@ projects[feeds][version] = "2.0-beta3"
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
-; So far, the module does not have any official release. 
-; The following declaration is based on the one recommended by the 
-; nexteuropa_newsroom team to sub-sites; including the patch 
+; So far, the module does not have any official release.
+; The following declaration is based on the one recommended by the
+; nexteuropa_newsroom team to sub-sites; including the patch
 ; "feeds_et_link_support-2078069-3.patch".
 projects[feeds_et][subdir] = "contrib"
 projects[feeds_et][download][type] = git
 projects[feeds_et][download][revision] = bf0d6d00b1a80a630d4266b04c254f2335177346
 projects[feeds_et][download][branch] = 7.x-1.x
-; Add support for link fields, patch required for the nexteuropa_newsroom module; 
+; Add support for link fields, patch required for the nexteuropa_newsroom module;
 ; see module README file.
 ; https://www.drupal.org/node/2078069
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2018
@@ -302,10 +306,16 @@ projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
 
 projects[field_group][subdir] = "contrib"
-projects[field_group][version] = "1.5"
+projects[field_group][version] = "1.6"
 ; https://www.drupal.org/node/2604284
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
+; After update from 1.5 to 1.6 empty field groups (because of field permissions)
+; are now being displayed as empty groups
+; https://www.drupal.org/node/2926605
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2016
+projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group-remove-array_parents-2494385-11.patch
+
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.21"
@@ -443,7 +453,7 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.19
+projects[media][version] = 2.20
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
@@ -452,7 +462,7 @@ projects[media][version] = 2.19
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
 
 projects[media_avportal][subdir] = "contrib"
-projects[media_avportal][version] = "1.2"
+projects[media_avportal][version] = "1.3"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
@@ -526,7 +536,7 @@ projects[migrate][subdir] = contrib
 projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909252-1.patch
 
 projects[mimemail][subdir] = "contrib"
-projects[mimemail][version] = "1.0"
+projects[mimemail][version] = "1.1"
 
 projects[nagios][download][branch] = 7.x-1.x
 projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
@@ -538,7 +548,7 @@ projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-suppor
 
 projects[nexteuropa_newsroom][download][type] = git
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
-projects[nexteuropa_newsroom][download][tag] = v3.5.2
+projects[nexteuropa_newsroom][download][tag] = v3.5.5
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
@@ -600,7 +610,7 @@ projects[plupload][download][type] = git
 projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/files_not_uploaded_in_subdir-2974466.patch
 
 projects[print][subdir] = "contrib"
-projects[print][version] = "2.0"
+projects[print][version] = "2.2"
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
@@ -609,7 +619,12 @@ projects[quicktabs][patch][2222805] = https://www.drupal.org/files/issues/quickt
 
 projects[rate][subdir] = "contrib"
 projects[rate][version] = "1.7"
+; Description should be translatable
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1178
 projects[rate][patch][] = patches/rate-translate_description-1178.patch
+; Undefined property: stdClass::$timezone in rate_expiration module
+; https://www.drupal.org/project/rate/issues/1421016
+projects[rate][patch][] = https://www.drupal.org/files/issues/rate-is_null_fix-1421016-9.patch
 
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.3"
@@ -654,6 +669,18 @@ projects[scheduler][version] = 1.5
 
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
+; Allow to schedule the publish date of a revision
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
+; https://www.drupal.org/project/scheduler_workbench/issues/2048999
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-47_0.patch
+; Allow publication of revisions with selected status. This patch requires the patch from issue https://www.drupal.org/project/scheduler_workbench/issues/2048999
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
+; This patch requieres https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-46.patch from
+; this issue https://www.drupal.org/project/scheduler_workbench/issues/2048999.
+; It is based on the issue https://www.drupal.org/project/scheduler_workbench/issues/1955938 but the patch on
+; the issue doesn't take into account the changes introduced on issue
+; https://www.drupal.org/project/scheduler_workbench/issues/2048999, so we created a local patch for it.
+projects[scheduler_workbench][patch][] = patches/scheduler_workbench-allowed_status.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.24
@@ -665,6 +692,10 @@ projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
 ; https://www.drupal.org/node/2801239
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-121
 projects[simplenews][patch][] = https://www.drupal.org/files/issues/entitycache_issue-2801239-3.patch
+; Add hook_drush_sql_sync_sanitize
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2100
+; https://www.drupal.org/project/simplenews/issues/3017665#comment-12879291
+projects[simplenews][patch][] = https://www.drupal.org/files/issues/2018-12-03/Add_hook_drush_sql_sync_sanitize-3017665-4.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
@@ -728,7 +759,8 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 ; #2362321 : Check source length limits
 ; https://www.drupal.org/node/2362321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1802
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-12/check_source_length-d7-2362321-37.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2029
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-09-17/check_source_length-d7-2362321-41.patch
 ; #2955245 : i18nviews strings are not shown on sources view
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
@@ -767,7 +799,7 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.0"
+projects[uuid][version] = "1.2"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -789,6 +821,10 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
 ; https://www.drupal.org/node/2908538
 projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
+; Issue #3012609: Ajax Exposed filters not working with multiple same views
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2149
+; https://www.drupal.org/project/views/issues/3012609
+projects[views][patch][] = https://www.drupal.org/files/issues/2018-11-14/views_fix_ajax_exposed_filter_with_same_mutliple_views-3012609-7.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -797,8 +833,7 @@ projects[views_bootstrap][subdir] = "contrib"
 projects[views_bootstrap][version] = "3.1"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.4"
-
+projects[views_bulk_operations][version] = "3.5"
 ; Rules actions 'View and display' only works if Bulk Ops field is in 'master' of a view.
 ; https://www.drupal.org/node/2856974
 projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/non_master_views_actions_2856974-2.patch
@@ -887,21 +922,24 @@ projects[workbench_og][download][branch] = 7.x-2.x
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][download][version] = "2.4"
+projects[wysiwyg][download][version] = "2.5"
 ; Fix remote js loading on ckeditor plugin
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
+; CKEditor height does not reflect the rows attribute
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
+projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.4"
+projects[xmlsitemap][version] = "2.6"
 ; Using rel="alternate" rather than multiple sitemaps by language context
 ; https://www.drupal.org/node/1670086
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
-projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/xmlsitemap-using_rel_alternate-1670086-50.patch
-projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2083
+projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/2018-10-17/xmlsitemap-multilingual_rel_alternate-1670086-99.patch
 
 
 ; =========
@@ -1035,6 +1073,15 @@ libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v6.1.4.zip
 libraries[mpdf][destination] = "libraries"
+; The Drupal timezone is overridden by the mpdf one.
+; As the version 6.1 is frozen, the patch has not been accepted.
+; That is why it is a "local" patch.
+; Nevertheless, the fix has been introduced in mpdf 7+.
+; So, it will be removed when the library will be upgraded in version
+; 2.6 of the platform.
+; https://github.com/mpdf/mpdf/pull/892
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2111
+libraries[mpdf][patch][] = patches/mpdf_timezone.patch
 
 ; Leaflet
 libraries[leaflet][destination] = "libraries"
