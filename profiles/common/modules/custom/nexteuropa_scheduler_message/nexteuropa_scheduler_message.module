@@ -40,7 +40,7 @@ function nexteuropa_scheduler_message_node_presave($node) {
 
 /**
  * Get the message and replace the date.
- *a
+ *
  * @return text
  *   Message to show.
  */
