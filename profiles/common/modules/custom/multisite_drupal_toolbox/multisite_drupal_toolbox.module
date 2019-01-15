@@ -1248,7 +1248,7 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
   $parts['path'] = '';
   $parts = drupal_parse_url(trim($url, '/'));
 
-  if (!isset($parts['scheme']) || !isset($parts['host'])) {
+  if (!isset($parts['path'])) {
     // Not an absolute URL.
     form_set_error($field, t('Please insert a complete url. ex: !url', array('!url' => 'http://www.myurl.com')));
     return FALSE;
@@ -1264,15 +1264,6 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
   // Save the whole URL.
   $path_info['url'] = $url;
 
-  if (!isset($path_info['query'])) {
-    $path_info['query'] = '';
-  }
-
-  // Convert the query string to an array as Drupal can only handle querys as
-  // arrays.
-  // @see http://api.drupal.org/drupal_http_build_query
-  parse_str($path_info['query'], $path_info['query']);
-
   // The 'q' parameter contains the path of the current page if clean URLs are
   // disabled. It overrides the 'path' of the URL when present, even if clean
   // URLs are enabled, due to how Apache rewriting rules work.
@@ -1283,7 +1274,7 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
 
   // Internal URL.
   // @TODO: Handle https and other schemes here?
-  if (trim($path_info['scheme'] . '://' . $path_info['host'] . base_path(), '/') == $base_url) {
+  if (!url_is_external($path_info['path'])) {
     $path_info['target'] = 'internal';
 
     // Handle Multilingual internal urls.
@@ -1320,11 +1311,10 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
   else {
     // Try to see if link is valid.
     $geturl = drupal_http_request($url);
-    if ($geturl->error == 'Not Found') {
+    if ($geturl->errno != 0) {
       drupal_set_message(t('Please check that @url does exist', array('@url' => $url)), 'warning');
     };
   }
-
   return $path_info;
 }
 
