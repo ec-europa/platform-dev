@@ -40,7 +40,7 @@ function nexteuropa_scheduler_message_node_presave($node) {
 
 /**
  * Get the message and replace the date.
- *
+ *a
  * @return text
  *   Message to show.
  */
@@ -56,7 +56,7 @@ function _nexteuropa_scheduler_message_replace() {
  * Returns the limit date to check.
  *
  * @return object
- *  Datetime object
+ *   Datetime object
  */
 function _nexteuropa_scheduler_message_get_time() {
   // This date will assume Brussels time (CET).
