@@ -31,13 +31,17 @@ function nexteuropa_scheduler_message_menu() {
 function nexteuropa_scheduler_message_node_presave($node) {
   $time_to_check = _nexteuropa_scheduler_message_get_time();
   $time_to_publish = new DateTime($node->publish_on);
-  if (isset($node->publish_on) && !empty($node->publish_on) && $time_to_publish >= $time_to_check) {
+  // Always convert the date to the Brussels time for the comparation.
+  $time_to_publish->setTimezone(new DateTimeZone('Europe/Brussels'));
+  if (isset($node->publish_on) && !empty($node->publish_on) && $time_to_publish->format('r') >= $time_to_check->format('r')) {
     drupal_set_message(_nexteuropa_scheduler_message_replace());
   }
 }
 
 /**
  * Get the message and replace the date.
+ * 
+ * @return text
  */
 function _nexteuropa_scheduler_message_replace() {
   $time_to_check = _nexteuropa_scheduler_message_get_time();
@@ -48,8 +52,11 @@ function _nexteuropa_scheduler_message_replace() {
 }
 
 /**
- * Returns the limit date to check.
+ * Returns the limit date to check. 
+ *
+ * @return Datetime 
  */
 function _nexteuropa_scheduler_message_get_time() {
+  // This date will assume Brussels time (CET).
   return new DateTime(variable_get('nexteuropa_scheduler_message_time', '2019-03-30 00:00:00'));
 }
