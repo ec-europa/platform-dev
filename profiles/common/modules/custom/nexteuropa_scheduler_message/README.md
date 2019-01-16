@@ -20,4 +20,3 @@ It is possible to override these values by configuring the values on the setting
 
 You can check the value of both parameters, if you have "administer scheduler" permissions. I will show the default values or the values from settings.php, if they are configured:
 * admin/config/content/scheduler/scheduler_message
-
