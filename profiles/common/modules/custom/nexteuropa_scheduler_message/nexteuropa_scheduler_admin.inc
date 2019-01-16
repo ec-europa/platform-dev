@@ -15,7 +15,7 @@ function nexteuropa_scheduler_message_settings() {
     "#disabled" => TRUE,
     '#title' => t('Message text'),
     '#markup' => _nexteuropa_scheduler_message_replace(),
-    '#description' => t('This is the message to show when scheduling the publication of a node or revision. The element %date will be replaced with the date from the field below.'),
+    '#description' => t('This is the message to show when scheduling the publication of a node or revision. The text %date_to_check will be replaced by the date value from the field below and the text %date_to_publish will be replaced by the publication date of the node or the revision.'),
   );
   $form['nexteuropa_scheduler_message_time'] = array(
     '#type' => 'item',
