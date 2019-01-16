@@ -52,6 +52,10 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     $handler = entity_translation_get_handler($job_item->item_type, $current_revision);
     $handler->setActiveLanguage($job_item->getJob()->target_language);
 
+    $current_revision_update = $this->manageEmptyFieldUpdate($current_revision, $job_item->getData(), $job->source_language, $job->target_language);
+    if ($current_revision_update) {
+      $current_revision = $current_revision_update;
+    }
     // Save current node revision.
     node_save($current_revision);
 
