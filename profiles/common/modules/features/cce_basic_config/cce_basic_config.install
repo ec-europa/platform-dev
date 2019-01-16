@@ -544,6 +544,9 @@ function cce_basic_config_enable() {
 
   // My Account.
   variable_set('user_logout_data_image', 'log-out');
+  
+  // Allow authenticated users to comment
+  variable_set('comment_article', '2');
 }
 
 /**
