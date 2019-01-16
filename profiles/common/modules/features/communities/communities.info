@@ -69,7 +69,6 @@ features[og_features_permission][] = node:community:update group
 features[og_features_permission][] = node:community:update own article content
 features[og_features_role][] = node:community:community_manager
 features[variable][] = comment_anonymous_community
-features[variable][] = comment_community
 features[variable][] = comment_default_mode_community
 features[variable][] = comment_default_per_page_community
 features[variable][] = comment_form_location_community
