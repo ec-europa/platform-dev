@@ -30,11 +30,32 @@ function nexteuropa_scheduler_message_menu() {
  */
 function nexteuropa_scheduler_message_node_presave($node) {
   $time_to_check = _nexteuropa_scheduler_message_get_time();
-  $time_to_publish = new DateTime($node->publish_on);
+  // Handle date when there are scheduling dates for revisions.
+  // This is only needed for platform version 2.5.
+  if (isset($node->revision_publish_on)) {
+    // Transform to unix time.
+    if (!is_numeric($node->revision_publish_on) || (int) $node->revision_publish_on != $node->revision_publish_on) {
+      $time_to_publish = date_create($node->revision_publish_on, timezone_open(drupal_get_user_timezone()));
+    }
+    else {
+      $time_to_publish = DateTime::createFromFormat("U", $node->revision_publish_on);
+    }
+  }
+  else {
+    // Create date from date format. Needed for node updates.
+    if (!is_numeric($node->publish_on) || (int) $node->publish_on != $node->publish_on) {
+      $time_to_publish = date_create($node->publish_on, timezone_open(drupal_get_user_timezone()));
+    }
+    // Create date from unix time. Needed for node creation.
+    else {
+      $time_to_publish = DateTime::createFromFormat("U", $node->publish_on);
+    }
+  }
   // Always convert the date to the Brussels time for the comparation.
   $time_to_publish->setTimezone(new DateTimeZone('Europe/Brussels'));
-  if (isset($node->publish_on) && !empty($node->publish_on) && $time_to_publish->format('r') >= $time_to_check->format('r')) {
-    drupal_set_message(_nexteuropa_scheduler_message_replace());
+  if ((isset($node->publish_on) && !empty($node->publish_on) || isset($node->revision_publish_on) &&
+   !empty($node->revision_publish_on)) && $time_to_publish->format('r') >= $time_to_check->format('r')) {
+    drupal_set_message(_nexteuropa_scheduler_message_replace($time_to_publish));
   }
 }
 
@@ -44,11 +65,14 @@ function nexteuropa_scheduler_message_node_presave($node) {
  * @return text
  *   Message to show.
  */
-function _nexteuropa_scheduler_message_replace() {
+function _nexteuropa_scheduler_message_replace(Datetime $time_to_publish = NULL) {
   $time_to_check = _nexteuropa_scheduler_message_get_time();
-  $message = variable_get('nexteuropa_scheduler_message_text', "This node has been scheduled to be published at or after %date. Please ensure your changes will not lead to the premature publication of sensitive information.");
+  $message = variable_get('nexteuropa_scheduler_message_text', "This node date for publication is %date_to_publish, this is at or after %date_to_check. Please ensure your changes will not lead to the premature publication of sensitive information.");
   $date = $time_to_check->format('r');
-  $message = str_replace('%date', $date, $message);
+  if ($time_to_publish) {
+    $message = str_replace('%date_to_publish', $time_to_publish->format('r'), $message);
+  }
+  $message = str_replace('%date_to_check', $date, $message);
   return $message;
 }
 
