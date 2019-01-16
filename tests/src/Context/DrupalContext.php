@@ -356,6 +356,46 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   }
 
   /**
+   * Click on a selector element.
+   *
+   * @param string $arg1
+   *   Selector css.
+   *
+   * @Then I click on element :arg1
+   */
+  public function iClickOnElement($arg1) {
+    $session = $this->getSession();
+    $element = $session->getPage()->find("css", $arg1);
+    if (NULL === $element) {
+      throw new \Exception(sprintf('Could not find: "%s"', $arg1));
+    }
+    $element->click();
+  }
+
+  /**
+   * Click on a selector element option.
+   *
+   * @param string $arg1
+   *   Selector css.
+   * @param string $arg2
+   *   Option text.
+   *
+   * @Then I click on option :arg1 from element :arg2
+   */
+  public function iClickOnOptionFromElement($arg1, $arg2) {
+    $session = $this->getSession();
+    $element = $session->getPage()->find("css", $arg2);
+    if (NULL === $element) {
+      throw new \Exception(sprintf('Could not find selector: "%s"', $arg2));
+    }
+    $element = $element->find("xpath", 'option[text()="' . $arg1 . '"]');
+    if (NULL === $element) {
+      throw new \Exception(sprintf('Could not find text: "%s"', $arg1));
+    }
+    $element->click();
+  }
+
+  /**
    * Creates content of the given type and a moderation state.
    *
    * @param string $type
