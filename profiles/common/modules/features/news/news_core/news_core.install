@@ -27,6 +27,8 @@ function news_core_enable() {
  */
 function news_core_install() {
   multisite_config_service('comment')->setThreadingCommentForContentType('news', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('news', 'open');
 }
 
 /**
