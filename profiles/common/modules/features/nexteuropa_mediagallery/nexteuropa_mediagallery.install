@@ -47,6 +47,8 @@ function nexteuropa_mediagallery_enable() {
  */
 function nexteuropa_mediagallery_install() {
   multisite_config_service('comment')->setThreadingCommentForContentType('nexteuropa_mediagallery', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('nexteuropa_mediagallery', 'hidden');
 }
 
 /**
