@@ -30,7 +30,6 @@ features[variable][] = comment_default_mode_webform
 features[variable][] = comment_default_per_page_webform
 features[variable][] = comment_preview_webform
 features[variable][] = comment_subject_field_webform
-features[variable][] = comment_webform
 features[variable][] = field_bundle_settings_node__webform
 features[variable][] = language_content_type_webform
 features[variable][] = menu_options_webform

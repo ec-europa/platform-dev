@@ -27,6 +27,8 @@ function survey_core_enable() {
  */
 function survey_core_install() {
   multisite_config_service('comment')->setThreadingCommentForContentType('webform', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('webform', 'closed');
 }
 
 /**
