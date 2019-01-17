@@ -1252,7 +1252,7 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
     return FALSE;
   }
   $parts['path'] = $parts_url['path'];
-  if (!isset($parts['host'])) {
+  if (!isset($parts['scheme'])) {
     // Not an absolute URL.
     form_set_error($field, t('Please add the protocol to the url, http or https, ex: !url', array('!url' => 'http://www.myurl.com')));
     return FALSE;
