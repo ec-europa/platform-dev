@@ -20,6 +20,8 @@ function nexteuropa_editorial_install() {
 
   // Use soft config for editorial_teams comment form location.
   multisite_config_service('comment')->setThreadingCommentForContentType('editorial_team', 1);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('editorial_team', 'hidden');
 
   // Set "editorial team member" permissions.
   $permissions = array(
