@@ -48,6 +48,8 @@ function multisite_maps_enable() {
  */
 function multisite_maps_install() {
   multisite_config_service('comment')->setThreadingCommentForContentType('map', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('map', 'closed');
 }
 
 /**
