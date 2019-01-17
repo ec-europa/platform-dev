@@ -11,5 +11,5 @@
 function nexteuropa_faq_install() {
   multisite_config_service('comment')->setThreadingCommentForContentType('faq', 1);
   // Use soft config to allow comments from authenticated users.
-  multisite_config_service('comment')->setDefaultCommentForContentType('faq', 'open');
+  multisite_config_service('comment')->setDefaultCommentForContentType('nexteuropa_faq', 'open');
 }

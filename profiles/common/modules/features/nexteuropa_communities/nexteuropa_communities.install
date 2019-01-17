@@ -36,7 +36,7 @@ function nexteuropa_communities_enable() {
 function nexteuropa_communities_install() {
   multisite_config_service('comment')->setThreadingCommentForContentType('communities', 1);
   // Use soft config to allow comments from authenticated users.
-  multisite_config_service('comment')->setDefaultCommentForContentType('chart', 'open');
+  multisite_config_service('comment')->setDefaultCommentForContentType('community', 'open');
 }
 
 /**
