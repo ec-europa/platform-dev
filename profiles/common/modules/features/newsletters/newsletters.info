@@ -43,7 +43,6 @@ features[variable][] = comment_anonymous_simplenews
 features[variable][] = comment_default_mode_simplenews
 features[variable][] = comment_default_per_page_simplenews
 features[variable][] = comment_preview_simplenews
-features[variable][] = comment_simplenews
 features[variable][] = comment_subject_field_simplenews
 features[variable][] = field_bundle_settings_node__simplenews
 features[variable][] = language_content_type_simplenews

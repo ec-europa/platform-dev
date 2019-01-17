@@ -23,6 +23,8 @@ function newsletters_enable() {
  */
 function newsletters_install() {
   multisite_config_service('comment')->setThreadingCommentForContentType('simplenews', 1);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('simplenews', 'closed');
 }
 
 /**
