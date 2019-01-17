@@ -10,4 +10,6 @@
  */
 function nexteuropa_news_install() {
   multisite_config_service('comment')->setThreadingCommentForContentType('nexteuropa_news', 1);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('nexteuropa_news', 'closed');
 }
