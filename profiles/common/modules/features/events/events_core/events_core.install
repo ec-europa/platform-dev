@@ -26,10 +26,10 @@ function events_core_enable() {
  * Use soft config for events comment form location.
  */
 function events_core_install() {
-  // Use soft config to allow comments from authenticated users.
-  variable_set('comment_event', '2');
   // Use soft config for event comment form location.
   multisite_config_service('comment')->setThreadingCommentForContentType('event', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('event', 'open');
 }
 
 /**

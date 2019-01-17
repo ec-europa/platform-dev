@@ -94,10 +94,10 @@ function idea_core_install() {
   );
   taxonomy_term_save($term);
 
-  // Use soft config to allow comments from authenticated users.
-  variable_set('comment_idea', '2');
   // Use soft config for article comment form location.
   multisite_config_service('comment')->setThreadingCommentForContentType('idea', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('idea', 'open');
 }
 
 /**

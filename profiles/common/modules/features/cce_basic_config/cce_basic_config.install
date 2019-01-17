@@ -517,6 +517,8 @@ function cce_basic_config_install() {
 
   // Use soft config for article comment form location.
   multisite_config_service('comment')->setThreadingCommentForContentType('article', 1);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('article', 'open');
 }
 
 /**
@@ -544,9 +546,6 @@ function cce_basic_config_enable() {
 
   // My Account.
   variable_set('user_logout_data_image', 'log-out');
-
-  // Allow authenticated users to comment.
-  variable_set('comment_article', '2');
 }
 
 /**
