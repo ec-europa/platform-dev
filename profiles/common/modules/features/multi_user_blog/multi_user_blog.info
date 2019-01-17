@@ -24,7 +24,6 @@ features[user_permission][] = delete own blog_post content
 features[user_permission][] = edit any blog_post content
 features[user_permission][] = edit own blog_post content
 features[variable][] = comment_anonymous_blog_post
-features[variable][] = comment_blog_post
 features[variable][] = comment_default_mode_blog_post
 features[variable][] = comment_default_per_page_blog_post
 features[variable][] = comment_preview_blog_post

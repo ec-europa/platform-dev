@@ -29,6 +29,8 @@ function multi_user_blog_disable() {
  * Use soft config for blog comment form location.
  */
 function multi_user_blog_install() {
+  // Use soft config to allow comments from authenticated users.
+  variable_set('comment_blog_post', '2');
   multisite_config_service('comment')->setThreadingCommentForContentType('blog_post', 0);
 }
 
