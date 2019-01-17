@@ -24,7 +24,6 @@ features[user_permission][] = edit own discussion content
 features[variable][] = comment_anonymous_discussion
 features[variable][] = comment_default_mode_discussion
 features[variable][] = comment_default_per_page_discussion
-features[variable][] = comment_discussion
 features[variable][] = comment_preview_discussion
 features[variable][] = comment_subject_field_discussion
 features[variable][] = field_bundle_settings_node__discussion

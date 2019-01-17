@@ -27,7 +27,10 @@ function multisite_forum_core_enable() {
  * Use soft config for article comment form location.
  */
 function multisite_forum_core_install() {
+  // Use soft  config for  discussion comment form location.
   multisite_config_service('comment')->setThreadingCommentForContentType('discussion', 1);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('discussion', 'open');
 }
 
 /**
