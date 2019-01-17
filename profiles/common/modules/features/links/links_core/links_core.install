@@ -24,6 +24,8 @@ function links_core_enable() {
  * Use soft config for article comment form location.
  */
 function links_core_install() {
+  // Use soft config to allow comments from authenticated users.
+  variable_set('comment_links', '1');
   multisite_config_service('comment')->setThreadingCommentForContentType('links', 0);
 }
 

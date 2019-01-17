@@ -73,8 +73,7 @@ function communities_install() {
 
   // Use soft config for community comment form location.
   multisite_config_service('comment')->setThreadingCommentForContentType('community', 1);
-  
-   // Allow comments from authenticated users
+  // Allow comments from authenticated users.
   variable_set('comment_community', '1');
 }
 
