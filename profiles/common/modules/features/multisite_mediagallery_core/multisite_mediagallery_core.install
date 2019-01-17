@@ -28,7 +28,7 @@ function multisite_mediagallery_core_enable() {
  * Use soft config for gallerymedia comment form location.
  */
 function multisite_mediagallery_core_install() {
-  // Use  soft config for gallerymedia comment form location
+  // Use  soft config for gallerymedia comment form location.
   multisite_config_service('comment')->setThreadingCommentForContentType('gallerymedia', 0);
   // Use soft config to allow comments from authenticated users.
   multisite_config_service('comment')->setDefaultCommentForContentType('gallerymedia', 'hidden');
