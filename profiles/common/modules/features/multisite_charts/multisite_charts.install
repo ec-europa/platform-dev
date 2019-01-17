@@ -21,6 +21,9 @@ function multisite_charts_enable() {
  * Use soft config for charts comment form location.
  */
 function multisite_charts_install() {
+  // Use soft config to allow comments from authenticated users.
+  variable_set('comment_chart', '1');
+  // Use soft config for chart comment form location.
   multisite_config_service('comment')->setThreadingCommentForContentType('chart', 0);
 }
 
