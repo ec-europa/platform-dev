@@ -765,10 +765,6 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-09-17/check_
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
-; #3021843: Translation not taking into account the source data update on empty fields
-; https://www.drupal.org/node/3021843
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2178
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-12-20/translation_not_taking_into_account_the_source_data_update-3021843.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
