@@ -966,7 +966,7 @@ function get_rid($role_name) {
 function multisite_drupal_toolbox_is_admin() {
   global $user;
 
-  return ($user->uid === 1) ? TRUE : FALSE;
+  return ($user->uid == 1) ? TRUE : FALSE;
 }
 
 /**
