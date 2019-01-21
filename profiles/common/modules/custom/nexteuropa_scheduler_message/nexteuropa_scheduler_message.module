@@ -67,7 +67,8 @@ function nexteuropa_scheduler_message_node_presave($node) {
  */
 function _nexteuropa_scheduler_message_replace(Datetime $time_to_publish = NULL) {
   $time_to_check = _nexteuropa_scheduler_message_get_time();
-  $message = variable_get('nexteuropa_scheduler_message_text', "This node date for publication is %date_to_publish, this is at or after %date_to_check. Please ensure your changes will not lead to the premature publication of sensitive information.");
+  $message_text = t("This node date for publication is %date_to_publish, this is at or after %date_to_check. Please ensure your changes will not lead to the premature publication of sensitive information.");
+  $message = variable_get('nexteuropa_scheduler_message_text', $message_text);
   $date = $time_to_check->format('r');
   if ($time_to_publish) {
     $message = str_replace('%date_to_publish', $time_to_publish->format('r'), $message);
