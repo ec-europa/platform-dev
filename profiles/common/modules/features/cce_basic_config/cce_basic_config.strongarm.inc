@@ -70,15 +70,6 @@ function cce_basic_config_strongarm() {
 
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
-  $strongarm->name = 'date_api_version';
-  $strongarm->value = '7.2';
-  $export['date_api_version'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
   $strongarm->name = 'date_default_timezone';
   $strongarm->value = 'Europe/Luxembourg';
   $export['date_default_timezone'] = $strongarm;

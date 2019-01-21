@@ -1942,3 +1942,15 @@ function cce_basic_config_update_7228() {
   // Configuration for the settings of honeypot module.
   variable_set('honeypot_protect_all_forms', 1);
 }
+
+/**
+ * Set new value for cce_basic_config feature in database.
+ *
+ * Variable date_api_version must be removed from cce_basic_config feature and
+ * this feature must not be reverted.
+ * Recreate the value of the feature in database without the variable.
+ */
+function cce_basic_config_update_7229() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('cce_basic_config', 'variable');
+}

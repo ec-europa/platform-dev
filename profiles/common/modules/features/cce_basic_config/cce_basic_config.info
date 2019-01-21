@@ -117,7 +117,6 @@ features[variable][] = comment_article
 features[variable][] = comment_default_mode_article
 features[variable][] = comment_preview_article
 features[variable][] = comment_subject_field_article
-features[variable][] = date_api_version
 features[variable][] = date_default_timezone
 features[variable][] = date_first_day
 features[variable][] = date_format_long
