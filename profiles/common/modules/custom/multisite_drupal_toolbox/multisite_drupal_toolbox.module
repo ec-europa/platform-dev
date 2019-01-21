@@ -1243,11 +1243,15 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
   // To see original see linkit.module.
   $parts['path'] = '';
   $parts = drupal_parse_url(trim($url, '/'));
+  // Disable phpcs check on this function call,
+  // we need to use parse_url because drupal_parse_url(), does not
+  // return the same values.
+  // @codingStandardsIgnoreStart
   $parts_url = parse_url(trim($url, '/'));
+  // @codingStandardsIgnoreEnd
   $parts['scheme'] = $parts_url['scheme'];
   $parts['host'] = $parts_url['host'];
   if (!isset($parts['path'])) {
-    // Not an absolute URL.
     form_set_error($field, t('Please insert a complete url. ex: !url', array('!url' => 'http://www.myurl.com')));
     return FALSE;
   }
