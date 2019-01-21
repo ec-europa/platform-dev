@@ -54,7 +54,7 @@ function nexteuropa_scheduler_message_node_presave($node) {
   // Always convert the date to the Brussels time for the comparation.
   $time_to_publish->setTimezone(new DateTimeZone('Europe/Brussels'));
   if ((isset($node->publish_on) && !empty($node->publish_on) || isset($node->revision_publish_on) &&
-   !empty($node->revision_publish_on)) && $time_to_publish->format('r') >= $time_to_check->format('r')) {
+   !empty($node->revision_publish_on)) && $time_to_publish->format('U') >= $time_to_check->format('U')) {
     drupal_set_message(_nexteuropa_scheduler_message_replace($time_to_publish));
   }
 }
