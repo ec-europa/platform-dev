@@ -26,9 +26,13 @@ function nexteuropa_scheduler_message_menu() {
 }
 
 /**
- * Implements hook_node_presave().
+ * Implements hook_form_node_form_alter().
  */
-function nexteuropa_scheduler_message_node_presave($node) {
+function nexteuropa_scheduler_message_form_node_form_alter(&$form, &$form_state, $form_id) {
+  if (!isset($form_state['node']) || !isset($form_state['node']->nid)) {
+    return;
+  }
+  $node = $form_state['node'];
   $time_to_check = _nexteuropa_scheduler_message_get_time();
   // Handle date when there are scheduling dates for revisions.
   // This is only needed for platform version 2.5.
