@@ -1,6 +1,6 @@
 /**
  * @file
- * CKEditor Link hreflang code.
+ * CKEditor Link Target code.
  */
 
 (function ($) {
@@ -18,18 +18,22 @@
         // in the target tab.
         var targetTab = definition.getContents("target");
         if ((targetTab != null) && (typeof targetTab.add == 'function')) {
-          var linkTypeItems = targetTab.get( 'linkTargetType' ).items;
-          console.log(linkTypeItems);
-          if ( linkTypeItems.length > 0 ) {
-            for (var i = 0; i < linkTypeItems.length; i++) {
-               if (linkTypeItems[i][0] == "<popup window>") {
-                 linkTypeItems.splice(i, 1);
-                 break;
-               }
-             }
+          var linkTypeItems = targetTab.get('linkTargetType').items;
+          if (linkTypeItems.length > 0) {
+            var itemsToRemove = ["<popup window>", "<frame>"];
+            var finalArray = linkTypeItems.filter(item => !itemsToRemove.includes(item[0]));
+            targetTab.get('linkTargetType').items = finalArray;
            }
+
+          // Override the onOk event to display custom elements like the
+          // "hreflang" attribute.
+          definition.onOk = CKEDITOR.tools.override(definition.onOk, function (original) {
+            return function () {
+              original.call(this);
+              var targetValue = this.getValueOf("advanced", "multisite_wysiwyg_link_target");
+            };
+          });
         }
-       
       });
     }
   });
