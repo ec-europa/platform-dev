@@ -54,15 +54,11 @@ There are two types of PIWIK rules:
 - **Direct path** rules are based on the direct full path of a page
 - **Regexp path** rules are based on a regular expression
   
-#### Overlapping rules <a name="overlapping-rules"></a>
-If more than one rule applies for a given page, a log entry will be
-created with the information about the overlapping rule IDs.
-
 The "Direct path" rules have a priority over the "Regexp path".
 It means that if two or more rules are applicable for the given page and
 one of them is a "Direct path" rule, that rule will be applied.
 The same rule applies to the language selection. If there is more
-than a one rule, the rule with the specific language will be selected
+than one rule, the rule with the specific language will be selected
 instead of the one with an 'all' languages option.
 
 The function that filters the rules does so by returning the first result from
