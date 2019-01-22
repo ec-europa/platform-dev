@@ -24,15 +24,6 @@
             var finalArray = linkTypeItems.filter(item => !itemsToRemove.includes(item[0]));
             targetTab.get('linkTargetType').items = finalArray;
            }
-
-          // Override the onOk event to display custom elements like the
-          // "hreflang" attribute.
-          definition.onOk = CKEDITOR.tools.override(definition.onOk, function (original) {
-            return function () {
-              original.call(this);
-              var targetValue = this.getValueOf("advanced", "multisite_wysiwyg_link_target");
-            };
-          });
         }
       });
     }
