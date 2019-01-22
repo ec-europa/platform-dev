@@ -66,14 +66,30 @@ function nexteuropa_scheduler_message_node_presave($node) {
  *   Message to show.
  */
 function _nexteuropa_scheduler_message_replace(Datetime $time_to_publish = NULL) {
+  // The platform forces the language of the admin pages, like node/%/edit,
+  // to be able to translage, we need to pass the language from the url
+  // to the t() function.
+  global $language_url;
+  // If we configure the message on the settings.php file, we need to
+  // pass it to the t() function to translate it.
+  global $conf;
+  $options = array('langcode' => $language_url->language);
   $time_to_check = _nexteuropa_scheduler_message_get_time();
-  $message_text = "This node date for publication is %date_to_publish, this is at or after %date_to_check. Please ensure your changes will not lead to the premature publication of sensitive information.";
-  $message = variable_get('nexteuropa_scheduler_message_text', $message_text);
-  $date = $time_to_check->format('r');
+  $args = array('%date_to_check' => $time_to_check->format('r'));
   if ($time_to_publish) {
-    $message = str_replace('%date_to_publish', $time_to_publish->format('r'), $message);
+    $args['%date_to_publish'] = $time_to_publish->format('r');
   }
-  $message = str_replace('%date_to_check', $date, $message);
+  if (!isset($conf['nexteuropa_scheduler_message_text'])) {
+    $message_text = t("This node date for publication is %date_to_publish, this is at or after %date_to_check. Please ensure your changes will not lead to the premature publication of sensitive information.", $args, $options);
+    $message = variable_get('nexteuropa_scheduler_message_text', $message_text);
+  }
+  else {
+    // We can trust this value, as it should be configured on the settings.php
+    // file.
+    // @codingStandardsIgnoreStart
+    $message = t($conf['nexteuropa_scheduler_message_text'], $args, $options);
+    // @codingStandardsIgnoreEnd
+  }
   return $message;
 }
 

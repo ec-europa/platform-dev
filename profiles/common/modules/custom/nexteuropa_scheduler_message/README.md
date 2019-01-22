@@ -20,3 +20,11 @@ It is possible to override these values by configuring the values on the setting
 
 You can check the value of both parameters, if you have "administer scheduler" permissions. I will show the default values or the values from settings.php, if they are configured:
 * admin/config/content/scheduler/scheduler_message
+
+Translation
+    It is possible to translate the default text or the test configured on the settings.php page.
+    To allow translation take this steps:
+    .- Ensure you have more than one language enabled.
+    .- Load the page admin/config/content/scheduler/scheduler_message with a language different to english, for example:
+            admin/config/content/scheduler/scheduler_message_fr
+    .- Load the page admin/config/regional/translate/translate_en and search for the string translate.
