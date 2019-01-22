@@ -10,7 +10,9 @@ Feature: Feature set menu
     When I am on "admin/structure/feature-set_en"
     Then I should see the text "Content slider"
     And I should see the text "Events"
-    And I should see the text "Links"
+    # Cannot use "Links" label to test if administrator user can see the "Links"
+    # feature because it is already elsewhere on the page for another purpose.
+    And I should see the text "Allows contributors to store a bookmark/URL to another website they wish to share with visitors."
     And I should see the text "Multi-user blog"
     And I should see the text "Meta tags"
     And I should see the text "Registration"
@@ -28,7 +30,10 @@ Feature: Feature set menu
     And I should see the text "GIS field"
     And I should see the text "GeoJson feeds"
     And I should see the text "Notices"
-    And I should see the text "Integration module"
+    # Cannot use "Integration" label to test if administrator user can see the
+    # "Integration" feature because it is already elsewhere on the page for
+    # another purpose.
+    And I should see the text "Provides common NextEuropa backend settings and schemas used by the Integration module."
     And I should see the text "Rule-based web frontend cache purging"
     And I should see the text "E-library"
     And I should see the text "Embedded images "
@@ -36,7 +41,6 @@ Feature: Feature set menu
     And I should see the text "Audio"
     And I should see the text "Media Gallery"
     And I should see the text "Multilingual tools"
-    And I should see the text "Multilingual reference"
     And I should see the text "Translation requests"
     And I should see the text "Splash screen"
     And I should see the text "Fat footer"
@@ -57,7 +61,9 @@ Feature: Feature set menu
     When I am on "admin/structure/feature-set_en"
     Then I should not see the text "Content slider"
     Then I should not see the text "Events"
-    Then I should not see the text "Links"
+    # Cannot use "Links" label to test if cem user cannot see the "Links"
+    # feature because it is already elsewhere on the page for another purpose.
+    Then I should not see the text "Allows contributors to store a bookmark/URL to another website they wish to share with visitors."
     Then I should not see the text "Multi-user blog"
     Then I should not see the text "Meta tags"
     Then I should not see the text "Registration"
@@ -75,7 +81,10 @@ Feature: Feature set menu
     Then I should not see the text "GIS field"
     Then I should not see the text "GeoJson feeds"
     Then I should not see the text "Notices"
-    Then I should not see the text "Integration module"
+    # Cannot use "Integration" label to test if cem user cannot see the
+    # "Integration" feature because it is already elsewhere on the page for
+    # another purpose.
+    Then I should not see the text "Provides common NextEuropa backend settings and schemas used by the Integration module."
     Then I should not see the text "Rule-based web frontend cache purging"
     Then I should not see the text "E-library"
     Then I should not see the text "Embedded images"
@@ -83,7 +92,6 @@ Feature: Feature set menu
     Then I should not see the text "Audio"
     Then I should not see the text "Media Gallery"
     Then I should not see the text "Multilingual tools"
-    Then I should not see the text "Multilingual reference"
     Then I should not see the text "Translation requests"
     Then I should not see the text "Splash screen"
     Then I should not see the text "Fat footer"

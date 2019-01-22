@@ -274,6 +274,7 @@ function nexteuropa_trackedchanges_views_api() {
     'path' => drupal_get_path('module', 'nexteuropa_trackedchanges') . '/views',
   );
 }
+
 /**
  * Implements hook_views_pre_render().
  *
@@ -629,6 +630,11 @@ function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $co
     // If ckeditor_lite_istracking is not set, the default value is 1.
     // For feature needs, the logic is inverted.
     $settings['lite']['isTracking'] = (bool) variable_get('ckeditor_lite_istracking', FALSE);
+  }
+
+  if (empty($settings['extraPlugins']) || (strpos($settings['extraPlugins'], 'lite') === FALSE)) {
+    // Ckeditor lite is an extra plugin. If it is not set, no need to continue.
+    return;
   }
 
   if ($state == 'create') {

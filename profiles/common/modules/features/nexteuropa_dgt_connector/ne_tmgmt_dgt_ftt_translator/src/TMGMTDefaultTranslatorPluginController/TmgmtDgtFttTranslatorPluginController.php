@@ -1,14 +1,9 @@
 <?php
 
-/**
- * @file
- * Provides Next Europa TMGMT DGT FTT translator plugin controller.
- */
-
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController;
 
 use Drupal\ne_tmgmt_dgt_ftt_translator\Tools\DataProcessor;
-use \EC\Poetry\Messages\Responses\Status;
+use EC\Poetry\Messages\Responses\Status;
 use TMGMTDefaultTranslatorPluginController;
 use TMGMTTranslator;
 use TMGMTJob;
@@ -123,6 +118,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     if ($node = $this->getNodeFromTmgmtJob($jobs[0])) {
       // Getting the identifier data.
       $identifier = $this->getIdentifier($jobs[0], $node->nid, $parameters['requester_code']);
+      $identifier['identifier.product'] = 'EDT';
 
       // Getting the request data.
       $data = $this->getRequestData($jobs, $node, $parameters['delay']);
@@ -139,9 +135,9 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       $jobs[0]->client_request_data = $data;
       $rules_response = $this->processResponse($dgt_response, $jobs);
 
-      /** @var TMGMTJob $job */
+      /** @var \TMGMTJob $job */
       foreach ($jobs as $job) {
-        /** @var TMGMTJobItem $job_item */
+        /** @var \TMGMTJobItem $job_item */
         foreach ($job->getItems() as $job_item) {
           $job_item->accepted("Review Request has been created. Reference: @reference",
             array(
@@ -161,7 +157,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   /**
    * Custom method which sends the review request to the DGT Service.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   TMGMT Job object.
    *
    * @return array|bool

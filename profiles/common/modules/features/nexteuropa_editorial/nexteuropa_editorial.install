@@ -9,6 +9,7 @@
  * Implements hook_install().
  */
 function nexteuropa_editorial_install() {
+  $t = get_t();
 
   // Create "editorial team member" site-wide role, automatically assigned
   // when a user is a member of an editorial team group.
@@ -90,6 +91,63 @@ function nexteuropa_editorial_install() {
   // Set "administrator" permissions.
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 
+  // Set "cem" permissions.
+  $cem_permissions = array(
+
+    // Admin menu.
+    'access administration menu',
+
+    // Bean.
+    'access bean overview',
+    'view bean page',
+    'view bean revisions',
+
+    // Contextual.
+    'access contextual links',
+
+    // Entity Translation.
+    'translate any entity',
+
+    // File entity.
+    'create files',
+    'view own private files',
+    'view own files',
+
+    // Menu.
+    'administer menu',
+
+    // Node.
+    'view own unpublished content',
+    'access content overview',
+
+    // Path.
+    'create url aliases',
+
+    // Scheduler.
+    'schedule (un)publishing of nodes',
+
+    // Scheduler Workbench Integration.
+    'override default scheduler time',
+
+    // Translation Management.
+    'submit translation jobs',
+    'create translation jobs',
+
+    // Workbench.
+    'access workbench',
+
+    // Workbench Moderation.
+    'use workbench_moderation my drafts tab',
+    'use workbench_moderation needs review tab',
+
+    // WYSIWYG Editor.
+    'use media wysiwyg',
+
+    // System.
+    'access administration pages',
+  );
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $cem_permissions, 'nexteuropa_editorial');
+
   // Rebuilds the node access database.
   node_access_rebuild();
 
@@ -100,6 +158,10 @@ function nexteuropa_editorial_install() {
   multisite_config_service('workbench_moderation')->createModerationState('expired', 'Expired', 'Not visible to site visitors', 100);
   multisite_config_service('workbench_moderation')->createModerationState('archived', 'Archived', 'Content is not published anymore', 100);
   multisite_config_service('workbench_moderation')->createModerationState('validated', 'Validated', 'Approved by administrator', 10);
+
+  // Set "contributor" permissions.
+  multisite_config_service('user')->grantPermission('contributor', "schedule publishing of nodes", 'scheduler');
+  multisite_config_service('user')->grantPermission('contributor', "override default scheduler time", 'scheduler_workbench');
 
   // Build transitions (not transitions provided by workbench_moderation).
   $transitions = array(
@@ -144,6 +206,19 @@ function nexteuropa_editorial_install() {
 
   // Linkchecker: checks for both internal and external links.
   multisite_config_service('system')->setVariable('linkchecker_check_links_types', 0);
+
+  // NEPT-1880: Add base menu link for admin/tmgmt, because when tmgmt is
+  // enabled as a dependency from another module, the menu links for cart and
+  // source will appear in top level of admin menu.
+  $item = array(
+    'link_title' => $t('Translation'),
+    'link_path' => 'admin/tmgmt',
+    'router_path' => 'admin/tmgmt',
+    'menu_name' => 'management',
+    'module' => 'system',
+    'depth' => 2,
+  );
+  menu_link_save($item);
 }
 
 /**

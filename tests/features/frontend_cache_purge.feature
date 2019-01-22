@@ -659,7 +659,7 @@ Feature:
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Set the 'nexteuropa_varnish_prevent_purge' variable in the setting file prevents any purge requests to be sent
-    and the "Purge all caches" button is disabled
+    and the "Purge caches" button is disabled
     Given I request to change the variable nexteuropa_varnish_prevent_purge to "TRUE"
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "frontend-cache-purge-editorial-team-publish-draft"
@@ -672,7 +672,7 @@ Feature:
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
     When I go to "admin/config/system/nexteuropa-varnish/general"
-    Then the "Purge all caches" button is disabled
+    Then the "Purge caches" button is disabled
     And I should see the warning message "The purge mechanism is temporary disabled. Purge rules are still manageable but they will not be executed until it is enabled again."
     When I go to "/admin/config/system/nexteuropa-varnish/purge_rules"
     Then I should see the warning message "The purge mechanism is temporary disabled. Purge rules are still manageable but they will not be executed until it is enabled again."
@@ -690,13 +690,26 @@ Feature:
       | Basic page   | /, /all-basic-pages, /yet-another-page |
     And I should see the warning message "The purge mechanism is temporary disabled. Purge rules are still manageable but they will not be executed until it is enabled again."
 
-  # Scenario testing the "Full all caches" feature
+  # Scenario testing the "Full Varnish caches" feature
 
-  Scenario: As administrator, I want to flush all Drupal caches and Varnish through the purge admin interface
+  Scenario: As administrator, I want to flush Varnish through the purge admin interface
     When I go to "admin/config/system/nexteuropa-varnish/general"
-    And I press "Purge all caches"
-    Then I should see "Are you sure you want to purge all site's caches (Varnish included)?"
+    And I press "Purge caches"
+    Then I should see "Are you sure you want to purge Varnish cache ?"
+    And I should see "The action you are about to perform has a deep impact on the site's performance!"
+    When I press "Continue"
+    Then the web front end cache was instructed to purge completely its index for the application tag "my-website"
+    And I should see the success message "The Varnish caches have been fully flushed."
+
+  # Scenario testing the "Full all Drupal and Varnish caches" feature
+
+  Scenario: As administrator, I want to flush Drupal and Varnish through the purge admin interface
+    When I go to "admin/config/system/nexteuropa-varnish/general"
+    And I check "Clear drupal cache as well"
+    And I press "Purge caches"
+    Then I should see "Are you sure you want to purge Varnish and Drupal cache ?"
     And I should see "The action you are about to perform has a deep impact on the site's performance!"
     When I press "Continue"
     Then the web front end cache was instructed to purge completely its index for the application tag "my-website"
     And I should see the success message "The Drupal and Varnish caches have been fully flushed."
+

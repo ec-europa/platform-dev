@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\locale\\Config.
- */
-
 namespace Drupal\locale;
 
 use Drupal\multisite_config\ConfigBase;
@@ -47,6 +42,71 @@ class Config extends ConfigBase {
       $language_negotiation => -10,
       'language-default' => 10,
     );
+    // Reset available language provider.
+    drupal_static_reset("language_negotiation_info");
+    language_negotiation_set($type, $negotiation);
+  }
+
+  /**
+   * Add a language negotiation to the active ones.
+   *
+   * @param string $language_negotiation
+   *   Language negotiation name.
+   * @param int $weight
+   *   The language negotiation weight.
+   * @param string $type
+   *   Language type.
+   *
+   * @see language_types_configurable()
+   */
+  public function addLanguageNegotiation($language_negotiation, $weight = -10, $type = LANGUAGE_TYPE_INTERFACE) {
+    include_once DRUPAL_ROOT . '/includes/language.inc';
+    $language_negotiations = variable_get('language_negotiation_' . $type, array());
+    $negotiation = array(
+      $language_negotiation => $weight,
+    );
+
+    if (is_array($language_negotiations)) {
+      foreach ($language_negotiations as $id => $provider) {
+        if ($id == 'language-default') {
+          $negotiation['language-default'] = ($weight + 2);
+          continue;
+        }
+        if ($id != $language_negotiation) {
+          $negotiation[$id] = $provider['weight'];
+        }
+      }
+    }
+
+    // Reset available language provider.
+    drupal_static_reset("language_negotiation_info");
+    language_negotiation_set($type, $negotiation);
+  }
+
+  /**
+   * Disable a language negotiation from the active ones.
+   *
+   * @param string $language_negotiation
+   *   Language negotiation name.
+   * @param string $type
+   *   Language type.
+   *
+   * @see language_types_configurable()
+   */
+  public function disableLanguageNegotiation($language_negotiation, $type = LANGUAGE_TYPE_INTERFACE) {
+    include_once DRUPAL_ROOT . '/includes/language.inc';
+    $language_negotiations = variable_get('language_negotiation_' . $type, array());
+    $negotiation = array();
+
+    if (is_array($language_negotiations)) {
+      foreach ($language_negotiations as $id => $provider) {
+        if ($id != $language_negotiation) {
+          $negotiation[$id] = $provider['weight'];
+          continue;
+        }
+      }
+    }
+
     // Reset available language provider.
     drupal_static_reset("language_negotiation_info");
     language_negotiation_set($type, $negotiation);
