@@ -105,6 +105,11 @@ function multisite_wysiwyg_ckeditor_plugin() {
       'desc' => t('CKEditor Link hreflang - A plugin to replace the "lang" attribute setting field by a "hreflang" attribute setting field'),
       'path' => drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/plugins/link_hreflang/',
     ),
+     'multisite_wysiwyg_link_target' => array(
+      'name' => 'multisite_wysiwyg_link_target',
+      'desc' => t('CKEditor Link target - A plugin to manage options in target tab'),
+      'path' => drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/plugins/link_target/',
+    ),
   );
 }
 
@@ -118,6 +123,11 @@ function multisite_wysiwyg_wysiwyg_plugin($editor, $version) {
         'path' => drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/plugins/link_hreflang/',
         'load' => TRUE,
         'extensions' => array('Link' => t('CKEditor Link hreflang')),
+      ),
+       'multisite_wysiwyg_link_target' => array(
+        'path' => drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/plugins/link_target/',
+        'load' => TRUE,
+        'extensions' => array('Link' => t('CKEditor Link Target')),
       ),
     );
   }
