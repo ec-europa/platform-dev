@@ -278,11 +278,24 @@ function nexteuropa_token_ckeditor_custom_theme() {
  *
  * See NEPT-191: Delete the History object to avoid errors in the views
  * provided by this module only.
+ * See NEPT-2162: Internal Link popup too wide (CKEDITOR)
  */
 function nexteuropa_token_ckeditor_views_pre_render(&$view) {
   if (isset($view->export_module) && 'nexteuropa_token_ckeditor' == $view->export_module) {
     if ($view->use_ajax && !$view->editing) {
       drupal_add_js(drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/js/delete_history.js', array('weight' => 1));
+    }
+  }
+  foreach ($view->result as $key => $result) {
+    if (isset($result->node_title) && drupal_strlen($result->node_title) >= 100) {
+      // Shorten the node title if it is too long. Only show first & last chars.
+      $result->node_title = drupal_substr($result->node_title, 0, 95) . " [...] " . drupal_substr($result->node_title, -10);
+      $view->result[$key] = $result;
+    }
+    if (isset($result->bean_title) && drupal_strlen($result->bean_title) >= 100) {
+      // Shorten the bean title if it is too long. Only show first & last chars.
+      $result->bean_title = drupal_substr($result->bean_title, 0, 95) . " [...] " . drupal_substr($result->bean_title, -10);
+      $view->result[$key] = $result;
     }
   }
 }
