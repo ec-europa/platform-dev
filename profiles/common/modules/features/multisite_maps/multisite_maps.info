@@ -27,7 +27,6 @@ features[user_permission][] = edit own map content
 features[variable][] = comment_anonymous_map
 features[variable][] = comment_default_mode_map
 features[variable][] = comment_default_per_page_map
-features[variable][] = comment_form_location_map
 features[variable][] = comment_map
 features[variable][] = comment_preview_map
 features[variable][] = comment_subject_field_map

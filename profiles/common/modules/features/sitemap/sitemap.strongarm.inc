@@ -57,7 +57,7 @@ function sitemap_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'xmlsitemap_prefetch_aliases';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['xmlsitemap_prefetch_aliases'] = $strongarm;
 
   $strongarm = new stdClass();

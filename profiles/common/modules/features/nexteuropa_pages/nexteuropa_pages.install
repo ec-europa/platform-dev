@@ -89,6 +89,15 @@ function nexteuropa_pages_install() {
     'edit own page content',
   );
   multisite_config_service('user')->grantPermission('editor', $editor_permissions, 'node');
+
+  // Grant permissions for cem.
+  $editor_permissions = array(
+    'create page content',
+    'delete own page content',
+    'edit any page content',
+    'edit own page content',
+  );
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $editor_permissions, 'node');
 }
 
 /**
@@ -121,7 +130,6 @@ function nexteuropa_pages_update_7201() {
     ->setInstanceSetting('required_fields', TRUE)
     ->save();
 }
-
 
 /**
  * MULTISITE-9813 : Replace the body field by the nexteuropa body field.

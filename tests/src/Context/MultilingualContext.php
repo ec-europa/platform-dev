@@ -1,15 +1,8 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\MultilingualContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
-use Drupal\DrupalDriverManager;
-use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Gherkin\Node\TableNode;
 use Drupal\nexteuropa\Component\PyStringYamlParser;
@@ -17,7 +10,7 @@ use Drupal\nexteuropa\Component\PyStringYamlParser;
 /**
  * Behat step definitions for the NextEuropa Multilingual module.
  */
-class MultilingualContext extends RawDrupalContext implements DrupalSubContextInterface {
+class MultilingualContext extends RawDrupalContext {
   use \Drupal\nexteuropa\Context\ContextUtil;
   /**
    * Published workbench moderation state.
@@ -27,16 +20,18 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   const MODERATION_PUBLISHED = 'published';
 
   /**
-   * {@inheritdoc}
-   */
-  protected $drupal;
-
-  /**
    * List of translators created during test execution.
    *
    * @var \TMGMTTranslator[]
    */
   protected $translators = [];
+
+  /**
+   * List of menus created during test execution.
+   *
+   * @var array
+   */
+  protected $menus = [];
 
   /**
    * List of translators updated during test execution.
@@ -67,16 +62,6 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   protected $settings = [];
 
   /**
-   * Constructs a NextEuropaMultilingualSubContext object.
-   *
-   * @param DrupalDriverManager $drupal
-   *   The Drupal driver manager.
-   */
-  public function __construct(DrupalDriverManager $drupal) {
-    $this->drupal = $drupal;
-  }
-
-  /**
    * Create a node along with its translations.
    *
    * Currently it supports only title and body fields since that is enough to
@@ -93,7 +78,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *
    * @param string $type
    *   Content type machine name.
-   * @param TableNode $table
+   * @param \Behat\Gherkin\Node\TableNode $table
    *   List of available languages and field translations.
    *
    * @return object
@@ -146,13 +131,59 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   }
 
   /**
+   * Create a multilingual menu.
+   *
+   * @param string $menu_name
+   *   Machine name for the menu.
+   * @param string $title
+   *   Title for the menu.
+   *
+   * @Given I create a multilingual :menu_name menu called :title
+   */
+  public function createMultilingualMenu($menu_name, $title) {
+    $menu = [
+      'menu_name' => $menu_name,
+      'description' => $menu_name,
+      'title' => $title,
+      'i18n_mode' => 5,
+    ];
+    menu_save($menu);
+    $this->menus[$menu_name] = $menu;
+  }
+
+  /**
+   * Create a multilingual menu.
+   *
+   * @param string $title
+   *   Title of the link.
+   * @param string $url
+   *   Path of the link.
+   * @param string $menu
+   *   Menu machine name.
+   *
+   * @Given I create a multilingual :title menu item pointing to :url for the menu :menu
+   */
+  public function createMultilingualMenuItem($title, $url, $menu) {
+    $item = [
+      'link_title' => $title,
+      'link_path' => $url,
+      'menu_name' => $menu,
+      'language' => LANGUAGE_NONE,
+      'weight' => 0,
+      'plid' => 0,
+    ];
+    menu_link_save($item);
+    i18n_string_object_update('menu_link', $item);
+  }
+
+  /**
    * Add a translation to an existing node.
    *
    * @param string $type
    *   Content type machine name.
    * @param string $title
    *   Source node title.
-   * @param TableNode $table
+   * @param \Behat\Gherkin\Node\TableNode $table
    *   List of available languages and field translations.
    *
    * @Then I create the following translations for :type content with title :arg2:
@@ -165,6 +196,25 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
       }
       $this->saveNodeTranslation($node, $row['language'], $row);
     }
+  }
+
+  /**
+   * Create a node along with its translations and visit its node page.
+   *
+   * @param string $type
+   *   Content type machine name.
+   * @param \Behat\Gherkin\Node\TableNode $table
+   *   List of available languages and title translations.
+   *
+   * @Given /^I am viewing a multilingual content translated "([^"]*)" content:$/
+   */
+  public function iAmViewingMultilingualContentTranslatedContent($type, TableNode $table) {
+    $node = $this->createMultilingualContentTranslatedContent($type, $table);
+
+    // Get node path without any base path by setting 'base_url' and 'absolute'.
+    $path = url('node/' . $node->nid, array('base_url' => '', 'absolute' => TRUE));
+    // Visit newly created node page.
+    $this->visitPath($path);
   }
 
   /**
@@ -240,7 +290,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *
    * @param string $type
    *   Content type machine name.
-   * @param TableNode $table
+   * @param \Behat\Gherkin\Node\TableNode $table
    *   List of available languages and title translations.
    *
    * @throws \InvalidArgumentException
@@ -273,6 +323,8 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *
    * @param string $name
    *   Local translator human readable name.
+   * @param string $plugin
+   *   The plugin's name.
    *
    * @Given :plugin translator :name is available
    */
@@ -337,9 +389,13 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * @AfterScenario
    */
   public function restoreTranslators() {
-    foreach ($this->updatedTranslators as $translator) {
+    foreach ($this->updatedTranslators as $key => $translator) {
       $translator->save();
+      // Destroy TMGMTTranslator objects to avoid __destruct() being run,
+      // after in a new scenario.
+      $this->updatedTranslators[$key] = NULL;
     }
+    $this->updatedTranslators = [];
     $this->translators = [];
   }
 
@@ -524,7 +580,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *
    * @AfterScenario @CleanTmgmtJobs
    */
-  public function cleanJobs() {
+  public function removeAllTranslationJobs() {
     $jobs = entity_load('tmgmt_job', FALSE);
     /** @var \TMGMTJobController $controller */
     $controller = entity_get_controller('tmgmt_job');
@@ -789,6 +845,67 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
         $this->updateLanguage($lang['field'], $lang['value'], $lang['langcode']);
       }
     }
+  }
+
+  /**
+   * Remove menus created during a scenario.
+   *
+   * @AfterScenario @remove-menus
+   */
+  public function removeMenus() {
+    if (!empty($this->menus)) {
+      foreach ($this->menus as $menu) {
+        menu_delete($menu);
+      }
+    }
+  }
+
+  /**
+   * Create a node along with its content translations.
+   *
+   * @param string $type
+   *   Content type machine name.
+   * @param \Behat\Gherkin\Node\TableNode $table
+   *   List of available languages and field translations.
+   *
+   * @return object
+   *   The created node translation for the original language.
+   *
+   * @Given I create the following content translated multilingual :arg1 content:
+   */
+  public function createMultilingualContentTranslatedContent($type, TableNode $table) {
+    $translations = [];
+    foreach ($table->getHash() as $row) {
+      $node = (object) $row;
+      $node->type = $type;
+      $node->status = TRUE;
+      // If the node is managed by Workbench Moderation, mark it as published.
+      if (workbench_moderation_node_moderated($node)) {
+        $node->workbench_moderation_state_new = self::MODERATION_PUBLISHED;
+      }
+      $translations[$node->language] = $node;
+    }
+
+    // Consider the first defined language as the default one.
+    $node = array_shift($translations);
+    $node = $this->nodeCreate($node);
+
+    // Apply Pathauto settings.
+    $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
+
+    $node->tnid = $node->nid;
+
+    // Save node (first language).
+    node_save($node);
+
+    // Add others languages.
+    foreach ($translations as $node_translation) {
+      $node_translation->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node_translation->language);
+      $node_translation->tnid = $node->nid;
+      $this->nodeCreate($node_translation);
+    }
+
+    return $node;
   }
 
 }

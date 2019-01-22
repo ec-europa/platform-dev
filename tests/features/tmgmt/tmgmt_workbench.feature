@@ -26,7 +26,7 @@ Feature: TMGMT Workbench features
     And I should see the text "The current piece of content's moderation state is: published"
     And I should see "Not translated" in the "French" row
     And I should see "Not translated" in the "Italian" row
-    And I select the radio button "" with the id "edit-languages-it"
+    And I select the radio button with the id "edit-languages-it"
     And I press the "Request translation" button
     Then I am on a translation job page with "workbench_moderation" job items
 
@@ -127,6 +127,7 @@ Feature: TMGMT Workbench features
     Then I click "In progress" in the "French" row
     And I press "Save"
     And I click "Needs review" in the "French" row
+    And I fill in "edit-title-field0value-translation" with "FR Original version"
     And I press "Save as completed"
     And I visit the "page" content with title "Original version"
     Then the url should match "(.)*content/original-version_en"

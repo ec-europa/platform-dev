@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the faq feature.
+ */
+
+/**
+ * Use soft config for nexteuropa_faq comment form location.
+ */
+function nexteuropa_faq_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('faq', 1);
+}

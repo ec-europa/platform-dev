@@ -41,7 +41,6 @@ function _cce_basic_config_import_images($images) {
   }
 }
 
-
 /**
  * Field widget form alter callback.
  *
@@ -94,7 +93,8 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
     $value = $element['value']['#value'];
     $element = $element['value'];
   }
-  $emoji = _cce_basic_config_check_emoji($value);
+
+  $emoji = _cce_basic_config_get_emoji($value);
   if (!empty($emoji)) {
 
     // Get the field label.
@@ -104,6 +104,7 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
       $info = field_info_instance($entity->entity_type, $element['#field_name'], $element['#bundle']);
       $title = check_plain($info['label']);
     }
+
     $message = _cce_basic_config_emoji_error($title, $emoji[0]);
     form_error($element, $message);
   }
@@ -121,29 +122,48 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
  *   The error message.
  */
 function _cce_basic_config_emoji_error($title, $emoji) {
-  $message = t('The !title field contains at least one prohibited emoji. Please check your content before saving.',
+  $message = t('The !title field has at least this !emoji forbidden emoji. Please check your content before saving.',
       array('!title' => $title, '!emoji' => $emoji));
   return $message;
 }
 
 /**
- * This evaluate if there is an emoji in the text.
+ * This evaluate if there is an emoji in the text and return it.
  *
- * @param array $text
+ * @param string $string
  *   Text to evaluate.
  *
  * @return array
- *   Emoji found inside the text.
+ *   It will return an array with emojis found otherwise an empty array.
  *
  * @see NEPT-1679
  * @see https://www.drupal.org/project/drupal/issues/2488180
  * @see https://www.drupal.org/node/2754539
  * To be removed in NEPT-1817
  */
-function _cce_basic_config_check_emoji($text) {
-  $emojis = array();
-  preg_match('/([0-9#][\x{20E3}])|[\x{00ae}\x{00a9}\x{203C}\x{2047}\x{2048}\x{2049}\x{3030}\x{303D}\x{2139}\x{2122}\x{3297}\x{3299}][\x{FE00}-\x{FEFF}]?|[\x{2190}-\x{21FF}][\x{FE00}-\x{FEFF}]?|[\x{2300}-\x{23FF}][\x{FE00}-\x{FEFF}]?|[\x{2460}-\x{24FF}][\x{FE00}-\x{FEFF}]?|[\x{25A0}-\x{25FF}][\x{FE00}-\x{FEFF}]?|[\x{2600}-\x{27BF}][\x{FE00}-\x{FEFF}]?|[\x{2900}-\x{297F}][\x{FE00}-\x{FEFF}]?|[\x{2B00}-\x{2BF0}][\x{FE00}-\x{FEFF}]?|[\x{1F000}-\x{1F6FF}][\x{FE00}-\x{FEFF}]?/u', $text, $emojis);
-  return $emojis;
+function _cce_basic_config_get_emoji($string) {
+
+  $regexes = array(
+    // Match Dingbats.
+    '/[\x{2700}-\x{27BF}]/u',
+    // Match Emoticons.
+    '/[\x{1F600}-\x{1F64F}]/u',
+    // Match Miscellaneous Symbols.
+    '/[\x{2600}-\x{26FF}]/u',
+    // Match Transport And Map Symbols.
+    '/[\x{1F680}-\x{1F6FF}]/u',
+    // Match Miscellaneous Symbols and Pictographs.
+    '/[\x{1F300}-\x{1F5FF}]/u',
+  );
+
+  foreach ($regexes as $regex) {
+    preg_match($regex, $string, $matches);
+    if (!empty($matches)) {
+      return $matches;
+    }
+  }
+
+  return array();
 }
 
 /**
@@ -162,7 +182,7 @@ function _cce_basic_config_check_emoji($text) {
 function _cce_basic_config_subject_validate($form, &$form_state) {
   if (isset($form_state['values']['subject']) && !empty($form_state['values']['subject'])) {
     $title = isset($form_state['complete form']['subject']['#title']) ? $form_state['complete form']['subject']['#title'] : 'Title field';
-    $emoji = _cce_basic_config_check_emoji($form_state['values']['subject']);
+    $emoji = _cce_basic_config_get_emoji($form_state['values']['subject']);
     if (!empty($emoji)) {
       $message = _cce_basic_config_emoji_error($title, $emoji[0]);
       form_set_error('title', $message);
@@ -184,11 +204,10 @@ function _cce_basic_config_subject_validate($form, &$form_state) {
  * To be removed in NEPT-1817
  */
 function _cce_basic_config_title_validate($form, &$form_state) {
-
   if (isset($form_state['values']['title']) && !empty($form_state['values']['title'])) {
     $title = 'Title';
-    $emoji = _cce_basic_config_check_emoji($form_state['values']['title']);
-    if (!empty($emoji)) {
+    $emoji = _cce_basic_config_get_emoji($form_state['values']['title']);
+    if ($emoji) {
       $message = _cce_basic_config_emoji_error($title, $emoji[0]);
       form_set_error('title', $message);
     }

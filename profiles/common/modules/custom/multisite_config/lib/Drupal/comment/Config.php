@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\comment\\Config.
- */
-
 namespace Drupal\comment;
 
 use Drupal\multisite_config\ConfigBase;
@@ -40,6 +35,18 @@ class Config extends ConfigBase {
         break;
     }
     variable_set('comment_' . $content_type, $value_id);
+  }
+
+  /**
+   * Set threading comment setting for a specific content type.
+   *
+   * @param string $content_type
+   *   Content type machine name.
+   * @param string $value
+   *   Value to be set (boolean).
+   */
+  public function setThreadingCommentForContentType($content_type, $value) {
+    variable_set('comment_form_location_' . $content_type, $value);
   }
 
 }
