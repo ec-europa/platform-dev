@@ -86,7 +86,9 @@ function _nexteuropa_scheduler_message_replace(Datetime $time_to_publish = NULL)
   else {
     // We can trust this value, as it should be configured on the settings.php
     // file.
+    // @codingStandardsIgnoreStart
     $message = t($conf['nexteuropa_scheduler_message_text'], $args, $options);
+    // @codingStandardsIgnoreEnd
   }
   return $message;
 }
