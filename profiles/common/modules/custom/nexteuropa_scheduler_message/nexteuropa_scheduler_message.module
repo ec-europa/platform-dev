@@ -27,7 +27,6 @@ function nexteuropa_scheduler_message_menu() {
 
 /**
  * Implements hook_form_node_form_alter().
- *
  */
 function nexteuropa_scheduler_message_form_node_form_alter(&$form, &$form_state, $form_id) {
   if (!isset($form_state['node']) || !isset($form_state['node']->nid)) {
