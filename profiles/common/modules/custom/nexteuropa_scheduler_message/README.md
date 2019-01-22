@@ -1,5 +1,5 @@
-This module checks when a node or revision is saved and is scheduled for publication.
-When this happens it checks the publication date and, if it is after the limit date
+This module checks when a node or revision is scheduled for publication when editing it.
+When this happens it checks the publication date configured and, if it is after the limit date
 configured on the module, shows a message.
 
 By default, if nothing is configured, the module has these values:
