@@ -1,6 +1,8 @@
 This module checks when a node or revision is scheduled for publication when editing it.
 When this happens it checks the publication date configured and, if it is after the limit date
 configured on the module, shows a message.
+NOTE: for release-2.3 the "publish on" date must be set in the "Schedulling options" tab and not in the "Dates" tab.
+In order to do that it must be enabled the option "Enable scheduled publishing for this content type" in the settings of each content type.
 
 By default, if nothing is configured, the module has these values:
 * Message to show (nexteuropa_scheduler_message_text): 
