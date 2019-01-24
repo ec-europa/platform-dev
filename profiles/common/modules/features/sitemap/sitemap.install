@@ -38,7 +38,6 @@ function sitemap_disable() {
     'xmlsitemap_engines',
     'xmlsitemap_node',
     'xmlsitemap_taxonomy',
-    'xmlsitemap_user',
   ), FALSE);
 
   variable_del('xmlsitemap_base_url');
