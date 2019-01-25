@@ -19,6 +19,12 @@ include_once 'nexteuropa_multilingual.tokens.inc';
 function nexteuropa_multilingual_theme($existing, $type, $theme, $path) {
   return array(
     'nexteuropa_multilingual_language_list' => array(
+      'variables' => array(
+        'languages' => NULL,
+        'path' => NULL,
+        'options' => array(),
+        'all_paths' => array(),
+      ),
       'path' => $path . '/theme',
     ),
     'nexteuropa_multilingual_language_icon' => array(
@@ -580,7 +586,9 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
 
     // Translate label.
     if (!empty($variables['label'])) {
-      $variables['label'] = i18n_field_translate_property($instance, 'label', $lang);
+      // Use "check_plain" function to secure the label value like the "field"
+      // module does.
+      $variables['label'] = check_plain(i18n_field_translate_property($instance, 'label', $lang));
     }
     // Translate field value (for select list field).
     if ($field['type'] == 'list_text' && $translated_value = i18n_field_translate_allowed_values($field, $lang)) {
@@ -588,7 +596,7 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
         // Get key of the value.
         $key_value = $element['#items'][$key]['value'];
         // Get translated field value.
-        $variables['items'][$key]['#markup'] = $translated_value[$key_value];
+        $variables['items'][$key]['#markup'] = field_filter_xss($translated_value[$key_value]);
       }
     }
   }

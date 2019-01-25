@@ -478,4 +478,46 @@ class MinkContext extends DrupalExtensionMinkContext {
     assert($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
   }
 
+  /**
+   * Checks if a specified link is in a HTML element in a field display.
+   *
+   * @Then I should see the link :link in a :html_element in the field display (:container_selector)
+   */
+  public function assertLinkInElementOfField($link, $html_element, $container_selector) {
+    $element = $this->getSession()->getPage();
+    $field_container = $element->find('css', $container_selector);
+
+    assert($field_container, isNotEmpty(), sprintf('The container identified by the "%s" css selector has not been found', $container_selector));
+
+    $link_containers = $field_container->findAll('xpath', $html_element);
+
+    assert($link_containers, isNotEmpty(), sprintf('The "%s" element has not been found in the container identified by the "%s" css selector', $html_element, $container_selector));
+
+    foreach ($link_containers as $link_container) {
+      $result = $link_container->findLink($link);
+      if ($result && !$result->isVisible()) {
+        throw new \Exception(sprintf("No link to '%s' in a %s", $link, $html_element));
+      }
+    }
+
+    assert($result, isNotEmpty(), sprintf("No link to '%s' in a %s", $link, $html_element));
+  }
+
+  /**
+   * Click on the element with the provided xpath query.
+   *
+   * @When /^I click on the element with xpath "([^"]*)"$/
+   */
+  public function iClickOnTheElementWithxPath($xpath) {
+    $session = $this->getSession();
+    $element = $session->getPage()->find(
+      'xpath',
+      $session->getSelectorsHandler()->selectorToXpath('xpath', $xpath)
+    );
+    if (NULL === $element) {
+      throw new \InvalidArgumentException(sprintf('Could not evaluate XPath: "%s"', $xpath));
+    }
+    $element->click();
+  }
+
 }
