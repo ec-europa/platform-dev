@@ -61,6 +61,18 @@ Feature: E-Library
     And I press the "Delete" button
     Then I should see "has been deleted."
 
-
-
-
+  Scenario: Show image when the display checkbox is checked
+    Given  I am logged in as a user with the 'administrator' role
+    When I am on "node/add/document"
+    And I fill in "Title" with "Document title"
+    And I attach the file "/tests/files/logo.png" to "edit-field-document-und-0-upload"
+    And I press "Save"
+    Then I should see "Document Document title has been created."
+    And I click "Edit draft"
+    And I check "edit-field-document-und-0-display"
+    And I press "Save"
+    Then I should see the link "logo.png"
+    And I click "Edit draft"
+    And I uncheck "edit-field-document-und-0-display"
+    And I press "Save"
+    Then I should not see the link "logo.png"
