@@ -377,9 +377,6 @@ projects[geophp][download][revision] = 2777c5e
 projects[geophp][download][type] = git
 projects[geophp][subdir] = "contrib"
 
-projects[hidden_captcha][subdir] = "contrib"
-projects[hidden_captcha][version] = "1.0"
-
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.25"
 
