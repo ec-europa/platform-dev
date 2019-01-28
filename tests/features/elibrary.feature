@@ -76,3 +76,8 @@ Feature: E-Library
     And I uncheck "edit-field-document-und-0-display"
     And I press "Save"
     Then I should not see the link "logo.png"
+    And I click "Edit draft"
+    And I press the "Delete" button
+    Then I should see "Are you sure you want to delete"
+    And I press the "Delete" button
+    Then I should see "has been deleted."
