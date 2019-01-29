@@ -16,10 +16,7 @@ Feature: User notifications
       | title       | author        | workbench_moderation_state_new | workbench_moderation_state | language | status |
       | Article sub | administrator | published                      | published                  | en       | 1      |
     Given I am not logged in
-    And I go to "/user"
-    And I fill in "Username" with "authuser"
-    And I fill in "Password" with "password456"
-    And I press the "Log in" button
+    And I am logged in as "authuser"
 
   Scenario: As an Authorized user I can subscribe to a content, content type and content type by user
     Given I visit the "Article" content with title "Article sub"
@@ -36,24 +33,15 @@ Feature: User notifications
     Then I should see the text "Article sub"
 
   Scenario: As an Authorized user I can unsubscribe from a content I was subscribed to.
-    Given I visit the "Article" content with title "Article sub"
-    And I click "Subscribe"
-    And I check the box "Subscribe to this page"
-    And I press the "Save" button
-    And I go to "user"
+    Given I go to "/user"
     And I click "Subscriptions"
     When I click "Pages/Threads"
-    Then I should see the text "Article sub"
     And I uncheck the box on the "Article sub" row
     And I press the "Save" button
     Then I should see the text "There are no available subscribed pages."
 
   Scenario: As an Authorized user I can unsubscribe from a content type I was subscribed to.
-    Given I visit the "Article" content with title "Article sub"
-    And I click "Subscribe"
-    And I check the box "To Article content"
-    And I press the "Save" button
-    And I go to "user"
+    Given I go to "/user"
     And I click "Subscriptions"
     When I click "Content types"
     Then I should see the text "Article"
