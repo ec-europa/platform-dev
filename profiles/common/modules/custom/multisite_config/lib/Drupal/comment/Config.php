@@ -60,7 +60,8 @@ class Config extends ConfigBase {
   public function setThreadingCommentForContentType($content_type, $value) {
     variable_set('comment_default_mode_' . $content_type, $value);
   }
-   /**
+
+  /**
    * Set title comment setting for a specific content type.
    *
    * @param string $content_type
