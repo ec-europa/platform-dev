@@ -124,8 +124,10 @@ function nexteuropa_json_field_field_formatter_view($entity_type, $entity, $fiel
       // Build element.
       foreach ($items as $delta => $item) {
         $element[$delta] = array();
-        // Strip_tags to avoid javascript injection.
-        $element[$delta]['#markup'] = strip_tags($item['value']);
+        // HTML tags to be allowed.
+        $allowed_tags = array('b', 'strong', 'i', 'em', 'br', 'span');
+        // Use filter_xss function to avoid javascript injection.
+        $element[$delta]['#markup'] = filter_xss($item['value'], $allowed_tags);
         $element[$delta]['#prefix'] = "<script type=\"application/json\">";
         $element[$delta]['#suffix'] = "</script>";
       }
