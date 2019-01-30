@@ -47,8 +47,19 @@ function e_library_core_enable() {
  * Set the threading properties for documents comments.
  */
 function e_library_core_install() {
-  // Use soft config for documents comment form location.
-  multisite_config_service('comment')->setThreadingCommentForContentType('document', 0);
+  // Use soft config for document comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('document', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('document', 'open');
+  // Use soft config to allow document comment threading.
+  multisite_config_service('comment')->setThreadingCommentForContentType('document', 1);
+  // Use soft config for document comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('document', 0);
+  // Use soft config for preview document comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('document', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('document', '50');
+
 }
 
 /**
