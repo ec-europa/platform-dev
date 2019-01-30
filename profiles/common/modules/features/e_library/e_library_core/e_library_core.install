@@ -126,3 +126,14 @@ function e_library_core_update_7120() {
     );
   }
 }
+
+/**
+ * Set new value for e_library feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function e_library_core_update_7121() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('e_library_core', 'variable');
+}
