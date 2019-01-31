@@ -107,7 +107,6 @@ function idea_core_install() {
   // Use soft config to set number of comments per page.
   multisite_config_service('comment')->setNumberCommentForContentType('idea', '50');
 
-
   $cem_permissions = array(
     'view rate results page',
   )
@@ -229,4 +228,15 @@ function idea_core_update_7120() {
     'name' => 'Under Review',
   );
   taxonomy_term_save($term);
+}
+
+/**
+ * Set new value for idea_core feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function idea_core_update_7121() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('idea_core', 'variable');
 }
