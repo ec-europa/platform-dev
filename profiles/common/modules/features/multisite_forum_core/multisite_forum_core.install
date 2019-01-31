@@ -71,7 +71,7 @@ function multisite_forum_core_uninstall() {
  * Variables from comments settings must be removed from hard config.
  * Recreate the value of the feature in database without the variable.
  */
-function communities_update_7001() {
+function multisite_forum_core_update_7001() {
   module_load_include('inc', 'features', "features.export");
   features_set_signature('multisite_forum_core', 'variable');
 }
