@@ -29,7 +29,7 @@ function nexteuropa_event_install() {
  * Variables from comments settings must be removed from hard config.
  * Recreate the value of the feature in database without the variable.
  */
-function nexteuropa_event_7001() {
+function nexteuropa_event_update_7001() {
   module_load_include('inc', 'features', "features.export");
   features_set_signature('nexteuropa_event', 'variable');
 }

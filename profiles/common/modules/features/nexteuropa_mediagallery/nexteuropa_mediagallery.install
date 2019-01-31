@@ -45,7 +45,8 @@ function nexteuropa_mediagallery_enable() {
 /**
  * Implements hook_install().
  *
- * NEPT-758, NEPT-755, NEPT-756, NEPT-759, NEPT-760, NEPT-761: Use soft config for nexteuropa_mediagallery comment settings.
+ * NEPT-758, NEPT-755, NEPT-756, NEPT-759, NEPT-760, NEPT-761: 
+ * Use soft config for nexteuropa_mediagallery comment settings.
  */
 function nexteuropa_mediagallery_install() {
   // Use soft config for nexteuropa_mediagallery comment form location.
