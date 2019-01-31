@@ -687,7 +687,7 @@ function _cce_basic_config_body_field_base_add() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(),
     'translatable' => 1,
