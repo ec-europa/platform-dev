@@ -254,6 +254,9 @@ function multisite_forum_community_forum_page($forum_term = NULL) {
   }
 
   module_load_include('inc', 'forum', 'forum.pages');
+  // The forum_page method returns the output of a theme method
+  // and the sanitation is taken care on the core "Forum" module.
+  // @codingStandardsIgnoreLine: NEPT-1305
   return forum_page($forum_term);
 }
 
