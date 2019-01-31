@@ -7,18 +7,21 @@
  * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
  */
 
+include_once 'multisite_forum_community.install.inc';
+
 /**
  * Implements hook_enable().
  */
 function multisite_forum_community_enable() {
-  // Activate provider 'og_context_negotiation_group_context'
-  // in og context configuration.
+  // Activate provider 'og_context_negotiation_group_context' in
+  // og context configuration.
   $defaults = array('url' => -5, 'node' => -4);
   $og_context_negotiation_group_context = variable_get('og_context_negotiation_group_context', $defaults);
   $og_context_negotiation_group_context['multisite_forum_community'] = array();
   variable_set('og_context_negotiation_group_context', $og_context_negotiation_group_context);
 
-  drupal_set_message(t('Multisite Forum Community feature is now active on your site.'));
+  // Add multilinual forum to ogcontexte negocation (not.
+  drupal_set_message(t('Multisite Forum Community %v feature is now active on your site.', array('%v' => _multisite_forum_community_get_version())));
 }
 
 /**
@@ -30,7 +33,10 @@ function multisite_forum_community_disable() {
   unset($og_context_negotiation_group_context['multisite_forum_community']);
   variable_set('og_context_negotiation_group_context', $og_context_negotiation_group_context);
 
-  drupal_set_message(t('Multisite Forum Community feature is now inactive on your site.'));
+  /*   * * Remove permissions ** */
+  multisite_drupal_toolbox_disable_content_type('discussion');
+
+  drupal_set_message(t('Multisite Forum Community %v feature is now inactive on your site.', array('%v' => _multisite_forum_community_get_version())));
 }
 
 /**
@@ -39,10 +45,10 @@ function multisite_forum_community_disable() {
 function multisite_forum_community_install() {
   multisite_drupal_toolbox_add_content_type_context('communities', 'discussion');
   multisite_drupal_toolbox_add_path_context('communities', 'community/*/forum*');
-
-  // If we enable forum_community at the same time as forum_core
-  // we need to call drupal_flush_all_caches to force rebuild feature
-  // (needs for the forum taxonomy creation).
+  // If we enable forum_community at the same time as forum_core we need to call
+  // drupal_flush_all_caches to force rebuild feature
+  // (needs for the forum taxonomy creation)
+  // features_flush_caches();
   drupal_flush_all_caches();
 
   // multisite_forum_community uses fonctions of forum.admin.inc
