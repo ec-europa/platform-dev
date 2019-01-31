@@ -8,6 +8,13 @@
 include_once 'multisite_forum_community.features.inc';
 
 /**
+ * Implements hook_init().
+ */
+function multisite_forum_community_init() {
+
+}
+
+/**
  * Implements hook_og_permission().
  */
 function multisite_forum_community_og_permission() {
@@ -32,7 +39,6 @@ function multisite_forum_community_og_permission() {
  * Implements hook_menu().
  */
 function multisite_forum_community_menu() {
-  $items = array();
 
   $items['community/%group_name/forum'] = array(
     'title' => 'Forum',
@@ -248,9 +254,6 @@ function multisite_forum_community_forum_page($forum_term = NULL) {
   }
 
   module_load_include('inc', 'forum', 'forum.pages');
-  // The forum_page method returns the output of a theme method
-  // and the sanitation is taken care on the core "Forum" module.
-  // @codingStandardsIgnoreLine: NEPT-1305
   return forum_page($forum_term);
 }
 
@@ -331,10 +334,7 @@ function multisite_forum_community_query_term_access_alter(QueryAlterableInterfa
   $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
 
   foreach ($query->conditions() as $condition) {
-    if (isset($condition['field']) &&
-        is_string($condition['field']) &&
-        $condition['field'] == "t.vid" &&
-        $condition['value'] == $vocabulary->vid) {
+    if (isset($condition['field']) && is_string($condition['field']) && $condition['field'] == "t.vid" && $condition['value'] == $vocabulary->vid) {
       $is_forum_query = TRUE;
     }
   }
@@ -343,7 +343,7 @@ function multisite_forum_community_query_term_access_alter(QueryAlterableInterfa
 
   if ($is_forum_query) {
     $context = og_context();
-    if (isset($context['group_type']) && $context['group_type'] == "node") {
+    if ($context && isset($context['group_type']) && $context['group_type'] == "node") {
       $query->join('og_membership', 'og_membership', 't.tid = %alias.etid');
       $query->condition('og_membership.gid', $context['gid']);
       $query->condition('og_membership.entity_type', 'taxonomy_term');
@@ -386,25 +386,7 @@ function multisite_forum_community_node_insert($node) {
 }
 
 /**
- * Implements hook_node_delete().
- */
-function multisite_forum_community_node_delete() {
-  // TODO : delete term when node community is deleted.
-}
-
-/**
- * Called in hook_node_insert().
- *
- * To create one default forum term per community.
- * and by multisite_forum_community_install for the existing communities.
- *
- * int $nid
- *    Community NID
- *
- * obj type
- *   Status constant indicating whether term was inserted (SAVED_NEW) or updated
- *   (SAVED_UPDATED). When inserting a new term, $term->tid will contain the
- *   term ID of the newly created term.
+ * Called in hook_node_insert() to create one default forum term per community.
  */
 function multisite_forum_community_create_default_forum_term($nid) {
   $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
