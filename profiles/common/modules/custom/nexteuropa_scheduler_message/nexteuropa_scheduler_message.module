@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * @file
+ * Drupal Module: NextEuropa Scheduler Message.
+ *
+ * Add a message to show when scheduling the publication of a node or review.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_scheduler_message_menu() {
+  $items = array();
+  $items['admin/config/content/scheduler/scheduler_message'] = array(
+    'title' => 'Scheduling Message',
+    'description' => 'Configure a message when scheduling the publication of a node or revision',
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('administer scheduler'),
+    'page arguments' => array('nexteuropa_scheduler_message_settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 35,
+    'file' => 'nexteuropa_scheduler_admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_form_node_form_alter().
+ */
+function nexteuropa_scheduler_message_form_node_form_alter(&$form, &$form_state, $form_id) {
+  if (!isset($form_state['node']) || !isset($form_state['node']->nid)) {
+    return;
+  }
+  $node = $form_state['node'];
+  $time_to_check = _nexteuropa_scheduler_message_get_time();
+  // Handle date when there are scheduling dates for revisions.
+  // This is only needed for platform version 2.5.
+  if (isset($node->revision_publish_on)) {
+    // Transform to unix time.
+    if (!is_numeric($node->revision_publish_on) || (int) $node->revision_publish_on != $node->revision_publish_on) {
+      $time_to_publish = date_create($node->revision_publish_on, timezone_open(drupal_get_user_timezone()));
+    }
+    else {
+      $time_to_publish = DateTime::createFromFormat("U", $node->revision_publish_on);
+    }
+  }
+  else {
+    // Create date from date format. Needed for node updates.
+    if (!is_numeric($node->publish_on) || (int) $node->publish_on != $node->publish_on) {
+      $time_to_publish = date_create($node->publish_on, timezone_open(drupal_get_user_timezone()));
+    }
+    // Create date from unix time. Needed for node creation.
+    else {
+      $time_to_publish = DateTime::createFromFormat("U", $node->publish_on);
+    }
+  }
+  // Always convert the date to the Brussels time for the comparation.
+  $time_to_publish->setTimezone(new DateTimeZone('Europe/Brussels'));
+  if ((isset($node->publish_on) && !empty($node->publish_on) || isset($node->revision_publish_on) &&
+   !empty($node->revision_publish_on)) && $time_to_publish->format('U') >= $time_to_check->format('U')) {
+    drupal_set_message(_nexteuropa_scheduler_message_replace($time_to_publish), 'warning');
+  }
+}
+
+/**
+ * Get the message and replace the date.
+ *
+ * @return text
+ *   Message to show.
+ */
+function _nexteuropa_scheduler_message_replace(Datetime $time_to_publish = NULL) {
+  // The platform forces the language of the admin pages, like node/%/edit,
+  // to be able to translage, we need to pass the language from the url
+  // to the t() function.
+  global $language_url;
+  // If we configure the message on the settings.php file, we need to
+  // pass it to the t() function to translate it.
+  global $conf;
+  $options = array('langcode' => $language_url->language);
+  $time_to_check = _nexteuropa_scheduler_message_get_time();
+  $args = array('%date_to_check' => $time_to_check->format('r'));
+  if ($time_to_publish) {
+    $args['%date_to_publish'] = $time_to_publish->format('r');
+  }
+  if (!isset($conf['nexteuropa_scheduler_message_text'])) {
+    $message_text = t("This node date for publication is %date_to_publish, this is at or after %date_to_check. Please ensure your changes will not lead to the premature publication of sensitive information.", $args, $options);
+    $message = variable_get('nexteuropa_scheduler_message_text', $message_text);
+  }
+  else {
+    // We can trust this value, as it should be configured on the settings.php
+    // file.
+    // @codingStandardsIgnoreStart
+    $message = t($conf['nexteuropa_scheduler_message_text'], $args, $options);
+    // @codingStandardsIgnoreEnd
+  }
+  return $message;
+}
+
+/**
+ * Returns the limit date to check.
+ *
+ * @return object
+ *   Datetime object
+ */
+function _nexteuropa_scheduler_message_get_time() {
+  // This date will assume Brussels time (CET).
+  return new DateTime(variable_get('nexteuropa_scheduler_message_time', '2019-03-30 00:00:00'));
+}
