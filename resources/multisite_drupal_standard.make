@@ -95,7 +95,7 @@ projects[better_formats][version] = "1.0-beta2"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-157
 ; Apply patch to fix xss injection
 projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_formats-2896131-6-missing-check_plain-when-showing-filter-name.patch
- 
+
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
