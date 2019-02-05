@@ -11,10 +11,5 @@
  * Grant access to features set and admin menu to user role.
  */
 function nexteuropa_feature_set_install() {
-  // Grant permissions for cem.
-  $permissions = array(
-    'administer feature sets',
-  );
-  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $permissions);
 
 }
