@@ -32,7 +32,7 @@ function nexteuropa_scheduler_message_settings() {
     '#type' => 'item',
     "#disabled" => TRUE,
     '#title' => t('Limit date'),
-    '#markup' => $date_to_check,
+    '#markup' => format_date($seconds_to_check, 'custom', 'H:i:s') . " CET " . t("on", array(), $options) . " " . format_date($seconds_to_check, 'custom', 'd F Y', NULL, $language_url->language),
     '#description' => t('This is the limit date to check. Any node or revision set to be published after this date, will show the previous message.'),
   );
   return $form;
