@@ -9,6 +9,13 @@
  * Build the admin settings form.
  */
 function nexteuropa_scheduler_message_settings() {
+  // The platform forces the language of the admin pages, like node/%/edit,
+  // to be able to translage, we need to pass the language from the url
+  // to the t() function.
+  global $language_url;
+  $options = array('langcode' => $language_url->language);
+  $time_to_check = _nexteuropa_scheduler_message_get_time();
+  $seconds_to_check = $time_to_check->format('U');
   $form = array();
   $form['nexteuropa_scheduler_message_text'] = array(
     '#type' => 'item',
