@@ -56,8 +56,8 @@ Feature: TMGMT Auto accept features
 
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "Tile max chars is 255."
-    And I fill in "Body" with "Here is the content of the page."
+    And I fill in "Title" with "English title to validate the field while sending to translation with auto accept enabled."
+    And I fill in "Body" with "The title max length is 255 characters, if this limit is exceeded an error will be through before trying to save the data in database, due to the validation on the needsReview process which check the translation data against field limit."
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
@@ -77,6 +77,5 @@ Feature: TMGMT Auto accept features
     And I click "In progress" in the "French" row
     When I fill in the following:
       | edit-title-field0value-translation   | FR MAX CHARACTERs 255 MAX CHARACTERs 255 MAX CHARACTERs 255 MAX CHARACTERs 255 MAX CHARACTERs 255 MAX CHARACTERs 255 MAX CHARACTERs 255 MAX CHARACTERs 255 MAX CHARACTERs 255 MAX CHARACTERs 255 MAX CHARACTERs 255 MAX CHARACTERs 255 MAX CHARACTERs 255 MAX END! |
-      | edit-field-ne-body0value-translation | FR Short body 2 |
     And I press "Save"
     Then I should see the message "Translation cannot be longer than 255 characters but is currently 258 characters long."
