@@ -34,9 +34,24 @@ Feature: TMGMT Auto accept features
   Scenario: Validate max field length when TMGMT Auto accept is enabled.
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_dgt_connector"
-    And I select the radio button "Auto accept finished translations"
+    And I check the box "Auto accept finished translations"
+    And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
+    And I fill in "Requester code" with "WEB"
+    And I fill in "Callback User" with "drupal_callback_user"
+    And I fill in "Callback Password" with "drupal_callback_password"
+    And I fill in "Poetry User" with "poetry_user"
+    And I fill in "Poetry Password" with "poetry_password"
+    And I fill in "Website identifier" with "my-website"
+    And I fill in "Responsable" with "DIGIT"
+    And I fill in "DG Author" with "IE/CE/DIGIT"
+    And I fill in "Requester" with "IE/CE/DIGIT/A/3"
+    And I fill in "Author" with "limaari"
+    And I fill in "Secretaire" with "limaari"
+    And I fill in "Contact" with "limaari"
+    And I fill in "Responsible" with "limaari"
+    And I fill in "Email to" with "limaari@sapo.pt"
+    And I fill in "Email CC" with "limaari@sapo.pt"
     And I press the "Save translator" button
-    And I press "Save translator"
     Then I should see the success message "The configuration options have been saved."
 
     When I go to "node/add/page"
