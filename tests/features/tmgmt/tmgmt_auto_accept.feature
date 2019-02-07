@@ -1,4 +1,4 @@
-@api
+@api @poetry
 Feature: TMGMT Auto accept features
   In order to test the file plugin with auto accept enabled.
   As an Administrator
