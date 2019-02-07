@@ -95,7 +95,7 @@ projects[better_formats][version] = "1.0-beta2"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-157
 ; Apply patch to fix xss injection
 projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_formats-2896131-6-missing-check_plain-when-showing-filter-name.patch
- 
+
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
@@ -760,7 +760,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 ; https://www.drupal.org/node/2362321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1802
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2029
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-09-17/check_source_length-d7-2362321-41.patch
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_source_length-d7-2362321-42.patch
 ; #2955245 : i18nviews strings are not shown on sources view
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
