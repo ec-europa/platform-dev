@@ -25,9 +25,9 @@ function nexteuropa_scheduler_message_settings() {
   );
   $args_check = array(
     '!date_1' => format_date($seconds_to_check, 'custom', 'H:i:s T', NULL, $language_url->language),
-    '!date_2' => format_date($seconds_to_check, 'custom', 'd F Y', NULL, $language_url->language) 
+    '!date_2' => format_date($seconds_to_check, 'custom', 'd F Y', NULL, $language_url->language),
   );
-  $date_to_check = t('!date_1 on !date_2', $args_check);
+  $date_to_check = t('!date_1 on !date_2', $args_check, $options);
   $form['nexteuropa_scheduler_message_time'] = array(
     '#type' => 'item',
     "#disabled" => TRUE,
