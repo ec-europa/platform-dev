@@ -1,12 +1,11 @@
-@api @javascript @communities @theme_wip
+@api @javascript @communities @theme_wip @maximizedwindow
 Feature: Multisite registration og
   In order to add registration option to different content types
   As different types of users
   I want to be able to add a registration field in an article, register users and manage registrations
 
   Background:
-    Given I use device with "1180" px and "1920" px resolution
-    And   I am logged in as a user with the 'administrator' role
+    Given I am logged in as a user with the 'administrator' role
     And   the module is enabled
       | modules                         |
       | multisite_registration_core     |
