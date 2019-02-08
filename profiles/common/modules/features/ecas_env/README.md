@@ -142,6 +142,3 @@ recommended to set it in the settings file of the site.
 The feature EU Login (ecas_env) uses the libraries located in
 custom/ecas/libraries/phpcas/CAS/Client.php and the module located in 
 profiles/common/modules/custom/ecas
-
-
-
