@@ -164,7 +164,7 @@ function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous
 /**
  * Condition: All translations are received for a content.
  *
- * @param Identifier $identifier
+ * @param EC\Poetry\Messages\Components\Identifier $identifier
  *   The translation request identifier.
  * @param array $excluded_languages
  *   Exclude given languages from the set to be checked.

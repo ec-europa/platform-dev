@@ -14,7 +14,7 @@ platform.site.theme_default = ec_resp
 ecl.version = 0.21.0
 
 # The default EC Europa theme release
-ec_europa.version = 0.0.10
+ec_europa.version = 0.0.14
 
 # The default Atomium and Europa theme build properties.
 # Used only if default theme is set to "ec_europa".
@@ -124,11 +124,17 @@ behat.yml.template = ${behat.dir}/behat.yml.dist
 # The location of the generated Behat configuration file.
 behat.yml.path = ${behat.dir}/behat.yml
 
+# The location of the screenshots that are generated when tests fail.
+behat.screenshots.path = /tmp
+
 # The base URL to use in Behat tests.
 behat.base_url = http://localhost
 
 # The URL of the Behat webdriver host.
 behat.wd_host.url = http://localhost:8643/wd/hub
+
+# The browser to use for javascript testing.
+behat.browser.name = phantomjs
 
 # The location to search for Behat subcontexts.
 behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules

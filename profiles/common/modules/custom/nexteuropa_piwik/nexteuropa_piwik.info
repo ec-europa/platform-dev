@@ -6,5 +6,6 @@ configure = admin/config/system/webtools/piwik
 
 dependencies[] = entity
 dependencies[] = registry_autoload
+dependencies[] = nexteuropa_metatags
 
 registry_autoload[] = PSR-4

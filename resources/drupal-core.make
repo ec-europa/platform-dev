@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.57"
+projects[drupal][version] = "7.61"
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -52,12 +52,12 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sa
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-doc-theme-attributes-d7-569362-53.patch
 
 ; Fix empty label on validation error message for multiple required textfield.
-; https://www.drupal.org/node/980144#comment-11695545 
+; https://www.drupal.org/node/980144#comment-11695545
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-224
 projects[drupal][patch][] = https://www.drupal.org/files/issues/980144-98_0.patch
 
 ; Reverting to revisions prior to addition of field translations is broken.
-; https://www.drupal.org/node/1992010 
+; https://www.drupal.org/node/1992010
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-495
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-revision-revert-messes-up-field-translation-1992010-31_D7.patch
 
@@ -65,3 +65,22 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-revision-
 ; http://drupal.org/node/601776
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-548
 projects[drupal][patch][] = https://www.drupal.org/files/601776-contact-core-134.patch
+
+; URL alias load is inconsistent if there are more then one alias
+; https://www.drupal.org/project/drupal/issues/1160764
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1993
+projects[drupal][patch][] = https://www.drupal.org/files/issues/1160764-34-path_load_order.patch
+
+; Image alternative text loses text preceding colon upon leaving plain-text editor or upon saving node
+; https://www.drupal.org/project/drupal/issues/2859006
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2001
+projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-no_protocol_filter-2105841-111-D7.patch
+
+; Set the session's cookie lifetime to 0 so that cookies are deleted when the browser is closed.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-900
+projects[drupal][patch][] = patches/set-session-cookie-lifetime-0.patch
+
+; Filter "Convert URLs into links" doesn't support multilingual web addresses.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1995
+; See https://www.drupal.org/project/drupal/issues/1657886.
+projects[drupal][patch][] = https://www.drupal.org/files/issues/2018-09-28/filter-urlfilter-i18n-1657886-41.patch

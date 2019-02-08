@@ -5,7 +5,7 @@
  * Contains ECEmbeddedImageSubContext.
  */
 
-use \Drupal\DrupalExtension\Context\DrupalSubContextBase;
+use Drupal\DrupalExtension\Context\DrupalSubContextBase;
 
 /**
  * Behat context for test setup related to the Embedded Image feature.
@@ -32,7 +32,7 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
       'description' => 'For testing Flickr embedded images',
       'custom' => 1,
       'modified' => 1,
-      'locked' => 0,
+      'locked' => 1,
     ];
 
     $media_gallery = node_type_set_defaults($media_gallery);

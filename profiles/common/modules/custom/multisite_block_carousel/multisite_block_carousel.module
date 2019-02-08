@@ -338,7 +338,7 @@ function multisite_block_carousel_contents($delta) {
       switch ($item['type']) {
         case 'image':
           $thumb = image_style_url('landscape', $item['uri']);
-          $return .= '<a href="' . $path . '">';
+          $return .= '<a href="' . check_plain($path) . '">';
           $return .= '<img src="' . $thumb . '" alt="' . check_plain($item['filename']) . '" />';
           $return .= '<p class="carousel-caption">' . (isset($item['field_picture_description'][LANGUAGE_NONE][0]['safe_value']) ? filter_xss($item['field_picture_description'][LANGUAGE_NONE][0]['safe_value']) : check_plain($item['filename'])) . '</p>';
           $return .= '</a>';

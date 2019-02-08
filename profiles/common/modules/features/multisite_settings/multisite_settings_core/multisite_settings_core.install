@@ -85,3 +85,18 @@ function multisite_settings_core_update_7123() {
   include_once DRUPAL_ROOT . '/includes/language.inc';
   language_types_set();
 }
+
+/**
+ * Enable "NextEuropa Administration Language" with the platform settings.
+ */
+function multisite_settings_core_update_7124() {
+  if (module_exists('admin_language')) {
+    return t('nexteuropa_admin_language is not enabled because "admin_language" already is.');
+  }
+  module_enable(array('nexteuropa_admin_language'));
+  // NEPT-2074: Ensure the language negotiations methods required with the
+  // administration language negotiation are correctly set.
+  multisite_config_service('locale')->addLanguageNegotiation('language-administration');
+  multisite_config_service('locale')->addLanguageNegotiation('nexteuropa_multilingual_url_suffix');
+  multisite_config_service('locale')->addLanguageNegotiation('nexteuropa_multilingual_url_suffix', -8, LANGUAGE_TYPE_CONTENT);
+}

@@ -29,7 +29,6 @@ features[variable][] = comment_anonymous_f_a_q
 features[variable][] = comment_default_mode_f_a_q
 features[variable][] = comment_default_per_page_f_a_q
 features[variable][] = comment_f_a_q
-features[variable][] = comment_form_location_f_a_q
 features[variable][] = comment_preview_f_a_q
 features[variable][] = comment_subject_field_f_a_q
 features[variable][] = field_bundle_settings_node__f_a_q

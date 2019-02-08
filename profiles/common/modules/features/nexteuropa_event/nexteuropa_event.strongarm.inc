@@ -35,13 +35,6 @@ function nexteuropa_event_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_form_location_nexteuropa_event';
-  $strongarm->value = 1;
-  $export['comment_form_location_nexteuropa_event'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'comment_nexteuropa_event';
   $strongarm->value = '2';
   $export['comment_nexteuropa_event'] = $strongarm;
@@ -126,13 +119,6 @@ function nexteuropa_event_strongarm() {
   $strongarm->name = 'node_submitted_nexteuropa_event';
   $strongarm->value = 1;
   $export['node_submitted_nexteuropa_event'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_taxonomy_term_nexteuropa_event_type_pattern';
-  $strongarm->value = '';
-  $export['pathauto_taxonomy_term_nexteuropa_event_type_pattern'] = $strongarm;
 
   return $export;
 }
