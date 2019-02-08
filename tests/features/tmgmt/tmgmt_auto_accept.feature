@@ -7,6 +7,7 @@ Feature: TMGMT Auto accept features
   Background:
     Given the module is enabled
       | modules             |
+      | tmgmt_dgt_connector |
       | tmgmt_poetry_mock   |
     And tmgmt_poetry is configured to use tmgmt_poetry_mock
     And the following languages are available:
