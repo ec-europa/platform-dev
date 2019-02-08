@@ -7,50 +7,19 @@ Feature: TMGMT Auto accept features
   Background:
     Given the module is enabled
       | modules             |
-      | tmgmt_dgt_connector |
+      | tmgmt_poetry_mock   |
+    And tmgmt_poetry is configured to use tmgmt_poetry_mock
     And the following languages are available:
       | languages |
       | en        |
       | pt-pt     |
       | fr        |
-    And I am logged in as a user with the "administrator" role
-    And I change the variable "nexteuropa_poetry_notification_username" to "foo"
-    And I change the variable "nexteuropa_poetry_notification_password" to "bar"
-    And I change the variable "nexteuropa_poetry_service_username" to "bar"
-    And I change the variable "nexteuropa_poetry_service_password" to "foo"
-    And I change the variable "nexteuropa_poetry_service_wsdl" to "http://localhost:28080/wsdl"
-    And Poetry service uses the following settings:
-    """
-      username: foo
-      password: bar
-    """
-    And the following Poetry settings:
-    """
-        address: http://localhost:28080/wsdl
-        method: requestService
-    """
 
-  @javascript
+  @javascript @theme_wip
   Scenario: Validate max field length when TMGMT Auto accept is enabled.
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_dgt_connector"
     And I check the box "Auto accept finished translations"
-    And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
-    And I fill in "Requester code" with "WEB"
-    And I fill in "Callback User" with "drupal_callback_user"
-    And I fill in "Callback Password" with "drupal_callback_password"
-    And I fill in "Poetry User" with "poetry_user"
-    And I fill in "Poetry Password" with "poetry_password"
-    And I fill in "Website identifier" with "my-website"
-    And I fill in "Responsable" with "DIGIT"
-    And I fill in "DG Author" with "IE/CE/DIGIT"
-    And I fill in "Requester" with "IE/CE/DIGIT/A/3"
-    And I fill in "Author" with "limaari"
-    And I fill in "Secretaire" with "limaari"
-    And I fill in "Contact" with "limaari"
-    And I fill in "Responsible" with "limaari"
-    And I fill in "Email to" with "limaari@sapo.pt"
-    And I fill in "Email CC" with "limaari@sapo.pt"
     And I press the "Save translator" button
     Then I should see the success message "The configuration options have been saved."
 
