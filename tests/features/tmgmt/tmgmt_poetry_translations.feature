@@ -900,7 +900,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
-    Then I should see the message "Job has been successfully sent for translation."
+    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
 
     When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
