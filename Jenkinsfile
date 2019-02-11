@@ -33,7 +33,7 @@ try {
                 }
             }
         },
-        'standard-ec-europa' : {
+        /*'standard-ec-europa' : {
             // Build and test the standard profile with europa theme
             node('slave') {
                 ws("${env.WORKSPACE_PATH}") {
@@ -83,7 +83,7 @@ try {
                     }
                 }
             }
-        },
+        },*/
         failFast: true
     )
 } catch(err) {
