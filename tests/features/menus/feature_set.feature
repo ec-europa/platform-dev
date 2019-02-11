@@ -53,4 +53,3 @@ Feature: Feature set menu
     And I should see the text "Surveys"
     And I should see the text "Extend Profiles"
     And I should see the text "Notifications"
-    And I should not see the text "Nexteuropa DGT Connector"
