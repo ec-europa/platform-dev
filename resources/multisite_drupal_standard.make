@@ -225,6 +225,9 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
+; Issue #10558568 : Broken updates due to Classes living in .module files
+; https://www.drupal.org/node/2441965#comment-10558568
+projects[entitycache][patch][] = https://www.drupal.org/files/issues/entitycache_fix_upgrade_path-2441965-62.patch
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
@@ -760,7 +763,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 ; https://www.drupal.org/node/2362321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1802
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2029
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-09-17/check_source_length-d7-2362321-41.patch
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_source_length-d7-2362321-42.patch
 ; #2955245 : i18nviews strings are not shown on sources view
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
