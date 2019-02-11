@@ -904,4 +904,7 @@ Feature: TMGMT Poetry features
 
     When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
+    And I click "Check the translation page"
+    And I click "Needs review" in the "French" row
+    And I press "Save as completed"
     Then I should see the message "Translation cannot be longer than 255 characters but is currently 258 characters long."
