@@ -898,6 +898,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see the message "Job has been successfully sent for translation."
 
