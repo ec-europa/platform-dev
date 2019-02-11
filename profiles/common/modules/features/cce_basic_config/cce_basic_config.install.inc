@@ -324,7 +324,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'administer modules',
     'administer software updates',
     'manage features',
-    'manage feature nexteuropa_dgt_connector',
   ));
 
   // Grant permissions for contributors.
