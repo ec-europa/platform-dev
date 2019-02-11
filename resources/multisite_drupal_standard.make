@@ -95,7 +95,7 @@ projects[better_formats][version] = "1.0-beta2"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-157
 ; Apply patch to fix xss injection
 projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_formats-2896131-6-missing-check_plain-when-showing-filter-name.patch
- 
+
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
@@ -225,6 +225,9 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
+; Issue #10558568 : Broken updates due to Classes living in .module files
+; https://www.drupal.org/node/2441965#comment-10558568
+projects[entitycache][patch][] = https://www.drupal.org/files/issues/entitycache_fix_upgrade_path-2441965-62.patch
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
@@ -233,8 +236,10 @@ projects[entityreference][version] = "1.5"
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
-projects[entityreference_prepopulate][version] = "1.5"
-projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
+projects[entityreference_prepopulate][version] = "1.7"
+; Allow friendly field identifiers in URL.
+; https://www.drupal.org/project/entityreference_prepopulate/issues/1809776
+projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
@@ -259,7 +264,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.6"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.10"
+projects[features][version] = "2.11"
 ; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
 ; https://www.drupal.org/node/1437264
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4759
@@ -759,7 +764,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 ; https://www.drupal.org/node/2362321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1802
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2029
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-09-17/check_source_length-d7-2362321-41.patch
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_source_length-d7-2362321-42.patch
 ; #2955245 : i18nviews strings are not shown on sources view
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
@@ -820,6 +825,10 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
 ; https://www.drupal.org/node/2908538
 projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
+; Issue #3012609: Ajax Exposed filters not working with multiple same views
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2149
+; https://www.drupal.org/project/views/issues/3012609
+projects[views][patch][] = https://www.drupal.org/files/issues/2018-11-14/views_fix_ajax_exposed_filter_with_same_mutliple_views-3012609-7.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -921,6 +930,9 @@ projects[wysiwyg][download][version] = "2.5"
 ; Fix remote js loading on ckeditor plugin
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
+; CKEditor height does not reflect the rows attribute
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
+projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"

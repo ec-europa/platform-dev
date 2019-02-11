@@ -31,7 +31,7 @@ function tmgmt_poetry_entity_info_alter(&$entity_info) {
  */
 function _tmgmt_poetry_translator_access($op, $translator, $account) {
   if (!empty($translator) && $translator->plugin == 'poetry') {
-    if ($op == 'delete') {
+    if ($op == 'delete'  && $translator->name != 'tmgmt_poetry_test_translator') {
       return FALSE;
     }
     else {
