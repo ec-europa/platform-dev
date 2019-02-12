@@ -768,10 +768,6 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
-; 2960458 : Check source length limits when option "Auto accept finished translations" is active
-; https://www.drupal.org/project/tmgmt/issues/2960458
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1913
-projects[tmgmt][patch][] = patches/check_length_limits_when_auto_accept_translation_2960458.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"

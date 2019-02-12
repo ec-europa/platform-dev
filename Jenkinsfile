@@ -33,7 +33,7 @@ try {
                 }
             }
         },
-        /*'standard-ec-europa' : {
+        'standard-ec-europa' : {
             // Build and test the standard profile with europa theme
             node('slave') {
                 ws("${env.WORKSPACE_PATH}") {
@@ -83,7 +83,7 @@ try {
                     }
                 }
             }
-        },*/
+        },
         failFast: true
     )
 } catch(err) {
@@ -133,7 +133,7 @@ void executeStages(String label) {
                     if (env.WD_BROWSER_NAME == 'phantomjs') {
                         sh "phantomjs --webdriver=${env.WD_HOST}:${env.WD_PORT} &"
                     }
-                    sh "./bin/behat -c build/behat.yml -p ${env.BEHAT_PROFILE} --colors -f pretty --strict build/tests/features/tmgmt/tmgmt_poetry_translations.feature"
+                    sh "./bin/behat -c build/behat.yml -p ${env.BEHAT_PROFILE} --colors -f pretty --strict"
                 }
             }
         }
