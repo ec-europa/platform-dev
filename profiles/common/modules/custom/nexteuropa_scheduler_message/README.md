@@ -4,7 +4,7 @@ configured on the module, shows a message.
 
 By default, if nothing is configured, the module has these values:
 * Message to show (nexteuropa_scheduler_message_text): 
-    This node date for publication is %date_to_publish, this is at or after %date_to_check. Please ensure your changes will not lead to the premature publication of sensitive information.
+    This node has been scheduled to be published at or after %date_to_check. Please ensure your changes will not lead to the premature publication of sensitive information.
 * Date to check (nexteuropa_scheduler_message_time):
     2019-03-30 00:00:00
 
