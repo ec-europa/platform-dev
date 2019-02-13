@@ -90,52 +90,9 @@ Feature: Multisite registration standard
     And   I press "Send"
     Then  I should see "There are no participants registered for this node"
 
-
-
   @theme_wip
   # In ec_europa registers the user, but we cannot see the blocks for "Registered user" and "Registration management"
-  Scenario: as authenticated user I can register myself in a content and cancel my registration
-    Given I am viewing an "article" content:
-      | title              | Registration Article     |
-      | body               | registration body        |
-      | status             | 1                        |
-      | moderation state   | published                |
-      | revision state     | published                |
-    Given I am logged in as a user with the 'contributor' role and I have the following fields:
-      | username | contributor |
-      | name | contributor |
-      | mail | contributor@test.com |
-    When  I go to "/content/registration-article"
-    Then  I should see the text "Registration Article"
-    And   I should see "Register"
-    When  I click "Register"
-    And   I select "Myself" from "This registration is for:"
-    And   I press "Save Registration"
-    Then  I should see the text "Registration has been saved"
-    Given I am logged in as a user with the "administrator" role
-    When  I go to "/content/registration-article"
-    And   I click "Manage Registrations"
-    And   I click "Registrations"
-    Then  I should see the text "List of registrations for Registration Article"
-    And   I should see the link "contributor@test.com"
-    Given I am logged in as "contributor"
-    When  I go to "/content/registration-article"
-    Then  I should see the text "Registered user"
-    And   I should see the text "Registration management"
-    Then  I should see "Cancel my registration"
-    When  I click "Cancel my registration"
-    Then  I should see "Are you sure you wnat to delete registration"
-    And   I press "Delete"
-    Given I am logged in as a user with the "administrator" role
-    When  I go to "/content/registration-article"
-    And   I click "Manage Registrations"
-    And   I click "Registrations"
-    Then  I should see the text "List of registrations for Registration Article"
-    And   I should not see the link "contributor@test.com"
-
-  @theme_wip
-  # In ec_europa registers the user, but we cannot see the blocks for "Registered user" and "Registration management"
-  Scenario: as authenticated user I can register someone else in a content
+  Scenario: as authenticated user I can register myself or someone else in a content
     Given I am viewing an "article" content:
       | title              | Registration Article     |
       | body               | registration body        |
@@ -185,7 +142,6 @@ Feature: Multisite registration standard
     And   I select "Other account" from "This registration is for:"
     And   I fill in "User" with "contributor"
     And   I press "Save Registration"
-    Given I use device with "1080" px and "1920" px resolution
     When  I go to "/content/registration-article"
     Then  I should see "Cancel my registration"
     When  I click "Cancel my registration"
