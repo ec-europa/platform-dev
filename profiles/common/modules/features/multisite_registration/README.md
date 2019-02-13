@@ -71,6 +71,6 @@ that appears in a content  with  registrations enabled.
 options available are: Myself, Other account (to register a user who is already
 member of the site), Other person (to register an external user, not member of
 the site).
-- spaces: amount of places user wants to take, the module allows to register
-several places per registration. Under the spaces, a sentence shows the
+- spaces: amount of places user wants to take, the module allows user to
+register several places per registration. Under the spaces, a sentence shows the
 remaining spaces available and the amount of places that the user can register.
