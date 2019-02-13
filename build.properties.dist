@@ -47,7 +47,7 @@ drupal.htaccess.path = ${platform.build.dir}/.htaccess
 drupal.htaccess.append.text =
 
 # Configuration to append to the settings.php file of the build.
-drupal.settings.append.text = $conf['multisite_toolbox_cs_whitelist'] = array('*.youtube.com','*.dailymotion.com','*.europa.eu', '*.vimeo.com',);
+drupal.settings.append.text = $conf['multisite_toolbox_cs_whitelist'] = array('*.europa.eu');
 
 
 # Platform configuration
