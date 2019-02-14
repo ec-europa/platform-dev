@@ -13,9 +13,8 @@ Ecas module
 
 
 ## CA Certificate path
-The variable "ecas_certificate_path" allows setting the path of the CA 
-certificate of the EU Login server.
-So Eu login module can use it in order to validate content sent from the EU 
+The variable "ecas_certificate_path" contains the path of the CA 
+certificate of the EU Login server. The Eu login module can then use it in order to validate content sent from the EU 
 Login server.
 
 The Eu login module does not need it in order to run but it is nevertheless 
@@ -23,40 +22,41 @@ recommended to set it in the settings file of the site.
 
 # Hooks provided
 - hook_info_ecas_update : invoked during the ecas login, when the user account 
-is updated. This hook allows to inject custom modifications into the user 
-account regarding the user info get from the LDAP.
+is updated. This hook enables the injection of custom modifications into the user 
+account regarding the user info returned from LDAP.
 
 parameters :
 $user : user account
 $user_info : user infos get from the LDAP
 
 - hook_ecas_full_logout_parameters_alter : invoked during the ecas logout 
-process. It allows to alter the params ($params) sent to the phpCAS::logout 
+process. It allows the alteration of the params ($params) sent to the phpCAS::logout 
 function.
 parameters :
 $params : array of parameters sent to the phpCAS::logout function
 
-- hook_ecas_extra_filter_alter : invoked during the login process. It allows 
-to process users filtering and prevent the authentification of users related 
+- hook_ecas_extra_filter_alter : invoked during the login process. It processes user
+filtering and prevents the authentification of users related 
 to custom constraints.
 parameters :
 $ecas_name : ecas username
 $account : user account
 $ecas_goto : url destination after the login
-For example : by forcing $ecas_name to NULL and $account to FALSE, you block 
-the login and let the user as anonymous.
+For example : by forcing $ecas_name to NULL and $account to FALSE, the login is blocked 
+and the user is set as anonymous.
 
 - hook_ecas_assurance_levels_alter : invoked when the assurance level is 
-- requested. It allows to alter the ecas assurance level parameters :
-$ecas_assurance_level
+requested. It enables the alteration of the ecas assurance level. 
+
+parameters: $ecas_assurance_level
 
 - hook_ecas_domains_alter : invoked when the ecas domains are requested, it 
 allows to alters the ecas domains.
 parameters :
 $ecas_domains
 
-- hook_ecas_LDAP_info_alter : invoked before getting info in the LDAP, it allows
-to alter the list of fields extracted from the LDAP
+- hook_ecas_LDAP_info_alter : invoked before getting info from LDAP, it allows
+the alteration of the list of fields extracted from LDAP
 parameters :
 $LDAP_info : array of LDAP fields
 Ex : $LDAP_info = array('sn', 'givenname', 'dg', 'sourceorganisation', 
@@ -96,7 +96,7 @@ ECAS (enabled)
 
 ## Other modules
 ### core ECAS module :
-This module allows to login to a drupal instance with an EU Login account.
+This module allows a user to login to a drupal instance with an EU Login account.
 During the first login, the module creates a drupal account with the data from 
 the LDAP (username, password, email, ...).
 With drupal 6 the module was compatible with the modules node_profile, profile 
@@ -110,7 +110,7 @@ accounts :
 - user-user-field_lastname
 
 ### ecas_import_users :
-This module allows to browse the LDAP directory, import users accounts and 
+This module allows the system to browse the LDAP directory, import users accounts and 
 create related users accounts.
 Same updates as the core module. This module must populate the following fields 
 related to user accounts during a user account creation :
@@ -120,12 +120,11 @@ related to user accounts during a user account creation :
 - user-user-field_lastname
 
 ### ecas_extra :
-This module allows to moderate the access to a drupal instance with EU Login 
+This module enables moderation of the access to a drupal instance with EU Login 
 accounts.
 The new users that logged in for the first time with their ecas accounts are 
-put in a pending list and must wait the
-validation of a moderator. An email is sent when the account is authorized or 
-rejected.
+put in a pending list and must wait for the validation of a moderator. An email is sent when the account is authorized
+or rejected.
 The module needs the following drupal modules : views, views bulk operation.
 
 ### ecas_group_sync :

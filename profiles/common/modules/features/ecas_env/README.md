@@ -31,7 +31,7 @@ Change the domain to 'External' and fill in the fields.
 When feature is enabled, a button 'EU Login' is available on each page.
 The button redirects the user to the EU login screen.
 
-- After credentials are rightly submitted, a user page is created and user is 
+- After credentials are correctly submitted, a user page is created and user is 
 redirected to that page.
 
 - An entry is created in the authmap table:
@@ -41,7 +41,7 @@ redirected to that page.
 |   1 |   6 | leperde  | ecas   |
 
 
-- The profile page is pre filled with the following fields in readonly mode.
+- The profile page is pre-filled with the following fields in readonly mode.
 
    - First name
    - Last name
@@ -81,17 +81,17 @@ Customize the warning message shown when user's account is not active.
 Does the email address from ECAS needs to be saved in the profile.
 If not, which email should be.
 ## Integration with the "core user fields"
-Maps EUR Login fields with Drupal field names
+Maps EU Login fields with Drupal field names
   - Firstname
   - Lastname
   - Mail address
   - Use the shared "FPFIS Common" library
 
 ## Extra settings
-This screens allow to configure the email sent went access is denied.
+These screens enables the configuration of an the email to be sent when access is denied.
 
 ## Import users settings
-The feature provides a user import functionality
+This feature provides a user import functionality
 admin/people/import_en
 
 # Development & Debugging
@@ -129,13 +129,13 @@ fallback to custom modules ecas/libraries subfolder.
 More information can be found in [the debugging section](#debugging)
 
 ## CA Certificate path
-The variable "ecas_certificate_path" allows setting the path of the CA 
-certificate of the EU Login server.
-So Eu login module can use it in order to validate content sent from the EU 
+The variable "ecas_certificate_path" contains the path of the CA 
+certificate of the EU Login server. The Eu login module can then use it in order to validate content sent from the EU 
 Login server.
 
 The Eu login module does not need it in order to run but it is nevertheless 
 recommended to set it in the settings file of the site.
+
 
 [Go to top](#table-of-content)
 
