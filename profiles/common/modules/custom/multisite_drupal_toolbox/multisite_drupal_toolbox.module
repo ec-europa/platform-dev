@@ -126,11 +126,6 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
     'X-Content-Security-Policy',
     "child-src $whitelist; frame-src $whitelist;",
     FALSE);
-  // Chrome until version 25.
-  drupal_add_http_header(
-    'X-WebKit-CSP',
-    "child-src $whitelist; frame-src $whitelist;",
-    FALSE);
 }
 
 /**
