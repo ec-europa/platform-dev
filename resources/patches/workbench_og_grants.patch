@@ -1,0 +1,61 @@
+diff --git a/workbench_og.module b/workbench_og.module
+index dc2f6ca..4b1f56a 100755
+--- a/workbench_og.module
++++ b/workbench_og.module
+@@ -117,6 +117,22 @@ function workbench_og_node_access_records($node) {
+       );
+     }
+   }
++  else {
++    // Assign grants to unpublished nodes that belong to no group.
++    $roles = _workbench_og_view_unpublished_roles();
++    foreach($roles as $key => $value) {
++      $grants[] = array(
++        // Realm to view unpublished content.
++        'realm' => 'workbench_moderation_og_view_all_unpublished',
++        // Assign role gid.
++        'gid' => $key,
++        'grant_view' => 1,
++        'grant_update' => 0,
++        'grant_delete' => 0,
++        'priority' => 2,
++      ); 
++    }
++  }
+   return $grants;
+ }
+ 
+@@ -149,6 +165,14 @@ function workbench_og_node_grants($account, $op) {
+   if (user_access('view all unpublished content')) {
+     // Assign grant to access content withe the user uid as gid.
+     $grants['workbench_moderation_og_view_own_unpublished'][] = $account->uid;
++    // Assign grant to access unpublished content.
++    $roles = _workbench_og_view_unpublished_roles();
++    $enabled_roles = array_intersect($roles, $account->roles);
++    if (count($enabled_roles) > 0) {
++      foreach ($enabled_roles as $key => $value) {
++        $grants['workbench_moderation_og_view_all_unpublished'][] = $key;
++      }
++    }
+   }
+   return $grants;
+ }
+@@ -170,3 +194,18 @@ function workbench_og_help($path, $arg) {
+       }
+   }
+ }
++/**
++ * Get roles authorized to see unpublished content.
++ * 
++ *  @return array
++ *    Array with roles ['rid' => 'role name']
++ */ 
++function _workbench_og_view_unpublished_roles() {
++  $defined_roles = user_roles();
++  $authorized_roles = array();
++  foreach($defined_roles as  $key => $value) {
++    $roles = user_role_permissions(array($key => $value));
++    isset($roles[$key]['view all unpublished content']) && $roles[$key]['view all unpublished content'] == 1 ? $authorized_roles[$key] = $value : FALSE;
++  }
++  return $authorized_roles;
++}
