@@ -91,8 +91,8 @@ Feature: Multisite registration standard
     Then  I should see "There are no participants registered for this node"
 
   @theme_wip
-  # In ec_europa registers the user, but we cannot see the blocks for "Registered user" and "Registration management"
-  Scenario: as authenticated user I can register myself or someone else in a content
+  # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
+  Scenario: as authenticated user I can register myself or other user in a content
     Given I am viewing an "article" content:
       | title              | Registration Article     |
       | body               | registration body        |
@@ -111,7 +111,6 @@ Feature: Multisite registration standard
     And   I fill in "User" with "contributor"
     And   I press "Save Registration"
     Then  I should see the text "Registration has been saved"
-    Given I use device with "1080" px and "1920" px resolution
     When  I go to "/content/registration-article"
     Then  I should see the text "Registered user"
     And   I should see the text "Registration management"
@@ -124,7 +123,36 @@ Feature: Multisite registration standard
     And   I should see the link "contributor@test.com"
 
   @theme_wip
-  # In ec_europa registers the user, but we cannot see the blocks for "Registered user" and "Registration management"
+  # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
+  Scenario: as authenticated user I can register other person by email in a content
+    Given I am viewing an "article" content:
+      | title              | Registration Article     |
+      | body               | registration body        |
+      | status             | 1                        |
+      | moderation state   | published                |
+      | revision state     | published                |
+    Given I am logged in as a user with the 'contributor' role and I have the following fields:
+      | username | contributor |
+      | name | contributor |
+      | mail | contributor@test.com |
+    When  I go to "/content/registration-article"
+    Then  I should see the text "Registration Article"
+    And   I should see "Register"
+    When  I click "Register"
+    And   I select "Other person" from "This registration is for:"
+    And   I fill in "Email" with "test@test.com"
+    And   I press "Save Registration"
+    Then  I should see the text "Registration has been saved"
+    When  I go to "/content/registration-article"
+    Given I am logged in as a user with the "administrator" role
+    When  I go to "/content/registration-article"
+    And   I click "Manage Registrations"
+    And   I click "Registrations"
+    Then  I should see the text "List of registrations for Registration Article"
+    And   I should see the link "test@test.com"
+
+  @theme_wip
+  # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: user cancels registration in a content
     Given I am viewing an "article" content:
       | title              | Registration Article  |
@@ -167,7 +195,7 @@ Feature: Multisite registration standard
     And   I should not see the text "Register"
 
   @theme_wip
-  # In ec_europa registers the user, but we cannot see the blocks for "Registered user" and "Registration management"
+  # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: authenticated user without permission can access content and see registered users, but he cannot register himself
     Given I am viewing an "article" content:
       | title              | Registration Article  |
