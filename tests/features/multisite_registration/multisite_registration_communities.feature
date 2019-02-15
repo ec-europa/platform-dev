@@ -1,4 +1,4 @@
-@api @javascript @communities @theme_wip @maximizedwindow
+@api @javascript @communities @maximizedwindow
 Feature: Multisite registration og
   In order to add registration option to different content types
   As different types of users
@@ -16,7 +16,7 @@ Feature: Multisite registration og
       | workbench_moderation_state_new | published           |
 
 
-  Scenario: Add registration field to Article content type
+  Scenario: as administrator I can add a registration field to a content type
     Given I am on "/admin/structure/types/manage/article/fields"
     When  I fill in "New field label" with "Registration field test"
     And   I select "registration" from "edit-fields-add-new-field-type"
@@ -37,7 +37,7 @@ Feature: Multisite registration og
     Then  I should see "Registration field test"
     And   I should see "multisite_registration"
 
-  Scenario: add article content with registration option
+  Scenario: as administrator I can enable registration when I create a new content with registration field
     Given I am on "/node/add/article"
     Then  I should see "Registration field test"
     And   I should see "multisite_registration"
@@ -48,16 +48,34 @@ Feature: Multisite registration og
     And   I press "Save"
     And   I should see the text "Article Registration Article has been created"
     And   I should see the text "Revision state: Published"
+    Given I am logged in as a user with the 'contributor' role
+    When  I go to "/community/articles/registration-article"
+    And   I click "Register"
+    Then  I should see "This registration is for:"
+
+  Scenario: as administrator I can disable registration when I create a new content with registration field
+    Given I am on "/node/add/article"
+    Then  I should see "Registration field test"
+    When  I fill in "Title" with "Registration Article"
+    When  I select "-- Disable Registrations --" from "Registration field test"
+    And   I click "Publishing options"
+    And   I select "Published" from "Moderation state"
+    And   I press "Save"
+    And   I should see the text "Article Registration Article has been created"
+    And   I should see the text "Revision state: Published"
+    Given I am logged in as a user with the 'contributor' role
+    When  I go to "/community/articles/registration-article"
+    And   should not see "Register"
 
   @theme_wip
-  # In ec_europa registers the user, but we cannot see the blocks for "Registered user" and "Registration management"
-  Scenario: user registers someone in a content
+  # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
+  Scenario: as authenticated user I can register myself or other user in a content
     Given I am viewing an "article" content:
       | title              | Registration Article     |
       | body               | registration body        |
-      | status | 1 |
+      | status             | 1                        |
       | moderation state   | published                |
-      | revision state   | published                |
+      | revision state     | published                |
     Given I am logged in as a user with the 'contributor' role and I have the following fields:
       | username | contributor |
       | name | contributor |
@@ -70,7 +88,6 @@ Feature: Multisite registration og
     And   I fill in "User" with "contributor"
     And   I press "Save Registration"
     Then  I should see the text "Registration has been saved"
-    Given I use device with "1080" px and "1920" px resolution
     When  I go to "/community/articles/registration-article"
     Then  I should see the text "Registered user"
     And   I should see the text "Registration management"
@@ -83,7 +100,36 @@ Feature: Multisite registration og
     And   I should see the link "contributor@test.com"
 
   @theme_wip
-  # In ec_europa registers the user, but we cannot see the blocks for "Registered user" and "Registration management"
+  # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
+  Scenario: as authenticated user I can register other person by email in a content
+    Given I am viewing an "article" content:
+      | title              | Registration Article     |
+      | body               | registration body        |
+      | status             | 1                        |
+      | moderation state   | published                |
+      | revision state     | published                |
+    Given I am logged in as a user with the 'contributor' role and I have the following fields:
+      | username | contributor |
+      | name | contributor |
+      | mail | contributor@test.com |
+    When  I go to "/community/articles/registration-article"
+    Then  I should see the text "Registration Article"
+    And   I should see "Register"
+    When  I click "Register"
+    And   I select "Other person" from "This registration is for:"
+    And   I fill in "Email" with "test@test.com"
+    And   I press "Save Registration"
+    Then  I should see the text "Registration has been saved"
+    When  I go to "/community/articles/registration-article"
+    Given I am logged in as a user with the "administrator" role
+    When  I go to "/community/articles/registration-article"
+    And   I click "Manage Registrations"
+    And   I click "Registrations"
+    Then  I should see the text "List of registrations for Registration Article"
+    And   I should see the link "test@test.com"
+
+  @theme_wip
+  # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: user cancels registration in a content
     Given I am viewing an "article" content:
       | title              | Registration Article  |
@@ -101,7 +147,6 @@ Feature: Multisite registration og
     And   I select "Other account" from "This registration is for:"
     And   I fill in "User" with "contributor"
     And   I press "Save Registration"
-    Given I use device with "1080" px and "1920" px resolution
     When  I go to "/community/articles/registration-article"
     Then  I should see "Cancel my registration"
     When  I click "Cancel my registration"
@@ -113,7 +158,7 @@ Feature: Multisite registration og
     And   I click "Registrations"
     Then  I should see the text "There are no registrants for Registration Article"
 
-  Scenario: user without permission can access content and see registered users, but he cannot register himself
+  Scenario: anonymous user without permission can access content and see registered users, but he cannot register himself
     Given I am viewing an "article" content:
       | title              | Registration Article  |
       | author             | admin                 |
@@ -127,8 +172,8 @@ Feature: Multisite registration og
     And   I should not see the text "Register"
 
   @theme_wip
-  # In ec_europa registers the user, but we cannot see the blocks for "Registered user" and "Registration management"
-  Scenario: user without permission can access content and see registered users, but he cannot register himself
+  # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
+  Scenario: authenticated user without permission can access content and see registered users, but he cannot register himself
     Given I am viewing an "article" content:
       | title              | Registration Article  |
       | author             | admin                 |
@@ -152,7 +197,7 @@ Feature: Multisite registration og
     But   I should see the text "Registered user"
     But   I should see the text "contributor"
 
-  Scenario: user with permission to register cannot register in a content in which the close date has already finished
+  Scenario: authenticated user with permission to register cannot register in a content in which the close date has already finished
     Given I am logged in as a user with the 'administrator' role
     Given I am viewing an "article" content:
       | title              | Registration Article  |
