@@ -1,4 +1,4 @@
-@api @javascript @communities @maximizedwindow
+@api @javascript @communities @theme_wip @maximizedwindow
 Feature: Multisite registration og
   In order to add registration option to different content types
   As different types of users
@@ -67,7 +67,6 @@ Feature: Multisite registration og
     When  I go to "/community/articles/registration-article"
     And   should not see "Register"
 
-  @theme_wip
   # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: as authenticated user I can register myself or other user in a content
     Given I am viewing an "article" content:
@@ -99,7 +98,6 @@ Feature: Multisite registration og
     Then  I should see the text "List of registrations for Registration Article"
     And   I should see the link "contributor@test.com"
 
-  @theme_wip
   # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: as authenticated user I can register other person by email in a content
     Given I am viewing an "article" content:
@@ -128,7 +126,6 @@ Feature: Multisite registration og
     Then  I should see the text "List of registrations for Registration Article"
     And   I should see the link "test@test.com"
 
-  @theme_wip
   # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: user cancels registration in a content
     Given I am viewing an "article" content:
@@ -171,7 +168,6 @@ Feature: Multisite registration og
     And   I should not see the text "Registration management"
     And   I should not see the text "Register"
 
-  @theme_wip
   # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: authenticated user without permission can access content and see registered users, but he cannot register himself
     Given I am viewing an "article" content:
