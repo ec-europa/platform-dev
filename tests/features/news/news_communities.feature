@@ -46,7 +46,7 @@ Feature: news communities and news core
       | workbench_moderation_state_new | published                     |
       | status                         | 1                             |
 
-  # @theme_wip
+  @theme_wip
   Scenario: as User, I can go to the public news section thanks to the "News" item in the main menu
     Given I am not logged in
     When I am on "/"
@@ -56,7 +56,7 @@ Feature: news communities and news core
     Then I should be on "/news_public"
     And I should see the text "News"
 
-  # @theme_wip
+  @theme_wip
   Scenario: as Member I can propose news for publication to the community manager
     Given I am logged in as a user with the 'administrator' role
     And I have the "administrator member" role in the "Public community 1" group
@@ -86,7 +86,7 @@ Feature: news communities and news core
     And I should see the text "Latest content"
     But I should not see the link "Test news behat"
 
-  # @theme_wip
+  @theme_wip
   Scenario: as Community manager I can create a news and publish it
     Given I am logged in as a user with the 'administrator' role
     And I have the "member" role in the "Public community 1" group
@@ -107,7 +107,7 @@ Feature: news communities and news core
     And I should see the text "Latest content"
     And I should see the link "Test news behat"
 
-  # @theme_wip
+  @theme_wip
   Scenario: as member I can see private news according to my membership
     Given I am logged in as a user with the 'administrator' role
     And I have the "administrator member" role in the "Public community 1" group
@@ -153,7 +153,7 @@ Feature: news communities and news core
     When I click "News test 2 public highlighted"
     Then I should see the heading "News test 2 public highlighted"
 
-  # @theme_wip
+  @theme_wip
   Scenario: as user, I can see public news on the homepage
     Given I am logged in as a user with the 'administrator' role
     And I have the "administrator member" role in the "Public community 1" group
@@ -186,7 +186,7 @@ Feature: news communities and news core
     When I click "News test 2 public highlighted"
     Then I should see the heading "News test 2 public highlighted"
 
-  # @theme_wip
+  @theme_wip
   Scenario: as Community manager, I can flag news within my community as "Top news" so that they appear at site's homepage
     Given I am logged in as a user with the 'administrator' role
     And I have the "administrator member" role in the "Public community 1" group
@@ -204,7 +204,7 @@ Feature: news communities and news core
     And I should see the link "Read more"
     And I should see the link "about News test 1 public"
 
-  # @theme_wip
+  @theme_wip
   Scenario: as Community manager, I can flag news within my community as "highlighted" so that they appear at community's homepage
     Given I am logged in as a user with the 'administrator' role
     And I have the "administrator member" role in the "Public community 1" group
