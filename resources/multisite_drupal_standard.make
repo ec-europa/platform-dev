@@ -225,6 +225,9 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
+; Issue #10558568 : Broken updates due to Classes living in .module files
+; https://www.drupal.org/node/2441965#comment-10558568
+projects[entitycache][patch][] = https://www.drupal.org/files/issues/entitycache_fix_upgrade_path-2441965-62.patch
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
@@ -651,7 +654,7 @@ projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05
 projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch
 
 projects[registration][subdir] = "contrib"
-projects[registration][version] = "1.6"
+projects[registration][version] = "1.7"
 
 projects[registry_autoload][subdir] = "contrib"
 projects[registry_autoload][version] = 1.3

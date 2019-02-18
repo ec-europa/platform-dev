@@ -79,12 +79,24 @@ function _nexteuropa_scheduler_message_replace(Datetime $time_to_publish = NULL)
   global $conf;
   $options = array('langcode' => $language_url->language);
   $time_to_check = _nexteuropa_scheduler_message_get_time();
-  $args = array('%date_to_check' => $time_to_check->format('r'));
+  $seconds_to_check = $time_to_check->format('U');
+  $args_check = array(
+    '!date_1' => format_date($seconds_to_check, 'custom', 'H:i:s T', NULL, $language_url->language),
+    '!date_2' => format_date($seconds_to_check, 'custom', 'd F Y', NULL, $language_url->language),
+  );
+  $date_to_check = t('!date_1 on !date_2', $args_check, $options);
+  $args = array('%date_to_check' => $date_to_check);
   if ($time_to_publish) {
-    $args['%date_to_publish'] = $time_to_publish->format('r');
+    $seconds_to_publish = $time_to_publish->format('U');
+    $args_publish = array(
+      '!date_1' => format_date($seconds_to_publish, 'custom', 'H:i:s T', NULL, $language_url->language),
+      '!date_2' => format_date($seconds_to_publish, 'custom', 'd F Y', NULL, $language_url->language),
+    );
+    $args['%date_to_publish'] = t('%date_1 on %date_2', $args_publish, $options);
+
   }
   if (!isset($conf['nexteuropa_scheduler_message_text'])) {
-    $message_text = t("This node date for publication is %date_to_publish, this is at or after %date_to_check. Please ensure your changes will not lead to the premature publication of sensitive information.", $args, $options);
+    $message_text = t("This node has been scheduled to be published at or after %date_to_check. Please ensure your changes will not lead to the premature publication of sensitive information.", $args, $options);
     $message = variable_get('nexteuropa_scheduler_message_text', $message_text);
   }
   else {
