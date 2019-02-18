@@ -654,7 +654,7 @@ projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05
 projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch
 
 projects[registration][subdir] = "contrib"
-projects[registration][version] = "1.6"
+projects[registration][version] = "1.7"
 
 projects[registry_autoload][subdir] = "contrib"
 projects[registry_autoload][version] = 1.3
