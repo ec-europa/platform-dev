@@ -85,5 +85,3 @@ if ( !empty($_SERVER["HTTP_FORWARDED"]) || !empty($_SERVER["HTTP_X_FORWARDED_HOS
 		$_SERVER['SERVER_PORT'] = 443;
 	}
 }
-
-?>

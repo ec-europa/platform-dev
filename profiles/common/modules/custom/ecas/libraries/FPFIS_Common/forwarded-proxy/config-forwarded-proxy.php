@@ -13,5 +13,3 @@ if ( strlen(FPFIS_SERVER_HOSTNAME) ){ $_SERVER["HTTP_X_FORWARDED_HOST"] = FPFIS_
 
 if ( is_file(FPFIS_COMMON_LIBRARIES_PATH . '/FPFIS_Common/forwarded-proxy/forwarded-proxy.php') )
 	include_once(FPFIS_COMMON_LIBRARIES_PATH . '/FPFIS_Common/forwarded-proxy/forwarded-proxy.php');
-
-?>

@@ -28,5 +28,3 @@ if ((defined('FPFIS_OVERWRITE_USER_AGENT') && FPFIS_OVERWRITE_USER_AGENT))
 {
 	@ini_set('user_agent',FPFIS_OVERWRITE_USER_AGENT);
 }
-
-?>
