@@ -924,8 +924,11 @@ projects[workbench_og][download][branch] = 7.x-2.x
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
 
+; Fix version on a commit, see issue NEPT-2247
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][version] = "2.5"
+projects[wysiwyg][download][type] = "git"
+projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
+projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e948605"
 ; Fix remote js loading on ckeditor plugin
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
