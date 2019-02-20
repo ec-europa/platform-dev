@@ -1,5 +1,5 @@
 diff --git a/workbench_og.module b/workbench_og.module
-index dc2f6ca..bde0ebf 100755
+index dc2f6ca..bfe6aa3 100755
 --- a/workbench_og.module
 +++ b/workbench_og.module
 @@ -117,6 +117,22 @@ function workbench_og_node_access_records($node) {
@@ -9,7 +9,7 @@ index dc2f6ca..bde0ebf 100755
 +  else {
 +    // Assign grants to unpublished nodes that belong to no group.
 +    $roles = _workbench_og_view_authorized_roles();
-+    foreach($roles as $key => $value) {
++    foreach ($roles as $key => $value) {
 +      $grants[] = array(
 +        // Realm to view unpublished content.
 +        'realm' => 'workbench_moderation_og_view_all_unpublished',
@@ -25,7 +25,7 @@ index dc2f6ca..bde0ebf 100755
    return $grants;
  }
  
-@@ -149,6 +165,14 @@ function workbench_og_node_grants($account, $op) {
+@@ -149,7 +165,16 @@ function workbench_og_node_grants($account, $op) {
    if (user_access('view all unpublished content')) {
      // Assign grant to access content withe the user uid as gid.
      $grants['workbench_moderation_og_view_own_unpublished'][] = $account->uid;
@@ -38,23 +38,26 @@ index dc2f6ca..bde0ebf 100755
 +      }
 +    }
    }
++
    return $grants;
  }
-@@ -170,3 +194,22 @@ function workbench_og_help($path, $arg) {
+ 
+@@ -170,3 +195,23 @@ function workbench_og_help($path, $arg) {
        }
    }
  }
++
 +/**
 + * Get roles authorized to see unpublished content.
 + *
-+ *  @return array
-+ *    Array with roles ['rid' => 'role name']
++ * @return array
++ *   Array with roles ['rid' => 'role name']
 + */
 +function _workbench_og_view_authorized_roles() {
 +  $defined_roles = user_roles();
 +  $authorized_roles = array();
 +
-+  foreach($defined_roles as  $key => $value) {
++  foreach ($defined_roles as $key => $value) {
 +    $roles = user_role_permissions(array($key => $value));
 +    if (isset($roles[$key]['view all unpublished content']) && $roles[$key]['view all unpublished content'] == 1) {
 +      $authorized_roles[$key] = $value;
