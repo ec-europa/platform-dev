@@ -1,8 +1,8 @@
 diff --git a/workbench_og.module b/workbench_og.module
-index dc2f6ca..bfe6aa3 100755
+index dc2f6ca..d82a5f8 100755
 --- a/workbench_og.module
 +++ b/workbench_og.module
-@@ -117,6 +117,22 @@ function workbench_og_node_access_records($node) {
+@@ -117,6 +117,23 @@ function workbench_og_node_access_records($node) {
        );
      }
    }
@@ -22,10 +22,11 @@ index dc2f6ca..bfe6aa3 100755
 +      );
 +    }
 +  }
++
    return $grants;
  }
  
-@@ -149,7 +165,16 @@ function workbench_og_node_grants($account, $op) {
+@@ -149,7 +166,16 @@ function workbench_og_node_grants($account, $op) {
    if (user_access('view all unpublished content')) {
      // Assign grant to access content withe the user uid as gid.
      $grants['workbench_moderation_og_view_own_unpublished'][] = $account->uid;
@@ -42,7 +43,7 @@ index dc2f6ca..bfe6aa3 100755
    return $grants;
  }
  
-@@ -170,3 +195,23 @@ function workbench_og_help($path, $arg) {
+@@ -170,3 +196,23 @@ function workbench_og_help($path, $arg) {
        }
    }
  }
