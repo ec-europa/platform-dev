@@ -13,7 +13,7 @@
 ?>
 <?php print '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL; ?>
 <POETRY xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="">
-  <request communication="synchrone" id="<?php print implode('/', $demande_id); ?>" type="translation">
+  <request communication="synchrone" id="<?php print implode('/', $demande_id); ?>" type="status">
     <demandeId>
       <codeDemandeur><?php print $demande_id['codeDemandeur']; ?></codeDemandeur>
       <annee><?php print $demande_id['annee']; ?></annee>
