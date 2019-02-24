@@ -1,5 +1,5 @@
 name = NextEuropa Scheduler Message
-description = Allows to show a meesage when scheduling the publication of a node or revision.
+description = Shows a meesage when scheduling the publication of a node or revision.
 package = NextEuropa
 core = 7.x
 
