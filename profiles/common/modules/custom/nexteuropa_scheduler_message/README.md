@@ -18,7 +18,7 @@ It is possible to override these values by configuring the values on the setting
     // Use the format shown here, also take into account that this date will always use CET as timezone.
     $conf['nexteuropa_scheduler_message_time'] = '2019-03-30 01:00:00'; 
 
-You can check the value of both parameters, if you have "administer scheduler" permissions. I will show the default values or the values from settings.php, if they are configured:
+You can check the value of both parameters, if you have "administer scheduler" permissions. It will show the default values or the values from settings.php, if they are configured:
 * admin/config/content/scheduler/scheduler_message
 
 Translation
