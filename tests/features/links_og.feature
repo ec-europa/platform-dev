@@ -15,10 +15,12 @@ Feature: Links OG Content
     And I click "Publishing options"
     And I select "Published" from "edit-workbench-moderation-state-new"
     And I press "Save"
+    And the cache has been cleared
     Then I should see "Community test"
 
   Scenario Outline: A user with "access content" permissions should see the wiki list
     Given I am logged in as a user with the "administrator " role
+
     And I visit the "community" content with title "Community test"
     And I click "Create content"
     And I click link "<link>" in the "#block-multisite-og-button-og-contextual-links" element
