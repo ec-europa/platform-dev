@@ -7,7 +7,6 @@
  * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
  */
 
-include_once 'multisite_forum_community.install.inc';
 
 /**
  * Implements hook_enable().
@@ -21,7 +20,7 @@ function multisite_forum_community_enable() {
   variable_set('og_context_negotiation_group_context', $og_context_negotiation_group_context);
 
   // Add multilinual forum to ogcontexte negocation (not.
-  drupal_set_message(t('Multisite Forum Community %v feature is now active on your site.', array('%v' => _multisite_forum_community_get_version())));
+  drupal_set_message(t('Multisite Forum Community feature is now active on your site.'));
 }
 
 /**
@@ -36,7 +35,7 @@ function multisite_forum_community_disable() {
   /*   * * Remove permissions ** */
   multisite_drupal_toolbox_disable_content_type('discussion');
 
-  drupal_set_message(t('Multisite Forum Community %v feature is now inactive on your site.', array('%v' => _multisite_forum_community_get_version())));
+  drupal_set_message(t('Multisite Forum Community feature is now inactive on your site.'));
 }
 
 /**
