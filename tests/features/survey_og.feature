@@ -1,6 +1,6 @@
 @api @javascript @maximizedwindow @communities
-Feature: Wiki OG Content
-  In order to access Wiki og content
+Feature: Survey OG Content
+  In order to access Survey OG content
   As a user
   I need to have access to view content
 
@@ -8,7 +8,7 @@ Feature: Wiki OG Content
     Given I run drush pmi nexteuropa_communities
     And the module is enabled
       | modules                   |
-      | wiki_og                   |
+      |  survey_og             |
     And I am logged in as a user with the "administrator" role
     And I go to "node/add/community"
     And I fill in "Title" with "Community test"
@@ -24,7 +24,7 @@ Feature: Wiki OG Content
     And I click link "<link>" in the "#block-multisite-og-button-og-contextual-links" element
     And I fill in "Title" with "<title>"
     And I click "Publishing options"
-    And I select "Published" from "edit-workbench-moderation-state-new"
+    And I check "Published"
     And I press "Save"
     When I go to "admin/people/permissions/2"
     And I check "edit-2-access-content"
@@ -34,10 +34,10 @@ Feature: Wiki OG Content
     And I press "Rebuild permissions"
     And I am logged in as a user with the "authenticated user" role
     And I go to "<content_path>"
-    Then I should see "<title>"
+    Then I should see the text "<title>"
       Examples:
-      | link   |  title        | content_path                  |
-      | Wiki   |  Wiki test    | community/community-test/wiki |
+      | link     |  title          | content_path                       |
+      | Survey   |  Survey test    | community/community-test/survey    |
       
   Scenario Outline: A user without "access content" permissions should not see the wiki list
     Given I am logged in as a user with the "administrator" role
@@ -46,7 +46,7 @@ Feature: Wiki OG Content
     And I click link "<link>" in the "#block-multisite-og-button-og-contextual-links" element
     And I fill in "Title" with "<title>"
     And I click "Publishing options"
-    And I select "Published" from "edit-workbench-moderation-state-new"
+    And I check "Published"
     And I press "Save"
     When I go to "admin/people/permissions/2"
     And I uncheck "edit-2-access-content"
@@ -58,5 +58,5 @@ Feature: Wiki OG Content
     And I go to "<content_path>"
     Then I should see "Access denied"
       Examples:
-      | link   |  title        | content_path                  |
-      | Wiki   |  Wiki test    | community/community-test/wiki |
+      | link     |  title          | content_path                       |
+      | Survey   |  Survey test    | community/community-test/survey    |
