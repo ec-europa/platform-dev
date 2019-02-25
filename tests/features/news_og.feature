@@ -24,7 +24,6 @@ Feature: News OG Content
     And I click link "<link>" in the "#block-multisite-og-button-og-contextual-links" element
     And I fill in "Title" with "<title>"
     And I click "Publishing options"
-    And I check "Published"
     And I select "Published" from "edit-workbench-moderation-state-new"
     And I press "Save"
     When I go to "admin/people/permissions/2"

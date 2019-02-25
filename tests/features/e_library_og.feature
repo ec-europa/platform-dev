@@ -15,6 +15,7 @@ Feature: E-Library OG Content
     And I click "Publishing options"
     And I select "Published" from "edit-workbench-moderation-state-new"
     And I press "Save"
+    And the cache has been cleared
     Then I should see "Community test"
 
   Scenario Outline: A user with "access content" permissions should see the wiki list
@@ -38,7 +39,7 @@ Feature: E-Library OG Content
     Then I should see "<title>"
       Examples:
       | link     |  title          | content_path                       |
-      | Document |  Document test  | community/community-test/documment |
+      | Document |  Document test  | community/community-test/e_library |
       
   Scenario Outline: A user without "access content" permissions should not see the wiki list
     Given I am logged in as a user with the "administrator" role
@@ -61,4 +62,4 @@ Feature: E-Library OG Content
     Then I should see "Access denied"
       Examples:
       | link     |  title          | content_path                       |
-      | Document |  Document test  | community/community-test/documment |
+      | Document |  Document test  | community/community-test/e_library |
