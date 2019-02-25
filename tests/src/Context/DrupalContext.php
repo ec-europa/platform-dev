@@ -437,7 +437,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
 
   /**
    * Click on a link inside an element.
-   * 
+   *
    * @Given I click link :arg1 in the :arg2 element
    */
   public function iClickLinkInTheElement($arg1, $arg2) {
