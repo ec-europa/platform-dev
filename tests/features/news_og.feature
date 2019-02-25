@@ -22,7 +22,7 @@ Feature: News OG Content
     And I visit the "community" content with title "Community test"
     And I click "Create content"
     And I click link "<link>" in the "#block-multisite-og-button-og-contextual-links" element
-    And I fill in "Title" with "<title>"
+    And I fill in "edit-title" with "<title>"
     And I click "Publishing options"
     And I select "Published" from "edit-workbench-moderation-state-new"
     And I press "Save"
@@ -44,7 +44,7 @@ Feature: News OG Content
     When I visit the "community" content with title "Community test"
     And I click "Create content"
     And I click link "<link>" in the "#block-multisite-og-button-og-contextual-links" element
-    And I fill in "Title" with "<title>"
+    And I fill in "edit-title" with "<title>"
     And I click "Publishing options"
     And I select "Published" from "edit-workbench-moderation-state-new"
     And I press "Save"
