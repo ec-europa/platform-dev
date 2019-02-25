@@ -434,5 +434,20 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     $this->rememberCurrentLastNode();
     return $this->maxNodeId;
   }
+  /**
+   * @Given I click link :arg1 in the :arg2 element
+   */
+  public function iClickLinkInTheElement($arg1, $arg2) {
+    $session = $this->getSession();
+    $element = $session->getPage()->find("css", $arg2);
+    if (NULL === $element) {
+      throw new \Exception(sprintf('Could not find selector: "%s"', $arg2));
+    }
+    $link = $element->findLink($arg1);
+    if (NULL === $link) {
+      throw new \Exception(sprintf('Could not find text: "%s"', $arg1));
+    }
+    $link->click();
+  }
 
 }
