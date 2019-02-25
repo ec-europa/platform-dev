@@ -5,8 +5,8 @@ Feature: Events OG Content
   I need to have access to view content
 
   Background:
-    #Given I run drush pmi nexteuropa_communities
-    Given the module is enabled
+    Given I run drush pmi nexteuropa_communities
+    And the module is enabled
       | modules                   |
       |  events_og             |
     And I am logged in as a user with the "administrator" role
