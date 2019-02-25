@@ -1,8 +1,8 @@
-@api @javascript @maximizedwindow
-Feature: Community Wiki
-  In order to access Communities Wikis
-  As a group user
-  I want to access wiki post
+@api @javascript @maximizedwindow @communities
+Feature: Community Content
+  In order to access Communities content
+  As a user
+  I need to have access to view content
 
   Background:
     Given I run drush pmi nexteuropa_communities
@@ -16,27 +16,47 @@ Feature: Community Wiki
     And I select "Published" from "edit-workbench-moderation-state-new"
     And I press "Save"
     Then I should see "Community test"
+
+  Scenario Outline: A user with "access content" permissions should see the wiki list
+    Given I am logged in as a user with the "administrator " role
+    And I visit the "community" content with title "Community test"
     And I click "Create content"
-    And I click "Wiki" in the "sidebar_left" region
-    And I fill in "Title" with "Wiki test"
+    And I click link "Wiki" in the "#block-multisite-og-button-og-contextual-links" element
+    And I fill in "Title" with "<title>"
     And I click "Publishing options"
     And I select "Published" from "edit-workbench-moderation-state-new"
     And I press "Save"
-    Then I should see "Wiki test"
-
-  Scenario: A user with "access content" permissions should see the wiki list
-    # Remove "access content" permissions from anonymous user
-    Given I am an anonymous user
-    When I go to "community/community-test/wiki"
-    Then I should see "Wiki test"
-
-  Scenario: A user without "access content" permissions should not see the wiki list
-    Given I am logged in as a user with the "administrator" role
-    When I go to "admin/people/permissions/1"
-    And I uncheck "edit-1-access-content"
+    When I go to "admin/people/permissions/2"
+    And I check "edit-2-access-content"
     And I press "Save permissions"
     Then I should see "The changes have been saved."
-    Then I am an anonymous user
-    And I go to "community/community-test/wiki"
+    And I go to "admin/reports/status/rebuild"
+    And I press "Rebuild permissions"
+    And I am logged in as a user with the "authenticated user" role
+    And I go to "<content_path>"
+    Then I should see "<title>"
+      Examples:
+      | link   |  title        | content_path                  |
+      | Wiki   |  Wiki test    | community/community-test/wiki |
+      
+  Scenario Outline: A user without "access content" permissions should not see the wiki list
+    Given I am logged in as a user with the "administrator" role
+    When I visit the "community" content with title "Community test"
+    And I click "Create content"
+    And I click link "Wiki" in the "#block-multisite-og-button-og-contextual-links" element
+    And I fill in "Title" with "<title>"
+    And I click "Publishing options"
+    And I select "Published" from "edit-workbench-moderation-state-new"
+    And I press "Save"
+    When I go to "admin/people/permissions/2"
+    And I uncheck "edit-2-access-content"
+    And I press "Save permissions"
+    Then I should see "The changes have been saved."
+    And I go to "admin/reports/status/rebuild"
+    And I press "Rebuild permissions"
+    And I am logged in as a user with the "authenticated user" role
+    And I go to "<content_path>"
     Then I should see "Access denied"
-
+      Examples:
+      | link   |  title        | content_path                  |
+      | Wiki   |  Wiki test    | community/community-test/wiki |
