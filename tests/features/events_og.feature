@@ -26,8 +26,6 @@ Feature: Events OG Content
     And I click "Publishing options"
     And I select "Published" from "edit-workbench-moderation-state-new"
     And I press "Save"
-    And I break
-    Then I should see the text "<message>"
     When I go to "admin/people/permissions/2"
     And I check "edit-2-access-content"
     And I press "Save permissions"
@@ -38,8 +36,8 @@ Feature: Events OG Content
     And I go to "<content_path>"
     Then I should see the text "<title>"
       Examples:
-      | link     |  title          | content_path                       | message                             |
-      | Event    |  Events test    | community/community-test/calendar  | Event Events test has been created. |
+      | link     |  title          | content_path                       | 
+      | Event    |  Events test    | community/community-test/calendar  |
       
   Scenario Outline: A user without "access content" permissions should not see the wiki list
     Given I am logged in as a user with the "administrator" role
@@ -49,8 +47,6 @@ Feature: Events OG Content
     And I fill in "Title" with "<title>"
     And I click "Publishing options"
     And I select "Published" from "edit-workbench-moderation-state-new"
-    And I press "Save"
-    Then I should see "<message>"
     When I go to "admin/people/permissions/2"
     And I uncheck "edit-2-access-content"
     And I press "Save permissions"
@@ -61,5 +57,5 @@ Feature: Events OG Content
     And I go to "<content_path>"
     Then I should see "Access denied"
       Examples:
-      | link     |  title          | content_path                       | message                             |
-      | Event    |  Events test    | community/community-test/calendar  | Event Events test has been created. |
+      | link     |  title          | content_path                       |
+      | Event    |  Events test    | community/community-test/calendar  |
