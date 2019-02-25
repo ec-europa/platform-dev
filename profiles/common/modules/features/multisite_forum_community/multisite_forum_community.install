@@ -7,7 +7,6 @@
  * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
  */
 
-
 /**
  * Implements hook_enable().
  */
