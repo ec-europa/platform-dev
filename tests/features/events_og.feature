@@ -5,8 +5,8 @@ Feature: Events OG Content
   I need to have access to view content
 
   Background:
-    Given I run drush pmi nexteuropa_communities
-    And the module is enabled
+    #Given I run drush pmi nexteuropa_communities
+    Given the module is enabled
       | modules                   |
       |  events_og             |
     And I am logged in as a user with the "administrator" role
@@ -22,10 +22,11 @@ Feature: Events OG Content
     And I visit the "community" content with title "Community test"
     And I click "Create content"
     And I click link "<link>" in the "#block-multisite-og-button-og-contextual-links" element
-    And I fill in "Title" with "<title>"
+    And I fill in "edit-title" with "<title>"
     And I click "Publishing options"
     And I select "Published" from "edit-workbench-moderation-state-new"
     And I press "Save"
+    Then I should see "<message>"
     When I go to "admin/people/permissions/2"
     And I check "edit-2-access-content"
     And I press "Save permissions"
@@ -36,15 +37,15 @@ Feature: Events OG Content
     And I go to "<content_path>"
     Then I should see the text "<title>"
       Examples:
-      | link     |  title          | content_path                       | 
-      | Event    |  Events test    | community/community-test/calendar  |
-      
+      | link     |  title          | content_path                       | message                             |
+      | Event    |  Events test    | community/community-test/calendar  | Event Events test has been created. |
+      @wip
   Scenario Outline: A user without "access content" permissions should not see the wiki list
     Given I am logged in as a user with the "administrator" role
     When I visit the "community" content with title "Community test"
     And I click "Create content"
     And I click link "<link>" in the "#block-multisite-og-button-og-contextual-links" element
-    And I fill in "Title" with "<title>"
+    And I fill in "edit-title" with "<title>"
     And I click "Publishing options"
     And I select "Published" from "edit-workbench-moderation-state-new"
     When I go to "admin/people/permissions/2"
