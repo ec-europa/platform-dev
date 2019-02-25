@@ -30,18 +30,6 @@ function tmgmt_dgt_connector_permission() {
 function tmgmt_dgt_connector_menu() {
   $items = array();
 
-  $items['tmgmt_dgt_connector/server'] = array(
-    'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::endpoint',
-    // Authentication is done within the service.
-    'access callback' => TRUE,
-  );
-
-  $items['tmgmt_dgt_connector/DGTServicesIntegration.wsdl'] = array(
-    'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::wsdl',
-    // Authentication is done within the service.
-    'access callback' => TRUE,
-  );
-
   $items['admin/config/system/dgt_connector'] = array(
     'title' => 'TMGMT DGT Connector - Configuration',
     'description' => 'Configuration of the TMGMT DGT Connector.',
