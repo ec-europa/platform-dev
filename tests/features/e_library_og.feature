@@ -1,6 +1,6 @@
 @api @javascript @maximizedwindow @communities
-Feature: Wiki OG Content
-  In order to access Wiki og content
+Feature: E-Library OG Content
+  In order to access E-Library OG content
   As a user
   I need to have access to view content
 
@@ -8,7 +8,7 @@ Feature: Wiki OG Content
     Given I run drush pmi nexteuropa_communities
     And the module is enabled
       | modules                   |
-      | wiki_og                   |
+      |  e_library_og             |
     And I am logged in as a user with the "administrator" role
     And I go to "node/add/community"
     And I fill in "Title" with "Community test"
@@ -23,6 +23,7 @@ Feature: Wiki OG Content
     And I click "Create content"
     And I click link "<link>" in the "#block-multisite-og-button-og-contextual-links" element
     And I fill in "Title" with "<title>"
+    And I attach the file "/tests/files/logo.png" to "edit-field-document-und-0-upload"
     And I click "Publishing options"
     And I select "Published" from "edit-workbench-moderation-state-new"
     And I press "Save"
@@ -36,8 +37,8 @@ Feature: Wiki OG Content
     And I go to "<content_path>"
     Then I should see "<title>"
       Examples:
-      | link   |  title        | content_path                  |
-      | Wiki   |  Wiki test    | community/community-test/wiki |
+      | link     |  title          | content_path                       |
+      | Document |  Document test  | community/community-test/documment |
       
   Scenario Outline: A user without "access content" permissions should not see the wiki list
     Given I am logged in as a user with the "administrator" role
@@ -45,6 +46,7 @@ Feature: Wiki OG Content
     And I click "Create content"
     And I click link "<link>" in the "#block-multisite-og-button-og-contextual-links" element
     And I fill in "Title" with "<title>"
+    And I attach the file "/tests/files/logo.png" to "edit-field-document-und-0-upload"
     And I click "Publishing options"
     And I select "Published" from "edit-workbench-moderation-state-new"
     And I press "Save"
@@ -58,5 +60,5 @@ Feature: Wiki OG Content
     And I go to "<content_path>"
     Then I should see "Access denied"
       Examples:
-      | link   |  title        | content_path                  |
-      | Wiki   |  Wiki test    | community/community-test/wiki |
+      | link     |  title          | content_path                       |
+      | Document |  Document test  | community/community-test/documment |
