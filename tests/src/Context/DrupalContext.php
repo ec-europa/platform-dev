@@ -434,7 +434,10 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     $this->rememberCurrentLastNode();
     return $this->maxNodeId;
   }
+
   /**
+   * Click on a link inside an element.
+   * 
    * @Given I click link :arg1 in the :arg2 element
    */
   public function iClickLinkInTheElement($arg1, $arg2) {
@@ -449,5 +452,76 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     }
     $link->click();
   }
+
+  /**
+   * Scroll into view.
+   *
+   * @param string $selector
+   *   Allowed selectors: #id, .className, //xpath.
+   *
+   * @throws \Exception
+   *
+   * @When I scroll until view the element :selector
+   */
+  public function iScrollUntilViewTheElement($selector) {
+    $locator = substr($selector, 0, 1);
+
+    switch ($locator) {
+      // Query selector.
+      case '$':
+        $selector = substr($selector, 1);
+        $function = <<<JS
+(function(){
+  var elem = document.querySelector("$selector");
+  elem.scrollIntoView(false);
+})()
+JS;
+        break;
+
+      // XPath selector.
+      case '/':
+        $function = <<<JS
+(function(){
+  var elem = document.evaluate("$selector", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+  elem.scrollIntoView(false);
+})()
+JS;
+        break;
+
+      // ID selector.
+      case '#':
+        $selector = substr($selector, 1);
+        $function = <<<JS
+(function(){
+  var elem = document.getElementById("$selector");
+  elem.scrollIntoView(false);
+})()
+JS;
+        break;
+
+      // Class selector.
+      case '.':
+        $selector = substr($selector, 1);
+        $function = <<<JS
+(function(){
+  var elem = document.getElementsByClassName("$selector");
+  elem[0].scrollIntoView(false);
+})()
+JS;
+        break;
+
+      default:
+        throw new \Exception(__METHOD__ . ' Couldn\'t find selector: ' . $selector . ' - Allowed selectors: #id, .className, //xpath');
+    }
+
+    try {
+      $this->getSession()->executeScript($function);
+    }
+    catch (Exception $e) {
+      throw new \Exception(__METHOD__ . ' failed');
+    }
+
+  }
+
 
 }
