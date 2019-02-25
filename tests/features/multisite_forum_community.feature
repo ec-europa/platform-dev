@@ -57,5 +57,5 @@ Feature: Community OG Content
     And I go to "<content_path>"
     Then I should see "Access denied"
       Examples:
-      | link     |  title          | content_path                       |
-      | Survey   |  Survey test    | community/community-test/survey    |
+      | link       |  titl             | content_path                       |
+      | Discussion |  Discussion test  | community/community-test/forum     |
