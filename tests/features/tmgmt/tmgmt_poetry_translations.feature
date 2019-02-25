@@ -15,6 +15,10 @@ Feature: TMGMT Poetry features
       | fr        |
       | de        |
       | it        |
+    And I change the variable "nexteuropa_poetry_notification_username" to "foo"
+    And I change the variable "nexteuropa_poetry_notification_password" to "bar"
+    And I change the variable "nexteuropa_poetry_service_username" to "bar"
+    And I change the variable "nexteuropa_poetry_service_password" to "foo"
 
   @resetPoetryNumero @theme_wip
   Scenario: Checking a wrong configuration.

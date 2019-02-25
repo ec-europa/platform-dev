@@ -145,6 +145,36 @@ class PoetryMock {
    */
   public function sendRequestToDrupal($message) {
     $this->instantiateClient($this->settings['drupal_wsdl']);
+    try {
+      $poetry = nexteuropa_poetry_client();
+      $wsdl = $poetry->getWsdl()->getXml();
+      $wsdl = 'data://text/plain;base64,' . base64_encode($wsdl);
+      $client = new \SoapClient($wsdl, ['cache_wsdl' => WSDL_CACHE_NONE]);
+
+      $response = $client->__soapCall('handle', [
+        $poetry->get('notification.username'),
+        $poetry->get('notification.password'),
+        $message,
+      ]);
+    }
+    catch (Exception $exc) {
+      watchdog_exception('tmgmt_poetry_mock', $exc);
+    }
+
+    return $response;
+  }
+
+  /**
+   * Method for mimicking requests from Poetry to Drupal.
+   *
+   * @param string $message
+   *   XML message which should be send.
+   *
+   * @return mixed
+   *   Response from service.
+   */
+  public function apagarSendRequestToDrupal($message) {
+    $this->instantiateClient($this->settings['drupal_wsdl']);
     $translator = tmgmt_translator_load(self::TRANSLATOR_NAME);
     $settings = $translator->getSetting('settings');
     try {

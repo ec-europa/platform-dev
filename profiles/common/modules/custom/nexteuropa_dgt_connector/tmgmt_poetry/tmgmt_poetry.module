@@ -5,6 +5,8 @@
  * Module file of the translation management Poetry .
  */
 
+use Drupal\tmgmt_poetry\Notification;
+
 module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
 
 /**
@@ -1323,6 +1325,22 @@ function tmgmt_poetry_permission() {
       'title' => t('Configure DGT connector'),
     ),
   );
+}
+
+/**
+ * Implements hook_nexteuropa_poetry_notification_translation_received().
+ */
+function tmgmt_poetry_nexteuropa_poetry_notification_translation_received($message) {
+  $subscriber = new Notification();
+  $subscriber->translationReceived($message);
+}
+
+/**
+ * Implements hook_nexteuropa_poetry_notification_status_updated().
+ */
+function tmgmt_poetry_nexteuropa_poetry_notification_status_updated($message) {
+  $subscriber = new Notification();
+  $subscriber->statusUpdated($message);
 }
 
 /**
