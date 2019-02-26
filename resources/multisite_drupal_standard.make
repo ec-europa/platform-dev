@@ -440,6 +440,10 @@ projects[libraries][version] = "2.3"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
+; Allow any TLD on url links.
+; https://www.drupal.org/project/link/issues/2299657 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2256
+projects[link][patch][] = https://www.drupal.org/files/issues/link-2299657-for-7.x-1.4.patch
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.3"
