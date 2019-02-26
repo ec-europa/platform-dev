@@ -11,5 +11,3 @@ if ( is_file(FPFIS_COMMON_LIBRARIES_PATH . '/FPFIS_Common/generic/generic-functi
 
 if ( is_file(FPFIS_COMMON_LIBRARIES_PATH . '/FPFIS_Common/generic/generic-actions.php') )
 	include_once(FPFIS_COMMON_LIBRARIES_PATH . '/FPFIS_Common/generic/generic-actions.php');
-
-?>

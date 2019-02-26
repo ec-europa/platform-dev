@@ -308,5 +308,3 @@ if (!function_exists('checkProxyRules'))
     return false;
   }
 }
-
-?>
