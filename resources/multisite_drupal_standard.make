@@ -440,7 +440,7 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.5"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.5"
+projects[link][version] = "1.6"
 ; Issue #2975586: Title field assumed when it may not exist
 ; https://www.drupal.org/node/2974486
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2008
