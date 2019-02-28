@@ -5,7 +5,7 @@
  * Module file of the TMGMT DGT connector.
  */
 
-use Drupal\tmgmt_poetry\Notification;
+use Drupal\tmgmt_dgt_connector\Notification;
 
 define('TMGMT_DGT_CONNECTOR_MAX_LENGTH', 300);
 define('TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME', 'tmgmt_dgt_connector');
