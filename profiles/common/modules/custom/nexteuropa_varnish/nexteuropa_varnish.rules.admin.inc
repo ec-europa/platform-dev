@@ -108,7 +108,7 @@ function _nexteuropa_varnish_regex_validate($form, &$form_state) {
  * Custom function checks which site URLs match the regex pattern.
  */
 function _nexteuropa_varnish_check_scope(&$form, &$form_state) {
-  $$output = '';
+  $output = '';
   $regex = _nexteuropa_varnish_gather_expressions($form_state['values']['paths']);
   $query = db_select('url_alias', 'u')
     ->fields('u');

@@ -334,32 +334,29 @@ function _nexteuropa_varnish_purge_paths($paths) {
     WATCHDOG_INFO
   );
 
-  // Escape the paths for usage in a regular expression. Also remove leading
-  // slashes.
+  // Escape the paths for usage in a regular expression.
   $escaped_paths = array_map(
-    function ($path) {
-      return preg_quote(ltrim($path, '/'));
+    function ($regex) {
+      // Check if the regular expression is valid.
+      if (@preg_match('/' . $regex . '/', NULL) !== FALSE) {
+        return $regex;
+      }
+      else {
+        drupal_set_message(
+          t(
+            'Please !check_config, the regex %regex you are trying to flush is not valid. We suggest you review and save your regex rules again using the documentation available and the "Check Scope" button. In case of doubt, please contact your site administrator or the devops team.',
+            array(
+              '!check_config' => l(
+                t('check your varnish rules'),
+                'admin/config/system/nexteuropa-varnish/purge_rules'),
+              '%regex' => $regex,
+            )
+            ),
+        'error');
+      }
     },
     $paths
   );
-
-  // Replace glob wildcard patterns * and ?
-  $escaped_paths = array_map(
-    function ($path) {
-      $replacements = array(
-        '\*' => '[^/]*',
-        '\?' => '[^/]',
-      );
-
-      return str_replace(
-        array_keys($replacements),
-        array_values($replacements),
-        $path
-      );
-    },
-    $escaped_paths
-  );
-
   _nexteuropa_varnish_varnish_requests_send($escaped_paths);
 }
 
@@ -456,22 +453,28 @@ function _nexteuropa_varnish_prepare_request_options($path_regexp_rules = array(
   if (!$settings) {
     $settings = _nexteuropa_varnish_get_varnish_settings();
   }
-
-  // Prepare values for 'X-Invalidate-Type' and 'X-Invalidate-Regexp' on the
-  // basis of $path_regexp_rules.
-  $invalidate_type = 'full';
-  $sent_regexp = '';
-  if (!empty($path_regexp_rules)) {
-    $invalidate_type = 'regexp-multiple';
-    $sent_regexp = '^(' . implode('|', $path_regexp_rules) . ')$';
-  }
+  $additional_headers = array();
 
   // Preparing the requests for Varnish server(s).
   $base_request_headers = _nexteuropa_varnish_base_request_headers($settings);
-  $request_headers = $base_request_headers + array(
+
+  // Prepare values for 'X-Invalidate-Type' and 'X-Invalidate-Regexp' on the
+  // basis of $path_regexp_rules.
+  // If there is only one regex, we send multiple anyway, doesn't matter.
+  if (!empty($path_regexp_rules)) {
+    $invalidate_type = 'regexp-multiple';
+    $sent_regexp = "^(" . implode('|', $path_regexp_rules) . ")$";
+    $additional_headers = array(
+      'X-Invalidate-Regexp' => $sent_regexp,
+    );
+  }
+  else {
+    $invalidate_type = 'full';
+  };
+
+  $request_headers = $base_request_headers + $additional_headers + array(
     'X-Invalidate-Tag' => $settings['varnish_tag'],
     'X-Invalidate-Type' => $invalidate_type,
-    'X-Invalidate-Regexp' => $sent_regexp,
   );
 
   $request_method = $settings['varnish_request_method'];
@@ -541,19 +544,23 @@ function _nexteuropa_varnish_get_node_paths($node) {
       $lang_codes = array_keys($translations->data);
       $all_languages = entity_translation_languages('node', $node);
 
+      $entity_uri['options']['base_url'] = '';
       foreach ($lang_codes as $lang_code) {
         if (isset($all_languages[$lang_code])) {
-          $paths[$lang_code] = url(
+          $url = url(
             $entity_uri['path'],
             $entity_uri['options'] + array('language' => $all_languages[$lang_code])
           );
+          $paths[$lang_code] = preg_quote($url, '/');
         }
       }
     }
     else {
-      $lang_code = entity_language('node', $node);
-      $paths[$lang_code] = url($entity_uri['path'], $entity_uri['options']);
+      $url = url($entity_uri['path'], $entity_uri['options']);
+      $paths[$lang_code] = preg_quote($url, '/');
     }
+    // Add the node/nid path.
+    $paths['unaliased'] = preg_quote($entity_uri['path'], '/');
   }
 
   return $paths;
