@@ -211,22 +211,13 @@ class Notification {
    *   The Translation Received.
    */
   public function statusUpdated(StatusUpdated $message) {
-    $translator = tmgmt_translator_load('poetry');
 
     $reference = $message->getIdentifier()->getFormattedIdentifier();
     $attributions_statuses = $message->getAttributionStatuses();
 
     // Get main job in order to register the messages.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
-    $languages_jobs = array();
-    /** @var \EC\Poetry\Messages\Components\Status $attribution_status */
-    foreach ($attributions_statuses as $attribution_status) {
-      $languages_jobs[] = $translator->mapToLocalLanguage(drupal_strtolower($attribution_status->getLanguage()));
-    }
-    $ids = tmgmt_poetry_obtain_related_translation_jobs(
-      $languages_jobs,
-      $main_reference
-    )->fetchAll();
+    $ids = tmgmt_poetry_obtain_related_translation_jobs([], $main_reference)->fetchAll();
     if (!$ids) {
       watchdog(
         "tmgmt_poetry",
@@ -411,7 +402,7 @@ function poetry_integration_request_mock($msg) {
 
   // Get main job in order to register the messages.
   $main_reference = 'MAIN_%_POETRY_%' . $reference;
-  $ids = tmgmt_poetry_obtain_related_translation_jobs(NULL, $reference)
+  $ids = tmgmt_poetry_obtain_related_translation_jobs([], $reference)
     ->fetchAll();
 
   // Handling the case where we can't find the corresponding job.

@@ -148,8 +148,8 @@ class PoetryMock {
     try {
       $poetry = nexteuropa_poetry_client();
       $wsdl = $poetry->getWsdl()->getXml();
-      $wsdl = 'data://text/plain;base64,' . base64_encode($wsdl);
-      $client = new \SoapClient($wsdl, ['cache_wsdl' => WSDL_CACHE_NONE]);
+      $wsdl_encoded = 'data://text/plain;base64,' . base64_encode($wsdl);
+      $client = new \SoapClient($wsdl_encoded, ['cache_wsdl' => WSDL_CACHE_NONE]);
 
       $response = $client->__soapCall('handle', [
         $poetry->get('notification.username'),
