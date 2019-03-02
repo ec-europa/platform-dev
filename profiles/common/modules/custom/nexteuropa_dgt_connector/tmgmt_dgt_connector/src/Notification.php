@@ -14,6 +14,13 @@ use EC\Poetry\Messages\Notifications\TranslationReceived;
 class Notification extends BaseNotification {
 
   /**
+   * Name of the translator that handles this notification.
+   *
+   * @var string
+   */
+  protected $translatorName = TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME;
+
+  /**
    * Process notification TranslationReceived.
    *
    * @param \EC\Poetry\Messages\Notifications\TranslationReceived $message
@@ -24,20 +31,21 @@ class Notification extends BaseNotification {
    */
   public function translationReceived(TranslationReceived $message) {
 
-    $reference = $message->getIdentifier()->getFormattedIdentifier();
+    // Initial steps.
+    $this->setReference($message);
+    $this->storeMessage($message);
 
     // Get main job in order to register the messages and get translator.
-    $main_reference = 'MAIN_%_POETRY_%' . $reference;
     $targets = $message->getTargets();
     /** @var \EC\Poetry\Messages\Components\Target $target */
     $target = current($targets);
 
-    $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $main_reference)->fetchAll();
+    $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), 'MAIN_%_POETRY_%' . $this->reference)->fetchAll();
     if (empty($ids)) {
       watchdog(
         "tmgmt_poetry",
         "Callback can't find job with reference !reference .",
-        array('!reference' => $main_reference),
+        array('!reference' => $this->reference),
         WATCHDOG_ERROR
       );
       return FALSE;
@@ -47,16 +55,16 @@ class Notification extends BaseNotification {
     $main_id = array_shift($ids);
     $main_job = tmgmt_job_load($main_id->tjid);
 
-    if ($main_job->translator !== TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME) {
+    $translator = $this->getTranslator($main_job, $message);
+    if (!$translator) {
       return FALSE;
     }
-    $translator = tmgmt_translator_load($main_job->translator);
 
     if ($main_job->isAborted()) {
       watchdog(
         "tmgmt_poetry",
         "Translation received for aborted job with reference !reference .",
-        array('!reference' => $main_reference),
+        array('!reference' => $this->reference),
         WATCHDOG_ERROR
       );
       return FALSE;
@@ -66,7 +74,7 @@ class Notification extends BaseNotification {
       watchdog(
         "tmgmt_poetry",
         "Callback can't find controller with reference !reference .",
-        array('!reference' => $main_reference),
+        array('!reference' => $this->reference),
         WATCHDOG_ERROR
       );
       return FALSE;
@@ -74,7 +82,7 @@ class Notification extends BaseNotification {
 
     // Get main job.
     $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
-    $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $reference)
+    $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $this->reference)
       ->fetchAll();
     $main_ids = $ids[0];
     $job = tmgmt_job_load($main_ids->tjid);
@@ -208,13 +216,16 @@ class Notification extends BaseNotification {
    *   The Translation Received.
    */
   public function statusUpdated(StatusUpdated $message) {
+
+    // Initial steps.
+    $this->setReference($message);
+    $this->storeMessage($message);
+
     $translator = tmgmt_translator_load(TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME);
 
-    $reference = $message->getIdentifier()->getFormattedIdentifier();
     $attributions_statuses = $message->getAttributionStatuses();
 
     // Get main job in order to register the messages.
-    $main_reference = 'MAIN_%_POETRY_%' . $reference;
     $languages_jobs = array();
     /** @var \EC\Poetry\Messages\Components\Status $attribution_status */
     foreach ($attributions_statuses as $attribution_status) {
@@ -222,13 +233,13 @@ class Notification extends BaseNotification {
     }
     $ids = tmgmt_poetry_obtain_related_translation_jobs(
       $languages_jobs,
-      $main_reference
+      'MAIN_%_POETRY_%' . $this->reference
     )->fetchAll();
     if (!$ids) {
       watchdog(
         "tmgmt_poetry",
         "Callback can't find a job with remote reference !reference .",
-        array('!reference' => $reference),
+        array('!reference' => $this->reference),
         WATCHDOG_ERROR
       );
       return;
@@ -236,15 +247,16 @@ class Notification extends BaseNotification {
     $main_id = array_shift($ids);
     $main_job = tmgmt_job_load($main_id->tjid);
 
-    if ($main_job->translator !== TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME) {
-      return FALSE;
+    $translator = $this->getTranslator($main_job, $message);
+    if (!$translator) {
+      return;
     }
 
     // 1. Check status of request.
     $request_status = $message->getRequestStatus();
     if ($request_status->getCode() != '0') {
       $msg_info = array(
-        '@reference' => $reference,
+        '@reference' => $this->reference,
         '@message' => $message->getRaw(),
       );
       watchdog(
@@ -265,7 +277,7 @@ class Notification extends BaseNotification {
       'tmgmt_poetry',
       'Job @reference got a Status Update. Message: @message',
       array(
-        '@reference' => $reference,
+        '@reference' => $this->reference,
         '@message' => $message->getRaw(),
       ),
       WATCHDOG_INFO
@@ -318,9 +330,7 @@ class Notification extends BaseNotification {
       );
 
       if ($cancelled) {
-        $reference = '%' . $reference;
-
-        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
+        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), '%' . $this->reference)
           ->fetchAll();
         foreach ($ids as $id) {
           $job = tmgmt_job_load($id->tjid);
@@ -328,8 +338,7 @@ class Notification extends BaseNotification {
         }
       }
       elseif ($main_job->isAborted()) {
-        $reference = '%' . $reference;
-        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
+        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), '%' . $this->reference)
           ->fetchAll();
 
         foreach ($ids as $id) {
@@ -349,7 +358,7 @@ class Notification extends BaseNotification {
         $language_code = $translator->mapToLocalLanguage($language_code);
         $language_job = array($language_code);
 
-        $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
+        $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $this->reference)
           ->fetchAll();
         $ids = array_shift($ids);
         $job = tmgmt_job_load($ids->tjid);
