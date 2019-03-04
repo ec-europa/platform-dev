@@ -461,9 +461,8 @@ function _nexteuropa_varnish_prepare_request_options($path_regexp_rules = array(
 
   // Prepare values for 'X-Invalidate-Type' and 'X-Invalidate-Regexp' on the
   // basis of $path_regexp_rules.
-  // If there is only one regex, we send multiple anyway, doesn't matter.
   if (!empty($path_regexp_rules)) {
-    $invalidate_type = 'regexp-multiple';
+    $invalidate_type = 'regexp';
     $sent_regexp = "^(" . implode('|', $path_regexp_rules) . ")$";
     $additional_headers = array(
       'X-Invalidate-Regexp' => $sent_regexp,
