@@ -535,6 +535,19 @@ function _nexteuropa_varnish_get_node_paths($node) {
   $entity_uri = entity_uri('node', $node);
 
   if ($entity_uri) {
+    $url_locale = language_negotiation_get('language', 'locale-url');
+    $url_suffix = language_negotiation_get('language', 'nexteuropa_multilingual_url_suffix');
+    // Add logic to send a language prefix/suffix regex for non aliased paths.
+    if ($url_locale) {
+      $lgregex = '[a-z]{2}\/';
+    }
+    elseif ($url_suffix) {
+      $lgregex = '_[a-z]{2}';
+    }
+    else {
+      $lgregex = '';
+    }
+
     // Get the languages the node is translated into (entity translation).
     if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
       $handler = entity_translation_get_handler('node', $node);
@@ -551,16 +564,26 @@ function _nexteuropa_varnish_get_node_paths($node) {
             $entity_uri['path'],
             $entity_uri['options'] + array('language' => $all_languages[$lang_code])
           );
-          $paths[$lang_code] = preg_quote($url, '/');
+          $path_alias = drupal_get_path_alias($entity_uri['path']);
+          $paths[$lang_code] = preg_quote($url, '/') . "|" . preg_quote($path_alias, '/');
         }
       }
     }
     else {
+      // Content translation.
       $url = url($entity_uri['path'], $entity_uri['options']);
       $paths[$lang_code] = preg_quote($url, '/');
     }
-    // Add the node/nid path.
-    $paths['unaliased'] = preg_quote($entity_uri['path'], '/');
+
+    // Add the node/nid path with regex for language code.
+    $unaliased = preg_quote($entity_uri['path'], '/');
+
+    // Add regex prefix or suffix.
+    $url = $url_suffix ? $unaliased . $lgregex : $lgregex . $unaliased;
+    // Add the unaliased path without language code.
+    $url = $url . "|" . $unaliased;
+    // Add the unaliased paths.
+    $paths['unaliased'] = $url;
   }
 
   return $paths;
