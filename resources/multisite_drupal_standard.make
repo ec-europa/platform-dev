@@ -825,10 +825,11 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
 ; https://www.drupal.org/node/2908538
 projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
-; Issue #3012609: Ajax Exposed filters not working with multiple same views
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2149
+; Issue #3012609: Issues with AJAX for exposed filters
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
 ; https://www.drupal.org/project/views/issues/3012609
-projects[views][patch][] = https://www.drupal.org/files/issues/2018-11-14/views_fix_ajax_exposed_filter_with_same_mutliple_views-3012609-7.patch
+; https://www.drupal.org/project/views/issues/1809958
+projects[views][patch][] = patches/issues-ajax-exposed-filters-blocks.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
