@@ -444,6 +444,8 @@ projects[link][version] = "1.4"
 ; https://www.drupal.org/project/link/issues/2299657 
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2256
 projects[link][patch][] = https://www.drupal.org/files/issues/link-2299657-for-7.x-1.4.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2251
+projects[link][patch][] = patches/nept-2251-link-SA-CONTRIB-2019-020.patch
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.3"
@@ -931,8 +933,11 @@ projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2242
 projects[workbench_og][patch][] = patches/workbench_og_grants.patch
 
+; Fix version on a commit, see issue NEPT-2247
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][download][version] = "2.5"
+projects[wysiwyg][download][type] = "git"
+projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
+projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e948605"
 ; Fix remote js loading on ckeditor plugin
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
@@ -1156,7 +1161,7 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.9
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.11
+projects[atomium][version] = 2.12
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
