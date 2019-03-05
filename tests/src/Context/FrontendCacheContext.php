@@ -306,7 +306,7 @@ class FrontendCacheContext implements Context {
     $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray());
 
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
-    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
     assert($purge_request_paths, equals([$path_string]));
   }
 
@@ -387,7 +387,7 @@ class FrontendCacheContext implements Context {
     $purge_request = $requests->last();
 
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
-    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
   }
 
   /**

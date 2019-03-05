@@ -564,8 +564,7 @@ function _nexteuropa_varnish_get_node_paths($node) {
             $entity_uri['path'],
             $entity_uri['options'] + array('language' => $all_languages[$lang_code])
           );
-          $path_alias = drupal_get_path_alias($entity_uri['path']);
-          $paths[$lang_code] = preg_quote($url, '/') . "|" . preg_quote($path_alias, '/');
+          $paths[$lang_code] = preg_quote($url, '/');
         }
       }
     }
@@ -575,13 +574,17 @@ function _nexteuropa_varnish_get_node_paths($node) {
       $paths[$lang_code] = preg_quote($url, '/');
     }
 
-    // Add the node/nid path with regex for language code.
+    // Get the node/nid.
     $unaliased = preg_quote($entity_uri['path'], '/');
-
     // Add regex prefix or suffix.
     $url = $url_suffix ? $unaliased . $lgregex : $lgregex . $unaliased;
-    // Add the unaliased path without language code.
+    // Add the node/nid path.
     $url = $url . "|" . $unaliased;
+    // Finally Add the path alias without language code.
+    $path_alias = drupal_get_path_alias($entity_uri['path']);
+    $path_alias = preg_quote($path_alias, '/');
+    $url = $url . "|" . $path_alias;
+
     // Add the unaliased paths.
     $paths['unaliased'] = $url;
   }
