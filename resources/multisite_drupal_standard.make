@@ -925,6 +925,9 @@ projects[workbench_og][download][branch] = 7.x-2.x
 ; Issue https://www.drupal.org/project/workbench_og/issues/2006134
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
+; Check access for unpublished content not included on a group.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2242
+projects[workbench_og][patch][] = patches/workbench_og_grants.patch
 
 ; Fix version on a commit, see issue NEPT-2247
 projects[wysiwyg][subdir] = "contrib"
