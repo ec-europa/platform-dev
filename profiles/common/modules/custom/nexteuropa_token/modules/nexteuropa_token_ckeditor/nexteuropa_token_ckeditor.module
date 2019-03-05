@@ -286,16 +286,18 @@ function nexteuropa_token_ckeditor_views_pre_render(&$view) {
       drupal_add_js(drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/js/delete_history.js', array('weight' => 1));
     }
   }
-  foreach ($view->result as $key => $result) {
-    if (isset($result->node_title) && drupal_strlen($result->node_title) >= 100) {
-      // Shorten the node title if it is too long. Only show first & last chars.
-      $result->node_title = drupal_substr($result->node_title, 0, 95) . " [...] " . drupal_substr($result->node_title, -10);
-      $view->result[$key] = $result;
-    }
-    if (isset($result->bean_title) && drupal_strlen($result->bean_title) >= 100) {
-      // Shorten the bean title if it is too long. Only show first & last chars.
-      $result->bean_title = drupal_substr($result->bean_title, 0, 95) . " [...] " . drupal_substr($result->bean_title, -10);
-      $view->result[$key] = $result;
+  if ($view->name == 'nexteuropa_token_ckeditor_filter_view' || $view->name == 'nexteuropa_token_ckeditor_bean_filter_view') {
+    foreach ($view->result as $key => $result) {
+      if (isset($result->node_title) && drupal_strlen($result->node_title) >= 100) {
+        // Shorten node title if it is too long. Only show first & last chars.
+        $result->node_title = drupal_substr($result->node_title, 0, 95) . " [...] " . drupal_substr($result->node_title, -10);
+        $view->result[$key] = $result;
+      }
+      if (isset($result->bean_title) && drupal_strlen($result->bean_title) >= 100) {
+        // Shorten bean title if it is too long. Only show first & last chars.
+        $result->bean_title = drupal_substr($result->bean_title, 0, 95) . " [...] " . drupal_substr($result->bean_title, -10);
+        $view->result[$key] = $result;
+      }
     }
   }
 }

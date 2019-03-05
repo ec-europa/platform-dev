@@ -1,0 +1,7 @@
+name = NextEuropa Scheduler Message
+description = Allows to show a meesage when scheduling the publication of a node or revision.
+package = NextEuropa
+core = 7.x
+
+dependencies[] = scheduler
+dependencies[] = scheduler_workbench
