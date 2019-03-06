@@ -59,6 +59,13 @@ class FrontendCacheContext implements Context {
   protected $requests;
 
   /**
+   * The variable for TokenContext.
+   *
+   * @var \Drupal\nexteuropa\Context\TokenContext
+   */
+  private $tokenContext;
+
+  /**
    * FrontendCacheContext constructor.
    *
    * @param int $mock_server_port
@@ -121,6 +128,8 @@ class FrontendCacheContext implements Context {
   public function gatherContexts(BeforeScenarioScope $scope) {
     $environment = $scope->getEnvironment();
 
+    // This allows to use the object TokenContext on this context.
+    $this->tokenContext = $environment->getContext('Drupal\nexteuropa\Context\TokenContext');
     $this->mink = $environment->getContext(MinkContext::class);
     $this->variables = $environment->getContext(VariableContext::class);
   }
@@ -284,6 +293,7 @@ class FrontendCacheContext implements Context {
    * @Then the web front end cache was instructed to purge the following paths for the application tag :arg1:
    */
   public function theWebFrontEndCacheWasInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
+
     $requests = $this->getRequests();
     assert($requests, isOfSize(1));
 
@@ -293,7 +303,11 @@ class FrontendCacheContext implements Context {
 
     $paths = array_map(
       function ($row) {
-        return $row['Path'];
+
+        $replaced_row = $this->tokenContext->replaceToken($row['Path']);
+        $pattern = "@\[node:([\d]+)\]@";
+        $row = preg_replace($pattern, '${1}', $replaced_row);
+        return $row;
       },
       $rows
     );
