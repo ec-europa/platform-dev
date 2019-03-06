@@ -293,7 +293,7 @@ class FrontendCacheContext implements Context {
 
     $paths = array_map(
       function ($row) {
-        return preg_quote(ltrim($row['Path'], '/'));
+        return $row['Path'];
       },
       $rows
     );
