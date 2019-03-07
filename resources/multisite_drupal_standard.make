@@ -618,7 +618,7 @@ projects[print][version] = "2.2"
 ; Allow alternate location of ttfont directories
 ; https://www.drupal.org/project/print/issues/3036143
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2253
-projects[print][patch][] = https://www.drupal.org/files/issues/2019-02-27/location_ttfont_directories-3036143-1.patch
+projects[print][patch][] = https://www.drupal.org/files/issues/2019-03-06/location_ttfont_directories-3036143-4.patch
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
