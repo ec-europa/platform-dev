@@ -444,6 +444,7 @@ function cce_basic_config_install() {
       'Styles',
       'Table',
       'Smiley',
+      'Iframe',
       'Maximize',
     ),
     'drupal_path' => array(

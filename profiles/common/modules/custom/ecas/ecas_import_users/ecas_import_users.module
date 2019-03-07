@@ -11,8 +11,8 @@
 function ecas_import_users_permission() {
   return array(
     'access ecas import users function' => array(
-      'title' => t('Import ECAS users'),
-      'description' => t('Import users from the ECAS server into Drupal.'),
+      'title' => t('Import EU Login users'),
+      'description' => t('Import users from the EU Login server into Drupal.'),
     ),
   );
 }
