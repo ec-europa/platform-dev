@@ -1,4 +1,4 @@
-@api
+@api @theme_wip
 Feature: Prevent using not defined token types in Nexturopa Tokens
   In order to check that we are not using token types that are not defined
   As an administrator

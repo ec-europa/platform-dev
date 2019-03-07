@@ -12,11 +12,11 @@ Feature:
     And the apachesolr integration is configured
     And I am logged in as a user with the "administrator" role
     And there are no nodes to index in apachesolr
-
+  @theme_wip
   Scenario: Administrators cannot access the solr configuration.
     When I go to "admin/config/search/apachesolr/settings/solr/edit"
     Then I should see the text "Access denied"
-
+  @theme_wip
   Scenario: Administrators can access the facet configuration page.
     When I go to "admin/config/search/apachesolr/settings/solr/facets"
     Then I should see the text "Settings for: localhost server"

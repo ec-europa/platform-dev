@@ -1,4 +1,4 @@
-@api
+@api @theme_wip
 Feature: Content type administration features
   In order to easily structure the content of the European Commission
   As an administrator

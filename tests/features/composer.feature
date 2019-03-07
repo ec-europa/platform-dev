@@ -1,4 +1,4 @@
-@api
+@api @theme_wip
 Feature: Composer
   In order to write modern and efficient PHP code
   As an developer

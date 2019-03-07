@@ -1,4 +1,4 @@
-@api
+@api @theme_wip
 Feature: Testing
   In order to run simpletests
   As an administrator
