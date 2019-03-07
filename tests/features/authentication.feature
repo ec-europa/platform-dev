@@ -29,7 +29,7 @@ Scenario Outline: Anonymous user cannot access site administration
   | admin/structure/feature-set |
   | node/add/article            |
 
-@api 
+@api
 Scenario Outline: Editors can access certain administration pages
   Given I am logged in as a user with the "editor" role
   Then I visit "<path>"
