@@ -1,4 +1,4 @@
-name = ECAS extra
+name = EU Login extra
 package = "ECAS"
 description = "Provides extra features to the ECAS module"
 dependencies[] = ecas

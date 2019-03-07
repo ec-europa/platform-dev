@@ -106,6 +106,26 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
   if (variable_get('toolbox_survey_whitelist_js', FALSE)) {
     drupal_add_js('//ec.europa.eu/wel/surveys/wr_survey01/wr_survey.js', 'external');
   }
+
+  // Add headers to restrict iframes.
+  $cs_whitelist = variable_get('multisite_toolbox_cs_whitelist', array());
+  drupal_alter('csp_list', $cs_whitelist);
+  // Self is required for internal objects and frames like media popup.
+  $self = "'self'";
+  $whitelist = array_merge((array) $self, $cs_whitelist);
+  $whitelist = implode(' ', $whitelist);
+
+  // Declaration for Chrome version 25 and later, Firefox version 23 and later,
+  // Opera version 19 and later.
+  drupal_add_http_header(
+    'Content-Security-Policy',
+    "child-src $whitelist; frame-src $whitelist;",
+    FALSE);
+  // Firefox until version 23, and Internet Explorer version 10.
+  drupal_add_http_header(
+    'X-Content-Security-Policy',
+    "child-src $whitelist; frame-src $whitelist;",
+    FALSE);
 }
 
 /**
