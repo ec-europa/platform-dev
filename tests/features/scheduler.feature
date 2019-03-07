@@ -1,4 +1,4 @@
-@api @javascript @theme_wip
+@api @javascript @ec_europa_theme
 Feature: Scheduler features
   In order to moderate contents
   As an authenticated user

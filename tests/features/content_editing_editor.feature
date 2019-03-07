@@ -1,4 +1,4 @@
-@api @theme_wip
+@api @ec_europa_theme
 Feature: Content editing as editor
   In order to manage the content on the website
   As an editor

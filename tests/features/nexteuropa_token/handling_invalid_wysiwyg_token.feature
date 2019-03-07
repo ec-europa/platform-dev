@@ -1,4 +1,4 @@
-@api @theme_wip
+@api @ec_europa_theme
 Feature: Testing wrong token association for Next Europa token module
   In order to check if invalid token is not causing fatal error
   As an administrator

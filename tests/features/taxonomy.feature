@@ -1,4 +1,4 @@
-@api @theme_wip
+@api @ec_europa_theme
 Feature: Taxonomy
   In order to manage the taxonomy on the website
   As an administrator

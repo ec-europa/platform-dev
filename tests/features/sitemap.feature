@@ -1,4 +1,4 @@
-@theme_wip
+@ec_europa_theme
 Feature: Check the Sitemap
   In order to let search engines know about the pages in my site and improve traffic from them
   As an administrator

@@ -1,4 +1,4 @@
-@api @theme_wip
+@api @ec_europa_theme
 Feature: Text formats configuration
   In order to input text in the website
   As a user

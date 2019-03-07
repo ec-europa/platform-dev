@@ -1,4 +1,4 @@
-@api @theme_wip
+@api @ec_europa_theme
 Feature: Content type administration features
   In order to easily structure the content of the European Commission
   As an administrator

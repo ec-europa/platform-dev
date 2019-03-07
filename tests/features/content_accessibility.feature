@@ -1,4 +1,4 @@
-@api @theme_wip
+@api @ec_europa_theme
 Feature: Content accessibility test
   In order to detect whether the code base and/or the platform configuration disclose
   contents to users that should not access them
