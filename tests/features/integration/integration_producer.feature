@@ -1,4 +1,4 @@
-@api @integration
+@api @integration @ec_europa_theme
 Feature: Integration producer
   In order to share my content with other websites
   As a site administrator

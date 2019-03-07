@@ -1,4 +1,4 @@
-@api
+@api @ec_europa_theme
 Feature: Editorial workflow - Admin
   In order to control the editorial's functionality
   As an Administrator

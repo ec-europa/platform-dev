@@ -1,4 +1,4 @@
-@api 
+@api @ec_europa_theme
 Feature: EU Login Authentication
   In order to use the EU Login authenticating system
   As an administrator
