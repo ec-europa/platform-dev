@@ -3,7 +3,6 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\Element;
@@ -12,6 +11,7 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
 use function bovigo\assert\predicate\matches;
 use function bovigo\assert\predicate\not;
+use function bovigo\assert\predicate\isEmpty;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -57,13 +57,6 @@ class FrontendCacheContext implements Context {
    * @var \InterNations\Component\HttpMock\RequestCollectionFacade
    */
   protected $requests;
-
-  /**
-   * The variable for TokenContext.
-   *
-   * @var \Drupal\nexteuropa\Context\TokenContext
-   */
-  private $tokenContext;
 
   /**
    * FrontendCacheContext constructor.
@@ -128,8 +121,6 @@ class FrontendCacheContext implements Context {
   public function gatherContexts(BeforeScenarioScope $scope) {
     $environment = $scope->getEnvironment();
 
-    // This allows to use the object TokenContext on this context.
-    $this->tokenContext = $environment->getContext('Drupal\nexteuropa\Context\TokenContext');
     $this->mink = $environment->getContext(MinkContext::class);
     $this->variables = $environment->getContext(VariableContext::class);
   }
@@ -293,7 +284,6 @@ class FrontendCacheContext implements Context {
    * @Then the web front end cache was instructed to purge the following paths for the application tag :arg1:
    */
   public function theWebFrontEndCacheWasInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
-
     $requests = $this->getRequests();
     assert($requests, isOfSize(1));
 
@@ -303,11 +293,7 @@ class FrontendCacheContext implements Context {
 
     $paths = array_map(
       function ($row) {
-
-        $replaced_row = $this->tokenContext->replaceToken($row['Path']);
-        $pattern = "@\[node:([\d]+)\]@";
-        $row = preg_replace($pattern, '${1}', $replaced_row);
-        return $row;
+        return preg_quote(ltrim($row['Path'], '/'));
       },
       $rows
     );
@@ -320,7 +306,7 @@ class FrontendCacheContext implements Context {
     $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray());
 
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
-    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
     assert($purge_request_paths, equals([$path_string]));
   }
 
@@ -335,8 +321,12 @@ class FrontendCacheContext implements Context {
     assert($requests, isOfSize(1));
 
     $purge_request = $requests->last();
+    $purge_request_paths = $purge_request->getHeader('X-Invalidate-Regexp');
+
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
     assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['full']));
+    assert($purge_request_paths, isEmpty());
+
   }
 
   /**
@@ -401,7 +391,7 @@ class FrontendCacheContext implements Context {
     $purge_request = $requests->last();
 
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
-    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
   }
 
   /**
@@ -524,33 +514,6 @@ class FrontendCacheContext implements Context {
       ->statusCode(401);
 
     $server->setUp($mock->flushExpectations());
-  }
-
-  /**
-   * Fills in a field with a multiline regex paths.
-   *
-   * The only supported fields is currently a textarea.
-   *
-   * @When I fill :field with the regex:
-   */
-  public function iFillWithTheRegex($arg1, PyStringNode $string) {
-    $locator = array('field', $arg1);
-    $items = $this->mink->getSession()->getPage()->findAll('named', $locator);
-
-    foreach ($items as $item) {
-      if ($item->getTagName() === 'textarea') {
-        $item->setValue((string) $string);
-      }
-    }
-
-    if (!$item) {
-      throw new ElementNotFoundException(
-        $this->mink->getSession()->getDriver(),
-        'textarea',
-        'named',
-        $locator
-      );
-    }
   }
 
 }

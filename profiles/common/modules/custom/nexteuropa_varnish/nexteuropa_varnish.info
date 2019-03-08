@@ -7,7 +7,6 @@ dependencies[] = workbench_moderation
 dependencies[] = entity
 dependencies[] = registry_autoload
 
-configure = admin/config/system/nexteuropa-varnish
 registry_autoload[] = PSR-4
 
 files[] = includes/cache_purge_rule.ui.inc
