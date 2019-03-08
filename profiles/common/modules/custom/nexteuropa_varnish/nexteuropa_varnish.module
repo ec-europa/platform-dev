@@ -574,7 +574,7 @@ function _nexteuropa_varnish_get_node_paths($node) {
       $original_alias = $alias;
       $altered_options = $options + array('language' => $lang_code);
       // Add the suffix/prefix depending negociation setup.
-      drupal_alter('url_outbound', $alias, $options, $original_path);
+      drupal_alter('url_outbound', $alias, $altered_options, $original_path);
       $paths[$lang_code] = preg_quote($alias, '/');
     }
     // Get the node\/nid.
