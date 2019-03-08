@@ -18,7 +18,6 @@ function multi_user_blog_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
-      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -40,7 +39,6 @@ function multi_user_blog_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
-      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -62,7 +60,6 @@ function multi_user_blog_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
-      'cem' => 'cem',
     ),
     'module' => 'node',
   );
