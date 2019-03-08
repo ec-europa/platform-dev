@@ -295,7 +295,7 @@ function nexteuropa_feature_set_user_default_permissions() {
   $permissions['manage feature nexteuropa_dgt_connector'] = array(
     'name' => 'manage feature nexteuropa_dgt_connector',
     'roles' => array(
-      'cem' => 'cem',
+      'administrator' => 'administrator',
     ),
     'module' => 'multisite_drupal_features_set_standard',
   );
