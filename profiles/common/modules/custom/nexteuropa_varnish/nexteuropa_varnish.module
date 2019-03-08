@@ -282,11 +282,12 @@ function nexteuropa_varnish_get_node_purge_rules($node) {
     $rules = $cache->data;
     return $rules;
   }
-
+  $type = $node->type;
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'nexteuropa_varnish_cache_purge_rule')
-    ->propertyCondition('content_type', $node->type);
+    ->addTag('allow_all_entity')
+    ->addMetaData('type', $type);
   $result = $query->execute();
 
   if (isset($result['nexteuropa_varnish_cache_purge_rule'])) {
@@ -302,6 +303,17 @@ function nexteuropa_varnish_get_node_purge_rules($node) {
 }
 
 /**
+ * Implements hook_query_TAG_alter().
+ *
+ * Alters the query for finding rules applying to all.
+ */
+function nexteuropa_varnish_query_allow_all_entity_alter(QueryAlterableInterface $query) {
+  $type = $query->getMetaData('type');
+  $or = db_or()->condition('content_type', 'all')->condition('content_type', $type);
+  $query->condition($or);
+}
+
+/**
  * Purges certain paths on the web frontend cache.
  */
 function _nexteuropa_varnish_purge_paths($paths) {
@@ -313,41 +325,38 @@ function _nexteuropa_varnish_purge_paths($paths) {
   // all possible base URLs. This can be improved later on.
   cache_clear_all('*', 'cache_page', TRUE);
 
+  // Escape the paths for usage in a regular expression.
+  $escaped_paths = array_map(
+    function ($regex) {
+      // Check if the regular expression is valid.
+      if (@preg_match('/' . $regex . '/', NULL) !== FALSE) {
+        return $regex;
+      }
+      else {
+        drupal_set_message(
+          t(
+            'Please !check_config, the regex %regex you are trying to flush is not valid. We suggest you review and save your regex rules again using <a href="@doc">the documentation available</a> and the "Check Scope" button. In case of doubt, please contact your site administrator or the devops team.',
+            array(
+              '!check_config' => l(
+                t('check your varnish rules'),
+                'admin/config/system/nexteuropa-varnish/purge_rules'),
+              '%regex' => $regex,
+              '@doc' => "https://github.com/ec-europa/platform-dev/tree/nept-1545-2.5/profiles/common/modules/custom/nexteuropa_varnish#purge-nodes-that-match-this-regex",
+            )
+            ),
+        'error');
+      }
+    },
+    $paths
+  );
   watchdog(
     'nexteuropa_varnish',
     'Clearing paths: @paths',
     array(
-      '@paths' => implode(', ', $paths),
+      '@paths' => implode(', ', $escaped_paths),
     ),
     WATCHDOG_INFO
   );
-
-  // Escape the paths for usage in a regular expression. Also remove leading
-  // slashes.
-  $escaped_paths = array_map(
-    function ($path) {
-      return preg_quote(ltrim($path, '/'));
-    },
-    $paths
-  );
-
-  // Replace glob wildcard patterns * and ?
-  $escaped_paths = array_map(
-    function ($path) {
-      $replacements = array(
-        '\*' => '[^/]*',
-        '\?' => '[^/]',
-      );
-
-      return str_replace(
-        array_keys($replacements),
-        array_values($replacements),
-        $path
-      );
-    },
-    $escaped_paths
-  );
-
   _nexteuropa_varnish_varnish_requests_send($escaped_paths);
 }
 
@@ -444,22 +453,27 @@ function _nexteuropa_varnish_prepare_request_options($path_regexp_rules = array(
   if (!$settings) {
     $settings = _nexteuropa_varnish_get_varnish_settings();
   }
-
-  // Prepare values for 'X-Invalidate-Type' and 'X-Invalidate-Regexp' on the
-  // basis of $path_regexp_rules.
-  $invalidate_type = 'full';
-  $sent_regexp = '';
-  if (!empty($path_regexp_rules)) {
-    $invalidate_type = 'regexp-multiple';
-    $sent_regexp = '^(' . implode('|', $path_regexp_rules) . ')$';
-  }
+  $additional_headers = array();
 
   // Preparing the requests for Varnish server(s).
   $base_request_headers = _nexteuropa_varnish_base_request_headers($settings);
-  $request_headers = $base_request_headers + array(
+
+  // Prepare values for 'X-Invalidate-Type' and 'X-Invalidate-Regexp' on the
+  // basis of $path_regexp_rules.
+  if (!empty($path_regexp_rules)) {
+    $invalidate_type = 'regexp';
+    $sent_regexp = "^(" . implode('|', $path_regexp_rules) . ")$";
+    $additional_headers = array(
+      'X-Invalidate-Regexp' => $sent_regexp,
+    );
+  }
+  else {
+    $invalidate_type = 'full';
+  };
+
+  $request_headers = $base_request_headers + $additional_headers + array(
     'X-Invalidate-Tag' => $settings['varnish_tag'],
     'X-Invalidate-Type' => $invalidate_type,
-    'X-Invalidate-Regexp' => $sent_regexp,
   );
 
   $request_method = $settings['varnish_request_method'];
@@ -520,30 +534,58 @@ function _nexteuropa_varnish_get_node_paths($node) {
   $entity_uri = entity_uri('node', $node);
 
   if ($entity_uri) {
+    $url_locale = language_negotiation_get('language', 'locale-url');
+    $url_suffix = language_negotiation_get('language', 'nexteuropa_multilingual_url_suffix');
+    // Add logic to send a language prefix/suffix regex for non aliased paths.
+    if ($url_locale) {
+      $lgregex = '[a-z]{2}\/';
+    }
+    elseif ($url_suffix) {
+      $lgregex = '_[a-z]{2}';
+    }
+    else {
+      $lgregex = '';
+    }
+    $original_path = $entity_uri['path'];
+    $options = $entity_uri['options'];
+
     // Get the languages the node is translated into (entity translation).
     if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
       $handler = entity_translation_get_handler('node', $node);
-
       $translations = $handler->getTranslations();
-
       $lang_codes = array_keys($translations->data);
       $all_languages = entity_translation_languages('node', $node);
-
       foreach ($lang_codes as $lang_code) {
         if (isset($all_languages[$lang_code])) {
-          $paths[$lang_code] = url(
-            $entity_uri['path'],
-            $entity_uri['options'] + array('language' => $all_languages[$lang_code])
-          );
+          $alias = drupal_get_path_alias($original_path, $lang_code);
+          $original_alias = $alias;
+          // Do not use altered "options" for url_outbound.
+          $altered_options = $options + array('language' => $all_languages[$lang_code]);
+          // Add the suffix/prefix depending negociation setup.
+          drupal_alter('url_outbound', $alias, $altered_options, $original_path);
+          $paths[$lang_code] = preg_quote($alias, '/');
         }
       }
     }
     else {
+      // Content translation.
       $lang_code = entity_language('node', $node);
-      $paths[$lang_code] = url($entity_uri['path'], $entity_uri['options']);
+      $alias = drupal_get_path_alias($original_path, $lang_code);
+      $original_alias = $alias;
+      $altered_options = $options + array('language' => $lang_code);
+      // Add the suffix/prefix depending negociation setup.
+      drupal_alter('url_outbound', $alias, $options, $original_path);
+      $paths[$lang_code] = preg_quote($alias, '/');
     }
+    // Get the node\/nid.
+    $paths['unaliased'] = preg_quote($original_path, '/');
+    // Add regex prefix or suffix if needed.
+    // Example node\/nid_[a-z]{2}.
+    $paths['full_unaliased'] = $url_suffix ? $paths['unaliased'] . $lgregex : $lgregex . $paths['unaliased'];
+    // Add escaped alias.
+    // Example content\/my\-page.
+    $paths['escaped_alias'] = preg_quote($original_alias, '/');
   }
-
   return $paths;
 }
 
