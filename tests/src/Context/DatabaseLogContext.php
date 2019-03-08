@@ -41,15 +41,6 @@ class DatabaseLogContext implements Context {
   }
 
   /**
-   * Assert that a specific regex informational message is logged.
-   *
-   * @Then an informational regex message is logged with type :arg1 and a message matching :arg2
-   */
-  public function anInfoRegexMessageIsLogged($arg1, $arg2) {
-    $this->assertRegexMessageLogged(WATCHDOG_INFO, $arg1, $arg2);
-  }
-
-  /**
    * Assert that a specific informational message is not logged.
    *
    * @Then no informational message is logged with type :arg1 and a message matching :arg2
@@ -77,30 +68,6 @@ class DatabaseLogContext implements Context {
 
     $full_message = strtr($log->message, unserialize($log->variables));
 
-    assert($full_message, matches('@' . $message . '@'));
-  }
-
-  /**
-   * Assert that a specific regex message is logged.
-   *
-   * @param int $severity
-   *   The severity of the message.
-   * @param string $type
-   *   The type (category) of the message.
-   * @param string $message
-   *   An escaped regular expression pattern the message needs to match.
-   *
-   * @see watchdog()
-   */
-  protected function assertRegexMessageLogged($severity, $type, $message) {
-    $log = $this->getLogMessages($severity, $type);
-
-    assert($log, isOfType('object'));
-    $full_message = strtr($log->message, unserialize($log->variables));
-    // Workaround to avoir preg_quote replacing \- with \\\-.
-    $message = preg_replace('/:/', '\:', $message);
-    $message = preg_replace('/\//', '\\/', $message);
-    $message = preg_replace('/\-/', '\\-', $message);
     assert($full_message, matches('@' . $message . '@'));
   }
 
