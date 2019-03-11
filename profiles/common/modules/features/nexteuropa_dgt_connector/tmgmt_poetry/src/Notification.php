@@ -63,10 +63,14 @@ class Notification {
     $main_id = array_shift($ids);
     $main_job = tmgmt_job_load($main_id->tjid);
 
-    $translator = $this->getTranslator($main_job, $message);
-    if (!$translator) {
+    if ($main_job->translator === PoetryMock::TRANSLATOR_NAME) {
+      poetry_integration_translate_mock($message->getRaw());
       return FALSE;
     }
+    elseif ($main_job->translator !== $this->translatorName) {
+      return FALSE;
+    }
+    $translator = tmgmt_translator_load($main_job->translator);
 
     if ($main_job->isAborted()) {
       watchdog(
@@ -245,10 +249,11 @@ class Notification {
     $main_id = array_shift($ids);
     $main_job = tmgmt_job_load($main_id->tjid);
 
-    $translator = $this->getTranslator($main_job, $message);
-    if (!$translator) {
-      return;
+    // Verify translator and get it.
+    if (!in_array($main_job->translator, array($this->translatorName, PoetryMock::TRANSLATOR_NAME))) {
+      return FALSE;
     }
+    $translator = tmgmt_translator_load($main_job->translator);
 
     // 1. Check status of request.
     $request_status = $message->getRequestStatus();
@@ -400,28 +405,6 @@ class Notification {
     }
   }
 
-  /**
-   * Get the translator from main job.
-   *
-   * @param object $job
-   *   The job.
-   * @param object $message
-   *   The received message.
-   *
-   * @return bool|\TMGMTTranslator
-   *   The job translator.
-   */
-  protected function getTranslator($job, $message) {
-    if ($job->translator === PoetryMock::TRANSLATOR_NAME) {
-      poetry_integration_request_mock($message->getRaw());
-      return FALSE;
-    }
-    elseif ($job->translator !== $this->translatorName) {
-      return FALSE;
-    }
-    return tmgmt_translator_load($job->translator);
-  }
-
 }
 
 /**
@@ -432,10 +415,10 @@ class Notification {
  * Equivalent to FPFISPoetryIntegrationRequest() in
  * profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/inc/tmgmt_poetry.webservice.inc
  */
-function poetry_integration_request_mock($msg) {
+function poetry_integration_translate_mock($msg) {
   watchdog(
     'tmgmt_poetry',
-    "Receive request: !msg",
+    "Receive translation: !msg",
     array('!msg' => htmlentities($msg)),
     WATCHDOG_INFO
   );
@@ -450,153 +433,11 @@ function poetry_integration_request_mock($msg) {
   $languages = language_list();
 
   // Get main job in order to register the messages.
+  // In previous steps we know we have ids.
   $ids = tmgmt_poetry_obtain_related_translation_jobs([], 'MAIN_%_POETRY_%' . $reference)
     ->fetchAll();
-
-  // Handling the case where we can't find the corresponding job.
-  if (!$ids) {
-    watchdog(
-      "tmgmt_poetry",
-      "Callback can't find a job with remote reference !reference .",
-      array('!reference' => $reference),
-      WATCHDOG_ERROR);
-
-    // Send answer to poetry.
-    $xml_answer = _tmgmt_poetry_generate_answer_xml(
-      NULL,
-      'ERROR: Job does not exist',
-      -1,
-      $request
-    );
-
-    return $xml_answer->asXML();
-  }
-
   $ids = array_shift($ids);
   $main_job = tmgmt_job_load($ids->tjid);
-
-  // If the received message has a status, record it in the job.
-  // </STATUS>.
-  if (isset($request->status)) {
-    $cancelled = FALSE;
-    $status_message = "";
-    foreach ($request->status as $status) {
-      // Check status code.
-      switch ($status['code']) {
-        case 'SUS':
-          $status_message = POETRY_STATUS_MESSAGE_SUS;
-          $cancelled = FALSE;
-          break;
-
-        case 'ONG':
-          $status_message = POETRY_STATUS_MESSAGE_ONG;
-          $cancelled = FALSE;
-          break;
-
-        case 'LCK':
-          $status_message = POETRY_STATUS_MESSAGE_LCK;
-          $cancelled = FALSE;
-          break;
-
-        case 'EXE':
-          $status_message = POETRY_STATUS_MESSAGE_EXE;
-          $cancelled = FALSE;
-          break;
-
-        case 'REF':
-          $status_message = POETRY_STATUS_MESSAGE_REF;
-          $cancelled = TRUE;
-          break;
-
-        case 'CNL':
-          $status_message = POETRY_STATUS_MESSAGE_CNL;
-          $cancelled = TRUE;
-          break;
-      }
-
-      // Status update for the whole request.
-      // </STATUS> - type:demande.
-      if ($status['type'] == 'demande') {
-        if (isset($status->statusMessage)) {
-          $message = (string) $status->statusMessage;
-        }
-        else {
-          $message = t('No message.');
-        }
-
-        $main_job->addMessage(
-          t("DGT update received. Request status: @status. Message: @message"),
-          array(
-            '@status' => $status_message,
-            '@message' => $message,
-          )
-        );
-
-        if ($cancelled) {
-          $reference = '%' . $reference;
-
-          $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
-            ->fetchAll();
-          foreach ($ids as $id) {
-            $job = tmgmt_job_load($id->tjid);
-            $job->aborted(t('Request aborted by DGT.'), array());
-          }
-        }
-        elseif ($main_job->isAborted()) {
-          $reference = '%' . $reference;
-          $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
-            ->fetchAll();
-
-          foreach ($ids as $id) {
-            $reopen_job = tmgmt_job_load($id->tjid);
-            $reopen_job->setState(
-              TMGMT_JOB_STATE_ACTIVE,
-              t('Request re-opened by DGT.')
-            );
-            $reopen_job_item = tmgmt_job_item_load($ids->tjiid);
-            $reopen_job_item->active();
-          }
-        }
-      }
-
-      // Status update for a specific language.
-      // </STATUS> - type:attribution.
-      if ($status['type'] == 'attribution') {
-        if (!empty($status['lgCode'])) {
-          $reference = '%' . $reference;
-          $language_code = drupal_strtolower((string) $status['lgCode']);
-          $language_code = $poetry_translator->mapToLocalLanguage($language_code);
-          $language_job = array($language_code);
-        }
-        else {
-          $reference = 'MAIN_%_POETRY_%' . $reference;
-          $language_job = array();
-        }
-        $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
-          ->fetchAll();
-        $ids = array_shift($ids);
-        $job = tmgmt_job_load($ids->tjid);
-        $job_item = tmgmt_job_item_load($ids->tjiid);
-
-        if (!empty($job->target_language) && !empty($languages[(string) $job->target_language])) {
-          $language = $languages[(string) $job->target_language]->name;
-        }
-        else {
-          $language = "";
-        }
-
-        $main_job->addMessage(
-          t("DGT update received. Affected language: @language. Request status: @status."),
-          array(
-            '@language' => $language,
-            '@status' => $status_message,
-          )
-        );
-
-        _tmgmt_poetry_update_item_status($job_item->tjiid, "", $status_message, "");
-      }
-    }
-  }
 
   // Check the attributions to look for translations and delai confirmations.
   // </ATTRIBUTIONS>.

@@ -3,7 +3,6 @@
 namespace Drupal\tmgmt_dgt_connector;
 
 use Drupal\tmgmt_poetry\Notification as BaseNotification;
-use EC\Poetry\Messages\Notifications\StatusUpdated;
 use EC\Poetry\Messages\Notifications\TranslationReceived;
 
 /**
@@ -55,10 +54,11 @@ class Notification extends BaseNotification {
     $main_id = array_shift($ids);
     $main_job = tmgmt_job_load($main_id->tjid);
 
-    $translator = $this->getTranslator($main_job, $message);
-    if (!$translator) {
+    // Verify translator and get it.
+    if ($main_job->translator !== $this->translatorName) {
       return FALSE;
     }
+    $translator = tmgmt_translator_load($main_job->translator);
 
     if ($main_job->isAborted()) {
       watchdog(
@@ -207,173 +207,6 @@ class Notification extends BaseNotification {
 
     $result = $xml->saveXML();
     return $result;
-  }
-
-  /**
-   * Process notification StatusUpdated.
-   *
-   * @param \EC\Poetry\Messages\Notifications\StatusUpdated $message
-   *   The Translation Received.
-   */
-  public function statusUpdated(StatusUpdated $message) {
-
-    // Initial steps.
-    $this->setReference($message);
-    $this->storeMessage($message);
-
-    $translator = tmgmt_translator_load(TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME);
-
-    $attributions_statuses = $message->getAttributionStatuses();
-
-    // Get main job in order to register the messages.
-    $languages_jobs = array();
-    /** @var \EC\Poetry\Messages\Components\Status $attribution_status */
-    foreach ($attributions_statuses as $attribution_status) {
-      $languages_jobs[] = $translator->mapToLocalLanguage(drupal_strtolower($attribution_status->getLanguage()));
-    }
-    $ids = tmgmt_poetry_obtain_related_translation_jobs(
-      $languages_jobs,
-      'MAIN_%_POETRY_%' . $this->reference
-    )->fetchAll();
-    if (!$ids) {
-      watchdog(
-        "tmgmt_poetry",
-        "Callback can't find a job with remote reference !reference .",
-        array('!reference' => $this->reference),
-        WATCHDOG_ERROR
-      );
-      return;
-    }
-    $main_id = array_shift($ids);
-    $main_job = tmgmt_job_load($main_id->tjid);
-
-    $translator = $this->getTranslator($main_job, $message);
-    if (!$translator) {
-      return;
-    }
-
-    // 1. Check status of request.
-    $request_status = $message->getRequestStatus();
-    if ($request_status->getCode() != '0') {
-      $msg_info = array(
-        '@reference' => $this->reference,
-        '@message' => $message->getRaw(),
-      );
-      watchdog(
-        'tmgmt_poetry',
-        'Job @reference received a Status Update with issues. Message: @message',
-        $msg_info,
-        WATCHDOG_ERROR
-      );
-      $main_job->addMessage(
-        'Job @reference received a Status Update with issues. Message: @message',
-        $msg_info,
-        'error'
-      );
-      return;
-    }
-
-    watchdog(
-      'tmgmt_poetry',
-      'Job @reference got a Status Update. Message: @message',
-      array(
-        '@reference' => $this->reference,
-        '@message' => $message->getRaw(),
-      ),
-      WATCHDOG_INFO
-    );
-
-    // 2. Check status of demand and update the whole request.
-    $demand_status = $message->getDemandStatus();
-    if (!empty($demand_status)) {
-      $cancelled = FALSE;
-      $status_message = "";
-
-      // Check status code.
-      switch ($demand_status->getCode()) {
-        case 'SUS':
-          $status_message = POETRY_STATUS_MESSAGE_SUS;
-          $cancelled = FALSE;
-          break;
-
-        case 'ONG':
-          $status_message = POETRY_STATUS_MESSAGE_ONG;
-          $cancelled = FALSE;
-          break;
-
-        case 'LCK':
-          $status_message = POETRY_STATUS_MESSAGE_LCK;
-          $cancelled = FALSE;
-          break;
-
-        case 'EXE':
-          $status_message = POETRY_STATUS_MESSAGE_EXE;
-          $cancelled = FALSE;
-          break;
-
-        case 'REF':
-          $status_message = POETRY_STATUS_MESSAGE_REF;
-          $cancelled = TRUE;
-          break;
-
-        case 'CNL':
-          $status_message = POETRY_STATUS_MESSAGE_CNL;
-          $cancelled = TRUE;
-          break;
-      }
-
-      $main_job->addMessage(
-        t("DGT update received. Request status: @status. Message: @message"), array(
-          '@status' => $status_message,
-          '@message' => $demand_status->getMessage(),
-        )
-      );
-
-      if ($cancelled) {
-        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), '%' . $this->reference)
-          ->fetchAll();
-        foreach ($ids as $id) {
-          $job = tmgmt_job_load($id->tjid);
-          $job->aborted(t('Request aborted by DGT.'), array());
-        }
-      }
-      elseif ($main_job->isAborted()) {
-        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), '%' . $this->reference)
-          ->fetchAll();
-
-        foreach ($ids as $id) {
-          $reopen_job = tmgmt_job_load($id->tjid);
-          $reopen_job->setState(
-            TMGMT_JOB_STATE_ACTIVE,
-            t('Request re-opened by DGT.')
-          );
-          $reopen_job_item = tmgmt_job_item_load($ids->tjiid);
-          $reopen_job_item->active();
-        }
-      }
-
-      // 3. Check Status for specific languages.
-      foreach ($attributions_statuses as $attribution_status) {
-        $language_code = drupal_strtolower($attribution_status->getLanguage());
-        $language_code = $translator->mapToLocalLanguage($language_code);
-        $language_job = array($language_code);
-
-        $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $this->reference)
-          ->fetchAll();
-        $ids = array_shift($ids);
-        $job = tmgmt_job_load($ids->tjid);
-        $job_item = tmgmt_job_item_load($ids->tjiid);
-
-        $main_job->addMessage(
-          t("DGT update received. Affected language: @language. Request status: @status."), array(
-            '@language' => $language_code,
-            '@status' => $status_message,
-          )
-        );
-
-        _tmgmt_poetry_update_item_status($job_item->tjiid, '', $status_message, '');
-      }
-    }
   }
 
 }
