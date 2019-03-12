@@ -1,7 +1,0 @@
-name = multisite_settings_standard
-description = Multisite standard settings
-core = 7.x
-package = Multisite Standard Features
-features[features_api][] = api:2
-dependencies[] = multisite_settings_core
-mtime = 1418979432
