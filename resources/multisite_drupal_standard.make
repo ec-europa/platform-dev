@@ -232,7 +232,7 @@ projects[entityreference_prepopulate][version] = "1.7"
 projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.27"
+projects[eu_cookie_compliance][version] = "1.28"
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
