@@ -3,6 +3,8 @@
 /**
  * @file
  * Webservice definition and behaviour.
+ *
+ * @deprecated in favor of nexteuropa_poetry.
  */
 
 use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
@@ -527,67 +529,6 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
       break;
   }
   return $result;
-}
-
-/**
- * Function to return our webservice description.
- */
-function _tmgmt_poetry_wsdl() {
-  $uri = url('tmgmt_poetry/service_callback', array(
-    'absolute' => TRUE,
-    'language' => (object) array('language' => FALSE),
-  ));
-  $wsdl = '<?xml version="1.0"?>
-<definitions name="FPFISPoetryIntegration"
-             targetNamespace="urn:FPFISPoetryIntegration"
-             xmlns:tns="urn:FPFISPoetryIntegration"
-             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
-             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-             xmlns="http://schemas.xmlsoap.org/wsdl/">
-
-  <message name="FPFISPoetryIntegrationMessage">
-    <part name="user" type="xsd:string" />
-    <part name="password" type="xsd:string" />
-    <part name="msg" type="xsd:string" />
-  </message>
-
-  <message name="FPFISPoetryIntegrationResponse">
-    <part name="return" type="xsd:string" />
-  </message>
-
-  <portType name="FPFISPoetryIntegrationPort">
-    <operation name="FPFISPoetryIntegrationRequest">
-      <input message="tns:FPFISPoetryIntegrationMessage" />
-      <output message="tns:FPFISPoetryIntegrationResponse" />
-    </operation>
-  </portType>
-
-  <binding name="FPFISPoetryIntegrationBinding" type="tns:FPFISPoetryIntegrationPort">
-    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
-    <operation name="FPFISPoetryIntegrationRequest">
-      <soap:operation soapAction="urn:FPFISPoetryIntegration#FPFISPoetryIntegrationRequest" />
-      <input>
-      <soap:body use="encoded" namespace="urn:FPFISPoetryIntegration"
-                 encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
-      </input>
-      <output>
-        <soap:body use="encoded" namespace="urn:FPFISPoetryIntegration"
-                   encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
-      </output>
-    </operation>
-  </binding>
-
-  <service name="FPFISPoetryIntegrationServicio">
-    <port name="FPFISPoetryIntegrationPort" binding="tns:FPFISPoetryIntegrationBinding">
-      <soap:address location="' . $uri . '" />
-    </port>
-  </service>
-</definitions>';
-  drupal_add_http_header('Content-Type', 'application/xml; utf-8');
-  print $wsdl;
-  exit(0);
 }
 
 /**

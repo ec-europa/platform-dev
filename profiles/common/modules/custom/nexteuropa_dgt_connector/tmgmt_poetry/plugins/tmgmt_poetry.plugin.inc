@@ -257,11 +257,11 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     // Generate the callback parameters.
     $callback_username = $settings['callback_user'];
     $callback_password = $settings['callback_password'];
-    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+    $callback_address = url('poetry/wsdl', array(
       'absolute' => TRUE,
       'language' => (object) array('language' => FALSE),
     ));
-    $callback_path = 'FPFISPoetryIntegrationRequest';
+    $callback_path = 'handle';
     $callback_remark = '';
 
     // Create initial XML element using POETRY headers.
@@ -692,7 +692,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    */
   protected function appendAttributionsXmlElement(SimpleXMLElement $request_xml, array $new_languages, $delivery_date, $settings) {
     $callback_username = $settings['callback_user'];
-    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+    $callback_address = url('poetry/wsdl', array(
       'absolute' => TRUE,
       'language' => (object) array('language' => FALSE),
     ));
