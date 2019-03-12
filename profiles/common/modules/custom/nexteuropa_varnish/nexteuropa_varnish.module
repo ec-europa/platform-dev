@@ -224,6 +224,18 @@ function nexteuropa_varnish_node_presave($node) {
 }
 
 /**
+ * Implements hook_node_delete().
+ */
+function nexteuropa_varnish_node_delete($node) {
+  // No rule defined for the node: Ignore the rest of the process.
+  if (!nexteuropa_varnish_node_has_rules($node)) {
+    return;
+  }
+
+  _nexteuropa_varnish_process_paths_sending($node);
+}
+
+/**
  * Gets purge rules to apply for a specific node.
  *
  * @param object $node
