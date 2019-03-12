@@ -34,11 +34,6 @@ class Notification extends BaseNotification {
     $this->setReference($message);
     $this->storeMessage($message);
 
-    // Get main job in order to register the messages and get translator.
-    $targets = $message->getTargets();
-    /** @var \EC\Poetry\Messages\Components\Target $target */
-    $target = current($targets);
-
     $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), 'MAIN_%_POETRY_%' . $this->reference)->fetchAll();
     if (empty($ids)) {
       watchdog(
@@ -50,7 +45,8 @@ class Notification extends BaseNotification {
       return FALSE;
     }
 
-    // Get right controller from main job.
+    // Get main job in order to register the messages and
+    // get translator and controller.
     $main_id = array_shift($ids);
     $main_job = tmgmt_job_load($main_id->tjid);
 
@@ -69,6 +65,8 @@ class Notification extends BaseNotification {
       );
       return FALSE;
     }
+
+    // Get controller.
     $controller = tmgmt_file_format_controller($main_job->getSetting('export_format'));
     if (!$controller) {
       watchdog(
@@ -80,42 +78,46 @@ class Notification extends BaseNotification {
       return FALSE;
     }
 
-    // Get main job.
-    $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
-    $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $this->reference)
-      ->fetchAll();
-    $main_ids = $ids[0];
-    $job = tmgmt_job_load($main_ids->tjid);
-    $job_item = tmgmt_job_item_load($main_ids->tjiid);
+    // Do translation for each target.
+    $targets = $message->getTargets();
+    foreach ($targets as $target) {
+      // Get language job.
+      $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
+      $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $this->reference)
+        ->fetchAll();
+      $job_id = $ids[0];
+      $job = tmgmt_job_load($job_id->tjid);
+      $job_item = tmgmt_job_item_load($job_id->tjiid);
 
-    // Import content using controller.
-    $imported_file = base64_decode($target->getTranslatedFile());
-    if ($language_job != $main_job->target_language) {
-      $imported_file = $this->tmgmtPoetryRewriteReceivedXml($imported_file, $job, $ids);
-    }
+      // Import content using controller.
+      $imported_file = base64_decode($target->getTranslatedFile());
+      if ($language_job != $main_job->target_language) {
+        $imported_file = $this->tmgmtPoetryRewriteReceivedXml($imported_file, $job, $ids);
+      }
 
-    try {
-      // Validation successful, start import.
-      $job->addTranslatedData($controller->import($imported_file));
+      try {
+        // Validation successful, start import.
+        $job->addTranslatedData($controller->import($imported_file));
 
-      $main_job->addMessage(
-        t('@language Successfully received the translation file.'),
-        array('@language' => $job->target_language)
-      );
+        $main_job->addMessage(
+          t('@language Successfully received the translation file.'),
+          array('@language' => $job->target_language)
+        );
 
-      // Update the status to executed when we receive a translation.
-      _tmgmt_poetry_update_item_status($job_item->tjiid, "", "Executed", "");
-    }
-    catch (Exception $e) {
-      $main_job->addMessage(
-        t('@language File import failed with the following message: @message'),
-        array(
-          '@language' => $job->target_language,
-          '@message' => $e->getMessage(),
-        ),
-        'error'
-      );
-      watchdog_exception('tmgmt_poetry', $e);
+        // Update the status to executed when we receive a translation.
+        _tmgmt_poetry_update_item_status($job_item->tjiid, "", "Executed", "");
+      }
+      catch (Exception $e) {
+        $main_job->addMessage(
+          t('@language File import failed with the following message: @message'),
+          array(
+            '@language' => $job->target_language,
+            '@message' => $e->getMessage(),
+          ),
+          'error'
+        );
+        watchdog_exception('tmgmt_poetry', $e);
+      }
     }
   }
 
