@@ -43,11 +43,6 @@ class Notification {
     $this->setReference($message);
     $this->storeMessage($message);
 
-    // Get main job in order to register the messages and get translator.
-    $targets = $message->getTargets();
-    /** @var \EC\Poetry\Messages\Components\Target $target */
-    $target = current($targets);
-
     $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), 'MAIN_%_POETRY_%' . $this->reference)->fetchAll();
     if (empty($ids)) {
       watchdog(
@@ -59,15 +54,13 @@ class Notification {
       return FALSE;
     }
 
-    // Get right controller from main job.
+    // Get main job in order to register the messages and
+    // get translator and controller.
     $main_id = array_shift($ids);
     $main_job = tmgmt_job_load($main_id->tjid);
 
-    if ($main_job->translator === PoetryMock::TRANSLATOR_NAME) {
-      poetry_integration_translate_mock($message->getRaw());
-      return FALSE;
-    }
-    elseif ($main_job->translator !== $this->translatorName) {
+    // Verify translator and get it.
+    if (!in_array($main_job->translator, array($this->translatorName, PoetryMock::TRANSLATOR_NAME))) {
       return FALSE;
     }
     $translator = tmgmt_translator_load($main_job->translator);
@@ -81,6 +74,8 @@ class Notification {
       );
       return FALSE;
     }
+
+    // Get controller.
     $controller = tmgmt_file_format_controller($main_job->getSetting('export_format'));
     if (!$controller) {
       watchdog(
@@ -92,133 +87,71 @@ class Notification {
       return FALSE;
     }
 
-    // Get main job.
-    $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
-    $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $this->reference)
-      ->fetchAll();
-    $main_ids = $ids[0];
-    $job = tmgmt_job_load($main_ids->tjid);
-    $job_item = tmgmt_job_item_load($main_ids->tjiid);
+    // Do translation for each target.
+    $targets = $message->getTargets();
+    foreach ($targets as $target) {
+      // Get language job.
+      $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
+      $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $this->reference)
+        ->fetchAll();
+      $job_id = $ids[0];
+      $job = tmgmt_job_load($job_id->tjid);
+      $job_item = tmgmt_job_item_load($job_id->tjiid);
 
-    // Import content using controller.
-    $imported_file = base64_decode($target->getTranslatedFile());
-    if ($language_job != $main_job->target_language) {
-      $imported_file = $this->tmgmtPoetryRewriteReceivedXml($imported_file, $job, $ids);
-    }
+      // Verify format.
+      if ($xml_error = $this->verifyFormatError($target->getFormat(), $job, $main_job)) {
+        return $xml_error;
+      }
 
-    try {
-      // Validation successful, start import.
-      $job->addTranslatedData($controller->import($imported_file));
+      // Import content using controller.
+      $imported_file = base64_decode($target->getTranslatedFile());
+      if ($language_job != $main_job->target_language) {
+        $imported_file = _tmgmt_poetry_replace_job_in_content($imported_file, $job, $job_item);
+      }
 
-      $main_job->addMessage(
-        t('@language Successfully received the translation file.'),
-        array('@language' => $job->target_language)
-      );
+      try {
 
-      // Update the status to executed when we receive a translation.
-      _tmgmt_poetry_update_item_status($job_item->tjiid, "", "Executed", "");
-    }
-    catch (Exception $e) {
-      $main_job->addMessage(
-        t('@language File import failed with the following message: @message'),
-        array(
-          '@language' => $job->target_language,
-          '@message' => $e->getMessage(),
-        ),
-        'error'
-      );
-      watchdog_exception('tmgmt_poetry', $e);
-    }
-  }
-
-  /**
-   * Replace job id in received content.
-   *
-   * @param string $content
-   *   The XML content.
-   * @param \TMGMTJob $job
-   *   The job.
-   * @param array $ids_collection
-   *   The array of pairs with jobs and job items.
-   *
-   * @return bool|mixed
-   *   The updated XML content.
-   */
-  private function tmgmtPoetryRewriteReceivedXml($content, \TMGMTJob $job, array $ids_collection) {
-
-    $dom = new \DOMDocument();
-    if (!multisite_drupal_toolbox_load_html($dom, $content)) {
-      return FALSE;
-    }
-
-    // Workaround for saveXML() generating two xmlns attributes.
-    // See https://bugs.php.net/bug.php?id=47666.
-    if ($dom->documentElement->hasAttributeNS(NULL, 'xmlns')) {
-      $dom->documentElement->removeAttributeNS(NULL, 'xmlns');
-    }
-
-    $xml = simplexml_import_dom($dom);
-
-    if (count($xml->head->meta) > 0) {
-      foreach ($xml->head->meta as $meta_tag) {
-        if (isset($meta_tag['name'])) {
-          switch ($meta_tag['name']) {
-            case 'JobID':
-              $meta_tag['content'] = $job->tjid;
-              break;
-
-            case 'languageSource':
-              $meta_tag['content'] = $job->getTranslator()
-                ->mapToRemoteLanguage($job->source_language);
-              break;
-
-            case 'languageTarget':
-              $meta_tag['content'] = $job->getTranslator()
-                ->mapToRemoteLanguage($job->target_language);
-              break;
-          }
+        if (!($validated_job = $controller->validateImport($imported_file)) || $validated_job->tjid != $job->tjid || $job->isAborted()) {
+          throw new \Exception('Import not possible.');
         }
-      }
-    }
-    if (isset($xml->head->title)) {
-      $xml->head->title = "Job ID " . $job->tjid;
-    }
-    foreach ($xml->body->div as $parent_div) {
-      if ($parent_div['class'] == 'meta' && $parent_div['id'] == 'languageTarget') {
-        $parent_div[0] = $job->target_language;
-      }
-      if ($parent_div['class'] == 'asset') {
 
-        /** @var \SimpleXMLElement $div */
-        foreach ($parent_div->div as $div) {
-          if ($div['class'] == 'atom') {
-            $data = drupal_substr($div['id'], 1);
-            $data = base64_decode(str_pad(strtr($data, '-_', '+/'), drupal_strlen($data) % 4, '=', STR_PAD_RIGHT));
-            $data = explode(']', $data);
-            $main_tjiid = $data[0];
-            // This is the main job item for main job.
-            $main_job_item = tmgmt_job_item_load($main_tjiid);
+        // Validation successful, start import.
+        $job->addTranslatedData($controller->import($imported_file));
 
-            $corresponding_tjiid = 0;
-            foreach ($ids_collection as $ids) {
-              $job_item_to_test = tmgmt_job_item_load($ids->tjiid);
-              if ($job_item_to_test->item_id == $main_job_item->item_id && $job_item_to_test->item_type == $main_job_item->item_type) {
-                // This is the corresponding job item.
-                $corresponding_tjiid = $ids->tjiid;
-                continue;
-              }
-            }
+        $main_job->addMessage(
+          t('@language Successfully received the translation file.'),
+          array('@language' => $job->target_language)
+        );
 
-            $data[0] = $corresponding_tjiid;
-            $data = implode(']', $data);
-            $div['id'] = 'b' . rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
-          }
+        // Save the file and make it available in the job.
+        $name = "JobID" . $job->tjid . '_' . $job->source_language . '_' . $job->target_language;
+        $path = 'public://tmgmt_file/' . $name . '.' . $job->getSetting('export_format');
+
+        $dirname = drupal_dirname($path);
+        if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY)) {
+          $file = file_save_data($imported_file, $path);
+          file_usage_add($file, 'tmgmt_file', 'tmgmt_job', $job->tjid);
+          $main_job->addMessage(
+            t('Received tanslation can be downloaded <a href="!link">here</a>.'),
+            array('!link' => file_create_url($path))
+          );
         }
+
+        // Update the status to executed when we receive a translation.
+        _tmgmt_poetry_update_item_status($job_item->tjiid, "", "Executed", (string) $target->getAcceptedDelay());
+      }
+      catch (Exception $e) {
+        $main_job->addMessage(
+          t('@language File import failed with the following message: @message'),
+          array(
+            '@language' => $job->target_language,
+            '@message' => $e->getMessage(),
+          ),
+          'error'
+        );
+        watchdog_exception('tmgmt_poetry', $e);
       }
     }
-
-    $result = $xml->saveXML();
-    return $result;
   }
 
   /**
@@ -405,170 +338,35 @@ class Notification {
     }
   }
 
-}
-
-/**
- * Function available to call from our webservice.
- *
- * Temporary (WIP).
- *
- * Equivalent to FPFISPoetryIntegrationRequest() in
- * profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/inc/tmgmt_poetry.webservice.inc
- */
-function poetry_integration_translate_mock($msg) {
-  watchdog(
-    'tmgmt_poetry',
-    "Receive translation: !msg",
-    array('!msg' => htmlentities($msg)),
-    WATCHDOG_INFO
-  );
-
-  $poetry_translator = tmgmt_translator_load('tmgmt_poetry_test_translator');
-
-  // Load the received XML and load the referenced Job.
-  $xml = simplexml_load_string($msg);
-  $request = $xml->request;
-  $reference = implode("/", (array) $request->demandeId);
-
-  $languages = language_list();
-
-  // Get main job in order to register the messages.
-  // In previous steps we know we have ids.
-  $ids = tmgmt_poetry_obtain_related_translation_jobs([], 'MAIN_%_POETRY_%' . $reference)
-    ->fetchAll();
-  $ids = array_shift($ids);
-  $main_job = tmgmt_job_load($ids->tjid);
-
-  // Check the attributions to look for translations and delai confirmations.
-  // </ATTRIBUTIONS>.
-  foreach ($request->attributions as $attributions) {
-    $reference = '%' . $reference;
-    $language_code = drupal_strtolower((string) $attributions['lgCode']);
-    $language_code = $poetry_translator->mapToLocalLanguage($language_code);
-    $language_job = array($language_code);
-
-    $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
-      ->fetchAll();
-    $ids = array_shift($ids);
-    $job = tmgmt_job_load($ids->tjid);
-    $job_item = tmgmt_job_item_load($ids->tjiid);
-
-    if (!isset($attributions['format']) || (isset($attributions['format']) && (strpos($job->getSetting('export_format'), drupal_strtolower((string) $attributions['format'])) === FALSE))) {
+  /**
+   * Verify received format matches with expected by job.
+   *
+   * @param mixed $format
+   *   The received format.
+   * @param \TMGMTJob $job
+   *   The job.
+   * @param \TMGMTJob $main_job
+   *   The main job.
+   *
+   * @return mixed
+   *   FALSE if format is ok, XML with error otherwise.
+   */
+  protected function verifyFormatError($format, \TMGMTJob $job, \TMGMTJob $main_job) {
+    if (empty($format) || strpos($job->getSetting('export_format'), drupal_strtolower((string) $format) === FALSE)) {
       $main_job->addMessage(
         t('Received format "@format" is not compatible, translation job format "@job_format" should be used instead'),
         array(
-          '@format' => (string) $attributions['format'],
+          '@format' => (string) $format,
           '@job_format' => $job->getSetting('export_format'),
         )
       );
 
-      $xml = _tmgmt_poetry_generate_answer_xml(
-        $main_job,
-        'ERROR: Received format is not compatible',
-        -1,
-        $request
-      );
+      $xml = _tmgmt_poetry_generate_answer_xml($main_job, 'ERROR: Received format is not compatible', -1);
 
       return $xml->asXML();
     }
 
-    if (!empty($job->target_language) && !empty($languages[(string) $job->target_language])) {
-      $language = $languages[(string) $job->target_language]->name;
-    }
-    else {
-      $language = "";
-    }
-
-    // Update the delai provided by DGT.
-    if (!empty($attributions->attributionsDelaiAccepted)) {
-      _tmgmt_poetry_update_item_status($job_item->tjiid, "", "", (string) $attributions->attributionsDelaiAccepted);
-    }
-
-    // If the received message has the translated file, add it to the job.
-    if (isset($attributions->attributionsFile)) {
-      $content = (string) $attributions->attributionsFile;
-      $content = _tmgmt_poetry_replace_job_in_content(base64_decode($content), $job, $job_item);
-
-      $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
-      if ($controller) {
-        // Validate the file.
-        $validated_job = $controller->validateImport($content);
-        if (!$validated_job) {
-          $main_job->addMessage(
-            t('@language Failed to validate file, import aborted.'),
-            array('@language' => $language),
-            'error');
-        }
-        elseif ($validated_job->tjid != $job->tjid) {
-          $uri = $validated_job->uri();
-          $label = $validated_job->label();
-          $main_job->addMessage(
-            t('@language Import file is from job <a href="@url">@label</a>, import aborted.'),
-            array(
-              '@language' => $language,
-              '@url' => url($uri['path']),
-              '@label' => $label,
-            )
-          );
-        }
-        else {
-          try {
-            if (!$job->isAborted()) {
-              // Validation successful, start import.
-              $job->addTranslatedData($controller->import($content));
-
-              $main_job->addMessage(
-                t('@language Successfully received the translation file.'),
-                array('@language' => $language)
-              );
-
-              // Update the status to executed when we receive a translation.
-              _tmgmt_poetry_update_item_status($job_item->tjiid, "", "Executed", "");
-            }
-
-            // Save the file and make it available in the job.
-            $name = "JobID" . $job->tjid . '_' . $job->source_language . '_' . $job->target_language;
-            $path = 'public://tmgmt_file/' . $name . '.' . $job->getSetting('export_format');
-
-            $dirname = drupal_dirname($path);
-            if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY)) {
-              $file = file_save_data($content, $path);
-              file_usage_add($file, 'tmgmt_file', 'tmgmt_job', $job->tjid);
-              $main_job->addMessage(
-                t('Received tanslation can be downloaded <a href="!link">here</a>.'),
-                array('!link' => file_create_url($path))
-              );
-            }
-          }
-          catch (Exception $e) {
-            $main_job->addMessage(
-              t('@language File import failed with the following message: @message'),
-              array(
-                '@language' => $language,
-                '@message' => $e->getMessage(),
-              ),
-              'error'
-            );
-            watchdog_exception('tmgmt_poetry', $e);
-          }
-        }
-      }
-    }
+    return FALSE;
   }
-
-  // Send answer 'OK' to poetry.
-  watchdog(
-    "tmgmt_poetry",
-    "Send response 'status' with remote reference @reference: !xml",
-    array(
-      '@reference' => $reference,
-      '!xml' => htmlentities($xml->asXML()),
-    ),
-    WATCHDOG_INFO
-  );
-
-  $xml = _tmgmt_poetry_generate_answer_xml($job, 'OK', 0, $request);
-
-  return $xml->asXML();
 
 }

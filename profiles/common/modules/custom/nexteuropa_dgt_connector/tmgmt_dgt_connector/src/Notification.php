@@ -89,6 +89,17 @@ class Notification extends BaseNotification {
       $job = tmgmt_job_load($job_id->tjid);
       $job_item = tmgmt_job_item_load($job_id->tjiid);
 
+      // Verify format.
+      if ($xml_error = $this->verifyFormatError($target->getFormat(), $job, $main_job)) {
+        return $xml_error;
+      }
+
+      // Update the delai provided by DGT.
+      $delay = $target->getAcceptedDelay();
+      if (!empty($delay)) {
+        _tmgmt_poetry_update_item_status($job_item->tjiid, "", "", (string) $delay);
+      }
+
       // Import content using controller.
       $imported_file = base64_decode($target->getTranslatedFile());
       if ($language_job != $main_job->target_language) {
