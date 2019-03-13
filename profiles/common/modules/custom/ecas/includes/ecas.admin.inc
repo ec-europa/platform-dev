@@ -44,8 +44,8 @@ function ecas_menu() {
   $items = array();
 
   $items['admin/config/ecas'] = array(
-    'title' => 'ECAS',
-    'description' => 'Ecas configuration settings.',
+    'title' => 'EU Login',
+    'description' => 'EU Login configuration settings.',
     'page callback' => 'system_admin_menu_block_page',
     'access arguments' => array('administer ecas'),
     'file' => 'system.admin.inc',
@@ -56,7 +56,7 @@ function ecas_menu() {
 
   $items['admin/config/ecas/settings'] = array(
     'title' => 'Settings',
-    'description' => 'ECAS configuration settings',
+    'description' => 'EU Login configuration settings',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ecas_admin_settings'),
     'access arguments' => array('administer ecas'),
@@ -77,17 +77,17 @@ function ecas_menu() {
 function ecas_admin_settings() {
   $form['param'] = array(
     '#type' => 'fieldset',
-    '#title' => t('ECAS module settings'),
+    '#title' => t('EU Login module settings'),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
 
   $form['param']['ecas_assurance_level'] = array(
     '#type' => 'select',
-    '#title' => t('ECAS Assurance Level for this application'),
+    '#title' => t('EU Login Assurance Level for this application'),
     '#default_value' => variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL')),
     '#options' => _ecas_assurance_levels(),
-    '#description' => t('The ECAS Assurance Level defines which kinds of users may log into the application.'),
+    '#description' => t('The EU Login Assurance Level defines which kinds of users may log into the application.'),
   );
 
   $ecas_domains = array(ECAS_DEFAULT_DOMAIN => 'Do not force the default domain');
@@ -95,7 +95,7 @@ function ecas_admin_settings() {
 
   $form['param']['ecas_domain'] = array(
     '#type' => 'select',
-    '#title' => t('Default ECAS domain'),
+    '#title' => t('Default EU Login domain'),
     '#default_value' => variable_get('ecas_domain', ECAS_DEFAULT_DOMAIN),
     '#options' => $ecas_domains,
     '#description' => t('This option specifies the default domain that will be displayed on the login page if none is specified in cookies sent by the browser.'),
@@ -103,15 +103,15 @@ function ecas_admin_settings() {
 
   $form['param']['ecas_account_request_url'] = array(
     '#type' => 'textfield',
-    '#title' => t('ECAS Account Request URL'),
+    '#title' => t('EU Login Account Request URL'),
     '#default_value' => variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL),
-    '#description' => t('URL used to redirect the user to the ECAS account request service. The %local_ecas_url% placeholder will be replaced by the absolute URL to /ecas.'),
+    '#description' => t('URL used to redirect the user to the EU Login account request service. The %local_ecas_url% placeholder will be replaced by the absolute URL to /ecas.'),
   );
   $form['param']['ecas_change_password_url'] = array(
     '#type' => 'textfield',
-    '#title' => t('ECAS Change Password URL'),
+    '#title' => t('EU Login Change Password URL'),
     '#default_value' => variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL),
-    '#description' => t('URL given to an ECAS user when he tries to get his password back using the user/password page.'),
+    '#description' => t('URL given to an EU Login user when he tries to get his password back using the user/password page.'),
   );
 
   $form['param']['debug_fieldset'] = array(
@@ -161,7 +161,7 @@ function ecas_admin_settings() {
     '#type' => 'checkbox',
     '#title' => t("Update the user's mail address at login time."),
     '#default_value' => variable_get('ecas_update_mail_address', 1),
-    '#description' => t('If this option is checked, the ECAS module will replace the mail address of the user with the one retrieved from the ECAS/LDAP instance.'),
+    '#description' => t('If this option is checked, the EU Login module will replace the mail address of the user with the one retrieved from the LDAP instance.'),
   );
   $form['param']['ecas_default_mail_address'] = array(
     '#type' => 'textfield',
@@ -183,7 +183,7 @@ function ecas_admin_settings() {
     '#type' => 'checkbox',
     '#title' => t('Enable integration with the &quot;core user fields&quot;'),
     '#default_value' => variable_get('ecas_profile_core_enabled', 0),
-    '#description' => t('If this option is checked, the ECAS module will attempt to fill the extra core user fields with information retrieved from the ECAS/LDAP instance: first name, last name, mail address'),
+    '#description' => t('If this option is checked, the EU Login feature will attempt to fill the extra core user fields with information retrieved from the LDAP instance: first name, last name, mail address'),
   );
 
   $form['param']['profile_core_fieldset'] = array(
@@ -204,7 +204,7 @@ function ecas_admin_settings() {
     '#type' => 'textfield',
     '#title' => t('Lastname field'),
     '#default_value' => variable_get('ecas_profile_core_lastname_field', ECAS_DEFAULT_PROFILE_LASTNAME_FIELD),
-    '#description' => t('Enter here the machinename of the field that will be filled with the lastname retrieved from ECAS. Leave empty if you do not want to retrieve it.'),
+    '#description' => t('Enter here the machinename of the field that will be filled with the lastname retrieved from EU Login. Leave empty if you do not want to retrieve it.'),
   );
 
   $form['param']['profile_core_fieldset']['ecas_profile_core_ecas_email_field'] = array(
@@ -228,7 +228,7 @@ function ecas_admin_settings() {
       '#type' => 'checkbox',
       '#title' => t('Enable integration with the &quot;FPFIS Group Sync&quot; module'),
       '#default_value' => variable_get('ecas_group_sync_enabled', 0),
-      '#description' => t('If this option is checked, the ECAS module will trigger the FPFIS Group Sync module to sync the user.'),
+      '#description' => t('If this option is checked, the EU Login module will trigger the FPFIS Group Sync module to sync the user.'),
     );
   }
 
@@ -264,9 +264,9 @@ function ecas_admin_settings() {
     '#type' => 'checkbox',
     '#title' => t('Use the shared &quot;FPFIS Common&quot; library'),
     '#default_value' => variable_get('ecas_use_shared_fpfis', 0),
-    '#description' => t('If this option is checked, the ECAS module
+    '#description' => t('If this option is checked, the EU Login feature
     will attempt use the shared FPFIS Common library to connect to LDAP
-    and the ECAS server. Otherwise a local implementation will be used.'),
+    and the EU Login server. Otherwise a local implementation will be used.'),
   );
 
   return system_settings_form($form);

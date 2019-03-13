@@ -63,40 +63,6 @@ function nexteuropa_core_install() {
   );
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 
-  // Set permissions for "cem" role.
-  $permissions = array(
-
-    // Admin menu.
-    'access administration menu',
-    'display drupal links',
-
-    // Bean.
-    'access bean overview',
-    'view bean page',
-    'view bean revisions',
-
-    // Coffee.
-    'access coffee',
-
-    // Menu.
-    'administer menu',
-
-    // Node.
-    'access content overview',
-
-    'access administration pages',
-
-    // Path.
-    'create url aliases',
-
-    // User.
-    'cancel account',
-
-    // Version Management.
-    'version management edits',
-  );
-  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $permissions);
-
   // Set permissions for "contributor" role.
   $permissions = array(
     // Version Management.
