@@ -24,7 +24,7 @@ function multisite_drupal_toolbox_get_default_filter_options() {
     'em',
     'fieldset', 'figcaption', 'figure', 'font', 'form',
     'h2', 'h3', 'h4', 'h5', 'h6', 'hr',
-    'i', 'img', 'input',
+    'i', 'iframe', 'img', 'input',
     'label', 'legend', 'li',
     'map', 'mark',
     'ol', 'option',

@@ -12,7 +12,7 @@ includes[] = "drupal-core.make"
 ; ===================
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc5"
+projects[admin_menu][version] = "3.0-rc6"
 
 projects[administration_language_negotiation][subdir] = "contrib"
 projects[administration_language_negotiation][version] = "1.4"
@@ -95,7 +95,7 @@ projects[better_formats][version] = "1.0-beta2"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-157
 ; Apply patch to fix xss injection
 projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_formats-2896131-6-missing-check_plain-when-showing-filter-name.patch
- 
+
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
@@ -147,7 +147,7 @@ projects[colors][subdir] = "contrib"
 projects[colors][version] = "1.0-rc1"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.7"
+projects[context][version] = "3.10"
 projects[context][patch][] = https://www.drupal.org/files/issues/massively-increase-pe-reroll-873936-67.patch
 
 projects[context_entity_field][subdir] = "contrib"
@@ -243,6 +243,7 @@ projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/is
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
+projects[eu_cookie_compliance][patch][] = patches/eu_cookie_compliance_nept-2299.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
@@ -440,6 +441,11 @@ projects[libraries][version] = "2.3"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
+; Allow any TLD on url links.
+; https://www.drupal.org/project/link/issues/2299657 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2256
+projects[link][patch][] = https://www.drupal.org/files/issues/link-2299657-for-7.x-1.4.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2251
 projects[link][patch][] = patches/nept-2251-link-SA-CONTRIB-2019-020.patch
 
 projects[linkchecker][subdir] = "contrib"
@@ -615,6 +621,10 @@ projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/fil
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.2"
+; Allow alternate location of ttfont directories
+; https://www.drupal.org/project/print/issues/3036143
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2253
+projects[print][patch][] = https://www.drupal.org/files/issues/2019-03-06/location_ttfont_directories-3036143-4.patch
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
@@ -699,7 +709,7 @@ projects[simplenews][patch][] = https://www.drupal.org/files/issues/entitycache_
 ; Add hook_drush_sql_sync_sanitize
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2100
 ; https://www.drupal.org/project/simplenews/issues/3017665#comment-12879291
-projects[simplenews][patch][] = https://www.drupal.org/files/issues/2018-12-03/Add_hook_drush_sql_sync_sanitize-3017665-4.patch
+projects[simplenews][patch][] = https://www.drupal.org/files/issues/2019-02-11/Add_hook_drush_sql_sync_sanitize-3017665-7.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
@@ -764,7 +774,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 ; https://www.drupal.org/node/2362321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1802
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2029
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-09-17/check_source_length-d7-2362321-41.patch
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_source_length-d7-2362321-42.patch
 ; #2955245 : i18nviews strings are not shown on sources view
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
@@ -969,12 +979,11 @@ libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archi
 libraries[colorbox][directory_name] = colorbox
 libraries[colorbox][destination] = libraries
 
-; ckeditor 4.4.8
+; ckeditor 4.9.2
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip
-libraries[ckeditor][download][sha1] = "ed246ac87cad3c4cfa1f723fcfbe4a6e3a5c6992"
+libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_full.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().

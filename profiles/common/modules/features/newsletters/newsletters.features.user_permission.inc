@@ -36,7 +36,6 @@ function newsletters_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
-      'cem' => 'cem',
     ),
     'module' => 'simplenews',
   );
@@ -48,7 +47,6 @@ function newsletters_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
-      'cem' => 'cem',
     ),
     'module' => 'simplenews',
   );
@@ -59,7 +57,6 @@ function newsletters_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
       'contributor' => 'contributor',
-      'cem' => 'cem',
     ),
     'module' => 'simplenews',
   );
@@ -71,7 +68,6 @@ function newsletters_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
-      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -83,7 +79,6 @@ function newsletters_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
-      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -95,7 +90,6 @@ function newsletters_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
-      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -107,7 +101,6 @@ function newsletters_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
-      'cem' => 'cem',
     ),
     'module' => 'simplenews',
   );
@@ -120,7 +113,6 @@ function newsletters_user_default_permissions() {
       'anonymous user' => 'anonymous user',
       'authenticated user' => 'authenticated user',
       'contributor' => 'contributor',
-      'cem' => 'cem',
     ),
     'module' => 'simplenews',
   );
