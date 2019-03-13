@@ -228,21 +228,7 @@ projects[entityreference_prepopulate][version] = "1.7"
 projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.25"
-; After updating the module, a warning message appears about undefined
-; withdraw_message, consent_storage_method and disabled_javascripts indexes.
-; https://www.drupal.org/project/eu_cookie_compliance/issues/2985520
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
-projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-31/undefined_indexes_warning_after_update-2985520-5.patch
-; Popup doesn't close after clicking Decline button.
-; https://www.drupal.org/project/eu_cookie_compliance/issues/2985509
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
-projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-13/eu_cookie_compliance-close_popup-2985509-1.patch
-; Key to json hash cannot be "class" as it is a reserved word, use of "let"
-; is not supported by all browsers as is ECMAScript.
-; https://www.drupal.org/project/eu_cookie_compliance/issues/2986882
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
-projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-26/eu_cookie_compliance-javascript-errors-2986882-3.patch
+projects[eu_cookie_compliance][version] = "1.28"
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
