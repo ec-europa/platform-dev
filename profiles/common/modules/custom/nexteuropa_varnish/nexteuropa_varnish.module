@@ -236,6 +236,40 @@ function nexteuropa_varnish_node_delete($node) {
 }
 
 /**
+ * Implements hook_path_delete().
+ */
+function nexteuropa_varnish_path_delete($path) {
+  if (empty($path)) {
+    return;
+  }
+  
+  $node = menu_get_object('node', 1, $path['source']);
+  
+  // Its a node path.
+  if (!empty($node)) {
+    // No rule defined for the node: Ignore the rest of the process.
+    if (!nexteuropa_varnish_node_has_rules($node)) {
+      return;
+    }
+    
+    $original_alias = $alias = $path['alias'];
+    $altered_options = array('language' => $path['language']);
+    // Add the suffix/prefix depending negociation setup.
+    drupal_alter('url_outbound', $alias, $altered_options, $original_path);
+    $paths[$path['language']] = preg_quote($alias, '/');
+    $paths['escaped_alias'] = preg_quote($original_alias, '/');
+  
+    if (!empty($paths)) {
+      // Removing duplicates and all entries of the array equal to FALSE.
+      $paths = array_unique($paths);
+      $paths = array_filter($paths);
+  
+      _nexteuropa_varnish_purge_paths($paths);
+    }
+  }
+}
+
+/**
  * Gets purge rules to apply for a specific node.
  *
  * @param object $node
