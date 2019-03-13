@@ -125,11 +125,12 @@ The Behat test is located in the file "/tests/features/webtools.feature".
 ## Webtools documentation
 
 These links are also mentioned in the sections above.
-- [Documentation](https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Webtools+documentation+-+Homepage)
-- [Widgets](https://webgate.ec.europa.eu/fpfis/wikis/pages/viewpage.action?spaceKey=MULTISITE&title=Webtools+feature#)
-    - [Charts](https://webgate.ec.europa.eu/fpfis/wikis/x/F7AjBg)
+- [Documentation](https://webgate.ec.europa.eu/fpfis/wikis/x/QKUjBg)
+- [Widgets](https://webgate.ec.europa.eu/fpfis/wikis/x/n49DBg)
+    - [Charts](https://webgate.ec.europa.eu/fpfis/wikis/x/MSTyCQ)
     - [Maps](https://webgate.ec.europa.eu/fpfis/wikis/x/BIlDBg)
     - [Social Bookmarking and Networking](https://webgate.ec.europa.eu/fpfis/wikis/x/_I5DBg) (Share buttons)
     - [Social Media Kit](https://webgate.ec.europa.eu/fpfis/wikis/x/gaUjBg) (Twitter feeds)
+    - [Language Coverage](https://webgate.ec.europa.eu/fpfis/wikis/x/eo_QC)
 
 [Go to top](#table-of-content)
