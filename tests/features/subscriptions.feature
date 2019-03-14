@@ -80,7 +80,8 @@ Feature: Subscription
     And I press "Run cron"
     And I go to "admin/reports/dblog"
     Then I should see text matching "Subscriptions sent"
-
+    
+  @standard_ec_resp
   Scenario: Check administration pages are available
     When I go to "admin/config/system/subscriptions_en"
     Then I should see "Content settings"

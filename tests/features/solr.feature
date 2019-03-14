@@ -1,4 +1,4 @@
-@api
+@api @ec_europa_theme
 Feature:
   In order to optimize the search in a site
   Or to create custom search pages and facets
