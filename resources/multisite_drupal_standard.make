@@ -422,7 +422,7 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.5"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.5"
+projects[link][version] = "1.6"
 ; Issue #2975586: Title field assumed when it may not exist
 ; https://www.drupal.org/node/2974486
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2008
@@ -431,7 +431,6 @@ projects[link][patch][] = https://www.drupal.org/files/issues/2018-05-24/2974486
 ; https://www.drupal.org/project/link/issues/949604
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2008
 projects[link][patch][] = https://www.drupal.org/files/issues/2018-08-30/link-949604-63-fixed.patch
-projects[link][patch][] = patches/nept-2251-link-SA-CONTRIB-2019-020.patch
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.3"
