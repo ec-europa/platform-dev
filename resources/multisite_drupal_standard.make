@@ -447,10 +447,6 @@ projects[link][version] = "1.4"
 projects[link][patch][] = https://www.drupal.org/files/issues/link-2299657-for-7.x-1.4.patch
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2251
 projects[link][patch][] = patches/nept-2251-link-SA-CONTRIB-2019-020.patch
-; Allow any TLD on url links.
-; https://www.drupal.org/project/link/issues/2299657 
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2256
-projects[link][patch][] = https://www.drupal.org/files/issues/link-2299657-for-7.x-1.4.patch
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.3"
