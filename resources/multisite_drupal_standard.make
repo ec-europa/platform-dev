@@ -822,6 +822,13 @@ projects[views][patch][] = https://www.drupal.org/files/issues/2018-07-15/mysql-
 ; https://www.drupal.org/project/views/issues/2961962
 ; The patch of this issue fixes the PHP error: https://www.drupal.org/project/views/issues/2900405
 projects[views][patch][] = https://www.drupal.org/files/issues/views-check-exposed-identifier.patch
+; Issue #3012609: Ajax Exposed filters not working with multiple same views
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2149
+; https://www.drupal.org/project/views/issues/3012609
+projects[views][patch][] = https://www.drupal.org/files/issues/2018-12-20/ajax-exposed-filters-not-working-with-multiple-same-views-3012609-17.patch
+; Issue #3039953: PHP 5.3.x fix for syntax changes Views 3.21
+; https://www.drupal.org/project/views/issues/3039953
+projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-13/3039953-25.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
