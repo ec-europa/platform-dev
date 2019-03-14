@@ -560,7 +560,7 @@ function _nexteuropa_varnish_get_node_paths($node) {
           $alias = drupal_get_path_alias($original_path, $lang_code);
           $original_alias = $alias;
           // Do not use altered "options" for url_outbound.
-          $altered_options = $options + array('language' => $all_languages[$lang_code]);
+          $altered_options = $options + array('language' => $all_languages[$lang_code]) + array('external' => FALSE);
           // Add the suffix/prefix depending negociation setup.
           drupal_alter('url_outbound', $alias, $altered_options, $original_path);
           $paths[$lang_code] = preg_quote($alias, '/');
@@ -570,9 +570,11 @@ function _nexteuropa_varnish_get_node_paths($node) {
     else {
       // Content translation.
       $lang_code = entity_language('node', $node);
+      $languages = language_list();
       $alias = drupal_get_path_alias($original_path, $lang_code);
       $original_alias = $alias;
-      $altered_options = $options + array('language' => $lang_code);
+      $altered_options = $options + array('language' => $languages[$lang_code]) + array('external' => FALSE);
+
       // Add the suffix/prefix depending negociation setup.
       drupal_alter('url_outbound', $alias, $altered_options, $original_path);
       $paths[$lang_code] = preg_quote($alias, '/');

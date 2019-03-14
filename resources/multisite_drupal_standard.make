@@ -243,6 +243,7 @@ projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/is
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
+projects[eu_cookie_compliance][patch][] = patches/eu_cookie_compliance_nept-2299.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
@@ -440,6 +441,11 @@ projects[libraries][version] = "2.3"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
+; Allow any TLD on url links.
+; https://www.drupal.org/project/link/issues/2299657 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2256
+projects[link][patch][] = https://www.drupal.org/files/issues/link-2299657-for-7.x-1.4.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2251
 projects[link][patch][] = patches/nept-2251-link-SA-CONTRIB-2019-020.patch
 ; Allow any TLD on url links.
 ; https://www.drupal.org/project/link/issues/2299657 
