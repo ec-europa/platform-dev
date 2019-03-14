@@ -46,6 +46,9 @@ drupal.htaccess.path = ${platform.build.dir}/.htaccess
 # Configuration to append to the .htaccess file in the Drupal root folder.
 drupal.htaccess.append.text =
 
+# Configuration to append to the settings.php file of the build.
+drupal.settings.append.text = $conf['multisite_toolbox_cs_whitelist'] = array('*.europa.eu');
+
 
 # Platform configuration
 # ----------------------
@@ -123,6 +126,9 @@ behat.yml.template = ${behat.dir}/behat.yml.dist
 
 # The location of the generated Behat configuration file.
 behat.yml.path = ${behat.dir}/behat.yml
+
+# The location of the screenshots that are generated when tests fail.
+behat.screenshots.path = /tmp
 
 # The base URL to use in Behat tests.
 behat.base_url = http://localhost

@@ -19,6 +19,18 @@
 
         <echo msg="Delete previous build." />
         <delete dir="${phing.project.build.dir}" includeemptydirs="true" failonerror="false" />
+
+        <echo msg="Delete profiles/multisite_drupal_standard/modules/contrib folder." />
+        <delete dir="profiles/multisite_drupal_standard/modules/contrib" includeemptydirs="true" failonerror="false" />
+
+        <echo msg="Delete profiles/multisite_drupal_communities/modules/contrib folder." />
+        <delete dir="profiles/multisite_drupal_communities/modules/contrib" includeemptydirs="true" failonerror="false" />
+
+        <echo msg="Delete profiles/multisite_drupal_standard/themes folder." />
+        <delete dir="profiles/multisite_drupal_standard/themes" includeemptydirs="true" failonerror="false" />
+
+        <echo msg="Delete profiles/multisite_drupal_communities/themes folder." />
+        <delete dir="profiles/multisite_drupal_communities/themes" includeemptydirs="true" failonerror="false" />
     </target>
 
     <!-- Make Drupal core. -->
@@ -62,6 +74,9 @@
             <!-- Install all contributed projects inside the chosen profile. -->
             <option name="contrib-destination">profiles/${platform.profile.name}</option>
         </drush>
+        <delete includeEmptyDirs="true">
+            <fileset dir="profiles/${platform.profile.name}/modules/contrib/xmlsitemap/xmlsitemap_user" />
+        </delete>
     </target>
 
     <!-- Make one of the profiles in order to build a multisite platform. -->

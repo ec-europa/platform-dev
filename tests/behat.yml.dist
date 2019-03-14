@@ -5,7 +5,8 @@ default:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_port: {{ integration.server.port }}
         - Drupal\nexteuropa\Context\ModuleContext
-        - FeatureContext
+        - FeatureContext:
+            screenshots_path: '{{ behat.screenshots.path }}'
         - Drupal\nexteuropa\Context\AgnosticBatchContext
         - Drupal\nexteuropa\Context\ApacheSolrContext
         - Drupal\nexteuropa\Context\BlockContext
@@ -43,6 +44,7 @@ default:
         - Drupal\nexteuropa\Context\PoetryContext
         - Drupal\nexteuropa\Context\RulesContext
         - Drupal\nexteuropa\Context\LacoContext
+        - Drupal\nexteuropa\Context\TokenContext
         - OpenEuropa\Behat\TransformationContext:
             elements:
               nept_element:block:page-language-switcher: '.block-language-selector-page'
@@ -122,6 +124,10 @@ communities:
     default:
       filters:
         tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities"
+  extensions:
+    Drupal\nexteuropa\Extensions\DrupalExtension:
+      region_map:
+        sidebar_left: ".region-sidebar-first"
 
 standard_ec_resp:
   suites:

@@ -13,6 +13,29 @@
 class TMGMTPoetryJobController extends TMGMTJobController {
 
   /**
+   * When using #cart, delete all jobs and sub jobs (job items).
+   *
+   * @param array|int $ids
+   *   The job id/s.
+   * @param DatabaseTransaction|null $transaction
+   *   The transaction.
+   */
+  public function delete($ids, $transaction = NULL) {
+
+    $ids = (array) $ids;
+
+    $ids_iterate = $ids;
+    foreach ($ids_iterate as $id_iterate) {
+      $related_jobs = tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $id_iterate, TRUE)->fetchAll();
+      foreach ($related_jobs as $related_job) {
+        $ids[] = $related_job->tjid;
+      }
+    }
+
+    parent::delete($ids, $transaction);
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function save($origin_job, DatabaseTransaction $transaction = NULL) {

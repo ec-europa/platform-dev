@@ -496,18 +496,6 @@ function _nexteuropa_piwik_get_regexp_path_rule($path, $lang_code) {
  *   FALSE if there is no rule for the currently processed path.
  */
 function _nexteuropa_piwik_filter_results($results, $path, $lang_code) {
-  // Log the overlapping rules case.
-  if (count($results) > 1) {
-    watchdog(
-      'nexteuropa_piwik',
-      'Overlapping PIWIK rules for the following path detected: @path. Overlapping rules IDs: @rules_ids',
-      array(
-        '@path' => $path,
-        '@rules_ids' => implode(', ', array_keys($results)),
-      ),
-      WATCHDOG_WARNING
-    );
-  }
   // Return PIWIK rule.
   $lang_code_rules = array();
   $lang_all_rules = array();

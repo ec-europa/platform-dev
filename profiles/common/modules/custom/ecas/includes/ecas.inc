@@ -28,6 +28,8 @@ function _is_ecas_user($user) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Remove the possibility to edit all the info synchronized from ecas.
  */
 function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   $user = user_load($form['#user']->uid);
@@ -66,13 +68,15 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Add a warning for users trying to recover their password.
  */
 function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
   array_unshift($form['#validate'], '_ecas_user_pass_validate');
 }
 
 /**
- * Validate the user/password form.
+ * Warn users trying to recover EU login password from Drupal at user/password.
  *
  * If the given user is an ECAS user, provide an ECAS-related URL instead of
  * sending a mail with erroneous instructions.
@@ -192,24 +196,29 @@ function ecas_user_logout($account) {
 }
 
 /**
- * Checks the menu.
+ * Checks the menu access.
  *
  * @return bool
- *   TRUE when the user is anonymous, or when the path does not start with the
- *   string 'admin/structure/menu'.
+ *   TRUE when the user is anonymous, or when the path of the displayed page
+ *   correspond to 'ecas' or 'account_request'.
+ *
+ * @see ecas_login_page()
+ * @see account_request()
  */
 function ecas_menu_check() {
-  global $user;
-  $access = FALSE;
-  if ($user->uid == 0) {
+  if (user_is_anonymous()) {
     // Access and display ECAS page if anonymous.
-    $access = TRUE;
+    return TRUE;
   }
-  if (strpos($_GET['q'], 'admin/structure/menu') !== FALSE) {
-    // Access and display ECAS page if go to menu admin interface.
-    $access = TRUE;
-  }
-  return $access;
+
+  // If the user is already logged, then return FALSE only if the displayed
+  // page does not correspond to one of the path listed below.
+  $limited_acess_paths = array(
+    'ecas',
+    'account_request',
+  );
+
+  return in_array(current_path(), $limited_acess_paths);
 }
 
 /**
@@ -235,8 +244,6 @@ function ecas_login_page() {
       NULL,
       'The EU login connection failed.');
   }
-
-  $destination = variable_get('site_frontpage', 'node');
 
   // If it is the user's first CAS login and initial login redirection is
   // enabled, go to the set page.
@@ -462,22 +469,20 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
   if (!empty($user_info['cas:groups']) && !empty($user_info['cas:groups']['cas:group'])) {
     $user_cas_groups = (array) $user_info['cas:groups']['cas:group'];
   }
-
-  $cem_role = user_role_load_by_name(CCE_BASIC_CONFIG_CEM_ROLE_NAME);
+  $administrator_role = user_role_load_by_name("administrator");
   $user_roles = (isset($user->roles)) ? $user->roles : array();
   // By default, the role is not set for any user automatically.
   // Then, unset it by default and reassign it later if the user has the
   // EU login group.
-  unset($user_roles[$cem_role->rid]);
+  unset($user_roles[$administrator_role->rid]);
   if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
-    $role_name = $cem_role->name;
-    $user_roles[$cem_role->rid] = $role_name;
+    $user_roles[$administrator_role->rid] = $administrator_role->name;
     watchdog(
       'ecas',
       'User "%name" has received the "%role" role.',
       array(
         '%name' => $user->name,
-        '%role' => $role_name,
+        '%role' => $administrator_role->name,
       ),
       WATCHDOG_INFO,
       l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
@@ -496,6 +501,7 @@ function ecas_login_check() {
   if ($user->uid) {
     // The user has an uid, and it is > 0 (which is anonymous user's uid) do
     // nothing because user is already logged into Drupal.
+    drupal_set_message(t('You are already logged, dear %ecas_username.', array('%ecas_username' => $user->name)));
     return;
   }
 

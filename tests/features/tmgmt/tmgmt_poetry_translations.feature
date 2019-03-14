@@ -18,7 +18,7 @@ Feature: TMGMT Poetry features
 
   @resetPoetryNumero @theme_wip
   Scenario: Checking a wrong configuration.
-    Given I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "WRONG_NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
@@ -43,7 +43,7 @@ Feature: TMGMT Poetry features
     And I should see "Rejected" in the "French" row
     And I should see "Rejected" in the "Italian" row
 
-    When I am logged in as a user with the "cem" role
+    When I am logged in as a user with the "administrator" role
     And I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
@@ -56,7 +56,7 @@ Feature: TMGMT Poetry features
   # trim any value we fill it with.
   @cleanup-tmgmt-poetry-website-identifier @theme_wip
   Scenario: A website identifier longer than 15 characters is not accepted.
-    Given I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
     And inside fieldset "General settings" I fill in "Website identifier" with "tmgmt_poetry_website_identifier"
     And I press the "Save translator" button
@@ -89,7 +89,7 @@ Feature: TMGMT Poetry features
   @javascript @cleanup-tmgmt-poetry-website-identifier @poetry_mock_cleanup_translator @theme_wip
   Scenario: Send translation request including a website identifier with
   characters that have a special meaning in HTML.
-    Given I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And inside fieldset "General settings" I fill in "Website identifier" with "/>&mywebsite<"
     And I fill in "Callback Password" with "drupal_callback_password"
@@ -862,3 +862,47 @@ Feature: TMGMT Poetry features
     Then I should see the "Request translation" button
     And I should not see the "Add to cart" button
     And I should not see the "Send to cart" button
+
+  @javascript
+  Scenario: Validate max field length when TMGMT Auto accept is enabled.
+    Given I am logged in as a user with the "administrator" role
+    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    And I check the box "Auto accept finished translations"
+    And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
+    And I fill in "Requester code" with "WEB"
+    And I fill in "Callback User" with "drupal_callback_user"
+    And I fill in "Callback Password" with "drupal_callback_password"
+    And I fill in "Poetry User" with "poetry_user"
+    And I fill in "Poetry Password" with "poetry_password"
+    And I fill in "Website identifier" with "my-website"
+    And I fill in "Responsable" with "DIGIT"
+    And I fill in "DG Author" with "IE/CE/DIGIT"
+    And I fill in "Requester" with "IE/CE/DIGIT/A/3"
+    And I fill in "Author" with "limaari"
+    And I fill in "Secretaire" with "limaari"
+    And I fill in "Contact" with "limaari"
+    And I fill in "Responsible" with "limaari"
+    And I fill in "Email to" with "limaari@sapo.pt"
+    And I fill in "Email CC" with "limaari@sapo.pt"
+    And I press the "Save translator" button
+    Then I should see the success message "The configuration options have been saved."
+
+    When I am logged in as a user with the "administrator" role
+    And I go to "node/add/page"
+    And I select "Basic HTML" from "Text format"
+    And I fill in "Title" with "Here is an English title to validate the field while sending to translation with auto accept enabled. This title is exactly 255 characters long, this way we test the translation is fine, since the response from mock will add exactly four characters fields"
+    And I fill in "Body" with "The title max length is 255 characters, if this limit is exceeded an error will be thrown before trying to save the data in database, due to the validation on the needsReview process which check the translation data against field limit."
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
+    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+
+    When I go to "admin/poetry_mock/dashboard"
+    And I click "Translate" in the "en->fr" row
+    And I click "Check the translation page"
+    Then I should see "Needs review" in the "French" row
