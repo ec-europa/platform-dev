@@ -752,7 +752,7 @@ class PoetryMock {
       "organization" : {
         "responsable" : "DIGIT",
         "auteur" : "IE/CE/DIGIT",
-        "demandeur" : "IE/CE/DIGIT/A/3"
+        "demandeur" : "IE/CE/DIGIT"
       },
       "contacts" : {
         "auteur" : "ecusername",
