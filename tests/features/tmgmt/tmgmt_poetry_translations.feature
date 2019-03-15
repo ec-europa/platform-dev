@@ -865,7 +865,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Validate max field length when TMGMT Auto accept is enabled.
-    Given I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I check the box "Auto accept finished translations"
     And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
