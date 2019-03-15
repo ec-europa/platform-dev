@@ -82,6 +82,18 @@ Feature:
     And I click "edit" next to the 1st cache purge rule
     Then the "Content Type" field should contain "page"
     And the radio button "A specific list of regex" is selected
+    
+  Scenario: Flush cache when content was deleted.
+    Given I go to "node/add/page"
+    And I fill in "Title" with "Flush cache when content was deleted"
+    And I press the "Save" button
+    And I go to "content/flush-cache-when-content-was-deleted"
+    And I click "Edit draft"
+    And I press the "Delete" button
+    And I press the "Delete" button
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path                                          |
+      | /content/flush-cache-when-content-was-deleted |
 
   @moderated-content
   Scenario: Create a draft.
