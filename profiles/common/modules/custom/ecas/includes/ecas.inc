@@ -403,24 +403,56 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
     $user_cas_groups = (array) $user_info['cas:groups']['cas:group'];
   }
   $administrator_role = user_role_load_by_name("administrator");
+  $cem_role = user_role_load_by_name(CCE_BASIC_CONFIG_CEM_ROLE_NAME);
+
   $user_roles = (isset($user->roles)) ? $user->roles : array();
-  // By default, the role is not set for any user automatically.
-  // Then, unset it by default and reassign it later if the user has the
-  // EU login group.
-  unset($user_roles[$administrator_role->rid]);
-  if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
-    $user_roles[$administrator_role->rid] = $administrator_role->name;
-    watchdog(
-      'ecas',
-      'User "%name" has received the "%role" role.',
-      array(
-        '%name' => $user->name,
-        '%role' => $administrator_role->name,
-      ),
-      WATCHDOG_INFO,
-      l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
-    );
+
+  // User is *or was* CEM at some point.
+  if(user_has_role($cem_role)) {
+    // User is still CEM member.
+    if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
+      // Add the role if he does not yet have it.
+      if (!user_has_role($administrator_role)) {
+          $user_roles[$administrator_role->rid] = $administrator_role->name;
+          watchdog(
+            'ecas',
+            'User "%name" has received the "%role" role.',
+            array(
+              '%name' => $user->name,
+              '%role' => $administrator_role->name,
+            ),
+          WATCHDOG_INFO,
+          l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
+        );
+      }
+    }
+    else {
+    // User is no longer CEM member, remove boths roles.
+      if (user_has_role($administrator_role)) {
+        unset($user_roles[$administrator_role->rid]);
+        unset($user_roles[$cem_role->rid]);
+      }
+    }
   }
+  else {
+    // User does not have cem user role, but should.
+    if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
+        $user_roles[$cem_role->rid] = $cem_role->name;
+        if (!user_has_role($administrator_role)) {
+          $user_roles[$administrator_role->rid] = $administrator_role->name;
+          watchdog(
+            'ecas',
+            'User "%name" has received the "%role" role.',
+            array(
+              '%name' => $user->name,
+              '%role' => $administrator_role->name,
+            ),
+            WATCHDOG_INFO,
+            l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
+          );
+        }
+      }
+    }
 
   $edit['roles'] = $user_roles;
 }
