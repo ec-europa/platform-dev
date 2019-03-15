@@ -402,20 +402,22 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
   if (!empty($user_info['cas:groups']) && !empty($user_info['cas:groups']['cas:group'])) {
     $user_cas_groups = (array) $user_info['cas:groups']['cas:group'];
   }
-  $administrator_role = user_role_load_by_name("administrator");
+
+  $cem_role = user_role_load_by_name(CCE_BASIC_CONFIG_CEM_ROLE_NAME);
   $user_roles = (isset($user->roles)) ? $user->roles : array();
   // By default, the role is not set for any user automatically.
   // Then, unset it by default and reassign it later if the user has the
   // EU login group.
-  unset($user_roles[$administrator_role->rid]);
+  unset($user_roles[$cem_role->rid]);
   if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
-    $user_roles[$administrator_role->rid] = $administrator_role->name;
+    $role_name = $cem_role->name;
+    $user_roles[$cem_role->rid] = $role_name;
     watchdog(
       'ecas',
       'User "%name" has received the "%role" role.',
       array(
         '%name' => $user->name,
-        '%role' => $administrator_role->name,
+        '%role' => $role_name,
       ),
       WATCHDOG_INFO,
       l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
