@@ -16,63 +16,81 @@ Feature:
 
   Scenario: View purge rules.
     Given the following cache purge rules:
-      | Content Type | Paths to Purge      |
-      | page         | /, /all-basic-pages |
-      | page         | /more-basic-pages   |
-      | article      | /all-articles       |
+     | Content Type | Paths to Purge        |
+     | page         | \/, \/all\-basic\-pages |
+     | page         | \/more\-basic\-pages    |
+     | article      | \/all\-articles        |
     When I go to "/admin/config/system/nexteuropa-varnish/purge_rules"
     Then I see an overview with the following cache purge rules:
-      | Content Type | Paths to Purge      |
-      | Basic page   | /, /all-basic-pages |
-      | Basic page   | /more-basic-pages   |
-      | Article      | /all-articles       |
+      | Content Type | Paths to Purge        |
+      | Basic page   | \/, \/all\-basic\-pages |
+      | Basic page   | \/more\-basic\-pages    |
+      | Article      | \/all\-articles        |
 
   Scenario: Add a purge rule.
     When I go to "/admin/config/system/nexteuropa-varnish/purge_rules"
     And I click "Add cache purge rule"
     And I select "Basic page" from "Content Type"
-    And I fill "Paths" with:
+    And I fill "Paths" with the regex:
       """
       /
       /all-basic-pages
       /yet-another-page
       """
     And I press the "Save" button
-    Then I see an overview with the following cache purge rules:
-      | Content Type | Paths to Purge                         |
-      | Basic page   | /, /all-basic-pages, /yet-another-page |
+    Then I should see the error message "Regex is invalid."
+    Then I fill "Paths" with the regex:
+      """
+      \/
+      \/all\-basic\-pages
+      \/yet\-another\-page
+      """
+     And I press the "Save" button
+     Then I see an overview with the following cache purge rules:
+      | Content Type | Paths to Purge                                |
+      | Basic page   | \/, \/all\-basic\-pages, \/yet\-another\-page |
 
+  Scenario: Check scope of the rule.
+    When I go to "/admin/config/system/nexteuropa-varnish/purge_rules"
+    And I click "Add cache purge rule"
+    And I select "Basic page" from "Content Type"
+    And I fill "Paths" with the regex:
+      """
+      content\/global\-editorial\-team
+      """
+    And I press the "Check scope" button
+    Then I should see the success message "Here is the 100 first results matching your regex"
   Scenario: Remove a purge rule.
     Given the following cache purge rules:
       | Content Type | Paths to Purge      |
-      | page         | /, /all-basic-pages |
-      | page         | /more-basic-pages   |
-      | article      | /all-articles       |
+      | page         | \/, \/all\-basic\-pages |
+      | page         | \/more\-basic\-pages   |
+      | article      | \/all\-articles       |
     When I go to "/admin/config/system/nexteuropa-varnish/purge_rules"
     And I click "delete" next to the 2nd cache purge rule
     And I press the "Confirm" button
     Then I see an overview with the following cache purge rules:
-      | Content Type | Paths to Purge      |
-      | Basic page   | /, /all-basic-pages |
-      | Article      | /all-articles       |
+      | Content Type | Paths to Purge          |
+      | Basic page   | \/, \/all\-basic\-pages |
+      | Article      | \/all\-articles         |
 
   Scenario: Edit a purge rule.
     Given the following cache purge rules:
       | Content Type | Paths to Purge      |
-      | page         | /, /all-basic-pages |
+      | page         | \/, \/all\-basic\-pages |
     When I go to "/admin/config/system/nexteuropa-varnish/purge_rules"
     And I click "edit" next to the 1st cache purge rule
     Then the "Content Type" field should contain "page"
-    And the radio button "A specific list of paths" is selected
+    And the radio button "A specific list of regex" is selected
 
   @moderated-content
   Scenario: Create a draft.
     Given the default purge rule is disabled
     And the following cache purge rules:
-      | Content Type | Paths to Purge      |
-      | page         | /, /all-basic-pages |
-      | page         | /more-basic-pages   |
-      | article      | /all-articles       |
+      | Content Type | Paths to Purge        |
+      | page         | \/, \/all\-basic\-pages |
+      | page         | \/more\-basic\-pages    |
+      | article      | \/all\-articles        |
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I press "Save"
@@ -82,10 +100,10 @@ Feature:
   Scenario: Immediately publish a new page.
     Given the default purge rule is disabled
     And the following cache purge rules:
-      | Content Type | Paths to Purge      |
-      | page         | /, /all-basic-pages |
-      | page         | /more-basic-pages   |
-      | article      | /all-articles       |
+      | Content Type | Paths to Purge          |
+      | page         | \/, \/all\-basic\-pages |
+      | page         | \/more\-basic\-pages    |
+      | article      | \/all\-articles         |
     And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
@@ -94,19 +112,19 @@ Feature:
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path              |
-      | /                 |
-      | /all-basic-pages  |
-      | /more-basic-pages |
+      | Path                 |
+      | \/                   |
+      | \/all\-basic\-pages  |
+      | \/more\-basic\-pages |
 
   @moderated-content
   Scenario: Moderate a page.
     Given the default purge rule is disabled
     And the following cache purge rules:
-      | Content Type | Paths to Purge      |
-      | page         | /, /all-basic-pages |
-      | page         | /more-basic-pages   |
-      | article      | /all-articles       |
+      | Content Type | Paths to Purge          |
+      | page         | \/, \/all\-basic\-pages |
+      | page         | \/more\-basic\-pages    |
+      | article      | \/all\-articles         |
     And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
@@ -116,14 +134,14 @@ Feature:
     And I press the "Apply" button
     Then the web front end cache was not instructed to purge any paths
 
-  @moderated-content
+  @moderated-content 
   Scenario: Publish a page with moderation.
     Given the default purge rule is disabled
     And the following cache purge rules:
-      | Content Type | Paths to Purge      |
-      | page         | /, /all-basic-pages |
-      | page         | /more-basic-pages   |
-      | article      | /all-articles       |
+      | Content Type | Paths to Purge        |
+      | page         | \/, \/all\-basic\-pages |
+      | page         | \/more\-basic\-pages    |
+      | article      | \/all\-articles        |
     And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
@@ -132,10 +150,10 @@ Feature:
     And I select "Published" from "state"
     And I press the "Apply" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path              |
-      | /                 |
-      | /all-basic-pages  |
-      | /more-basic-pages |
+      | Path                 |
+      | \/                   |
+      | \/all\-basic\-pages  |
+      | \/more\-basic\-pages |
     When Execute all purge rules
     And I click "New draft"
     And I select "Basic HTML" from "Text format"
@@ -150,27 +168,27 @@ Feature:
       | language | title            | body                       |
       | en       | Test purge rules | Page to test unpublication |
     And the following cache purge rules:
-      | Content Type | Paths to Purge      |
-      | page         | /, /all-basic-pages |
-      | page         | /more-basic-pages   |
-      | article      | /all-articles       |
+      | Content Type | Paths to Purge          |
+      | page         | \/, \/all\-basic\-pages |
+      | page         | \/more\-basic\-pages    |
+      | article      | \/all\-articles         |
     And the web front end cache is ready to receive requests.
     When I click "Unpublish this revision"
     And I press the "Unpublish" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                    |
-      | /                       |
-      | /all-basic-pages        |
-      | /more-basic-pages       |
+      | Path                     |
+      | \/                       |
+      | \/all\-basic\-pages        |
+      | \/more\-basic\-pages       |
 
   @non-moderated-content
   Scenario: Create draft of a an editorial team.
     Given the default purge rule is disabled
     And the following cache purge rules:
       | Content Type   | Paths to Purge      |
-      | page           | /, /all-basic-pages |
-      | page           | /more-basic-pages   |
-      | editorial_team | /all-articles       |
+      | page           | \/, \/all\-basic\-pages |
+      | page           | \/more\-basic\-pages   |
+      | editorial_team | \/all\-articles       |
     And the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
@@ -184,25 +202,25 @@ Feature:
     Given the default purge rule is disabled
     And the following cache purge rules:
       | Content Type   | Paths to Purge      |
-      | page           | /, /all-basic-pages |
-      | page           | /more-basic-pages   |
-      | editorial_team | /all-articles       |
+      | page           | \/, \/all-basic-pages |
+      | page           | \/more\-basic\-pages   |
+      | editorial_team | \/all\-articles       |
     And the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path          |
-      | /all-articles |
+      | Path            |
+      | \/all\-articles |
 
   @non-moderated-content
   Scenario: Publish an existing draft of an editorial team.
     Given the default purge rule is disabled
     And the following cache purge rules:
       | Content Type   | Paths to Purge      |
-      | page           | /, /all-basic-pages |
-      | page           | /more-basic-pages   |
-      | editorial_team | /all-articles       |
+      | page           | \/, \/all\-basic\-pages |
+      | page           | \/more\-basic\-pages   |
+      | editorial_team | \/all\-articles       |
     And the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
@@ -215,7 +233,7 @@ Feature:
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path          |
-      | /all-articles |
+      | \/all\-articles |
 
   @non-moderated-content
   Scenario: Edit an existing draft of an editorial team.
@@ -240,105 +258,16 @@ Feature:
     And I press "Save"
     And the following cache purge rules:
       | Content Type   | Paths to Purge      |
-      | page           | /, /all-basic-pages |
-      | page           | /more-basic-pages   |
-      | editorial_team | /all-articles       |
+      | page           | \/, \/all\-basic\-pages |
+      | page           | \/more\-basic\-pages   |
+      | editorial_team | \/all\-articles       |
     When I click "Edit"
     And I click "Publishing options"
     And I uncheck the box "Published"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path          |
-      | /all-articles |
-
-  Scenario: Purge with wildcard pattern "*".
-    Given the default purge rule is disabled
-    And the following cache purge rules:
-      | Content Type | Paths to Purge |
-      | page         | /all-pages/*   |
-    And the web front end cache is ready to receive requests.
-    When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
-    And I press "Save"
-    And I click "Moderate"
-    And I select "Published" from "state"
-    And I press the "Apply" button
-    Then the web front end cache was instructed to purge certain paths for the application tag "my-website"
-    And the web front end cache will not use existing caches for the following paths:
-      | Path                  |
-      | /all-pages/foo        |
-      | /all-pages/bar        |
-      | /all-pages/foo_fr     |
-      | /all-pages/bar_fr     |
-      | /all-pages/foo-bar    |
-      | /all-pages/foo-bar_fr |
-      | /all-pages/foo_bar    |
-      | /all-pages/foo_bar_fr |
-    But the web front end cache will still use existing caches for the following paths:
-      | Path                               |
-      | /some-completely-irrelevant-page   |
-      | /all_pages                         |
-      | /all_pages_fr                      |
-      | /all-pages_f                       |
-      | /all-pages-fr                      |
-      | /all-pages_pt-pt                   |
-      | /all-pages/yet/another             |
-      | /all-pages/yet/another-page        |
-      | /all-pages/yet/another-page_fr     |
-      | /all-pages/yet/another-page/inside |
-
-  Scenario: Purge with multiple wildcard patterns "*" deeper in the path hierarchy.
-    Given the default purge rule is disabled
-    And the following cache purge rules:
-      | Content Type | Paths to Purge |
-      | page         | /all-pages/*/* |
-    And the web front end cache is ready to receive requests.
-    When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
-    And I press "Save"
-    And I click "Moderate"
-    And I select "Published" from "state"
-    And I press the "Apply" button
-    Then the web front end cache was instructed to purge certain paths for the application tag "my-website"
-    And the web front end cache will not use existing caches for the following paths:
-      | Path                           |
-      | /all-pages/yet/another         |
-      | /all-pages/yet/another-page    |
-      | /all-pages/yet/another-page_fr |
-    But the web front end cache will still use existing caches for the following paths:
-      | Path                                  |
-      | /all-pages/foo                        |
-      | /all-pages/foo                        |
-      | /all-pages/yet/another-page/inside    |
-      | /all-pages/yet/another-page/inside_fr |
-
-  Scenario: Purge with wildcard pattern "?" to match language suffix.
-    Given the default purge rule is disabled
-    And the following cache purge rules:
-      | Content Type | Paths to Purge |
-      | page         | /all-pages_??  |
-    And the web front end cache is ready to receive requests.
-    When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
-    And I press "Save"
-    And I click "Moderate"
-    And I select "Published" from "state"
-    And I press the "Apply" button
-    Then the web front end cache was instructed to purge certain paths for the application tag "my-website"
-    And the web front end cache will not use existing caches for the following paths:
-      | Path          |
-      | /all-pages_fr |
-      | /all-pages_po |
-    But the web front end cache will still use existing caches for the following paths:
-      | Path                |
-      | /all-pages          |
-      | /another_fr         |
-      | /all_pages_fr       |
-      | /all-pages_/page_fr |
-      | /all-pages_f        |
-      | /all-pages-fr       |
-      | /all-pages_fre      |
-      | /all-pages_pt-pt    |
+      | \/all\-articles |
 
   @purge-rule-type-node
   Scenario: Add a purge rule to clear paths of the node the action is performed on.
@@ -377,8 +306,11 @@ Feature:
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                 |
-      | /content/frontend-cache-purge-publish-immediately_en |
+      | Path                                                     |
+      | content\/frontend\-cache\-purge\-publish\-immediately_en |
+      | node\/[node:last-created-node-id]                        |
+      | node\/[node:last-created-node-id]_[a-z]{2}               |
+      | content\/frontend\-cache\-purge\-publish\-immediately    |
 
   @moderated-content @purge-rule-type-node
   Scenario: Purge the paths of a basic page when it is withdrawn.
@@ -401,10 +333,13 @@ Feature:
     When I click "Unpublish this revision"
     And I press the "Unpublish" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                        |
-      | /content/frontend-cache-purge-withdrawal_en |
-      | /content/frontend-cache-purge-withdrawal_fr |
-      | /content/frontend-cache-purge-withdrawal_nl |
+      | Path                                              |
+      | content\/frontend\-cache\-purge\-withdrawal_en    |
+      | content\/frontend\-cache\-purge\-withdrawal_fr    |
+      | content\/frontend\-cache\-purge\-withdrawal_nl    |
+      | node\/[node:last-created-node-id]                 |
+      | node\/[node:last-created-node-id]_[a-z]{2}        |
+      | content\/frontend\-cache\-purge\-withdrawal       |
 
   @moderated-content @purge-rule-type-node
   Scenario: Purge the paths of a basic page when it is published via moderation.
@@ -420,8 +355,12 @@ Feature:
     And I select "Published" from "state"
     And I press the "Apply" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                         |
-      | /content/frontend-cache-purge-publication_en |
+      | Path                                            |
+      | content\/frontend\-cache\-purge\-publication_en |
+      | node\/[node:last-created-node-id]                                         |
+      | node\/[node:last-created-node-id]_[a-z]{2}                                |
+      | content\/frontend\-cache\-purge\-publication    | 
+
     When Execute all purge rules
     And I click "New draft"
     And I select "Basic HTML" from "Text format"
@@ -449,9 +388,13 @@ Feature:
     And I fill in "URL alias" with "frontend-cache-purge-published-page-custom-alias"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                         |
-      | /content/frontend-cache-purge-published-page_en              |
-      | /frontend-cache-purge-published-page-custom-alias_en         |
+      | Path                                                             |
+      | content\/frontend\-cache\-purge\-published\-page_en              |
+      | content\/frontend\-cache\-purge\-published\-page                 |
+      | frontend\-cache\-purge\-published\-page\-custom\-alias_en        |
+      | node\/[node:last-created-node-id]                                |
+      | node\/[node:last-created-node-id]_[a-z]{2}                       |
+      | frontend\-cache\-purge\-published\-page\-custom\-alias           |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an editorial team.
@@ -464,8 +407,11 @@ Feature:
     And I fill in "Name" with "frontend-cache-purge-editorial-team-publication"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                        |
-      | /content/frontend-cache-purge-editorial-team-publication_en |
+      | Path                                                             |
+      | content\/frontend\-cache\-purge\-editorial\-team\-publication_en |
+      | node\/[node:last-created-node-id]                                |
+      | node\/[node:last-created-node-id]_[a-z]{2}                       |
+      | content\/frontend\-cache\-purge\-editorial\-team\-publication    |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an existing draft of an editorial team.
@@ -485,7 +431,10 @@ Feature:
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path          |
-      | /content/frontend-cache-purge-editorial-team-publish-draft_en |
+      | content\/frontend\-cache\-purge\-editorial\-team\-publish\-draft_en       |
+      | node\/[node:last-created-node-id]                                                                   |
+      | node\/[node:last-created-node-id]_[a-z]{2}                                                          |
+      | content\/frontend\-cache\-purge\-editorial\-team\-publish\-draft          |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Change the URL of a published editorial team.
@@ -503,8 +452,12 @@ Feature:
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path                                                         |
-      | /content/frontend-cache-purge-editorial-team-change-alias_en |
-      | /frontend-cache-purge-editorial-team-custom-alias_en         |
+      | content\/frontend\-cache\-purge\-editorial\-team\-change\-alias_en |
+      | content\/frontend\-cache\-purge\-editorial\-team\-change\-alias    |
+      | frontend\-cache\-purge\-editorial\-team\-custom\-alias_en          |
+      | node\/[node:last-created-node-id]                                  |
+      | node\/[node:last-created-node-id]_[a-z]{2}                         |
+      | frontend\-cache\-purge\-editorial\-team\-custom\-alias             |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Edit an existing draft of an editorial team.
@@ -539,13 +492,16 @@ Feature:
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path          |
-      | /content/frontend-cache-purge-withdraw-editorial-team_en |
+      | content\/frontend\-cache\-purge\-withdraw\-editorial\-team_en |
+      | node\/[node:last-created-node-id]                             |
+      | node\/20_[a-z]{2}                                             |
+      | content\/frontend\-cache\-purge\-withdraw\-editorial\-team    |
 
   Scenario: Use basic authentication.
     Given the default purge rule is disabled
     And the following cache purge rules:
       | Content Type | Paths to Purge      |
-      | page         | /more-basic-pages   |
+      | page         | \/more\-basic\-pages|
     And the web front end cache is ready to receive requests.
     And nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
     When I go to "node/add/page"
@@ -559,8 +515,8 @@ Feature:
   Scenario: Authentication failures are logged.
     Given the default purge rule is disabled
     And the following cache purge rules:
-      | Content Type | Paths to Purge    |
-      | page         | /more-basic-pages |
+      | Content Type | Paths to Purge       |
+      | page         | \/more\-basic\-pages |
     And the web front end cache is ready to receive requests.
     And nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
     And the web front end cache will refuse the authentication credentials
@@ -571,13 +527,13 @@ Feature:
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
     Then an error is logged with type "nexteuropa_varnish" and a message matching "Clear operation failed for target http://localhost:[0-9]*: 401 Unauthorized"
-
+@tag_test
   Scenario: Paths to purge are logged.
     Given the default purge rule is disabled
     And the following cache purge rules:
-      | Content Type | Paths to Purge         |
-      | page         | /more-basic-pages, /   |
-      | page         | /even-more-basic-pages |
+      | Content Type | Paths to Purge          |
+      | page         | \/more\-basic\-pages, \/    |
+      | page         | \/even\-more\-basic\-pages  |
     And the web front end cache is ready to receive requests.
     And nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
     And the web front end cache will refuse the authentication credentials
@@ -587,13 +543,13 @@ Feature:
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
-    Then an informational message is logged with type "nexteuropa_varnish" and a message matching "Clearing paths: /more-basic-pages, /, /even-more-basic-pages"
+    Then an informational regex message is logged with type "nexteuropa_varnish" and a message matching "Clearing paths: \/more\-basic\-pages, \/, \/even\-more\-basic\-pages"
 
   Scenario: No purge are instructed if a part of the configuration has disappeared.
     Given the following cache purge rules:
-      | Content Type | Paths to Purge       |
-      | page         | /more-basic-pages, / |
-      | page         |                      |
+      | Content Type | Paths to Purge           |
+      | page         | \/more\-basic\-pages, \/ |
+      | page         |                          |
     And "my-website" is "not correctly" configured as the purge application tag
     When I go to "node/add/page"
     And I fill in "Title" with "frontend-cache-purge-publish-immediately"
@@ -623,10 +579,13 @@ Feature:
     When I click "Unpublish this revision"
     And I press the "Unpublish" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                        |
-      | /content/frontend-cache-purge-withdrawal_en |
-      | /content/frontend-cache-purge-withdrawal_fr |
-      | /content/frontend-cache-purge-withdrawal_nl |
+      | Path                                           |
+      | content\/frontend\-cache\-purge\-withdrawal_en |
+      | content\/frontend\-cache\-purge\-withdrawal_fr |
+      | content\/frontend\-cache\-purge\-withdrawal_nl |
+      | node\/[node:last-created-node-id]               |
+      | node\/[node:last-created-node-id]_[a-z]{2}     |
+      | content\/frontend\-cache\-purge\-withdrawal    |
 
   @moderated-content @purge-rule-type-node
   Scenario: Purge the paths of a basic page when it is published via moderation using the default purge rule.
@@ -638,8 +597,11 @@ Feature:
     And I select "Published" from "state"
     And I press the "Apply" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                         |
-      | /content/frontend-cache-purge-publication_en |
+      | Path                                            |
+      | content\/frontend\-cache\-purge\-publication_en |
+      | node\/[node:last-created-node-id]               |
+      | node\/[node:last-created-node-id]_[a-z]{2}      |
+      | content\/frontend\-cache\-purge\-publication    |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an existing draft of an editorial team using the default purge rule.
@@ -655,7 +617,10 @@ Feature:
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path          |
-      | /content/frontend-cache-purge-editorial-team-publish-draft_en |
+      | content\/frontend\-cache\-purge\-editorial\-team\-publish\-draft_en |
+      | node\/[node:last-created-node-id]                                   |
+      | node\/[node:last-created-node-id]_[a-z]{2}                          |
+      | content\/frontend\-cache\-purge\-editorial\-team\-publish\-draft    |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Set the 'nexteuropa_varnish_prevent_purge' variable in the setting file prevents any purge requests to be sent
@@ -678,16 +643,16 @@ Feature:
     Then I should see the warning message "The purge mechanism is temporary disabled. Purge rules are still manageable but they will not be executed until it is enabled again."
     When I click "Add cache purge rule"
     And I select "Basic page" from "Content Type"
-    And I fill "Paths" with:
+    And I fill "Paths" with the regex:
       """
-      /
-      /all-basic-pages
-      /yet-another-page
+      \/
+      \/all\-basic\-pages
+      \/yet\-another\-page
       """
     And I press the "Save" button
     Then I see an overview with the following cache purge rules:
       | Content Type | Paths to Purge                         |
-      | Basic page   | /, /all-basic-pages, /yet-another-page |
+      | Basic page   | \/, \/all\-basic\-pages, \/yet\-another\-page |
     And I should see the warning message "The purge mechanism is temporary disabled. Purge rules are still manageable but they will not be executed until it is enabled again."
 
   # Scenario testing the "Full Varnish caches" feature

@@ -1,4 +1,8 @@
+<<<<<<< nept-2258
 @api @ec_europa_theme
+=======
+@api
+>>>>>>> release-2.5.137
 Feature: EU Login Authentication
   In order to use the EU Login authenticating system
   As an administrator

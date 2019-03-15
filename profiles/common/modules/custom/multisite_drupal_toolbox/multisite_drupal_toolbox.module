@@ -108,13 +108,12 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
   }
 
   // Add headers to restrict iframes.
-  $cs_whitelist = variable_get('multisite_toolbox_cs_whitelist', array());
+  $cs_whitelist = variable_get('multisite_toolbox_cs_whitelist', array('*.europa.eu'));
   drupal_alter('csp_list', $cs_whitelist);
   // Self is required for internal objects and frames like media popup.
   $self = "'self'";
   $whitelist = array_merge((array) $self, $cs_whitelist);
   $whitelist = implode(' ', $whitelist);
-
   // Declaration for Chrome version 25 and later, Firefox version 23 and later,
   // Opera version 19 and later.
   drupal_add_http_header(

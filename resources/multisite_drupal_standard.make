@@ -12,7 +12,7 @@ includes[] = "drupal-core.make"
 ; ===================
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc5"
+projects[admin_menu][version] = "3.0-rc6"
 
 projects[administration_language_negotiation][subdir] = "contrib"
 projects[administration_language_negotiation][version] = "1.4"
@@ -147,7 +147,7 @@ projects[colors][subdir] = "contrib"
 projects[colors][version] = "1.0-rc1"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.7"
+projects[context][version] = "3.10"
 projects[context][patch][] = https://www.drupal.org/files/issues/massively-increase-pe-reroll-873936-67.patch
 
 projects[context_entity_field][subdir] = "contrib"
@@ -243,6 +243,7 @@ projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/is
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
+projects[eu_cookie_compliance][patch][] = patches/eu_cookie_compliance_nept-2299.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
@@ -620,6 +621,10 @@ projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/fil
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.2"
+; Allow alternate location of ttfont directories
+; https://www.drupal.org/project/print/issues/3036143
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2253
+projects[print][patch][] = https://www.drupal.org/files/issues/2019-03-06/location_ttfont_directories-3036143-4.patch
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
@@ -830,10 +835,11 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
 ; https://www.drupal.org/node/2908538
 projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
-; Issue #3012609: Ajax Exposed filters not working with multiple same views
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2149
+; Issue #3012609: Issues with AJAX for exposed filters
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
 ; https://www.drupal.org/project/views/issues/3012609
-projects[views][patch][] = https://www.drupal.org/files/issues/2018-11-14/views_fix_ajax_exposed_filter_with_same_mutliple_views-3012609-7.patch
+; https://www.drupal.org/project/views/issues/1809958
+projects[views][patch][] = patches/issues-ajax-exposed-filters-blocks.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -973,12 +979,11 @@ libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archi
 libraries[colorbox][directory_name] = colorbox
 libraries[colorbox][destination] = libraries
 
-; ckeditor 4.4.8
+; ckeditor 4.9.2
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip
-libraries[ckeditor][download][sha1] = "ed246ac87cad3c4cfa1f723fcfbe4a6e3a5c6992"
+libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_full.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().

@@ -12,7 +12,7 @@ Feature: TMGMT Poetry permissions features
       | languages |
       | en        |
       | pt-pt     |
-    And I am logged in as a user with the "cem" role
+    And I am logged in as a user with the "administrator" role
     And I go to "admin/config/regional/tmgmt_translator/manage/poetry"
 
   Scenario Outline: Configuration fields are mandatory.
@@ -50,7 +50,7 @@ Feature: TMGMT Poetry permissions features
       And I fill in "Website identifier" with "my-website"
       And I fill in "Responsable" with "DIGIT"
       And I fill in "DG Author" with "IE/CE/DIGIT"
-      And I fill in "Requester" with "IE/CE/DIGIT/A/3"
+      And I fill in "Requester" with "IE/CE/DIGIT"
       And I fill in "Author" with "leperde"
       And I fill in "Secretaire" with "leperde"
       And I fill in "Contact" with "leperde"
