@@ -450,9 +450,9 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
           WATCHDOG_INFO,
           l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
           );
-        }
       }
     }
+  }
 
   $edit['roles'] = $user_roles;
 }
