@@ -427,7 +427,7 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
       }
     }
     else {
-    // User is no longer CEM member, remove boths roles.
+      // User is no longer CEM member, remove boths roles.
       if (user_has_role($administrator_role)) {
         unset($user_roles[$administrator_role->rid]);
         unset($user_roles[$cem_role->rid]);
@@ -437,18 +437,18 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
   else {
     // User does not have cem user role, but should.
     if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
-        $user_roles[$cem_role->rid] = $cem_role->name;
-        if (!user_has_role($administrator_role)) {
-          $user_roles[$administrator_role->rid] = $administrator_role->name;
-          watchdog(
-            'ecas',
-            'User "%name" has received the "%role" role.',
-            array(
-              '%name' => $user->name,
-              '%role' => $administrator_role->name,
-            ),
-            WATCHDOG_INFO,
-            l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
+      $user_roles[$cem_role->rid] = $cem_role->name;
+      if (!user_has_role($administrator_role)) {
+        $user_roles[$administrator_role->rid] = $administrator_role->name;
+        watchdog(
+          'ecas',
+          'User "%name" has received the "%role" role.',
+          array(
+            '%name' => $user->name,
+            '%role' => $administrator_role->name,
+          ),
+          WATCHDOG_INFO,
+          l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
           );
         }
       }
