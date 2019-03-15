@@ -408,21 +408,21 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
   $user_roles = (isset($user->roles)) ? $user->roles : array();
 
   // User is *or was* CEM at some point.
-  if(user_has_role($cem_role)) {
+  if (user_has_role($cem_role)) {
     // User is still CEM member.
     if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
       // Add the role if he does not yet have it.
       if (!user_has_role($administrator_role)) {
-          $user_roles[$administrator_role->rid] = $administrator_role->name;
-          watchdog(
-            'ecas',
-            'User "%name" has received the "%role" role.',
-            array(
-              '%name' => $user->name,
-              '%role' => $administrator_role->name,
-            ),
-          WATCHDOG_INFO,
-          l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
+        $user_roles[$administrator_role->rid] = $administrator_role->name;
+        watchdog(
+          'ecas',
+          'User "%name" has received the "%role" role.',
+          array(
+            '%name' => $user->name,
+            '%role' => $administrator_role->name,
+          ),
+        WATCHDOG_INFO,
+        l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
         );
       }
     }
