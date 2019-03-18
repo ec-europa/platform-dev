@@ -107,6 +107,7 @@ function nexteuropa_trackedchanges_install() {
     'ckeditor_lite highlight changes',
   );
   multisite_config_service('user')->grantPermission('administrator', $permissions);
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $permissions);
   multisite_config_service('user')->grantPermission('contributor', $permissions);
   multisite_config_service('user')->grantPermission('editor', $permissions);
 
@@ -114,6 +115,7 @@ function nexteuropa_trackedchanges_install() {
     'use text format full_html_track',
   );
   multisite_config_service('user')->grantPermission('administrator', $wsw_permissions, 'filter');
+  multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, $wsw_permissions, 'filter');
   multisite_config_service('user')->grantPermission('contributor', $wsw_permissions, 'filter');
   multisite_config_service('user')->grantPermission('editor', $wsw_permissions, 'filter');
 
