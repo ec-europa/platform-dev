@@ -125,7 +125,7 @@ Feature: Nexteuropa Communities
     Then I should see the link "Unsubscribe from group"
     When I click "Unsubscribe from group"
     Then I should see the heading "Are you sure you want to unsubscribe from the group A Public community?"
-    When I press the "Remove" button
+    When I press the "Unsubscribe" button
     Then I should see the link "Request group membership"
 
 
