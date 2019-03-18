@@ -253,7 +253,7 @@ function nexteuropa_varnish_path_delete($path) {
     }
 
     $original_alias = $alias = $path['alias'];
-    $options = array('language' => $path['language']);
+    $options = array('language' => $path['language'], 'external' => FALSE);
     $original_path = '';
     // Add the suffix/prefix depending negociation setup.
     drupal_alter('url_outbound', $alias, $options, $original_path);
