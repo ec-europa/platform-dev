@@ -16,7 +16,6 @@ dependencies[] = context_layouts
 dependencies[] = context_ui
 dependencies[] = contextual
 dependencies[] = ctools
-dependencies[] = current_search
 dependencies[] = dashboard
 dependencies[] = date
 dependencies[] = diff
