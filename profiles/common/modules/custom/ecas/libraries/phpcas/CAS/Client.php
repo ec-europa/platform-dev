@@ -1610,7 +1610,7 @@ class CAS_Client
      *
      * @return void
      */
-    public function redirectToCas($gateway=false,$renew=false)
+    public function redirectToCas($gateway=false,$renew=true)
     {
         phpCAS::traceBegin();
         $cas_url = $this->getServerLoginURL($gateway, $renew);
