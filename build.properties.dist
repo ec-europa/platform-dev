@@ -223,6 +223,11 @@ lib.dir = ${project.basedir}/profiles
 # The directory where the make files are stored.
 resources.dir = ${project.basedir}/resources
 
+# The directory where the make files are stored.
+resources.dir.site.make = ${resources.dir}/site.make
+
+# The profile name.
+profile = ${platform.profile.name}
 
 # Host configuration
 # ------------------
