@@ -22,7 +22,7 @@ Table of contents:
 - [Useful information](#useful-information)
   - [Webtools documentation](#webtools-documentation)
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Installation
 
@@ -32,7 +32,7 @@ To activate the feature, an administrator user needs to:
 - Go on the feature set page "admin/structure/feature-set"
 - Enable the "Webtools" feature
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Configuration
 
@@ -45,7 +45,7 @@ but this can be configured to use another one if needed.
 
 Or set the variable "nexteuropa_webtools_smartloader_prurl"
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## Set up permissions
 
@@ -60,7 +60,7 @@ By default, only users with the "Administrator" role are allowed to change
 the "custom" parameter and to view the fields File and External link in the
 Webtools block.
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Usage
 
@@ -88,7 +88,7 @@ Steps:
 - Click on 'Save'
 - You are automatically redirected to the result
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## How to: use the webtools block(s)
 
@@ -101,7 +101,7 @@ in Drupal.
 Note that the blocks created are named Beans, as the Webtools feature is based
 on beans module.
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## How to: insert a existing webtools block into content
 
@@ -112,13 +112,13 @@ Steps:
 - Go in the tab "Insert internal blocks"
 - Select a block and click the link "Default" in the column "Insert as"
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Testing
 
 The Behat test is located in the file "/tests/features/webtools.feature".
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Useful information
 
@@ -133,4 +133,4 @@ These links are also mentioned in the sections above.
     - [Social Media Kit](https://webgate.ec.europa.eu/fpfis/wikis/x/gaUjBg) (Twitter feeds)
     - [Language Coverage](https://webgate.ec.europa.eu/fpfis/wikis/x/eo_QC)
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
