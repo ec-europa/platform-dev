@@ -264,15 +264,14 @@ function nexteuropa_varnish_path_delete($path) {
     else {
       $lgregex = '';
     }
-    
+
     // Escaped alias.
     // Example content\/my\-page.
     $escaped_alias = preg_quote($path['alias'], '/');
     // Add regex prefix or suffix if needed.
     $paths['alias_prefix'] = $url_suffix ? $escaped_alias . $lgregex : $lgregex . $escaped_alias;
     $paths['alias'] = $escaped_alias;
-    
-    
+
     if (!empty($paths)) {
       // Removing duplicates and all entries of the array equal to FALSE.
       $paths = array_unique($paths);
