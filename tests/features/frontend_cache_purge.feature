@@ -92,8 +92,8 @@ Feature:
     And I press the "Delete" button
     And I press the "Delete" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                          |
-      | /content/flush-cache-when-content-was-deleted |
+      | Path                                                |
+      | content\/flush\-cache\-when\-content\-was\-deleted  |
 
   @moderated-content
   Scenario: Create a draft.
@@ -506,7 +506,7 @@ Feature:
       | Path          |
       | content\/frontend\-cache\-purge\-withdraw\-editorial\-team_en |
       | node\/[node:last-created-node-id]                             |
-      | node\/20_[a-z]{2}                                             |
+      | node\/[node:last-created-node-id]_[a-z]{2}                                             |
       | content\/frontend\-cache\-purge\-withdraw\-editorial\-team    |
 
   Scenario: Use basic authentication.
