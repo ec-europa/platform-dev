@@ -91,12 +91,12 @@ Feature:
     And I click "Edit draft"
     And I press the "Delete" button
     And I press the "Delete" button
-    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                        |
-      | content\/flush\-cache\-when\-content\-was\-deleted_[a-z]{2} |
-      | content\/flush\-cache\-when\-content\-was\-deleted          |
-      | node\/[node:last-created-node-id]                           |
-      | node\/[node:last-created-node-id]_[a-z]{2}                  |
+    Then the web front end cache was instructed to purge the multiple paths for the application tag "my-website":
+      | Path                                                        | Request |
+      | content\/flush\-cache\-when\-content\-was\-deleted_[a-z]{2} | 0       |
+      | content\/flush\-cache\-when\-content\-was\-deleted          | 0       |
+      | node\/[node:last-created-node-id]                           | 1       |
+      | node\/[node:last-created-node-id]_[a-z]{2}                  | 1       |
 
   @moderated-content
   Scenario: Create a draft.
