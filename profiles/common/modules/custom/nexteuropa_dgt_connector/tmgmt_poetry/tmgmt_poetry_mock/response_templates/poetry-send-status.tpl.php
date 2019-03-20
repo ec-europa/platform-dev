@@ -30,16 +30,16 @@
       <statusTime><?php print format_date(time(), 'custom', t('H:i:s', array(), array('context' => 'php date format'))); ?></statusTime>
       <statusMessage><?php print $request_status_msg; ?></statusMessage>
     </status>
-    <status code="<?php print $status_code; ?>" type="demande">
+    <status code="<?php print $demande_status_code; ?>" type="demande">
       <statusDate><?php print format_date(time(), 'custom', t('d/m/Y', array(), array('context' => 'php date format'))); ?></statusDate>
       <statusTime><?php print format_date(time(), 'custom', t('H:i:s', array(), array('context' => 'php date format'))); ?></statusTime>
-      <statusMessage><?php print $demande_status_msg; ?></statusMessage>
+      <statusMessage>The request has been updated</statusMessage>
     </status>
     <status code="<?php print $status_code; ?>" lgCode="<?php print $lg_code; ?>" type="attribution">
       <statusDate><?php print format_date(time(), 'custom', t('d/m/Y', array(), array('context' => 'php date format'))); ?></statusDate>
       <statusTime><?php print format_date(time(), 'custom', t('H:i:s', array(), array('context' => 'php date format'))); ?></statusTime>
     </status>
-    <attributions format="<?php print $format ?>" lgCode="<?php print $lg_code; ?>">
+    <attributions format="HTML" lgCode="<?php print $lg_code; ?>">
       <attributionsDelai><?php print format_date(time(), 'custom', t('d/m/Y H:i:s', array(), array('context' => 'php date format'))); ?></attributionsDelai>
       <attributionsDelaiAccepted/>
     </attributions>

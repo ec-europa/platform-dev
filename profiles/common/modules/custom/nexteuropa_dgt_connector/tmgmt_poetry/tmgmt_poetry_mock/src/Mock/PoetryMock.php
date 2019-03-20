@@ -165,33 +165,6 @@ class PoetryMock {
   }
 
   /**
-   * Method for mimicking requests from Poetry to Drupal.
-   *
-   * @param string $message
-   *   XML message which should be send.
-   *
-   * @return mixed
-   *   Response from service.
-   */
-  public function apagarSendRequestToDrupal($message) {
-    $this->instantiateClient($this->settings['drupal_wsdl']);
-    $translator = tmgmt_translator_load(self::TRANSLATOR_NAME);
-    $settings = $translator->getSetting('settings');
-    try {
-      $response = $this->client->{self::SOAP_METHOD}(
-        $settings['callback_user'],
-        $settings['callback_password'],
-        $message
-      );
-    }
-    catch (Exception $exc) {
-      watchdog_exception('tmgmt_poetry_mock', $exc);
-    }
-
-    return $response;
-  }
-
-  /**
    * Helper function which prepares translate response data.
    *
    * @param string $message
@@ -235,6 +208,36 @@ class PoetryMock {
   }
 
   /**
+   * Helper function which prepares language status update.
+   *
+   * @param string $message
+   *   Translation request XML data.
+   *
+   * @return array
+   *   Array with translation response data.
+   */
+  public static function prepareStatusUpdateJobResponseData($message) {
+    $data = self::getDataFromRequest($message);
+    $languages = self::getLanguagesFromRequest($message);
+    // Initial translation request.
+    if (isset($data['demande_id']['sequence'])) {
+      unset($data['demande_id']['sequence']);
+      $data['demande_id']['numero'] = self::COUNTER_VALUE;
+    }
+    // In case if numero is not set.
+    if (!isset($data['demande_id']['numero'])) {
+      $data['demande_id']['numero'] = self::COUNTER_VALUE;
+    }
+
+    return array(
+      'languages' => $languages,
+      'demande_id' => $data['demande_id'],
+      'status' => 'REF',
+      'format' => 'HTML',
+    );
+  }
+
+  /**
    * Helper function which prepares refuse job response data.
    *
    * @param string $message
@@ -267,27 +270,23 @@ class PoetryMock {
   /**
    * Prepares status request data.
    *
+   * Demande status will still be ONG when a language is canceled.
+   *
    * @param array $demande_id
    *   'Demande ID' array.
    * @param string $status_code
    *   Status code.
-   * @param string $request_status_msg
-   *   Request status message.
-   * @param string $demande_status_msg
-   *   'Demande' status message.
    * @param string $lg_code
    *   Language code.
    *
    * @return array
    *   Array with data status request data.
    */
-  public static function prepareSendStatusData($demande_id, $status_code, $request_status_msg, $demande_status_msg, $lg_code) {
+  public static function prepareSendStatusData($demande_id, $status_code, $lg_code) {
     return array(
       'demande_id' => $demande_id,
-      'format' => 'HTML',
+      'demande_status_code' => ($status_code === 'CNL' ? 'ONG' : $status_code),
       'status_code' => $status_code,
-      'request_status_msg' => $request_status_msg,
-      'demande_status_msg' => $demande_status_msg,
       'lg_code' => $lg_code,
     );
   }
@@ -596,19 +595,14 @@ class PoetryMock {
    *   TMGMT Poetry Job ID.
    * @param string $status_code
    *   The status code.
-   * @param string $request_status_msg
-   *   The request status message.
-   * @param string $demande_status_msg
-   *   The 'demande' status message.
    */
-  public function sendStatus($job_id, $status_code, $request_status_msg, $demande_status_msg) {
+  public function sendStatus($job_id, $status_code) {
     $job = tmgmt_job_load($job_id);
     $lg_code = drupal_strtoupper($job->getTranslator()->mapToRemoteLanguage($job->target_language));
-    $status_code = drupal_strtoupper($status_code);
     $demande_id = self::prepareDemandeIdArray($job->reference);
 
     // Prepare responses array.
-    $data = self::prepareSendStatusData($demande_id, $status_code, $request_status_msg, $demande_status_msg, $lg_code);
+    $data = self::prepareSendStatusData($demande_id, $status_code, $lg_code);
     $message = theme('poetry_send_status', $data);
     $this->sendRequestToDrupal($message);
     $entity = self::getEntityDetailsByDemandeId($demande_id);
