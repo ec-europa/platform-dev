@@ -83,7 +83,6 @@ Feature:
     Then the "Content Type" field should contain "page"
     And the radio button "A specific list of regex" is selected
     
-  @andras
   Scenario: Flush cache when content was deleted.
     Given I go to "node/add/page"
     And I fill in "Title" with "Flush cache when content was deleted"
