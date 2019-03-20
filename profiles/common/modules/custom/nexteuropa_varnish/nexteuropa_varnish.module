@@ -574,9 +574,9 @@ function _nexteuropa_varnish_get_node_paths($node) {
       $alias = drupal_get_path_alias($original_path, $lang_code);
       $original_alias = $alias;
 
-       // language is undefined, the content will show on all languages
+      // Language is undefined, the content will show on all languages.
       if ('und' == $lang_code) {
-        foreach($languages as $code => $data) {
+        foreach ($languages as $code => $data) {
           $altered_options = $options + array('language' => $languages[$code]) + array('external' => FALSE);
           // Add the suffix/prefix depending negociation setup.
           drupal_alter('url_outbound', $alias, $altered_options, $original_path);
