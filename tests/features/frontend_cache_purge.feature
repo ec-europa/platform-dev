@@ -83,6 +83,7 @@ Feature:
     Then the "Content Type" field should contain "page"
     And the radio button "A specific list of regex" is selected
     
+  @andras
   Scenario: Flush cache when content was deleted.
     Given I go to "node/add/page"
     And I fill in "Title" with "Flush cache when content was deleted"
@@ -92,8 +93,11 @@ Feature:
     And I press the "Delete" button
     And I press the "Delete" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                |
-      | content\/flush\-cache\-when\-content\-was\-deleted  |
+      | Path                                                        |
+      | content\/flush\-cache\-when\-content\-was\-deleted_[a-z]{2} |
+      | content\/flush\-cache\-when\-content\-was\-deleted          |
+      | node\/[node:last-created-node-id]                           |
+      | node\/[node:last-created-node-id]_[a-z]{2}                  |
 
   @moderated-content
   Scenario: Create a draft.
