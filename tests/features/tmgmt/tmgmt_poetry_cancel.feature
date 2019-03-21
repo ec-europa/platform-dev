@@ -1,0 +1,39 @@
+@api @poetry_mock @i18n
+Feature: TMGMT Poetry features
+  In order request new translations for nodes/taxonomies with Poetry service.
+  As an Administrator
+  I want to be able to cancel languages in translation requests.
+
+  Background:
+    Given the module is enabled
+      |modules                |
+      |tmgmt_poetry_mock      |
+    And tmgmt_poetry is configured to use tmgmt_poetry_mock
+    And the following languages are available:
+      | languages |
+      | pt-pt     |
+      | fr        |
+
+  @theme_wip
+  Scenario: Cancel language in translation request
+    Given I am logged in as a user with the 'administrator' role
+    When I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title            | Last change column test |
+    And I click "Translate" in the "primary_tabs" region
+    Then I should not see "Request addition of new languages"
+
+    When I check the box on the "French" row
+    And I check the box on the "Portuguese" row
+    And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    And I go to "admin/poetry_mock/dashboard"
+    And I click "Send 'ONG' status" in the "en->fr" row
+    And I click "Send 'ONG' status" in the "en->pt-pt" row
+    Then I should see the success message "The status request was sent. Check the translation page."
+
+    When I click "Send 'CNL' status" in the "en->pt-pt" row
+    And I click "Check the translation page"
+    Then I should see "None" in the "Portuguese, Portugal" row

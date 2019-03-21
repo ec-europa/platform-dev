@@ -56,8 +56,8 @@ class Notification {
 
     // Get main job in order to register the messages and
     // get translator and controller.
-    $main_id = array_shift($ids);
-    $main_job = tmgmt_job_load($main_id->tjid);
+    $main_ids = array_shift($ids);
+    $main_job = tmgmt_job_load($main_ids->tjid);
 
     // Verify translator and get it.
     if (!in_array($main_job->translator, array($this->translatorName, PoetryMock::TRANSLATOR_NAME))) {
@@ -291,23 +291,40 @@ class Notification {
 
       // 3. Check Status for specific languages.
       foreach ($attributions_statuses as $attribution_status) {
-        $language_code = drupal_strtolower($attribution_status->getLanguage());
-        $language_code = $translator->mapToLocalLanguage($language_code);
-        $language_job = array($language_code);
+        $lang_code = drupal_strtolower($attribution_status->getLanguage());
+        $lang_code = $translator->mapToLocalLanguage($lang_code);
+        $lang_new_status_code = $attribution_status->getCode();
 
-        $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $this->reference)
+        $language_status = constant('POETRY_STATUS_MESSAGE_' . $lang_new_status_code);
+
+        $language_jobs_ids = tmgmt_poetry_obtain_related_translation_jobs(array($lang_code), $this->reference)
           ->fetchAll();
-        $ids = array_shift($ids);
-        $job_item = tmgmt_job_item_load($ids->tjiid);
+        $language_job_ids = $language_jobs_ids[0];
+        /** @var \TMGMTJob $language_job */
+        $language_job = tmgmt_job_load($language_job_ids->tjid);
 
-        $main_job->addMessage(
-          t("DGT update received. Affected language: @language. Request status: @status."), array(
-            '@language' => $language_code,
-            '@status' => $status_message,
-          )
+        $status_mapping = _tmgmt_poetry_status_mapping();
+        $job_new_status = $status_mapping[$lang_new_status_code];
+        if ($job_new_status === $language_job->getState()) {
+          continue;
+        }
+
+        $msg = t("DGT update received. Affected language: @language. Request status: @status.");
+        $msg_vars = array(
+          '@language' => $lang_code,
+          '@status' => $language_status,
         );
+        $main_job->addMessage($msg, $msg_vars);
 
-        _tmgmt_poetry_update_item_status($job_item->tjiid, '', $status_message, '');
+        _tmgmt_poetry_update_item_status($language_job_ids->tjiid, $lang_code, $language_status, '');
+
+        // If language was canceled, cancel its job and item.
+        if ($job_new_status === TMGMT_JOB_STATE_ABORTED) {
+          $language_job->setState(TMGMT_JOB_STATE_ABORTED, $msg, $msg_vars);
+          /** @var \TMGMTJobItem $language_job_item */
+          $language_job_item = tmgmt_job_item_load($language_job_ids->tjiid);
+          $language_job_item->setState(TMGMT_JOB_ITEM_STATE_ABORTED, $msg, $msg_vars);
+        }
       }
     }
   }
