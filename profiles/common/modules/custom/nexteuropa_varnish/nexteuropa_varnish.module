@@ -821,7 +821,13 @@ function _nexteuropa_varnish_compare_node_path_revisions($old_paths, $new_paths)
  *   The list of node's paths set in the previous revision.
  */
 function _nexteuropa_varnish_process_paths_sending($node, $updated_node_paths = array()) {
-  $updated_node_paths += _nexteuropa_varnish_get_paths_to_purge($node);
+  if (variable_get('nexteuropa_varnish_default_purge_rule', FALSE)) {
+    $paths = _nexteuropa_varnish_get_paths_to_purge($node);
+    $updated_node_paths = array_merge($updated_node_paths, $paths);
+  }
+  else {
+    $updated_node_paths = _nexteuropa_varnish_get_paths_to_purge($node);
+  }
 
   if (!empty($updated_node_paths)) {
     // Removing duplicates and all entries of the array equal to FALSE.
