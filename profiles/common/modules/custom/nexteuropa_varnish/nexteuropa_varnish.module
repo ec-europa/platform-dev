@@ -654,7 +654,7 @@ function _nexteuropa_varnish_compare_node_path_revisions($old_paths, $new_paths)
 function _nexteuropa_varnish_process_paths_sending($node, $updated_node_paths = array()) {
   if (variable_get('nexteuropa_varnish_default_purge_rule', FALSE)) {
     $paths = _nexteuropa_varnish_get_paths_to_purge($node);
-    $updated_node_paths = array_merge($updated_node_paths, $paths); 
+    $updated_node_paths = array_merge($updated_node_paths, $paths);
   }
   else {
     $updated_node_paths = _nexteuropa_varnish_get_paths_to_purge($node);
