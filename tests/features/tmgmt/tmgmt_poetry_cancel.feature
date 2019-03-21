@@ -15,7 +15,38 @@ Feature: TMGMT Poetry features
       | fr        |
 
   @theme_wip
-  Scenario: Cancel language in translation request
+  Scenario: Cancel main language in translation request
+    Given I am logged in as a user with the 'administrator' role
+    When I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title            | Last change column test |
+    And I click "Translate" in the "primary_tabs" region
+    Then I should not see "Request addition of new languages"
+
+    When I check the box on the "French" row
+    And I check the box on the "Portuguese" row
+    And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    And I go to "admin/poetry_mock/dashboard"
+    And I click "Send 'ONG' status" in the "en->fr" row
+    And I click "Send 'ONG' status" in the "en->pt-pt" row
+    Then I should see the success message "The status request was sent. Check the translation page."
+
+    When I click "Send 'CNL' status" in the "en->fr" row
+    And I click "Check the translation page"
+    Then I should see "None" in the "French" row
+
+    Then I go to "admin/poetry_mock/dashboard"
+    And I click "Translate" in the "en->pt-pt" row
+    And I click "Check the translation page"
+    And I click "Needs review" in the "Portuguese, Portugal" row
+    And I press "Save as completed"
+    Then I should see "[PT-PT] Title" in the "Portuguese, Portugal" row
+
+  @theme_wip
+  Scenario: Cancel secondary language in translation request
     Given I am logged in as a user with the 'administrator' role
     When I am viewing a multilingual "page" content:
       | language | title            | body                    |
@@ -37,3 +68,10 @@ Feature: TMGMT Poetry features
     When I click "Send 'CNL' status" in the "en->pt-pt" row
     And I click "Check the translation page"
     Then I should see "None" in the "Portuguese, Portugal" row
+
+    Then I go to "admin/poetry_mock/dashboard"
+    And I click "Translate" in the "en->fr" row
+    And I click "Check the translation page"
+    And I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    Then I should see "[FR] Title" in the "French" row

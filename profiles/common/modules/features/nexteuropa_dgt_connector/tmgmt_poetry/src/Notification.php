@@ -65,16 +65,6 @@ class Notification {
     }
     $translator = tmgmt_translator_load($main_job->translator);
 
-    if ($main_job->isAborted()) {
-      watchdog(
-        "tmgmt_poetry",
-        "Translation received for aborted job with reference !reference .",
-        array('!reference' => $this->reference),
-        WATCHDOG_ERROR
-      );
-      return FALSE;
-    }
-
     // Get controller.
     $controller = tmgmt_file_format_controller($main_job->getSetting('export_format'));
     if (!$controller) {
@@ -295,7 +285,7 @@ class Notification {
         $lang_code = $translator->mapToLocalLanguage($lang_code);
         $lang_new_status_code = $attribution_status->getCode();
 
-        $language_status = constant('POETRY_STATUS_MESSAGE_' . $lang_new_status_code);
+        $language_status = constant('TMGMT_POETRY_STATUS_MSG_' . $lang_new_status_code);
 
         $language_jobs_ids = tmgmt_poetry_obtain_related_translation_jobs(array($lang_code), $this->reference)
           ->fetchAll();
