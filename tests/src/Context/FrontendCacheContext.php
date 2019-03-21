@@ -354,10 +354,9 @@ class FrontendCacheContext implements Context {
       // Some of environments returns different paths. To pass the test given
       // environment path is removed from the assertion process.
       $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray()['0']);
-
       assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
       assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
-      assert($purge_request_paths, equals([$path_string]));
+      assert($purge_request_paths, equals($path_string));
     }
   }
 

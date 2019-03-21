@@ -83,6 +83,7 @@ Feature:
     Then the "Content Type" field should contain "page"
     And the radio button "A specific list of regex" is selected
     
+  @moderated-content
   Scenario: Flush cache when content was deleted.
     Given I go to "node/add/page"
     And I fill in "Title" with "Flush cache when content was deleted"
@@ -95,8 +96,8 @@ Feature:
       | Path                                                        | Request |
       | content\/flush\-cache\-when\-content\-was\-deleted_[a-z]{2} | 0       |
       | content\/flush\-cache\-when\-content\-was\-deleted          | 0       |
-      | node\/[node:last-created-node-id]                           | 1       |
-      | node\/[node:last-created-node-id]_[a-z]{2}                  | 1       |
+      | node\/[node:last-deleted-node-id]                           | 1       |
+      | node\/[node:last-deleted-node-id]_[a-z]{2}                  | 1       |
 
   @moderated-content
   Scenario: Create a draft.

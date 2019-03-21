@@ -42,6 +42,9 @@ class TokenContext implements Context {
     if (strpos($text, 'last-created-node-id')) {
       $text = $this->replaceByLastNid($text);
     }
+    else if (strpos($text, 'last-deleted-node-id')) {
+      $text = $this->replaceByLastDeletedNid($text);
+    }
     return $text;
   }
 
@@ -56,6 +59,19 @@ class TokenContext implements Context {
    */
   public function replaceByLastNid($text) {
     return str_replace('last-created-node-id', $this->drupalContext->getLastNode(), $text);
+  }
+
+  /**
+   * Replace the token value with the id of the last deleted node.
+   *
+   * @param string $text
+   *   The text to check for replacement.
+   *
+   * @return string
+   *   The text after token replacement.
+   */
+  public function replaceByLastDeletedNid($text) {
+    return str_replace('last-deleted-node-id', $this->drupalContext->getLastNode() + 1, $text);
   }
 
 }
