@@ -42,7 +42,7 @@ class TokenContext implements Context {
     if (strpos($text, 'last-created-node-id')) {
       $text = $this->replaceByLastNid($text);
     }
-    else if (strpos($text, 'last-deleted-node-id')) {
+    elseif (strpos($text, 'last-deleted-node-id')) {
       $text = $this->replaceByLastDeletedNid($text);
     }
     return $text;
