@@ -89,6 +89,7 @@ Feature: Subscription
     And I should see "Display settings"
     And I should see "Mail settings"
 
+  @standard_ec_resp
   Scenario: Block a given page from subscriptions
     When I am viewing my page with the title "A new page title"
     And I remember the node ID of this page

@@ -97,6 +97,7 @@ Feature: Editorial workflow
       | contributor        |
       | authenticated user |
 
+  @ec_resp_theme
   Scenario: User role "editorial team member" cannot be assigned via the UI.
     Given I am logged in as a user with the "administrator" role
     When I am on "admin/people"
