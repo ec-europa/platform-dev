@@ -104,7 +104,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
                 ->condition('tjiid', $result->tjiid, '=')
                 ->execute()
                 ->fetchAssoc();
-              if (empty($result_ps) || (!empty($result_ps) && $result_ps['status'] == POETRY_STATUS_MESSAGE_PEN)) {
+              if (empty($result_ps) || (!empty($result_ps) && $result_ps['status'] == TMGMT_POETRY_STATUS_MSG_PEN)) {
                 return FALSE;
               }
             }

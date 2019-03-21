@@ -228,32 +228,32 @@ class Notification {
       // Check status code.
       switch ($demand_status->getCode()) {
         case 'SUS':
-          $status_message = POETRY_STATUS_MESSAGE_SUS;
+          $status_message = TMGMT_POETRY_STATUS_MSG_SUS;
           $cancelled = FALSE;
           break;
 
         case 'ONG':
-          $status_message = POETRY_STATUS_MESSAGE_ONG;
+          $status_message = TMGMT_POETRY_STATUS_MSG_ONG;
           $cancelled = FALSE;
           break;
 
         case 'LCK':
-          $status_message = POETRY_STATUS_MESSAGE_LCK;
+          $status_message = TMGMT_POETRY_STATUS_MSG_LCK;
           $cancelled = FALSE;
           break;
 
         case 'EXE':
-          $status_message = POETRY_STATUS_MESSAGE_EXE;
+          $status_message = TMGMT_POETRY_STATUS_MSG_EXE;
           $cancelled = FALSE;
           break;
 
         case 'REF':
-          $status_message = POETRY_STATUS_MESSAGE_REF;
+          $status_message = TMGMT_POETRY_STATUS_MSG_REF;
           $cancelled = TRUE;
           break;
 
         case 'CNL':
-          $status_message = POETRY_STATUS_MESSAGE_CNL;
+          $status_message = TMGMT_POETRY_STATUS_MSG_CNL;
           $cancelled = TRUE;
           break;
       }

@@ -10,13 +10,13 @@ use Drupal\tmgmt_poetry\Notification;
 /**
  * Log message severity -- Emergency: system is unusable.
  */
-define('POETRY_STATUS_MESSAGE_PEN', t('Pending'));
-define('POETRY_STATUS_MESSAGE_SUS', t('Suspended'));
-define('POETRY_STATUS_MESSAGE_ONG', t('Ongoing'));
-define('POETRY_STATUS_MESSAGE_LCK', t('Acceptance in Progress'));
-define('POETRY_STATUS_MESSAGE_EXE', t('Executed'));
-define('POETRY_STATUS_MESSAGE_REF', t('Refused'));
-define('POETRY_STATUS_MESSAGE_CNL', t('Canceled'));
+define('TMGMT_POETRY_STATUS_MSG_PEN', t('Pending'));
+define('TMGMT_POETRY_STATUS_MSG_SUS', t('Suspended'));
+define('TMGMT_POETRY_STATUS_MSG_ONG', t('Ongoing'));
+define('TMGMT_POETRY_STATUS_MSG_LCK', t('Acceptance in Progress'));
+define('TMGMT_POETRY_STATUS_MSG_EXE', t('Executed'));
+define('TMGMT_POETRY_STATUS_MSG_REF', t('Refused'));
+define('TMGMT_POETRY_STATUS_MSG_CNL', t('Canceled'));
 
 /**
  * Get the mapping between Poetry and TMGMT job status.
@@ -1045,7 +1045,7 @@ function _tmgmt_poetry_check_jobs_translatability($existing_jobs_items) {
       ->execute()
       ->fetchAssoc();
 
-    if (isset($result['status']) && $result['status'] == POETRY_STATUS_MESSAGE_PEN) {
+    if (isset($result['status']) && $result['status'] == TMGMT_POETRY_STATUS_MSG_PEN) {
       return FALSE;
     }
   }
