@@ -129,7 +129,7 @@ function nexteuropa_json_field_field_formatter_view($entity_type, $entity, $fiel
         // Check for valid JSON.
         $json = drupal_json_decode($item['value']);
         if ($json !== NULL || $json !== FALSE) {
-          $element[$delta]['#markup'] = strip_tags($item['value']);
+          $element[$delta]['#markup'] = $item['value'];
         }
         else {
           // Use filter_xss function to avoid javascript injection.
