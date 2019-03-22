@@ -840,6 +840,8 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing
 ; https://www.drupal.org/project/views/issues/3012609
 ; https://www.drupal.org/project/views/issues/1809958
 projects[views][patch][] = patches/issues-ajax-exposed-filters-blocks.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2318
+projects[views][patch][] = patches/views_nept-2318_SA-CONTRIB-2019-034_035_036.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"

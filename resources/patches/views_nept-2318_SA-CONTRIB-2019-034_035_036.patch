@@ -1,0 +1,141 @@
+diff --git a/handlers/views_handler_argument_null.inc b/handlers/views_handler_argument_null.inc
+index 5b427282..72b3166c 100644
+--- a/handlers/views_handler_argument_null.inc
++++ b/handlers/views_handler_argument_null.inc
+@@ -40,7 +40,7 @@ class views_handler_argument_null extends views_handler_argument {
+    */
+   function default_actions($which = NULL) {
+     if ($which) {
+-      if (in_array($which, array('ignore', 'not found', 'empty', 'default'))) {
++      if (in_array($which, array('ignore', 'not found', 'empty', 'default', 'access denied'))) {
+         return parent::default_actions($which);
+       }
+       return;
+diff --git a/handlers/views_handler_field_serialized.inc b/handlers/views_handler_field_serialized.inc
+index 1579fce7..51f2b7f5 100644
+--- a/handlers/views_handler_field_serialized.inc
++++ b/handlers/views_handler_field_serialized.inc
+@@ -60,6 +60,6 @@ class views_handler_field_serialized extends views_handler_field {
+       return check_plain($value[$this->options['key']]);
+     }
+ 
+-    return $value;
++    return check_plain($value);
+   }
+ }
+diff --git a/includes/handlers.inc b/includes/handlers.inc
+index c8fd3b03..19a76801 100644
+--- a/includes/handlers.inc
++++ b/includes/handlers.inc
+@@ -927,57 +927,38 @@ class views_many_to_one_helper {
+         return $this->handler->table_alias;
+       }
+ 
+-      // Case 2: it's an 'and' or an 'or'.
++      // Case 2: it's anything but an 'or'.
+       // We do one join per selected value.
+-      if ($this->handler->operator != 'not') {
+-        // Clone the join for each table:
+-        $this->handler->table_aliases = array();
+-        foreach ($this->handler->value as $value) {
+-          $join = $this->get_join();
+-          if ($this->handler->operator == 'and') {
+-            $join->type = 'INNER';
+-          }
+-          $join->extra = array(
+-            array(
+-              'field' => $this->handler->real_field,
+-              'value' => $value,
+-              'numeric' => !empty($this->handler->definition['numeric']),
+-            ),
+-          );
+-
+-          // The table alias needs to be unique to this value across the
+-          // multiple times the filter or argument is called by the view.
+-          if (!isset($this->handler->view->many_to_one_aliases[$field][$value])) {
+-            if (!isset($this->handler->view->many_to_one_count[$this->handler->table])) {
+-              $this->handler->view->many_to_one_count[$this->handler->table] = 0;
+-            }
+-            $this->handler->view->many_to_one_aliases[$field][$value] = $this->handler->table . '_value_' . ($this->handler->view->many_to_one_count[$this->handler->table]++);
+-          }
+-          $alias = $this->handler->table_aliases[$value] = $this->add_table($join, $this->handler->view->many_to_one_aliases[$field][$value]);
++      // Clone the join for each table:
++      $this->handler->table_aliases = array();
++      foreach ($this->handler->value as $value) {
++        $join = $this->get_join();
++        if ($this->handler->operator == 'and') {
++          $join->type = 'INNER';
++        }
++        if (empty($join->extra)) {
++          $join->extra = array();
++        }
++        $join->extra[] = array(
++          'field' => $this->handler->real_field,
++          'value' => $value,
++          'numeric' => !empty($this->handler->definition['numeric']),
++        );
+ 
+-          // and set table_alias to the first of these.
+-          if (empty($this->handler->table_alias)) {
+-            $this->handler->table_alias = $alias;
++        // The table alias needs to be unique to this value across the
++        // multiple times the filter or argument is called by the view.
++        if (!isset($this->handler->view->many_to_one_aliases[$field][$value])) {
++          if (!isset($this->handler->view->many_to_one_count[$this->handler->table])) {
++            $this->handler->view->many_to_one_count[$this->handler->table] = 0;
+           }
++          $this->handler->view->many_to_one_aliases[$field][$value] = $this->handler->table . '_value_' . ($this->handler->view->many_to_one_count[$this->handler->table]++);
+         }
+-      }
+-      // Case 3: it's a 'not'.
+-      // We just do one join. We'll add a where clause during
+-      // the query phase to ensure that $table.$field IS NULL.
+-      else {
+-        $join = $this->get_join();
+-        $join->type = 'LEFT';
+-        $join->extra = array();
+-        $join->extra_type = 'OR';
+-        foreach ($this->handler->value as $value) {
+-          $join->extra[] = array(
+-            'field' => $this->handler->real_field,
+-            'value' => $value,
+-            'numeric' => !empty($this->handler->definition['numeric']),
+-          );
+-        }
++        $alias = $this->handler->table_aliases[$value] = $this->add_table($join, $this->handler->view->many_to_one_aliases[$field][$value]);
+ 
+-        $this->handler->table_alias = $this->add_table($join);
++        // and set table_alias to the first of these.
++        if (empty($this->handler->table_alias)) {
++          $this->handler->table_alias = $alias;
++        }
+       }
+     }
+     return $this->handler->table_alias;
+diff --git a/includes/view.inc b/includes/view.inc
+index 5771ef34..0036d18b 100644
+--- a/includes/view.inc
++++ b/includes/view.inc
+@@ -1195,7 +1195,7 @@ class view extends views_db_object {
+     if (!empty($this->build_info['fail'])) {
+       return;
+     }
+-    if (!empty($this->view->build_info['denied'])) {
++    if (!empty($this->build_info['denied'])) {
+       return;
+     }
+ 
+diff --git a/plugins/views_plugin_display_feed.inc b/plugins/views_plugin_display_feed.inc
+index 5eb68e32..f6758b5b 100644
+--- a/plugins/views_plugin_display_feed.inc
++++ b/plugins/views_plugin_display_feed.inc
+@@ -36,6 +36,9 @@ class views_plugin_display_feed extends views_plugin_display_page {
+    */
+   function execute() {
+     $output = $this->view->render();
++    if (!empty($this->view->build_info['denied'])) {
++       return MENU_ACCESS_DENIED;
++    }
+     if (empty($output)) {
+       return MENU_NOT_FOUND;
+     }
