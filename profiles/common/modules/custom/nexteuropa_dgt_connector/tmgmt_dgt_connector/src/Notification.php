@@ -30,87 +30,58 @@ class Notification extends BaseNotification {
    */
   public function translationReceived(TranslationReceived $message) {
 
-    // Initial steps.
-    $this->setReference($message);
-    $this->storeMessage($message);
+    try {
 
-    $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), 'MAIN_%_POETRY_%' . $this->reference)->fetchAll();
-    if (empty($ids)) {
-      watchdog(
-        "tmgmt_poetry",
-        "Callback can't find job with reference !reference .",
-        array('!reference' => $this->reference),
-        WATCHDOG_ERROR
-      );
-      return FALSE;
-    }
+      // Initial steps.
+      $this->setReference($message);
+      $this->storeMessage($message);
+      $this->setMainJob();
 
-    // Get main job in order to register the messages and
-    // get translator and controller.
-    $main_id = array_shift($ids);
-    $main_job = tmgmt_job_load($main_id->tjid);
+      // Verify translator and get it.
+      if ($this->mainJob->translator !== $this->translatorName) {
+        return FALSE;
+      }
+      $translator = tmgmt_translator_load($this->mainJob->translator);
 
-    // Verify translator and get it.
-    if ($main_job->translator !== $this->translatorName) {
-      return FALSE;
-    }
-    $translator = tmgmt_translator_load($main_job->translator);
-
-    if ($main_job->isAborted()) {
-      watchdog(
-        "tmgmt_poetry",
-        "Translation received for aborted job with reference !reference .",
-        array('!reference' => $this->reference),
-        WATCHDOG_ERROR
-      );
-      return FALSE;
-    }
-
-    // Get controller.
-    $controller = tmgmt_file_format_controller($main_job->getSetting('export_format'));
-    if (!$controller) {
-      watchdog(
-        "tmgmt_poetry",
-        "Callback can't find controller with reference !reference .",
-        array('!reference' => $this->reference),
-        WATCHDOG_ERROR
-      );
-      return FALSE;
-    }
-
-    // Do translation for each target.
-    $targets = $message->getTargets();
-    foreach ($targets as $target) {
-      // Get language job.
-      $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
-      $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $this->reference)
-        ->fetchAll();
-      $job_id = $ids[0];
-      $job = tmgmt_job_load($job_id->tjid);
-      $job_item = tmgmt_job_item_load($job_id->tjiid);
-
-      // Verify format.
-      if ($xml_error = $this->verifyFormatError($target->getFormat(), $job, $main_job)) {
-        return $xml_error;
+      // Get controller.
+      $controller = tmgmt_file_format_controller($this->mainJob->getSetting('export_format'));
+      if (!$controller) {
+        throw new \Exception(t(
+          'Callback can not find controller with reference !reference.',
+          array('!reference' => $this->reference)
+        ));
       }
 
-      // Update the delai provided by DGT.
-      $delay = $target->getAcceptedDelay();
-      if (!empty($delay)) {
-        _tmgmt_poetry_update_item_status($job_item->tjiid, "", "", (string) $delay);
-      }
+      // Do translation for each target.
+      $targets = $message->getTargets();
+      foreach ($targets as $target) {
+        // Get language job.
+        $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
+        $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $this->reference)
+          ->fetchAll();
+        $job_id = $ids[0];
+        $job = tmgmt_job_load($job_id->tjid);
+        $job_item = tmgmt_job_item_load($job_id->tjiid);
 
-      // Import content using controller.
-      $imported_file = base64_decode($target->getTranslatedFile());
-      if ($language_job != $main_job->target_language) {
-        $imported_file = $this->tmgmtPoetryRewriteReceivedXml($imported_file, $job, $ids);
-      }
+        // Verify format.
+        $this->verifyFormatError($target->getFormat(), $job);
 
-      try {
+        // Update the delai provided by DGT.
+        $delay = $target->getAcceptedDelay();
+        if (!empty($delay)) {
+          _tmgmt_poetry_update_item_status($job_item->tjiid, "", "", (string) $delay);
+        }
+
+        // Import content using controller.
+        $imported_file = base64_decode($target->getTranslatedFile());
+        if ($language_job != $this->mainJob->target_language) {
+          $imported_file = $this->tmgmtPoetryRewriteReceivedXml($imported_file, $job, $ids);
+        }
+
         // Validation successful, start import.
         $job->addTranslatedData($controller->import($imported_file));
 
-        $main_job->addMessage(
+        $this->mainJob->addMessage(
           t('@language Successfully received the translation file.'),
           array('@language' => $job->target_language)
         );
@@ -118,16 +89,13 @@ class Notification extends BaseNotification {
         // Update the status to executed when we receive a translation.
         _tmgmt_poetry_update_item_status($job_item->tjiid, "", "Executed", "");
       }
-      catch (Exception $e) {
-        $main_job->addMessage(
-          t('@language File import failed with the following message: @message'),
-          array(
-            '@language' => $job->target_language,
-            '@message' => $e->getMessage(),
-          ),
-          'error'
-        );
-        watchdog_exception('tmgmt_poetry', $e);
+    }
+    catch (Exception $e) {
+
+      watchdog_exception('tmgmt_poetry', $e);
+
+      if (isset($this->mainJob)) {
+        $this->mainJob->addMessage('@message', array('@message' => $e->getMessage()), 'error');
       }
     }
   }
