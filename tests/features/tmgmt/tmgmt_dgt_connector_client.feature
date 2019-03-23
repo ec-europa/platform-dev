@@ -124,7 +124,6 @@ Feature: TMGMT Poetry Client features
     </POETRY>
     """
     And I reload the page
-    Then break
     Then I should not see the message "Please wait for the translation request to be accepted before further update options."
     When Poetry notifies the client with the following XML:
     """
