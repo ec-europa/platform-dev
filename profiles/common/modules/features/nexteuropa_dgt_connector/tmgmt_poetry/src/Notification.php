@@ -74,9 +74,9 @@ class Notification {
         $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
         $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $this->reference)
           ->fetchAll();
-        $job_id = $ids[0];
-        $job = tmgmt_job_load($job_id->tjid);
-        $job_item = tmgmt_job_item_load($job_id->tjiid);
+        $job_ids = $ids[0];
+        $job = tmgmt_job_load($job_ids->tjid);
+        $job_item = tmgmt_job_item_load($job_ids->tjiid);
 
         // Verify format.
         $this->verifyFormatError($target->getFormat(), $job);

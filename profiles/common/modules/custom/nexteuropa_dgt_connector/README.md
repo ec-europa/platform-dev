@@ -112,6 +112,14 @@ which points here:
 
 and edits 'DGT Connector'.
 
+It's also necessary to configure with same settings:
+
+> Configuration > Regional and Language > Poetry client
+
+which points here:
+
+> admin/config/regional/poetry-client
+
 ### TRANSLATOR SETTINGS
 - *Auto accept finished translations*: Check this if the site owner wants to
 review a translation before publishing it.
