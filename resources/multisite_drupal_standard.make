@@ -567,7 +567,7 @@ projects[nexteuropa_newsroom][download][tag] = v3.5.5
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.9"
+projects[og][version] = "2.10"
 ; VBO and OG
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
@@ -576,10 +576,6 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 ; NEXTEUROPA-11789 Issue in Bean reference to OG
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
-
-; NEXTEUROPA-14012 Adding membership from user profile is in pending status
-; https://www.drupal.org/node/2744405
-projects[og][patch][] = https://www.drupal.org/files/issues/og_default_state_pending_2744405_11650415-20.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
