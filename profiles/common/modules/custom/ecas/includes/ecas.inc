@@ -404,10 +404,6 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
   }
   $administrator_role = user_role_load_by_name("administrator");
   $user_roles = (isset($user->roles)) ? $user->roles : array();
-  // By default, the role is not set for any user automatically.
-  // Then, unset it by default and reassign it later if the user has the
-  // EU login group.
-  unset($user_roles[$administrator_role->rid]);
   if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
     $user_roles[$administrator_role->rid] = $administrator_role->name;
     watchdog(
