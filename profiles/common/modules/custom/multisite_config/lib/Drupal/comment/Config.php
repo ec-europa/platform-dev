@@ -150,7 +150,7 @@ class Config extends ConfigBase {
   }
 
   /**
-   * Set anonymous comment setting for a specific content type
+   * Set anonymous comment setting for a specific content type.
    *
    * @param string $content_type
    *   Content type machine name.
