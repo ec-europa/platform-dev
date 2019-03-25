@@ -1788,10 +1788,3 @@ function cce_basic_config_update_7229() {
   module_load_include('inc', 'features', "features.export");
   features_set_signature('cce_basic_config', 'variable');
 }
-
-/**
- * Delete "cem" user role and remove it from users NEPT-2227.
- */
-function cce_basic_config_update_7230() {
-  user_role_delete("cem");
-}
