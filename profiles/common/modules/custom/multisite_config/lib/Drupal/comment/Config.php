@@ -149,4 +149,16 @@ class Config extends ConfigBase {
     variable_set('comment_default_per_page_' . $content_type, $value_id);
   }
 
+  /**
+   * Set anonymous comment setting for a specific content type
+   *
+   * @param string $content_type
+   *   Content type machine name.
+   * @param string $value
+   *   Value to be set (boolean).
+   */
+  public function setAnonymousCommentForContentType($content_type, $value) {
+    variable_set('comment_anonymous_' . $content_type, $value);
+  }
+
 }
