@@ -403,15 +403,26 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
     $user_cas_groups = (array) $user_info['cas:groups']['cas:group'];
   }
   $administrator_role = user_role_load_by_name("administrator");
+  $cem_role = user_role_load_by_name(CCE_BASIC_CONFIG_CEM_ROLE_NAME);
   $user_roles = (isset($user->roles)) ? $user->roles : array();
+  // Remove administrator role if it is assigned because the user was had
+  // COMM_CEM.
+  // To control this, we assign to this group the cem role, that has
+  // no permissions.
+  if (isset($user_roles[$cem_role->rid]) && $user_roles[$administrator_role->rid]) {
+    unset($user_roles[$cem_role->rid]);
+    unset($user_roles[$administrator_role->rid]);
+  }
   if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
+    $user_roles[$cem_role->rid] = $cem_role->name;
     $user_roles[$administrator_role->rid] = $administrator_role->name;
     watchdog(
       'ecas',
-      'User "%name" has received the "%role" role.',
+      'User "%name" has received the "%role_1" and "%role_2" roles.',
       array(
         '%name' => $user->name,
-        '%role' => $administrator_role->name,
+        '%role_1' => $administrator_role->name,
+        '%role_2' => $cem_role->name,
       ),
       WATCHDOG_INFO,
       l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
