@@ -779,16 +779,17 @@ projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
 projects[views][version] = 3.21
-
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
 projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_empty_not_empty_filter_error-1818176-37.patch
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
-; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
-; https://www.drupal.org/node/2908538
-projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
+; Issue #3012609: Issues with AJAX for exposed filters
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
+; https://www.drupal.org/project/views/issues/3012609
+; https://www.drupal.org/project/views/issues/1809958
+projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-04/issues-ajax-exposed-filters-blocks-1809958-68.patch
 ; Issue #3039953: PHP 5.3.x fix for syntax changes Views 3.21
 ; https://www.drupal.org/project/views/issues/3039953
 projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-13/3039953-25.patch
