@@ -1,0 +1,14 @@
+diff --git a/plugins/context_reaction_block.js b/plugins/context_reaction_block.js
+index fb0f3f1..192b956 100644
+--- a/plugins/context_reaction_block.js
++++ b/plugins/context_reaction_block.js
+@@ -68,7 +68,7 @@ DrupalContextBlockForm = function(blockForm) {
+ 
+     // Hide enabled blocks from selector that are used
+     $('table.context-blockform-region tr').each(function() {
+-      var bid = $(this).attr('id');
++      var bid = Drupal.checkPlain($(this).attr('id'));
+       $('div.context-blockform-selector input[value="'+bid+'"]').parents('div.form-item').eq(0).hide();
+     });
+     // Show blocks in selector that are unused
+     

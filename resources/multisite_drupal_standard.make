@@ -141,6 +141,7 @@ projects[colors][version] = "1.0-rc1"
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.7"
 projects[context][patch][] = https://www.drupal.org/files/issues/massively-increase-pe-reroll-873936-67.patch
+projects[context][patch][] = patches/context_nept-2263.patch
 
 projects[context_entity_field][subdir] = "contrib"
 projects[context_entity_field][version] = "1.1"
