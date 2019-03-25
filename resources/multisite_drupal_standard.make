@@ -778,7 +778,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.18
+projects[views][version] = 3.21
 
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
@@ -789,6 +789,9 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
 ; https://www.drupal.org/node/2908538
 projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
+; Issue #3039953: PHP 5.3.x fix for syntax changes Views 3.21
+; https://www.drupal.org/project/views/issues/3039953
+projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-13/3039953-25.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
