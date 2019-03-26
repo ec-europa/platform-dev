@@ -1,0 +1,30 @@
+diff --git a/js/ajax_view.js b/js/ajax_view.js
+index aa10a00..ec170f5 100644
+--- a/js/ajax_view.js
++++ b/js/ajax_view.js
+@@ -57,7 +57,10 @@ Drupal.views.ajaxView = function(settings) {
+   this.settings = settings;
+ 
+   // Add the ajax to exposed forms.
+-  this.$exposed_form = $('#views-exposed-form-'+ settings.view_name.replace(/_/g, '-') + '-' + settings.view_display_id.replace(/_/g, '-'));
++  this.$exposed_form = $('.exp-dom-id-' + settings.view_dom_id + '#views-exposed-form-'+ settings.view_name.replace(/_/g, '-') + '-' + settings.view_display_id.replace(/_/g, '-'));
++  if (this.$exposed_form.length === 0) {
++    this.$exposed_form = $('#views-exposed-form-'+ settings.view_name.replace(/_/g, '-') + '-' + settings.view_display_id.replace(/_/g, '-'));
++  }
+   this.$exposed_form.once(jQuery.proxy(this.attachExposedFormAjax, this));
+ 
+   // Store Drupal.ajax objects here for all pager links.
+diff --git a/views.module b/views.module
+index 2093aa7..835db67 100644
+--- a/views.module
++++ b/views.module
+@@ -2071,6 +2071,9 @@ function views_exposed_form($form, &$form_state) {
+   $form['#theme'] = views_theme_functions('views_exposed_form', $view, $display);
+   $form['#id'] = drupal_clean_css_identifier('views_exposed_form-' . check_plain($view->name) . '-' . check_plain($display->id));
+ //  $form['#attributes']['class'] = array('views-exposed-form');
++  if (isset($view->dom_id)) {
++    $form['#attributes']['class'][] = 'exp-dom-id-' . $view->dom_id;
++  }
+ 
+   // If using AJAX, we need the form plugin.
+   if ($view->use_ajax) {
