@@ -12,7 +12,7 @@ includes[] = "drupal-core.make"
 ; ===================
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc5"
+projects[admin_menu][version] = "3.0-rc6"
 
 projects[administration_language_negotiation][subdir] = "contrib"
 projects[administration_language_negotiation][version] = "1.4"
@@ -147,7 +147,7 @@ projects[colors][subdir] = "contrib"
 projects[colors][version] = "1.0-rc1"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.7"
+projects[context][version] = "3.10"
 projects[context][patch][] = https://www.drupal.org/files/issues/massively-increase-pe-reroll-873936-67.patch
 
 projects[context_entity_field][subdir] = "contrib"
@@ -243,6 +243,7 @@ projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/is
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
+projects[eu_cookie_compliance][patch][] = patches/eu_cookie_compliance_nept-2299.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
@@ -440,6 +441,12 @@ projects[libraries][version] = "2.3"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
+; Allow any TLD on url links.
+; https://www.drupal.org/project/link/issues/2299657 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2256
+projects[link][patch][] = https://www.drupal.org/files/issues/link-2299657-for-7.x-1.4.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2251
+projects[link][patch][] = patches/nept-2251-link-SA-CONTRIB-2019-020.patch
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.3"
@@ -463,6 +470,11 @@ projects[media][version] = 2.20
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1015
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
+
+; Ensure the media_wysiwyg.filter.js is loaded.
+; https://www.drupal.org/project/media/issues/3039731
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2243
+projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js-library-3039731-1.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.3"
@@ -555,7 +567,7 @@ projects[nexteuropa_newsroom][download][tag] = v3.5.5
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.9"
+projects[og][version] = "2.10"
 ; VBO and OG
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
@@ -564,10 +576,6 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 ; NEXTEUROPA-11789 Issue in Bean reference to OG
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
-
-; NEXTEUROPA-14012 Adding membership from user profile is in pending status
-; https://www.drupal.org/node/2744405
-projects[og][patch][] = https://www.drupal.org/files/issues/og_default_state_pending_2744405_11650415-20.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
@@ -614,6 +622,10 @@ projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/fil
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.2"
+; Allow alternate location of ttfont directories
+; https://www.drupal.org/project/print/issues/3036143
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2253
+projects[print][patch][] = https://www.drupal.org/files/issues/2019-03-06/location_ttfont_directories-3036143-4.patch
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
@@ -654,7 +666,7 @@ projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05
 projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch
 
 projects[registration][subdir] = "contrib"
-projects[registration][version] = "1.6"
+projects[registration][version] = "1.7"
 
 projects[registry_autoload][subdir] = "contrib"
 projects[registry_autoload][version] = 1.3
@@ -698,7 +710,7 @@ projects[simplenews][patch][] = https://www.drupal.org/files/issues/entitycache_
 ; Add hook_drush_sql_sync_sanitize
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2100
 ; https://www.drupal.org/project/simplenews/issues/3017665#comment-12879291
-projects[simplenews][patch][] = https://www.drupal.org/files/issues/2018-12-03/Add_hook_drush_sql_sync_sanitize-3017665-4.patch
+projects[simplenews][patch][] = https://www.drupal.org/files/issues/2019-02-11/Add_hook_drush_sql_sync_sanitize-3017665-7.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
@@ -824,10 +836,11 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
 ; https://www.drupal.org/node/2908538
 projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
-; Issue #3012609: Ajax Exposed filters not working with multiple same views
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2149
+; Issue #3012609: Issues with AJAX for exposed filters
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
 ; https://www.drupal.org/project/views/issues/3012609
-projects[views][patch][] = https://www.drupal.org/files/issues/2018-11-14/views_fix_ajax_exposed_filter_with_same_mutliple_views-3012609-7.patch
+; https://www.drupal.org/project/views/issues/1809958
+projects[views][patch][] = patches/issues-ajax-exposed-filters-blocks.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -923,9 +936,15 @@ projects[workbench_og][download][branch] = 7.x-2.x
 ; Issue https://www.drupal.org/project/workbench_og/issues/2006134
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1866
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29/workbench_og-my_drafts_missing-2006134-6.patch
+; Check access for unpublished content not included on a group.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2242
+projects[workbench_og][patch][] = patches/workbench_og_grants.patch
 
+; Fix version on a commit, see issue NEPT-2247
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][download][version] = "2.5"
+projects[wysiwyg][download][type] = "git"
+projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
+projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e948605"
 ; Fix remote js loading on ckeditor plugin
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
@@ -961,12 +980,11 @@ libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archi
 libraries[colorbox][directory_name] = colorbox
 libraries[colorbox][destination] = libraries
 
-; ckeditor 4.4.8
+; ckeditor 4.9.2
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip
-libraries[ckeditor][download][sha1] = "ed246ac87cad3c4cfa1f723fcfbe4a6e3a5c6992"
+libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_full.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().
@@ -1149,7 +1167,7 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.9
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.11
+projects[atomium][version] = 2.12
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
