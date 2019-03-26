@@ -188,6 +188,8 @@ projects[easy_breadcrumb][version] = "2.15"
 ; Issue #2973420 : 	Undefined index: html in template_preprocess_easy_breadcrumb()
 ; https://www.drupal.org/node/2973420
 projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/2018-05-16/easy_breadcrumb-undefined_index_html-2973420-2.patch
+; Issue #3043400 : Warning: count() on empty breadcrumb
+; https://www.drupal.org/node/3043400
 projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/2019-03-26/easy-breadcrumb-php72-count-warning-3043400-5.patch
 
 projects[email][subdir] = "contrib"
