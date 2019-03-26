@@ -1886,7 +1886,7 @@
         "ext-json": "*",
         "ext-phar": "*",
         "ext-xml": "*",
-        "ext-tidy": "^2.0"
+        "ext-tidy": "*"
     },
     "platform-dev": []
 }
