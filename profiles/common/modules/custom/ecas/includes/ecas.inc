@@ -405,13 +405,13 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
   $administrator_role = user_role_load_by_name("administrator");
   $cem_role = user_role_load_by_name(CCE_BASIC_CONFIG_CEM_ROLE_NAME);
   $user_roles = (isset($user->roles)) ? $user->roles : array();
-  // Remove administrator role if it is assigned because the user was had
-  // COMM_CEM.
-  // To control this, we assign to this group the cem role, that has
-  // no permissions.
-  if (isset($user_roles[$cem_role->rid]) && $user_roles[$administrator_role->rid]) {
+  // When a user logs using ecas, if they have the cem role on the site, we 
+  // remove cem and administrator roles from their profiles and keep the rest.
+  if (isset($user_roles[$cem_role->rid])) {
     unset($user_roles[$cem_role->rid]);
-    unset($user_roles[$administrator_role->rid]);
+    if (isset($user_roles[$administrator_role->rid])) {
+      unset($user_roles[$administrator_role->rid]);
+    }
   }
   if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
     $user_roles[$cem_role->rid] = $cem_role->name;
