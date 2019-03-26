@@ -3,7 +3,6 @@
 namespace Drupal\tmgmt_dgt_connector;
 
 use Drupal\tmgmt_poetry\Notification as BaseNotification;
-use EC\Poetry\Messages\Notifications\TranslationReceived;
 
 /**
  * Subscriber with listeners for Server events.
@@ -20,87 +19,6 @@ class Notification extends BaseNotification {
   protected $translatorName = TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME;
 
   /**
-   * Process notification TranslationReceived.
-   *
-   * @param \EC\Poetry\Messages\Notifications\TranslationReceived $message
-   *   The Translation Received.
-   *
-   * @return bool
-   *   Return True if the translation is received without issues.
-   */
-  public function translationReceived(TranslationReceived $message) {
-
-    try {
-
-      // Initial steps.
-      $this->setReference($message);
-      $this->storeMessage($message);
-      $this->setMainJob();
-
-      // Verify translator and get it.
-      if ($this->mainJob->translator !== $this->translatorName) {
-        return FALSE;
-      }
-      $translator = tmgmt_translator_load($this->mainJob->translator);
-
-      // Get controller.
-      $controller = tmgmt_file_format_controller($this->mainJob->getSetting('export_format'));
-      if (!$controller) {
-        throw new \Exception(t(
-          'Callback can not find controller with reference !reference.',
-          array('!reference' => $this->reference)
-        ));
-      }
-
-      // Do translation for each target.
-      $targets = $message->getTargets();
-      foreach ($targets as $target) {
-        // Get language job.
-        $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
-        $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $this->reference)
-          ->fetchAll();
-        $job_id = $ids[0];
-        $job = tmgmt_job_load($job_id->tjid);
-        $job_item = tmgmt_job_item_load($job_id->tjiid);
-
-        // Verify format.
-        $this->verifyFormatError($target->getFormat(), $job);
-
-        // Update the delai provided by DGT.
-        $delay = $target->getAcceptedDelay();
-        if (!empty($delay)) {
-          _tmgmt_poetry_update_item_status($job_item->tjiid, "", "", (string) $delay);
-        }
-
-        // Import content using controller.
-        $imported_file = base64_decode($target->getTranslatedFile());
-        if ($language_job != $this->mainJob->target_language) {
-          $imported_file = $this->tmgmtPoetryRewriteReceivedXml($imported_file, $job, $ids);
-        }
-
-        // Validation successful, start import.
-        $job->addTranslatedData($controller->import($imported_file));
-
-        $this->mainJob->addMessage(
-          t('@language Successfully received the translation file.'),
-          array('@language' => $job->target_language)
-        );
-
-        // Update the status to executed when we receive a translation.
-        _tmgmt_poetry_update_item_status($job_item->tjiid, "", "Executed", "");
-      }
-    }
-    catch (Exception $e) {
-
-      watchdog_exception('tmgmt_poetry', $e);
-
-      if (isset($this->mainJob)) {
-        $this->mainJob->addMessage('@message', array('@message' => $e->getMessage()), 'error');
-      }
-    }
-  }
-
-  /**
    * Replace job id in received content.
    *
    * @param string $content
@@ -110,10 +28,10 @@ class Notification extends BaseNotification {
    * @param array $ids_collection
    *   The array of pairs with jobs and job items.
    *
-   * @return bool|mixed
+   * @return string|bool|mixed
    *   The updated XML content.
    */
-  private function tmgmtPoetryRewriteReceivedXml($content, \TMGMTJob $job, array $ids_collection) {
+  protected function tmgmtPoetryRewriteReceivedXml($content, \TMGMTJob $job, array $ids_collection) {
 
     $dom = new \DOMDocument();
     if (!multisite_drupal_toolbox_load_html($dom, $content)) {

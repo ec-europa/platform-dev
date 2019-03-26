@@ -13,11 +13,11 @@ Feature: TMGMT Poetry features
       | languages |
       | pt-pt     |
       | fr        |
+    And I am logged in as a user with the 'administrator' role
 
   @theme_wip
   Scenario: Cancel main language in translation request
-    Given I am logged in as a user with the 'administrator' role
-    When I am viewing a multilingual "page" content:
+    Given I am viewing a multilingual "page" content:
       | language | title            | body                    |
       | en       | Title            | Last change column test |
     And I click "Translate" in the "primary_tabs" region
@@ -47,8 +47,7 @@ Feature: TMGMT Poetry features
 
   @theme_wip
   Scenario: Cancel secondary language in translation request
-    Given I am logged in as a user with the 'administrator' role
-    When I am viewing a multilingual "page" content:
+    Given I am viewing a multilingual "page" content:
       | language | title            | body                    |
       | en       | Title            | Last change column test |
     And I click "Translate" in the "primary_tabs" region

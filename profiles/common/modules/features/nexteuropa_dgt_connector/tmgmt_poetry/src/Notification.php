@@ -36,6 +36,120 @@ class Notification {
   protected $mainJob;
 
   /**
+   * Process notification StatusUpdated.
+   *
+   * @param \EC\Poetry\Messages\Notifications\StatusUpdated $message
+   *   The Translation Received.
+   */
+  public function statusUpdated(StatusUpdated $message) {
+
+    try {
+
+      // Initial steps.
+      $this->setReference($message);
+      $this->storeMessage($message);
+      $attributions_statuses = $message->getAttributionStatuses();
+      $this->setMainJob();
+
+      // Verify translator and get it.
+      if (!in_array($this->mainJob->translator, array($this->translatorName, PoetryMock::TRANSLATOR_NAME))) {
+        return FALSE;
+      }
+      $translator = tmgmt_translator_load($this->mainJob->translator);
+
+      // 1. Check status of request.
+      $request_status = $message->getRequestStatus();
+      if ($request_status->getCode() != '0') {
+        throw new \Exception(t(
+          'Error reported in message status: @status',
+          array('@status' => $request_status)
+        ));
+      }
+
+      // 2. Check status of demand and update the whole request.
+      $demand_status = $message->getDemandStatus();
+      if (!empty($demand_status)) {
+        $status_message = (string) constant('TMGMT_POETRY_STATUS_MSG_' . $demand_status->getCode());
+
+        $this->mainJob->addMessage(
+          t("DGT update received. Request status: @status. Message: @message"), array(
+            '@status' => $status_message,
+            '@message' => $demand_status->getMessage(),
+          )
+        );
+
+        if (_tmgmt_poetry_is_mapped_job_status_aborted($demand_status->getCode())) {
+
+          $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), '%' . $this->reference)
+            ->fetchAll();
+          foreach ($ids as $id) {
+            $job = tmgmt_job_load($id->tjid);
+            $job->aborted(t('Request aborted by DGT.'), array());
+          }
+        }
+        elseif ($this->mainJob->isAborted()) {
+          $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), '%' . $this->reference)
+            ->fetchAll();
+
+          foreach ($ids as $id) {
+            $reopen_job = tmgmt_job_load($id->tjid);
+            $reopen_job->setState(
+              TMGMT_JOB_STATE_ACTIVE,
+              t('Request re-opened by DGT.')
+            );
+            $reopen_job_item = tmgmt_job_item_load($ids->tjiid);
+            $reopen_job_item->active();
+          }
+        }
+
+        // 3. Check Status for specific languages.
+        foreach ($attributions_statuses as $attribution_status) {
+          $lang_code = drupal_strtolower($attribution_status->getLanguage());
+          $lang_code = $translator->mapToLocalLanguage($lang_code);
+          $lang_new_status_code = $attribution_status->getCode();
+
+          $language_jobs_ids = tmgmt_poetry_obtain_related_translation_jobs(array($lang_code), $this->reference)
+            ->fetchAll();
+          $language_job_ids = $language_jobs_ids[0];
+          /** @var \TMGMTJob $language_job */
+          $language_job = tmgmt_job_load($language_job_ids->tjid);
+
+          // If there are no changes is state, no need to continue.
+          $language_status = constant('TMGMT_POETRY_STATUS_MSG_' . $lang_new_status_code);
+          if ($language_status === _tmgmt_poetry_get_job_item_status($language_job_ids->tjiid)) {
+            continue;
+          }
+
+          $msg = t("DGT update received. Affected language: @language. Request status: @status.");
+          $msg_vars = array(
+            '@language' => $lang_code,
+            '@status' => $language_status,
+          );
+          $this->mainJob->addMessage($msg, $msg_vars);
+
+          _tmgmt_poetry_update_item_status($language_job_ids->tjiid, $lang_code, $language_status, '');
+
+          // If language was canceled, cancel its job and item.
+          if (_tmgmt_poetry_is_mapped_job_status_aborted($lang_new_status_code)) {
+            $language_job->setState(TMGMT_JOB_STATE_ABORTED, $msg, $msg_vars);
+            /** @var \TMGMTJobItem $language_job_item */
+            $language_job_item = tmgmt_job_item_load($language_job_ids->tjiid);
+            $language_job_item->setState(TMGMT_JOB_ITEM_STATE_ABORTED, $msg, $msg_vars);
+          }
+        }
+      }
+    }
+    catch (\Exception $e) {
+
+      watchdog_exception('tmgmt_poetry', $e);
+
+      if (isset($this->mainJob)) {
+        $this->mainJob->addMessage('@message', array($e->getMessage()), 'error');
+      }
+    }
+  }
+
+  /**
    * Process notification TranslationReceived.
    *
    * @param \EC\Poetry\Messages\Notifications\TranslationReceived $message
@@ -76,7 +190,6 @@ class Notification {
           ->fetchAll();
         $job_ids = $ids[0];
         $job = tmgmt_job_load($job_ids->tjid);
-        $job_item = tmgmt_job_item_load($job_ids->tjiid);
 
         // Verify format.
         $this->verifyFormatError($target->getFormat(), $job);
@@ -84,7 +197,7 @@ class Notification {
         // Import content using controller.
         $imported_file = base64_decode($target->getTranslatedFile());
         if ($language_job != $this->mainJob->target_language) {
-          $imported_file = _tmgmt_poetry_replace_job_in_content($imported_file, $job, $job_item);
+          $imported_file = $this->tmgmtPoetryRewriteReceivedXml($imported_file, $job, $ids);
         }
 
         if (!($validated_job = $controller->validateImport($imported_file)) || $validated_job->tjid != $job->tjid || $job->isAborted()) {
@@ -99,10 +212,12 @@ class Notification {
           array('@language' => $job->target_language)
         );
 
+        // Update the status to executed when we receive a translation.
+        _tmgmt_poetry_update_item_status($job_ids->tjiid, "", "Executed", (string) $target->getAcceptedDelay());
+
         // Save the file and make it available in the job.
         $name = "JobID" . $job->tjid . '_' . $job->source_language . '_' . $job->target_language;
         $path = 'public://tmgmt_file/' . $name . '.' . $job->getSetting('export_format');
-
         $dirname = drupal_dirname($path);
         if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY)) {
           $file = file_save_data($imported_file, $path);
@@ -112,9 +227,6 @@ class Notification {
             array('!link' => file_create_url($path))
           );
         }
-
-        // Update the status to executed when we receive a translation.
-        _tmgmt_poetry_update_item_status($job_item->tjiid, "", "Executed", (string) $target->getAcceptedDelay());
       }
     }
     catch (\Exception $e) {
@@ -123,155 +235,6 @@ class Notification {
 
       if (isset($this->mainJob)) {
         $this->mainJob->addMessage('@message', array('@message' => $e->getMessage()), 'error');
-      }
-    }
-  }
-
-  /**
-   * Process notification StatusUpdated.
-   *
-   * @param \EC\Poetry\Messages\Notifications\StatusUpdated $message
-   *   The Translation Received.
-   */
-  public function statusUpdated(StatusUpdated $message) {
-
-    try {
-      // Initial steps.
-      $this->setReference($message);
-      $this->storeMessage($message);
-      $attributions_statuses = $message->getAttributionStatuses();
-      $this->setMainJob();
-
-      // Verify translator and get it.
-      if (!in_array($this->mainJob->translator, array($this->translatorName, PoetryMock::TRANSLATOR_NAME))) {
-        return FALSE;
-      }
-      $translator = tmgmt_translator_load($this->mainJob->translator);
-
-      // 1. Check status of request.
-      $request_status = $message->getRequestStatus();
-      if ($request_status->getCode() != '0') {
-        throw new \Exception(t(
-          'Error reported in message status: @status',
-          array('@status' => $request_status)
-        ));
-      }
-
-      // 2. Check status of demand and update the whole request.
-      $demand_status = $message->getDemandStatus();
-      if (!empty($demand_status)) {
-        $cancelled = FALSE;
-        $status_message = "";
-
-        // Check status code.
-        switch ($demand_status->getCode()) {
-          case 'SUS':
-            $status_message = TMGMT_POETRY_STATUS_MSG_SUS;
-            $cancelled = FALSE;
-            break;
-
-          case 'ONG':
-            $status_message = TMGMT_POETRY_STATUS_MSG_ONG;
-            $cancelled = FALSE;
-            break;
-
-          case 'LCK':
-            $status_message = TMGMT_POETRY_STATUS_MSG_LCK;
-            $cancelled = FALSE;
-            break;
-
-          case 'EXE':
-            $status_message = TMGMT_POETRY_STATUS_MSG_EXE;
-            $cancelled = FALSE;
-            break;
-
-          case 'REF':
-            $status_message = TMGMT_POETRY_STATUS_MSG_REF;
-            $cancelled = TRUE;
-            break;
-
-          case 'CNL':
-            $status_message = TMGMT_POETRY_STATUS_MSG_CNL;
-            $cancelled = TRUE;
-            break;
-        }
-
-        $this->mainJob->addMessage(
-          t("DGT update received. Request status: @status. Message: @message"), array(
-            '@status' => $status_message,
-            '@message' => $demand_status->getMessage(),
-          )
-        );
-
-        if ($cancelled) {
-
-          $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), '%' . $this->reference)
-            ->fetchAll();
-          foreach ($ids as $id) {
-            $job = tmgmt_job_load($id->tjid);
-            $job->aborted(t('Request aborted by DGT.'), array());
-          }
-        }
-        elseif ($this->mainJob->isAborted()) {
-          $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), '%' . $this->reference)
-            ->fetchAll();
-
-          foreach ($ids as $id) {
-            $reopen_job = tmgmt_job_load($id->tjid);
-            $reopen_job->setState(
-              TMGMT_JOB_STATE_ACTIVE,
-              t('Request re-opened by DGT.')
-            );
-            $reopen_job_item = tmgmt_job_item_load($ids->tjiid);
-            $reopen_job_item->active();
-          }
-        }
-
-        // 3. Check Status for specific languages.
-        foreach ($attributions_statuses as $attribution_status) {
-          $lang_code = drupal_strtolower($attribution_status->getLanguage());
-          $lang_code = $translator->mapToLocalLanguage($lang_code);
-          $lang_new_status_code = $attribution_status->getCode();
-
-          $language_status = constant('TMGMT_POETRY_STATUS_MSG_' . $lang_new_status_code);
-
-          $language_jobs_ids = tmgmt_poetry_obtain_related_translation_jobs(array($lang_code), $this->reference)
-            ->fetchAll();
-          $language_job_ids = $language_jobs_ids[0];
-          /** @var \TMGMTJob $language_job */
-          $language_job = tmgmt_job_load($language_job_ids->tjid);
-
-          $status_mapping = _tmgmt_poetry_status_mapping();
-          $job_new_status = $status_mapping[$lang_new_status_code];
-          if ($job_new_status === $language_job->getState()) {
-            continue;
-          }
-
-          $msg = t("DGT update received. Affected language: @language. Request status: @status.");
-          $msg_vars = array(
-            '@language' => $lang_code,
-            '@status' => $language_status,
-          );
-          $this->mainJob->addMessage($msg, $msg_vars);
-
-          _tmgmt_poetry_update_item_status($language_job_ids->tjiid, $lang_code, $language_status, '');
-
-          // If language was canceled, cancel its job and item.
-          if ($job_new_status === TMGMT_JOB_STATE_ABORTED) {
-            $language_job->setState(TMGMT_JOB_STATE_ABORTED, $msg, $msg_vars);
-            /** @var \TMGMTJobItem $language_job_item */
-            $language_job_item = tmgmt_job_item_load($language_job_ids->tjiid);
-            $language_job_item->setState(TMGMT_JOB_ITEM_STATE_ABORTED, $msg, $msg_vars);
-          }
-        }
-      }
-    }
-    catch (\Exception $e) {
-
-      watchdog_exception('tmgmt_poetry', $e);
-
-      if (isset($this->mainJob)) {
-        $this->mainJob->addMessage('@message', array($e->getMessage()), 'error');
       }
     }
   }
@@ -338,6 +301,25 @@ class Notification {
           '@job_format' => $job->getSetting('export_format'),
         )));
     }
+  }
+
+  /**
+   * Replace job id in received content.
+   *
+   * @param string $content
+   *   The XML content.
+   * @param \TMGMTJob $job
+   *   The job.
+   * @param array $ids_collection
+   *   The array of pairs with jobs and job items.
+   *
+   * @return string|bool|mixed
+   *   The updated XML content.
+   */
+  protected function tmgmtPoetryRewriteReceivedXml($content, \TMGMTJob $job, array $ids_collection) {
+
+    $job_item = tmgmt_job_item_load($ids_collection[0]->tjiid);
+    return _tmgmt_poetry_replace_job_in_content($content, $job, $job_item);
   }
 
 }
