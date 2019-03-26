@@ -789,7 +789,7 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
 ; https://www.drupal.org/project/views/issues/3012609
 ; https://www.drupal.org/project/views/issues/1809958
-projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-04/issues-ajax-exposed-filters-blocks-1809958-68.patch
+projects[views][patch][] = patches/issues-ajax-exposed-filters-blocks.patch
 ; Issue #3039953: PHP 5.3.x fix for syntax changes Views 3.21
 ; https://www.drupal.org/project/views/issues/3039953
 projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-13/3039953-25.patch
