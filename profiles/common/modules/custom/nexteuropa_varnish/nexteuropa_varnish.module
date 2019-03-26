@@ -264,6 +264,15 @@ function nexteuropa_varnish_node_delete($node) {
     $paths['alias_prefix'] = $url_suffix ? $paths['escaped_alias'] . $lgregex : $lgregex . $paths['escaped_alias'];
   }
 
+  // Add custom purge rules.
+  $purge_rules = nexteuropa_varnish_get_node_purge_rules($node);
+  foreach ($purge_rules as $purge_rule) {
+    if ($purge_rule->type() == PurgeRuleType::PATHS) {
+      $purge_paths = $purge_rule->paths();
+      $paths = array_merge($paths, $purge_paths);
+    }
+  }
+
   if (!empty($paths)) {
     // Removing duplicates and all entries of the array equal to FALSE.
     $paths = array_unique($paths);
