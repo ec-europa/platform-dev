@@ -405,7 +405,7 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
   $administrator_role = user_role_load_by_name("administrator");
   $cem_role = user_role_load_by_name(CCE_BASIC_CONFIG_CEM_ROLE_NAME);
   $user_roles = (isset($user->roles)) ? $user->roles : array();
-  // When a user logs using ecas, if they have the cem role on the site, we 
+  // When a user logs using ecas, if they have the cem role on the site, we
   // remove cem and administrator roles from their profiles and keep the rest.
   if (isset($user_roles[$cem_role->rid])) {
     unset($user_roles[$cem_role->rid]);
