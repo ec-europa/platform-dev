@@ -36,6 +36,13 @@ class Notification {
   protected $mainJob;
 
   /**
+   * The translator to be used.
+   *
+   * @var object
+   */
+  protected $translator;
+
+  /**
    * Process notification StatusUpdated.
    *
    * @param \EC\Poetry\Messages\Notifications\StatusUpdated $message
@@ -45,17 +52,9 @@ class Notification {
 
     try {
 
-      // Initial steps.
-      $this->setReference($message);
-      $this->storeMessage($message);
-      $attributions_statuses = $message->getAttributionStatuses();
-      $this->setMainJob();
-
-      // Verify translator and get it.
-      if (!in_array($this->mainJob->translator, array($this->translatorName, PoetryMock::TRANSLATOR_NAME))) {
-        return FALSE;
+      if (!$this->initialize($message)) {
+        return;
       }
-      $translator = tmgmt_translator_load($this->mainJob->translator);
 
       // 1. Check status of request.
       $request_status = $message->getRequestStatus();
@@ -103,9 +102,10 @@ class Notification {
         }
 
         // 3. Check Status for specific languages.
+        $attributions_statuses = $message->getAttributionStatuses();
         foreach ($attributions_statuses as $attribution_status) {
           $lang_code = drupal_strtolower($attribution_status->getLanguage());
-          $lang_code = $translator->mapToLocalLanguage($lang_code);
+          $lang_code = $this->translator->mapToLocalLanguage($lang_code);
           $lang_new_status_code = $attribution_status->getCode();
 
           $language_jobs_ids = tmgmt_poetry_obtain_related_translation_jobs(array($lang_code), $this->reference)
@@ -154,23 +154,14 @@ class Notification {
    *
    * @param \EC\Poetry\Messages\Notifications\TranslationReceived $message
    *   The Translation Received.
-   *
-   * @return bool
-   *   Return True if the translation is received without issues.
    */
   public function translationReceived(TranslationReceived $message) {
 
     try {
-      // Initial steps.
-      $this->setReference($message);
-      $this->storeMessage($message);
-      $this->setMainJob();
 
-      // Verify translator and get it.
-      if (!in_array($this->mainJob->translator, array($this->translatorName, PoetryMock::TRANSLATOR_NAME))) {
-        return FALSE;
+      if (!$this->initialize($message)) {
+        return;
       }
-      $translator = tmgmt_translator_load($this->mainJob->translator);
 
       // Get controller.
       $controller = tmgmt_file_format_controller($this->mainJob->getSetting('export_format'));
@@ -185,7 +176,7 @@ class Notification {
       $targets = $message->getTargets();
       foreach ($targets as $target) {
         // Get language job.
-        $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
+        $language_job = $this->translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
         $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $this->reference)
           ->fetchAll();
         $job_ids = $ids[0];
@@ -240,13 +231,29 @@ class Notification {
   }
 
   /**
-   * Extract reference and set it.
+   * Initialize parameters and translator.
    *
    * @param \EC\Poetry\Messages\MessageInterface $msg
    *   The message.
+   *
+   * @return bool
+   *   TRUE if this logic matches the job translator, FALSE otherwise.
+   *
+   * @throws \Exception
+   *   Thrown when expected data is missing.
    */
-  protected function setReference(MessageInterface $msg) {
+  protected function initialize(MessageInterface $msg) {
     $this->reference = $msg->getIdentifier()->getFormattedIdentifier();
+    $this->storeMessage($msg);
+    $this->setMainJob();
+
+    // Verify translator and get it.
+    if (!in_array($this->mainJob->translator, array($this->translatorName, PoetryMock::TRANSLATOR_NAME))) {
+      return FALSE;
+    }
+    $this->translator = tmgmt_translator_load($this->mainJob->translator);
+
+    return TRUE;
   }
 
   /**
