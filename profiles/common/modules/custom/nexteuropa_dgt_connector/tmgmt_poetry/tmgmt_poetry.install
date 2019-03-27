@@ -256,3 +256,25 @@ function tmgmt_poetry_update_7003() {
     db_drop_table('poetry_map_7002');
   }
 }
+
+/**
+ * Enable and configure nexteuropa_poetry.
+ */
+function tmgmt_poetry_update_7104() {
+  module_enable(['nexteuropa_poetry']);
+
+  $poetry_settings = variable_get('poetry_service', FALSE);
+  if (isset($poetry_settings['address'])) {
+    variable_set('nexteuropa_poetry_service_wsdl', $poetry_settings['address']);
+  }
+
+  $translator = tmgmt_translator_load('poetry');
+  if (isset($translator)) {
+    $settings = $translator->getSetting('settings');
+    variable_set('nexteuropa_poetry_log_level', 'none');
+    variable_set('nexteuropa_poetry_notification_username', $settings['callback_user']);
+    variable_set('nexteuropa_poetry_notification_password', $settings['callback_password']);
+    variable_set('nexteuropa_poetry_service_username', $settings['poetry_user']);
+    variable_set('nexteuropa_poetry_service_password', $settings['poetry_password']);
+  }
+}
