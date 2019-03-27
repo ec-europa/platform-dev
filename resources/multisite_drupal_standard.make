@@ -819,7 +819,7 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
 
 projects[video][subdir] = "contrib"
-projects[video][version] = "2.13"
+projects[video][version] = "2.14"
 projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
