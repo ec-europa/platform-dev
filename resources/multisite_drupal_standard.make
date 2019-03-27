@@ -228,12 +228,7 @@ projects[entityreference_prepopulate][version] = "1.7"
 projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-<<<<<<< HEAD
 projects[eu_cookie_compliance][version] = "1.28"
-=======
-projects[eu_cookie_compliance][version] = "1.14"
-projects[eu_cookie_compliance][patch][] = patches/eu_cookie_compliance_nept-2299.patch
->>>>>>> release-2.5
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
@@ -814,26 +809,11 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_e
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
-<<<<<<< HEAD
 ; Reset of Exposed Published Status filter with "Remember last selection" results in:
 ; Undefined index: status in views_handler_filter->store_exposed_input()
 ; https://www.drupal.org/project/views/issues/2961962
 ; The patch of this issue fixes the PHP error: https://www.drupal.org/project/views/issues/2900405
 projects[views][patch][] = https://www.drupal.org/files/issues/views-check-exposed-identifier.patch
-; Issue #3012609: Ajax Exposed filters not working with multiple same views
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2149
-; https://www.drupal.org/project/views/issues/3012609
-projects[views][patch][] = https://www.drupal.org/files/issues/2018-12-20/ajax-exposed-filters-not-working-with-multiple-same-views-3012609-17.patch
-=======
-; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
-; https://www.drupal.org/node/2908538
-projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
-; Issue #3012609: Issues with AJAX for exposed filters
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
-; https://www.drupal.org/project/views/issues/3012609
-; https://www.drupal.org/project/views/issues/1809958
-projects[views][patch][] = patches/issues-ajax-exposed-filters-blocks.patch
->>>>>>> release-2.5
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"

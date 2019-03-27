@@ -26,7 +26,6 @@ To create an external account go to
 https://webgate.ec.europa.eu/cas/eim/external/register.cgi
 Change the domain to 'External' and fill in the fields.
 
-<<<<<<< HEAD
 The feature needs to be enabled by an administrator, it is not available in 
 feature set.
 The path to the library version is defined for all MULTISITE instances as 
@@ -36,12 +35,6 @@ $util_dir . '/phpcas/CAS.php'
 'FPFIS_ECAS_PATH' in your settings.php
 If no value constant is defined for FPFIS_ECAS_PATH, the library path will 
 fallback to the NextEuropa platform "vendor" repository (vendor/jasic/phpcas).
-=======
-# Usage
-
-When feature is enabled, a button 'EU Login' is available on each page.
-The button redirects the user to the EU login screen.
->>>>>>> release-2.5
 
 - After credentials are correctly submitted, a user page is created and user is 
 redirected to that page.
@@ -142,11 +135,6 @@ If you have more questions, please contact "COMM Europa Management"
 The path to the library version is defined for all instances as $util_dir . 
 '/phpcas/CAS.php'
 
-<<<<<<< HEAD
-Please also have a look at 
-[dorstenia common settings doc](https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/fpfis-platform-settings/browse?at=dorstenia)<br />
-If you have more questions, please contact "COMM Europa Management"
-=======
 *However* that path can be overriden by setting a new value to 'FPFIS_ECAS_PATH'
 in your settings.php
 If no value constant is defined for FPFIS_ECAS_PATH, the library path will 
@@ -167,4 +155,3 @@ recommended to set it in the settings file of the site.
 The feature EU Login (ecas_env) uses the libraries located in
 custom/ecas/libraries/phpcas/CAS/Client.php and the module located in 
 profiles/common/modules/custom/ecas
->>>>>>> release-2.5
