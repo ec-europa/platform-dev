@@ -131,12 +131,14 @@ class Notification {
 
         _tmgmt_poetry_update_item_status($language_job_ids->tjiid, $lang_code, $language_status, '');
 
-        // If language was canceled, cancel its job and item.
+        // If language was canceled, cancel its job and items.
         if (_tmgmt_poetry_is_mapped_job_status_aborted($lang_new_status_code)) {
           $language_job->setState(TMGMT_JOB_STATE_ABORTED, $msg, $msg_vars);
-          /** @var \TMGMTJobItem $language_job_item */
-          $language_job_item = tmgmt_job_item_load($language_job_ids->tjiid);
-          $language_job_item->setState(TMGMT_JOB_ITEM_STATE_ABORTED, $msg, $msg_vars);
+          foreach ($language_jobs_ids as $language_job_ids) {
+            /** @var \TMGMTJobItem $language_job_item */
+            $language_job_item = tmgmt_job_item_load($language_job_ids->tjiid);
+            $language_job_item->setState(TMGMT_JOB_ITEM_STATE_ABORTED, $msg, $msg_vars);
+          }
         }
       }
     }
@@ -205,7 +207,7 @@ class Notification {
         );
 
         // Update the status to executed when we receive a translation.
-        _tmgmt_poetry_update_item_status($job_ids->tjiid, "", "Executed", (string) $target->getAcceptedDelay());
+        _tmgmt_poetry_update_item_status($job_ids->tjiid, '', 'Executed', (string) $target->getAcceptedDelay());
 
         // Save the file and make it available in the job.
         $name = "JobID" . $job->tjid . '_' . $job->source_language . '_' . $job->target_language;
