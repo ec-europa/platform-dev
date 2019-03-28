@@ -73,26 +73,33 @@ class TMGMTPoetryJobController extends TMGMTJobController {
           if ($result->rowCount() > 0) {
             $row = $result->fetchAssoc();
             $job = tmgmt_job_load($row['tjid']);
+            // Check if it really needs to be processed.
+            if ($job->label === $origin_job->label . ' ' . $languages[$requested_language]->name) {
+              continue;
+            }
             $job->translator = $origin_job->translator;
             $job->label = $origin_job->label . ' ' . $languages[$requested_language]->name;
             $job->save();
-            continue;
+
+            $job_item = tmgmt_job_item_load($row['tjiid']);
+          }
+          else {
+            $job = tmgmt_job_create($origin_job->source_language, $requested_language, $origin_job->uid);
+            $job->translator = $origin_job->translator;
+            $job->reference = 'SUB_' . $origin_job->tjid;
+            $job->label = $origin_job->label . ' ' . $languages[$requested_language]->name;
+            $job->save();
+
+            $job_item = tmgmt_job_item_create($origin_job_item->plugin, $origin_job_item->item_type, $origin_job_item->item_id);
+            $job_item->tjid = $job->tjid;
+            $job_item->count_pending = $origin_job_item->count_pending;
+            $job_item->count_translated = $origin_job_item->count_translated;
+            $job_item->count_accepted = $origin_job_item->count_accepted;
+            $job_item->count_reviewed = $origin_job_item->count_reviewed;
+            $job_item->word_count = $origin_job_item->word_count;
+            $job_item->save();
           }
 
-          $job = tmgmt_job_create($origin_job->source_language, $requested_language, $origin_job->uid);
-          $job->translator = $origin_job->translator;
-          $job->reference = 'SUB_' . $origin_job->tjid;
-          $job->label = $origin_job->label . ' ' . $languages[$requested_language]->name;
-          $job->save();
-
-          $job_item = tmgmt_job_item_create($origin_job_item->plugin, $origin_job_item->item_type, $origin_job_item->item_id);
-          $job_item->tjid = $job->tjid;
-          $job_item->count_pending = $origin_job_item->count_pending;
-          $job_item->count_translated = $origin_job_item->count_translated;
-          $job_item->count_accepted = $origin_job_item->count_accepted;
-          $job_item->count_reviewed = $origin_job_item->count_reviewed;
-          $job_item->word_count = $origin_job_item->word_count;
-          $job_item->save();
           _tmgmt_poetry_insert_item_status($job_item->tjiid, $job->target_language, "Pending", date('d/m/Y', strtotime($origin_job->settings['delai'])));
         }
       }
