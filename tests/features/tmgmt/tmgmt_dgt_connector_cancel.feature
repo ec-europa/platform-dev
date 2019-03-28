@@ -1,5 +1,5 @@
 @api @poetry_mock @i18n @poetry @theme_wip
-Feature: TMGMT Poetry Client features including language canceled
+Feature: TMGMT DGT Connector features including language canceled
   In order to request "Small Jobs" translations with Poetry service.
   As an Administrator
   I want to be able to cancel language in translation requests.
@@ -198,6 +198,6 @@ Feature: TMGMT Poetry Client features including language canceled
 
     # Check job items
     When I go to "admin/tmgmt/recent-changes"
-    And I click "View" in the "Short body and 1 more" row
+    And I click "View" in the "My page 1 and 1 more" row
     Then I should see "Accepted" in the "French" row
     Then I should see "Aborted" in the "Portuguese, Portugal" row

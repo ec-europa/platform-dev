@@ -26,7 +26,7 @@ class Notification {
    *
    * @var array
    */
-  protected $acceptedTranslators = array('poetry', PoetryMock::TRANSLATOR_NAME);
+  protected $acceptedTranslators = ['poetry', PoetryMock::TRANSLATOR_NAME];
 
   /**
    * Main job, used to register the messages and get translator and controller.
@@ -59,45 +59,40 @@ class Notification {
       // 1. Check status of request.
       $request_status = $message->getRequestStatus();
       if ($request_status->getCode() != '0') {
-        throw new \Exception(t(
-          'Error reported in message status: @status',
-          array('@status' => $request_status)
-        ));
+        throw new \Exception(t('Error reported in message status: @status', [
+          '@status' => $request_status,
+        ]));
       }
 
       // 2. Check status of demand and update the whole request.
       $demand_status = $message->getDemandStatus();
       if (empty($demand_status)) {
-        throw new \Exception(t('Error no demand status.'));
+        throw new \Exception(t('Demand status not set!'));
       }
       $status_message = (string) constant('TMGMT_POETRY_STATUS_MSG_' . $demand_status->getCode());
 
       $this->mainJob->addMessage(
-        t("DGT update received. Request status: @status. Message: @message"), array(
+        t("DGT update received. Request status: @status. Message: @message"), [
           '@status' => $status_message,
           '@message' => $demand_status->getMessage(),
-        )
-      );
+      ]);
 
       if (_tmgmt_poetry_is_mapped_job_status_aborted($demand_status->getCode())) {
 
-        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), '%' . $this->reference)
+        $ids = tmgmt_poetry_obtain_related_translation_jobs([], '%' . $this->reference)
           ->fetchAll();
         foreach ($ids as $id) {
           $job = tmgmt_job_load($id->tjid);
-          $job->aborted(t('Request aborted by DGT.'), array());
+          $job->aborted(t('Request aborted by DGT.'));
         }
       }
       elseif ($this->mainJob->isAborted()) {
-        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), '%' . $this->reference)
+        $ids = tmgmt_poetry_obtain_related_translation_jobs([], '%' . $this->reference)
           ->fetchAll();
 
         foreach ($ids as $id) {
           $reopen_job = tmgmt_job_load($id->tjid);
-          $reopen_job->setState(
-            TMGMT_JOB_STATE_ACTIVE,
-            t('Request re-opened by DGT.')
-          );
+          $reopen_job->setState(TMGMT_JOB_STATE_ACTIVE, t('Request re-opened by DGT.'));
           $reopen_job_item = tmgmt_job_item_load($ids->tjiid);
           $reopen_job_item->active();
         }
@@ -110,7 +105,7 @@ class Notification {
         $lang_code = $this->translator->mapToLocalLanguage($lang_code);
         $lang_new_status_code = $attribution_status->getCode();
 
-        $language_jobs_ids = tmgmt_poetry_obtain_related_translation_jobs(array($lang_code), $this->reference)
+        $language_jobs_ids = tmgmt_poetry_obtain_related_translation_jobs([$lang_code], $this->reference)
           ->fetchAll();
         $language_job_ids = $language_jobs_ids[0];
         /** @var \TMGMTJob $language_job */
@@ -123,10 +118,10 @@ class Notification {
         }
 
         $msg = t("DGT update received. Affected language: @language. Request status: @status.");
-        $msg_vars = array(
+        $msg_vars = [
           '@language' => $lang_code,
           '@status' => $language_status,
-        );
+        ];
         $this->mainJob->addMessage($msg, $msg_vars);
 
         _tmgmt_poetry_update_item_status($language_job_ids->tjiid, $lang_code, $language_status, '');
@@ -147,7 +142,7 @@ class Notification {
       watchdog_exception('tmgmt_poetry', $e);
 
       if (isset($this->mainJob)) {
-        $this->mainJob->addMessage('@message', array($e->getMessage()), 'error');
+        $this->mainJob->addMessage('@message', ['@message' => $e->getMessage()], 'error');
       }
     }
   }
@@ -169,10 +164,9 @@ class Notification {
       // Get controller.
       $controller = tmgmt_file_format_controller($this->mainJob->getSetting('export_format'));
       if (!$controller) {
-        throw new \Exception(t(
-          'Callback can not find controller with reference !reference .',
-          array('!reference' => $this->reference)
-        ));
+        throw new \Exception(t('Callback can not find controller with reference !reference .', [
+          '!reference' => $this->reference,
+        ]));
       }
 
       // Do translation for each target.
@@ -180,7 +174,7 @@ class Notification {
       foreach ($targets as $target) {
         // Get language job.
         $language_job = $this->translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
-        $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $this->reference)
+        $ids = tmgmt_poetry_obtain_related_translation_jobs([$language_job], $this->reference)
           ->fetchAll();
         $job_ids = $ids[0];
         $job = tmgmt_job_load($job_ids->tjid);
@@ -195,16 +189,15 @@ class Notification {
         }
 
         if (!($validated_job = $controller->validateImport($imported_file)) || $validated_job->tjid != $job->tjid || $job->isAborted()) {
-          throw new \Exception('Import not possible.');
+          throw new \Exception(t('Import not possible.'));
         }
 
         // Validation successful, start import.
         $job->addTranslatedData($controller->import($imported_file));
 
-        $this->mainJob->addMessage(
-          t('@language Successfully received the translation file.'),
-          array('@language' => $job->target_language)
-        );
+        $this->mainJob->addMessage(t('@language Successfully received the translation file.'), [
+          '@language' => $job->target_language,
+        ]);
 
         // Update the status to executed when we receive a translation.
         _tmgmt_poetry_update_item_status($job_ids->tjiid, '', 'Executed', (string) $target->getAcceptedDelay());
@@ -216,10 +209,9 @@ class Notification {
         if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY)) {
           $file = file_save_data($imported_file, $path);
           file_usage_add($file, 'tmgmt_file', 'tmgmt_job', $job->tjid);
-          $this->mainJob->addMessage(
-            t('Received tanslation can be downloaded <a href="!link">here</a>.'),
-            array('!link' => file_create_url($path))
-          );
+          $this->mainJob->addMessage(t('Received tanslation can be downloaded <a href="!link">here</a>.'), [
+            '!link' => file_create_url($path),
+          ]);
         }
       }
     }
@@ -228,7 +220,7 @@ class Notification {
       watchdog_exception('tmgmt_poetry', $e);
 
       if (isset($this->mainJob)) {
-        $this->mainJob->addMessage('@message', array('@message' => $e->getMessage()), 'error');
+        $this->mainJob->addMessage('@message', ['@message' => $e->getMessage()], 'error');
       }
     }
   }
@@ -281,12 +273,14 @@ class Notification {
   protected function setMainJob() {
 
     if (empty($this->reference)) {
-      throw new \Exception('Reference not set.');
+      throw new \Exception(t('Reference not set!'));
     }
 
-    $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), 'MAIN_%_POETRY_%' . $this->reference)->fetchAll();
+    $ids = tmgmt_poetry_obtain_related_translation_jobs([], 'MAIN_%_POETRY_%' . $this->reference)->fetchAll();
     if (empty($ids)) {
-      throw new \Exception('Callback can not find job with reference !reference.');
+      throw new \Exception(t('Callback can not find job with reference !reference.', [
+        '!reference' => $this->reference,
+      ]));
     }
 
     $main_ids = array_shift($ids);
@@ -305,11 +299,10 @@ class Notification {
    */
   protected function verifyFormatError($format, \TMGMTJob $job) {
     if (empty($format) || strpos($job->getSetting('export_format'), drupal_strtolower((string) $format) === FALSE)) {
-      throw new \Exception(
-        t('Received format "@format" is not compatible, translation job format "@job_format" should be used instead', array(
+      throw new \Exception(t('Job format "@format" not compatible, format "@job_format" should be used.', [
           '@format' => (string) $format,
           '@job_format' => $job->getSetting('export_format'),
-        )));
+      ]));
     }
   }
 
