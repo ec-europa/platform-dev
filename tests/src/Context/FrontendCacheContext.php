@@ -334,17 +334,17 @@ class FrontendCacheContext implements Context {
     $rows = $table->getHash();
     $content_url = preg_quote(ltrim(url(), '/'));
     $multi_paths = array();
-     // Parse paths and group by Request.
+    // Parse paths and group by Request.
     foreach ($rows as $row) {
       $replaced_row = $this->tokenContext->replaceToken($row['Path']);
       $pattern = "@\[node:([\d]+)\]@";
       $row['Path'] = preg_replace($pattern, '${1}', $replaced_row);
-       if (!isset($multi_paths[$row['Request']])) {
+      if (!isset($multi_paths[$row['Request']])) {
         $multi_paths[$row['Request']] = array();
       }
-       $multi_paths[$row['Request']][] = $row['Path'];
+      $multi_paths[$row['Request']][] = $row['Path'];
     }
-     foreach ($multi_paths as $index => $paths) {
+    foreach ($multi_paths as $index => $paths) {
       $purge_request = $requests->at($index);
       $path_string = '^(' . implode('|', $paths) . ')$';
       // Some of environments returns different paths. To pass the test given

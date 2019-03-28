@@ -232,11 +232,11 @@ function nexteuropa_varnish_node_delete($node) {
     return;
   }
 
-   $paths = array();
+  $paths = array();
 
-   $entity_uri = entity_uri('node', $node);
+  $entity_uri = entity_uri('node', $node);
 
-   if ($entity_uri) {
+  if ($entity_uri) {
     $url_locale = language_negotiation_get('language', 'locale-url');
     $url_suffix = language_negotiation_get('language', 'nexteuropa_multilingual_url_suffix');
     // Add logic to send a language prefix/suffix regex for non aliased paths.
@@ -264,7 +264,7 @@ function nexteuropa_varnish_node_delete($node) {
     $paths['alias_prefix'] = $url_suffix ? $paths['escaped_alias'] . $lgregex : $lgregex . $paths['escaped_alias'];
   }
 
-   // Add custom purge rules.
+  // Add custom purge rules.
   $purge_rules = nexteuropa_varnish_get_node_purge_rules($node);
   foreach ($purge_rules as $purge_rule) {
     if ($purge_rule->type() == PurgeRuleType::PATHS) {
@@ -273,7 +273,7 @@ function nexteuropa_varnish_node_delete($node) {
     }
   }
 
-   if (!empty($paths)) {
+  if (!empty($paths)) {
     // Removing duplicates and all entries of the array equal to FALSE.
     $paths = array_unique($paths);
     $paths = array_filter($paths);
@@ -281,7 +281,7 @@ function nexteuropa_varnish_node_delete($node) {
   }
 }
 
- /**
+/**
  * Implements hook_path_delete().
  */
 function nexteuropa_varnish_path_delete($path) {
@@ -289,16 +289,16 @@ function nexteuropa_varnish_path_delete($path) {
     return;
   }
 
-   $node = menu_get_object('node', 1, $path['source']);
+  $node = menu_get_object('node', 1, $path['source']);
 
-   // Its a node path.
+  // Its a node path.
   if (!empty($node)) {
     // No rule defined for the node: Ignore the rest of the process.
     if (!nexteuropa_varnish_node_has_rules($node)) {
       return;
     }
 
-     $url_locale = language_negotiation_get('language', 'locale-url');
+    $url_locale = language_negotiation_get('language', 'locale-url');
     $url_suffix = language_negotiation_get('language', 'nexteuropa_multilingual_url_suffix');
     // Add logic to send a language prefix/suffix regex for non aliased paths.
     if ($url_locale) {
@@ -311,14 +311,14 @@ function nexteuropa_varnish_path_delete($path) {
       $lgregex = '';
     }
 
-     // Escaped alias.
+    // Escaped alias.
     // Example content\/my\-page.
     $escaped_alias = preg_quote($path['alias'], '/');
     // Add regex prefix or suffix if needed.
     $paths['alias_prefix'] = $url_suffix ? $escaped_alias . $lgregex : $lgregex . $escaped_alias;
     $paths['alias'] = $escaped_alias;
 
-     if (!empty($paths)) {
+    if (!empty($paths)) {
       // Removing duplicates and all entries of the array equal to FALSE.
       $paths = array_unique($paths);
       $paths = array_filter($paths);
