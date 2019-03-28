@@ -12,11 +12,11 @@ use Drupal\tmgmt_poetry\Notification as BaseNotification;
 class Notification extends BaseNotification {
 
   /**
-   * Name of the translator that handles this notification.
+   * List of translators that handle this notification.
    *
-   * @var string
+   * @var array
    */
-  protected $translatorName = TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME;
+  protected $acceptedTranslators = array(TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME);
 
   /**
    * Replace job id in received content.

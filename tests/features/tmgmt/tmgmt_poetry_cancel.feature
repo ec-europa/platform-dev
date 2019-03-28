@@ -19,7 +19,7 @@ Feature: TMGMT Poetry features
   Scenario: Cancel main language in translation request
     Given I am viewing a multilingual "page" content:
       | language | title            | body                    |
-      | en       | Title            | Last change column test |
+      | en       | Nice title            | Last change column test |
     And I click "Translate" in the "primary_tabs" region
     Then I should not see "Request addition of new languages"
 
@@ -43,13 +43,19 @@ Feature: TMGMT Poetry features
     And I click "Check the translation page"
     And I click "Needs review" in the "Portuguese, Portugal" row
     And I press "Save as completed"
-    Then I should see "[PT-PT] Title" in the "Portuguese, Portugal" row
+    Then I should see "[PT-PT] Nice title" in the "Portuguese, Portugal" row
+
+    # Check job items
+    When I go to "admin/tmgmt/recent-changes"
+    And I click "View" in the "DGT update received. Affected language: fr. Request status: Canceled." row
+    Then I should see "Aborted" in the "French" row
+    Then I should see "Accepted" in the "Portuguese, Portugal" row
 
   @theme_wip
   Scenario: Cancel secondary language in translation request
     Given I am viewing a multilingual "page" content:
       | language | title            | body                    |
-      | en       | Title            | Last change column test |
+      | en       | Nice title            | Last change column test |
     And I click "Translate" in the "primary_tabs" region
     Then I should not see "Request addition of new languages"
 
@@ -73,4 +79,10 @@ Feature: TMGMT Poetry features
     And I click "Check the translation page"
     And I click "Needs review" in the "French" row
     And I press "Save as completed"
-    Then I should see "[FR] Title" in the "French" row
+    Then I should see "[FR] Nice title" in the "French" row
+
+    # Check job items
+    When I go to "admin/tmgmt/recent-changes"
+    And I click "View" in the "Nice title" row
+    Then I should see "Accepted" in the "French" row
+    Then I should see "Aborted" in the "Portuguese, Portugal" row

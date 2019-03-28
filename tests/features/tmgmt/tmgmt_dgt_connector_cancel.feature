@@ -195,3 +195,9 @@ Feature: TMGMT Poetry Client features including language canceled
     And I press "Save as completed"
     Then I should see "None" in the "French" row
     And I should see "My page 1 FR" in the "French" row
+
+    # Check job items
+    When I go to "admin/tmgmt/recent-changes"
+    And I click "View" in the "Short body and 1 more" row
+    Then I should see "Accepted" in the "French" row
+    Then I should see "Aborted" in the "Portuguese, Portugal" row
