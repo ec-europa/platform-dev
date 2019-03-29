@@ -82,8 +82,8 @@ Steps:
     This can be disabled in case the "custom" parameter needs to be replaced by
     static data when the fields File and External link are not visible for the
     user (See permissions below).
-    - File is a file upload field, allowing users to upload the JavaScript file
-    to this block.
+    - ~~File is a file upload field, allowing users to upload the JavaScript file to this block.~~
+    <br>**Note: Upload of Javascript files is no longer allowed. See ticket [NEPT-1234](https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1234).**
     - External link allows user to use an external JavaScript file.
 - Click on 'Save'
 - You are automatically redirected to the result
