@@ -41,6 +41,8 @@ function multi_user_blog_install() {
   multisite_config_service('comment')->setPreviewCommentForContentType('blog_post', 1);
   // Use soft config to set number of comments per page.
   multisite_config_service('comment')->setNumberCommentForContentType('blog_post', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('blog_post', 2);
 
   $cem_permissions = array(
     'view rate results page',
