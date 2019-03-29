@@ -151,7 +151,6 @@ features[image][] = landscape
 features[node][] = nexteuropa_mediagallery
 features[variable][] = additional_settings__active_tab_nexteuropa_mediagallery
 features[variable][] = autosave_nexteuropa_mediagallery
-features[variable][] = comment_anonymous_nexteuropa_mediagallery
 features[variable][] = diff_enable_revisions_page_node_nexteuropa_mediagallery
 features[variable][] = diff_show_preview_changes_node_nexteuropa_mediagallery
 features[variable][] = diff_view_mode_preview_node_nexteuropa_mediagallery

@@ -61,6 +61,8 @@ function nexteuropa_mediagallery_install() {
   multisite_config_service('comment')->setPreviewCommentForContentType('nexteuropa_mediagallery', 0);
   // Use soft config to set number of comments per page.
   multisite_config_service('comment')->setNumberCommentForContentType('nexteuropa_mediagallery', '10');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('nexteuropa_mediagallery', 0);
 }
 
 /**
