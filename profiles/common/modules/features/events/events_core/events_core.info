@@ -29,7 +29,6 @@ features[user_permission][] = delete any event content
 features[user_permission][] = delete own event content
 features[user_permission][] = edit any event content
 features[user_permission][] = edit own event content
-features[variable][] = comment_anonymous_event
 features[variable][] = enable_revisions_page_event
 features[variable][] = field_bundle_settings_node__event
 features[variable][] = language_content_type_event
