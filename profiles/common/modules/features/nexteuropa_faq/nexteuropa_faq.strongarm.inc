@@ -14,13 +14,6 @@ function nexteuropa_faq_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_anonymous_nexteuropa_faq';
-  $strongarm->value = '0';
-  $export['comment_anonymous_nexteuropa_faq'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__nexteuropa_faq';
   $strongarm->value = array(
     'view_modes' => array(),
