@@ -20,7 +20,6 @@ features[user_permission][] = delete any links content
 features[user_permission][] = delete own links content
 features[user_permission][] = edit any links content
 features[user_permission][] = edit own links content
-features[variable][] = comment_anonymous_links
 features[variable][] = enable_revisions_page_links
 features[variable][] = field_bundle_settings_node__links
 features[variable][] = language_content_type_links

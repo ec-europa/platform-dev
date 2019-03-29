@@ -36,6 +36,8 @@ function links_core_install() {
   multisite_config_service('comment')->setPreviewCommentForContentType('links', 1);
   // Use soft config to set number of comments per page.
   multisite_config_service('comment')->setNumberCommentForContentType('links', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('links', 0);
 
 }
 
