@@ -59,6 +59,8 @@ function e_library_core_install() {
   multisite_config_service('comment')->setPreviewCommentForContentType('document', 1);
   // Use soft config to set number of comments per page.
   multisite_config_service('comment')->setNumberCommentForContentType('document', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('document', 0);
 
 }
 

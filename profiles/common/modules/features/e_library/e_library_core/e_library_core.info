@@ -32,7 +32,6 @@ features[user_permission][] = delete any document content
 features[user_permission][] = delete own document content
 features[user_permission][] = edit any document content
 features[user_permission][] = edit own document content
-features[variable][] = comment_anonymous_document
 features[variable][] = field_bundle_settings_node__document
 features[variable][] = language_content_type_document
 features[variable][] = media_node__mimetype_document
