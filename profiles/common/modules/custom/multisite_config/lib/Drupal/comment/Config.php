@@ -161,4 +161,49 @@ class Config extends ConfigBase {
     variable_set('comment_anonymous_' . $content_type, $value);
   }
 
+  /**
+   * Create the field base definition of the 'comment_body'.
+   *
+   * If the field base already exist, it returns directly the field base info.
+   *
+   * @return array
+   *   The $field array with field base info.
+   */
+  public function createCommentBodyField() {
+    if ($field = field_info_field('comment_body')) {
+      return $field;
+    }
+
+    // Exported field_base: 'comment_body'.
+    $comment_body_field_base = array(
+      'active' => 1,
+      'cardinality' => 1,
+      'deleted' => 0,
+      'entity_types' => array(
+        0 => 'comment',
+      ),
+      'field_name' => 'comment_body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => 1,
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => 0,
+      'type' => 'text_long',
+    );
+
+    return field_create_field($comment_body_field_base);
+  }
+
 }

@@ -468,6 +468,9 @@ function cce_basic_config_install() {
   // Use soft config for anonymous comments in article.
   multisite_config_service('comment')->setAnonymousCommentForContentType('article', 0);
 
+  // Use soft config for comment_body field base.
+  multisite_config_service('comment')->createCommentBodyField();
+
 }
 
 /**
