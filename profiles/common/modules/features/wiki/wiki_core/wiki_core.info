@@ -27,7 +27,6 @@ features[user_permission][] = delete own wiki content
 features[user_permission][] = edit any wiki content
 features[user_permission][] = edit own wiki content
 features[user_permission][] = use text format wiki
-features[variable][] = comment_anonymous_wiki
 features[variable][] = enable_revisions_page_wiki
 features[variable][] = field_bundle_settings_node__wiki
 features[variable][] = language_content_type_wiki
