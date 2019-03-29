@@ -21,7 +21,6 @@ features[user_permission][] = manage feature links_standard
 features[user_permission][] = manage feature multi_user_blog
 features[user_permission][] = manage feature multilingual_tools
 features[user_permission][] = manage feature multisite_activity_standard
-features[user_permission][] = manage feature multisite_audio
 features[user_permission][] = manage feature multisite_business_indicators_standard
 features[user_permission][] = manage feature multisite_maxlength
 features[user_permission][] = manage feature multisite_mediagallery_standard
