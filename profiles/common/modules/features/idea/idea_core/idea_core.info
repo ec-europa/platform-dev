@@ -30,7 +30,6 @@ features[user_permission][] = delete any idea content
 features[user_permission][] = delete own idea content
 features[user_permission][] = edit any idea content
 features[user_permission][] = edit own idea content
-features[variable][] = comment_anonymous_idea
 features[variable][] = enable_revisions_page_idea
 features[variable][] = field_bundle_settings_node__idea
 features[variable][] = language_content_type_idea
