@@ -25,7 +25,6 @@ features[user_permission][] = delete own webform content
 features[user_permission][] = delete own webform submissions
 features[user_permission][] = edit own webform content
 features[user_permission][] = edit own webform submissions
-features[variable][] = comment_anonymous_webform
 features[variable][] = field_bundle_settings_node__webform
 features[variable][] = language_content_type_webform
 features[variable][] = menu_options_webform

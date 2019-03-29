@@ -21,6 +21,8 @@ function nexteuropa_news_install() {
   multisite_config_service('comment')->setPreviewCommentForContentType('nexteuropa_news', 1);
   // Use soft config to set number of comments per page.
   multisite_config_service('comment')->setNumberCommentForContentType('nexteuropa_news', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('nexteuropa_news', 0);
 }
 
 /**
