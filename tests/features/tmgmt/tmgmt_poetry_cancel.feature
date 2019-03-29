@@ -47,7 +47,7 @@ Feature: TMGMT Poetry features
 
     # Check job items
     When I go to "admin/tmgmt/recent-changes"
-    And I click "View" in the "DGT update received. Affected language: fr. Request status: Canceled." row
+    And I click "View" in the "Nice title [fr] Main Job" row
     Then I should see "Aborted" in the "French" row
     Then I should see "Accepted" in the "Portuguese, Portugal" row
 

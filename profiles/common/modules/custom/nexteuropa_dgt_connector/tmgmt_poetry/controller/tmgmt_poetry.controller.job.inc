@@ -43,6 +43,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     $origin_job_items = $origin_job->getItems();
 
     if ($origin_job->reference === NULL && isset($origin_job->settings['languages']) && $origin_job->hasPoetryTranslator()) {
+      $origin_job->label = $origin_job->label . ' [' . $origin_job->target_language . '] Main Job';
       $origin_job->reference = 'MAIN_' . $origin_job->tjid;
       $origin_job_item = array_shift($origin_job_items);
       if (empty($origin_job_item)) {
@@ -50,13 +51,12 @@ class TMGMTPoetryJobController extends TMGMTJobController {
         drupal_goto('admin/tmgmt');
         return;
       }
-      _tmgmt_poetry_insert_item_status($origin_job_item->tjiid, $origin_job->target_language, "Pending", date('d/m/Y', strtotime($origin_job->settings['delai'])));
+      _tmgmt_poetry_insert_item_status($origin_job_item->tjiid, $origin_job->target_language, 'Pending', date('d/m/Y', strtotime($origin_job->settings['delai'])));
     }
 
     if ((count($origin_job_items) > 0) && isset($origin_job->settings['languages']) && $origin_job->hasPoetryTranslator()) {
 
       $origin_job_item = array_shift($origin_job_items);
-      $languages = language_list('language');
       $requested_languages = $origin_job->settings['languages'];
       foreach ($requested_languages as $key_requested_language => $requested_language) {
         if ($key_requested_language != $origin_job->target_language) {
@@ -66,6 +66,13 @@ class TMGMTPoetryJobController extends TMGMTJobController {
             continue;
           }
 
+          // New job label, also used to verify is it's really a new job.
+          $job_new_label = preg_replace(
+            '/ \[(.*)\] Main Job$/',
+            ' [' . $requested_language . ']',
+            $origin_job->label
+          );
+
           // Check if job is already created
           // and in that case don't create it again, just update it.
           // The update is useful for #card .
@@ -74,11 +81,11 @@ class TMGMTPoetryJobController extends TMGMTJobController {
             $row = $result->fetchAssoc();
             $job = tmgmt_job_load($row['tjid']);
             // Check if it really needs to be processed.
-            if ($job->label === $origin_job->label . ' ' . $languages[$requested_language]->name) {
+            if ($job->label === $job_new_label) {
               continue;
             }
             $job->translator = $origin_job->translator;
-            $job->label = $origin_job->label . ' ' . $languages[$requested_language]->name;
+            $job->label = $job_new_label;
             $job->save();
 
             $job_item = tmgmt_job_item_load($row['tjiid']);
@@ -87,7 +94,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
             $job = tmgmt_job_create($origin_job->source_language, $requested_language, $origin_job->uid);
             $job->translator = $origin_job->translator;
             $job->reference = 'SUB_' . $origin_job->tjid;
-            $job->label = $origin_job->label . ' ' . $languages[$requested_language]->name;
+            $job->label = $job_new_label;
             $job->save();
 
             $job_item = tmgmt_job_item_create($origin_job_item->plugin, $origin_job_item->item_type, $origin_job_item->item_id);

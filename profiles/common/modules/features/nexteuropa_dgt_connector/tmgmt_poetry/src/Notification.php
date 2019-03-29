@@ -71,10 +71,9 @@ class Notification {
       }
       $status_message = (string) constant('TMGMT_POETRY_STATUS_MSG_' . $demand_status->getCode());
 
-      $this->mainJob->addMessage(
-        t("DGT update received. Request status: @status. Message: @message"), [
-          '@status' => $status_message,
-          '@message' => $demand_status->getMessage(),
+      $this->mainJob->addMessage(t("DGT update received. Request status: @status. Message: @message"), [
+        '@status' => $status_message,
+        '@message' => $demand_status->getMessage(),
       ]);
 
       if (_tmgmt_poetry_is_mapped_job_status_aborted($demand_status->getCode())) {
@@ -300,8 +299,8 @@ class Notification {
   protected function verifyFormatError($format, \TMGMTJob $job) {
     if (empty($format) || strpos($job->getSetting('export_format'), drupal_strtolower((string) $format) === FALSE)) {
       throw new \Exception(t('Job format "@format" not compatible, format "@job_format" should be used.', [
-          '@format' => (string) $format,
-          '@job_format' => $job->getSetting('export_format'),
+        '@format' => (string) $format,
+        '@job_format' => $job->getSetting('export_format'),
       ]));
     }
   }

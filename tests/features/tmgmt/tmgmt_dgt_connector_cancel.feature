@@ -169,7 +169,6 @@ Feature: TMGMT DGT Connector features including language canceled
     </POETRY>
     """
     And I reload the page
-    And I reload the page
     Then I should see "None" in the "Spanish" row
     When Poetry notifies the client with the following XML:
     """
@@ -198,6 +197,6 @@ Feature: TMGMT DGT Connector features including language canceled
 
     # Check job items
     When I go to "admin/tmgmt/recent-changes"
-    And I click "View" in the "My page 1 and 1 more" row
+    And I click "View" in the "My page 1 and 1 more [fr] Main Job" row
     Then I should see "Accepted" in the "French" row
-    Then I should see "Aborted" in the "Portuguese, Portugal" row
+    Then I should see "Aborted" in the "Spanish" row
