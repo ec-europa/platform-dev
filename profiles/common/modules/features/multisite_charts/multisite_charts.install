@@ -33,6 +33,8 @@ function multisite_charts_install() {
   multisite_config_service('comment')->setPreviewCommentForContentType('chart', 0);
   // Use soft config to set number of comments per page.
   multisite_config_service('comment')->setNumberCommentForContentType('chart', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('chart', 0);
 
 }
 
