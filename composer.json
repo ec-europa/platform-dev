@@ -3,7 +3,7 @@
     "php": ">=5.4.0",
     "drupal/phingdrushtask": "^1.1",
     "drupol/phingbehattask": "^1.0",
-    "drush/drush": "8.2.1",
+    "drush/drush": "8.2.2",
     "ec-europa/qa-automation": "^3.0",
     "ext-json": "*",
     "ext-phar": "*",
