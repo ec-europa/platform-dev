@@ -217,8 +217,11 @@ phpcs.global.config = ${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSn
 # The directory where phpcs can be found.
 toolkit.dir.bin = ${project.basedir}/bin
 
-# The directory to search for modules and themes to review.
+# The directory to search for modules to review.
 lib.dir = ${project.basedir}/profiles
+
+# The directory to search themes to review.
+theme.dir = ${project.basedir}/profiles/${profile}
 
 # The directory where the make files are stored.
 resources.dir = ${project.basedir}/resources
