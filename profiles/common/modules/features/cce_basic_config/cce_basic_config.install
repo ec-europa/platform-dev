@@ -470,6 +470,8 @@ function cce_basic_config_install() {
 
   // Use soft config for comment_body field base.
   multisite_config_service('comment')->createCommentBodyField();
+  // Use soft config for comment_body field instance.
+  _cce_basic_config_comment_body_field_instance_add();
 
 }
 

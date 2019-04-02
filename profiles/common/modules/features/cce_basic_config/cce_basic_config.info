@@ -74,7 +74,6 @@ features[field_base][] = field_video
 features[field_base][] = field_video_description
 features[field_group][] = group_article_content|node|article|form
 features[field_group][] = group_article_metadata|node|article|form
-features[field_instance][] = comment-comment_node_article-comment_body
 features[field_instance][] = file-image-field_caption
 features[field_instance][] = file-video-field_tags
 features[field_instance][] = file-video-field_video_description
