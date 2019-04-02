@@ -5,6 +5,8 @@
  * Install the feature news.
  */
 
+module_load_include('inc', 'news_core', 'news_core.install');
+
 /**
  * Implements hook_enable().
  *
@@ -40,6 +42,9 @@ function news_core_install() {
   multisite_config_service('comment')->setNumberCommentForContentType('news', '50');
   // Use soft config for anonymous comments.
   multisite_config_service('comment')->setAnonymousCommentForContentType('news', 0);
+
+  // Use soft config for comment_body field instance.
+  _news_core_comment_body_field_instance_add();
 
 }
 

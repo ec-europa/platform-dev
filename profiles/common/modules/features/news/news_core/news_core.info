@@ -16,7 +16,6 @@ features[field_base][] = field_top_news
 features[field_group][] = group_news_content|node|news|form
 features[field_group][] = group_news_date|node|news|form
 features[field_group][] = group_news_metadata|node|news|form
-features[field_instance][] = comment-comment_node_news-comment_body
 features[field_instance][] = node-news-body
 features[field_instance][] = node-news-field_link
 features[field_instance][] = node-news-field_news_publication_date
