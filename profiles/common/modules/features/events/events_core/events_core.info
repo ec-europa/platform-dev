@@ -18,7 +18,6 @@ features[field_base][] = field_location
 features[field_group][] = group_event_content|node|event|form
 features[field_group][] = group_event_date|node|event|form
 features[field_group][] = group_event_metadata|node|event|form
-features[field_instance][] = comment-comment_node_event-comment_body
 features[field_instance][] = node-event-body
 features[field_instance][] = node-event-field_event_date
 features[field_instance][] = node-event-field_location

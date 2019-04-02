@@ -5,6 +5,8 @@
  * Install the feature events.
  */
 
+module_load_include('inc', 'events_core', 'events_core.install');
+
 /**
  * Add block to the context.
  */
@@ -40,6 +42,9 @@ function events_core_install() {
   multisite_config_service('comment')->setNumberCommentForContentType('event', '50');
   // Use soft config for anonymous comments.
   multisite_config_service('comment')->setAnonymousCommentForContentType('event', 0);
+
+  // Use soft config for comment_body field instance.
+  _events_core_comment_body_field_instance_add();
 
 }
 
