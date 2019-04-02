@@ -5,6 +5,8 @@
  * Install the feature links.
  */
 
+module_load_include('inc', 'links_core', 'links_core.install');
+
 /**
  * Implements hook_enable().
  *
@@ -38,6 +40,9 @@ function links_core_install() {
   multisite_config_service('comment')->setNumberCommentForContentType('links', '50');
   // Use soft config for anonymous comments.
   multisite_config_service('comment')->setAnonymousCommentForContentType('links', 0);
+
+  // Use soft config for comment_body field instance.
+  _links_core_comment_body_field_instance_add();
 
 }
 

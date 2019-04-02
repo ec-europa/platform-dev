@@ -11,7 +11,6 @@ features[features_api][] = api:2
 features[field_base][] = field_link
 features[field_group][] = group_links_content|node|links|form
 features[field_group][] = group_links_metadata|node|links|form
-features[field_instance][] = comment-comment_node_links-comment_body
 features[field_instance][] = node-links-field_link
 features[field_instance][] = node-links-field_tags
 features[node][] = links
