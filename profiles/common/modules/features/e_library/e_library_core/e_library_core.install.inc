@@ -73,9 +73,3 @@ function _e_library_core_comment_body_field_instance_add() {
 
   field_create_instance($field_instances['comment-comment_node_document-comment_body']);
 }
-
-
-
-
-  
-
