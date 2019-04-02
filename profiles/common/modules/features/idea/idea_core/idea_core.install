@@ -5,6 +5,8 @@
  * Install the feature idea.
  */
 
+module_load_include('inc', 'idea_core', 'idea_core.install');
+
 /**
  * Implements hook_install().
  */
@@ -108,6 +110,9 @@ function idea_core_install() {
   multisite_config_service('comment')->setNumberCommentForContentType('idea', '50');
   // Use soft config for anonymous comments.
   multisite_config_service('comment')->setAnonymousCommentForContentType('idea', 0);
+
+  // Use soft config for comment_body field instance.
+  _idea_core_comment_body_field_instance_add();
 
   $cem_permissions = array(
     'view rate results page',
