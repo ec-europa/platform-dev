@@ -14,7 +14,6 @@ features[features_api][] = api:2
 features[field_base][] = field_faq_categories
 features[field_group][] = group_faq_content|node|f_a_q|form
 features[field_group][] = group_faq_metadata|node|f_a_q|form
-features[field_instance][] = comment-comment_node_f_a_q-comment_body
 features[field_instance][] = node-f_a_q-body
 features[field_instance][] = node-f_a_q-field_faq_categories
 features[field_instance][] = node-f_a_q-field_tags
