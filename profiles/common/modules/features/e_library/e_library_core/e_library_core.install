@@ -5,7 +5,7 @@
  * Install the feature e_library.
  */
 
-module_load_include('inc', 'e_library', 'e_library.install');
+module_load_include('inc', 'e_library_core', 'e_library_core.install');
 
 /**
  * Implements hook_enable().
