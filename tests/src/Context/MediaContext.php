@@ -108,4 +108,62 @@ class MediaContext implements Context {
     }
   }
 
+  /**
+   * Add a field group in the content type view and assign fields as children.
+   *
+   * @param string $arg1
+   *   The text in the tab to click.
+   * @param string $arg2
+   *   The tab  with id .
+   *
+   * @When I click the :arg1 in :arg2 tab
+   */
+  public function iClickTheInTab($arg1, $arg2) {
+    $element = $this->mink->getSession()->getPage()->findById($arg2);
+    if (empty($element)) {
+      throw new \Exception(sprintf('No tab element found for id (%s)', $arg1));
+    }
+    $element = $element->findLink($arg1);
+    if (empty($element)) {
+      throw new \Exception(sprintf('No link element found for the text (%s)', $arg1));
+    }
+    $element->click();
+  }
+
+  /**
+   * Submit the form with id.
+   *
+   * @param string $arg1
+   *   Id of the form to submit.
+   *
+   * @Then I submit :arg1 id form
+   */
+  public function iSubmitIdForm($arg1) {
+    $element = $this->mink->getSession()->getPage()->findById('media-internet-add-upload');
+    if (empty($element)) {
+      throw new \Exception(sprintf('No form with id (%s) found', $arg1));
+    }
+    $element->submit();
+  }
+
+  /**
+   * Check the text of a field.
+   *
+   * @param string $arg1
+   *   Id of the field to check.
+   * @param string $arg2
+   *   Text to find on the field.
+   *
+   * @Then the field :arg1 is filled with :arg2
+   */
+  public function theFieldIsFilledWith($arg1, $arg2) {
+    $page = $this->mink->getSession()->getPage()->findField($arg1);
+    if (empty($page)) {
+      throw new \Exception(sprintf('No field found for id (%s)', $arg1));
+    }
+    if ($arg2 != $page->getValue()) {
+      throw new \Exception(sprintf('No match found for the text (%s)', $arg2));
+    }
+  }
+
 }

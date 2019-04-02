@@ -1,4 +1,4 @@
-@api @javascript @wip
+@api @javascript
 Feature: Embedded videos
   In order to make my website more attractive
   As a contributor
@@ -8,4 +8,28 @@ Feature: Embedded videos
     Given the module is enabled
       | modules           |
       | ec_embedded_video |
-    And I am logged in as a user with the 'contributor' role
+    And I am logged in as a user with the 'administrator' role
+
+  Scenario Outline: Embed youtube video via media web tab
+    When I go to "node/add/page"
+    And I fill in "Title" with "Add media video"
+    And I click "Add media"
+    Then The media browser opens
+    And I click the "Web" in "media-tabs-wrapper" tab
+    And I fill in "File URL or media resource" with "<url>"
+    And I submit "media-internet-add-upload" id form
+    Then I should see "Video Description"
+    And the field "edit-filename-field-en-0-value" is filled with "<title>"
+    And I fill in "Video Description" with "text"
+    And I press "Save"
+    Then The media browser closes
+    And I press "Save"
+    Then I should see "View draft"
+    #Then I should see the video with a banner "Please accept youtube cookies to play this video."
+
+    Examples:
+      | provider    | title                                            | url                                                                      |
+      | youtube     | Interview with Dries Buytaert, founder of Drupal | https://www.youtube.com/watch?v=i8AENFzUTHk                              |
+      | dailymotion | x4gj1bp                                          | http://www.dailymotion.com/video/x4gj1bp                                 |
+      | Vimeo       | A successful build in Jenkins                    | https://vimeo.com/129687265                                              |
+      | AV portal   | STOCKSHOTS                                       | https://ec.europa.eu/avservices/video/player.cfm?sitelang=en&ref=I143092 |
