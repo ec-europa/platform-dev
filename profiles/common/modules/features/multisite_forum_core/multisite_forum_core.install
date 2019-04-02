@@ -7,6 +7,8 @@
  * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
  */
 
+module_load_include('inc', 'multisite_forum_core', 'multisite_forum_core.install');
+
 /**
  * Implements hook_enable().
  */
@@ -41,6 +43,9 @@ function multisite_forum_core_install() {
   multisite_config_service('comment')->setNumberCommentForContentType('discussion', '50');
   // Use soft config for anonymous comments.
   multisite_config_service('comment')->setAnonymousCommentForContentType('discussion', 0);
+
+  // Use soft config for comment_body field instance.
+  _multisite_forum_core_comment_body_field_instance_add();
 
 }
 

@@ -10,7 +10,6 @@ features[features_api][] = api:2
 features[field_base][] = taxonomy_forums
 features[field_group][] = group_discussion_content|node|discussion|form
 features[field_group][] = group_discussion_metadata|node|discussion|form
-features[field_instance][] = comment-comment_node_discussion-comment_body
 features[field_instance][] = node-discussion-body
 features[field_instance][] = node-discussion-field_tags
 features[field_instance][] = node-discussion-taxonomy_forums
