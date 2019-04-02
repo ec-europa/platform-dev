@@ -573,11 +573,23 @@ function _nexteuropa_varnish_get_node_paths($node) {
       $languages = language_list();
       $alias = drupal_get_path_alias($original_path, $lang_code);
       $original_alias = $alias;
-      $altered_options = $options + array('language' => $languages[$lang_code]) + array('external' => FALSE);
 
-      // Add the suffix/prefix depending negociation setup.
-      drupal_alter('url_outbound', $alias, $altered_options, $original_path);
-      $paths[$lang_code] = preg_quote($alias, '/');
+      // Language is undefined, the content will show on all languages.
+      if ('und' == $lang_code) {
+        foreach ($languages as $code => $data) {
+          $altered_options = $options + array('language' => $languages[$code]) + array('external' => FALSE);
+          // Add the suffix/prefix depending negociation setup.
+          drupal_alter('url_outbound', $alias, $altered_options, $original_path);
+          $paths[$code] = preg_quote($alias, '/');
+        }
+      }
+      else {
+        $altered_options = $options + array('language' => $languages[$lang_code]) + array('external' => FALSE);
+
+        // Add the suffix/prefix depending negociation setup.
+        drupal_alter('url_outbound', $alias, $altered_options, $original_path);
+        $paths[$lang_code] = preg_quote($alias, '/');
+      }
     }
     // Get the node\/nid.
     $paths['unaliased'] = preg_quote($original_path, '/');
