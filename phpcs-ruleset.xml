@@ -43,8 +43,6 @@
     <!-- Views handlers/plugins not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/includes/views_handler_*.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_core/plugins/*.inc</exclude-pattern>
         <exclude-pattern>profiles/*/modules/**/views/*.inc</exclude-pattern>
     </rule>
 
@@ -103,7 +101,6 @@
     <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
         <exclude-pattern>*/views_handler*</exclude-pattern>
         <exclude-pattern>*/views_handler*</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_core/plugins/multisite_business_indicators_core_views_plugin_style_chart.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_connector/tmgmt_dgt_connector_cart/src/ViewsHandler/*</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/multisite_twitterblock_reaction.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/tmgmt_workbench/includes/tmgmt_workbench.ui.inc</exclude-pattern>
