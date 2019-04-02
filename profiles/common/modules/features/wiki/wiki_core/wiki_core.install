@@ -5,6 +5,8 @@
  * Wiki installation file.
  */
 
+module_load_include('inc', 'wiki_core', 'wiki_core.install');
+
 /**
  * Implements hook_enable().
  */
@@ -40,6 +42,9 @@ function wiki_core_install() {
   multisite_config_service('comment')->setNumberCommentForContentType('wiki', '50');
   // Use soft config for anonymous comments.
   multisite_config_service('comment')->setAnonymousCommentForContentType('wiki', 0);
+
+  // Use soft config for comment_body field instance.
+  _wiki_core_comment_body_field_instance_add();
 }
 
 /**

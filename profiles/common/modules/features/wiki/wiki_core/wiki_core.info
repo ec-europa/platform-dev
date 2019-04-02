@@ -16,7 +16,6 @@ features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[field_group][] = group_wiki_content|node|wiki|form
 features[field_group][] = group_wiki_metadata|node|wiki|form
-features[field_instance][] = comment-comment_node_wiki-comment_body
 features[field_instance][] = node-wiki-body
 features[field_instance][] = node-wiki-field_tags
 features[filter][] = wiki
