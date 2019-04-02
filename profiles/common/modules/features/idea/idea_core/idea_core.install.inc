@@ -11,7 +11,7 @@
  * It allows "soft" configuring the default settings of the field instance.
  */
 function _idea_core_comment_body_field_instance_add() {
-    // Exported field_instance: 'comment-comment_node_idea-comment_body'.
+  // Exported field_instance: 'comment-comment_node_idea-comment_body'.
   $field_instances['comment-comment_node_idea-comment_body'] = array(
     'bundle' => 'comment_node_idea',
     'default_value' => NULL,
