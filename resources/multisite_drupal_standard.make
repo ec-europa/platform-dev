@@ -856,6 +856,11 @@ projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/n
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.2"
+; Break and li tags in a single cell instead of multiple in excell export.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2379
+; https://www.drupal.org/project/views_data_export/issues/2400129
+projects[views_data_export][patch][] = https://www.drupal.org/files/issues/2019-04-02/break-and-li-tags-single-cell-2400129-8.patch
+
 
 projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
