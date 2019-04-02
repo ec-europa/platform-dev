@@ -78,12 +78,16 @@ Steps:
     js group.Any changes to this parameter will be ignored and removed when
     saving the block.
 - Provide settings for the Custom js group:
-    - Included indicates if the "custom" parameter should be added to the JSON Object.
+    - Included indicates if the "custom" parameter should be added to the JSON
+Object.
     This can be disabled in case the "custom" parameter needs to be replaced by
     static data when the fields File and External link are not visible for the
     user (See permissions below).
-    - ~~File is a file upload field, allowing users to upload the JavaScript file to this block.~~
-    <br>**Note: Upload of Javascript files is no longer allowed. See ticket [NEPT-1234](https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1234).**
+    - ~~File is a file upload field, allowing users to upload the JavaScript file
+to this block.~~
+    <br>**Note: Upload of Javascript files will in the future be managed by the
+asset manager. See ticket [NEPT-1234](https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1234).**
+    The documentation will be updated once the new solution is in place.
     - External link allows user to use an external JavaScript file.
 - Click on 'Save'
 - You are automatically redirected to the result
