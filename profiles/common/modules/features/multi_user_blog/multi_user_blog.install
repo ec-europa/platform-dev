@@ -5,6 +5,8 @@
  * Multi_user install file.
  */
 
+module_load_include('inc', 'multi_user_blog', 'multi_user_blog.install');
+
 /**
  * Implements hook_disable().
  */
@@ -43,6 +45,9 @@ function multi_user_blog_install() {
   multisite_config_service('comment')->setNumberCommentForContentType('blog_post', '50');
   // Use soft config for anonymous comments.
   multisite_config_service('comment')->setAnonymousCommentForContentType('blog_post', 2);
+
+  // Use soft config for comment_body field instance.
+  _multi_user_blog_comment_body_field_instance_add();
 
   $cem_permissions = array(
     'view rate results page',

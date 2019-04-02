@@ -14,7 +14,6 @@ features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[field_group][] = group_blog_post_content|node|blog_post|form
 features[field_group][] = group_blog_post_metadata|node|blog_post|form
-features[field_instance][] = comment-comment_node_blog_post-comment_body
 features[field_instance][] = node-blog_post-body
 features[field_instance][] = node-blog_post-field_tags
 features[node][] = blog_post
