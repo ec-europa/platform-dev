@@ -647,6 +647,9 @@ projects[redirect][subdir] = "contrib"
 ; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
 projects[redirect][download][branch] = 7.x-1.x
 projects[redirect][download][revision] = add3c695f613fbeec23b7259e59936f60a6b6da6
+; Target URL modified when implementing redirection using Redirect module
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2399
+projects[redirect][patch][] = patches/target-modified-implementing-redirection.patch
 ; Increase size of source field to hold long URLs
 ; https://www.drupal.org/project/redirect/issues/2057615
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1943
