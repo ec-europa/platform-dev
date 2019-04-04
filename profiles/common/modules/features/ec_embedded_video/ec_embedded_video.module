@@ -91,13 +91,6 @@ function _ec_embedded_video_preprocess_media_vimeo_video(&$variables) {
  * Preprocess function for media_avportal_video.
  */
 function _ec_embedded_video_preprocess_media_avportal_video(&$variables) {
-  $query = array(
-    'ref' => $variables['video_id'],
-    'starttime' => 0,
-    'endtime' => 0,
-  );
-  $variables['url'] = url('//ec.europa.eu/avservices/play.cfm', array('query' => $query, 'external' => TRUE));
-
   // Don't use cookie compliant for avportal video.
   $variables['ec_embedded_video_url'] = $variables['url'];
 }
@@ -146,4 +139,13 @@ function _ec_embedded_video_preprocess_ec_embedded_video_video(&$variables) {
  */
 function ec_embedded_video_preprocess_common_file_video(&$variables) {
   $variables['no_wrapper'] = isset($variables['options']['no_wrapper']) ?:FALSE;
+}
+
+/**
+ * Implements hook_csp_list_alter().
+ */
+function ec_embedded_video_csp_list_alter(&$domains) {
+  // Allow youtube, dailymotion and vimeo domains. AV Portal is default.
+  $extra_domains = array('*.youtube.com', '*.vimeo.com', '*.dailymotion.com');
+  $domains = array_merge($extra_domains, $domains);
 }

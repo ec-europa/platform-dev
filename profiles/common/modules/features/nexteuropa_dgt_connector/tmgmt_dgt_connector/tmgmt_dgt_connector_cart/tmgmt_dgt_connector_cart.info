@@ -1,0 +1,8 @@
+name = TMGMT DGT connector Cart
+description = Custom cart functionality for small jobs.
+package = Translation Management
+core = 7.x
+dependencies[] = tmgmt_dgt_connector
+dependencies[] = registry_autoload
+dependencies[] = views
+registry_autoload[] = PSR-4

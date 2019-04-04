@@ -28,6 +28,7 @@ function survey_core_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
+      'cem' => 'cem',
     ),
     'module' => 'webform',
   );
@@ -39,6 +40,7 @@ function survey_core_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
+      'cem' => 'cem',
     ),
     'module' => 'webform',
   );
@@ -50,6 +52,7 @@ function survey_core_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
+      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -61,6 +64,7 @@ function survey_core_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
+      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -82,6 +86,7 @@ function survey_core_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
+      'cem' => 'cem',
     ),
     'module' => 'node',
   );

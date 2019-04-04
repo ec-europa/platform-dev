@@ -3,13 +3,24 @@
  * Scripts for TMGMT Poetry module.
  */
 
-(function($) {
-
-  /**
-   * Small script for making Translator select field disabled on /admin/tmgmt/jobs/% path.
-   */
+(function ($) {
   Drupal.behaviors.tmgmtPoetryDisableTranslator = {
     attach: function (context, settings) {
+      /**
+       * Prevent users from leaving the page without selecting one option.
+       */
+      $(document).ready(function () {
+        window.needToConfirm = true;
+      });
+      $(window).on('beforeunload', function () {
+        if (window.needToConfirm) {
+          return "Please send or delete the job before leaving the page";
+        }
+      });
+
+      /**
+       * Small script for making Translator select field disabled on /admin/tmgmt/jobs/% path.
+       */
       if ($("#edit-translator").val() === "poetry" || $("#edit-translator").val() === "tmgmt_poetry_test_translator") {
         $("#edit-translator").attr('disabled', 'disabled');
         $("#edit-translator").parent().addClass("form-disabled");

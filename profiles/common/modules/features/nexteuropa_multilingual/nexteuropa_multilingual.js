@@ -3,7 +3,7 @@
  * Javascript functionality for the NextEuropa Multilingual feature.
  */
 
-(function($){
+(function ($) {
   Drupal.behaviors.nexteuropa_multilingual = {
     attach: function (context, settings) {
 
@@ -18,13 +18,13 @@
        * Add second preferred language to every link.
        */
       function addSecondLanguage(paramName, paramValue) {
-        $('a[href]').each(function() {
+        $('a[href]').each(function () {
           if (!getParameter(paramName, this.href) && isCurrentDomain(this.href)) {
             var sep = (this.href.indexOf('?') != -1) ? '&' : '?';
              $(this).attr('href', this.href + sep + paramName + '=' + paramValue);
           }
         });
-        $('form').each(function() {
+        $('form').each(function () {
           if (!getParameter(paramName, this.action) && isCurrentDomain(this.action)) {
             var sep = (this.action.indexOf('?') != -1) ? '&' : '?';
             $(this).attr('action', this.action + sep + paramName + '=' + paramValue);

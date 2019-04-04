@@ -21,11 +21,27 @@
             <!-- Setup default theme. -->
             <param>cce_basic_config_profile_theme_default_form.theme_default=${platform.site.theme_default}</param>
         </drush>
+        
+        <!-- Enable the "Database logging" module needed to develop and to run the platform behat tests (NEPT-308). -->
+        <phingcall target="enable-dblog-module" />
+        <!-- Modify the settings.php file. -->
+        <phingcall target="update-settings" />
 
-		<!-- Rebuild node access after site installation -->
+	<!-- Rebuild node access after site installation -->
         <phingcall target="rebuild-node-access" />
     </target>
 
+    <!-- Update settings. -->
+    <target name="update-settings">
+        <if>
+            <istrue value="${drupal.settings.append.text}" />
+            <then>
+                <chmod file="${platform.build.settings.dir}/settings.php" mode="0644" />
+                <append destfile="${platform.build.settings.dir}/settings.php" text="${drupal.settings.append.text}" />
+            </then>
+        </if>
+    </target>
+    
     <!-- Set up PHP CodeSniffer. -->
     <target name="setup-php-codesniffer" description="Generate the configuration file for PHP CodeSniffer.">
         <if>
@@ -81,6 +97,7 @@
                     <token key="behat.wd_host.url" value="${behat.wd_host.url}" />
                     <token key="behat.browser.name" value="${behat.browser.name}" />
                     <token key="platform.build.dir" value="${platform.build.dir}" />
+                    <token key="behat.screenshots.path" value="${behat.screenshots.path}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
                     <token key="flickr.key" value="${flickr.key}" />
                     <token key="flickr.secret" value="${flickr.secret}" />
@@ -164,6 +181,18 @@
             bin="${drush.bin}"
             verbose="${drush.verbose}">
             <param>"node_access_rebuild()"</param>
+        </drush>
+    </target>
+
+    <!-- Enable the "Database logging" module. -->
+    <target name="enable-dblog-module">
+        <drush
+            command="pm-enable"
+            assume="yes"
+            root="${platform.build.dir}"
+            bin="${drush.bin}"
+            verbose="${drush.verbose}">
+            <param>"dblog"</param>
         </drush>
     </target>
 </project>

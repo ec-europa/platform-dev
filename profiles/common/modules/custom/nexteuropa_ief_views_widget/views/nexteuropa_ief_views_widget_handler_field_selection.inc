@@ -69,13 +69,34 @@ class nexteuropa_ief_views_widget_handler_field_selection extends views_handler_
    */
   public function get_entity_reference_field_options() {
     $options = array();
-    foreach (field_info_instances($this->table) as $fields) {
-      foreach ($fields as $field_name => $field) {
-        if (in_array($field['widget']['type'], array('inline_entity_form', 'inline_entity_form_single'))) {
-          $options[$field_name] = $field['label'];
+    foreach (field_info_field_map() as $field_name => $field) {
+      if ($field['type'] == 'entityreference') {
+        foreach ($field['bundles'] as $entity_type => $bundles) {
+          foreach ($bundles as $bundle) {
+            $field_instance = field_info_instance($entity_type, $field_name, $bundle);
+            // The field to be linked to the "Views" must use an
+            // 'inline_entity_form' widget like already implemented in
+            // nexteuropa_ief_views_widget_form_field_ui_field_edit_form_alter().
+            if ($field_instance['widget']['type'] != 'inline_entity_form') {
+              continue;
+            }
+
+            // The Views selection in the field settings form is linked to the
+            // "Use this view display to select an existing entity" checkbox.
+            // If this checkbox is not available in the field settings form,
+            // no need to propose the field in the options, see
+            // nexteuropa_ief_views_widget_form_field_ui_field_edit_form_alter().
+            $widget_settings = $field_instance['widget']['settings'];
+            if (!isset($widget_settings['type_settings']) || !isset($widget_settings['type_settings']['allow_existing'])) {
+              continue;
+            }
+
+            $options[$field_name] = $field_instance['label'];
+          }
         }
       }
     }
+
     return $options;
   }
 

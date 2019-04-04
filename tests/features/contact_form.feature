@@ -30,9 +30,9 @@ Feature: Contact Form
     And I fill in "Subject" with "Complaint"
     And I fill in "Message" with "I am not happy with this contact page"
     And I press the "Send message" button
-    Then I should see the following error messages:
-      | error messages                   |
-      | Math question field is required. |
+    Then I should see the following success messages:
+      | success messages                   |
+      | Your message has been sent. |
 
   @javascript
   Scenario: Administrator user can submit the contact page in ec_resp theme
@@ -83,20 +83,3 @@ Feature: Contact Form
     | Abc..123@example.com          |
     | ”(),:;<>[\]@example.com       |
     | just”not”right@example.com    |
-
-  Scenario: Verify that mail is sent when anonymous (captcha disabled)
-    #Disable captcha while testing
-    Given I am logged in as a user with the 'administrator' role
-    When I am on "/admin/config/people/captcha_en"
-    And I select "- No challenge -" from "edit-captcha-form-id-overview-captcha-captcha-points-contact-site-form-captcha-type"
-    And I press the "Save configuration" button
-    Then I should see the text "The CAPTCHA settings have been saved."
-    #Test the form submission
-    Given I am not logged in
-    When I am on "contact"
-    And I fill in "Your name" with "name"
-    And I fill in "Your e-mail address" with "test@test.com"
-    And I fill in "Subject" with "Subject"
-    And I fill in "Message" with "Message"
-    And I press the "Send message" button
-    Then I should see the text "Your message has been sent."

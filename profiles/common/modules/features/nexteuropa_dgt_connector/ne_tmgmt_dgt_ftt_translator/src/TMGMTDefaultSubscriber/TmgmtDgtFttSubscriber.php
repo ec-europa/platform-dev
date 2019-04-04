@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Provides Next Europa TMGMT DGT FTT translator listener.
- */
-
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -30,7 +25,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
   /**
    * Implements the event onTranslationReceivedEvent.
    *
-   * @param TranslationReceivedEvent $event
+   * @param \EC\Poetry\Events\Notifications\TranslationReceivedEvent $event
    *   The event for the translation Received.
    */
   public function onTranslationReceivedEvent(TranslationReceivedEvent $event) {
@@ -53,20 +48,8 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
         $job_language = drupal_strtoupper($translator->mapToRemoteLanguage($job->target_language));
         if ($job_language == $attribution->getLanguage()) {
           if (DgtRulesTools::updateTranslationTmgmtJob($job, $attribution->getTranslatedFile())) {
-            if (module_exists('rules')) {
-              rules_invoke_event('ftt_translation_received', $identifier);
-            }
-            else {
-              $job->acceptTranslation();
-
-              DgtRulesTools::addMessageTmgmtJob(
-                $job,
-                t('The translation has been accepted automatically by DGT.'),
-                array()
-              );
-            }
+            rules_invoke_event('ftt_translation_received', $identifier, $job);
           }
-
           continue;
         }
       }
@@ -76,7 +59,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
   /**
    * Implements the event onStatusUpdatedEvent.
    *
-   * @param StatusUpdatedEvent $event
+   * @param \EC\Poetry\Events\Notifications\StatusUpdatedEvent $event
    *   The event for the Status Update.
    */
   public function onStatusUpdatedEvent(StatusUpdatedEvent $event) {

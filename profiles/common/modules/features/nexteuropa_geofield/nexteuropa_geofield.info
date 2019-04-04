@@ -1,5 +1,6 @@
 name = Nexteuropa geofield
 description = Manage geojson data field
+php = 5.6
 core = 7.x
 package = NextEuropa
 features[features_api][] = api:2

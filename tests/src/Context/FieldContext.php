@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\FieldContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;

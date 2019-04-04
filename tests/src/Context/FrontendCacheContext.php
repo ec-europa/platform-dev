@@ -1,13 +1,9 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\FrontendCacheContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\Element;
@@ -16,7 +12,6 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
 use function bovigo\assert\predicate\matches;
 use function bovigo\assert\predicate\not;
-use function bovigo\assert\predicate\isEmpty;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -52,16 +47,23 @@ class FrontendCacheContext implements Context {
   /**
    * The mocked HTTP server.
    *
-   * @var Server
+   * @var \InterNations\Component\HttpMock\Server
    */
   protected $server;
 
   /**
    * Facade to access requests made to the mocked HTTP server.
    *
-   * @var RequestCollectionFacade
+   * @var \InterNations\Component\HttpMock\RequestCollectionFacade
    */
   protected $requests;
+
+  /**
+   * The variable for TokenContext.
+   *
+   * @var \Drupal\nexteuropa\Context\TokenContext
+   */
+  private $tokenContext;
 
   /**
    * FrontendCacheContext constructor.
@@ -80,7 +82,7 @@ class FrontendCacheContext implements Context {
    * By default it responds to any POST requests to /invalidate with 200 OK,
    * additional behavior can be added in further steps.
    *
-   * @return Server
+   * @return \InterNations\Component\HttpMock\Server
    *   The mocked HTTP server.
    */
   protected function getServer() {
@@ -107,7 +109,7 @@ class FrontendCacheContext implements Context {
   /**
    * Gets the requests made to the mocked Integration backend.
    *
-   * @return RequestCollectionFacade
+   * @return \InterNations\Component\HttpMock\RequestCollectionFacade
    *   The requests facade.
    */
   protected function getRequests() {
@@ -126,6 +128,8 @@ class FrontendCacheContext implements Context {
   public function gatherContexts(BeforeScenarioScope $scope) {
     $environment = $scope->getEnvironment();
 
+    // This allows to use the object TokenContext on this context.
+    $this->tokenContext = $environment->getContext('Drupal\nexteuropa\Context\TokenContext');
     $this->mink = $environment->getContext(MinkContext::class);
     $this->variables = $environment->getContext(VariableContext::class);
   }
@@ -214,7 +218,7 @@ class FrontendCacheContext implements Context {
 
     \bovigo\assert\assert($rows, isOfSize(count($expected_rules)));
 
-    /** @var Element $row */
+    /** @var \Behat\Mink\Element\Element $row */
     foreach (array_values($rows) as $i => $row) {
       $expected_rule = $expected_rules[$i];
 
@@ -225,7 +229,7 @@ class FrontendCacheContext implements Context {
   /**
    * Gets the cache purge rules overview.
    *
-   * @return Element
+   * @return \Behat\Mink\Element\Element
    *   The table body.
    */
   protected function getCachePurgeRulesOverview() {
@@ -235,13 +239,13 @@ class FrontendCacheContext implements Context {
   /**
    * Asserts a particular row from the cache purge rules overview.
    *
-   * @param Element $row
+   * @param \Behat\Mink\Element\Element $row
    *   The table row.
    * @param array $expected_rule
    *   The expected values for the cache purge rule.
    */
   protected function assertOverviewCachePurgeRule(Element $row, array $expected_rule) {
-    /** @var Element[] $cells */
+    /** @var \Behat\Mink\Element\Element[] $cells */
     $cells = $row->findAll('css', 'td');
 
     assert($cells[0]->getText(), equals($expected_rule['Content Type']));
@@ -289,6 +293,7 @@ class FrontendCacheContext implements Context {
    * @Then the web front end cache was instructed to purge the following paths for the application tag :arg1:
    */
   public function theWebFrontEndCacheWasInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
+
     $requests = $this->getRequests();
     assert($requests, isOfSize(1));
 
@@ -298,7 +303,11 @@ class FrontendCacheContext implements Context {
 
     $paths = array_map(
       function ($row) {
-        return preg_quote(ltrim($row['Path'], '/'));
+
+        $replaced_row = $this->tokenContext->replaceToken($row['Path']);
+        $pattern = "@\[node:([\d]+)\]@";
+        $row = preg_replace($pattern, '${1}', $replaced_row);
+        return $row;
       },
       $rows
     );
@@ -311,7 +320,7 @@ class FrontendCacheContext implements Context {
     $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray());
 
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
-    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
     assert($purge_request_paths, equals([$path_string]));
   }
 
@@ -326,12 +335,8 @@ class FrontendCacheContext implements Context {
     assert($requests, isOfSize(1));
 
     $purge_request = $requests->last();
-    $purge_request_paths = $purge_request->getHeader('X-Invalidate-Regexp');
-
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
     assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['full']));
-    assert($purge_request_paths, isEmpty());
-
   }
 
   /**
@@ -396,7 +401,7 @@ class FrontendCacheContext implements Context {
     $purge_request = $requests->last();
 
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
-    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
   }
 
   /**
@@ -453,7 +458,7 @@ class FrontendCacheContext implements Context {
   /**
    * Retrieve the values in the 'Path' column.
    *
-   * @param TableNode $table
+   * @param \Behat\Gherkin\Node\TableNode $table
    *   The Behat Gherkin table node.
    *
    * @return string[]
@@ -519,6 +524,33 @@ class FrontendCacheContext implements Context {
       ->statusCode(401);
 
     $server->setUp($mock->flushExpectations());
+  }
+
+  /**
+   * Fills in a field with a multiline regex paths.
+   *
+   * The only supported fields is currently a textarea.
+   *
+   * @When I fill :field with the regex:
+   */
+  public function iFillWithTheRegex($arg1, PyStringNode $string) {
+    $locator = array('field', $arg1);
+    $items = $this->mink->getSession()->getPage()->findAll('named', $locator);
+
+    foreach ($items as $item) {
+      if ($item->getTagName() === 'textarea') {
+        $item->setValue((string) $string);
+      }
+    }
+
+    if (!$item) {
+      throw new ElementNotFoundException(
+        $this->mink->getSession()->getDriver(),
+        'textarea',
+        'named',
+        $locator
+      );
+    }
   }
 
 }

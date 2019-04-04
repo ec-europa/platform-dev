@@ -29,7 +29,7 @@ Feature: Fast track
       organization:
         responsible: DIGIT
         author: IE/CE/DIGIT
-        requester: IE/CE/DIGIT/A/3
+        requester: IE/CE/DIGIT
       contacts:
         author: john_smith
         secretary: john_smith
@@ -48,7 +48,7 @@ Feature: Fast track
       number: 40012
       version: 0
       part: 0
-      product: REV
+      product: EDT
     status:
       -
         type: request
@@ -120,7 +120,12 @@ Feature: Fast track
         ],
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
-              "USING" : { "node" : [ "node" ], "delay" : [ "node:delay-date" ], "target_languages" : { "value" : [] } },
+              "USING" : {
+                "node" : [ "node" ],
+                "delay" : [ "node:delay-date" ],
+                "target_languages" : { "value" : [] },
+                "dgt_ftt_workflow_code" : "STS"
+              },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
                 "dgt_service_response" : { "dgt_service_response" : "DGT Service response" },
@@ -145,14 +150,23 @@ Feature: Fast track
     When I select "Needs Review" from "state"
     And I press "Apply"
     Then I should see "Revision state: Needs Review"
+    And Poetry service received request should contain the following text:
+      | <produit>EDT</produit>                                        |
+      | <titre>Test page</titre>                                      |
+      | <organisationResponsable>DIGIT</organisationResponsable>      |
+      | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
+      | <serviceDemandeur>IE/CE/DIGIT</serviceDemandeur>          |
+      | <applicationReference>FPFIS</applicationReference>            |
+      | <delai>01/12/2017</delai>                                     |
     When I select "Validated" from "state"
     And I press "Apply"
     Then I should see "Revision state: Validated"
     And Poetry service received request should contain the following text:
+      | <produit>TRA</produit>                                        |
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
       | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
-      | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
+      | <serviceDemandeur>IE/CE/DIGIT</serviceDemandeur>          |
       | <applicationReference>FPFIS</applicationReference>            |
       | <delai>14/11/2018</delai>                                     |
       | <attributionsDelai>14/11/2018</attributionsDelai>             |
