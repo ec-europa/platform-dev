@@ -1,4 +1,4 @@
-@api @integration @ec_europa_theme
+@api @integration @ec_resp
 Feature: Integration consumer
   In order to use content from other sources
   As a site administrator

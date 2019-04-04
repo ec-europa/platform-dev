@@ -1,4 +1,4 @@
-@api @ec_europa_theme
+@api @ec_resp
 Feature: Content type administration features
   In order to easily structure the content of the European Commission
   As an administrator

@@ -1,4 +1,4 @@
-@api @ec_europa_theme
+@api @ec_resp
 Feature: Automated logout
   In order to automate the action to log out from the platform
   As an administrator

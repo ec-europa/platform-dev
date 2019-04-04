@@ -1,4 +1,4 @@
-@api @ec_europa_theme
+@api @ec_resp
 Feature: Content editing as editor
   In order to manage the content on the website
   As an editor
