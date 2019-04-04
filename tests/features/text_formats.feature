@@ -1,4 +1,4 @@
-@api @ec_europa_theme
+@api @ec_resp
 Feature: Text formats configuration
   In order to input text in the website
   As a user

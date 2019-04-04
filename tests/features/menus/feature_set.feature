@@ -1,4 +1,4 @@
-@api @ec_europa_theme
+@api @ec_resp
 Feature: Feature set menu
   In order to easily enable a feature
   As an administrative user
