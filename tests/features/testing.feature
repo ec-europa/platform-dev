@@ -1,4 +1,4 @@
-@api @ec_europa_theme
+@api @ec_resp
 Feature: Testing
   In order to run simpletests
   As an administrator
