@@ -1,0 +1,36 @@
+version: '3'
+services:
+  web:
+    image: fpfis/httpd-php-dev:5.6
+    working_dir: ${PWD}
+    volumes:
+      - ${PWD}:${PWD}
+    environment:
+      - DOCUMENT_ROOT=${PWD}/build
+      - XDEBUG_CONFIG=idekey=cloud9ide remote_connect_back=0 remote_host=${DOCKER_HOST_IP} remote_enable=1 remote_port=9000
+      - ~/.composer/cache:/root/.composer/cache
+    depends_on:
+      - mysql
+    ports:
+      - 8080:8080
+
+  mysql:
+    image: percona/percona-server:5.6
+    command: --innodb-log-file_size=256M --max-allowed-packet=1G --innodb-buffer-pool-size=512M
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  selenium:
+    image: selenium/standalone-chrome-debug
+    ports:
+      - 4444:4444
+      - 5900:5900
+    volumes:
+      - /dev/shm:/dev/shm
+    environment:
+      VNC_NO_PASSWORD: 1
+
+volumes:
+ mysql-data:
