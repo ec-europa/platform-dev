@@ -36,10 +36,9 @@ Feature: Change tracking features
       | nexteuropa_webtools |
     And a valid Smartload Url has been configured
     And a map webtools "Block Webtools" exists
-    And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
-    And I fill in the content's title with "Basic page with a Map"
     And I select "Full HTML + Change tracking" from "Text format"
+    And I fill in the content's title with "Basic page with a Map"
     And I click the "Insert internal content" button in the "Body" WYSIWYG editor
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
     When I click the "Insert internal blocks" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
@@ -65,6 +64,7 @@ Feature: Change tracking features
     When  I fill in the rich text editor "Body" with "Text should change because life is always moving."
     And I press "Save"
     And I click "Edit draft"
+    And I scroll until view the element "#edit-field-ne-body-en-0-value"
     Then I should see the "Start tracking changes" button in the "Body" WYSIWYG editor
     # Workaround: we cannot simulate text typing and it is not the real purpose of the current test.
     When I select "Basic HTML" from "Text format"
