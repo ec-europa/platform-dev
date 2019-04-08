@@ -29,7 +29,6 @@ Feature: Feature set menu
     And I should see the text "Newsletters"
     And I should see the text "GIS field"
     And I should see the text "GeoJson feeds"
-    And I should see the text "Notices"
     # Cannot use "Integration" label to test if administrator user can see the
     # "Integration" feature because it is already elsewhere on the page for
     # another purpose.
@@ -53,3 +52,4 @@ Feature: Feature set menu
     And I should see the text "Surveys"
     And I should see the text "Extend Profiles"
     And I should see the text "Notifications"
+
