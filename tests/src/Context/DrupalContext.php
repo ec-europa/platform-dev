@@ -436,17 +436,21 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   }
 
   /**
-   * @When I scroll until view the element :selector
+   * Scroll into view.
    *
-   * @param string $selector Allowed selectors: #id, .className, //xpath
+   * @param string $selector
+   *   Allowed selectors: #id, .className, //xpath.
+   *
    * @throws \Exception
+   *
+   * @When I scroll until view the element :selector.
    */
-  public function scrollIntoView($selector)
-  {
+  public function scrollIntoView($selector) {
     $locator = substr($selector, 0, 1);
 
     switch ($locator) {
-      case '$' : // Query selector
+      // Query selector.
+      case '$':
         $selector = substr($selector, 1);
         $function = <<<JS
 (function(){
@@ -456,7 +460,8 @@ class DrupalContext extends DrupalExtensionDrupalContext {
 JS;
         break;
 
-      case '/' : // XPath selector
+      // XPath selector.
+      case '/':
         $function = <<<JS
 (function(){
   var elem = document.evaluate("$selector", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
@@ -465,7 +470,8 @@ JS;
 JS;
         break;
 
-      case '#' : // ID selector
+      // ID selector.
+      case '#':
         $selector = substr($selector, 1);
         $function = <<<JS
 (function(){
@@ -475,7 +481,8 @@ JS;
 JS;
         break;
 
-      case '.' : // Class selector
+      // Class selector.
+      case '.':
         $selector = substr($selector, 1);
         $function = <<<JS
 (function(){
@@ -487,14 +494,15 @@ JS;
 
       default:
         throw new \Exception(__METHOD__ . ' Couldn\'t find selector: ' . $selector . ' - Allowed selectors: #id, .className, //xpath');
-        break;
     }
 
     try {
       $this->getSession()->executeScript($function);
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new \Exception(__METHOD__ . ' failed');
     }
+
   }
 
 }
