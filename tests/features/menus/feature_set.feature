@@ -79,6 +79,7 @@ Feature: Feature set menu
     Then I should not see the text "Newsletters"
     Then I should not see the text "GIS field"
     Then I should not see the text "GeoJson feeds"
+
     # Cannot use "Integration" label to test if cem user cannot see the
     # "Integration" feature because it is already elsewhere on the page for
     # another purpose.
