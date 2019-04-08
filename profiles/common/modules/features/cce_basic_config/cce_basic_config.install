@@ -1791,8 +1791,10 @@ function cce_basic_config_update_7229() {
 }
 
 /**
- * Delete "cem" user role and remove it from users NEPT-2227.
+ * Remove permissions from cem role.
  */
 function cce_basic_config_update_7230() {
-  user_role_delete("cem");
+  $role = user_role_load_by_name('cem');
+  $permissions = array_keys(array_pop(user_role_permissions(array($role->rid => $role->name))));
+  user_role_revoke_permissions($role->rid, $permissions);
 }
