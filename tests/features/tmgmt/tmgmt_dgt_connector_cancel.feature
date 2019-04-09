@@ -197,6 +197,6 @@ Feature: TMGMT DGT Connector features including language canceled
 
     # Check job items
     When I go to "admin/tmgmt/recent-changes"
-    And I click "View" in the "My page 1 and 1 more [fr] Main Job" row
+    And I click "View" in the "My page 1 and 1 more [fr]" row
     Then I should see "Accepted" in the "French" row
     Then I should see "Aborted" in the "Spanish" row

@@ -43,7 +43,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     $origin_job_items = $origin_job->getItems();
 
     if ($origin_job->reference === NULL && isset($origin_job->settings['languages']) && $origin_job->hasPoetryTranslator()) {
-      $origin_job->label = $origin_job->label . ' [' . $origin_job->target_language . '] Main Job';
+      $origin_job->label = $origin_job->label . ' [' . $origin_job->target_language . ']';
       $origin_job->reference = 'MAIN_' . $origin_job->tjid;
       $origin_job_item = array_shift($origin_job_items);
       if (empty($origin_job_item)) {
@@ -67,11 +67,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
           }
 
           // New job label, also used to verify is it's really a new job.
-          $job_new_label = preg_replace(
-            '/ \[(.*)\] Main Job$/',
-            ' [' . $requested_language . ']',
-            $origin_job->label
-          );
+          $job_new_label = tmgmt_poetry_change_label($origin_job->label, ' [' . $requested_language . ']');
 
           // Check if job is already created
           // and in that case don't create it again, just update it.

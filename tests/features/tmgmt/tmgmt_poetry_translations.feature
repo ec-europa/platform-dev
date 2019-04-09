@@ -88,7 +88,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has titre "NE-CMS: my-website - My page [fr] Main Job"
+    And the translation request has titre "NE-CMS: my-website - My page [fr]"
 
   @javascript @cleanup-tmgmt-poetry-website-identifier @poetry_mock_cleanup_translator @theme_wip
   Scenario: Send translation request including a website identifier with
@@ -110,7 +110,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has titre "NE-CMS: />&mywebsite< - My page [fr] Main Job"
+    And the translation request has titre "NE-CMS: />&mywebsite< - My page [fr]"
 
   @resetPoetryNumero @theme_wip
   Scenario: Checking the counter init request.
@@ -526,7 +526,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has titre "NE-CMS: my-website - Testing translation metadata including special chars like & [fr] Main Job"
+    And the translation request has titre "NE-CMS: my-website - Testing translation metadata including special chars like & [fr]"
     And the translation request has the following contacts:
       | type        | nickname    |
       | auteur      | auteur      |

@@ -162,7 +162,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     $organization = $job->settings['organization'];
     $details_title = 'NE-CMS BUNDLE: ';
     $details_title .= (empty($settings['website_identifier']) ? '' : $settings['website_identifier'] . ' - ');
-    $details_title .= $job->label;
+    $details_title .= tmgmt_poetry_change_label($job->label);
     $delai = date('d/m/Y', strtotime($job->settings['delai']));
 
     // Generate the data into a XML format and encode it to be translated.

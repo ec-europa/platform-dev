@@ -1055,3 +1055,18 @@ function _tmgmt_poetry_replace_job_in_content($content, TMGMTJob $job, TMGMTJobI
   }
   return $result;
 }
+
+/**
+ * Replace [language] with given replacement.
+ *
+ * @param string $label
+ *   Initial label.
+ * @param string $replacement
+ *   Replacement for [language].
+ *
+ * @return string
+ *   The new label
+ */
+function tmgmt_poetry_change_label($label, $replacement = '') {
+  return preg_replace('/ \[(.*)\]$/', $replacement, $label);
+}
