@@ -443,9 +443,9 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    *
    * @throws \Exception
    *
-   * @When I scroll until view the element :selector.
+   * @When I scroll until view the element :selector
    */
-  public function scrollIntoView($selector) {
+  public function iScrollUntilViewTheElement($selector) {
     $locator = substr($selector, 0, 1);
 
     switch ($locator) {
