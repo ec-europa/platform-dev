@@ -184,10 +184,7 @@ projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
-projects[easy_breadcrumb][version] = "2.15"
-; Issue #2973420 : 	Undefined index: html in template_preprocess_easy_breadcrumb()
-; https://www.drupal.org/node/2973420
-projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/2018-05-16/easy_breadcrumb-undefined_index_html-2973420-2.patch
+projects[easy_breadcrumb][version] = "2.16"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
