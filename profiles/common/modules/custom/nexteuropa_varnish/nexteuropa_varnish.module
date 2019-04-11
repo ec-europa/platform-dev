@@ -536,6 +536,7 @@ function _nexteuropa_varnish_get_node_paths($node) {
   if ($entity_uri) {
     $url_locale = language_negotiation_get('language', 'locale-url');
     $url_suffix = language_negotiation_get('language', 'nexteuropa_multilingual_url_suffix');
+    $options = $entity_uri['options'];
     // Add logic to send a language prefix/suffix regex for non aliased paths.
     if ($url_locale) {
       $lgregex = '[a-z]{2}\/';
@@ -547,7 +548,6 @@ function _nexteuropa_varnish_get_node_paths($node) {
       $lgregex = '';
     }
     $original_path = $entity_uri['path'];
-    $options = $entity_uri['options'];
 
     // Get the languages the node is translated into (entity translation).
     if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
@@ -555,20 +555,19 @@ function _nexteuropa_varnish_get_node_paths($node) {
       $translations = $handler->getTranslations();
       $lang_codes = array_keys($translations->data);
       $all_languages = entity_translation_languages('node', $node);
+      // Small workaround for undefined language.
+      if (count($lang_codes) == '1' && 'und' == $lang_codes[0]) {
+        // Push all the languages.
+        $lang_codes = array_keys($all_languages);
+      }
       foreach ($lang_codes as $lang_code) {
         if (isset($all_languages[$lang_code])) {
           $alias = drupal_get_path_alias($original_path, $lang_code);
           $original_alias = $alias;
           // Do not use altered "options" for url_outbound.
           $altered_options = $options + array('language' => $all_languages[$lang_code]) + array('external' => FALSE);
-          // Add the suffix/prefix depending negociation setup.
-          drupal_alter('url_outbound', $alias, $altered_options, $original_path);
-          if (!$url_locale) {
-            $paths[$lang_code] = preg_quote($alias, '/');
-          }
-          else {
-            $paths[$lang_code] = preg_quote($altered_options['prefix'] . $alias, '/');
-          }
+          // If we don't use prefix, outbound did the job, if not push prefix.
+          $paths[$lang_code] = _nexteuropa_varnish_build_path($url_locale, $altered_options, $alias, $original_path);
         }
       }
     }
@@ -578,27 +577,54 @@ function _nexteuropa_varnish_get_node_paths($node) {
       $languages = language_list();
       $alias = drupal_get_path_alias($original_path, $lang_code);
       $original_alias = $alias;
-      $altered_options = $options + array('language' => $languages[$lang_code]) + array('external' => FALSE);
 
-      // Add the suffix/prefix depending negociation setup.
-      drupal_alter('url_outbound', $alias, $altered_options, $original_path);
-      if (!$url_locale) {
-        $paths[$lang_code] = preg_quote($alias, '/');
+      // Language is undefined, the content will show on all languages.
+      if ('und' == $lang_code) {
+        foreach ($languages as $code => $data) {
+          $altered_options = $options + array('language' => $languages[$code]) + array('external' => FALSE);
+          $paths[$code] = _nexteuropa_varnish_build_path($url_locale, $altered_options, $alias, $original_path);
+        }
       }
       else {
-        $paths[$lang_code] = preg_quote($altered_options['prefix'] . $alias, '/');
+        $altered_options = $options + array('language' => $languages[$lang_code]) + array('external' => FALSE);
+        $paths[$lang_code] = _nexteuropa_varnish_build_path($url_locale, $altered_options, $alias, $original_path);
       }
     }
     // Get the node\/nid.
-    $paths['unaliased'] = preg_quote($original_path, '/');
+    $paths['unaliased'] = $original_path;
     // Add regex prefix or suffix if needed.
     // Example node\/nid_[a-z]{2}.
     $paths['full_unaliased'] = $url_suffix ? $paths['unaliased'] . $lgregex : $lgregex . $paths['unaliased'];
     // Add escaped alias.
     // Example content\/my\-page.
-    $paths['escaped_alias'] = preg_quote($original_alias, '/');
+    $paths['escaped_alias'] = $original_alias;
   }
-  return $paths;
+  $node_paths = array_map('_nexteuropa_varnish_escape', $paths);
+  return $node_paths;
+}
+
+/**
+ * Custom callback to escape all path at the end of the collection.
+ */
+function _nexteuropa_varnish_escape($path) {
+  return preg_quote($path, '/');
+}
+
+/**
+ * Custom function returns alias depending of language & translation mechanism.
+ */
+function _nexteuropa_varnish_build_path($url_locale, $altered_options, $alias, $original_path) {
+  // Add the suffix/prefix depending negociation setup.
+  drupal_alter('url_outbound', $alias, $altered_options, $original_path);
+
+  // If we don't use prefix, outbound did the job, if not push prefix.
+  if (!$url_locale) {
+    $path = $alias;
+  }
+  else {
+    $path = $altered_options['prefix'] . $alias;
+  }
+  return $path;
 }
 
 /**
