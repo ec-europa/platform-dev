@@ -130,7 +130,7 @@
             "version": "1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://git.drupal.org/project/phingdrushtask.git",
+                "url": "https://git.drupalcode.org/project/phingdrushtask.git",
                 "reference": "6737f3d6c28c6c830f58d5fa09327b65acbda0a9"
             },
             "require": {
