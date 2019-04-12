@@ -459,6 +459,8 @@ projects[libraries][version] = "2.3"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2251
+projects[link][patch][] = patches/nept-2251-link-SA-CONTRIB-2019-020.patch
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
