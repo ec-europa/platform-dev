@@ -25,7 +25,7 @@ class PurgeRuleController extends EntityAPIController {
    * @throws \Exception
    *   Throws an exception if the delete process failed.
    */
-  public function delete($ids, DatabaseTransaction $transaction = NULL) {
+  public function delete($ids, $transaction = NULL) {
     $entities = $ids ? $this->load($ids) : FALSE;
     if (!$entities) {
       // Do nothing, in case invalid or no ids have been passed.
