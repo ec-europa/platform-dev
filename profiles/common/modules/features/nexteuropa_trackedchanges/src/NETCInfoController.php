@@ -12,7 +12,7 @@ class NETCInfoController extends \EntityAPIController {
    *
    * It sets the Scan date and the label (if not set) before saving.
    */
-  public function save($entity, DatabaseTransaction $transaction = NULL) {
+  public function save($entity, $transaction = NULL) {
     if (empty($entity->rel_entity_type)) {
       throw new Exception('NextEuropaTrackedChangesInfo entity_type missing');
     }
