@@ -8,7 +8,6 @@ services:
     environment:
       - DOCUMENT_ROOT=${PWD}/build
       - XDEBUG_CONFIG=idekey=cloud9ide remote_connect_back=0 remote_host=${DOCKER_HOST_IP} remote_enable=1 remote_port=9000
-      - ~/.composer/cache:/root/.composer/cache
     depends_on:
       - mysql
     ports:
