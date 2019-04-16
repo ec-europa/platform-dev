@@ -33,57 +33,6 @@ try {
                 }
             }
         },
-        'standard-ec-europa' : {
-            // Build and test the standard profile with europa theme
-            node('slave') {
-                ws("${env.WORKSPACE_PATH}") {
-                    try {
-                        withEnv([
-                            "THEME_DEFAULT=ec_europa"
-                        ]) {
-                            executeStages('standard ec_europa')
-                        }
-                    } catch(err) {
-                        throw(err)
-                    }
-                }
-            }
-        },
-        'communities-ec-resp' : {
-            // Build and test the communities profile with ec_resp theme
-            node('slave') {
-                ws("${env.WORKSPACE_PATH}") {
-                    try {
-                        withEnv([
-                            "BEHAT_PROFILE=communities_ec_resp",
-                            "PLATFORM_PROFILE=multisite_drupal_communities"
-                        ]) {
-                            executeStages('communities ec_resp')
-                        }
-                    } catch(err) {
-                        throw(err)
-                    }
-                }
-            }
-        },
-        'communities-ec-europa' : {
-            // Build and test the communities profile with europa theme
-            node('slave') {
-                ws("${env.WORKSPACE_PATH}") {
-                    try {
-                        withEnv([
-                            "BEHAT_PROFILE=communities",
-                            "PLATFORM_PROFILE=multisite_drupal_communities",
-                            "THEME_DEFAULT=ec_europa"
-                        ]) {
-                            executeStages('communities ec_europa')
-                        }
-                    } catch(err) {
-                        throw(err)
-                    }
-                }
-            }
-        },
         failFast: true
     )
 } catch(err) {

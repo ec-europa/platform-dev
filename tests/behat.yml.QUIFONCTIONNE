@@ -1,0 +1,216 @@
+default:
+  suites:
+    default:
+      contexts:
+        - Drupal\nexteuropa\Context\IntegrationLayerContext:
+            mock_server_port: 8888
+        - Drupal\nexteuropa\Context\ModuleContext
+        - FeatureContext
+        - Drupal\nexteuropa\Context\AgnosticBatchContext
+        - Drupal\nexteuropa\Context\ApacheSolrContext
+        - Drupal\nexteuropa\Context\BlockContext
+        - Drupal\nexteuropa\Context\CKEditorContext
+        - Drupal\nexteuropa\Context\EcasContext
+        - Drupal\nexteuropa\Context\MessageContext
+        - Drupal\nexteuropa\Context\BeanContext
+        - Drupal\nexteuropa\Context\DrupalContext
+        - Drupal\nexteuropa\Context\FieldContext
+        - Drupal\nexteuropa\Context\FormContext
+        - Drupal\nexteuropa\Context\ContentTypeContext
+        - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\VariableContext
+        - Drupal\nexteuropa\Context\FlickrContext:
+            key: 'foobar'
+            secret: 'bas'
+        - Drupal\nexteuropa\Context\MediaContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\ViewsContext
+        - Drupal\nexteuropa\Context\MultilingualContext
+        - Drupal\DrupalExtension\Context\MarkupContext
+        - Drupal\nexteuropa\Context\WebtoolsContext
+        - Drupal\nexteuropa\Context\FrontendCacheContext:
+            mock_server_port: 8888
+        - Drupal\nexteuropa\Context\DatabaseLogContext
+        - Drupal\nexteuropa\Context\PathautoContext
+        - Drupal\nexteuropa\Context\SchedulerContext
+        - Drupal\nexteuropa\Context\MultilingualContext
+        - Drupal\nexteuropa\Context\DrupalMailContext
+        - Drupal\nexteuropa\Context\PiwikRulesContext
+        - Drupal\nexteuropa\Context\DrushContext:
+            drush_bin: '/home/ec2-user/environment/platform-dev/bin/drush'
+            db_dump_location: '/home/ec2-user/environment/platform-dev/build/dump.sql'
+        - EC\Behat\PoetryExtension\Context\PoetryContext
+        - Drupal\nexteuropa\Context\PoetryContext
+        - Drupal\nexteuropa\Context\RulesContext
+        - Drupal\nexteuropa\Context\LacoContext
+        - OpenEuropa\Behat\TransformationContext:
+            elements:
+              nept_element:block:page-language-switcher: '.block-language-selector-page'
+              nept_element:block:site-language-switcher: 'div.ecl-lang-select-sites a.ecl-lang-select-sites__link'
+              nept_element:page-title: 'h1.ecl-heading.ecl-heading--h1'
+              nept_element:system-status-report: 'table.system-status-report'
+              nept_element:title-metatag: 'html head title'
+              nept_element:block:splash-page-language-selection: 'body.not-front.page-splash'
+              nept_element:block:last-update: '.last-update'
+              nept_element:event-full-calendar: 'div.fullcalendar'
+              nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
+              nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
+              nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
+      filters:
+        tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip"
+  extensions:
+    EC\Behat\PoetryExtension:
+      application:
+        base_url: 'http://172.31.17.111:8080/platform-dev/build/'
+        endpoint: '/poetry/notification'
+    Behat\MinkExtension:
+      goutte: ~
+      javascript_session: 'selenium2'
+      browser_name: 'chrome'
+      selenium2:
+        wd_host: 'http://172.17.0.4:4444/wd/hub'
+        browser: 'chrome'
+        capabilities:
+          marionette: true
+          chrome:
+            switches:
+              - "--disable-gpu"
+              - "--window-size=1200,1024"
+      base-url: 'http://172.31.17.111:8080/platform-dev/build/'
+      files_path: '/home/ec2-user/environment/platform-dev/build'
+    Drupal\nexteuropa\Extensions\DrupalExtension:
+      api_driver: 'drupal'
+      blackbox: ~
+      drupal:
+        drupal_root: '/home/ec2-user/environment/platform-dev/build'
+      subcontexts:
+        paths:
+          - '/home/ec2-user/environment/platform-dev/build/profiles/common/modules'
+      selectors:
+        node_tag: 'article'
+        message_selector: '.messages'
+        error_message_selector: '.messages.error'
+        success_message_selector: '.messages.status'
+        warning_message_selector: '.messages.warning'
+        front_message_selector: "div.ecl-message > ul.ecl-message__body > li"
+        front_error_message_selector: "div.ecl-message.ecl-message--error > ul.ecl-list.ecl-message__body > li"
+        front_success_message_selector: "div.ecl-message.ecl-message--success > ul.ecl-list.ecl-message__body > li"
+        front_warning_message_selector: "div.ecl-message.ecl-message--warning > ul.ecl-list.ecl-message__body > li"
+        logged_in_selector: 'body.logged-in'
+        login_form_selector: 'form#user-login'
+      drush:
+        root: '/home/ec2-user/environment/platform-dev/build'
+        binary: '/home/ec2-user/environment/platform-dev/bin/drush'
+      region_map:
+        admin_menu: "#admin-menu-menu"
+        content_top: ".region-content-top"
+        header_top: ".region-header-top"
+        header: "#layout-header"
+        primary_tabs: ".ecl-navigation-list--tabs"
+        back_primary_tabs: ".tabs.primary"
+        content: ".page-content"
+        footer: "#layout-footer"
+        messages: "#console"
+        front_messages: ".ecl-message.ecl-message--success"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
+      text:
+        log_out: "Log out"
+        log_in: "Log in"
+    # Bex\Behat\ScreenshotExtension:
+      # screenshot_taking_mode: failed_scenarios
+      # active_image_drivers: img42
+  formatters:
+    pretty: ~
+
+communities:
+  suites:
+    default:
+      filters:
+        tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities"
+
+standard_ec_resp:
+  suites:
+    default:
+      filters:
+        tags: "~@wip&&~@ec_europa_theme&&~@communities"
+  extensions:
+    Drupal\nexteuropa\Extensions\TransformExtension:
+      transform_tokens:
+        nept_element:block:page-language-switcher: '.block-language-selector-page'
+        nept_element:block:site-language-switcher: '#block-language-selector-site-language-selector-site'
+        nept_element:page-title: '#page-title'
+        nept_element:system-status-report: 'table.system-status-report'
+        nept_element:title-metatag: 'html head title'
+        nept_element:block:splash-page-language-selection: 'body.not-front.page-splash'
+        nept_element:block:last-update: '.last-update'
+        nept_element:event-full-calendar: 'div.fullcalendar'
+        nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
+        nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
+        nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
+    Drupal\nexteuropa\Extensions\DrupalExtension:
+      selectors:
+        node_tag: 'div'
+        message_selector: '.messages'
+        error_message_selector: '.messages.error'
+        success_message_selector: '.messages.status'
+        warning_message_selector: '.messages.warning'
+        front_message_selector: '.messages'
+        front_error_message_selector: '.messages.error'
+        front_success_message_selector: '.messages.status'
+        front_warning_message_selector: '.messages.warning'
+      region_map:
+        admin_menu: "#admin-menu-menu"
+        content_top: ".region-content-top"
+        header_top: ".region-header-top"
+        header: "#layout-header"
+        primary_tabs: ".tabs-primary"
+        content: "#layout-body"
+        footer: "#layout-footer"
+        messages: "#console"
+        front_messages: "#messages"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
+
+communities_ec_resp:
+  suites:
+    default:
+      filters:
+        tags: "~@wip&&~@ec_europa_theme&&@communities"
+  extensions:
+    Drupal\nexteuropa\Extensions\TransformExtension:
+      transform_tokens:
+        nept_element:block:page-language-switcher: '.block-language-selector-page'
+        nept_element:block:site-language-switcher: '#block-language-selector-site-language-selector-site'
+        nept_element:page-title: '#page-title'
+        nept_element:system-status-report: 'table.system-status-report'
+        nept_element:title-metatag: 'html head title'
+        nept_element:block:splash-page-language-selection: 'body.not-front.page-splash'
+        nept_element:block:last-update: '.last-update'
+        nept_element:event-full-calendar: 'div.fullcalendar'
+        nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
+        nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
+        nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
+    Drupal\nexteuropa\Extensions\DrupalExtension:
+      selectors:
+        node_tag: 'div'
+        message_selector: '.messages'
+        error_message_selector: '.messages.error'
+        success_message_selector: '.messages.status'
+        warning_message_selector: '.messages.warning'
+        front_message_selector: '.messages'
+        front_error_message_selector: '.messages.error'
+        front_success_message_selector: '.messages.status'
+        front_warning_message_selector: '.messages.warning'
+      region_map:
+        admin_menu: "#admin-menu-menu"
+        content_top: ".region-content-top"
+        header_top: ".region-header-top"
+        header: "#layout-header"
+        primary_tabs: ".tabs-primary"
+        content: "#layout-body"
+        footer: "#layout-footer"
+        messages: "#console"
+        front_messages: "#messages"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
