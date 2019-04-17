@@ -631,7 +631,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
   /**
    * Blablabla.
-   * 
+   *
    * @BeforeScenario @maximizedwindow
    */
   public function beforeMaximizedWindow(BeforeScenarioScope $scope) {
