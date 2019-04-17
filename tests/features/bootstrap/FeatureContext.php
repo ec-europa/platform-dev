@@ -629,4 +629,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     return $text[$name];
   }
 
+  /**
+   * @BeforeScenario @maximizedwindow
+   */
+  public function beforeMaximizedWindow(BeforeScenarioScope $scope) {
+    $this->getSession()->getDriver()->maximizeWindow();
+  }
+
 }
