@@ -2,6 +2,7 @@ env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').t
 env.WORKSPACE_PATH = "workspace/${env.RELEASE_NAME}-${env.BUILD_NUMBER}"
 env.slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
 slackSend color: "good", message: "${env.slackMessage} started."
+env.BEHAT_SCREENSHOTS_PATH_BUILD = "${BEHAT_SCREENSHOTS_PATH}/${env.RELEASE_NAME}/${env.BUILD_NUMBER}"
 
 try {
     node('master') {
@@ -9,6 +10,7 @@ try {
             stage('Check') {
                 deleteDir()
                 checkout scm
+                sh 'mkdir -p ${env.BEHAT_SCREENSHOTS_PATH_BUILD}'
                 sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
                 sh './bin/phing setup-php-codesniffer'
                 sh './bin/phpcs --report=full --report=source --report=summary -s'
@@ -69,7 +71,7 @@ void executeStages(String label) {
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'flickr', usernameVariable: 'FLICKR_KEY', passwordVariable: 'FLICKR_SECRET']
             ]) {
-                sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build' -D'behat.wd_host.url'='$WD_HOST_URL' -D'behat.browser.name'='$WD_BROWSER_NAME' -D'behat.screenshots.path'='$BEHAT_SCREENSHOTS_PATH' -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET' -D'integration.server.port'='$HTTP_MOCK_PORT' -D'varnish.server.port'='$HTTP_MOCK_PORT' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
+                sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build' -D'behat.wd_host.url'='$WD_HOST_URL' -D'behat.browser.name'='$WD_BROWSER_NAME' -D'behat.screenshots.path'='${env.BEHAT_SCREENSHOTS_PATH_BUILD}' -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET' -D'integration.server.port'='$HTTP_MOCK_PORT' -D'varnish.server.port'='$HTTP_MOCK_PORT' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
                 sh "./bin/phing install-platform -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
             }
         }
