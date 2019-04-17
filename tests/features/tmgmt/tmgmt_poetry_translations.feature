@@ -1,3 +1,21 @@
+@api @poetry_mock @i18n
+Feature: TMGMT Poetry features
+  In order request new translations for nodes/taxonomies with Poetry service.
+  As an Administrator
+  I want to be able to create/manage translation requests.
+
+  Background:
+    Given the module is enabled
+      |modules                |
+      |tmgmt_poetry_mock      |
+    And tmgmt_poetry is configured to use tmgmt_poetry_mock
+    And the following languages are available:
+      | languages |
+      | pt-pt     |
+      | fr        |
+      | de        |
+      | it        |
+
   @javascript @theme_wip
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
     Given I am logged in as a user with the "administrator" role
