@@ -11,7 +11,6 @@ try {
                 deleteDir()
                 checkout scm
                 sh "mkdir -p ${env.BEHAT_SCREENSHOTS_PATH_BUILD}"
-                sh "chown -R ec2-user:ec2-user ${BEHAT_SCREENSHOTS_PATH}/${env.RELEASE_NAME}"
                 sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
                 sh './bin/phing setup-php-codesniffer'
                 sh './bin/phpcs --report=full --report=source --report=summary -s'
