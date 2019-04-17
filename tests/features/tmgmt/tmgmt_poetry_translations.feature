@@ -534,7 +534,7 @@ Feature: TMGMT Poetry features
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
 
-  @javascript @maximizedwindow @theme_wip
+  @javascript @maximizedwindow @theme_wip @wip
   Scenario: Adding new languages to the ongoing translation request
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group
