@@ -9,7 +9,6 @@ try {
             stage('Check') {
                 deleteDir()
                 checkout scm
-                sh "mkdir -p ${env.BEHAT_SCREENSHOTS_PATH_BUILD}"
                 sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
             }
         }
@@ -25,6 +24,22 @@ try {
                             "THEME_DEFAULT=ec_resp"
                         ]) {
                             executeStages('standard ec_resp')
+                        }
+                    } catch(err) {
+                        throw(err)
+                    }
+                }
+            }
+        },
+        'standard-ec-europa' : {
+            // Build and test the standard profile with europa theme
+            node('slave') {
+                ws("${env.WORKSPACE_PATH}") {
+                    try {
+                        withEnv([
+                            "THEME_DEFAULT=ec_europa"
+                        ]) {
+                            executeStages('standard ec_europa')
                         }
                     } catch(err) {
                         throw(err)
@@ -68,7 +83,7 @@ void executeStages(String label) {
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'flickr', usernameVariable: 'FLICKR_KEY', passwordVariable: 'FLICKR_SECRET']
             ]) {
-                sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.options.verbosity'='3' -D'drush.verbose'='true' -D'behat.base_url'='$BASE_URL/$SITE_PATH/build' -D'behat.wd_host.url'='$WD_HOST_URL' -D'behat.browser.name'='$WD_BROWSER_NAME' -D'behat.screenshots.path'='${BEHAT_SCREENSHOTS_PATH}' -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET' -D'integration.server.port'='$HTTP_MOCK_PORT' -D'varnish.server.port'='$HTTP_MOCK_PORT' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
+                sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build' -D'behat.wd_host.url'='$WD_HOST_URL' -D'behat.browser.name'='$WD_BROWSER_NAME' -D'behat.screenshots.path'='$BEHAT_SCREENSHOTS_PATH' -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET' -D'integration.server.port'='$HTTP_MOCK_PORT' -D'varnish.server.port'='$HTTP_MOCK_PORT' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
                 sh "./bin/phing install-platform -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
             }
         }
@@ -79,7 +94,7 @@ void executeStages(String label) {
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 3, unit: 'HOURS') {
                     if (env.WD_BROWSER_NAME == 'phantomjs') {
-                        sh "phantomjs --ssl-protocol=any --ignore-ssl-errors=true --webdriver-logfile='/tmp/${env.RELEASE_NAME}-${env.BUILD_NUMBER}.log' --webdriver-loglevel='DEBUG' --debug=true --webdriver=${env.WD_HOST}:${env.WD_PORT} &"
+                        sh "phantomjs --webdriver=${env.WD_HOST}:${env.WD_PORT} &"
                     }
                     sh "./bin/behat -c build/behat.yml -p ${env.BEHAT_PROFILE} --colors -f pretty --strict"
                 }
@@ -91,7 +106,7 @@ void executeStages(String label) {
         withCredentials([
             [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS']
         ]) {
-            sh 'echo "finished !!!!"'
+            sh 'mysql -u $DB_USER --password=$DB_PASS -e "DROP DATABASE IF EXISTS $DB_NAME;"'
         }
     }
 }
