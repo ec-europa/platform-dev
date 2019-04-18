@@ -79,7 +79,7 @@ void executeStages(String label) {
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 3, unit: 'HOURS') {
                     if (env.WD_BROWSER_NAME == 'phantomjs') {
-                        sh "phantomjs --webdriver-logfile='${BEHAT_SCREENSHOTS_PATH}/${env.RELEASE_NAME}-${env.BUILD_NUMBER}.log' --webdriver-loglevel='DEBUG' --debug=true --webdriver=${env.WD_HOST}:${env.WD_PORT} &"
+                        sh "phantomjs --webdriver-logfile='/tmp/${env.RELEASE_NAME}-${env.BUILD_NUMBER}.log' --webdriver-loglevel='DEBUG' --debug=true --webdriver=${env.WD_HOST}:${env.WD_PORT} &"
                     }
                     sh "./bin/behat -c build/behat.yml -p ${env.BEHAT_PROFILE} --colors -f pretty --strict"
                 }
