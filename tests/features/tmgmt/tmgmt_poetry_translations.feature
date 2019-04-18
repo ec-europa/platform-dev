@@ -16,7 +16,7 @@ Feature: TMGMT Poetry features
       | de        |
       | it        |
 
-  @javascript @theme_wip
+  @javascript @theme_wip @maximizedwindow
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
     Given I am logged in as a user with the "administrator" role
     And the vocabulary "Vocabulary Test" is created
@@ -268,6 +268,7 @@ Feature: TMGMT Poetry features
     Then I should see "Request addition of new languages"
 
     When I click "Request addition of new languages"
+    Then I wait 3 seconds
     And I fill in "Date" with a relative date of "+21" days
     And I press "Add languages"
     Then I should see the error message "You have to select at least one language to add it to the ongoing translation request."
