@@ -57,7 +57,7 @@ void executeStages(String label) {
     if (env.WD_PORT == '0') {
         env.WD_PORT = env.HTTP_MOCK_PORT.toInteger() + 1
     }
-    env.WD_HOST_URL = "http://${env.WD_HOST}:${env.f}/wd/hub"
+    env.WD_HOST_URL = "http://${env.WD_HOST}:${env.WD_PORT}/wd/hub"
 
     try {
         stage('Build & Install ' + label) {
