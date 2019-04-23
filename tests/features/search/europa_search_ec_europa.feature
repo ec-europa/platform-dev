@@ -1,4 +1,4 @@
-@api @javascript @ec_europa_theme
+@api @javascript @ec_europa_theme @communities
 Feature: Europa Search features
   In order to find rapidly contents across the site and Europa on a site using the "ec_europa" theme
   As a anonymous user
