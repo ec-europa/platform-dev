@@ -77,7 +77,7 @@ Feature: TMGMT Poetry Cart features
 
     When I fill in "Comment Page 1" for "Insert comment"
     And I press "Submit changes"
-    And I wait for AJAX to finish
+    And I wait 10 seconds
     Then I should see the message "Your changes have been successfully submitted."
 
     When I click "Close Window"
@@ -151,6 +151,7 @@ Feature: TMGMT Poetry Cart features
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
+    And I wait 30 seconds
     And I press "Submit to translator"
     And I wait for AJAX to finish
     Then I should see the message "Job has been successfully sent for translation."
