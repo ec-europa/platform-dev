@@ -151,7 +151,7 @@ Feature: TMGMT Poetry Cart features
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
-    And I wait for AJAX to finish
+    And I wait 30 seconds
     Then I should see the message "Job has been successfully sent for translation."
     And I should see text matching "Vocab \(taxonomy\:vocabulary\:\d\) and 1 more"
 
