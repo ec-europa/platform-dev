@@ -1,4 +1,4 @@
-@api
+@api @communities
 Feature: Logout button in main pages
   In order to check that there is a functional log out button in main pages
   As a registered user

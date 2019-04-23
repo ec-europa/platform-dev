@@ -1,4 +1,4 @@
-@api @integration
+@api @integration @communities
 Feature: Integration producer
   In order to share my content with other websites
   As a site administrator
