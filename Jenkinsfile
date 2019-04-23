@@ -2,6 +2,7 @@ env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').t
 env.WORKSPACE_PATH = "workspace/${env.RELEASE_NAME}-${env.BUILD_NUMBER}"
 env.slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
 slackSend color: "good", message: "${env.slackMessage} started."
+env.phantomjslogs = "${BEHAT_SCREENSHOTS_PATH}/phantomjs.${env.RELEASE_NAME}-${env.BUILD_NUMBER}.log"
 
 try {
     node('master') {
@@ -131,7 +132,7 @@ void executeStages(String label) {
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 3, unit: 'HOURS') {
                     if (env.WD_BROWSER_NAME == 'phantomjs') {
-                        sh "phantomjs --webdriver=${env.WD_HOST}:${env.WD_PORT} &"
+                        sh "phantomjs --debug='true' --webdriver=${env.WD_HOST}:${env.WD_PORT} --webdriver-logfile='${env.phantomjslogs}' --webdriver-loglevel='DEBUG' &"
                     }
                     sh "./bin/behat -c build/behat.yml -p ${env.BEHAT_PROFILE} --colors -f pretty --strict"
                 }
