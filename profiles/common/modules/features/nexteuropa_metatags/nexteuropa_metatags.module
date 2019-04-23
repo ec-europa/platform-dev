@@ -26,7 +26,7 @@ function nexteuropa_metatags_variable_info($options) {
     'type' => 'string',
     'token' => TRUE,
   );
-  
+
   $variable['nexteuropa_og_image'] = array(
     'title' => t('Open Graph Image', array(), $options),
     'description' => t('The URL of an image which should represent the content.', array(), $options),
@@ -40,14 +40,14 @@ function nexteuropa_metatags_variable_info($options) {
     'type' => 'string',
     'token' => TRUE,
   );
-  
+
   $variable['nexteuropa_reference'] = array(
     'title' => t('Reference', array(), $options),
     'description' => t('Usually the acronym of the DG / Site name.', array(), $options),
     'type' => 'string',
     'token' => TRUE,
   );
-  
+
   return $variable;
 }
 
@@ -55,5 +55,5 @@ function nexteuropa_metatags_variable_info($options) {
  * Implements hook_html_head_alter().
  */
 function nexteuropa_metatags_html_head_alter(&$head_elements) {
-  
+
 }
