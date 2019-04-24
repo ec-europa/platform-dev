@@ -1,4 +1,4 @@
-@api @wip
+@api @ec_europa_theme
 Feature: Embedded images
   In order to make my website more attractive
   As a contributor
