@@ -80,6 +80,7 @@ Feature: TMGMT Poetry features
         message: OK
     """
     And I press "Submit to translator"
+    And I wait 30 seconds
     Then I should see the success message containing "Job has been successfully sent for translation."
 
     When I visit the "page" content with title "My page 2"

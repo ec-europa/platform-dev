@@ -85,7 +85,7 @@ try {
                 }
             }
         },
-        failFast: true
+        failFast: false
     )
 } catch(err) {
     slackSend color: "danger", message: "${env.slackMessage} failed."
