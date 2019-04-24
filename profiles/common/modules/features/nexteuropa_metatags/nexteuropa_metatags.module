@@ -50,10 +50,3 @@ function nexteuropa_metatags_variable_info($options) {
 
   return $variable;
 }
-
-/**
- * Implements hook_html_head_alter().
- */
-function nexteuropa_metatags_html_head_alter(&$head_elements) {
-
-}
