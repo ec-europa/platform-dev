@@ -77,6 +77,7 @@ Feature: TMGMT Poetry Client features
         message: OK
     """
     And I press "Submit to translator"
+    And I wait 30 seconds
     Then I should see the message "Job has been successfully sent for translation."
     When I visit the "page" content with title "My page 1"
     And I click "Translate" in the "primary_tabs" region
