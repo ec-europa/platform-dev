@@ -1,4 +1,4 @@
-@api @i18n @poetry
+@api @i18n @poetry @wip
 Feature: TMGMT Poetry Cart features
   In order to request Carts translations with Poetry service.
   As an Administrator

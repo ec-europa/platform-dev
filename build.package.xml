@@ -74,6 +74,9 @@
             <!-- Install all contributed projects inside the chosen profile. -->
             <option name="contrib-destination">profiles/${platform.profile.name}</option>
         </drush>
+        <delete includeEmptyDirs="true">
+            <fileset dir="profiles/${platform.profile.name}/modules/contrib/xmlsitemap/xmlsitemap_user" />
+        </delete>
     </target>
 
     <!-- Make one of the profiles in order to build a multisite platform. -->

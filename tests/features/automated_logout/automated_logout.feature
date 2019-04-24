@@ -1,4 +1,4 @@
-@api @ec_europa_theme
+@api @ec_resp_theme
 Feature: Automated logout
   In order to automate the action to log out from the platform
   As an administrator
@@ -8,7 +8,7 @@ Feature: Automated logout
     Given I am logged in as a user with the 'administrator' role
     And I am on the homepage
     Then  I should see the text "log out"
-    Then  I should see the text "Welcome"
+    Then  I should see the text "admin"
     When  I go to "/admin/content_en"
     Then  I should see the text "Manage content"
     When  I change the variable "autologout_timeout" to "3"
