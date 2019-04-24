@@ -15,16 +15,11 @@ Feature: Contact Form
     When I am on "contact"
     Then I should see "Contact - European Commission" in the "title" tag
 
-  @ec_europa_theme
+  @javascript @ec_europa_theme
   Scenario: Anonymous user can see the contact page in ec_europa_theme
     Given I am not logged in
     When I am on "contact"
     Then I should see "Contact | European Commission" in the "title" tag
-
-  @javascript
-  Scenario: Anonymous user can see the contact page in ec_europa_theme
-    Given I am not logged in
-    When I am on "contact"
     And I fill in "Your name" with "Chuck"
     And I fill in "Your e-mail address" with "chuck.norris@improbabledommainname.com"
     And I fill in "Subject" with "Complaint"
@@ -34,7 +29,7 @@ Feature: Contact Form
       | success messages                   |
       | Your message has been sent. |
 
-  @javascript
+  @javascript @ec_resp_theme
   Scenario: Administrator user can submit the contact page in ec_resp theme
     Given I am logged in as a user with the administrator role
     When I am on "contact"
