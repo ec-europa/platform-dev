@@ -148,9 +148,6 @@ function nexteuropa_metatags_metatag_config_default() {
     'article:published_time' => array(
       'value' => '[node:created:custom:c]',
     ),
-    'classification' => array(
-      'value' => '[variable:classification], [node:field-meta-classification]',
-    ),
     'dcterms.creator' => array(
       'value' => '[node:author]',
     ),
