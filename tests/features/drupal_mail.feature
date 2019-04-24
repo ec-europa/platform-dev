@@ -1,4 +1,4 @@
-@api @internalMail
+@api @internalMail @communities
 Feature: Drupal Mail features
   In order to check if a mail was sent correctly
   As an Administrator
