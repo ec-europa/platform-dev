@@ -10,7 +10,7 @@ Feature: Subscription
       |multisite_notifications_core |
     And I am logged in as a user with the 'administrator' role
 
-  @javascript @theme_wip
+  @wip @theme_wip
   # It is in wip for the europa theme because it implies a step referring a
   # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Create a page and have someone subscribe to it
@@ -57,7 +57,7 @@ Feature: Subscription
     And I go to "admin/reports/dblog"
     Then I should see text matching "Subscriptions sent"
 
-  @javascript @theme_wip
+  @wip @theme_wip
   Scenario: Have someone subscribe to Basic page content
     And I go to "admin/config/system/site-information_en"
     When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"

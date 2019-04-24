@@ -1,4 +1,4 @@
-@api @javascript
+@api @wip
 Feature: Test the creation of new contents and the display of them in a page using tokens.
 
   Background:

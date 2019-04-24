@@ -18,7 +18,7 @@ Feature: Test the creation of new block type (bean) and the display of them in a
     And I press the "Delete" button
     Then the response status code should be 200
 
-  @javascript
+  @wip
   Scenario: Create a page with a new block type token
     Given the cache has been cleared
     When I create the new block type "Block type For Behat"

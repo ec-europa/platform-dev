@@ -17,7 +17,7 @@ Feature: Change tracking features
     When I go to "admin/config/content/formats"
     Then I should see "Full HTML + Change tracking"
 
-  @javascript @maximizedwindow
+  @wip @maximizedwindow
   Scenario: Checking WYSIWYG enabling and disabling change tracking on given WYSIWYG profile
     When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
     And I click "enable tracked changes buttons" in the "Full HTML" row
@@ -28,7 +28,7 @@ Feature: Change tracking features
     Then I should see "Disabled" in the "Full HTML" row
     And I should see the message "Change tracking disabled on full_html WYSIWYG profile"
 
-  @javascript
+  @wip
   Scenario: Check that users can insert a webtools block into a content by using the Full HTML + Change tracking
   text format
     Given the module is enabled
@@ -50,7 +50,7 @@ Feature: Change tracking features
     Then I should see the success message "Basic page Basic page with a Map has been created."
     And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
 
-  @javascript @maximizedwindow
+  @wip @maximizedwindow
   Scenario: Checking if WYSIWYG options are applied to CKEditor
     # Necessary for PhantomJS to set a wider screen resolution.
     Given I use device with "1920" px and "1080" px resolution
@@ -251,7 +251,7 @@ Feature: Change tracking features
       And I should not see "}]]"
       But the response should contain "sites/default/files/default_images/user_default.png"
 
-  @javascript @maximizedwindow
+  @wip @maximizedwindow
    Scenario: As content administrator, I should view all entities having tracked changes in their current revision in the
      "Content tracked changes" page
      Given the following contents using "Full HTML + Change tracking" for WYSIWYG fields:
@@ -279,7 +279,7 @@ Feature: Change tracking features
      And I should not see "Page without tracked changes"
 
 
-  @javascript @maximizedwindow
+  @wip @maximizedwindow
   Scenario: As administrator, I cannot disable Tracking change buttons from a WYSIWYG profile if tracked changes are detected
     on fields that use this profile
     Given the tracking change is activate for "Full HTML" WYSIWYG profile

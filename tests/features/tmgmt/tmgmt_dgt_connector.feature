@@ -30,7 +30,7 @@ Feature: TMGMT Poetry features
         method: requestService
     """
 
-  @javascript
+  @wip
   Scenario: I can translate contents with TMGMT Cart.
     When I am viewing a multilingual "page" content:
       | language | title     | field_ne_body |

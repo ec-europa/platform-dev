@@ -24,7 +24,7 @@ Feature: newsletter feature
     And   I go to "/admin/config/services/simplenews"
     Then  I should see the "edit newsletter category" in the "Newsletter behat category" row
 
-  @javascript
+  @wip
   Scenario: create newsletter
     Given I am logged in as a user with the 'administrator' role
     When  I go to "node/add/simplenews"

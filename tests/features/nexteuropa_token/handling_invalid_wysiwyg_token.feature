@@ -7,7 +7,7 @@ Feature: Testing wrong token association for Next Europa token module
   Background:
     Given I am logged in as a user with the 'administrator' role
 
-  @javascript
+  @wip
   Scenario: Checking WYSIWYG elements and processing content to get entry in Drupal watchdog
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
@@ -35,7 +35,7 @@ Feature: Testing wrong token association for Next Europa token module
     And I press "Delete"
     And I press "Delete"
 
-  @javascript
+  @wip
   Scenario: Checking WYSIWYG tokens substitution
     Given I am viewing an "page" content:
      | title            | This is a page i want to reference                               |

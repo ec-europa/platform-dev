@@ -1,4 +1,4 @@
-@api @javascript @theme_wip
+@api @wip @theme_wip
 # When trying to launch the test with ec_europa theme the following notice is given: Notice: Undefined index: #form_id in atomium_preprocess_form() (line 24 of /srv/httpd/sites/b24st_resp/profiles/multisite_drupal_standard/themes/atomium/atomium/templates/form/form.component.inc).
 Feature: Text collapse
   In order to create collapse items in content

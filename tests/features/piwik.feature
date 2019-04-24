@@ -48,7 +48,7 @@ Feature: Check Piwik
       | all           | ^admin/*        | regexp         | Regexp based section |
       | en            | content/test    | direct         | Direct path section  |
 
-  @javascript @delete_piwik_rules
+  @wip @delete_piwik_rules
   Scenario: Add a PIWIK rule.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
     When I go to "/admin/config/system/webtools/piwik/advanced_rules"
