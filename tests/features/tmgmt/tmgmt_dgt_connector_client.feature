@@ -1,4 +1,4 @@
-@api @poetry @theme_wip @javascript @maximizedwindow
+@api @poetry @ec_resp_theme @javascript @maximizedwindow
 Feature: TMGMT Poetry Client features
   In order to request Carts translations with Poetry service.
   As an Administrator
