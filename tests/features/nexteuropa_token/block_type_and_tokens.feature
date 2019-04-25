@@ -40,9 +40,9 @@ Feature: Test the creation of new block type (bean) and the display of them in a
     And I wait for AJAX to finish
     When I click "Default" in the "Title For Behat test on the block" row
     And I wait for AJAX to finish
-    And I press "Save"
+    And I press the "Save" button
     And I select "Published" from "state"
-    And I press "Apply"
+    And I press the "Apply" button
     Then I should see "Title For Behat test on the block"
     When I go to "admin/structure/block-types"
     And I click "Delete" in the "Block type For Behat" row

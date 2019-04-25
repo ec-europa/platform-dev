@@ -1,10 +1,8 @@
-@api @javascript
+@api @javascript @maximizedwindow
 Feature: Test the creation of new contents and the display of them in a page using tokens.
 
   Background:
     Given I am logged in as a user with the 'administrator' role
-    # Necessary to set a wider screen resolution.
-    And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "Content to reference in a simple paragraph"

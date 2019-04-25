@@ -30,10 +30,9 @@ Feature: Webtools feature
     When I press "Delete"
     Then I should see the success message "webtools Block Map Webtools Title has been deleted."
 
-  @api @javascript @standard_ec_resp
+  @api @javascript @maximizedwindow
   Scenario: Insert a webtools block into a content by using the 2 full HTML text formats
     Given a map webtools "Block Webtools" exists
-    And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
     And I fill in the content's title with "Basic page with a Map"
     And I select "Full HTML" from "Text format"

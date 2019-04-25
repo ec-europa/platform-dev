@@ -1,12 +1,11 @@
-@api @javascript @theme_wip
+@api @javascript @theme_wip @maximizedwindow
 Feature: megamenu
   In order to use megamenu feature
   As different types of users
   I want to be able to create and view mega menus
 
   Background:
-    Given I use device with "1920" px and "1080" px resolution
-    And the module is enabled
+    Given the module is enabled
       | modules            |
       | multisite_megamenu |
       | om_maximenu        |
