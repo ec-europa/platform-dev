@@ -30,7 +30,7 @@ Feature: TMGMT Poetry Client features
         method: requestService
     """
 
-  @javascript @wip
+  @javascript
   Scenario: I can translate contents using Poetry Client.
     Given I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
@@ -76,7 +76,7 @@ Feature: TMGMT Poetry Client features
         time: 02:41:53
         message: OK
     """
-    And I press "Submit to translator"
+    And I press the "Submit to translator" button
     Then I should see the message "Job has been successfully sent for translation."
     When I visit the "page" content with title "My page 1"
     And I click "Translate" in the "primary_tabs" region
