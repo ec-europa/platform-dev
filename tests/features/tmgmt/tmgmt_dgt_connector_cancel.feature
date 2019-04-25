@@ -1,4 +1,4 @@
-@api @poetry_mock @poetry @ec_europa_theme @wip
+@api @poetry_mock @poetry @ec_europa_theme @test_me
 Feature: TMGMT Poetry features
   In order to manage Carts translations with Poetry service
   As an Administrator
