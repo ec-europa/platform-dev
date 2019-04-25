@@ -10,7 +10,7 @@ Feature: Subscription
       |multisite_notifications_core |
     And I am logged in as a user with the 'administrator' role
 
-  @wip @theme_wip
+  @javascript @theme_wip
   # It is in wip for the europa theme because it implies a step referring a
   # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Create a page and have someone subscribe to it

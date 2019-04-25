@@ -1,4 +1,4 @@
-@api @wip
+@api @javascript
 Feature: Scheduler features
   In order to moderate contents
   As an authenticated user

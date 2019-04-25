@@ -1,4 +1,4 @@
-@api @poetry @theme_wip
+@api @poetry @theme_wip @javascript
 Feature: TMGMT Poetry Client features
   In order to request Carts translations with Poetry service.
   As an Administrator
@@ -30,7 +30,6 @@ Feature: TMGMT Poetry Client features
         method: requestService
     """
 
-  @javascript
   Scenario: I can translate contents using Poetry Client.
     Given I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
