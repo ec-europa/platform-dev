@@ -65,7 +65,7 @@ default:
       application:
         base_url: '{{ behat.base_url }}'
         endpoint: '/poetry/notification'
-    Behat\MinkExtension:
+    Drupal\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
       browser_name: '{{ behat.browser.name }}'
@@ -74,6 +74,7 @@ default:
         wd_host: '{{ behat.wd_host.url }}'
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
+      ajax_timeout: 30
     Drupal\nexteuropa\Extensions\DrupalExtension:
       api_driver: 'drupal'
       blackbox: ~

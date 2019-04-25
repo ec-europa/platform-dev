@@ -252,7 +252,7 @@ Feature: TMGMT Poetry features
     And I press "Save as completed"
     Then I should see "None" in the "French" row
 
-  @java @theme_wip
+  @javascript @theme_wip
   Scenario: Request main job before other translations.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
