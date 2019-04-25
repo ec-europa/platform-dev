@@ -49,7 +49,7 @@ Feature: TMGMT Poetry Cart features
       | name | admin_cart |
       | pass | admin_cart |
 
-  @wip
+  @javascript
   Scenario: I can add contents to cart.
     Given I go to "admin/tmgmt/dgt_cart"
     When I am viewing a multilingual "page" content:
@@ -90,7 +90,7 @@ Feature: TMGMT Poetry Cart features
     Then Poetry service received request should contain the following text:
       | W1JFRiBDb21tZW50IFBhZ2UgMS |
 
-  @wip @remove-menus
+  @javascript @remove-menus
   Scenario: I can add menu and menu items to cart.
     Given I create a multilingual "test" menu called "Test menu"
     When I go to "admin/structure/menu/manage/test/translate"
@@ -120,7 +120,7 @@ Feature: TMGMT Poetry Cart features
     Then I should see the message "Job has been successfully sent for translation."
     And I should see text matching "Test menu \(menu\:menu\:test\) and 1 more"
 
-  @wip
+  @javascript
   Scenario: I can add vocabularies to cart.
     Given the vocabulary "Vocab" is created
     And the term "Term" in the vocabulary "Vocab" exists
@@ -154,7 +154,7 @@ Feature: TMGMT Poetry Cart features
     Then I should see the message "Job has been successfully sent for translation."
     And I should see text matching "Vocab \(taxonomy\:vocabulary\:\d\) and 1 more"
 
-  @wip
+  @javascript
   Scenario: I can add blocks and beans to cart.
     Given I go to "admin/config/regional/entity_translation"
     And I click "Translatable entity types"
@@ -226,7 +226,7 @@ Feature: TMGMT Poetry Cart features
     When I click "cart" in the "messages" region
     And I should see "Manage content (views:views:core_content_administration)" in the "views" row
 
-  @wip
+  @javascript
   Scenario: I can add a Locale default to cart.
     When I go to "admin/tmgmt/sources/locale_default"
     And I check the box on the "An AJAX HTTP error occurred." row

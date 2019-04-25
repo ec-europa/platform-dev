@@ -30,7 +30,7 @@ Feature: TMGMT Poetry Client features
         method: requestService
     """
 
-  @wip
+  @javascript
   Scenario: I can translate contents using Poetry Client.
     Given I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
