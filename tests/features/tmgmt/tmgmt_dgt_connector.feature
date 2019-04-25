@@ -38,7 +38,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     Then I should see "There are 0 items in the translation cart."
 
-    When I press the "Add to cart" button
+    When I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
     And I should see "There is 1 item in the translation cart."
 
@@ -48,7 +48,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     Then I should see "There is 1 item in the translation cart."
 
-    When I press the "Add to cart" button
+    When I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
     And I should see "There are 2 items in the translation cart."
 
@@ -57,7 +57,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "My page 2" row
     And I select "French" from "Request translation into language/s" with javascript
     And I select "Portuguese, Portugal" from "Request translation into language/s" with javascript
-    And I press the "Request translation" button
+    And I press "Request translation"
     And I click "Change translator"
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
