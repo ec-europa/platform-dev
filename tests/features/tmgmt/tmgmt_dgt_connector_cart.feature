@@ -1,4 +1,4 @@
-@api @poetry @javascript @ec_resp_theme
+@api @poetry @javascript @wip
 Feature: TMGMT Poetry Cart features
   In order to request Carts translations with Poetry service.
   As an Administrator
