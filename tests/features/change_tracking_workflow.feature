@@ -50,7 +50,7 @@ Feature: Change tracking features
     Then I should see the success message "Basic page Basic page with a Map has been created."
     And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
 
-  @wip @maximizedwindow
+  @javascript @maximizedwindow
   Scenario: Checking if WYSIWYG options are applied to CKEditor
     # Necessary for PhantomJS to set a wider screen resolution.
     Given I use device with "1920" px and "1080" px resolution
@@ -251,7 +251,7 @@ Feature: Change tracking features
       And I should not see "}]]"
       But the response should contain "sites/default/files/default_images/user_default.png"
 
-  @wip @maximizedwindow
+  @javascript @maximizedwindow
    Scenario: As content administrator, I should view all entities having tracked changes in their current revision in the
      "Content tracked changes" page
      Given the following contents using "Full HTML + Change tracking" for WYSIWYG fields:
@@ -279,7 +279,7 @@ Feature: Change tracking features
      And I should not see "Page without tracked changes"
 
 
-  @wip @maximizedwindow
+  @javascript @maximizedwindow
   Scenario: As administrator, I cannot disable Tracking change buttons from a WYSIWYG profile if tracked changes are detected
     on fields that use this profile
     Given the tracking change is activate for "Full HTML" WYSIWYG profile
