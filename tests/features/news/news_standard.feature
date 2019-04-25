@@ -1,4 +1,4 @@
-@api @wip @maximizedwindow
+@api @javascript @maximizedwindow
 Feature: news standard and news core
   In order to publish news
   As different types of users

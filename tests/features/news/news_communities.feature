@@ -1,4 +1,4 @@
-@api @communities @wip @maximizedwindow
+@api @communities @javascript @maximizedwindow
 Feature: news communities and news core
   In order to publish news
   As different types of users
