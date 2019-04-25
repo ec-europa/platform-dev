@@ -1,4 +1,4 @@
-@api @wip @theme_wip
+@api @javascript @theme_wip
 Feature: megamenu
   In order to use megamenu feature
   As different types of users
