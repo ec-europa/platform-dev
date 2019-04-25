@@ -1,4 +1,4 @@
-@api @wip @maximizedwindow
+@api @javascript @maximizedwindow
 Feature: Multisite registration standard
   In order to add registration option to different content types
   As different types of users

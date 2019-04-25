@@ -1,4 +1,4 @@
-@api @wip
+@api @javascript
 Feature: Create content button
   In order to create content
   As an editor
