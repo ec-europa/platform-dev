@@ -56,12 +56,12 @@ Feature: TMGMT Poetry Cart features
       | language | title     | field_ne_body | status |
       | en       | My page 1 | Short body    | 1      |
     And I click "Translate" in the "primary_tabs" region
-    And I press "Send to cart"
+    And I press the "Send to cart" button
     Then I should see the error message "You have to select at least one language before sending content to the cart."
 
     When I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
-    And I press "Send to cart"
+    And I press the "Send to cart" button
     Then I should see the success message "1 content source was added into the cart."
 
     When I click "cart" in the "front_messages" region
@@ -76,8 +76,7 @@ Feature: TMGMT Poetry Cart features
     Then I should see text matching "Translation Bundle content."
 
     When I fill in "Comment Page 1" for "Insert comment"
-    And I press "Submit changes"
-    And I wait for AJAX to finish
+    And I press the "Submit changes" button
     Then I should see the message "Your changes have been successfully submitted."
 
     When I click "Close Window"
@@ -86,7 +85,7 @@ Feature: TMGMT Poetry Cart features
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
-    And I press "Submit to translator"
+    And I press the "Submit to translator" button
     Then Poetry service received request should contain the following text:
       | W1JFRiBDb21tZW50IFBhZ2UgMS |
 
@@ -96,18 +95,18 @@ Feature: TMGMT Poetry Cart features
     When I go to "admin/structure/menu/manage/test/translate"
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
-    And I press "Send to cart"
+    And I press the "Send to cart" button
     Then I should see the success message "1 content source was added into the cart."
 
     When I create a multilingual "Test" menu item pointing to "http://example.com" for the menu "test"
     And I go to "admin/structure/menu/manage/test"
     # TODO: Remove the following two steps and configure link properly on creation
     And I click "edit"
-    And I press "Save"
+    And I press the "Save" button
     And I click "translate"
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
-    And I press "Send to cart"
+    And I press the "Send to cart" button
     Then I should see the success message "1 content source was added into the cart."
 
     When I click "cart" in the "messages" region
@@ -127,13 +126,13 @@ Feature: TMGMT Poetry Cart features
     When I go to "admin/structure/taxonomy/vocab/edit"
     And I select the radio button "Localize. Terms are common for all languages, but their name and description may be localized."
     And the radio button "Localize" is selected
-    And I press "Save"
+    And I press the "Save" button
     Then I should see "Updated vocabulary Vocab."
 
     When I go to "admin/structure/taxonomy/vocab/translate"
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
-    And I press "Send to cart"
+    And I press the "Send to cart" button
     Then I should see the success message "1 content source was added into the cart."
 
     When I go to "admin/structure/taxonomy/vocab"
@@ -141,7 +140,7 @@ Feature: TMGMT Poetry Cart features
     And I click "Translate"
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
-    And I press "Send to cart"
+    And I press the "Send to cart" button
     And I should see "1 content source was added into the cart."
 
     When I click "cart" in the "messages" region
@@ -150,7 +149,7 @@ Feature: TMGMT Poetry Cart features
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
-    And I press "Submit to translator"
+    And I press the "Submit to translator" button
     Then I should see the message "Job has been successfully sent for translation."
     And I should see text matching "Vocab \(taxonomy\:vocabulary\:\d\) and 1 more"
 
@@ -159,7 +158,7 @@ Feature: TMGMT Poetry Cart features
     Given I go to "admin/config/regional/entity_translation"
     And I click "Translatable entity types"
     And I check the box "Block"
-    And I press "Save configuration"
+    And I press the "Save configuration" button
     Then I should see the message "The configuration options have been saved."
 
     When I create the new block type "New bean"
@@ -169,20 +168,20 @@ Feature: TMGMT Poetry Cart features
     And I click "manage fields" in the "New bean" row
     And I click "replace"
     And I check the box "Replace title with a field instance"
-    And I press "Save settings"
+    And I press the "Save settings" button
     And I wait for the end of the batch job
     And I go to "/block/add"
     # When there is only one bean it goes directly to that bean's creation page
     # And I click "New bean"
     And I fill in "Label" with "Label for New bean Block"
     And I fill in "Title" with "Title for New bean Block"
-    And I press "Save"
+    And I press the "Save" button
     Then I should see "New bean Title for New bean Block has been created."
 
     When I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
-    And I press "Send to cart"
+    And I press the "Send to cart" button
     Then I should see "1 content source was added into the cart."
 
     When I go to "/admin/structure/block/add"
@@ -194,7 +193,7 @@ Feature: TMGMT Poetry Cart features
     And I press the "Save and translate" button
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
-    And I press "Send to cart"
+    And I press the "Send to cart" button
     Then I should see "1 content source was added into the cart."
 
     When I click "cart" in the "front_messages" region
@@ -203,7 +202,7 @@ Feature: TMGMT Poetry Cart features
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
-    And I press "Submit to translator"
+    And I press the "Submit to translator" button
     Then I should see the message "Job has been successfully sent for translation."
     And I should see text matching "Title for New bean Block and 1 more"
 
@@ -233,7 +232,7 @@ Feature: TMGMT Poetry Cart features
     And I click "Operations"
     And I wait for AJAX to finish
     And I check the box "French"
-    And I press "Send to cart"
+    And I press the "Send to cart" button
     Then I should see the message "1 content source was added into the cart."
 
     When I click "cart" in the "messages" region
@@ -248,5 +247,5 @@ Feature: TMGMT Poetry Cart features
     When I go to "admin/config/search/metatags/config/global/translate"
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
-    And I press "Send to cart"
+    And I press the "Send to cart" button
     Then I should see "1 content source was added into the cart."
