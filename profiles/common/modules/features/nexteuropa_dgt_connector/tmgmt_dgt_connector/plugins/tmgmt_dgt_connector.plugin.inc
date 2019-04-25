@@ -138,12 +138,19 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         ->execute();
     }
 
-    if (!$job->isRejected()) {
-      if (strpos($job->reference, '_POETRY_') === FALSE) {
-        $job->reference .= '_POETRY_' . $demande_id->getFormattedIdentifier();
+    try {
+      if (!$job->isRejected()) {
+        if (strpos($job->reference, '_POETRY_') === FALSE) {
+          $job->reference .= '_POETRY_' . $demande_id->getFormattedIdentifier();
+        }
+        $job->submitted('Job has been successfully sent for translation. Project ID is: %project_id',
+          array('%project_id' => $job->reference));
       }
-      $job->submitted('Job has been successfully sent for translation. Project ID is: %project_id',
-        array('%project_id' => $job->reference));
+    }
+    catch (Exception $e) {
+      // If an item fails for one target language, then it is also going
+      // to fail for others, so remove it from the array.
+      drupal_set_message($e->getMessage(), 'error');
     }
   }
 
