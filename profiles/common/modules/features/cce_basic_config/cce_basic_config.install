@@ -82,22 +82,6 @@ function cce_basic_config_requirements($phase) {
 function cce_basic_config_install() {
   $t = get_t();
 
-  // Enable UI dependencies.
-  $modules = array(
-    'bean_admin_ui',
-    'context_ui',
-    'field_ui',
-    'ds_ui',
-    'video_ui',
-    'og_ui',
-    'print_ui',
-    'rules_admin',
-    'tmgmt_ui',
-    'tmgmt_entity_ui',
-    'views_ui',
-  );
-  module_enable($modules);
-
   // Create contributor editor roles.
   multisite_config_service('user')->createRole('contributor', 3);
   multisite_config_service('user')->createRole('editor', 4);
