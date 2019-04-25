@@ -28,7 +28,7 @@ Feature: Change tracking features
     Then I should see "Disabled" in the "Full HTML" row
     And I should see the message "Change tracking disabled on full_html WYSIWYG profile"
 
-  @javascript @maximizedwindow
+  @javascript
   Scenario: Check that users can insert a webtools block into a content by using the Full HTML + Change tracking
   text format
     Given the module is enabled
@@ -36,6 +36,7 @@ Feature: Change tracking features
       | nexteuropa_webtools |
     And a valid Smartload Url has been configured
     And a map webtools "Block Webtools" exists
+    And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
     And I fill in the content's title with "Basic page with a Map"
     And I select "Full HTML + Change tracking" from "Text format"
@@ -52,6 +53,7 @@ Feature: Change tracking features
   @javascript @maximizedwindow
   Scenario: Checking if WYSIWYG options are applied to CKEditor
     # Necessary for PhantomJS to set a wider screen resolution.
+    Given I use device with "1920" px and "1080" px resolution
     When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
     And I click "enable tracked changes buttons" in the "Full HTML" row
     Then I should see "Enabled" in the "Full HTML" row

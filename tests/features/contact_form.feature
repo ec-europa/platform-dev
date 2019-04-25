@@ -29,7 +29,7 @@ Feature: Contact Form
       | success messages                   |
       | Your message has been sent. |
 
-  @javascript @ec_resp_theme
+  @javascript
   Scenario: Administrator user can submit the contact page in ec_resp theme
     Given I am logged in as a user with the administrator role
     When I am on "contact"
