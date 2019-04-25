@@ -17,7 +17,7 @@ Feature: Change tracking features
     When I go to "admin/config/content/formats"
     Then I should see "Full HTML + Change tracking"
 
-  @wip @maximizedwindow
+  @javascript @maximizedwindow
   Scenario: Checking WYSIWYG enabling and disabling change tracking on given WYSIWYG profile
     When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
     And I click "enable tracked changes buttons" in the "Full HTML" row
@@ -28,7 +28,7 @@ Feature: Change tracking features
     Then I should see "Disabled" in the "Full HTML" row
     And I should see the message "Change tracking disabled on full_html WYSIWYG profile"
 
-  @wip
+  @javascript
   Scenario: Check that users can insert a webtools block into a content by using the Full HTML + Change tracking
   text format
     Given the module is enabled

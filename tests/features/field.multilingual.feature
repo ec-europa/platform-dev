@@ -1,4 +1,4 @@
-@wip @maximizedwindow @api
+@api @javascript @maximizedwindow
 Feature: Field Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union
