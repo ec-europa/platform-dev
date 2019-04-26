@@ -7,12 +7,12 @@
     "ec-europa/qa-automation": "^3.0",
     "ext-json": "*",
     "ext-phar": "*",
-    "ext-tidy": "*",
     "ext-xml": "*",
     "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
     "phing/phing": "~2",
-    "wimg/php-compatibility": "~7.0.7"
+    "wimg/php-compatibility": "~7.0.7",
+    "ext-tidy": "^2.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master"
@@ -52,7 +52,6 @@
   },
   "config": {
     "bin-dir": "bin/",
-    "process-timeout": 1200,
-    "sort-packages": true
+    "process-timeout": 1200
   }
 }
