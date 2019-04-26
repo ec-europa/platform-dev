@@ -112,3 +112,5 @@ class CAS_Languages_French implements CAS_Languages_LanguageInterface
         return 'Le service `<b>%s</b>\' est indisponible (<b>%s</b>)';
     }
 }
+
+?>

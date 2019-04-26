@@ -4,7 +4,7 @@ Feature: Feature set menu
   As an administrative user
   I want to have a list of features to be enabled
 
-  @api @ec_europa_theme
+  @api
   Scenario: Test feature set screen as administrator
     Given I am logged in as a user with the "administrator" role
     When I am on "admin/structure/feature-set_en"
@@ -55,7 +55,7 @@ Feature: Feature set menu
     And I should see the text "Notifications"
     And I should not see the text "Nexteuropa DGT Connector"
 
-  @api @ec_europa_theme
+  @api
   Scenario: Test feature set screen as cem
     Given I am logged in as a user with the "cem" role
     When I am on "admin/structure/feature-set_en"

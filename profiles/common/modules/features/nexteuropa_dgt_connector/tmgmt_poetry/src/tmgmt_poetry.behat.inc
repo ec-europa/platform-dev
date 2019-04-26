@@ -5,6 +5,7 @@
  * Contains \TmgmtPoetrySubContext.
  */
 
+use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalContext;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
@@ -15,8 +16,6 @@ use Drupal\nexteuropa\Context\VariableContext;
  * Behat step definitions for the TMGMT Poetry module.
  */
 class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContextInterface {
-
-  use  Drupal\nexteuropa\Context\ContextUtil;
 
   public $nodeId;
   public $jobId;
@@ -235,24 +234,13 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @When I fill in :arg1 with a relative date of :arg2 days
    */
   public function iFillInWithArelativeDateOfDays($field, $number) {
-    $args = [
-      'field' => $field,
-      'date' => date('d/m/Y', strtotime("{$number} day")),
-    ];
-
     // Checking if the given field is available.
-    $this->spin(function ($context, $args) {
-      try {
-        $this->getSession()->getPage()->findField($args['field']);
-        $context->getSession()->getPage()->fillField($args['field'], $args['date']);
-        return TRUE;
-      }
-      catch (Exception $e) {
-        return FALSE;
-      }
-    }, $args);
+    if (!$this->getSession()->getPage()->findField($field)) {
+      throw new ExpectationException("Field '$field' not found.", $this->getSession());
+    }
 
-    $this->getSession()->getPage()->findField($args['field']);
+    $relative_date = date('d/m/Y', strtotime("{$number} day"));
+    $this->getSession()->getPage()->fillField($field, $relative_date);
   }
 
   /**

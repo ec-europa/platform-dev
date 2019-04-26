@@ -38,13 +38,6 @@ class FrontendCacheContext implements Context {
   protected $variables;
 
   /**
-   * The host the mock HTTP server should listen on.
-   *
-   * @var string
-   */
-  protected $mockServerHost;
-
-  /**
    * The port the mocked HTTP server should listen on.
    *
    * @var int
@@ -75,13 +68,10 @@ class FrontendCacheContext implements Context {
   /**
    * FrontendCacheContext constructor.
    *
-   * @param string $mock_server_host
-   *   The host the mock HTTP server should listen on.
    * @param int $mock_server_port
    *   The port the mocked HTTP server should listen on.
    */
-  public function __construct($mock_server_host = 'localhost', $mock_server_port = 8888) {
-    $this->mockServerHost = $mock_server_host;
+  public function __construct($mock_server_port = 8888) {
     $this->mockServerPort = $mock_server_port;
   }
 
@@ -97,7 +87,7 @@ class FrontendCacheContext implements Context {
    */
   protected function getServer() {
     if (!$this->server) {
-      $this->server = new Server($this->mockServerPort, $this->mockServerHost);
+      $this->server = new Server($this->mockServerPort, 'localhost');
 
       $this->server->start();
 

@@ -172,15 +172,6 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
-   * Increase ajax timeout value.
-   *
-   * @BeforeScenario @increase_timeout
-   */
-  public function increaseAjaxTimeout() {
-    $this->setMinkParameter('ajax_timeout', '20');
-  }
-
-  /**
    * Set all permissions to admin role.
    *
    * @Given I update the administrator role permissions

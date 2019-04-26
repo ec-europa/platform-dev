@@ -436,3 +436,5 @@ class CAS_PGTStorage_Db extends CAS_PGTStorage_AbstractStorage
     /** @} */
 
 }
+
+?>

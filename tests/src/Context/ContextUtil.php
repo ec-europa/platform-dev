@@ -88,35 +88,4 @@ trait ContextUtil {
     throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
   }
 
-  /**
-   * Attempt a procedure up to a given time limit.
-   *
-   * @param callable $lambda
-   *   The function to execute, must return a true value (cast)
-   * @param array $args
-   *   Additional arguments to pass to the function.
-   * @param int $repeat
-   *   The amount of times to repeat (1 per 100ms).
-   *
-   * @return bool
-   *   Whether the function executed successfully or not.
-   */
-  public function spin(callable $lambda, array $args = [], $repeat = 50) {
-    $errorMessage = '';
-
-    for ($i = 0; $i < $repeat; $i++) {
-      try {
-        if ($lambda($this, $args)) {
-          return TRUE;
-        }
-      }
-      catch (Exception $e) {
-        $errorMessage .= $e->getMessage();
-      }
-      usleep(100000);
-    }
-
-    return FALSE;
-  }
-
 }

@@ -114,3 +114,4 @@ class CAS_Languages_Spanish implements CAS_Languages_LanguageInterface
         return 'El servicio `<b>%s</b>\' no está disponible (<b>%s</b>).';
     }
 }
+?>

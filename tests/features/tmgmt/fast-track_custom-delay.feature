@@ -13,7 +13,7 @@ Feature: Fast track
       | es        |
     And the following Poetry settings:
     """
-      address: {{ wsdl }}
+      address: http://localhost:28080/wsdl
       method: requestService
     """
     And I update the "dgt_ftt" translator settings with the following values:

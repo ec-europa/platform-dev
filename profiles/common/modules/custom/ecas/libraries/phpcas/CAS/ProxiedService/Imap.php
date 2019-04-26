@@ -277,3 +277,4 @@ extends CAS_ProxiedService_Abstract
         return $this->getProxyTicket();
     }
 }
+?>
