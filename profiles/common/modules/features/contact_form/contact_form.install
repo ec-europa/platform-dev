@@ -65,11 +65,3 @@ function contact_form_install() {
 function contact_form_uninstall() {
   drupal_uninstall_modules(array('contact'), FALSE);
 }
-
-function _contact_form_init_feature() {
-  if (!module_exists('contact')) {
-    module_enable(array('contact'));
-    cache_clear_all();
-    menu_rebuild();
-  }
-}

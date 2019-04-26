@@ -27,3 +27,14 @@ function contact_form_pre_features_enable_feature($component) {
   // Activation message.
   drupal_set_message(t('contact_form feature is now active on your site.'));
 }
+
+/**
+ * Check if contact module is enbled and enable it if it's not.
+ */
+function _contact_form_init_feature() {
+  if (!module_exists('contact')) {
+    module_enable(array('contact'));
+    cache_clear_all();
+    menu_rebuild();
+  }
+}
