@@ -1,0 +1,5 @@
+name: Updater
+description: Updates a website instance by executing available updaters
+type: module
+core: 8.x
+package: Drush
