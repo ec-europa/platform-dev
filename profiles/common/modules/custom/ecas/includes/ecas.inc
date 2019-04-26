@@ -551,10 +551,15 @@ function ecas_login_check() {
     );
   }
 
+  $ecas_social_login = $ecas_attributes['cas:employeeType'];
   $ecas_user_language = ecas_get_ecas_user_language($ecas_attributes);
 
   // Let's check after an existing Drupal account.
   $account = user_load_by_name($ecas_name);
+  // Check if the mail is in use.
+  if (!$account &&  $ecas_social_login != 'v') {
+    $account = user_load_by_mail($ecas_attributes['cas:email']);
+  }
   // Let's already give the chance to other module to alter the
   // account structure.
   drupal_alter('ecas_extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
@@ -612,7 +617,7 @@ function ecas_login_check() {
 
   // Check that the email is not used for another account; otherwise the drupal
   // authentication is denied.
-  if (ecas_is_email_already_used($account_edit['mail'], $account)) {
+  if ($ecas_social_login == 'v' && ecas_is_email_already_used($account_edit['mail'], $account)) {
     _ecas_warning_goto(
       ECAS_WARNING_REASON_EXISTING_EMAIL,
       $ecas_user_language,
@@ -913,6 +918,11 @@ function ecas_save_user($account, $edit, array $ecas_user_info, array $args = ar
   // Old hook implementation. we keep it for backward compatibility.
   module_invoke_all('info_ecas_update', $account, $ecas_user_info, $args);
 
+  // Load the user account and update realname, to ensure the safe_value of
+  // fields are updated.
+  cache_clear_all();
+  $update_account = user_load($account->uid, TRUE);
+  realname_update($update_account);
   return $account;
 }
 
