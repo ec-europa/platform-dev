@@ -13,9 +13,7 @@ module_load_include('inc', 'contact_form', 'contact_form.install');
  * Enable contact module.
  */
 function contact_form_enable() {
-  module_enable(array('contact'));
-  cache_clear_all();
-  menu_rebuild();
+  _contact_form_init_feature();
 }
 
 /**
@@ -33,6 +31,7 @@ function contact_form_disable() {
  */
 function contact_form_install() {
 
+  _contact_form_init_feature();
   // Set "administrator" permissions.
   $permissions_admin = array(
     'administer contact forms',
@@ -65,4 +64,12 @@ function contact_form_install() {
  */
 function contact_form_uninstall() {
   drupal_uninstall_modules(array('contact'), FALSE);
+}
+
+function _contact_form_init_feature() {
+  if (!module_exists('contact')) {
+    module_enable(array('contact'));
+    cache_clear_all();
+    menu_rebuild();
+  }
 }
