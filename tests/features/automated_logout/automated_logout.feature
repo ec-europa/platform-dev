@@ -18,5 +18,5 @@ Feature: Automated logout
     Then  I should see the text "Manage content"
     And   I wait 5 seconds
     When  I go to "/admin/content_en"
-    Then  I should get an access denied error
+    Then  I should see the text "Access denied"
     And   I should not see the text "Manage content"

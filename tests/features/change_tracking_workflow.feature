@@ -170,7 +170,8 @@ Feature: Change tracking features
     And I press "Save"
     Then the response should contain "<expected>"
     And I should see the following warning messages:
-      | warning messages | <strong>The change tracking is activated on some fields of this "Basic page" content</strong>.<br /> <small>Please accept or reject tracked changes before setting the content state to validated or published.</small> |
+      | warning messages | 
+      | <strong>The change tracking is activated on some fields of this "Basic page" content</strong>.<br /> <small>Please accept or reject tracked changes before setting the content state to validated or published.</small> |
     And I should see highlighted elements
 
     Examples:
@@ -192,7 +193,8 @@ Feature: Change tracking features
     And I press "Save"
     Then the response should contain "<expected>"
     And I should not see the following warning messages:
-      | warning messages | <strong>The change tracking is activated on some fields of this "Basic page" content</strong>.<br /> <small>Please accept or reject tracked changes before setting the content state to validated or published.</small> |
+      | warning messages | 
+      | <strong>The change tracking is activated on some fields of this "Basic page" content</strong>.<br /> <small>Please accept or reject tracked changes before setting the content state to validated or published.</small> |
     And I should not see highlighted elements
 
     Examples:
