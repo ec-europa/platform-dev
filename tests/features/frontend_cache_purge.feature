@@ -662,7 +662,7 @@ Feature:
     And I press "Purge caches"
     Then I should see "Are you sure you want to purge Varnish cache ?"
     And I should see "The action you are about to perform has a deep impact on the site's performance!"
-    When I press "Continue"
+    When I press the "Continue" button
     Then the web front end cache was instructed to purge completely its index for the application tag "my-website"
     And I should see the success message "The Varnish caches have been fully flushed."
 
@@ -674,7 +674,7 @@ Feature:
     And I press "Purge caches"
     Then I should see "Are you sure you want to purge Varnish and Drupal cache ?"
     And I should see "The action you are about to perform has a deep impact on the site's performance!"
-    When I press "Continue"
+    When I press the "Continue" button
     Then the web front end cache was instructed to purge completely its index for the application tag "my-website"
     And I should see the success message "The Drupal and Varnish caches have been fully flushed."
 
