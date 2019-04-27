@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c954655013996f68e444adfe978f58d",
+    "content-hash": "bfd8843a6f3046824c278c16dcf1334c",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -5464,6 +5464,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "drupal/drupal-extension": 10,
         "roave/security-advisories": 20
     },
     "prefer-stable": true,
