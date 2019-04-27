@@ -156,6 +156,8 @@ Feature: Change tracking features
       | blocked                                                                                                                                                                                                                        |
       | <p>Article body<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> additional content</span></p> |
 
+  @wip
+  #See nept-2440
   Scenario Outline: Change tracking are visible while seeing the content page
     When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
     And I check the box "Validated"
