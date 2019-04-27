@@ -1,5 +1,0 @@
-services:
-  updater.commands:
-    class: \Drupal\updater\Commands\UpdaterCommands
-    tags:
-      - { name: drush.command }

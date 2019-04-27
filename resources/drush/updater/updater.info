@@ -1,3 +1,0 @@
-name = Updater
-description = Updates a website instance by executing available updaters
-package = Drush
