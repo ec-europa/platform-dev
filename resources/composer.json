@@ -6,8 +6,7 @@
     "drupol/drupal7_psr3_watchdog": "^1.0",
     "ec-europa/oe-poetry-client": "0.3.6",
     "guzzlehttp/guzzle": "^6.2.1",
-    "cweagans/composer-patches": "~1.0",
-    "drupal/drupal-extension": "~4.0.0"
+    "cweagans/composer-patches": "~1.0"
   },
   "require-dev": {
     "behat/behat": "~3.2",
@@ -19,7 +18,8 @@
     "openeuropa/behat-transformation-context": "^0.1",
     "phpunit/phpunit": "^5.0",
     "roave/security-advisories": "dev-master",
-    "rych/random": "v0.1.0"
+    "rych/random": "v0.1.0",
+    "drupal/drupal-extension": "~4.0.0"
   },
   "autoload": {
     "psr-4": {
