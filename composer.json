@@ -52,7 +52,11 @@
   },
   "config": {
     "bin-dir": "bin/",
+<<<<<<< HEAD
     "process-timeout": 1200,
     "sort-packages": true
+=======
+    "process-timeout": 1200
+>>>>>>> Revert "NEPT-1606: Attempting to include oe-poetry-behat dependency in the main project, rather than the build"
   }
 }

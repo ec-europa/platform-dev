@@ -1,10 +1,14 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "6351c738b576a780677ffb950eb2c8be",
+=======
+    "content-hash": "43838fd3aa20b57a57c0f61ffacfd05d",
+>>>>>>> Revert "NEPT-1606: Attempting to include oe-poetry-behat dependency in the main project, rather than the build"
     "packages": [
         {
             "name": "cpliakas/git-wrapper",
@@ -99,7 +103,7 @@
             "version": "8.2.12",
             "source": {
                 "type": "git",
-                "url": "https://git.drupal.org/project/coder.git",
+                "url": "https://github.com/klausi/coder.git",
                 "reference": "984c54a7b1e8f27ff1c32348df69712afd86b17f"
             },
             "dist": {
@@ -1679,6 +1683,7 @@
             "time": "2016-10-30T14:34:26+00:00"
         }
     ],
+<<<<<<< HEAD
     "packages-dev": [
         {
             "name": "roave/security-advisories",
@@ -1889,6 +1894,9 @@
             "time": "2019-04-24T06:22:37+00:00"
         }
     ],
+=======
+    "packages-dev": [],
+>>>>>>> Revert "NEPT-1606: Attempting to include oe-poetry-behat dependency in the main project, rather than the build"
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
