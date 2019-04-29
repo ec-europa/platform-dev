@@ -84,3 +84,8 @@ projects[drupal][patch][] = patches/set-session-cookie-lifetime-0.patch
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1995
 ; See https://www.drupal.org/project/drupal/issues/1657886.
 projects[drupal][patch][] = https://www.drupal.org/files/issues/2018-09-28/filter-urlfilter-i18n-1657886-41.patch
+
+; HTTP status 200 returned for ”Additional uncaught exception thrown while handling exception”
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2429
+; https://www.drupal.org/project/drupal/issues/2666908
+projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-500_exception_on_exception-12221055-6.patch
