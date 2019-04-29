@@ -4,7 +4,7 @@ env.slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMB
 slackSend color: "good", message: "${env.slackMessage} started."
 
 try {
-    node('master') {
+    node('nodeIvan') {
         ws("${env.WORKSPACE_PATH}") {
             stage('Check') {
                 deleteDir()
@@ -18,7 +18,7 @@ try {
     parallel (
         'standard-ec-resp' : {
             // Build and test the standard profile with ec_resp theme
-            node('slave') {
+            node('nodeIvan') {
                 ws("${env.WORKSPACE_PATH}") {
                     try {
                         withEnv([
@@ -35,7 +35,7 @@ try {
         },
         'standard-ec-europa' : {
             // Build and test the standard profile with europa theme
-            node('slave') {
+            node('nodeIvan') {
                 ws("${env.WORKSPACE_PATH}") {
                     try {
                         withEnv([
@@ -51,7 +51,7 @@ try {
         },
         'communities-ec-resp' : {
             // Build and test the communities profile with ec_resp theme
-            node('slave') {
+            node('nodeIvan') {
                 ws("${env.WORKSPACE_PATH}") {
                     try {
                         withEnv([
@@ -68,7 +68,7 @@ try {
         },
         'communities-ec-europa' : {
             // Build and test the communities profile with europa theme
-            node('slave') {
+            node('nodeIvan') {
                 ws("${env.WORKSPACE_PATH}") {
                     try {
                         withEnv([
