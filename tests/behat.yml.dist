@@ -1,8 +1,11 @@
 default:
+  autoload:
+    - {{ platform.build.dir }}/features/bootstrap/
   suites:
     default:
       contexts:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
+            mock_server_host: {{ behat.poetry.host }}
             mock_server_port: {{ integration.server.port }}
         - Drupal\nexteuropa\Context\ModuleContext
         - FeatureContext:
@@ -30,6 +33,7 @@ default:
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\nexteuropa\Context\WebtoolsContext
         - Drupal\nexteuropa\Context\FrontendCacheContext:
+            mock_server_host: {{ behat.poetry.host }}
             mock_server_port: {{ varnish.server.port }}
         - Drupal\nexteuropa\Context\DatabaseLogContext
         - Drupal\nexteuropa\Context\PathautoContext
@@ -41,7 +45,8 @@ default:
             drush_bin: '{{ drush.bin }}'
             db_dump_location: '{{ drush.db.dump }}'
         - EC\Behat\PoetryExtension\Context\PoetryContext
-        - Drupal\nexteuropa\Context\PoetryContext
+        - Drupal\nexteuropa\Context\PoetryContext:
+            wsdl: 'http://{{ behat.poetry.host }}:{{ behat.poetry.port }}{{ behat.poetry.wsdl }}'
         - Drupal\nexteuropa\Context\RulesContext
         - Drupal\nexteuropa\Context\LacoContext
         - Drupal\nexteuropa\Context\TokenContext
@@ -62,10 +67,17 @@ default:
         tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip"
   extensions:
     EC\Behat\PoetryExtension:
+      service:
+        host: '{{ behat.poetry.host }}'
+        port: '{{ behat.poetry.port }}'
+        endpoint: '{{ behat.poetry.endpoint }}'
+        wsdl: '{{ behat.poetry.wsdl }}'
+        username: '{{ behat.poetry.username }}'
+        password: '{{ behat.poetry.password }}'
       application:
         base_url: '{{ behat.base_url }}'
         endpoint: '/poetry/notification'
-    Behat\MinkExtension:
+    Drupal\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
       browser_name: '{{ behat.browser.name }}'
@@ -74,6 +86,7 @@ default:
         wd_host: '{{ behat.wd_host.url }}'
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
+      ajax_timeout: 30
     Drupal\nexteuropa\Extensions\DrupalExtension:
       api_driver: 'drupal'
       blackbox: ~
