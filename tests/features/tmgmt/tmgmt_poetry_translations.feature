@@ -18,7 +18,7 @@ Feature: TMGMT Poetry features
 
   @resetPoetryNumero @theme_wip
   Scenario: Checking a wrong configuration.
-    Given I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "WRONG_NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
@@ -43,7 +43,7 @@ Feature: TMGMT Poetry features
     And I should see "Rejected" in the "French" row
     And I should see "Rejected" in the "Italian" row
 
-    When I am logged in as a user with the "cem" role
+    When I am logged in as a user with the "administrator" role
     And I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
@@ -56,7 +56,7 @@ Feature: TMGMT Poetry features
   # trim any value we fill it with.
   @cleanup-tmgmt-poetry-website-identifier @theme_wip
   Scenario: A website identifier longer than 15 characters is not accepted.
-    Given I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
     And inside fieldset "General settings" I fill in "Website identifier" with "tmgmt_poetry_website_identifier"
     And I press the "Save translator" button
@@ -89,7 +89,7 @@ Feature: TMGMT Poetry features
   @javascript @cleanup-tmgmt-poetry-website-identifier @poetry_mock_cleanup_translator @theme_wip
   Scenario: Send translation request including a website identifier with
   characters that have a special meaning in HTML.
-    Given I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And inside fieldset "General settings" I fill in "Website identifier" with "/>&mywebsite<"
     And I fill in "Callback Password" with "drupal_callback_password"
@@ -865,7 +865,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Validate max field length when TMGMT Auto accept is enabled.
-    Given I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I check the box "Auto accept finished translations"
     And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
