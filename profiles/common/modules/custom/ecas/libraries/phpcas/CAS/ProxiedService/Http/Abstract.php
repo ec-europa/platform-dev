@@ -357,4 +357,3 @@ CAS_ProxiedService_Abstract implements CAS_ProxiedService_Http
     }
 
 }
-?>

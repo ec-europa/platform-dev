@@ -69,4 +69,3 @@ interface CAS_ProxiedService
     public function setProxyTicket ($proxyTicket);
 
 }
-?>
