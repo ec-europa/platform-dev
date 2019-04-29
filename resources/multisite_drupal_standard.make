@@ -245,9 +245,9 @@ projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 projects[eu_cookie_compliance][patch][] = patches/eu_cookie_compliance_nept-2299.patch
 ; Fix disappearing background in popup
-; https://www.drupal.org/node/1705230
+; https://www.drupal.org/node/2498251
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2314
-projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/eu_cookie_compliance-fix_background-1705230-12-d7.patch
+projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/eu_cookie_compliance-popup_overflow-2498251-2.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
