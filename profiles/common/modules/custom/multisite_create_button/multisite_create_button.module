@@ -13,6 +13,10 @@ function multisite_create_button_block_info() {
     'info' => t('Create content button'),
   );
 
+  $blocks['og-contextual-links'] = array(
+    'info' => t('OG Contextual Links'),
+  );
+
   return $blocks;
 }
 
@@ -24,6 +28,11 @@ function multisite_create_button_block_view($delta = '') {
 
   switch ($delta) {
     case 'create-content-button':
+      $block['subject'] = t('Create content');
+      $block['content'] = _multisite_create_button_contextual_links();
+      break;
+
+    case 'og-contextual-links':
       $block['subject'] = t('Create content');
       $block['content'] = _multisite_create_button_contextual_links();
       break;
@@ -39,23 +48,36 @@ function _multisite_create_button_contextual_links() {
   $element = NULL;
   $content = system_admin_menu_block(menu_get_item('node/add'));
 
-  if (!empty($content)) {
-    $options = array(
-      '#' => t('Create content'),
-    );
+  $profile = drupal_get_profile();
+  if ($profile == 'multisite_drupal_standard') {
+    if (!empty($content)) {
+      $options = array(
+        '#' => t('Create content'),
+      );
 
-    foreach ($content as $content_type) {
-      $options[url($content_type['link_path'], array('absolute' => TRUE))] = $content_type['link_title'];
+      foreach ($content as $content_type) {
+        $options[url($content_type['link_path'], array('absolute' => TRUE))] = $content_type['link_title'];
+      }
+
+      $element = array(
+        '#theme' => array('select__create_content_button'),
+        '#title' => t('Create content'),
+        '#options' => $options,
+        '#attributes' => array(
+          'onChange' => 'if (this.value) window.location.href=this.value;',
+        ),
+      );
     }
+  }
 
-    $element = array(
-      '#theme' => array('select__create_content_button'),
-      '#title' => t('Create content'),
-      '#options' => $options,
-      '#attributes' => array(
-        'onChange' => 'if (this.value) window.location.href=this.value;',
-      ),
-    );
+  if ($profile == 'multisite_drupal_communities') {
+    $context = og_context();
+    if ($context) {
+      $element = og_node_create_links('node', $context['gid'], 'og_group_ref');
+      if ($element) {
+        $element['og_node_create_links']['#theme'] = 'dropdown';
+      }
+    }
   }
 
   return $element;
