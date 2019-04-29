@@ -378,7 +378,7 @@ class MultilingualContext extends RawDrupalContext {
     }
     $this->updatedTranslators[] = $translator;
     $parser = new PyStringYamlParser($string);
-    $settings = $parser->parse();
+    $settings = $parser->parse()->getYaml();
     $translator->settings = array_merge($translator->settings, $settings);
     $translator->save();
   }
