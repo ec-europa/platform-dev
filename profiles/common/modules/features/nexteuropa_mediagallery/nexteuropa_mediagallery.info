@@ -16,6 +16,7 @@ dependencies[] = og_ui
 dependencies[] = text
 dependencies[] = views
 dependencies[] = views_bootstrap
+dependencies[] = multisite_drupal_toolbox
 features[ctools][] = ds:ds:1
 features[ctools][] = field_group:field_group:1
 features[ctools][] = file_entity:file_default_displays:1

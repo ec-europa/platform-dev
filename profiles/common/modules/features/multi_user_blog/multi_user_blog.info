@@ -6,6 +6,7 @@ dependencies[] = apachesolr
 dependencies[] = cce_basic_config
 dependencies[] = rate
 dependencies[] = translation
+dependencies[] = multisite_drupal_toolbox
 features[context][] = blog_posts
 features[ctools][] = context:context:3
 features[ctools][] = field_group:field_group:1
