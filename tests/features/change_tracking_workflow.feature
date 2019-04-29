@@ -36,7 +36,6 @@ Feature: Change tracking features
       | nexteuropa_webtools |
     And a valid Smartload Url has been configured
     And a map webtools "Block Webtools" exists
-    And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
     And I fill in the content's title with "Basic page with a Map"
     And I select "Full HTML + Change tracking" from "Text format"
@@ -53,7 +52,6 @@ Feature: Change tracking features
   @javascript @maximizedwindow
   Scenario: Checking if WYSIWYG options are applied to CKEditor
     # Necessary for PhantomJS to set a wider screen resolution.
-    Given I use device with "1920" px and "1080" px resolution
     When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
     And I click "enable tracked changes buttons" in the "Full HTML" row
     Then I should see "Enabled" in the "Full HTML" row
@@ -156,6 +154,8 @@ Feature: Change tracking features
       | blocked                                                                                                                                                                                                                        |
       | <p>Article body<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> additional content</span></p> |
 
+  @wip
+  #See nept-2440
   Scenario Outline: Change tracking are visible while seeing the content page
     When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
     And I check the box "Validated"
@@ -170,7 +170,8 @@ Feature: Change tracking features
     And I press "Save"
     Then the response should contain "<expected>"
     And I should see the following warning messages:
-      | warning messages | <strong>The change tracking is activated on some fields of this "Basic page" content</strong>.<br /> <small>Please accept or reject tracked changes before setting the content state to validated or published.</small> |
+      | warning messages | 
+      | <strong>The change tracking is activated on some fields of this "Basic page" content</strong>.<br /> <small>Please accept or reject tracked changes before setting the content state to validated or published.</small> |
     And I should see highlighted elements
 
     Examples:
@@ -192,7 +193,8 @@ Feature: Change tracking features
     And I press "Save"
     Then the response should contain "<expected>"
     And I should not see the following warning messages:
-      | warning messages | <strong>The change tracking is activated on some fields of this "Basic page" content</strong>.<br /> <small>Please accept or reject tracked changes before setting the content state to validated or published.</small> |
+      | warning messages | 
+      | <strong>The change tracking is activated on some fields of this "Basic page" content</strong>.<br /> <small>Please accept or reject tracked changes before setting the content state to validated or published.</small> |
     And I should not see highlighted elements
 
     Examples:
