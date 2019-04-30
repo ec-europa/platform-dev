@@ -1,7 +1,0 @@
-name = Multisite OG Button
-description = "Provides contextual links to create group content"
-package = "Organic groups"
-dependencies[] = og_context
-
-core = 7.x
-files[] = multisite_og_button.test
