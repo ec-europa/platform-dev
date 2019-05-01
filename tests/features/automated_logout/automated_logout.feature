@@ -1,4 +1,4 @@
-@api @ec_resp_theme
+@api @ec_resp_theme @javascript
 Feature: Automated logout
   In order to automate the action to log out from the platform
   As an administrator
@@ -6,8 +6,9 @@ Feature: Automated logout
 
   Scenario: Administrator logout
     Given I am logged in as a user with the 'administrator' role
+    And I am on the homepage
     Then  I should see the text "log out"
-    Then  I should see the text "admin"
+    Then  I should see the text "Welcome"
     When  I go to "/admin/content_en"
     Then  I should see the text "Manage content"
     When  I change the variable "autologout_timeout" to "3"
@@ -17,5 +18,5 @@ Feature: Automated logout
     Then  I should see the text "Manage content"
     And   I wait 5 seconds
     When  I go to "/admin/content_en"
-    Then  I should get an access denied error
+    Then  I should see the text "Access denied"
     And   I should not see the text "Manage content"
