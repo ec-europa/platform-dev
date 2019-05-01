@@ -93,4 +93,3 @@ interface CAS_Languages_LanguageInterface
     public function getServiceUnavailable();
 
 }
-?>

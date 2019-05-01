@@ -1,5 +1,3 @@
-[![Build Status](https://status.continuousphp.com/git-hub/ec-europa/platform-dev?token=4df2e996-5362-486e-b409-84527de6a65b&branch=develop)](https://continuousphp.com/git-hub/ec-europa/platform-dev)
-
 # NextEuropa
 
 ## Requirements
@@ -12,6 +10,7 @@
 
 Before we can build the NextEuropa platform we need to install the build system
 itself. This can be done using [composer](https://getcomposer.org/):
+
 
 ```
 $ composer install
