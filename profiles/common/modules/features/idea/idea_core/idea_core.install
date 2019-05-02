@@ -99,7 +99,7 @@ function idea_core_install() {
 
   $cem_permissions = array(
     'view rate results page',
-  )
+  );
   $all_permissions = array_keys(module_invoke_all('permission'));
   multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, array_intersect($all_permissions, $cem_permissions));
 }
