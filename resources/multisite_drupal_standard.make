@@ -176,9 +176,7 @@ projects[date_ical][version] = "3.9"
 projects[date_ical][patch][2909036] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909036-1.patch
 
 projects[diff][subdir] = "contrib"
-projects[diff][download][branch] = 7.x-3.x
-projects[diff][download][revision] = b1b09189d52380a008c9cb29b879e3aa140ec2e0
-projects[diff][download][type] = git
+projects[diff][version] = 3.4
 
 projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
