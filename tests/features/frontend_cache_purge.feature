@@ -357,7 +357,7 @@ Feature:
       | content\/frontend\-cache\-purge\-withdrawal       |
       | node\/[node:last-created-node-id]_[a-z]{2}        |
 
-  @moderated-content @purge-rule-type-node @andras @javascript
+  @moderated-content @purge-rule-type-node
   Scenario: Purge the paths of a basic page when it is published via moderation.
     Given the default purge rule is disabled
     And the following cache purge rules:
@@ -384,7 +384,7 @@ Feature:
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
 
-  @moderated-content @purge-rule-type-node @andras @javascript
+  @moderated-content @purge-rule-type-node
   Scenario: As any alias has revisions, the purge request must be sent directly for a published basic page when
   its URL is changed, whatever its moderation state
     Given the default purge rule is disabled
@@ -412,7 +412,7 @@ Feature:
       | frontend\-cache\-purge\-published\-page\-custom\-alias    |
       | node\/[node:last-created-node-id]_[a-z]{2}                |
 
-  @non-moderated-content @unilingual-content @purge-rule-type-node @andras @javascript
+  @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an editorial team.
     Given the default purge rule is disabled
     And the following cache purge rules:
@@ -429,7 +429,7 @@ Feature:
       | content\/frontend\-cache\-purge\-editorial\-team\-publication     |
       | node\/[node:last-created-node-id]_[a-z]{2}                        |
 
-  @non-moderated-content @unilingual-content @purge-rule-type-node @andras @javascript
+  @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an existing draft of an editorial team.
     Given the default purge rule is disabled
     And the following cache purge rules:
@@ -452,7 +452,7 @@ Feature:
       | content\/frontend\-cache\-purge\-editorial\-team\-publish\-draft    |
       | node\/[node:last-created-node-id]_[a-z]{2}                          |
 
-  @non-moderated-content @unilingual-content @purge-rule-type-node @andras @javascript
+  @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Change the URL of a published editorial team.
     Given the default purge rule is disabled
     And I go to "node/add/editorial-team"
@@ -492,7 +492,7 @@ Feature:
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
 
-  @non-moderated-content @unilingual-content @purge-rule-type-node @andras @javascript
+  @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Withdraw a published editorial team.
     Given the default purge rule is disabled
     And I go to "node/add/editorial-team"
@@ -578,7 +578,7 @@ Feature:
 
   # Scenarios for checking the default purge rule functionality
 
-  @moderated-content @purge-rule-type-node @andras @javascript
+  @moderated-content @purge-rule-type-node
   Scenario: Purge the paths of a basic page when it is withdrawn using the default purge rule.
     Given the following languages are available:
       | languages |
@@ -603,7 +603,7 @@ Feature:
       | content\/frontend\-cache\-purge\-withdrawal     |
       | node\/[node:last-created-node-id]_[a-z]{2}      |
 
-  @moderated-content @purge-rule-type-node @andras @javascript
+  @moderated-content @purge-rule-type-node
   Scenario: Purge the paths of a basic page when it is published via moderation using the default purge rule.
     Given the web front end cache is ready to receive requests.
     When I go to "node/add/page"
@@ -619,7 +619,7 @@ Feature:
       | content\/frontend\-cache\-purge\-publication    |
       | node\/[node:last-created-node-id]_[a-z]{2}      |
 
-  @non-moderated-content @unilingual-content @purge-rule-type-node @andras @javascript
+  @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an existing draft of an editorial team using the default purge rule.
     Given the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
