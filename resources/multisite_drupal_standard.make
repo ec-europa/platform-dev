@@ -141,6 +141,7 @@ projects[colors][version] = "1.0-rc1"
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.7"
 projects[context][patch][] = https://www.drupal.org/files/issues/massively-increase-pe-reroll-873936-67.patch
+projects[context][patch][] = patches/context_nept-2263.patch
 
 projects[context_entity_field][subdir] = "contrib"
 projects[context_entity_field][version] = "1.1"
@@ -458,6 +459,8 @@ projects[libraries][version] = "2.3"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2251
+projects[link][patch][] = patches/nept-2251-link-SA-CONTRIB-2019-020.patch
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
@@ -773,7 +776,7 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
 
 projects[video][subdir] = "contrib"
-projects[video][version] = "2.11"
+projects[video][version] = "2.14"
 projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
