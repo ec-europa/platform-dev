@@ -32,14 +32,14 @@ workspace:
 # ==============================================================================
 services:
   web:
-    image: fpfis/httpd-php-dev:7.1
+    image: ${IMAGE_PHP=fpfis/httpd-php-dev:{PHP_VERSION}}
     environment:
       - DOCUMENT_ROOT=/test/platform
     pull: true
     when:
       event: [ push, pull_request, tag ]
   mysql:
-    image: percona/percona-server:5.6
+    image: percona/percona-server:{PHP_VERSION}
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     pull: true
@@ -68,7 +68,7 @@ pipeline:
 
   # Build and install platform
   site-build:
-    image: fpfis/httpd-php-dev:7.1
+    image: ${IMAGE_PHP=fpfis/httpd-php-dev:{PHP_VERSION}}
     commands:
       - composer install --ansi --no-suggest --no-progress
       - ./bin/phing build-platform-dev -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
@@ -81,7 +81,7 @@ pipeline:
 
   # Run phpcs tests
   phpcs:
-    image: fpfis/httpd-php-dev:7.1
+    image: ${IMAGE_PHP=fpfis/httpd-php-dev:{PHP_VERSION}}
     commands:
       - ./bin/phpcs
     when:
@@ -91,7 +91,7 @@ pipeline:
 
   # Run phpunit tests
   phpunit:
-    image: fpfis/httpd-php-dev:7.1
+    image: ${IMAGE_PHP=fpfis/httpd-php-dev:{PHP_VERSION}}
     commands:
       - ./bin/phpunit -c tests/phpunit.xml
     when:
@@ -101,7 +101,7 @@ pipeline:
 
   # Run behat tests
   behat:
-    image: fpfis/httpd-php-dev:7.1
+    image: ${IMAGE_PHP=fpfis/httpd-php-dev:{PHP_VERSION}}
     commands:
       - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
     when:
@@ -150,7 +150,7 @@ matrix:
     - BEHAT_PART: 0
       BEHAT_PROFILE: communities_ec_resp
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1
+      IMAGE_PHP: fpfis/httpd-php-dev:{PHP_VERSION}
       PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_resp
       # Communities, ec_resp (php 7.1)
@@ -166,7 +166,7 @@ matrix:
     - BEHAT_PART: 0
       BEHAT_PROFILE: communities
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1
+      IMAGE_PHP: fpfis/httpd-php-dev:{PHP_VERSION}
       PLATFORM_PROFILE: multisite_drupal_communities
       THEME_DEFAULT: ec_europa
       # Communities, ec_europa (php 7.1)
@@ -182,25 +182,25 @@ matrix:
     - BEHAT_PART: 0
       BEHAT_PROFILE: default
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1
+      IMAGE_PHP: fpfis/httpd-php-dev:{PHP_VERSION}
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
     - BEHAT_PART: 1
       BEHAT_PROFILE: default
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1
+      IMAGE_PHP: fpfis/httpd-php-dev:{PHP_VERSION}
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
     - BEHAT_PART: 2
       BEHAT_PROFILE: default
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1
+      IMAGE_PHP: fpfis/httpd-php-dev:{PHP_VERSION}
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
     - BEHAT_PART: 3
       BEHAT_PROFILE: default
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1
+      IMAGE_PHP: fpfis/httpd-php-dev:{PHP_VERSION}
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_europa
       # Standard, ec_europa (php 7.1)
@@ -234,25 +234,25 @@ matrix:
     - BEHAT_PART: 0
       BEHAT_PROFILE: standard_ec_resp
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1
+      IMAGE_PHP: fpfis/httpd-php-dev:{PHP_VERSION}
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
     - BEHAT_PART: 1
       BEHAT_PROFILE: standard_ec_resp
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1
+      IMAGE_PHP: fpfis/httpd-php-dev:{PHP_VERSION}
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
     - BEHAT_PART: 2
       BEHAT_PROFILE: standard_ec_resp
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1
+      IMAGE_PHP: fpfis/httpd-php-dev:{PHP_VERSION}
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
     - BEHAT_PART: 3
       BEHAT_PROFILE: standard_ec_resp
       CODE_COMPLIANCE: 0
-      IMAGE_PHP: fpfis/httpd-php-dev:7.1
+      IMAGE_PHP: fpfis/httpd-php-dev:{PHP_VERSION}
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
       # Standard, ec_resp (php 7.1)
