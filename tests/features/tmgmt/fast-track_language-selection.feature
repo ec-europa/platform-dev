@@ -14,7 +14,7 @@ Feature: Fast track language selection
       | de        |
     And the following Poetry settings:
     """
-      address: http://localhost:28080/wsdl
+      address: {{ wsdl }}
       method: requestService
     """
     And I update the "dgt_ftt" translator settings with the following values:

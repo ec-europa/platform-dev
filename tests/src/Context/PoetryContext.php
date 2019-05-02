@@ -22,6 +22,25 @@ class PoetryContext implements Context {
   protected $variables;
 
   /**
+   * Parameters passed from the configuration.
+   *
+   * @var array
+   */
+  protected $params = [];
+
+  /**
+   * PoetryContext constructor.
+   *
+   * @param string $wsdl
+   *   The wsdl to use in the tests.
+   */
+  public function __construct($wsdl) {
+    $this->params = [
+      'wsdl' => $wsdl,
+    ];
+  }
+
+  /**
    * Gathers other contexts we rely on, before the scenario starts.
    *
    * @BeforeScenario @poetry
@@ -29,6 +48,21 @@ class PoetryContext implements Context {
   public function gatherContexts(BeforeScenarioScope $scope) {
     $environment = $scope->getEnvironment();
     $this->variables = $environment->getContext(VariableContext::class);
+  }
+
+  /**
+   * Get the token replacements.
+   *
+   * @return array
+   *   A keyed array of the token and token value.
+   */
+  public function getReplacements() {
+    $replacements = [];
+    foreach ($this->params as $key => $value) {
+      $key = '{{ ' . $key . ' }}';
+      $replacements[$key] = $value;
+    }
+    return $replacements;
   }
 
   /**
@@ -44,7 +78,26 @@ class PoetryContext implements Context {
    */
   public function theFollowingPoetrySettings(PyStringNode $string) {
     $parser = new PyStringYamlParser($string);
-    $this->variables->setVariable('poetry_service', $parser->parse());
+    $yaml = $parser->parse()
+      ->replace($this->getReplacements())
+      ->getYaml();
+    $this->variables->setVariable('poetry_service', $yaml);
+  }
+
+  /**
+   * Set variable with replacements.
+   *
+   * @param string $name
+   *   Name of the variable.
+   * @param mixed $value
+   *   New value for the variable.
+   *
+   * @Given I change the poetry variable :name to :value
+   */
+  public function iChangeThePoetryVariable($name, $value) {
+    $replacements = $this->getReplacements();
+    $value = str_replace(array_keys($replacements), array_values($replacements), $value);
+    variable_set($name, $value);
   }
 
 }
