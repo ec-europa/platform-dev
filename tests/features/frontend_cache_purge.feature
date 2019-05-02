@@ -693,4 +693,3 @@ Feature:
     When I press the "Continue" button
     Then the web front end cache was instructed to purge completely its index for the application tag "my-website"
     And I should see the success message "The Drupal and Varnish caches have been fully flushed."
-
