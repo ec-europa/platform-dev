@@ -18,6 +18,7 @@ Feature: Fast track
     """
     And I request to change the variable "ne_dgt_rules_translator" to "dgt_ftt"
 
+  @ec_europa_theme
   Scenario: Fast track workflow.
     Given I update the "dgt_ftt" translator settings with the following values:
     """
@@ -32,7 +33,7 @@ Feature: Fast track
       organization:
         responsible: DIGIT
         author: IE/CE/DIGIT
-        requester: IE/CE/DIGIT/A/3
+        requester: IE/CE/DIGIT
       contacts:
         author: john_smith
         secretary: john_smith
@@ -150,7 +151,7 @@ Feature: Fast track
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
       | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
-      | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
+      | <serviceDemandeur>IE/CE/DIGIT</serviceDemandeur>          |
       | <applicationReference>FPFIS</applicationReference>            |
       | <delai>01/12/2017</delai>                                     |
       | <attributionsDelai>01/12/2017</attributionsDelai>             |
@@ -162,7 +163,7 @@ Feature: Fast track
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
       | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
-      | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
+      | <serviceDemandeur>IE/CE/DIGIT</serviceDemandeur>          |
       | <applicationReference>FPFIS</applicationReference>            |
       | <delai>01/12/2017</delai>                                     |
       | <attributionsDelai>01/12/2017</attributionsDelai>             |
@@ -181,7 +182,7 @@ Feature: Fast track
       organization:
         responsible: DIGIT
         author: IE/CE/DIGIT
-        requester: IE/CE/DIGIT/A/3
+        requester: IE/CE/DIGIT
       contacts:
         author: john_smith
         secretary: john_smith
@@ -233,7 +234,7 @@ Feature: Fast track
                 "code" : "CUSTOM",
                 "org_responsible" : "DIGIT_REVIEW",
                 "org_dg_author" : "IE/CE/DIGIT/REVIEW",
-                "org_requester" : "IE/CE/DIGIT/A/3/REVIEW",
+                "org_requester" : "IE/CE/DIGIT/REVIEW",
                 "dgt_ftt_workflow_code" : "STS"
               },
               "PROVIDE" : {
@@ -276,7 +277,7 @@ Feature: Fast track
                 "code" : "CUSTOM",
                 "org_responsible" : "DIGIT_TRANSLATION",
                 "org_dg_author" : "IE/CE/DIGIT/TRANSLATION",
-                "org_requester" : "IE/CE/DIGIT/A/3/TRANSLATION",
+                "org_requester" : "IE/CE/DIGIT/TRANSLATION",
                 "dgt_ftt_workflow_code" : "STS"
               },
               "PROVIDE" : {
@@ -307,7 +308,7 @@ Feature: Fast track
       | <codeDemandeur>CUSTOM</codeDemandeur>                           |
       | <organisationResponsable>DIGIT_REVIEW</organisationResponsable> |
       | <organisationAuteur>IE/CE/DIGIT/REVIEW</organisationAuteur>     |
-      | <serviceDemandeur>IE/CE/DIGIT/A/3/REVIEW</serviceDemandeur>     |
+      | <serviceDemandeur>IE/CE/DIGIT/REVIEW</serviceDemandeur>     |
       | <workflowCode>STS</workflowCode>                                |
       | <delai>01/12/2017</delai>                                       |
       | <attributionsDelai>01/12/2017</attributionsDelai>               |
@@ -318,7 +319,7 @@ Feature: Fast track
       | <codeDemandeur>CUSTOM</codeDemandeur>                        |
       | <organisationResponsable>DIGIT_TRANSLATION</organisationResponsable> |
       | <organisationAuteur>IE/CE/DIGIT/TRANSLATION</organisationAuteur>     |
-      | <serviceDemandeur>IE/CE/DIGIT/A/3/TRANSLATION</serviceDemandeur>     |
+      | <serviceDemandeur>IE/CE/DIGIT/TRANSLATION</serviceDemandeur>     |
       | <workflowCode>STS</workflowCode>                                     |
       | <delai>01/12/2017</delai>                                            |
       | <attributionsDelai>01/12/2017</attributionsDelai>                    |

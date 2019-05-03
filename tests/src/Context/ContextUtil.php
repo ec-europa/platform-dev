@@ -103,6 +103,7 @@ trait ContextUtil {
    */
   public function spin(callable $lambda, array $args = [], $repeat = 50) {
     $errorMessage = '';
+
     for ($i = 0; $i < $repeat; $i++) {
       try {
         if ($lambda($this, $args)) {
@@ -114,6 +115,7 @@ trait ContextUtil {
       }
       usleep(100000);
     }
+
     return FALSE;
   }
 

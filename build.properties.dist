@@ -232,6 +232,10 @@ phpcs.global.config = ${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSn
 
 server.docroot = /var/www
 
+# Drone configuration
+# ------------------
+
+webserver.user = www-data.www-data
 
 # Debugging
 # ---------

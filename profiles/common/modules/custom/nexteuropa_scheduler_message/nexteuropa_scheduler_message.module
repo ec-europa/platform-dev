@@ -33,6 +33,9 @@ function nexteuropa_scheduler_message_form_node_form_alter(&$form, &$form_state,
     return;
   }
   $node = $form_state['node'];
+  if (!isset($node->publish_on)) {
+    return;
+  }
   $time_to_check = _nexteuropa_scheduler_message_get_time();
   // Handle date when there are scheduling dates for revisions.
   // This is only needed for platform version 2.5.

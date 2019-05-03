@@ -32,7 +32,7 @@ Feature: Fast track
       organization:
         responsible: DIGIT
         author: IE/CE/DIGIT
-        requester: IE/CE/DIGIT/A/3
+        requester: IE/CE/DIGIT
       contacts:
         author: john_smith
         secretary: john_smith
@@ -143,7 +143,7 @@ Feature: Fast track
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
       | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
-      | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
+      | <serviceDemandeur>IE/CE/DIGIT</serviceDemandeur>          |
       | <applicationReference>FPFIS</applicationReference>            |
       | <workflowCode>OPC</workflowCode>                              |
       | <delai>01/12/2017</delai>                                     |

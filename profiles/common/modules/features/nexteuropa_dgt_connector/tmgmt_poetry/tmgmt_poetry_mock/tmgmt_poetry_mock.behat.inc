@@ -78,6 +78,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    */
   public function tmgmtPoetryIsConfiguredToUseTmgmtPoetryMock() {
     global $base_url;
+
     $base_url = $this->getMinkParameter('base_url');
     $this->variables['poetry_service'] = variable_get('poetry_service');
 

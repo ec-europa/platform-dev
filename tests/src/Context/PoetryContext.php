@@ -58,10 +58,12 @@ class PoetryContext implements Context {
    */
   public function getReplacements() {
     $replacements = [];
+
     foreach ($this->params as $key => $value) {
       $key = '{{ ' . $key . ' }}';
       $replacements[$key] = $value;
     }
+
     return $replacements;
   }
 
@@ -81,6 +83,7 @@ class PoetryContext implements Context {
     $yaml = $parser->parse()
       ->replace($this->getReplacements())
       ->getYaml();
+
     $this->variables->setVariable('poetry_service', $yaml);
   }
 
@@ -97,6 +100,7 @@ class PoetryContext implements Context {
   public function iChangeThePoetryVariable($name, $value) {
     $replacements = $this->getReplacements();
     $value = str_replace(array_keys($replacements), array_values($replacements), $value);
+
     variable_set($name, $value);
   }
 

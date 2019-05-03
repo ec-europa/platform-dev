@@ -185,7 +185,7 @@
     </target>
 
     <target name="setup-drone-file-system">
-        <chown file="${platform.build.dir}" user="www-data.www-data" />
+        <chown file="${platform.build.dir}" user="${webserver.user}" />
         <chmod file="${platform.build.files.dir}" mode="0777" />
         <mkdir dir="${platform.build.files.dir}/print_pdf" />
         <chmod file="${platform.build.files.dir}/private_files" mode="0777" />

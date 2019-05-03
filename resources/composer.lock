@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7562edfad773bcc9cedf0788351043b",
+    "content-hash": "fdedc76a14d0cd68f41ae9c0a775c4ab",
     "packages": [
         {
             "name": "drupol/drupal7_psr3_watchdog",

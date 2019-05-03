@@ -42,6 +42,7 @@ class PyStringYamlParser {
    */
   public function getYaml() {
     $this->process();
+
     return $this->yaml;
   }
 
@@ -54,6 +55,7 @@ class PyStringYamlParser {
   private function process() {
     $input = implode("\n", $this->raw);
     $this->yaml = Yaml::parse($input);
+
     return $this;
   }
 
@@ -79,11 +81,13 @@ class PyStringYamlParser {
     if (!$this->raw) {
       throw new Exception("No string to parse");
     }
+
     preg_match('/^(\s+)/', $this->raw[0], $matches);
     $indentation_size = isset($matches[1]) ? strlen($matches[1]) : 0;
     foreach ($this->raw as $key => $string) {
       $this->raw[$key] = substr($string, $indentation_size);
     }
+
     return $this;
   }
 
@@ -100,6 +104,7 @@ class PyStringYamlParser {
     foreach ($this->raw as $key => $string) {
       $this->raw[$key] = str_replace(array_keys($replacements), array_values($replacements), $string);
     }
+
     return $this;
   }
 

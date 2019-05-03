@@ -22,7 +22,7 @@ Table of contents:
 - [Useful information](#useful-information)
   - [Webtools documentation](#webtools-documentation)
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Installation
 
@@ -32,7 +32,7 @@ To activate the feature, an administrator user needs to:
 - Go on the feature set page "admin/structure/feature-set"
 - Enable the "Webtools" feature
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Configuration
 
@@ -45,7 +45,7 @@ but this can be configured to use another one if needed.
 
 Or set the variable "nexteuropa_webtools_smartloader_prurl"
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## Set up permissions
 
@@ -60,7 +60,7 @@ By default, only users with the "Administrator" role are allowed to change
 the "custom" parameter and to view the fields File and External link in the
 Webtools block.
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Usage
 
@@ -78,17 +78,21 @@ Steps:
     js group.Any changes to this parameter will be ignored and removed when
     saving the block.
 - Provide settings for the Custom js group:
-    - Included indicates if the "custom" parameter should be added to the JSON Object.
+    - Included indicates if the "custom" parameter should be added to the JSON
+Object.
     This can be disabled in case the "custom" parameter needs to be replaced by
     static data when the fields File and External link are not visible for the
     user (See permissions below).
-    - File is a file upload field, allowing users to upload the JavaScript file
-    to this block.
+    - ~~File is a file upload field, allowing users to upload the JavaScript file
+to this block.~~
+    <br>**Note: Upload of Javascript files will in the future be managed by the
+asset manager. See ticket [NEPT-1234](https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1234).**
+    The documentation will be updated once the new solution is in place.
     - External link allows user to use an external JavaScript file.
 - Click on 'Save'
 - You are automatically redirected to the result
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## How to: use the webtools block(s)
 
@@ -101,7 +105,7 @@ in Drupal.
 Note that the blocks created are named Beans, as the Webtools feature is based
 on beans module.
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## How to: insert a existing webtools block into content
 
@@ -112,24 +116,25 @@ Steps:
 - Go in the tab "Insert internal blocks"
 - Select a block and click the link "Default" in the column "Insert as"
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Testing
 
 The Behat test is located in the file "/tests/features/webtools.feature".
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Useful information
 
 ## Webtools documentation
 
 These links are also mentioned in the sections above.
-- [Documentation](https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Webtools+documentation+-+Homepage)
-- [Widgets](https://webgate.ec.europa.eu/fpfis/wikis/pages/viewpage.action?spaceKey=MULTISITE&title=Webtools+feature#)
-    - [Charts](https://webgate.ec.europa.eu/fpfis/wikis/x/F7AjBg)
+- [Documentation](https://webgate.ec.europa.eu/fpfis/wikis/x/QKUjBg)
+- [Widgets](https://webgate.ec.europa.eu/fpfis/wikis/x/n49DBg)
+    - [Charts](https://webgate.ec.europa.eu/fpfis/wikis/x/MSTyCQ)
     - [Maps](https://webgate.ec.europa.eu/fpfis/wikis/x/BIlDBg)
     - [Social Bookmarking and Networking](https://webgate.ec.europa.eu/fpfis/wikis/x/_I5DBg) (Share buttons)
     - [Social Media Kit](https://webgate.ec.europa.eu/fpfis/wikis/x/gaUjBg) (Twitter feeds)
+    - [Language Coverage](https://webgate.ec.europa.eu/fpfis/wikis/x/eo_QC)
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
