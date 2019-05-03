@@ -198,6 +198,7 @@ function ecas_menu_check() {
  */
 function ecas_login_page() {
   ecas_login_check();
+  $destination = variable_get('site_frontpage', 'node');
 
   // If it is the user's first CAS login and initial login redirection is
   // enabled, go to the set page.
