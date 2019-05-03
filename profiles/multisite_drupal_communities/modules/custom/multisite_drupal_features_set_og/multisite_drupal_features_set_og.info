@@ -178,15 +178,6 @@ feature_sets[multisite_maxlength][font] = 'multisite-icon-keyboard'
 feature_sets[multisite_maxlength][enable][] = multisite_maxlength
 feature_sets[multisite_maxlength][disable][] = multisite_maxlength
 
-feature_sets[nexteuropa_notices][title] = 'Notices'
-feature_sets[nexteuropa_notices][description] = 'Allow web masters to create and manage notices on the web site.'
-feature_sets[nexteuropa_notices][documentation] = ''
-feature_sets[nexteuropa_notices][category] = 'Information to users'
-feature_sets[nexteuropa_notices][icon] = ''
-feature_sets[nexteuropa_notices][font] = 'multisite-icon-bubble2'
-feature_sets[nexteuropa_notices][enable][] = nexteuropa_notices
-feature_sets[nexteuropa_notices][disable][] = nexteuropa_notices
-
 feature_sets[nexteuropa_geofield][title] = 'GIS field'
 feature_sets[nexteuropa_geofield][description] = 'Allow web masters to manage geoJSON data in a field with an interactive map as widget.'
 feature_sets[nexteuropa_geofield][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/GIS+field+-+documentation'
