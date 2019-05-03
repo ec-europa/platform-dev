@@ -146,4 +146,3 @@ implements CAS_ProxiedService, CAS_ProxiedService_Testable
     }
 
 }
-?>

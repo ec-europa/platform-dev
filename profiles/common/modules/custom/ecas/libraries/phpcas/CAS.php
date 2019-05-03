@@ -1889,4 +1889,3 @@ class phpCAS
 /**
  * @example example_advanced_saml11.php
  */
-?>

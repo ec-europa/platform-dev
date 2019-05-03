@@ -88,4 +88,3 @@ interface CAS_ProxiedService_Http
     public function getResponseBody ();
 
 }
-?>
