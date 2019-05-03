@@ -49,7 +49,7 @@ function ne_dgt_rules_rules_action_info() {
       'org_requester' => array(
         'type' => 'text',
         'label' => t('Requester'),
-        'description' => t('Eg.: IE/CE/DIGIT/A/3'),
+        'description' => t('Eg.: IE/CE/DIGIT'),
         'optional' => TRUE,
       ),
       'dgt_ftt_workflow_code' => array(
@@ -127,7 +127,7 @@ function ne_dgt_rules_rules_action_info() {
       'org_requester' => array(
         'type' => 'text',
         'label' => t('Requester'),
-        'description' => t('Eg.: IE/CE/DIGIT/A/3'),
+        'description' => t('Eg.: IE/CE/DIGIT/'),
         'optional' => TRUE,
       ),
       'target_languages' => array(

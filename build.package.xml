@@ -178,15 +178,26 @@
 		 <if>
             <istrue value="${platform.build.files.dir}" />
             <then>
+                <mkdir dir="${platform.build.files.dir}" />
                 <mkdir dir="${platform.build.files.dir}/private_files" />
             </then>
         </if>
+    </target>
+
+    <target name="setup-drone-file-system">
+        <chown file="${platform.build.dir}" user="${webserver.user}" />
+        <chmod file="${platform.build.files.dir}" mode="0777" />
+        <mkdir dir="${platform.build.files.dir}/print_pdf" />
+        <chmod file="${platform.build.files.dir}/private_files" mode="0777" />
     </target>
 
     <!-- Install Composer dependencies for the build system. -->
     <target name="install-build-dependencies">
         <composer command="install" composer="${composer.bin}">
             <arg value="--working-dir=${project.basedir}" />
+            <arg value="--ansi"/>
+            <arg value="--no-suggest"/>
+            <arg value="--no-progress"/>
         </composer>
     </target>
 

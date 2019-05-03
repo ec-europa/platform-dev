@@ -29,6 +29,13 @@ use function bovigo\assert\predicate\isNotEmpty;
 class IntegrationLayerContext implements Context {
 
   /**
+   * The host the mock HTTP server should listen on.
+   *
+   * @var string
+   */
+  protected $mockServerHost;
+
+  /**
    * The port the mocked central Integration HTTP server should listen on.
    *
    * @var int
@@ -66,10 +73,13 @@ class IntegrationLayerContext implements Context {
   /**
    * IntegrationLayerContext constructor.
    *
+   * @param string $mock_server_host
+   *   The host the mock HTTP server should listen on.
    * @param int $mock_server_port
    *   The port the mocked central Integration HTTP server should listen on.
    */
-  public function __construct($mock_server_port = 8888) {
+  public function __construct($mock_server_host = 'localhost', $mock_server_port = 8888) {
+    $this->mockServerHost = $mock_server_host;
     $this->mockServerPort = $mock_server_port;
   }
 
@@ -85,7 +95,7 @@ class IntegrationLayerContext implements Context {
    */
   protected function getServer() {
     if (!$this->server) {
-      $this->server = new Server($this->mockServerPort, 'localhost');
+      $this->server = new Server($this->mockServerPort, $this->mockServerHost);
 
       $this->server->start();
 
@@ -339,7 +349,7 @@ class IntegrationLayerContext implements Context {
   public function createIntegrationLayerProducer(PyStringNode $node) {
     $this->setupTestBackend();
     $parser = new PyStringYamlParser($node);
-    $configuration = $parser->parse();
+    $configuration = $parser->parse()->getYaml();
     $this->assertValidConfiguration($configuration);
 
     /** @var \Drupal\integration_producer\AbstractProducer $producer */
@@ -377,7 +387,7 @@ class IntegrationLayerContext implements Context {
   public function createIntegrationLayerConsumer(PyStringNode $node) {
     $this->setupTestBackend();
     $parser = new PyStringYamlParser($node);
-    $configuration = $parser->parse();
+    $configuration = $parser->parse()->getYaml();
     $this->assertValidConfiguration($configuration);
     assert($configuration, hasKey('backend'));
 
@@ -413,7 +423,7 @@ class IntegrationLayerContext implements Context {
   public function createIntegrationLayerResourceSchema(PyStringNode $node) {
     $this->setupTestBackend();
     $parser = new PyStringYamlParser($node);
-    $configuration = $parser->parse();
+    $configuration = $parser->parse()->getYaml();
     assert($configuration, hasKey('name'));
     assert($configuration, hasKey('fields'));
     assert($configuration['fields'], isOfType('array'));
@@ -482,7 +492,7 @@ class IntegrationLayerContext implements Context {
   public function assertProducedDocument($producer_name, $type, $title, PyStringNode $node) {
     $this->setupTestBackend();
     $parser = new PyStringYamlParser($node);
-    $expected = $parser->parse();
+    $expected = $parser->parse()->getYaml();
 
     $nodes = node_load_multiple([], ['title' => $title, 'type' => $type], TRUE);
     assert($nodes, isNotEmpty());
