@@ -85,6 +85,10 @@ projects[drupal][patch][] = patches/set-session-cookie-lifetime-0.patch
 ; See https://www.drupal.org/project/drupal/issues/1657886.
 projects[drupal][patch][] = https://www.drupal.org/files/issues/2018-09-28/filter-urlfilter-i18n-1657886-41.patch
 
+; Locale module: array_unshift() warning.
+; https://www.drupal.org/project/drupal/issues/2083635
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2438
+projects[drupal][patch][] = https://www.drupal.org/files/locale.module-array_unshift-warning-fix.patch
 ; HTTP status 200 returned for ”Additional uncaught exception thrown while handling exception”
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2429
 ; https://www.drupal.org/project/drupal/issues/2666908
