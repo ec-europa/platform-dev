@@ -236,19 +236,19 @@ function nexteuropa_varnish_node_delete($node) {
 
   $entity_uri = entity_uri('node', $node);
 
-  if (null !== $entity_uri) {
+  if (NULL !== $entity_uri) {
     $url_locale = language_negotiation_get('language', 'locale-url');
     $url_suffix = language_negotiation_get('language', 'nexteuropa_multilingual_url_suffix');
     // Add logic to send a language prefix/suffix regex for non aliased paths.
     $lgregex = '';
-    
+
     if ($url_locale) {
       $lgregex = '[a-z]{2}\/';
     }
     elseif ($url_suffix) {
       $lgregex = '_[a-z]{2}';
     }
-    
+
     $original_path = $entity_uri['path'];
     $alias = drupal_get_path_alias($original_path);
     // Get the node\/nid.
@@ -295,7 +295,7 @@ function nexteuropa_varnish_path_delete($path) {
   if (empty($node)) {
     return;
   }
-  
+
   // No rule defined for the node: Ignore the rest of the process.
   if (!nexteuropa_varnish_node_has_rules($node)) {
     return;
@@ -305,7 +305,7 @@ function nexteuropa_varnish_path_delete($path) {
   $url_suffix = language_negotiation_get('language', 'nexteuropa_multilingual_url_suffix');
   // Add logic to send a language prefix/suffix regex for non aliased paths.
   $lgregex = '';
-  
+
   if ($url_locale) {
     $lgregex = '[a-z]{2}\/';
   }
@@ -637,12 +637,12 @@ function _nexteuropa_varnish_get_node_paths($node) {
 
   $entity_uri = entity_uri('node', $node);
 
-  if (null !== $entity_uri) {
+  if (NULL !== $entity_uri) {
     $url_locale = language_negotiation_get('language', 'locale-url');
     $url_suffix = language_negotiation_get('language', 'nexteuropa_multilingual_url_suffix');
     // Add logic to send a language prefix/suffix regex for non aliased paths.
     $lgregex = '';
-    
+
     if ($url_locale) {
       $lgregex = '[a-z]{2}\/';
     }
