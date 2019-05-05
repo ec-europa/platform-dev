@@ -656,7 +656,7 @@ function _nexteuropa_varnish_get_node_paths($node) {
       $lang_codes = array_keys($translations->data);
       $all_languages = entity_translation_languages('node', $node);
       // Small workaround for undefined language.
-      if (count($lang_codes) == '1' && 'und' == $lang_codes[0]) {
+      if (count($lang_codes) === 1 && 'und' == $lang_codes[0]) {
         // Push all the languages.
         $lang_codes = array_keys($all_languages);
       }
