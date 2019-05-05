@@ -321,7 +321,6 @@ function nexteuropa_varnish_path_delete($path) {
   $paths['alias'] = $escaped_alias;
 
   if (!empty($paths)) {
-    // Removing duplicates and all entries of the array equal to FALSE.
     $paths = array_unique($paths);
     $paths = array_filter($paths);
     _nexteuropa_varnish_purge_paths($paths);
