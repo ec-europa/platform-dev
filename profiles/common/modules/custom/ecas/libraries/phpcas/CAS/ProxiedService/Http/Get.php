@@ -82,4 +82,3 @@ extends CAS_ProxiedService_Http_Abstract
         // only data.
     }
 }
-?>
