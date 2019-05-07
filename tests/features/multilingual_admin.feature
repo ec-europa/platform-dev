@@ -44,7 +44,7 @@ Feature: Content translation
     When I visit "admin/structure/views/view/testing_view/edit"
     And I click "views-add-field"
     And I wait for AJAX to finish
-    And I check the box "Entity translation: Body: translated"
+    And I check the box "edit-name-field-data-field-ne-bodyfield-ne-body-et"
     And I press the "Add and configure fields" button
     And I wait for AJAX to finish
     And I press the "Apply" button
