@@ -4,7 +4,7 @@ Feature: Feature set menu
   As an administrative user
   I want to have a list of features to be enabled
 
-  @api
+  @api @ec_europa_theme
   Scenario: Test feature set screen as administrator
     Given I am logged in as a user with the "administrator" role
     When I am on "admin/structure/feature-set_en"
@@ -52,4 +52,3 @@ Feature: Feature set menu
     And I should see the text "Surveys"
     And I should see the text "Extend Profiles"
     And I should see the text "Notifications"
-

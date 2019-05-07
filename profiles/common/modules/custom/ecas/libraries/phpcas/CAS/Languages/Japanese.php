@@ -110,4 +110,3 @@ class CAS_Languages_Japanese implements CAS_Languages_LanguageInterface
         return '�����ӥ� `<b>%s</b>\' �����ѤǤ��ޤ��� (<b>%s</b>).';
     }
 }
-?>
