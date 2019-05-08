@@ -63,7 +63,8 @@ default:
               nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
               nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
               nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
-      filters: { tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip" }
+      filters:
+        tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip"
   extensions:
     EC\Behat\PoetryExtension:
       service:
@@ -134,7 +135,8 @@ default:
 communities:
   suites:
     default:
-      filters: { tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities" }
+      filters:
+        tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities"
   extensions:
     Drupal\nexteuropa\Extensions\DrupalExtension:
       region_map:
@@ -203,7 +205,8 @@ standard_ec_resp:
               nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
               nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
               nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
-        filters: { tags: "~@wip&&~@ec_europa_theme&&~@communities" }
+        filters:
+          tags: "~@wip&&~@ec_europa_theme&&~@communities"
   extensions:
     Drupal\nexteuropa\Extensions\DrupalExtension:
       selectors:
@@ -292,7 +295,8 @@ communities_ec_resp:
               nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
               nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
               nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
-      filters: { tags: "~@wip&&~@ec_europa_theme&&@communities" }
+      filters:
+        tags: "~@wip&&~@ec_europa_theme&&@communities"
   extensions:
     Drupal\nexteuropa\Extensions\DrupalExtension:
       selectors:
