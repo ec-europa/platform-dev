@@ -3,7 +3,7 @@ default:
     - {{ platform.build.dir }}/features/bootstrap/
   suites:
     default:
-      contexts:
+      contexts: &default-contexts
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_host: {{ behat.poetry.host }}
             mock_server_port: {{ integration.server.port }}
@@ -144,9 +144,10 @@ standard_ec_resp:
   suites:
     default:
       contexts:
+        <<: *default-contexts
         - OpenEuropa\Behat\TransformationContext:
-            elements:
-              <<: *nept_elements
+          elements:
+            <<: *nept_elements
               nept_element:block:site-language-switcher: '#block-language-selector-site-language-selector-site'
               nept_element:page-title: '#page-title'
       filters: { tags: "~@wip&&~@ec_europa_theme&&~@communities" }
