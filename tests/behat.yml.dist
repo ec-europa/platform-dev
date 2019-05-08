@@ -144,6 +144,7 @@ standard_ec_resp:
   suites:
     default:
       contexts:
+        <<: *default-contexts
         - OpenEuropa\Behat\TransformationContext:
             elements:
               nept_element:block:page-language-switcher: '.block-language-selector-page'
@@ -157,7 +158,6 @@ standard_ec_resp:
               nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
               nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
               nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
-              
         filters: { tags: "~@wip&&~@ec_europa_theme&&~@communities" }
   extensions:
     Drupal\nexteuropa\Extensions\DrupalExtension:
@@ -188,6 +188,7 @@ communities_ec_resp:
   suites:
     default:
       contexts:
+          <<: *default-contexts
           - OpenEuropa\Behat\TransformationContext:
               elements:
                 nept_element:block:page-language-switcher: '.block-language-selector-page'
@@ -201,7 +202,6 @@ communities_ec_resp:
                 nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
                 nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
                 nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
-                
       filters: { tags: "~@wip&&~@ec_europa_theme&&@communities" }
   extensions:
     Drupal\nexteuropa\Extensions\DrupalExtension:
