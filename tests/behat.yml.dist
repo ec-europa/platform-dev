@@ -3,7 +3,7 @@ default:
     - {{ platform.build.dir }}/features/bootstrap/
   suites:
     default:
-      contexts:
+      contexts: &default-contexts
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_host: {{ behat.poetry.host }}
             mock_server_port: {{ integration.server.port }}
@@ -51,7 +51,7 @@ default:
         - Drupal\nexteuropa\Context\LacoContext
         - Drupal\nexteuropa\Context\TokenContext
         - OpenEuropa\Behat\TransformationContext:
-            elements:
+            elements: &nept_elements
               nept_element:block:page-language-switcher: '.block-language-selector-page'
               nept_element:block:site-language-switcher: 'div.ecl-lang-select-sites a.ecl-lang-select-sites__link'
               nept_element:page-title: 'h1.ecl-heading.ecl-heading--h1'
@@ -63,8 +63,7 @@ default:
               nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
               nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
               nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
-      filters:
-        tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip"
+      filters: {tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip"}
   extensions:
     EC\Behat\PoetryExtension:
       service:
@@ -135,8 +134,7 @@ default:
 communities:
   suites:
     default:
-      filters:
-        tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities"
+      filters: { tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities" }
   extensions:
     Drupal\nexteuropa\Extensions\DrupalExtension:
       region_map:
@@ -194,19 +192,10 @@ standard_ec_resp:
       - Drupal\nexteuropa\Context\TokenContext
       - OpenEuropa\Behat\TransformationContext:
           elements:
-            nept_element:block:page-language-switcher: '.block-language-selector-page'
+            <<: *nept_elements
             nept_element:block:site-language-switcher: '#block-language-selector-site-language-selector-site'
             nept_element:page-title: '#page-title'
-            nept_element:system-status-report: 'table.system-status-report'
-            nept_element:title-metatag: 'html head title'
-            nept_element:block:splash-page-language-selection: 'body.not-front.page-splash'
-            nept_element:block:last-update: '.last-update'
-            nept_element:event-full-calendar: 'div.fullcalendar'
-            nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
-            nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
-            nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
-        filters:
-          tags: "~@wip&&~@ec_europa_theme&&~@communities"
+      filters: { tags: "~@wip&&~@ec_europa_theme&&~@communities" }
   extensions:
     Drupal\nexteuropa\Extensions\DrupalExtension:
       selectors:
@@ -284,19 +273,10 @@ communities_ec_resp:
         - Drupal\nexteuropa\Context\TokenContext
         - OpenEuropa\Behat\TransformationContext:
             elements:
-              nept_element:block:page-language-switcher: '.block-language-selector-page'
+              <<: *nept_elements
               nept_element:block:site-language-switcher: '#block-language-selector-site-language-selector-site'
               nept_element:page-title: '#page-title'
-              nept_element:system-status-report: 'table.system-status-report'
-              nept_element:title-metatag: 'html head title'
-              nept_element:block:splash-page-language-selection: 'body.not-front.page-splash'
-              nept_element:block:last-update: '.last-update'
-              nept_element:event-full-calendar: 'div.fullcalendar'
-              nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
-              nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
-              nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
-      filters:
-        tags: "~@wip&&~@ec_europa_theme&&@communities"
+      filters: { tags: "~@wip&&~@ec_europa_theme&&@communities" }
   extensions:
     Drupal\nexteuropa\Extensions\DrupalExtension:
       selectors:
