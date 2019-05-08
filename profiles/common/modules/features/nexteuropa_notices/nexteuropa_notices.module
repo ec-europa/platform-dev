@@ -49,7 +49,7 @@ function nexteuropa_notices_page_build(&$page) {
   );
   $page['content']['#attached']['js'][] = array(
     'type' => 'file',
-    'data' => $path . '/nexteuropa_notices.css',
+    'data' => $path . '/nexteuropa_notices.js',
     'scope' => 'footer',
     'weight' => 100,
   );
