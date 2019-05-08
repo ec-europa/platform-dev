@@ -144,7 +144,6 @@ standard_ec_resp:
   suites:
     default:
       contexts:
-        <<: *default-contexts
         - OpenEuropa\Behat\TransformationContext:
             elements:
               nept_element:block:page-language-switcher: '.block-language-selector-page'
@@ -189,7 +188,6 @@ communities_ec_resp:
   suites:
     default:
       contexts:
-          <<: *default-contexts
           - OpenEuropa\Behat\TransformationContext:
               elements:
                 nept_element:block:page-language-switcher: '.block-language-selector-page'
