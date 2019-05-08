@@ -1,3 +1,16 @@
+x-elements: &nept_elements
+  nept_element:block:page-language-switcher: '.block-language-selector-page'
+  nept_element:block:site-language-switcher: 'div.ecl-lang-select-sites a.ecl-lang-select-sites__link'
+  nept_element:page-title: 'h1.ecl-heading.ecl-heading--h1'
+  nept_element:system-status-report: 'table.system-status-report'
+  nept_element:title-metatag: 'html head title'
+  nept_element:block:splash-page-language-selection: 'body.not-front.page-splash'
+  nept_element:block:last-update: '.last-update'
+  nept_element:event-full-calendar: 'div.fullcalendar'
+  nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
+  nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
+  nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
+
 default:
   autoload:
     - {{ platform.build.dir }}/features/bootstrap/
@@ -51,18 +64,8 @@ default:
         - Drupal\nexteuropa\Context\LacoContext
         - Drupal\nexteuropa\Context\TokenContext
         - OpenEuropa\Behat\TransformationContext:
-            elements: &nept_elements
-              nept_element:block:page-language-switcher: '.block-language-selector-page'
-              nept_element:block:site-language-switcher: 'div.ecl-lang-select-sites a.ecl-lang-select-sites__link'
-              nept_element:page-title: 'h1.ecl-heading.ecl-heading--h1'
-              nept_element:system-status-report: 'table.system-status-report'
-              nept_element:title-metatag: 'html head title'
-              nept_element:block:splash-page-language-selection: 'body.not-front.page-splash'
-              nept_element:block:last-update: '.last-update'
-              nept_element:event-full-calendar: 'div.fullcalendar'
-              nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
-              nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
-              nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
+            elements:
+              <<: *nept_elements
       filters: { tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip" }
   extensions:
     EC\Behat\PoetryExtension:
@@ -145,11 +148,11 @@ standard_ec_resp:
     default:
       contexts:
         <<: *default-contexts
-        - OpenEuropa\Behat\TransformationContext:
+        OpenEuropa\Behat\TransformationContext:
           elements:
             <<: *nept_elements
-              nept_element:block:site-language-switcher: '#block-language-selector-site-language-selector-site'
-              nept_element:page-title: '#page-title'
+            nept_element:block:site-language-switcher: '#block-language-selector-site-language-selector-site'
+            nept_element:page-title: '#page-title'
       filters: { tags: "~@wip&&~@ec_europa_theme&&~@communities" }
   extensions:
     Drupal\nexteuropa\Extensions\DrupalExtension:
@@ -180,7 +183,8 @@ communities_ec_resp:
   suites:
     default:
       contexts:
-          - OpenEuropa\Behat\TransformationContext:
+          <<: *default-contexts
+          OpenEuropa\Behat\TransformationContext:
             elements:
               <<: *nept_elements
               nept_element:block:site-language-switcher: '#block-language-selector-site-language-selector-site'
