@@ -282,20 +282,11 @@ function nexteuropa_feature_set_user_default_permissions() {
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'manage feature nexteuropa_notices'.
-  $permissions['manage feature nexteuropa_notices'] = array(
-    'name' => 'manage feature nexteuropa_notices',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'multisite_drupal_features_set_standard',
-  );
-
   // Exported permission: 'manage feature nexteuropa_poetry'.
   $permissions['manage feature nexteuropa_dgt_connector'] = array(
     'name' => 'manage feature nexteuropa_dgt_connector',
     'roles' => array(
-      'cem' => 'cem',
+      'administrator' => 'administrator',
     ),
     'module' => 'multisite_drupal_features_set_standard',
   );

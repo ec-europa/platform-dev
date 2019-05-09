@@ -18,7 +18,6 @@ function wiki_core_user_default_permissions() {
       'administrator' => 'administrator',
       'authenticated user' => 'authenticated user',
       'contributor' => 'contributor',
-      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -30,7 +29,6 @@ function wiki_core_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
-      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -42,7 +40,6 @@ function wiki_core_user_default_permissions() {
       'administrator' => 'administrator',
       'authenticated user' => 'authenticated user',
       'contributor' => 'contributor',
-      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -54,7 +51,6 @@ function wiki_core_user_default_permissions() {
       'administrator' => 'administrator',
       'authenticated user' => 'authenticated user',
       'contributor' => 'contributor',
-      'cem' => 'cem',
     ),
     'module' => 'node',
   );
@@ -66,7 +62,6 @@ function wiki_core_user_default_permissions() {
       'administrator' => 'administrator',
       'authenticated user' => 'authenticated user',
       'contributor' => 'contributor',
-      'cem' => 'cem',
     ),
     'module' => 'node',
   );

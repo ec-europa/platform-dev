@@ -14,7 +14,7 @@ Feature: Fast track language selection
       | de        |
     And the following Poetry settings:
     """
-      address: http://localhost:28080/wsdl
+      address: {{ wsdl }}
       method: requestService
     """
     And I update the "dgt_ftt" translator settings with the following values:
@@ -30,7 +30,7 @@ Feature: Fast track language selection
       organization:
         responsible: DIGIT
         author: IE/CE/DIGIT
-        requester: IE/CE/DIGIT/A/3
+        requester: IE/CE/DIGIT
       contacts:
         author: john_smith
         secretary: john_smith
