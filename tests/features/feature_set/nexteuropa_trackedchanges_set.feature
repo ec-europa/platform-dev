@@ -14,7 +14,7 @@ Feature: Change tracking features
     When I go to "admin/structure/feature-set"
     And I click "Editorial Management"
     And I check the box on the "WYSIWYG Tracked Changes" row
-    And I press "Update Feature Sets"
+    And I press the "Update Feature Sets" button
     And I wait for the end of the batch job
     Then I should see the success message "NextEuropa Tracked Changes feature is now active on your site."
     When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
@@ -22,7 +22,7 @@ Feature: Change tracking features
     When I go to "admin/structure/feature-set"
     And I click "Editorial Management"
     And I uncheck the box on the "WYSIWYG Tracked Changes" row
-    And I press "Update Feature Sets"
+    And I press the "Update Feature Sets" button
     And I wait for the end of the batch job
     Then I should see the success message "NextEuropa Tracked Changes feature is now inactive on your site."
     When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
@@ -34,7 +34,7 @@ Feature: Change tracking features
     When I go to "admin/structure/feature-set"
     And I click "Editorial Management"
     And I check the box on the "WYSIWYG Tracked Changes" row
-    And I press "Update Feature Sets"
+    And I press the "Update Feature Sets" button
     And I wait for the end of the batch job
     Then I should see the success message "NextEuropa Tracked Changes feature is now active on your site."
     When the following contents using "Full HTML + Change tracking" for WYSIWYG fields:
@@ -46,7 +46,7 @@ Feature: Change tracking features
     And I go to "admin/structure/feature-set"
     And I click "Editorial Management"
     And I uncheck the box on the "WYSIWYG Tracked Changes" row
-    And I press "Update Feature Sets"
+    And I press the "Update Feature Sets" button
     And I wait for the end of the batch job
     Then I should see this following error message:
     """
