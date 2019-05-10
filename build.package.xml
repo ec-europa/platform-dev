@@ -291,7 +291,7 @@
             repository="${platform.resources.profiles.common.themes.dir}/ec_europa"
             branchname="${platform.theme.europa.repo.branch}"/>
 
-        <!-- Deleting the theme directories from the current profile -->
+        <!-- Delete the theme directories from the current profile -->
         <delete dir="profiles/${platform.profile.name}/themes/atomium" quiet="true"/>
         <delete dir="profiles/${platform.profile.name}/themes/ec_europa" quiet="true"/>
 
