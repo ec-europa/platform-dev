@@ -290,6 +290,14 @@
         <gitcheckout
             repository="${platform.resources.profiles.common.themes.dir}/ec_europa"
             branchname="${platform.theme.europa.repo.branch}"/>
+
+        <!-- Deleting the theme directories from the current profile -->
+        <delete dir="profiles/${platform.profile.name}/themes/atomium" quiet="true"/>
+        <delete dir="profiles/${platform.profile.name}/themes/ec_europa" quiet="true"/>
+
+        <!-- Symlinc the atomium and ec_europa theme from the common profile folder -->
+        <symlink link="profiles/${platform.profile.name}/themes/atomium" target="${platform.resources.profiles.common.themes.dir}/atomium" />
+        <symlink link="profiles/${platform.profile.name}/themes/ec_europa" target="${platform.resources.profiles.common.themes.dir}/ec_europa" />
     </target>
 
     <!-- Generating assets -->
