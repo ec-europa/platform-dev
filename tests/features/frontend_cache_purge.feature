@@ -84,6 +84,22 @@ Feature:
     And the radio button "A specific list of regex" is selected
 
   @moderated-content
+  Scenario: Flush cache when content was deleted.
+    Given I go to "node/add/page"
+    And I fill in "Title" with "Flush cache when content was deleted"
+    And I press the "Save" button
+    And I go to "content/flush-cache-when-content-was-deleted"
+    And I click "Edit draft"
+    And I press the "Delete" button
+    And I press the "Delete" button
+    Then the web front end cache was instructed to purge the multiple paths for the application tag "my-website":
+      | Path                                                        | Request |
+      | content\/flush\-cache\-when\-content\-was\-deleted_[a-z]{2} | 0       |
+      | content\/flush\-cache\-when\-content\-was\-deleted          | 0       |
+      | node\/[node:last-deleted-node-id]                           | 1       |
+      | node\/[node:last-deleted-node-id]_[a-z]{2}                  | 1       |
+
+  @moderated-content
   Scenario: Create a draft.
     Given the default purge rule is disabled
     And the following cache purge rules:
@@ -396,7 +412,8 @@ Feature:
       | frontend\-cache\-purge\-published\-page\-custom\-alias    |
       | node\/[node:last-created-node-id]_[a-z]{2}                |
 
-  @non-moderated-content @unilingual-content @purge-rule-type-node @andras @javascript
+
+  @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an editorial team.
     Given the default purge rule is disabled
     And the following cache purge rules:
