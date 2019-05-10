@@ -135,7 +135,8 @@ function multisite_drupal_toolbox_get_default_filter_options() {
     'nofollow_policy' => 'disabled',
     'nofollow_domains' => array(),
     'valid_classes' => array('`^(?:-?[_a-zA-Z]+[_a-zA-Z0-9-]*)$`'),
-    'valid_ids' => array('`^(?:[a-zA-Z][a-zA-Z0-9_-]*)$`'),
+    // IDs must contain not contain any space characters.
+    'valid_ids' => array('`^[\S]+$`'),
     'style_urls' => array(),
     'valid_elements' => array_fill_keys($allowed_tags, array('*' => TRUE)),
   );

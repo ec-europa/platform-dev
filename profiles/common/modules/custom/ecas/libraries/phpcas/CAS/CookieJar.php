@@ -381,5 +381,3 @@ class CAS_CookieJar
     }
 
 }
-
-?>

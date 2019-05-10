@@ -197,11 +197,10 @@ projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
-projects[easy_breadcrumb][version] = "2.12"
-; Issue #2290941 : Breadcrumb shows escaped HTML tags on core admin pages
-; https://www.drupal.org/node/2290941
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6753
-projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/check-plain-vs-filter-xss_0_1.patch
+projects[easy_breadcrumb][version] = "2.15"
+; Issue #2973420 : 	Undefined index: html in template_preprocess_easy_breadcrumb()
+; https://www.drupal.org/node/2973420
+projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/2018-05-16/easy_breadcrumb-undefined_index_html-2973420-2.patch
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -647,15 +646,11 @@ projects[realname][version] = "1.3"
 projects[redirect][subdir] = "contrib"
 ; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
 projects[redirect][download][branch] = 7.x-1.x
-projects[redirect][download][revision] = add3c695f613fbeec23b7259e59936f60a6b6da6
-; Increase size of source field to hold long URLs
-; https://www.drupal.org/project/redirect/issues/2057615
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1943
-projects[redirect][patch][] = https://www.drupal.org/files/issues/2018-06-24/redirect-increase-size-fields-to-900-2057615-35.patch
+projects[redirect][download][revision] = 6ade5533b53d8da8ed5b79fd6559df693a09860b
 ; Prevent new redirects from being deleted on cron runs.
 ; https://www.drupal.org/node/1396446
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
-projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05-09/redirect-purge-from-created-1396446-54.patch
+projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2019-03-27/redirect-purge-from-created-1396446-62.patch
 ; Prevent duplicate hashes causing database exceptions
 ; https://www.drupal.org/node/2260499
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1946
@@ -877,6 +872,8 @@ projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.16"
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
+; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
@@ -945,9 +942,6 @@ projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][type] = "git"
 projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
 projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e948605"
-; Fix remote js loading on ckeditor plugin
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
-projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
 ; CKEditor height does not reflect the rows attribute
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
 projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
@@ -1167,12 +1161,12 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.9
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.12
+projects[atomium][version] = 2.24
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.14
+projects[ec_europa][download][tag] = 0.1.7
 
 ; ==============
 ; Custom modules
