@@ -666,6 +666,12 @@ function _nexteuropa_varnish_get_node_paths($node) {
         }
         $alias = drupal_get_path_alias($entity_uri['path'], $code);
         $original_alias = $alias;
+        $lang = $all_languages[$code];
+        // Add the prefix or suffix.
+        $paths[$code] = _nexteuropa_varnish_build_path($url_locale, $lang, $alias, $entity_uri);
+
+        $alias = drupal_get_path_alias($entity_uri['path'], $code);
+        $original_alias = $alias;
         // Add the prefix or suffix.
         $paths[$code] = _nexteuropa_varnish_build_path($url_locale, $all_languages[$code], $alias, $entity_uri);
       }
@@ -679,14 +685,16 @@ function _nexteuropa_varnish_get_node_paths($node) {
 
       // Language is undefined, the content will show on all languages.
       if ('und' == $lang_code) {
-        foreach ($all_languages as $language_code => $language_data) {
+        foreach ($all_languages as $code => $data) {
+          $lang = $all_languages[$code];
           // Add the prefix or suffix.
-          $paths[$language_code] = _nexteuropa_varnish_build_path($url_locale, $all_languages[$language_code], $alias, $entity_uri);
+          $paths[$code] = _nexteuropa_varnish_build_path($url_locale, $lang, $alias, $entity_uri);
         }
       }
       else {
+        $lang = $all_languages[$lang_code];
         // Add the prefix or suffix.
-        $paths[$lang_code] = _nexteuropa_varnish_build_path($url_locale, $all_languages[$lang_code], $alias, $entity_uri);
+        $paths[$lang_code] = _nexteuropa_varnish_build_path($url_locale, $lang, $alias, $entity_uri);
       }
     }
     // Get the node\/nid.
@@ -707,6 +715,12 @@ function _nexteuropa_varnish_get_node_paths($node) {
 
 /**
  * Custom callback to escape all path at the end of the collection.
+ *
+ * @param string $path
+ *   The iterative path to escape.
+ *
+ * @return string
+ *   The escaped string.
  */
 function _nexteuropa_varnish_escape($path) {
   return preg_quote($path, '/');
@@ -714,6 +728,20 @@ function _nexteuropa_varnish_escape($path) {
 
 /**
  * Custom function returns alias depending of language & translation mechanism.
+ *
+ * @param string|bool $url_locale
+ *   FALSE if locale-url language negotiation is not enabled,
+ *   'language-url' otherwise.
+ * @param object $lang
+ *   The current node's language object.
+ * @param string $alias
+ *   The current node's path alias.
+ * @param array $entity_uri
+ *   The array containing the 'path' and 'options' keys used to build the URI of
+ *   the entity.
+ *
+ * @return string
+ *   The path incuding the prefix or suffix.
  */
 function _nexteuropa_varnish_build_path($url_locale, $lang, $alias, $entity_uri) {
   $options = $entity_uri['options'];
