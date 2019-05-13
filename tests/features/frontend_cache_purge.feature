@@ -389,10 +389,12 @@ Feature:
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path                                                      |
+      | content\/frontend\-cache\-purge\-published\-page_en       |
+      | content\/frontend\-cache\-purge\-published\-page          |
       | frontend\-cache\-purge\-published\-page\-custom\-alias_en |
       | node\/[node:last-created-node-id]                         |
-      | node\/[node:last-created-node-id]_[a-z]{2}                |
       | frontend\-cache\-purge\-published\-page\-custom\-alias    |
+      | node\/[node:last-created-node-id]_[a-z]{2}                |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an editorial team.
@@ -449,11 +451,13 @@ Feature:
     And I fill in "frontend-cache-purge-editorial-team-custom-alias" for "URL alias"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                      |
-      | frontend\-cache\-purge\-editorial\-team\-custom\-alias_en |
-      | node\/[node:last-created-node-id]                         |
-      | node\/[node:last-created-node-id]_[a-z]{2}                |
-      | frontend\-cache\-purge\-editorial\-team\-custom\-alias    |
+      | Path                                                                |
+      | content\/frontend\-cache\-purge\-editorial\-team\-change\-alias_en  |
+      | content\/frontend\-cache\-purge\-editorial\-team\-change\-alias     |
+      | frontend\-cache\-purge\-editorial\-team\-custom\-alias_en           |
+      | node\/[node:last-created-node-id]                                   |
+      | frontend\-cache\-purge\-editorial\-team\-custom\-alias              |
+      | node\/[node:last-created-node-id]_[a-z]{2}                          |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Edit an existing draft of an editorial team.
