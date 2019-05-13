@@ -126,8 +126,16 @@ function nexteuropa_json_field_field_formatter_view($entity_type, $entity, $fiel
         $element[$delta] = array();
         // HTML tags to be allowed.
         $allowed_tags = array('b', 'strong', 'i', 'em', 'br', 'span');
-        // Use filter_xss function to avoid javascript injection.
-        $element[$delta]['#markup'] = filter_xss($item['value'], $allowed_tags);
+        // Check for valid JSON.
+        $json = drupal_json_decode($item['value']);
+        if ($json !== NULL || $json !== FALSE) {
+          $element[$delta]['#markup'] = $item['value'];
+        }
+        else {
+          // Use filter_xss function to avoid javascript injection.
+          $element[$delta]['#markup'] = filter_xss($item['value'], $allowed_tags);
+        }
+
         $element[$delta]['#prefix'] = "<script type=\"application/json\">";
         $element[$delta]['#suffix'] = "</script>";
       }

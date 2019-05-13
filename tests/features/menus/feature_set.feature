@@ -4,7 +4,7 @@ Feature: Feature set menu
   As an administrative user
   I want to have a list of features to be enabled
 
-  @api
+  @api @ec_europa_theme
   Scenario: Test feature set screen as administrator
     Given I am logged in as a user with the "administrator" role
     When I am on "admin/structure/feature-set_en"
@@ -29,7 +29,6 @@ Feature: Feature set menu
     And I should see the text "Newsletters"
     And I should see the text "GIS field"
     And I should see the text "GeoJson feeds"
-    And I should see the text "Notices"
     # Cannot use "Integration" label to test if administrator user can see the
     # "Integration" feature because it is already elsewhere on the page for
     # another purpose.
