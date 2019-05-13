@@ -497,7 +497,7 @@ function _nexteuropa_geofield_geocode($form, $form_state) {
 function nexteuropa_geofield_node_validate($node, $form, &$form_state) {
   $check_errors = form_get_errors();
   // Add the nexteuropa_geofield javascript files only if the form is not valid.
-  if (count($check_errors) > 0) {
+  if (is_array($check_errors) && count($check_errors) > 0) {
     $fields_info = field_info_instances('node', $node->type);
     foreach ($fields_info as $field_name => $value) {
       $field_info = field_info_field($field_name);

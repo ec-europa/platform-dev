@@ -18,8 +18,20 @@ function nexteuropa_editorial_install() {
   // See: nexteuropa_editorial_og_membership_delete().
   multisite_config_service('user')->createRole(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, 2);
 
-  // Use soft config for editorial_teams comment form location.
+  // Use soft config for editorial_team comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('editorial_team', 1);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('editorial_team', 'hidden');
+  // Use soft config to allow editorial_team comment threading.
   multisite_config_service('comment')->setThreadingCommentForContentType('editorial_team', 1);
+  // Use soft config for editorial_team comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('editorial_team', 1);
+  // Use soft config for preview editorial_team comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('editorial_team', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('editorial_team', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('editorial_team', 0);
 
   // Set "editorial team member" permissions.
   $permissions = array(
@@ -276,4 +288,15 @@ function nexteuropa_editorial_update_7002() {
   variable_set('nexteuropa_editorial_tracking_wbm_states', $wbm_state);
   // WYSIWYG tracking settings for "Published" status case.
   variable_set('nexteuropa_editorial_tracking_status', 1);
+}
+
+/**
+ * Set new value for nexteuropa_editorial feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function nexteuropa_editorial_update_7003() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('nexteuropa_editorial', 'variable');
 }
