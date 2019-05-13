@@ -19,7 +19,7 @@ Feature: Contact Form
   Scenario: Anonymous user can see the contact page in ec_europa_theme
     Given I am not logged in
     When I am on "contact"
-    Then I should see "Contact | European Commission" in the "title" tag
+    Then I should see "Contact support | European Commission" in the "title" tag
 
   @javascript
   Scenario: Anonymous user can see the contact page in ec_europa_theme
