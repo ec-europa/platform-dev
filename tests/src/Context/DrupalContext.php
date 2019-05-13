@@ -452,7 +452,18 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     }
     $link->click();
   }
- public function iScrollUntilViewTheElement($selector) {
+
+  /**
+   * Scroll into view.
+   *
+   * @param string $selector
+   *   Allowed selectors: #id, .className, //xpath.
+   *
+   * @throws \Exception
+   *
+   * @When I scroll until view the element :selector
+   */
+  public function iScrollUntilViewTheElement($selector) {
     $locator = substr($selector, 0, 1);
 
   /**
@@ -479,7 +490,6 @@ class DrupalContext extends DrupalExtensionDrupalContext {
 })()
 JS;
         break;
-
 
       // XPath selector.
       case '/':
@@ -512,6 +522,7 @@ JS;
 })()
 JS;
         break;
+
       default:
         throw new \Exception(__METHOD__ . ' Couldn\'t find selector: ' . $selector . ' - Allowed selectors: #id, .className, //xpath');
     }
@@ -521,5 +532,7 @@ JS;
     catch (Exception $e) {
       throw new \Exception(__METHOD__ . ' failed');
     }
+
   }
+
 }
