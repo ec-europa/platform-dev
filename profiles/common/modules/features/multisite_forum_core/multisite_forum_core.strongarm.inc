@@ -14,48 +14,6 @@ function multisite_forum_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_anonymous_discussion';
-  $strongarm->value = '0';
-  $export['comment_anonymous_discussion'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_mode_discussion';
-  $strongarm->value = 0;
-  $export['comment_default_mode_discussion'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_per_page_discussion';
-  $strongarm->value = '50';
-  $export['comment_default_per_page_discussion'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_discussion';
-  $strongarm->value = '2';
-  $export['comment_discussion'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_preview_discussion';
-  $strongarm->value = '1';
-  $export['comment_preview_discussion'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_subject_field_discussion';
-  $strongarm->value = 1;
-  $export['comment_subject_field_discussion'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__discussion';
   $strongarm->value = array(
     'view_modes' => array(),
