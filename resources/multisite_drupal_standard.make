@@ -241,8 +241,11 @@ projects[entityreference_prepopulate][version] = "1.7"
 projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.14"
-projects[eu_cookie_compliance][patch][] = patches/eu_cookie_compliance_nept-2299.patch
+projects[eu_cookie_compliance][version] = "1.28"
+; Popup doesn't close after clicking Decline button.
+; https://www.drupal.org/project/eu_cookie_compliance/issues/2985509
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
+projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-13/eu_cookie_compliance-close_popup-2985509-1.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
