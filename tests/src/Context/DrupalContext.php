@@ -466,19 +466,6 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   public function iScrollUntilViewTheElement($selector) {
     $locator = substr($selector, 0, 1);
 
-  /**
-   * Scroll into view.
-   *
-   * @param string $selector
-   *   Allowed selectors: #id, .className, //xpath.
-   *
-   * @throws \Exception
-   *
-   * @When I scroll until view the element :selector
-   */
-  public function iScrollUntilViewTheElement($selector) {
-    $locator = substr($selector, 0, 1);
-
     switch ($locator) {
       // Query selector.
       case '$':
@@ -526,6 +513,7 @@ JS;
       default:
         throw new \Exception(__METHOD__ . ' Couldn\'t find selector: ' . $selector . ' - Allowed selectors: #id, .className, //xpath');
     }
+
     try {
       $this->getSession()->executeScript($function);
     }
