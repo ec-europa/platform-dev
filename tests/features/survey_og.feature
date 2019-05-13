@@ -17,6 +17,7 @@ Feature: Survey OG Content
     And I press "Save"
     Then I should see "Community test"
 
+  @ec_resp_theme
   Scenario Outline: A user with "access content" permissions should see the wiki list
     Given I am logged in as a user with the "administrator " role
     And I visit the "community" content with title "Community test"
@@ -38,7 +39,8 @@ Feature: Survey OG Content
       Examples:
       | link     |  title          | content_path                       |
       | Survey   |  Survey test    | community/community-test/survey    |
-      
+
+  @ec_resp_theme
   Scenario Outline: A user without "access content" permissions should not see the wiki list
     Given I am logged in as a user with the "administrator" role
     When I visit the "community" content with title "Community test"
