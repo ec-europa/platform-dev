@@ -11,6 +11,7 @@
  * Add menu element and configure the contact form.
  */
 function contact_form_pre_features_enable_feature($component) {
+
   $item = array(
     'link_path' => 'contact',
     'link_title' => t('Contact support'),
