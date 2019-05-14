@@ -35,7 +35,6 @@ features[user_permission][] = manage feature newsletters
 features[user_permission][] = manage feature nexteuropa_dgt_connector
 features[user_permission][] = manage feature nexteuropa_geofield
 features[user_permission][] = manage feature nexteuropa_geojson_feeds
-features[user_permission][] = manage feature nexteuropa_integration
 features[user_permission][] = manage feature nexteuropa_webtools
 features[user_permission][] = manage feature node_pager
 features[user_permission][] = manage feature sitemap
