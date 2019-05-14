@@ -41,7 +41,7 @@ function multisite_custom_error_disable() {
 }
 
 /**
- * NEXTEUROPA-1017.
+ * NEPT-1017.
  *
  * Remove unused variable if it is set.
  */
