@@ -1,4 +1,4 @@
-@api
+@api @ec_resp
 Feature: Taxonomy
   In order to manage the taxonomy on the website
   As an administrator
