@@ -28,8 +28,8 @@
   },
   "repositories": [
     {
-      "type": "vcs",
-      "url": "https://git.drupalcode.org/project/phingdrushtask.git"
+      "type": "composer",
+      "url": "https://packages.drupal.org/7"
     },
     {
       "type": "package",
