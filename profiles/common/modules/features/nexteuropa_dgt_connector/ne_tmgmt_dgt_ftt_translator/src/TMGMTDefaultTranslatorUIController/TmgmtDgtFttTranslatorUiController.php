@@ -94,7 +94,7 @@ class TmgmtDgtFttTranslatorUiController extends TMGMTDefaultTranslatorUIControll
       '#title' => t('Requester'),
       '#required' => TRUE,
       '#default_value' => $organization['requester'],
-      '#description' => t("Eg.: IE/CE/DIGIT/A/3"),
+      '#description' => t("Eg.: IE/CE/DIGIT"),
     );
 
     // Contact details.

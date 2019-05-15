@@ -84,6 +84,22 @@ Feature:
     And the radio button "A specific list of regex" is selected
 
   @moderated-content
+  Scenario: Flush cache when content was deleted.
+    Given I go to "node/add/page"
+    And I fill in "Title" with "Flush cache when content was deleted"
+    And I press the "Save" button
+    And I go to "content/flush-cache-when-content-was-deleted"
+    And I click "Edit draft"
+    And I press the "Delete" button
+    And I press the "Delete" button
+    Then the web front end cache was instructed to purge the multiple paths for the application tag "my-website":
+      | Path                                                        | Request |
+      | content\/flush\-cache\-when\-content\-was\-deleted_[a-z]{2} | 0       |
+      | content\/flush\-cache\-when\-content\-was\-deleted          | 0       |
+      | node\/[node:last-deleted-node-id]                           | 1       |
+      | node\/[node:last-deleted-node-id]_[a-z]{2}                  | 1       |
+
+  @moderated-content
   Scenario: Create a draft.
     Given the default purge rule is disabled
     And the following cache purge rules:
@@ -306,11 +322,11 @@ Feature:
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                     |
-      | content\/frontend\-cache\-purge\-publish\-immediately_en |
-      | node\/[node:last-created-node-id]                        |
-      | node\/[node:last-created-node-id]_[a-z]{2}               |
-      | content\/frontend\-cache\-purge\-publish\-immediately    |
+      | Path                                                      |
+      | content\/frontend\-cache\-purge\-publish\-immediately_en  |
+      | node\/[node:last-created-node-id]                         |
+      | content\/frontend\-cache\-purge\-publish\-immediately     |
+      | node\/[node:last-created-node-id]_[a-z]{2}                |
 
   @moderated-content @purge-rule-type-node
   Scenario: Purge the paths of a basic page when it is withdrawn.
@@ -338,10 +354,10 @@ Feature:
       | content\/frontend\-cache\-purge\-withdrawal_fr    |
       | content\/frontend\-cache\-purge\-withdrawal_nl    |
       | node\/[node:last-created-node-id]                 |
-      | node\/[node:last-created-node-id]_[a-z]{2}        |
       | content\/frontend\-cache\-purge\-withdrawal       |
+      | node\/[node:last-created-node-id]_[a-z]{2}        |
 
-  @moderated-content @purge-rule-type-node
+  @moderated-content @purge-rule-type-node @andras @javascript
   Scenario: Purge the paths of a basic page when it is published via moderation.
     Given the default purge rule is disabled
     And the following cache purge rules:
@@ -357,9 +373,9 @@ Feature:
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path                                            |
       | content\/frontend\-cache\-purge\-publication_en |
-      | node\/[node:last-created-node-id]                                         |
-      | node\/[node:last-created-node-id]_[a-z]{2}                                |
-      | content\/frontend\-cache\-purge\-publication    | 
+      | node\/[node:last-created-node-id]               |
+      | content\/frontend\-cache\-purge\-publication    |
+      | node\/[node:last-created-node-id]_[a-z]{2}      |
 
     When Execute all purge rules
     And I click "New draft"
@@ -368,7 +384,7 @@ Feature:
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
 
-  @moderated-content @purge-rule-type-node
+  @moderated-content @purge-rule-type-node @andras @javascript
   Scenario: As any alias has revisions, the purge request must be sent directly for a published basic page when
   its URL is changed, whatever its moderation state
     Given the default purge rule is disabled
@@ -388,13 +404,14 @@ Feature:
     And I fill in "URL alias" with "frontend-cache-purge-published-page-custom-alias"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                             |
-      | content\/frontend\-cache\-purge\-published\-page_en              |
-      | content\/frontend\-cache\-purge\-published\-page                 |
-      | frontend\-cache\-purge\-published\-page\-custom\-alias_en        |
-      | node\/[node:last-created-node-id]                                |
-      | node\/[node:last-created-node-id]_[a-z]{2}                       |
-      | frontend\-cache\-purge\-published\-page\-custom\-alias           |
+      | Path                                                      |
+      | content\/frontend\-cache\-purge\-published\-page_en       |
+      | content\/frontend\-cache\-purge\-published\-page          |
+      | frontend\-cache\-purge\-published\-page\-custom\-alias_en |
+      | node\/[node:last-created-node-id]                         |
+      | frontend\-cache\-purge\-published\-page\-custom\-alias    |
+      | node\/[node:last-created-node-id]_[a-z]{2}                |
+
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an editorial team.
@@ -407,13 +424,13 @@ Feature:
     And I fill in "Name" with "frontend-cache-purge-editorial-team-publication"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                             |
-      | content\/frontend\-cache\-purge\-editorial\-team\-publication_en |
-      | node\/[node:last-created-node-id]                                |
-      | node\/[node:last-created-node-id]_[a-z]{2}                       |
-      | content\/frontend\-cache\-purge\-editorial\-team\-publication    |
+      | Path                                                              |
+      | content\/frontend\-cache\-purge\-editorial\-team\-publication_en  |
+      | node\/[node:last-created-node-id]                                 |
+      | content\/frontend\-cache\-purge\-editorial\-team\-publication     |
+      | node\/[node:last-created-node-id]_[a-z]{2}                        |
 
-  @non-moderated-content @unilingual-content @purge-rule-type-node
+  @non-moderated-content @unilingual-content @purge-rule-type-node @andras @javascript
   Scenario: Publish an existing draft of an editorial team.
     Given the default purge rule is disabled
     And the following cache purge rules:
@@ -431,12 +448,12 @@ Feature:
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path          |
-      | content\/frontend\-cache\-purge\-editorial\-team\-publish\-draft_en       |
-      | node\/[node:last-created-node-id]                                                                   |
-      | node\/[node:last-created-node-id]_[a-z]{2}                                                          |
-      | content\/frontend\-cache\-purge\-editorial\-team\-publish\-draft          |
+      | content\/frontend\-cache\-purge\-editorial\-team\-publish\-draft_en |
+      | node\/[node:last-created-node-id]                                   |
+      | content\/frontend\-cache\-purge\-editorial\-team\-publish\-draft    |
+      | node\/[node:last-created-node-id]_[a-z]{2}                          |
 
-  @non-moderated-content @unilingual-content @purge-rule-type-node
+  @non-moderated-content @unilingual-content @purge-rule-type-node @andras @javascript
   Scenario: Change the URL of a published editorial team.
     Given the default purge rule is disabled
     And I go to "node/add/editorial-team"
@@ -451,13 +468,13 @@ Feature:
     And I fill in "frontend-cache-purge-editorial-team-custom-alias" for "URL alias"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                         |
-      | content\/frontend\-cache\-purge\-editorial\-team\-change\-alias_en |
-      | content\/frontend\-cache\-purge\-editorial\-team\-change\-alias    |
-      | frontend\-cache\-purge\-editorial\-team\-custom\-alias_en          |
-      | node\/[node:last-created-node-id]                                  |
-      | node\/[node:last-created-node-id]_[a-z]{2}                         |
-      | frontend\-cache\-purge\-editorial\-team\-custom\-alias             |
+      | Path                                                                |
+      | content\/frontend\-cache\-purge\-editorial\-team\-change\-alias_en  |
+      | content\/frontend\-cache\-purge\-editorial\-team\-change\-alias     |
+      | frontend\-cache\-purge\-editorial\-team\-custom\-alias_en           |
+      | node\/[node:last-created-node-id]                                   |
+      | frontend\-cache\-purge\-editorial\-team\-custom\-alias              |
+      | node\/[node:last-created-node-id]_[a-z]{2}                          |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Edit an existing draft of an editorial team.
@@ -476,7 +493,7 @@ Feature:
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
 
-  @non-moderated-content @unilingual-content @purge-rule-type-node
+  @non-moderated-content @unilingual-content @purge-rule-type-node @andras @javascript
   Scenario: Withdraw a published editorial team.
     Given the default purge rule is disabled
     And I go to "node/add/editorial-team"
@@ -491,11 +508,11 @@ Feature:
     And I uncheck the box "Published"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path          |
+      | Path                                                          |
       | content\/frontend\-cache\-purge\-withdraw\-editorial\-team_en |
       | node\/[node:last-created-node-id]                             |
-      | node\/20_[a-z]{2}                                             |
       | content\/frontend\-cache\-purge\-withdraw\-editorial\-team    |
+      | node\/[node:last-created-node-id]_[a-z]{2}                    |
 
   Scenario: Use basic authentication.
     Given the default purge rule is disabled
@@ -526,8 +543,8 @@ Feature:
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
-    Then an error is logged with type "nexteuropa_varnish" and a message matching "Clear operation failed for target http://localhost:[0-9]*: 401 Unauthorized"
-@tag_test
+    Then an error is logged with type "nexteuropa_varnish" and a message matching "Clear operation failed for target http://(web|behat|localhost):[0-9]*: 401 Unauthorized"
+
   Scenario: Paths to purge are logged.
     Given the default purge rule is disabled
     And the following cache purge rules:
@@ -562,7 +579,7 @@ Feature:
 
   # Scenarios for checking the default purge rule functionality
 
-  @moderated-content @purge-rule-type-node
+  @moderated-content @purge-rule-type-node @andras @javascript
   Scenario: Purge the paths of a basic page when it is withdrawn using the default purge rule.
     Given the following languages are available:
       | languages |
@@ -579,15 +596,15 @@ Feature:
     When I click "Unpublish this revision"
     And I press the "Unpublish" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                           |
-      | content\/frontend\-cache\-purge\-withdrawal_en |
-      | content\/frontend\-cache\-purge\-withdrawal_fr |
-      | content\/frontend\-cache\-purge\-withdrawal_nl |
+      | Path                                            |
+      | content\/frontend\-cache\-purge\-withdrawal_en  |
+      | content\/frontend\-cache\-purge\-withdrawal_fr  |
+      | content\/frontend\-cache\-purge\-withdrawal_nl  |
       | node\/[node:last-created-node-id]               |
-      | node\/[node:last-created-node-id]_[a-z]{2}     |
-      | content\/frontend\-cache\-purge\-withdrawal    |
+      | content\/frontend\-cache\-purge\-withdrawal     |
+      | node\/[node:last-created-node-id]_[a-z]{2}      |
 
-  @moderated-content @purge-rule-type-node
+  @moderated-content @purge-rule-type-node @andras @javascript
   Scenario: Purge the paths of a basic page when it is published via moderation using the default purge rule.
     Given the web front end cache is ready to receive requests.
     When I go to "node/add/page"
@@ -600,10 +617,10 @@ Feature:
       | Path                                            |
       | content\/frontend\-cache\-purge\-publication_en |
       | node\/[node:last-created-node-id]               |
-      | node\/[node:last-created-node-id]_[a-z]{2}      |
       | content\/frontend\-cache\-purge\-publication    |
+      | node\/[node:last-created-node-id]_[a-z]{2}      |
 
-  @non-moderated-content @unilingual-content @purge-rule-type-node
+  @non-moderated-content @unilingual-content @purge-rule-type-node @andras @javascript
   Scenario: Publish an existing draft of an editorial team using the default purge rule.
     Given the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
@@ -616,11 +633,11 @@ Feature:
     And I check the box "Published"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path          |
+      | Path                                                                |
       | content\/frontend\-cache\-purge\-editorial\-team\-publish\-draft_en |
       | node\/[node:last-created-node-id]                                   |
-      | node\/[node:last-created-node-id]_[a-z]{2}                          |
       | content\/frontend\-cache\-purge\-editorial\-team\-publish\-draft    |
+      | node\/[node:last-created-node-id]_[a-z]{2}                          |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Set the 'nexteuropa_varnish_prevent_purge' variable in the setting file prevents any purge requests to be sent
@@ -662,7 +679,7 @@ Feature:
     And I press "Purge caches"
     Then I should see "Are you sure you want to purge Varnish cache ?"
     And I should see "The action you are about to perform has a deep impact on the site's performance!"
-    When I press "Continue"
+    When I press the "Continue" button
     Then the web front end cache was instructed to purge completely its index for the application tag "my-website"
     And I should see the success message "The Varnish caches have been fully flushed."
 
@@ -674,7 +691,7 @@ Feature:
     And I press "Purge caches"
     Then I should see "Are you sure you want to purge Varnish and Drupal cache ?"
     And I should see "The action you are about to perform has a deep impact on the site's performance!"
-    When I press "Continue"
+    When I press the "Continue" button
     Then the web front end cache was instructed to purge completely its index for the application tag "my-website"
     And I should see the success message "The Drupal and Varnish caches have been fully flushed."
 

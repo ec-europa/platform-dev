@@ -13,7 +13,7 @@ Feature: Fast track
       | es        |
     And the following Poetry settings:
     """
-      address: http://localhost:28080/wsdl
+      address: {{ wsdl }}
       method: requestService
     """
     And I update the "dgt_ftt" translator settings with the following values:
@@ -29,7 +29,7 @@ Feature: Fast track
       organization:
         responsible: DIGIT
         author: IE/CE/DIGIT
-        requester: IE/CE/DIGIT/A/3
+        requester: IE/CE/DIGIT
       contacts:
         author: john_smith
         secretary: john_smith
@@ -155,7 +155,7 @@ Feature: Fast track
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
       | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
-      | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
+      | <serviceDemandeur>IE/CE/DIGIT</serviceDemandeur>          |
       | <applicationReference>FPFIS</applicationReference>            |
       | <delai>01/12/2017</delai>                                     |
     When I select "Validated" from "state"
@@ -166,7 +166,7 @@ Feature: Fast track
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
       | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
-      | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
+      | <serviceDemandeur>IE/CE/DIGIT</serviceDemandeur>          |
       | <applicationReference>FPFIS</applicationReference>            |
       | <delai>14/11/2018</delai>                                     |
       | <attributionsDelai>14/11/2018</attributionsDelai>             |
