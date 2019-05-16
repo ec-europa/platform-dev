@@ -197,10 +197,11 @@ projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
-projects[easy_breadcrumb][version] = "2.15"
-; Issue #2973420 : 	Undefined index: html in template_preprocess_easy_breadcrumb()
-; https://www.drupal.org/node/2973420
-projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/2018-05-16/easy_breadcrumb-undefined_index_html-2973420-2.patch
+projects[easy_breadcrumb][version] = "2.12"
+; Issue #2290941 : Breadcrumb shows escaped HTML tags on core admin pages
+; https://www.drupal.org/node/2290941
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6753
+projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/check-plain-vs-filter-xss_0_1.patch
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -241,11 +242,10 @@ projects[entityreference_prepopulate][version] = "1.7"
 projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.28"
-; Popup doesn't close after clicking Decline button.
-; https://www.drupal.org/project/eu_cookie_compliance/issues/2985509
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
-projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-13/eu_cookie_compliance-close_popup-2985509-1.patch
+projects[eu_cookie_compliance][version] = "1.14"
+; Security patch adds filter_xss_admin to popup_agreed.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2299
+projects[eu_cookie_compliance][patch][] = patches/eu_cookie_compliance_nept-2299.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
@@ -1163,12 +1163,12 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.9
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.25
+projects[atomium][version] = 2.12
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.1.7
+projects[ec_europa][download][tag] = 0.0.14
 
 ; ==============
 ; Custom modules
