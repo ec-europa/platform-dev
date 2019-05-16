@@ -11,3 +11,20 @@
 function nexteuropa_faq_install() {
   multisite_config_service('comment')->setThreadingCommentForContentType('faq', 1);
 }
+
+/**
+ * Implements hook_requeriments().
+ */
+function nexteuropa_faq_requirements($phase) {
+  $requirements = [];
+  if (module_exists('f_a_q')) {
+    $t = get_t();
+    $args = array('%module' => 'F.A.Q.');
+    $requirements['nexteuropa_faq_module_conflict'] = array(
+      'title' => 'Nexteuropa FAQ',
+      'description' => $t('This module is not compatible with %module. Please disable that module first', $args),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+  return $requirements;
+}

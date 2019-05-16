@@ -4,6 +4,23 @@
  * @file
  * Install the feature f_a_q.
  */
+ 
+/**
+ * Implements hook_requeriments().
+ */
+function f_a_q_requirements() {
+  $requirements = [];
+  if (module_exists('nexteuropa_faq')) {
+    $t = get_t();
+    $args = array('%module' => 'Nexteuropa FAQ');
+    $requirements['f_a_q_module_conflict'] = array(
+      'title' => 'F.A.Q.',
+      'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+  return $requirements;
+}
 
 /**
  * Implements hook_install().
