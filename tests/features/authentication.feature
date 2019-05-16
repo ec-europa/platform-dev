@@ -1,4 +1,4 @@
-@api
+@api @ec_europa_theme
 Feature: User authentication
   In order to protect the integrity of the website
   As a product owner

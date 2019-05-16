@@ -106,7 +106,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#title' => t('Requester'),
       '#required' => TRUE,
       '#default_value' => $organization['demandeur'],
-      '#description' => t("Eg.: IE/CE/DIGIT/A/3"),
+      '#description' => t("Eg.: IE/CE/DIGIT"),
     );
 
     $contacts = $translator->getSetting('contacts');
@@ -333,7 +333,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#title' => t('Requester'),
       '#required' => TRUE,
       '#default_value' => $organization['demandeur'],
-      '#description' => t("Eg.: IE/CE/DIGIT/A/3"),
+      '#description' => t("Eg.: IE/CE/DIGIT"),
     );
 
     $form['delai'] = array(

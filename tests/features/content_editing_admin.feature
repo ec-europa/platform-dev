@@ -30,6 +30,7 @@ Feature: Content editing as administrator
       | <div class=\"css_class-name\">Applied css class</div>                                        | <div class=\"css_class-name\">Applied css class</div>                                        |
       | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               |
       | <dl><dt>List Title</dt><dd>List item</dd></dl>                                               | <dt>List Title</dt>                                                                          |
+      | <div id=\"2validid\">A container with an valid HTML ID</div>                                 | 2validid                                                               |
 
   Scenario Outline: Test disallowed HTML
     When I go to "node/add/page"
@@ -45,9 +46,7 @@ Feature: Content editing as administrator
       | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>   | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>   | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>     |
       | This is not the right way                                             | <div class=\"2classname\">Applied invalid css class</div>             | classname                                                               |
       | This is not the right way                                             | <div class=\"classname?&*\">Applied invalid css class</div>           | classname                                                               |
-      | This is not the right way                                             | <div id=\"2invalidid\">A container with an invalid HTML ID</div>      | invalidid                                                               |
-      | This is not the right way                                             | <div id=\"invalidid.\">A container with an invalid HTML ID</div>      | invalidid                                                               |
-
+ 
   Scenario Outline: Check admin UI always shows english
     Given the following languages are available:
       | languages |

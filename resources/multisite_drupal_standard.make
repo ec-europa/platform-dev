@@ -243,6 +243,8 @@ projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/is
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
+; Security patch adds filter_xss_admin to popup_agreed.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2299
 projects[eu_cookie_compliance][patch][] = patches/eu_cookie_compliance_nept-2299.patch
 
 projects[extlink][subdir] = "contrib"
@@ -471,6 +473,11 @@ projects[media][version] = 2.20
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
 
+; Ensure the media_wysiwyg.filter.js is loaded.
+; https://www.drupal.org/project/media/issues/3039731
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2243
+projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js-library-3039731-1.patch
+
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.3"
 
@@ -562,7 +569,7 @@ projects[nexteuropa_newsroom][download][tag] = v3.5.5
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.9"
+projects[og][version] = "2.10"
 ; VBO and OG
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
@@ -571,10 +578,6 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 ; NEXTEUROPA-11789 Issue in Bean reference to OG
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
-
-; NEXTEUROPA-14012 Adding membership from user profile is in pending status
-; https://www.drupal.org/node/2744405
-projects[og][patch][] = https://www.drupal.org/files/issues/og_default_state_pending_2744405_11650415-20.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
@@ -646,14 +649,11 @@ projects[realname][version] = "1.3"
 projects[redirect][subdir] = "contrib"
 ; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
 projects[redirect][download][branch] = 7.x-1.x
-projects[redirect][download][revision] = d5c95c2112f05d1a31c2f10bc921c633110c8a91
-; Target URL modified when implementing redirection using Redirect module
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2399
-projects[redirect][patch][] = patches/target-modified-implementing-redirection.patch
+projects[redirect][download][revision] = 6ade5533b53d8da8ed5b79fd6559df693a09860b
 ; Prevent new redirects from being deleted on cron runs.
 ; https://www.drupal.org/node/1396446
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
-projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05-09/redirect-purge-from-created-1396446-54.patch
+projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2019-03-27/redirect-purge-from-created-1396446-62.patch
 ; Prevent duplicate hashes causing database exceptions
 ; https://www.drupal.org/node/2260499
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1946
@@ -874,6 +874,8 @@ projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.16"
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
+; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
@@ -942,9 +944,6 @@ projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][type] = "git"
 projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
 projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e948605"
-; Fix remote js loading on ckeditor plugin
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
-projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
 ; CKEditor height does not reflect the rows attribute
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
 projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
@@ -977,12 +976,11 @@ libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archi
 libraries[colorbox][directory_name] = colorbox
 libraries[colorbox][destination] = libraries
 
-; ckeditor 4.4.8
+; ckeditor 4.9.2
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip
-libraries[ckeditor][download][sha1] = "ed246ac87cad3c4cfa1f723fcfbe4a6e3a5c6992"
+libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_full.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().

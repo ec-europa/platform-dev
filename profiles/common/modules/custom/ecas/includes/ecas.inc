@@ -141,13 +141,6 @@ function _ecas_menu(array &$items) {
     'type' => MENU_SUGGESTED_ITEM,
   );
 
-  $items['account_request'] = array(
-    'title' => 'Create an EU Login account',
-    'page callback' => 'account_request',
-    'access callback' => 'ecas_menu_check',
-    'type' => MENU_SUGGESTED_ITEM,
-  );
-
   $items['ecas_warning_page'] = array(
     'title' => 'EU Login warning',
     'page callback' => 'ecas_warning_page',
@@ -183,7 +176,6 @@ function ecas_user_logout($account) {
  *   correspond to 'ecas' or 'account_request'.
  *
  * @see ecas_login_page()
- * @see account_request()
  */
 function ecas_menu_check() {
   if (user_is_anonymous()) {
@@ -202,20 +194,11 @@ function ecas_menu_check() {
 }
 
 /**
- * Redirects the user to the account request page.
- */
-function account_request() {
-  $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
-  $return_url = url('ecas', array('absolute' => TRUE));
-  $account_request_url = str_replace('%local_ecas_url%', $return_url, $account_request_url);
-  drupal_goto($account_request_url);
-}
-
-/**
  * Redirects the user to the ECAS login page.
  */
 function ecas_login_page() {
   ecas_login_check();
+  $destination = variable_get('site_frontpage', 'node');
 
   // If it is the user's first CAS login and initial login redirection is
   // enabled, go to the set page.
@@ -402,22 +385,27 @@ function ecas_ecas_sync_user_info($user, array $user_info, array &$edit, array $
   if (!empty($user_info['cas:groups']) && !empty($user_info['cas:groups']['cas:group'])) {
     $user_cas_groups = (array) $user_info['cas:groups']['cas:group'];
   }
-
+  $administrator_role = user_role_load_by_name("administrator");
   $cem_role = user_role_load_by_name(CCE_BASIC_CONFIG_CEM_ROLE_NAME);
   $user_roles = (isset($user->roles)) ? $user->roles : array();
-  // By default, the role is not set for any user automatically.
-  // Then, unset it by default and reassign it later if the user has the
-  // EU login group.
-  unset($user_roles[$cem_role->rid]);
+  // When a user logs using ecas, if they have the cem role on the site, we
+  // remove cem and administrator roles from their profiles and keep the rest.
+  if (isset($user_roles[$cem_role->rid])) {
+    unset($user_roles[$cem_role->rid]);
+    if (isset($user_roles[$administrator_role->rid])) {
+      unset($user_roles[$administrator_role->rid]);
+    }
+  }
   if (in_array(ECAS_CEM_ECAS_GROUP, $user_cas_groups)) {
-    $role_name = $cem_role->name;
-    $user_roles[$cem_role->rid] = $role_name;
+    $user_roles[$cem_role->rid] = $cem_role->name;
+    $user_roles[$administrator_role->rid] = $administrator_role->name;
     watchdog(
       'ecas',
-      'User "%name" has received the "%role" role.',
+      'User "%name" has received the "%role_1" and "%role_2" roles.',
       array(
         '%name' => $user->name,
-        '%role' => $role_name,
+        '%role_1' => $administrator_role->name,
+        '%role_2' => $cem_role->name,
       ),
       WATCHDOG_INFO,
       l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid))
