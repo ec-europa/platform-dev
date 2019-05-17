@@ -69,7 +69,7 @@ projects[apachesolr_multilingual][subdir] = "contrib"
 projects[apachesolr_multilingual][version] = "1.3"
 
 projects[apachesolr_multisitesearch][subdir] = "contrib"
-projects[apachesolr_multisitesearch][version] = "1.1"
+projects[apachesolr_multisitesearch][version] = "1.2"
 
 projects[autologout][subdir] = "contrib"
 projects[autologout][version] = "4.5"
