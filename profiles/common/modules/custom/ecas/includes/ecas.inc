@@ -141,13 +141,6 @@ function _ecas_menu(array &$items) {
     'type' => MENU_SUGGESTED_ITEM,
   );
 
-  $items['account_request'] = array(
-    'title' => 'Create an EU Login account',
-    'page callback' => 'account_request',
-    'access callback' => 'ecas_menu_check',
-    'type' => MENU_SUGGESTED_ITEM,
-  );
-
   $items['ecas_warning_page'] = array(
     'title' => 'EU Login warning',
     'page callback' => 'ecas_warning_page',
@@ -183,7 +176,6 @@ function ecas_user_logout($account) {
  *   correspond to 'ecas' or 'account_request'.
  *
  * @see ecas_login_page()
- * @see account_request()
  */
 function ecas_menu_check() {
   if (user_is_anonymous()) {
@@ -199,16 +191,6 @@ function ecas_menu_check() {
   );
 
   return in_array(current_path(), $limited_acess_paths);
-}
-
-/**
- * Redirects the user to the account request page.
- */
-function account_request() {
-  $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
-  $return_url = url('ecas', array('absolute' => TRUE));
-  $account_request_url = str_replace('%local_ecas_url%', $return_url, $account_request_url);
-  drupal_goto($account_request_url);
 }
 
 /**
