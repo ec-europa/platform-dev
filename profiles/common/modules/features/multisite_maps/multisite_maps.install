@@ -44,10 +44,24 @@ function multisite_maps_enable() {
 }
 
 /**
- * Use soft config for map comment form location.
+ * Implements hook_install().
  */
 function multisite_maps_install() {
+  // Use soft config for map comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('map', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('map', 'closed');
+  // Use soft config to allow map comment threading.
   multisite_config_service('comment')->setThreadingCommentForContentType('map', 0);
+  // Use soft config for map comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('map', 0);
+  // Use soft config for preview map comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('map', 0);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('map', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('map', 0);
+
 }
 
 /**
@@ -62,4 +76,15 @@ function multisite_maps_disable() {
 
   // Deactivation message.
   drupal_set_message(t('Multisite Maps feature is now disabled on your site.'));
+}
+
+/**
+ * Set new value for multisite_maps feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function multisite_maps_update_7001() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('multisite_maps', 'variable');
 }

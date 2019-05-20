@@ -783,3 +783,45 @@ function _cce_basic_config_text_formats() {
   variable_set('i18n_string_allowed_formats', $full_html);
   variable_set('filter_fallback_format', 'plain_text');
 }
+
+/**
+ * Set the field instance settings for the "comment_body" field.
+ *
+ * It allows "soft" configuring the default settings of the field instance.
+ */
+function _cce_basic_config_comment_body_field_instance_add() {
+  // Exported field_instance: 'comment-comment_node_article-comment_body'.
+  $field_instances['comment-comment_node_article-comment_body'] = array(
+    'bundle' => 'comment_node_article',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'comment',
+    'field_name' => 'comment_body',
+    'label' => 'Comment',
+    'required' => TRUE,
+    'settings' => array(
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 0,
+    ),
+  );
+
+  field_create_instance($field_instances['comment-comment_node_article-comment_body']);
+}

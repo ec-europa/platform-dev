@@ -5,6 +5,8 @@
  * Install the feature idea.
  */
 
+module_load_include('inc', 'idea_core', 'idea_core.install');
+
 /**
  * Implements hook_install().
  */
@@ -94,8 +96,23 @@ function idea_core_install() {
   );
   taxonomy_term_save($term);
 
-  // Use soft config for article comment form location.
-  multisite_config_service('comment')->setThreadingCommentForContentType('idea', 0);
+  // Use soft config for idea comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('idea', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('idea', 'open');
+  // Use soft config to allow idea comment threading.
+  multisite_config_service('comment')->setThreadingCommentForContentType('idea', 1);
+  // Use soft config for idea comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('idea', 0);
+  // Use soft config for preview idea comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('idea', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('idea', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('idea', 0);
+
+  // Use soft config for comment_body field instance.
+  _idea_core_comment_body_field_instance_add();
 
   $cem_permissions = array(
     'view rate results page',
@@ -218,4 +235,15 @@ function idea_core_update_7120() {
     'name' => 'Under Review',
   );
   taxonomy_term_save($term);
+}
+
+/**
+ * Set new value for idea_core feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function idea_core_update_7121() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('idea_core', 'variable');
 }
