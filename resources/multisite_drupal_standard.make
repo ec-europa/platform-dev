@@ -650,6 +650,7 @@ projects[redirect][subdir] = "contrib"
 ; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
 projects[redirect][download][branch] = 7.x-1.x
 projects[redirect][download][revision] = 6ade5533b53d8da8ed5b79fd6559df693a09860b
+; Warning: Overwritting version or patches used may result in incompatibilities with platform development.
 ; Prevent new redirects from being deleted on cron runs.
 ; https://www.drupal.org/node/1396446
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
