@@ -1,0 +1,269 @@
+diff --git a/redirect.admin.inc b/redirect.admin.inc
+index e6a5002..e77489a 100644
+--- a/redirect.admin.inc
++++ b/redirect.admin.inc
+@@ -23,6 +23,7 @@ function redirect_list_form($form, &$form_state) {
+     'language' => array('data' => t('Language'), 'field' => 'language'),
+     'count' => array('data' => t('Count'), 'field' => 'count'),
+     'access' => array('data' => t('Last accessed'), 'field' => 'access'),
++    'created' => array('data' => t('Created'), 'field' => 'created'),
+     'operations' => array('data' => t('Operations')),
+   );
+ 
+@@ -98,6 +99,18 @@ function redirect_list_form($form, &$form_state) {
+     else {
+       $row['access'] = t('Never');
+     }
++    
++    if ($redirect->created) {
++      $row['created'] = array(
++        'data' => t('@date', array('@date' => format_date($redirect->created))),
++        'title' => t('Created !interval ago', array('!interval' => format_interval(REQUEST_TIME - $redirect->created))),
++      );
++    }
++    else {
++      $row['created'] = array(
++        'data' => t('Unknown'),
++      );
++    }
+ 
+     // Mark redirects that override existing paths with a warning in the table.
+     if (drupal_valid_path($redirect->source)) {
+@@ -864,6 +877,7 @@ function redirect_list_table($redirects, $header) {
+     'language' => array('data' => t('Language'), 'field' => 'language'),
+     'count' => array('data' => t('Count'), 'field' => 'count'),
+     'access' => array('data' => t('Last accessed'), 'field' => 'access'),
++    'created' => array('data' => t('Created'), 'field' => 'created'),
+     'operations' => array('data' => t('Operations')),
+   ), $header);
+ 
+@@ -893,6 +907,11 @@ function redirect_list_table($redirects, $header) {
+     else {
+       $row['data']['access'] = t('Never');
+     }
++    
++    $row['data']['created'] = array(
++      'data' => t('@date', array('@date' => format_date($redirect->created))),
++      'title' => t('Created !interval ago', array('!interval' => format_interval(REQUEST_TIME - $redirect->created))),
++    );
+ 
+     // Mark redirects that override existing paths with a warning in the table.
+     if (drupal_valid_path($redirect->source)) {
+diff --git a/redirect.install b/redirect.install
+index 034eaaf..e58de41 100644
+--- a/redirect.install
++++ b/redirect.install
+@@ -95,6 +95,13 @@ function redirect_schema() {
+         'default' => 1,
+         'description' => 'Boolean indicating whether the redirect is enabled (visible to non-administrators).',
+       ),
++      'created' => array(
++        'type' => 'int',
++        'unsigned' => TRUE,
++        'not null' => TRUE,
++        'default' => 0,
++        'description' => 'The timestamp of when the redirect was created.',
++      ),
+     ),
+     'primary key' => array('rid'),
+     'unique keys' => array(
+diff --git a/redirect.module b/redirect.module
+index 8dd3a15..6df1bab 100644
+--- a/redirect.module
++++ b/redirect.module
+@@ -790,6 +790,10 @@ function redirect_save($redirect) {
+     // The changed timestamp is always updated for bookkeeping purposes.
+     //$redirect->changed = time();
+ 
++    if ($redirect->is_new) {
++      $redirect->created = time();
++    }
++
+     redirect_hash($redirect);
+     if ($redirect->is_new || $redirect->hash != $redirect->original->hash) {
+       // Only new or changed redirects reset the last used value.
+@@ -1062,7 +1066,12 @@ function redirect_purge_inactive_redirects(array $types = array('redirect'), $in
+   if (!empty($types)) {
+     $query->condition('type', $types);
+   }
+-  $query->condition('access', REQUEST_TIME - $interval, '<');
++  $db_or = db_or();
++  $db_or->condition('created', '0', '!=')
++    ->condition('access', '0', '!=');
++  $query->condition($db_or)
++    ->condition('access', REQUEST_TIME - $interval, '<')
++    ->condition('created', REQUEST_TIME - $interval, '<');
+   $query->range(0, variable_get('redirect_purge_amount', 100));
+   $query->addTag('redirect_purge');
+   $rids = $query->execute()->fetchCol();
+@@ -1620,7 +1629,7 @@ function redirect_field_attach_form($entity_type, $entity, &$form, &$form_state,
+   // since the build array will already be cached.
+   module_load_include('inc', 'redirect', 'redirect.admin');
+   $redirects = redirect_load_multiple(FALSE, array('redirect' => $uri['path']));
+-  $header = array('source', 'status', 'status_code', 'language', 'count', 'access', 'operations');
++  $header = array('source', 'status', 'status_code', 'language', 'count', 'access', 'created', 'operations');
+   $form['redirect'] += redirect_list_table($redirects, $header);
+ }
+ 
+diff --git a/redirect.test b/redirect.test
+index 816238a..d064965 100644
+--- a/redirect.test
++++ b/redirect.test
+@@ -245,6 +245,7 @@ class RedirectFunctionalTest extends RedirectTestHelper {
+     $this->assertRedirect($redirect);
+ 
+     $redirect->access = 1;
++    $redirect->created = 1;
+     redirect_save($redirect);
+     variable_set('page_cache_invoke_hooks', TRUE);
+     $this->cronRun();
+@@ -311,4 +312,22 @@ class RedirectFunctionalTest extends RedirectTestHelper {
+     $this->drupalPost("admin/config/search/redirect/edit/{$redirect->rid}", $edit, t('Save'));
+     $this->assertRedirect($redirect);
+   }
++  
++  function testDeleteOldRedirects() {
++    // Set redirects more than 1 week old to be deleted.
++    variable_set('redirect_purge_inactive', 604800);
++
++    // Add a new redirect.
++    $redirect = $this->addRedirect('redirect', 'node');
++
++    // Run cron and ensure that it doesn't delete the new redirct.
++    $this->cronRun();
++    $this->assertRedirect($redirect);
++
++    // Set an old creation time, then let cron delete the redirect.
++    $redirect->created = 1;
++    redirect_save($redirect);
++    $this->cronRun();
++    $this->assertNoRedirect($redirect);
++  }
+ }
+diff --git a/views/redirect.views.inc b/views/redirect.views.inc
+index e723389..03544d0 100644
+--- a/views/redirect.views.inc
++++ b/views/redirect.views.inc
+@@ -210,6 +210,22 @@ function redirect_views_data() {
+     ),
+   );
+ 
++  // {redirect}.created
++  $data['redirect']['created'] = array(
++    'title' => t('Created date'),
++    'help' => t('The date/time the URL redirect was created.'),
++    'field' => array(
++      'handler' => 'views_handler_field_date',
++      'click sortable' => TRUE,
++    ),
++    'sort' => array(
++      'handler' => 'views_handler_sort',
++    ),
++    'filter' => array(
++      'handler' => 'views_handler_filter_date',
++    ),
++  );
++
+   $data['redirect']['operations'] = array(
+     'field' => array(
+       'title' => t('Operations'),
+diff --git a/views/redirects.view b/views/redirects.view
+index fd9e777..f69e649 100644
+--- a/views/redirects.view
++++ b/views/redirects.view
+@@ -24,48 +24,70 @@ $handler->display->display_options['pager']['options']['offset'] = '0';
+ $handler->display->display_options['pager']['options']['id'] = '0';
+ $handler->display->display_options['style_plugin'] = 'table';
+ $handler->display->display_options['style_options']['columns'] = array(
++  'rid' => 'rid',
+   'source' => 'source',
+   'redirect' => 'redirect',
+   'language' => 'language',
+   'count' => 'count',
+   'access' => 'access',
+-  'edit_redirect' => 'edit_redirect',
+-  'delete_redirect' => 'delete_redirect',
++  'created' => 'created',
++  'operations' => 'operations',
+ );
+ $handler->display->display_options['style_options']['default'] = '-1';
+ $handler->display->display_options['style_options']['info'] = array(
++  'rid' => array(
++    'sortable' => 0,
++    'default_sort_order' => 'asc',
++    'align' => '',
++    'separator' => '',
++    'empty_column' => 0,
++  ),
+   'source' => array(
+     'sortable' => 1,
++    'default_sort_order' => 'asc',
+     'align' => '',
+     'separator' => '',
++    'empty_column' => 0,
+   ),
+   'redirect' => array(
+     'sortable' => 1,
++    'default_sort_order' => 'asc',
+     'align' => '',
+     'separator' => '',
++    'empty_column' => 0,
+   ),
+   'language' => array(
+     'sortable' => 1,
++    'default_sort_order' => 'asc',
+     'align' => '',
+     'separator' => '',
++    'empty_column' => 0,
+   ),
+   'count' => array(
+     'sortable' => 1,
++    'default_sort_order' => 'asc',
+     'align' => '',
+     'separator' => '',
++    'empty_column' => 0,
+   ),
+   'access' => array(
+     'sortable' => 1,
++    'default_sort_order' => 'asc',
+     'align' => '',
+     'separator' => '',
++    'empty_column' => 0,
+   ),
+-  'edit_redirect' => array(
++  'created' => array(
++    'sortable' => 1,
++    'default_sort_order' => 'asc',
+     'align' => '',
+     'separator' => '',
++    'empty_column' => 0,
+   ),
+-  'delete_redirect' => array(
++  'operations' => array(
+     'align' => '',
+     'separator' => '',
++    'empty_column' => 0,
+   ),
+ );
+ $handler->display->display_options['style_options']['sticky'] = TRUE;
+@@ -109,6 +131,12 @@ $handler->display->display_options['fields']['access']['label'] = 'Last accessed
+ $handler->display->display_options['fields']['access']['empty'] = 'Never';
+ $handler->display->display_options['fields']['access']['empty_zero'] = TRUE;
+ $handler->display->display_options['fields']['access']['date_format'] = 'time ago';
++/* Field: Redirect: Created date */
++$handler->display->display_options['fields']['created']['id'] = 'created';
++$handler->display->display_options['fields']['created']['table'] = 'redirect';
++$handler->display->display_options['fields']['created']['field'] = 'created';
++$handler->display->display_options['fields']['created']['label'] = 'Created';
++$handler->display->display_options['fields']['created']['date_format'] = 'medium';
+ /* Field: Redirect: Operations */
+ $handler->display->display_options['fields']['operations']['id'] = 'operations';
+ $handler->display->display_options['fields']['operations']['table'] = 'redirect';
+@@ -171,6 +199,7 @@ $translatables['redirects'] = array(
+   t('Clicks'),
+   t('Last accessed'),
+   t('Never'),
++  t('Created'),
+   t('Operations'),
+   t('Page: User redirects'),
+   t('Page: Admin redirects'),

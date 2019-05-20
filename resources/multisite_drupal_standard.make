@@ -653,7 +653,7 @@ projects[redirect][download][revision] = 6ade5533b53d8da8ed5b79fd6559df693a09860
 ; Prevent new redirects from being deleted on cron runs.
 ; https://www.drupal.org/node/1396446
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
-projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2019-03-27/redirect-purge-from-created-1396446-62.patch
+projects[redirect][patch][1396446] = patches/redirect-purge-from-created-1396446-nept-2399.patch
 ; Prevent duplicate hashes causing database exceptions
 ; https://www.drupal.org/node/2260499
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1946
