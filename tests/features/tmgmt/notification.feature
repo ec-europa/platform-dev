@@ -1,4 +1,4 @@
-@poetry
+@poetry @theme_wip
 Feature: Server notifications
 
   Background:

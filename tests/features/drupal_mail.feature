@@ -1,4 +1,4 @@
-@api @internalMail
+@api @internalMail @ec_resp
 Feature: Drupal Mail features
   In order to check if a mail was sent correctly
   As an Administrator
