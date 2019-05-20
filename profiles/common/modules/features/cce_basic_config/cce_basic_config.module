@@ -478,6 +478,9 @@ function cce_basic_config_field_widget_entityreference_autocomplete_tags_form_al
   _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
 }
 
+/**
+ * Implements hook_themes_enabled().
+ */
 function cce_basic_config_themes_enabled($theme_list) {
   if (in_array('ec_europa', $theme_list)) {
     if (!module_exists('nexteuropa_ecl_migrate')) {
