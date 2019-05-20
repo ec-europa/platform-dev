@@ -29,10 +29,6 @@ Feature: Feature set menu
     And I should see the text "Newsletters"
     And I should see the text "GIS field"
     And I should see the text "GeoJson feeds"
-    # Cannot use "Integration" label to test if administrator user can see the
-    # "Integration" feature because it is already elsewhere on the page for
-    # another purpose.
-    And I should see the text "Provides common NextEuropa backend settings and schemas used by the Integration module."
     And I should see the text "Rule-based web frontend cache purging"
     And I should see the text "E-library"
     And I should see the text "Embedded images "
