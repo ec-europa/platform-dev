@@ -848,6 +848,8 @@ projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.16"
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
+; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
@@ -916,9 +918,6 @@ projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][type] = "git"
 projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
 projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e948605"
-; Fix remote js loading on ckeditor plugin
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
-projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
 ; CKEditor height does not reflect the rows attribute
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
 projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
