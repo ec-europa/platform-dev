@@ -44,7 +44,7 @@ Feature: Content translation
     When I visit "admin/structure/views/view/testing_view/edit"
     And I click "views-add-field"
     And I wait for AJAX to finish
-    And I check the box "Entity translation: Body: translated"
+    And I check the box "edit-name-field-data-field-ne-bodyfield-ne-body-et"
     And I press the "Add and configure fields" button
     And I wait for AJAX to finish
     And I press the "Apply" button
@@ -94,6 +94,8 @@ Feature: Content translation
       | languages |
       | en        |
       | fr        |
+    And I request to change the variable "file_private_path" to "sites/default/files/private_files"
+    And the cache has been cleared
     When I go to "file/add"
     And I attach the file "/tests/files/logo.png" to "edit-upload-upload"
     And I press "Next"

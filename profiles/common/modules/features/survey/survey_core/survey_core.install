@@ -5,6 +5,8 @@
  * Code for the Survey core install file.
  */
 
+module_load_include('inc', 'survey_core', 'survey_core.install');
+
 /**
  * Implements hook_enable().
  */
@@ -26,7 +28,24 @@ function survey_core_enable() {
  * Use soft config for webform comment form location.
  */
 function survey_core_install() {
-  multisite_config_service('comment')->setThreadingCommentForContentType('webform', 0);
+  // Use soft config for webform comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('webform', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('webform', 'closed');
+  // Use soft config to allow webform comment threading.
+  multisite_config_service('comment')->setThreadingCommentForContentType('webform', 1);
+  // Use soft config for webform comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('webform', 0);
+  // Use soft config for preview webform comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('webform', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('webform', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('webform', 0);
+
+  // Use soft config for comment_body field instance.
+  _survey_core_comment_body_field_instance_add();
+
 }
 
 /**
@@ -38,4 +57,15 @@ function survey_core_disable() {
 
   // Deactivation message.
   drupal_set_message(t('Survey feature is now disabled on your site.'));
+}
+
+/**
+ * Set new value for survey_core feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function survey_core_update_7001() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('survey_core', 'variable');
 }

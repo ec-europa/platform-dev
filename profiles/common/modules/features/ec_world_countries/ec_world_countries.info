@@ -13,6 +13,7 @@ multisite_version = 1.7
 files[] = tests/ec_world_countries.test
 feature_sets[ec_world_countries][title] = EC world countries
 feature_sets[ec_world_countries][description] = Vocabulary with world countries
+feature_sets[ec_world_countries][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/%5BFPFIS%5D+World+countries'
 feature_sets[ec_world_countries][icon] = ec_world_countries_icon.png
 feature_sets[ec_world_countries][enable][] = ec_world_countries
 feature_sets[ec_world_countries][disable][] = ec_world_countries

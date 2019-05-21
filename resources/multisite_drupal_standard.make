@@ -176,18 +176,13 @@ projects[date_ical][version] = "3.9"
 projects[date_ical][patch][2909036] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909036-1.patch
 
 projects[diff][subdir] = "contrib"
-projects[diff][download][branch] = 7.x-3.x
-projects[diff][download][revision] = b1b09189d52380a008c9cb29b879e3aa140ec2e0
-projects[diff][download][type] = git
+projects[diff][version] = 3.4
 
 projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
-projects[easy_breadcrumb][version] = "2.15"
-; Issue #2973420 : 	Undefined index: html in template_preprocess_easy_breadcrumb()
-; https://www.drupal.org/node/2973420
-projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/2018-05-16/easy_breadcrumb-undefined_index_html-2973420-2.patch
+projects[easy_breadcrumb][version] = "2.16"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -455,6 +450,11 @@ projects[media][version] = 2.20
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
 
+; Ensure the media_wysiwyg.filter.js is loaded.
+; https://www.drupal.org/project/media/issues/3039731
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2243
+projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js-library-3039731-1.patch
+
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.3"
 
@@ -543,7 +543,7 @@ projects[nexteuropa_newsroom][download][tag] = v3.5.5
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.9"
+projects[og][version] = "2.10"
 ; VBO and OG
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
@@ -552,10 +552,6 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 ; NEXTEUROPA-11789 Issue in Bean reference to OG
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
-
-; NEXTEUROPA-14012 Adding membership from user profile is in pending status
-; https://www.drupal.org/node/2744405
-projects[og][patch][] = https://www.drupal.org/files/issues/og_default_state_pending_2744405_11650415-20.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
@@ -624,11 +620,10 @@ projects[realname][version] = "1.3"
 projects[redirect][subdir] = "contrib"
 ; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
 projects[redirect][download][branch] = 7.x-1.x
-projects[redirect][download][revision] = add3c695f613fbeec23b7259e59936f60a6b6da6
-; Increase size of source field to hold long URLs
-; https://www.drupal.org/project/redirect/issues/2057615
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1943
-projects[redirect][patch][] = https://www.drupal.org/files/issues/2018-06-24/redirect-increase-size-fields-to-900-2057615-35.patch
+projects[redirect][download][revision] = d5c95c2112f05d1a31c2f10bc921c633110c8a91
+; Target URL modified when implementing redirection using Redirect module
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2399
+projects[redirect][patch][] = patches/target-modified-implementing-redirection.patch
 ; Prevent new redirects from being deleted on cron runs.
 ; https://www.drupal.org/node/1396446
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
@@ -802,18 +797,21 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.20
+projects[views][version] = 3.22
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
 projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_empty_not_empty_filter_error-1818176-37.patch
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
-; Reset of Exposed Published Status filter with "Remember last selection" results in:
-; Undefined index: status in views_handler_filter->store_exposed_input()
-; https://www.drupal.org/project/views/issues/2961962
-; The patch of this issue fixes the PHP error: https://www.drupal.org/project/views/issues/2900405
-projects[views][patch][] = https://www.drupal.org/files/issues/views-check-exposed-identifier.patch
+; Issue #3012609: Issues with AJAX for exposed filters
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
+; https://www.drupal.org/project/views/issues/3012609
+; https://www.drupal.org/project/views/issues/1809958
+projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-25/issues-ajax-exposed-filters-blocks-1809958-70.patch
+; Issue #2985178: Views 3.18 > 3.20 update problem with duplicate/group_by
+; https://www.drupal.org/node/2985178
+projects[views][patch][] = https://www.drupal.org/files/issues/2018-07-15/mysql-group-by-duplication-workaround-2985178-7.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -850,6 +848,8 @@ projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.16"
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
+; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
@@ -918,9 +918,6 @@ projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][type] = "git"
 projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
 projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e948605"
-; Fix remote js loading on ckeditor plugin
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
-projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
 ; CKEditor height does not reflect the rows attribute
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
 projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
@@ -953,12 +950,11 @@ libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archi
 libraries[colorbox][directory_name] = colorbox
 libraries[colorbox][destination] = libraries
 
-; ckeditor 4.4.8
+; ckeditor 4.9.2
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip
-libraries[ckeditor][download][sha1] = "ed246ac87cad3c4cfa1f723fcfbe4a6e3a5c6992"
+libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_full.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().

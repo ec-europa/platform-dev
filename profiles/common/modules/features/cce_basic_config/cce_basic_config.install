@@ -455,7 +455,25 @@ function cce_basic_config_install() {
   }
 
   // Use soft config for article comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('article', 1);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('article', 'open');
+  // Use soft config to allow article comment threading.
   multisite_config_service('comment')->setThreadingCommentForContentType('article', 1);
+  // Use soft config for article comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('article', 1);
+  // Use soft config for preview article comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('article', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('article', '50');
+  // Use soft config for anonymous comments in article.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('article', 0);
+
+  // Use soft config for comment_body field base.
+  multisite_config_service('comment')->createCommentBodyField();
+  // Use soft config for comment_body field instance.
+  _cce_basic_config_comment_body_field_instance_add();
+
 }
 
 /**
@@ -1791,8 +1809,10 @@ function cce_basic_config_update_7229() {
 }
 
 /**
- * Delete "cem" user role and remove it from users NEPT-2227.
+ * Remove permissions from cem role.
  */
 function cce_basic_config_update_7230() {
-  user_role_delete("cem");
+  $role = user_role_load_by_name('cem');
+  $permissions = array_keys(array_pop(user_role_permissions(array($role->rid => $role->name))));
+  user_role_revoke_permissions($role->rid, $permissions);
 }

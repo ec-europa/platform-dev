@@ -5,6 +5,8 @@
  * Install the feature links.
  */
 
+module_load_include('inc', 'links_core', 'links_core.install');
+
 /**
  * Implements hook_enable().
  *
@@ -21,10 +23,27 @@ function links_core_enable() {
 }
 
 /**
- * Use soft config for article comment form location.
+ * Use soft config for links comment form location.
  */
 function links_core_install() {
-  multisite_config_service('comment')->setThreadingCommentForContentType('links', 0);
+  // Use soft config for links comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('links', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('links', 'closed');
+  // Use soft config to allow links comment threading.
+  multisite_config_service('comment')->setThreadingCommentForContentType('links', 1);
+  // Use soft config for links comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('links', 1);
+  // Use soft config for preview links comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('links', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('links', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('links', 0);
+
+  // Use soft config for comment_body field instance.
+  _links_core_comment_body_field_instance_add();
+
 }
 
 /**
@@ -61,4 +80,15 @@ function links_core_disable() {
   ));
 
   drupal_set_message(t('Links feature is now disabled on your site.'));
+}
+
+/**
+ * Set new value for links_core feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function links_core_update_7001() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('links_core', 'variable');
 }

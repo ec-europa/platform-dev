@@ -4,6 +4,7 @@ core = 7.x
 package = Multisite Core Features
 dependencies[] = apachesolr_search
 dependencies[] = ctools
+dependencies[] = current_search
 dependencies[] = facetapi
 dependencies[] = features
 dependencies[] = menu

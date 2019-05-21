@@ -25,10 +25,24 @@ function multisite_mediagallery_core_enable() {
 }
 
 /**
- * Use soft config for gallerymedia comment form location.
+ * Implements hook_isntall().
  */
 function multisite_mediagallery_core_install() {
+  // Use soft config for gallerymedia comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('gallerymedia', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('gallerymedia', 'hidden');
+  // Use soft config to allow gallerymedia comment threading.
   multisite_config_service('comment')->setThreadingCommentForContentType('gallerymedia', 0);
+  // Use soft config for gallerymedia comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('gallerymedia', 0);
+  // Use soft config for preview gallerymedia comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('gallerymedia', 0);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('gallerymedia', '10');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('gallerymedia', 0);
+
 }
 
 /**
@@ -47,4 +61,15 @@ function multisite_mediagallery_core_disable() {
 
   // Disabling message.
   drupal_set_message(t('Multisite Media Gallery Core feature is now inactive on your site.'));
+}
+
+/**
+ * Set new value for multisite_mediagallery_core feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function multisite_mediagallery_core_update_7001() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('multisite_mediagallery_core', 'variable');
 }
