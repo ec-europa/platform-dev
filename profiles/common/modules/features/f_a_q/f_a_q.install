@@ -8,6 +8,23 @@
 module_load_include('inc', 'f_a_q', 'f_a_q.install');
 
 /**
+ * Implements hook_requirements().
+ */
+function f_a_q_requirements() {
+  $requirements = [];
+  if (module_exists('nexteuropa_faq')) {
+    $t = get_t();
+    $args = array('%module' => 'Nexteuropa FAQ');
+    $requirements['f_a_q_module_conflict'] = array(
+      'title' => 'F.A.Q.',
+      'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+  return $requirements;
+}
+
+/**
  * Implements hook_install().
  */
 function f_a_q_install() {
