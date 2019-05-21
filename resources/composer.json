@@ -20,6 +20,9 @@
     "roave/security-advisories": "dev-master",
     "rych/random": "v0.1.0"
   },
+  "replace": {
+	"guzzle/guzzle": "^3.8"
+  },
   "autoload": {
     "psr-4": {
       "Drupal\\nexteuropa\\": "tests/src"
