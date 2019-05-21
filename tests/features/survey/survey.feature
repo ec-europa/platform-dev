@@ -1,4 +1,4 @@
-@api
+@api @ec_resp
 Feature: Survey Standard test
   In order to protect the integrity of the website
   As a product owner

@@ -26,6 +26,27 @@ function nexteuropa_event_install() {
 }
 
 /**
+ * Implements hook_requirements().
+ *
+ * Avoid using Nexteuropa Events and Events core together.
+ */
+function nexteuropa_event_requirements() {
+  $requirements = [];
+
+  if (module_exists('events_core')) {
+    $t = get_t();
+    $args = array('%module' => 'Events Core');
+    $requirements['events_module_conflict'] = array(
+      'title' => 'Events',
+      'description' => $t('This module is not compatible with %module. Please disable and uninstall that module first.', $args),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+
+  return $requirements;
+}
+
+/**
  * Set new value for nexteuropa_event feature in database.
  *
  * Variables from comments settings must be removed from hard config.

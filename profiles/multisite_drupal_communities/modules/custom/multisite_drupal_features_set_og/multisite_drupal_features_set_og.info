@@ -196,16 +196,6 @@ feature_sets[nexteuropa_geojson_feeds][font] = 'multisite-icon-location'
 feature_sets[nexteuropa_geojson_feeds][enable][] = nexteuropa_geojson_feeds
 feature_sets[nexteuropa_geojson_feeds][disable][] = nexteuropa_geojson_feeds
 
-; Integration
-feature_sets[nexteuropa_integration][title] = 'Integration'
-feature_sets[nexteuropa_integration][description] = 'Provides common NextEuropa backend settings and schemas used by the Integration module.'
-feature_sets[nexteuropa_integration][documentation] = 'https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Integration+Layer'
-feature_sets[nexteuropa_integration][category] = 'Integration'
-feature_sets[nexteuropa_integration][icon] = ''
-feature_sets[nexteuropa_integration][font] = 'multisite-icon-share'
-feature_sets[nexteuropa_integration][enable][] = nexteuropa_integration
-feature_sets[nexteuropa_integration][disable][] = nexteuropa_integration
-
 feature_sets[nexteuropa_varnish][title] = 'Rule-based web frontend cache purging'
 feature_sets[nexteuropa_varnish][description] = 'Define rules to trigger granular purging of the web frontend caches'
 feature_sets[nexteuropa_varnish][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/aJBcCg'
