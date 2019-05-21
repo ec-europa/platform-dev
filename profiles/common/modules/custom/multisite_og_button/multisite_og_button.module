@@ -81,9 +81,8 @@ function _multisite_og_button_contextual_links() {
         '#attributes' => array(
           'onChange' => 'if (this.value) window.location.href=this.value;',
         ),
-      ); 
+      );
     }
     return $links;
   }
 }
-
