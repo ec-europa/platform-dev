@@ -10,7 +10,7 @@
  */
 function communities_views_default_views() {
   $export = array();
-  global $theme_key;
+  $default_theme = variable_get('theme_default');
 
   $view = new view();
   $view->name = 'articles_list';
@@ -548,7 +548,7 @@ function communities_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['pager']['options']['offset'] = '0';
-  if ($theme_key == 'ec_resp') {
+  if ('ec_resp' == $default_theme) {
     $handler->display->display_options['style_plugin'] = 'list';
   }
   else {
@@ -755,7 +755,7 @@ function communities_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
-  if ($theme_key == 'ec_resp') {
+  if ('ec_resp' == $default_theme) {
     $handler->display->display_options['style_plugin'] = 'list';
   }
   else {

@@ -5,6 +5,8 @@
  * Multi_user install file.
  */
 
+module_load_include('inc', 'multi_user_blog', 'multi_user_blog.install');
+
 /**
  * Implements hook_disable().
  */
@@ -29,7 +31,24 @@ function multi_user_blog_disable() {
  * Use soft config for blog comment form location.
  */
 function multi_user_blog_install() {
-  multisite_config_service('comment')->setThreadingCommentForContentType('blog_post', 0);
+  // Use soft config for blog_post comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('blog_post', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('blog_post', 'open');
+  // Use soft config to allow blog_post comment threading.
+  multisite_config_service('comment')->setThreadingCommentForContentType('blog_post', 1);
+  // Use soft config for blog_post comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('blog_post', 0);
+  // Use soft config for preview blog_post comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('blog_post', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('blog_post', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('blog_post', 2);
+
+  // Use soft config for comment_body field instance.
+  _multi_user_blog_comment_body_field_instance_add();
+
   $cem_permissions = array(
     'view rate results page',
   );
@@ -55,4 +74,15 @@ function multi_user_blog_enable() {
 
   // Activation message.
   drupal_set_message(t('multi user blogs feature is now enable on your site.'));
+}
+
+/**
+ * Set new value for multi_user_blog feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function multi_user_blog_update_7001() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('multi_user_blog', 'variable');
 }

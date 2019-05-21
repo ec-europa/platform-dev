@@ -72,7 +72,20 @@ function communities_install() {
   communities_enable_og_context_negociation();
 
   // Use soft config for community comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('community', 1);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('community', 'closed');
+  // Use soft config to allow community comment threading.
   multisite_config_service('comment')->setThreadingCommentForContentType('community', 1);
+  // Use soft config for community comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('community', 1);
+  // Use soft config for preview community comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('community', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('community', '50');
+  // Use soft config for anonymous comments in communities.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('community', 0);
+
 }
 
 /**
@@ -80,4 +93,15 @@ function communities_install() {
  */
 function communities_update_7202() {
   communities_enable_og_context_negociation();
+}
+
+/**
+ * Set new value for communities feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function communities_update_7203() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('communities', 'variable');
 }

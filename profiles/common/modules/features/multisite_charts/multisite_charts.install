@@ -21,7 +21,21 @@ function multisite_charts_enable() {
  * Use soft config for charts comment form location.
  */
 function multisite_charts_install() {
+  // Use soft config for chart comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('chart', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('chart', 'closed');
+  // Use soft config to allow chart comment threading.
   multisite_config_service('comment')->setThreadingCommentForContentType('chart', 0);
+  // Use soft config for chart comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('chart', 0);
+  // Use soft config for preview chart comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('chart', 0);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('chart', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('chart', 0);
+
 }
 
 /**
@@ -58,4 +72,15 @@ function multisite_charts_requirements($phase) {
 
   }
   return $requirements;
+}
+
+/**
+ * Set new value for multisite_charts feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function multisite_charts_update_7001() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('multisite_charts', 'variable');
 }
