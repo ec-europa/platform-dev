@@ -26,6 +26,8 @@ services:
       MYSQL_DATABASE: 'drupal'
       MYSQL_USER: 'dbuser'
       MYSQL_PASSWORD: 'dbpass'
+    volumes:
+      - mysql-data:/var/lib/mysql
   selenium:
     image: wernight/phantomjs
     ports:
@@ -34,3 +36,6 @@ services:
       - DISPLAY=:99
       - SE_OPTS=-debug
     command: "phantomjs --webdriver=8910 --ignore-ssl-errors=true --ssl-protocol=any"
+
+volumes:
+  mysql-data:
