@@ -4,7 +4,11 @@
     "behat/mink-goutte-driver": "~1.1",
     "phpunit/phpunit": "4.5.*",
     "drupal/drupal-driver": "dev-master",
-    "symfony/dependency-injection": "~2.6"
+    "symfony/dependency-injection": "~2.6",
+    "guzzlehttp/guzzle": "^6.2.1"
+  },
+  "replace": {
+	  "guzzle/guzzle": "^3.8"
   },
   "autoload": {
     "psr-4": {

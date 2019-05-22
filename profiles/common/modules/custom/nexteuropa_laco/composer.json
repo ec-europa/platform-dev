@@ -3,6 +3,9 @@
     "guzzlehttp/guzzle": "^6.1",
     "phpunit/phpunit": "4.5.*"
   },
+  "replace": {
+	  "guzzle/guzzle": "^3.8"
+  },
   "autoload": {
     "psr-4": {
       "Drupal\\nexteuropa_laco\\Tests\\": "./tests/"
