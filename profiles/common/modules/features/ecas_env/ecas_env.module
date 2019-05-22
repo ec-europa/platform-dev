@@ -39,16 +39,6 @@ function ecas_env_menu_link_alter(&$item) {
           $item['options']['attributes']['data-container'] = 'body';
           break;
 
-        case 'account_request':
-          $item['options']['attributes']['title'] = t('Request new account');
-          $item['options']['attributes']['class'] = 'btn btn-success';
-          $item['options']['attributes']['data-image'] = 'plus';
-          $item['options']['attributes']['data-display-title'] = 0;
-          $item['options']['attributes']['data-toggle'] = 'tooltip';
-          $item['options']['attributes']['data-placement'] = 'bottom';
-          $item['options']['attributes']['data-container'] = 'body';
-          break;
-
         default;
       }
     }
@@ -111,10 +101,8 @@ function normal_menu_check() {
 function ecas_env_node_view_alter(&$build) {
   if (isset($build['links']['comment']['#links']['comment_forbidden'])) {
     // Alter login links in the comment area to redirect to ecas.
-    $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
     $return_url = url('ecas', array('absolute' => TRUE));
-    $account_request_url = str_replace('%local_ecas_url%', $return_url, $account_request_url);
-    $build['links']['comment']['#links']['comment_forbidden']['title'] = t('<a href="@return_url">Log in</a> or <a href="@account_request_url">register</a> to post comments', array('@return_url' => $return_url, '@account_request_url' => $account_request_url));
+    $build['links']['comment']['#links']['comment_forbidden']['title'] = t('<a href="@return_url">Log in</a> to post comments', array('@return_url' => $return_url));
   }
 }
 

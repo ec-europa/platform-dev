@@ -6,8 +6,53 @@
  */
 
 /**
- * Use soft config for nexteuropa_event comment form location.
+ * Implements hook_install().
  */
 function nexteuropa_event_install() {
+  // Use soft config for nexteuropa_event comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('nexteuropa_event', 1);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('nexteuropa_event', 'open');
+  // Use soft config to allow nexteuropa_event comment threading.
   multisite_config_service('comment')->setThreadingCommentForContentType('nexteuropa_event', 1);
+  // Use soft config for nexteuropa_event comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('nexteuropa_event', 1);
+  // Use soft config for preview nexteuropa_event comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('nexteuropa_event', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('nexteuropa_event', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('nexteuropa_event', 0);
+}
+
+/**
+ * Implements hook_requirements().
+ *
+ * Avoid using Nexteuropa Events and Events core together.
+ */
+function nexteuropa_event_requirements() {
+  $requirements = [];
+
+  if (module_exists('events_core')) {
+    $t = get_t();
+    $args = array('%module' => 'Events Core');
+    $requirements['events_module_conflict'] = array(
+      'title' => 'Events',
+      'description' => $t('This module is not compatible with %module. Please disable and uninstall that module first.', $args),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+
+  return $requirements;
+}
+
+/**
+ * Set new value for nexteuropa_event feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function nexteuropa_event_update_7001() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('nexteuropa_event', 'variable');
 }

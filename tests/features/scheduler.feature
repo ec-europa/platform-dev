@@ -1,4 +1,4 @@
-@api @javascript
+@api @javascript @ec_resp
 Feature: Scheduler features
   In order to moderate contents
   As an authenticated user

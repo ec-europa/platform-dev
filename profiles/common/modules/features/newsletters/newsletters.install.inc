@@ -11,8 +11,18 @@
 function _newsletters_set_simplenews_content_type() {
   $t = get_t();
 
-  // Use soft config for newsletters comment form location.
+  // Use soft config for simplenews comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('simplenews', 1);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('simplenews', 'closed');
+  // Use soft config to allow simplenews comment threading.
   multisite_config_service('comment')->setThreadingCommentForContentType('simplenews', 1);
+  // Use soft config for simplenews comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('simplenews', 1);
+  // Use soft config for preview simplenews comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('simplenews', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('simplenews', '50');
 
   $field_group_content_children = array(
     0 => 'body',
