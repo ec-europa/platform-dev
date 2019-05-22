@@ -1,4 +1,4 @@
-@api
+@api @ec_resp
 Feature: Content accessibility test
   In order to detect whether the code base and/or the platform configuration disclose
   contents to users that should not access them
