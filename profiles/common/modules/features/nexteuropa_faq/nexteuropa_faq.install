@@ -26,6 +26,23 @@ function nexteuropa_faq_install() {
 }
 
 /**
+ * Implements hook_requeriments().
+ */
+function nexteuropa_faq_requirements($phase) {
+  $requirements = [];
+  if (module_exists('f_a_q')) {
+    $t = get_t();
+    $args = array('%module' => 'F.A.Q.');
+    $requirements['nexteuropa_faq_module_conflict'] = array(
+      'title' => 'Nexteuropa FAQ',
+      'description' => $t('This module is not compatible with %module. Please disable that module first', $args),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+  return $requirements;
+}
+
+/**
  * Set new value for nexteuropa_faq feature in database.
  *
  * Variables from comments settings must be removed from hard config.

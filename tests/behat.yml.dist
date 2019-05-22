@@ -4,9 +4,6 @@ default:
   suites:
     default:
       contexts: &default-contexts
-        - Drupal\nexteuropa\Context\IntegrationLayerContext:
-            mock_server_host: {{ behat.poetry.host }}
-            mock_server_port: {{ integration.server.port }}
         - Drupal\nexteuropa\Context\ModuleContext
         - FeatureContext:
             screenshots_path: '{{ behat.screenshots.path }}'
@@ -144,9 +141,6 @@ standard_ec_resp:
   suites:
     default:
       contexts:
-      - Drupal\nexteuropa\Context\IntegrationLayerContext:
-          mock_server_host: {{ behat.poetry.host }}
-          mock_server_port: {{ integration.server.port }}
       - Drupal\nexteuropa\Context\ModuleContext
       - FeatureContext:
           screenshots_path: '{{ behat.screenshots.path }}'
@@ -225,9 +219,6 @@ communities_ec_resp:
   suites:
     default:
       contexts:
-        - Drupal\nexteuropa\Context\IntegrationLayerContext:
-            mock_server_host: {{ behat.poetry.host }}
-            mock_server_port: {{ integration.server.port }}
         - Drupal\nexteuropa\Context\ModuleContext
         - FeatureContext:
             screenshots_path: '{{ behat.screenshots.path }}'

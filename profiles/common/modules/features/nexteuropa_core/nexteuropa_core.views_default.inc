@@ -158,13 +158,6 @@ function nexteuropa_core_views_default_views() {
       'override_label' => 0,
       'label' => '',
     ),
-    'action::nexteuropa_integration_post_node_action' => array(
-      'selected' => 1,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
     'action::node_promote_action' => array(
       'selected' => 1,
       'postpone_processing' => 0,

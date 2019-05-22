@@ -2,6 +2,5 @@ name = Contact form
 description = Let user contact support
 core = 7.x
 package = Multisite Features
-dependencies[] = contact
 dependencies[] = features
 features[features_api][] = api:2
