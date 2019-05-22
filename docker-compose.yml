@@ -18,6 +18,7 @@ services:
       - 8080:8080
   mysql:
     image: percona/percona-server:5.6
+    command: --innodb-log-file_size=256M --max-allowed-packet=1G --innodb-buffer-pool-size=512M
     ports:
       - 3306:3306
     environment:
