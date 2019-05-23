@@ -649,11 +649,14 @@ projects[realname][version] = "1.3"
 projects[redirect][subdir] = "contrib"
 ; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
 projects[redirect][download][branch] = 7.x-1.x
-projects[redirect][download][revision] = 6ade5533b53d8da8ed5b79fd6559df693a09860b
+projects[redirect][download][revision] = d5c95c2112f05d1a31c2f10bc921c633110c8a91
+; Target URL modified when implementing redirection using Redirect module
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2399
+projects[redirect][patch][] = patches/target-modified-implementing-redirection.patch
 ; Prevent new redirects from being deleted on cron runs.
 ; https://www.drupal.org/node/1396446
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
-projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2019-03-27/redirect-purge-from-created-1396446-62.patch
+projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05-09/redirect-purge-from-created-1396446-54.patch
 ; Prevent duplicate hashes causing database exceptions
 ; https://www.drupal.org/node/2260499
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1946
