@@ -175,7 +175,6 @@ class MediaContext implements Context {
    */
   public function iSeeTheVideoIframe() {
     // TO DO.
-    // $items = $this->mink->getSession()->getPage()->findAll('xpath', '//*[@id="file-7"]/div/div[1]/iframe');
   }
 
 }
