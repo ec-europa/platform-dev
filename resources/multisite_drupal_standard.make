@@ -574,10 +574,11 @@ projects[og][version] = "2.10"
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
 projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
-
 ; NEXTEUROPA-11789 Issue in Bean reference to OG
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
+; NEPT-2493 entity issue
+projects[og][patch][] = https://git.drupalcode.org/project/og/commit/a2231ab851ca82865a0070dbd58dfd5fcb2fdd66.diff
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
