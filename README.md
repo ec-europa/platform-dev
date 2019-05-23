@@ -262,3 +262,4 @@ $ ./bin/phpcs
 # Scan only a single folder.
 $ ./bin/phpcs profiles/common/modules/custom/ecas
 ```
+
