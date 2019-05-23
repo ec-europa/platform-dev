@@ -32,10 +32,13 @@ class MediaContext implements Context {
   /**
    * Switches to the media browser iframe.
    *
-   * @Then the media browser opens
+   * @param string $arg1
+   *   The id of the iframe in media browser.
+   *
+   * @Then the media browser :arg1 iframe opens
    */
-  public function iEnterTheMediaBrowser() {
-    $this->mink->getSession()->switchToIFrame('mediaBrowser');
+  public function iEnterTheMediaBrowser($arg1) {
+    $this->mink->getSession()->switchToIFrame($arg1);
   }
 
   /**
@@ -46,7 +49,6 @@ class MediaContext implements Context {
   public function theMediaBrowserCloses() {
     $this->mink->getSession()->switchToIFrame(NULL);
     $this->mink->getSession()->wait(5000, '(!document.getElementById("mediaBrowser"))');
-
   }
 
   /**
@@ -164,6 +166,15 @@ class MediaContext implements Context {
     if ($arg2 != $page->getValue()) {
       throw new \Exception(sprintf('No match found for the text (%s)', $arg2));
     }
+  }
+
+  /**
+   * Look for an iframe by xpath.
+   *
+   * @Then I should see the video iframe
+   */
+  public function iSeeTheVideoIframe() {
+  $items = $this->mink->getSession()->getPage()->findAll('xpath', '//*[@id="file-7"]/div/div[1]/iframe');
   }
 
 }
