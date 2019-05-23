@@ -25,18 +25,14 @@ Feature: Embedded videos
     Then I should see "OPTIONS"
     Then The media browser "mediaStyleSelector" iframe opens
     And I click "Submit"
-    # Then The media browser closes
-    # Then The media browser "mediaStyleSelector" iframe closes
     And I press "Save"
     Then I should see "View draft"
     And I should see "Basic page Add media video has been created"
-    Then I should see the video iframe
-    # Then I should see the video with a banner "Please accept youtube cookies to play this video."
+    Then I should see the "<provider>" video iframe
 
     Examples:
       | provider    | title                                            | url                                                                      |
       | youtube     | Interview with Dries Buytaert, founder of Drupal | https://www.youtube.com/watch?v=i8AENFzUTHk                              |
       | dailymotion | x4gj1bp                                          | http://www.dailymotion.com/video/x4gj1bp                                 |
       | Vimeo       | A successful build in Jenkins                    | https://vimeo.com/129687265                                              |
-      # | AV portal   | STOCKSHOTS Thematic Stockshots SOTEU 2017        | https://ec.europa.eu/avservices/video/player.cfm?sitelang=en&ref=I143093 |
-      # | AV portal   | STOCKSHOTS                                       | https://ec.europa.eu/avservices/video/player.cfm?sitelang=en&ref=I143092 |
+      | AV portal   | STOCKSHOTS                                       | https://ec.europa.eu/avservices/video/player.cfm?sitelang=en&ref=I143092 |

@@ -32,12 +32,21 @@ class MediaContext implements Context {
   /**
    * Switches to the media browser iframe.
    *
+   * @Then the media browser opens
+   */
+  public function iEnterTheMediaBrowser() {
+    $this->mink->getSession()->switchToIFrame('mediaBrowser');
+  }
+  
+  /**
+   * Switches to the media browser iframe by id.
+   *
    * @param string $arg1
    *   The id of the iframe in media browser.
    *
    * @Then the media browser :arg1 iframe opens
    */
-  public function iEnterTheMediaBrowser($arg1) {
+  public function theMediaBrowserIframeOpens($arg1) {
     $this->mink->getSession()->switchToIFrame($arg1);
   }
 
@@ -163,7 +172,7 @@ class MediaContext implements Context {
     if (empty($page)) {
       throw new \Exception(sprintf('No field found for id (%s)', $arg1));
     }
-    if ($arg2 != $page->getValue()) {
+    if ($arg2 != trim($page->getValue())) {
       throw new \Exception(sprintf('No match found for the text (%s)', $arg2));
     }
   }
@@ -171,10 +180,19 @@ class MediaContext implements Context {
   /**
    * Look for an iframe by xpath.
    *
-   * @Then I should see the video iframe
+   * @param string $arg1
+   *   Provider being tested.
+   *
+   * @Then I should see the :arg1 video iframe
    */
-  public function iSeeTheVideoIframe() {
-    // TO DO.
+  public function iSeeTheVideoIframe($arg1) {
+    $provider = strtolower(str_replace(' ', '', $arg1));
+    // $iframe = $this->mink->getSession()->getPage()->find('css', 'div.'.$class.'>iframe');
+    $iframe = $this->mink->getSession()->getPage()->findAll('css', 'div.file-video-'.$provider);
+    // var_dump($iframe);
+    if (empty($iframe)) {
+      throw new \Exception(sprintf('No video iframe found'));
+    }
   }
 
 }
