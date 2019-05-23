@@ -197,10 +197,11 @@ projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
-projects[easy_breadcrumb][version] = "2.15"
-; Issue #2973420 : 	Undefined index: html in template_preprocess_easy_breadcrumb()
-; https://www.drupal.org/node/2973420
-projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/2018-05-16/easy_breadcrumb-undefined_index_html-2973420-2.patch
+projects[easy_breadcrumb][version] = "2.12"
+; Issue #2290941 : Breadcrumb shows escaped HTML tags on core admin pages
+; https://www.drupal.org/node/2290941
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6753
+projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/check-plain-vs-filter-xss_0_1.patch
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -242,6 +243,8 @@ projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/is
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
+; Security patch adds filter_xss_admin to popup_agreed.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2299
 projects[eu_cookie_compliance][patch][] = patches/eu_cookie_compliance_nept-2299.patch
 
 projects[extlink][subdir] = "contrib"
@@ -820,22 +823,21 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.18
-
+projects[views][version] = 3.22
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
 projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_empty_not_empty_filter_error-1818176-37.patch
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
-; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
-; https://www.drupal.org/node/2908538
-projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
 ; Issue #3012609: Issues with AJAX for exposed filters
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
 ; https://www.drupal.org/project/views/issues/3012609
 ; https://www.drupal.org/project/views/issues/1809958
-projects[views][patch][] = patches/issues-ajax-exposed-filters-blocks.patch
+projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-25/issues-ajax-exposed-filters-blocks-1809958-70.patch
+; Issue #2985178: Views 3.18 > 3.20 update problem with duplicate/group_by
+; https://www.drupal.org/node/2985178
+projects[views][patch][] = https://www.drupal.org/files/issues/2018-07-15/mysql-group-by-duplication-workaround-2985178-7.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -1161,12 +1163,12 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.9
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.24
+projects[atomium][version] = 2.12
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.1.7
+projects[ec_europa][download][tag] = 0.0.14
 
 ; ==============
 ; Custom modules

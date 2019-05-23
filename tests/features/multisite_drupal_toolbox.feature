@@ -1,4 +1,4 @@
-@api
+@api @standard_ec_resp
 Feature: Multisite Drupal Toolbox
   In order to use all tools proposed by the Multisite Toolbox
   As a user

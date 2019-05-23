@@ -1,4 +1,4 @@
-@api @poetry
+@api @poetry @theme_wip
 Feature: Fast track
 
   Background:

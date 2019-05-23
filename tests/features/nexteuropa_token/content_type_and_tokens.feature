@@ -42,5 +42,4 @@ Feature: Test the creation of new contents and the display of them in a page usi
 
   @ec_europa_theme
   Scenario: Checking a content reference token is correctly displayed whatever its placement with the ec_europa theme
-    When I scroll until view the element ".ecl-footer"
-    And I should see the link "Content to reference in a table" in a "table" in the field display ("div.content div.ecl-field__body div.ecl-editor")
+    And I should see the link "Content to reference in a table" in a "table" in the field display ("div.field-name-field-ne-body div.ecl-field__body div.ecl-editor")
