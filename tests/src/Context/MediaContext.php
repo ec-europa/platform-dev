@@ -37,7 +37,7 @@ class MediaContext implements Context {
   public function iEnterTheMediaBrowser() {
     $this->mink->getSession()->switchToIFrame('mediaBrowser');
   }
-  
+
   /**
    * Switches to the media browser iframe by id.
    *
@@ -187,9 +187,7 @@ class MediaContext implements Context {
    */
   public function iSeeTheVideoIframe($arg1) {
     $provider = strtolower(str_replace(' ', '', $arg1));
-    // $iframe = $this->mink->getSession()->getPage()->find('css', 'div.'.$class.'>iframe');
-    $iframe = $this->mink->getSession()->getPage()->findAll('css', 'div.file-video-'.$provider);
-    // var_dump($iframe);
+    $iframe = $this->mink->getSession()->getPage()->findAll('css', 'div.file-video-' . $provider);
     if (empty($iframe)) {
       throw new \Exception(sprintf('No video iframe found'));
     }
