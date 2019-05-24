@@ -52,16 +52,28 @@ function _multisite_create_button_contextual_links() {
   $profile = drupal_get_profile();
   $options = array();
   if ($profile == 'multisite_drupal_standard') {
-    if (!empty($content) && $context) {
+    if (!empty($content)) {
       $options = array(
         '#' => t('Create content'),
       );
       foreach ($content as $content_type) {
         $options[url($content_type['link_path'], array('absolute' => TRUE))] = $content_type['link_title'];
       }
-      $element = og_node_create_links('node', $context['gid'], 'og_group_ref');
-      if ($element) {
-        $element['og_node_create_links']['#theme'] = 'dropdown';
+      if ($context) {
+        $element = og_node_create_links('node', $context['gid'], 'og_group_ref');
+        if ($element) {
+          $element['og_node_create_links']['#theme'] = 'dropdown';
+        }
+      }
+      else {
+        $element = array(
+          '#theme' => array('select__create_content_button'),
+          '#title' => t('Create content'),
+          '#options' => $options,
+          '#attributes' => array(
+            'onChange' => 'if (this.value) window.location.href=this.value;',
+          ),
+        );
       }
     }
     $element['#options'] = $options;
