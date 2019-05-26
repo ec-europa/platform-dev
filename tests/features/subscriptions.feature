@@ -6,8 +6,12 @@ Feature: Subscription
 
   Background:
     Given the module is enabled
-      |modules                      |
-      |multisite_notifications_core |
+      | modules                       |
+      | multisite_notifications_core  |
+      | og_ui                         |
+      | ds_ui                         |
+      | field_ui                      |
+      | bean_admin_ui                 |
     And I am logged in as a user with the 'administrator' role
 
   @javascript @theme_wip

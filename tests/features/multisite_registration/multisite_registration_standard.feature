@@ -10,6 +10,8 @@ Feature: Multisite registration standard
       | modules                         |
       | multisite_registration_core     |
       | multisite_registration_standard |
+      | field_ui                        |
+      | og_ui                           |
 
   Scenario: as administrator I can add a registration field to a content type
     Given I am on "/admin/structure/types/manage/article/fields"
