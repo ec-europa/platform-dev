@@ -20,6 +20,7 @@ Feature: Test the creation of new block type (bean) and the display of them in a
       | tmgmt_node_ui         |
       | tmgmt_entity_ui       |
       | views_ui              |
+
     And I am logged in as a user with the 'administrator' role
 
   Scenario: Add a new block type
