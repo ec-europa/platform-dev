@@ -8,6 +8,22 @@ Feature: Nexteuropa Communities
     Given these modules are enabled
       | modules                 |
       | nexteuropa_communities  |
+      | bean_admin_ui           |
+      | context_ui              |
+      | field_ui                |
+      | ds_ui                   |
+      | video_ui                |
+      | migrate_ui              |
+      | og_ui                   |
+      | print_ui                |
+      | rules_admin             |
+      | subscriptions_blog_ui   |
+      | subscriptions_ui        |
+      | tmgmt_ui                |
+      | tmgmt_node_ui           |
+      | tmgmt_entity_ui         |
+      | views_ui                |
+
     # We need to rewrite value of 'group_access', because the dash in the input table does not work
     Given I am logged in as a user with the 'administrator' role
     And the group access field is configured for test
