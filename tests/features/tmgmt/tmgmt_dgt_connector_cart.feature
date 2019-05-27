@@ -8,8 +8,12 @@ Feature: TMGMT Poetry Cart features
     Given the module is enabled
       | modules                   |
       | tmgmt_dgt_connector_cart  |
-      | bean                      |
       | bean_admin_ui             |
+      | context_ui                |
+      | field_ui                  |
+      | ds_ui                     |
+      | og_ui                     |
+      | rules_admin               |
       | tmgmt_ui                  |
       | tmgmt_node_ui             |
       | tmgmt_entity_ui           |

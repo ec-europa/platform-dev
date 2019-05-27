@@ -9,7 +9,6 @@ Feature: Test the creation of new block type (bean) and the display of them in a
       | bean_admin_ui         |
       | ds_ui                 |
       | views_ui              |
-
     And I am logged in as a user with the 'administrator' role
 
   Scenario: Add a new block type
