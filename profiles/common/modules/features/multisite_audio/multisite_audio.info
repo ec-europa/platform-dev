@@ -1,8 +1,0 @@
-name = Multisite Audio
-description = This feature allows administrators to attach audio files to nodes and reproduce playlists.
-package = Multisite_features
-core = 7.x
-dependencies[] = file
-dependencies[] = jplayer
-features[features_api][] = api:2
-files[] = tests/multisite_audio_extra.test

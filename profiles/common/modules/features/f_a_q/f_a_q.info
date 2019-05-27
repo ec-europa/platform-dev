@@ -5,6 +5,7 @@ package = Multisite Features
 dependencies[] = cce_basic_config
 dependencies[] = field_group
 dependencies[] = views
+dependencies[] = multisite_drupal_toolbox
 features[context][] = faq_posts
 features[ctools][] = context:context:3
 features[ctools][] = field_group:field_group:1
