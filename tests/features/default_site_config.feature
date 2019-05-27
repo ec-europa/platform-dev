@@ -1,4 +1,4 @@
-@api
+@api @ec_resp
 Feature: All sites should have a default configuration
 
   Scenario: Monday is the first day of the week

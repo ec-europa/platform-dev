@@ -633,6 +633,7 @@ function _nexteuropa_varnish_base_request_headers($settings = array()) {
  */
 function _nexteuropa_varnish_get_node_paths($node) {
   $paths = array();
+  $original_alias = '';
 
   $entity_uri = entity_uri('node', $node);
 

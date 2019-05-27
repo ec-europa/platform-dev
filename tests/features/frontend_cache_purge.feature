@@ -1,4 +1,4 @@
-@api @javascript @maximizedwindow @reset-nodes
+@api @javascript @maximizedwindow @reset-nodes @ec_resp
 Feature:
   In order to make new or updated content quickly available to the public
   Or to urgently hide content again from the public
@@ -411,7 +411,6 @@ Feature:
       | node\/[node:last-created-node-id]                         |
       | frontend\-cache\-purge\-published\-page\-custom\-alias    |
       | node\/[node:last-created-node-id]_[a-z]{2}                |
-
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an editorial team.

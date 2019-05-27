@@ -241,11 +241,10 @@ projects[entityreference_prepopulate][version] = "1.7"
 projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.28"
-; Popup doesn't close after clicking Decline button.
-; https://www.drupal.org/project/eu_cookie_compliance/issues/2985509
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2026
-projects[eu_cookie_compliance][patch][] = https://www.drupal.org/files/issues/2018-07-13/eu_cookie_compliance-close_popup-2985509-1.patch
+projects[eu_cookie_compliance][version] = "1.14"
+; Security patch adds filter_xss_admin to popup_agreed.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2299
+projects[eu_cookie_compliance][patch][] = patches/eu_cookie_compliance_nept-2299.patch
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
@@ -574,10 +573,11 @@ projects[og][version] = "2.10"
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
 projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
-
 ; NEXTEUROPA-11789 Issue in Bean reference to OG
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
+; NEPT-2493 entity issue
+projects[og][patch][] = https://git.drupalcode.org/project/og/commit/a2231ab851ca82865a0070dbd58dfd5fcb2fdd66.diff
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
