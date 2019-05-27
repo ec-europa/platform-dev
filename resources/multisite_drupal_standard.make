@@ -650,6 +650,8 @@ projects[realname][version] = "1.3"
 projects[redirect][subdir] = "contrib"
 ; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
 projects[redirect][download][branch] = 7.x-1.x
+; Warning: Overwritting version or patches used may result in incompatibilities with platform development.
+; See NEPT-2399
 projects[redirect][download][revision] = d5c95c2112f05d1a31c2f10bc921c633110c8a91
 ; Target URL modified when implementing redirection using Redirect module
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2399
