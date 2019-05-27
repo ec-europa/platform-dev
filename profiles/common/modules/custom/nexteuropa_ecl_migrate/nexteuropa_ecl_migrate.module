@@ -283,12 +283,12 @@ function _nexteuropa_ecl_migrate_remove_blocks_default_blocks() {
  */
 function _nexteuropa_ecl_migrate_move_community_blocks() {
   if (module_exists('communities')) {
-    multisite_drupal_toolbox_remove_block_context('communities', 'menu-communities-menu');
+    multisite_drupal_toolbox_remove_block_context('communities', 'menu-community-menu');
     multisite_drupal_toolbox_remove_block_context('communities', 'og-contextual-links');
     multisite_drupal_toolbox_remove_block_context('communities', 'communities_members-block_1');
     multisite_drupal_toolbox_remove_block_context('communities', 'og_pending_membership-block');
     multisite_drupal_toolbox_remove_block_context('communities', 'community_content-block_content');
-    multisite_drupal_toolbox_add_block_context('communities', 'menu-communities-menu', 'menu', 'menu-communities-menu', 'sidebar_first', -20);
+    multisite_drupal_toolbox_add_block_context('communities', 'menu-community-menu', 'menu', 'menu-community-menu', 'sidebar_first', -10);
     multisite_drupal_toolbox_add_block_context('communities', 'og-contextual-links', 'multisite_og_button', 'og-contextual-links', 'sidebar_first', -10);
     multisite_drupal_toolbox_add_block_context('communities', 'communities_members-block_1', 'views', 'communities_members-block_1', 'sidebar_first', -5);
     multisite_drupal_toolbox_add_block_context('communities', 'og_pending_membership-block', 'views', 'og_pending_membership-block', 'sidebar_first', -6);
