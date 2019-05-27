@@ -34,54 +34,11 @@ function multisite_og_button_block_view($delta = '') {
  * Helper function to fetch the links.
  */
 function _multisite_og_button_contextual_links() {
-  global $theme_key;
   $context = og_context();
   if ($context) {
-    // Use different theme components for the different themes.
-    if ($theme_key == 'ec_resp') {
-      $links = og_node_create_links('node', $context['gid'], 'og_group_ref');
-      if ($links) {
-        $links['og_node_create_links']['#theme'] = 'dropdown';
-      }
-    }
-    else {
-      $types = array_keys(node_type_get_types());
-      foreach ($types as $type_name) {
-        // Show only the options to create content for this community.
-        $instance = field_info_instance('node', 'og_group_ref', $type_name);
-        if (empty($instance['settings']['behaviors']['prepopulate']['status'])) {
-          // Instance doesn't allow prepopulating.
-          continue;
-        }
-        $names[$type_name] = node_type_get_name($type_name);
-      }
-      if (empty($names)) {
-        return;
-      }
-      // Sort names.
-      asort($names);
-      // Build links with queries.
-      $query = array(
-        'og_group_ref' => $context['gid'],
-      );
-
-      $query += drupal_get_destination();
-
-      $options = array(
-        '#' => t('Create content'),
-      );
-      foreach ($names as $content_type) {
-        // Links for the select options, for each content type.
-        $options[url('node/add/' . drupal_strtolower($content_type), array('absolute' => TRUE, 'query' => $query))] = $content_type;
-      }
-      $links = array(
-        '#theme' => array('select__create_content_button'),
-        '#title' => t('Create content'),
-        '#options' => $options,
-        '#attributes' => array(
-          'onChange' => 'if (this.value) window.location.href=this.value;',
-        ),
-      );
+    $links = og_node_create_links('node', $context['gid'], 'og_group_ref');
+    if ($links) {
+      $links['og_node_create_links']['#theme'] = 'dropdown';
     }
     return $links;
   }

@@ -8,7 +8,7 @@
 /**
  * Test Multisite Forum features to ensure it follows QA requirements.
  */
-class MultisiteForumCommunityQAWebTestCase extends MultisiteDrupalWebTestCase {
+class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
   protected $profile = 'multisite_drupal_communities';
   protected $user1;
   protected $user2;
