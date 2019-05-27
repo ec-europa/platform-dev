@@ -482,7 +482,7 @@ projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.3"
 ; Issue #3057311: AV portal URL has changed.
 ; https://www.drupal.org/project/media_avportal/issues/3057311
-projects[media_avportal][patch][] = https://www.drupal.org/files/issues/2019-05-27/media_avportal_adapt_new_service-3057311-1.patch
+projects[media_avportal][patch][] = patches/media_avportal_adapt_new_service-3057311-4.patch
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
