@@ -245,15 +245,6 @@ feature_sets[ec_embedded_image][font] = 'multisite-icon-embed-image'
 feature_sets[ec_embedded_image][enable][] = ec_embedded_image
 feature_sets[ec_embedded_image][disable][] = ec_embedded_image
 
-feature_sets[multisite_audio][title] = 'Audio'
-feature_sets[multisite_audio][description] = 'Attach audio files to nodes and reproduce playlists.'
-feature_sets[multisite_audio][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/KpSvAw'
-feature_sets[multisite_audio][category] = 'Media'
-feature_sets[multisite_audio][icon] = ''
-feature_sets[multisite_audio][font] = 'multisite-icon-music'
-feature_sets[multisite_audio][enable][] = multisite_audio
-feature_sets[multisite_audio][disable][] = multisite_audio
-
 feature_sets[multisite_mediagallery_standard][title] = 'Media Gallery'
 feature_sets[multisite_mediagallery_standard][description] = 'Contributors can add picture galleries.'
 feature_sets[multisite_mediagallery_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/qIbhAg'
