@@ -5,6 +5,8 @@
  * Install the feature news.
  */
 
+module_load_include('inc', 'news_core', 'news_core.install');
+
 /**
  * Implements hook_enable().
  *
@@ -23,10 +25,27 @@ function news_core_enable() {
 }
 
 /**
- * Use soft config for article comment form location.
+ * Implements hook_install().
  */
 function news_core_install() {
-  multisite_config_service('comment')->setThreadingCommentForContentType('news', 0);
+  // Use soft config for news comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('news', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('news', 'open');
+  // Use soft config to allow news comment threading.
+  multisite_config_service('comment')->setThreadingCommentForContentType('news', 1);
+  // Use soft config for news comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('news', 0);
+  // Use soft config for preview news comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('news', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('news', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('news', 0);
+
+  // Use soft config for comment_body field instance.
+  _news_core_comment_body_field_instance_add();
+
 }
 
 /**
@@ -154,4 +173,15 @@ function news_core_update_7101() {
   }
   // Clear field cache.
   field_cache_clear();
+}
+
+/**
+ * Set new value for communities feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function news_core_update_7102() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('news_core', 'variable');
 }

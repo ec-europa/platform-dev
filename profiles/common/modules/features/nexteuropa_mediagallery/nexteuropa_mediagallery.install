@@ -43,10 +43,26 @@ function nexteuropa_mediagallery_enable() {
 }
 
 /**
- * NEPT-758: Use soft config for nexteuropa_mediagallery comment form location.
+ * Implements hook_install().
+ *
+ * NEPT-758, NEPT-755, NEPT-756, NEPT-759, NEPT-760, NEPT-761:
+ * Use soft config for nexteuropa_mediagallery comment settings.
  */
 function nexteuropa_mediagallery_install() {
-  multisite_config_service('comment')->setThreadingCommentForContentType('nexteuropa_mediagallery', 0);
+  // Use soft config for nexteuropa_mediagallery comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('nexteuropa_mediagallery', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('nexteuropa_mediagallery', 'hidden');
+  // Use soft config to allow nexteuropa_mediagallery comment threading.
+  multisite_config_service('comment')->setThreadingCommentForContentType('arnexteuropa_mediagalleryticle', 0);
+  // Use soft config for nexteuropa_mediagallery comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('nexteuropa_mediagallery', 0);
+  // Use soft config for preview nexteuropa_mediagallery comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('nexteuropa_mediagallery', 0);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('nexteuropa_mediagallery', '10');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('nexteuropa_mediagallery', 0);
 }
 
 /**
@@ -66,4 +82,15 @@ function nexteuropa_mediagallery_disable() {
   // Disabling message.
   drupal_set_message(t('Nexteuropa Gallery feature is now inactive on your site.'));
 
+}
+
+/**
+ * Set new value for nexteuropa_mediagallery feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function nexteuropa_mediagallery_update_7001() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('nexteuropa_mediagallery', 'variable');
 }

@@ -5,6 +5,8 @@
  * Install the feature e_library.
  */
 
+module_load_include('inc', 'e_library_core', 'e_library_core.install');
+
 /**
  * Implements hook_enable().
  */
@@ -47,8 +49,24 @@ function e_library_core_enable() {
  * Set the threading properties for documents comments.
  */
 function e_library_core_install() {
-  // Use soft config for documents comment form location.
-  multisite_config_service('comment')->setThreadingCommentForContentType('document', 0);
+  // Use soft config for document comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('document', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('document', 'open');
+  // Use soft config to allow document comment threading.
+  multisite_config_service('comment')->setThreadingCommentForContentType('document', 1);
+  // Use soft config for document comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('document', 0);
+  // Use soft config for preview document comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('document', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('document', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('document', 0);
+
+  // Use soft config for comment_body field instance.
+  _e_library_core_comment_body_field_instance_add();
+
 }
 
 /**
@@ -114,4 +132,15 @@ function e_library_core_update_7120() {
       'name' => st('Reports'),
     );
   }
+}
+
+/**
+ * Set new value for e_library feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function e_library_core_update_7121() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('e_library_core', 'variable');
 }

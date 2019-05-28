@@ -5,6 +5,8 @@
  * Install the feature events.
  */
 
+module_load_include('inc', 'events_core', 'events_core.install');
+
 /**
  * Add block to the context.
  */
@@ -27,7 +29,23 @@ function events_core_enable() {
  */
 function events_core_install() {
   // Use soft config for event comment form location.
-  multisite_config_service('comment')->setThreadingCommentForContentType('event', 0);
+  multisite_config_service('comment')->setReplyFormCommentForContentType('event', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('event', 'open');
+  // Use soft config to allow event comment threading.
+  multisite_config_service('comment')->setThreadingCommentForContentType('event', 1);
+  // Use soft config for event comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('event', 0);
+  // Use soft config for preview event comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('event', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('event', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('event', 0);
+
+  // Use soft config for comment_body field instance.
+  _events_core_comment_body_field_instance_add();
+
 }
 
 /**
@@ -138,4 +156,36 @@ function events_core_update_7202() {
     }
   }
   field_cache_clear();
+}
+
+/**
+ * Implements hook_requirements().
+ *
+ * Avoid using Nexteuropa Events and Events core together.
+ */
+function events_core_requirements() {
+  $requirements = [];
+
+  if (module_exists('nexteuropa_event')) {
+    $t = get_t();
+    $args = array('%module' => 'Nexteuropa Events');
+    $requirements['ne_events_module_conflict'] = array(
+      'title' => 'Events',
+      'description' => $t('This module is not compatible with %module. Please disable and uninstall that module first.', $args),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+
+  return $requirements;
+}
+
+/**
+ * Set new value for events_core feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function events_core_update_7203() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('events_core', 'variable');
 }
