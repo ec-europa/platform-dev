@@ -1,4 +1,4 @@
-@api
+@api @ec_resp
 Feature: Editorial workflow - Admin
   In order to control the editorial's functionality
   As an Administrator
@@ -6,6 +6,23 @@ Feature: Editorial workflow - Admin
 
   Background:
     Given I am logged in as a user with the 'administrator' role
+    And the module is enabled
+      | modules               |
+      | bean_admin_ui         |
+      | context_ui            |
+      | field_ui              |
+      | ds_ui                 |
+      | video_ui              |
+      | migrate_ui            |
+      | og_ui                 |
+      | print_ui              |
+      | rules_admin           |
+      | subscriptions_blog_ui |
+      | subscriptions_ui      |
+      | tmgmt_ui              |
+      | tmgmt_node_ui         |
+      | tmgmt_entity_ui       |
+      | views_ui              |
     And users:
       | field_firstname | field_lastname | name           | mail                       | status |
       | Editorial       | User           | editorial_user | eu_initial@example.com | 1      |

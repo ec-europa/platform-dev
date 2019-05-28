@@ -6,8 +6,20 @@ Feature: Subscription
 
   Background:
     Given the module is enabled
-      |modules                      |
-      |multisite_notifications_core |
+      | modules                       |
+      | multisite_notifications_core  |
+      | context_ui                    |
+      | field_ui                      |
+      | ds_ui                         |
+      | og_ui                         |
+      | subscriptions_blog_ui         |
+      | subscriptions_ui              |
+      | subscriptions_content         |
+      | subscriptions_mail            |
+      | subscriptions_taxonomy        |
+      | subscriptions_og              |
+      | views_ui                      |
+
     And I am logged in as a user with the 'administrator' role
 
   @javascript @theme_wip
@@ -80,7 +92,8 @@ Feature: Subscription
     And I press "Run cron"
     And I go to "admin/reports/dblog"
     Then I should see text matching "Subscriptions sent"
-
+    
+  @standard_ec_resp
   Scenario: Check administration pages are available
     When I go to "admin/config/system/subscriptions_en"
     Then I should see "Content settings"
@@ -88,6 +101,7 @@ Feature: Subscription
     And I should see "Display settings"
     And I should see "Mail settings"
 
+  @standard_ec_resp
   Scenario: Block a given page from subscriptions
     When I am viewing my page with the title "A new page title"
     And I remember the node ID of this page
