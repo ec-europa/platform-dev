@@ -4,8 +4,11 @@ Feature: Change tracking features
   only if no tracked changes are detected in the current values of WYSIWYG fields
 
   Background:
+    Given the module is enabled
+    | modules                   |
+    | entity_translation        |
     # Workaround to remove errors with ec_europa
-    Given the cache has been cleared
+    And the cache has been cleared
     And I am logged in as a user with the 'administrator' role
 
   @ec_europa_theme
