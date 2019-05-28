@@ -6,7 +6,8 @@
     "drupol/drupal7_psr3_watchdog": "^1.0",
     "ec-europa/oe-poetry-client": "0.3.6",
     "guzzlehttp/guzzle": "^6.2.1",
-    "cweagans/composer-patches": "~1.0"
+    "cweagans/composer-patches": "~1.0",
+    "symfony/flex": "^1.0"
   },
   "require-dev": {
     "behat/behat": "~3.2",
@@ -21,7 +22,8 @@
     "rych/random": "v0.1.0"
   },
   "replace": {
-	  "guzzle/guzzle": "^3.8"
+	  "guzzle/guzzle": "^3.8",
+	  "symfony/silex": "^2.2"
   },
   "autoload": {
     "psr-4": {
