@@ -13,8 +13,8 @@ Feature: Embedded videos
   Scenario Outline: Embed youtube video via media web tab
     When I go to "node/add/page"
     And I fill in "Title" with "Add media video"
-    And I click "Media browser"
-    Then The media browser "mediaBrowser" iframe opens
+    And I click "Browse"
+    Then the media browser opens
     And I click the "Web" in "media-tabs-wrapper" tab
     And I fill in "File URL or media resource" with "<url>"
     And I submit "media-internet-add-upload" id form
