@@ -14,6 +14,7 @@ dependencies[] = og_context
 dependencies[] = workbench_og
 dependencies[] = nexteuropa_formatters
 dependencies[] = nexteuropa_formatters_views
+dependencies[] = multisite_drupal_toolbox
 features[context][] = communities
 features[context][] = communities_menu_item
 features[context][] = communities_homepage
