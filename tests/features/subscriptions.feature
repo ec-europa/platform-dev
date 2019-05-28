@@ -8,12 +8,17 @@ Feature: Subscription
     Given the module is enabled
       | modules                       |
       | multisite_notifications_core  |
+      | context_ui                    |
+      | field_ui                      |
+      | ds_ui                         |
+      | og_ui                         |
       | subscriptions_blog_ui         |
       | subscriptions_ui              |
       | subscriptions_content         |
       | subscriptions_mail            |
       | subscriptions_taxonomy        |
       | subscriptions_og              |
+      | views_ui                      |
 
     And I am logged in as a user with the 'administrator' role
 
