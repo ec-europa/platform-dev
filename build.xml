@@ -4,6 +4,7 @@
 
     <property file="build.properties.local" />
     <property file="build.properties" />
+    <property file="build.properties.docker" />
     <property file="build.properties.dist" />
 
     <target name="help" description="Phing target list">
