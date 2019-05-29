@@ -12,7 +12,6 @@ services:
       PHP_IDE_CONFIG: "serverName=Test"
       DOCUMENT_ROOT: "${PWD}/build"
       VIRTUAL_HOST: "http://web:8080/"
-  
   mysql:
     image: percona/percona-server:5.6
     ports:
@@ -34,6 +33,5 @@ services:
       - DISPLAY=:99
       - SE_OPTS=-debug
     command: "phantomjs --webdriver=8910 --ignore-ssl-errors=true --ssl-protocol=any"
-
 volumes:
   mysql-data: null

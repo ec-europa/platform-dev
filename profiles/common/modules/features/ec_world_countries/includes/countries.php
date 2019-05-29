@@ -151,7 +151,7 @@ function ec_world_countries_countries() {
       'ES' => t('Spain'),
       'SE' => t('Sweden'),
       'CH' => t('Switzerland'),
-      'MK' => t('The former Yugoslav Republic of Macedonia'),
+      'MK' => t('North Macedonia'),
       'UA' => t('Ukraine'),
       'GB' => t('United Kingdom'),
     ),

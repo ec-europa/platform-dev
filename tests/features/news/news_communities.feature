@@ -46,7 +46,6 @@ Feature: news communities and news core
       | workbench_moderation_state_new | published                     |
       | status                         | 1                             |
 
-  @theme_wip
   Scenario: as User, I can go to the public news section thanks to the "News" item in the main menu
     Given I am not logged in
     When I am on "/"

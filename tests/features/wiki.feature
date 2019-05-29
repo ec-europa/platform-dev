@@ -8,7 +8,7 @@ Feature: Wiki
     Given these featureSet are enabled
       | featureSet     |
       | Wiki           |
-
+  @standard_ec_resp
   Scenario: Anonymous user cannot create wiki pages
     Given I am an anonymous user
     When I go to "node/add/wiki"
