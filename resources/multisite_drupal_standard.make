@@ -887,14 +887,18 @@ projects[drafty][patch][] = https://www.drupal.org/files/issues/title-module-fix
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "3.0"
-; Issue #2360091 View published tab is visible when a published node has a draft.
+; Issue #2360091: View published tab is visible when a published node has a draft.
 ; https://www.drupal.org/node/2360091
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
-; Issue #2825391 Fix current state for transition rules
+; Issue #2825391: Fix current state for transition rules
 ; https://www.drupal.org/node/2825391
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
 projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/2018-05-14/workbench_moderation_fix_rules_current_state-2825391-46.patch
+; Issue #2958768: Node Unpublished when more recent revision changed after upgrade from 1.4 to 3.0
+; https://www.drupal.org/project/workbench_moderation/issues/2958768
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/2018-04-06/workbench_moderation-unpublished_node_fix-2958768-20.patch
+
 
 ; Workbench_og does not have a stable version that allows applying the 2
 ; patches needed to fix the issues NEPT-296 AND NEPT-1866.
