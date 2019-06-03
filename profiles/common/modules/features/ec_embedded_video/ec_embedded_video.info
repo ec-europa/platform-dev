@@ -8,10 +8,6 @@ dependencies[] = media_dailymotion
 dependencies[] = media_vimeo
 dependencies[] = media_youtube
 dependencies[] = mediafield
-*/
-files[] = tests/ec_embedded_video.test
-/*
-features[file_display][] = video__default__media_avportal_video
 features[ctools][] = file_entity:file_default_displays:1
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
