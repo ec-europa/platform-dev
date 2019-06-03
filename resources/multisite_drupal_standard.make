@@ -548,16 +548,13 @@ projects[og][version] = "2.10"
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
 projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
-
 ; NEXTEUROPA-11789 Issue in Bean reference to OG
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
+; NEXTEUROPA-14012 Adding membership from user profile is in pending status
 
-projects[og_linkchecker][download][branch] = 7.x-1.x
-projects[og_linkchecker][download][revision] = 7257d0e
-projects[og_linkchecker][download][type] = git
 projects[og_linkchecker][subdir] = "contrib"
-projects[og_linkchecker][patch][] = patches/og_linkchecker-001-og_linkchecker-og-2-x-compatibility-2214661-2.patch
+projects[og_linkchecker][version] = "2.0-rc1"
 
 projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
