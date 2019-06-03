@@ -335,6 +335,38 @@ class FrontendCacheContext implements Context {
   }
 
   /**
+   * Asserts that the web front end cache received certain purge requests.
+   *
+   * @Then the web front end cache was instructed to purge the multiple paths for the application tag :arg1:
+   */
+  public function theWebFrontEndCacheWasInstructedToPurgeTheMultiplePathsForTheApplicationTag($arg1, TableNode $table) {
+    $requests = $this->getRequests();
+    $rows = $table->getHash();
+    $content_url = preg_quote(ltrim(url(), '/'));
+    $multi_paths = array();
+    // Parse paths and group by Request.
+    foreach ($rows as $row) {
+      $replaced_row = $this->tokenContext->replaceToken($row['Path']);
+      $pattern = "@\[node:([\d]+)\]@";
+      $row['Path'] = preg_replace($pattern, '${1}', $replaced_row);
+      if (!isset($multi_paths[$row['Request']])) {
+        $multi_paths[$row['Request']] = array();
+      }
+      $multi_paths[$row['Request']][] = $row['Path'];
+    }
+    foreach ($multi_paths as $index => $paths) {
+      $purge_request = $requests->at($index);
+      $path_string = '^(' . implode('|', $paths) . ')$';
+      // Some of environments returns different paths. To pass the test given
+      // environment path is removed from the assertion process.
+      $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray()['0']);
+      assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
+      assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
+      assert($purge_request_paths, equals($path_string));
+    }
+  }
+
+  /**
    * Asserts that the web front end cache received a full purge request.
    *
    * @Then the web front end cache was instructed to purge completely its index for the application tag :arg1

@@ -7,6 +7,8 @@
  * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
  */
 
+module_load_include('inc', 'multisite_forum_core', 'multisite_forum_core.install');
+
 /**
  * Implements hook_enable().
  */
@@ -24,10 +26,27 @@ function multisite_forum_core_enable() {
 }
 
 /**
- * Use soft config for article comment form location.
+ * Implements hook_install().
  */
 function multisite_forum_core_install() {
-  multisite_config_service('comment')->setThreadingCommentForContentType('discussion', 1);
+  // Use soft config for discussion comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('discussion', 1);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('discussion', 'open');
+  // Use soft config to allow discussion comment threading.
+  multisite_config_service('comment')->setThreadingCommentForContentType('discussion', 0);
+  // Use soft config for discussion comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('discussion', 1);
+  // Use soft config for preview discussion comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('discussion', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('discussion', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('discussion', 0);
+
+  // Use soft config for comment_body field instance.
+  _multisite_forum_core_comment_body_field_instance_add();
+
 }
 
 /**
@@ -51,4 +70,15 @@ function multisite_forum_core_uninstall() {
   // Purge field data now to allow taxonomy module to be uninstalled
   // if this is the only field remaining.
   field_purge_batch(10);
+}
+
+/**
+ * Set new value for multisite_forum_core feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function multisite_forum_core_update_7001() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('multisite_forum_core', 'variable');
 }

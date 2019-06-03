@@ -35,7 +35,7 @@ Feature: Check Piwik
     # The meta tag below must be present in order that the PIWIK script works correctly (see NEPT-1042).
     And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
 
-  @delete_piwik_rules
+  @delete_piwik_rules @ec_resp_theme
   Scenario: View advanced PIWIK rules.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
     And the following PIWIK rules:
@@ -48,7 +48,7 @@ Feature: Check Piwik
       | all           | ^admin/*        | regexp         | Regexp based section |
       | en            | content/test    | direct         | Direct path section  |
 
-  @javascript @delete_piwik_rules
+  @javascript @delete_piwik_rules @ec_resp_theme
   Scenario: Add a PIWIK rule.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
     When I go to "/admin/config/system/webtools/piwik/advanced_rules"
@@ -63,7 +63,7 @@ Feature: Check Piwik
       | Rule language | Rule path       | Rule path type | Rule section         |
       | en            | ^admin/*        | regexp         | Regexp based section |
 
-  @delete_piwik_rules
+  @delete_piwik_rules @ec_resp_theme
   Scenario: Remove a PIWIK rule.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
     And "page" content:

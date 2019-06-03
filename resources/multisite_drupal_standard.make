@@ -794,18 +794,21 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.20
+projects[views][version] = 3.22
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
 projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_empty_not_empty_filter_error-1818176-37.patch
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
-; Reset of Exposed Published Status filter with "Remember last selection" results in:
-; Undefined index: status in views_handler_filter->store_exposed_input()
-; https://www.drupal.org/project/views/issues/2961962
-; The patch of this issue fixes the PHP error: https://www.drupal.org/project/views/issues/2900405
-projects[views][patch][] = https://www.drupal.org/files/issues/views-check-exposed-identifier.patch
+; Issue #3012609: Issues with AJAX for exposed filters
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
+; https://www.drupal.org/project/views/issues/3012609
+; https://www.drupal.org/project/views/issues/1809958
+projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-25/issues-ajax-exposed-filters-blocks-1809958-70.patch
+; Issue #2985178: Views 3.18 > 3.20 update problem with duplicate/group_by
+; https://www.drupal.org/node/2985178
+projects[views][patch][] = https://www.drupal.org/files/issues/2018-07-15/mysql-group-by-duplication-workaround-2985178-7.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -842,6 +845,8 @@ projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.16"
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
+; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
@@ -910,9 +915,6 @@ projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][type] = "git"
 projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
 projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e948605"
-; Fix remote js loading on ckeditor plugin
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
-projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
 ; CKEditor height does not reflect the rows attribute
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
 projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch

@@ -5,6 +5,8 @@
  * Wiki installation file.
  */
 
+module_load_include('inc', 'wiki_core', 'wiki_core.install');
+
 /**
  * Implements hook_enable().
  */
@@ -23,10 +25,26 @@ function wiki_core_enable() {
 }
 
 /**
- * Use soft config for wiki comment form location.
+ * Implements hook_install().
  */
 function wiki_core_install() {
-  multisite_config_service('comment')->setThreadingCommentForContentType('wiki', 0);
+  // Use soft config for wiki comment form location.
+  multisite_config_service('comment')->setReplyFormCommentForContentType('wiki', 0);
+  // Use soft config to allow comments from authenticated users.
+  multisite_config_service('comment')->setDefaultCommentForContentType('wiki', 'hidden');
+  // Use soft config to allow wiki comment threading.
+  multisite_config_service('comment')->setThreadingCommentForContentType('wiki', 1);
+  // Use soft config for wiki comment title.
+  multisite_config_service('comment')->setTitleCommentForContentType('wiki', 0);
+  // Use soft config for preview wiki comment.
+  multisite_config_service('comment')->setPreviewCommentForContentType('wiki', 1);
+  // Use soft config to set number of comments per page.
+  multisite_config_service('comment')->setNumberCommentForContentType('wiki', '50');
+  // Use soft config for anonymous comments.
+  multisite_config_service('comment')->setAnonymousCommentForContentType('wiki', 0);
+
+  // Use soft config for comment_body field instance.
+  _wiki_core_comment_body_field_instance_add();
 }
 
 /**
@@ -60,4 +78,15 @@ function wiki_core_disable() {
   ));
 
   drupal_set_message(st('Wiki feature is now disable on your site.'));
+}
+
+/**
+ * Set new value for wiki_core feature in database.
+ *
+ * Variables from comments settings must be removed from hard config.
+ * Recreate the value of the feature in database without the variable.
+ */
+function wiki_core_update_7001() {
+  module_load_include('inc', 'features', "features.export");
+  features_set_signature('wiki_core', 'variable');
 }
