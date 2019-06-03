@@ -3,6 +3,7 @@ description = Provides webtools block type
 core = 7.x
 package = NextEuropa
 dependencies[] = bean
+dependencies[] = bean_admin_ui
 dependencies[] = diff
 dependencies[] = field_group
 dependencies[] = file

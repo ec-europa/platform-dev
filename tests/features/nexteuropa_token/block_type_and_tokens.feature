@@ -5,12 +5,12 @@ Feature: Test the creation of new block type (bean) and the display of them in a
     Given the module is enabled
       | modules               |
       | nexteuropa_webtools   |
-      | bean_admin_ui         |
       | ds_ui                 |
       | views_ui              |
 
     And I am logged in as a user with the 'administrator' role
-
+  
+  @javascript @andras
   Scenario: Add a new block type
     Given the cache has been cleared
     When I create the new block type "Behat For The Win"

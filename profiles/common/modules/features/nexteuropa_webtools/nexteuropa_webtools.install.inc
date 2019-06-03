@@ -10,7 +10,6 @@
  */
 function nexteuropa_webtools_post_features_enable_feature($component) {
   // Grant webtools bean permissions for Administrator roles.
-  bean_reset();
   $admin_rid = user_role_load_by_name('administrator');
   if ($admin_rid && isset($admin_rid->rid)) {
     user_role_grant_permissions($admin_rid->rid, array(
