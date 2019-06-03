@@ -11,6 +11,7 @@ dependencies[] = field_group
 dependencies[] = list
 dependencies[] = multisite_og_button
 dependencies[] = nexteuropa_multilingual
+dependencies[] = og_ui
 dependencies[] = options
 dependencies[] = strongarm
 dependencies[] = text
