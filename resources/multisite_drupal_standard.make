@@ -818,7 +818,7 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.2"
+projects[uuid][version] = "1.3"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
