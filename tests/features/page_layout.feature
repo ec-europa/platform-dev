@@ -8,7 +8,7 @@ Feature: Page Layout
     Given these modules are enabled
       | modules   |
       | ds_ui     |
-      | feeds_ui  |
+      | field_ui  |
 
   @ec_resp_theme
   Scenario Outline: Anonymous user can see the links in header and footer
