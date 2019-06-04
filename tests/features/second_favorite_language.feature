@@ -11,6 +11,10 @@ Feature: Second favorite language tests
       | de        |
       | it        |
       | bg        |
+    And these modules are enabled
+      | modules   |
+      | ds_ui     |
+      | field_ui  |
 
   @theme_wip
   # It is in wip for the europa theme because it implies a step referring a
