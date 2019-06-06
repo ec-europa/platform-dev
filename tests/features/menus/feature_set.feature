@@ -42,7 +42,6 @@ Feature: Feature set menu
     And I should see the text "Mega menu"
     And I should see the text "Node pager"
     And I should see the text "Sitemap"
-    And I should see the text "Business indicators"
     And I should see the text "Contact form"
     And I should see the text "Ideas"
     And I should see the text "Surveys"
