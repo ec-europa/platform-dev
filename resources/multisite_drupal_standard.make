@@ -818,7 +818,9 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.2"
+projects[uuid][version] = "1.3"
+; https://www.drupal.org/project/uuid/issues/3058011
+projects[uuid][patch][] = https://git.drupalcode.org/project/uuid/commit/311a2d668f990f7547c2125cebf69b55d2349f77.diff
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
