@@ -555,6 +555,11 @@ projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.1"
 
+; This is a dependency of media_bulk_upload that platform provides
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2498
+projects[multiform][subdir] = "contrib"
+projects[multiform][version] = "1.6"
+
 projects[nagios][download][branch] = 7.x-1.x
 projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
 projects[nagios][download][type] = git
