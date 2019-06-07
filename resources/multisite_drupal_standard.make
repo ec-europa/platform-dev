@@ -479,7 +479,7 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embe
 projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js-library-3039731-1.patch
 
 projects[media_avportal][subdir] = "contrib"
-projects[media_avportal][version] = "1.3"
+projects[media_avportal][version] = "1.4"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
@@ -555,6 +555,11 @@ projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.1"
 
+; This is a dependency of media_bulk_upload that platform provides
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2498
+projects[multiform][subdir] = "contrib"
+projects[multiform][version] = "1.6"
+
 projects[nagios][download][branch] = 7.x-1.x
 projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
 projects[nagios][download][type] = git
@@ -574,10 +579,11 @@ projects[og][version] = "2.10"
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
 projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
-
 ; NEXTEUROPA-11789 Issue in Bean reference to OG
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
+; NEPT-2493 entity issue
+projects[og][patch][] = https://git.drupalcode.org/project/og/commit/a2231ab851ca82865a0070dbd58dfd5fcb2fdd66.diff
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
@@ -649,6 +655,8 @@ projects[realname][version] = "1.3"
 projects[redirect][subdir] = "contrib"
 ; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
 projects[redirect][download][branch] = 7.x-1.x
+; Warning: Overwritting version or patches used may result in incompatibilities with platform development.
+; See NEPT-2399
 projects[redirect][download][revision] = d5c95c2112f05d1a31c2f10bc921c633110c8a91
 ; Target URL modified when implementing redirection using Redirect module
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2399
@@ -815,7 +823,9 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.2"
+projects[uuid][version] = "1.3"
+; https://www.drupal.org/project/uuid/issues/3058011
+projects[uuid][patch][] = https://git.drupalcode.org/project/uuid/commit/311a2d668f990f7547c2125cebf69b55d2349f77.diff
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"

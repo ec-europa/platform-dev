@@ -5,6 +5,7 @@
 * Composer
 * PHP Phar extension
 * PhantomJS (in order to run JavaScript during Behat tests)
+* PHP 5.6 or higher
 
 ## Install build system
 
