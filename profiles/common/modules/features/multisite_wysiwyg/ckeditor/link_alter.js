@@ -16,7 +16,7 @@
             Remove options from the default list defined on the link plugin.
             var removeOptions = ["frame", "popup", "notSet", "_blank", "_top", "_self", "_parent"];
             */
-          var removeOptions = ["frame", "popup"];
+          var removeOptions = ["popup"];
           var i;
           var optionsToKeep = [];
           for (i = targetTab.elements[0].children[0].items.length - 1; i >= 0; i--) {
