@@ -32,6 +32,10 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     // This namespace must be applied even if the node edit forms are displayed
     // with the admin theme.
     $settings['bodyClass'] = 'ecl-editor';
+    // Add js to alter the target options of the link plugin.
+    if (in_array('Link', $settings['toolbar'][0])) {
+      drupal_add_js(drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/link_alter.js');
+    }
   }
 }
 
