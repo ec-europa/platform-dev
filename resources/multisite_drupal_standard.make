@@ -465,7 +465,7 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.20
+projects[media][version] = 2.21
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
@@ -479,7 +479,7 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embe
 projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js-library-3039731-1.patch
 
 projects[media_avportal][subdir] = "contrib"
-projects[media_avportal][version] = "1.3"
+projects[media_avportal][version] = "1.4"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
@@ -554,6 +554,11 @@ projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.1"
+
+; This is a dependency of media_bulk_upload that platform provides
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2498
+projects[multiform][subdir] = "contrib"
+projects[multiform][version] = "1.6"
 
 projects[nagios][download][branch] = 7.x-1.x
 projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
@@ -818,7 +823,9 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.3"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.2"
+projects[uuid][version] = "1.3"
+; https://www.drupal.org/project/uuid/issues/3058011
+projects[uuid][patch][] = https://git.drupalcode.org/project/uuid/commit/311a2d668f990f7547c2125cebf69b55d2349f77.diff
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"

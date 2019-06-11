@@ -64,7 +64,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
   $links = array(
     array(
       'link_title' => 'Contact',
-      'link_path' => 'http://google.com',
+      'link_path' => 'https://ec.europa.eu/info/about-european-commission/contact',
       'menu_name' => 'nexteuropa-site-custom-links',
       'weight' => 0,
       'expanded' => 0,
@@ -72,7 +72,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
     ),
     array(
       'link_title' => 'Site map',
-      'link_path' => 'http://google.com',
+      'link_path' => 'http://ec.europa.eu/sitemap/index_en.htm',
       'menu_name' => 'nexteuropa-site-custom-links',
       'weight' => 1,
       'expanded' => 0,
