@@ -5,6 +5,7 @@
 * Composer
 * PHP Phar extension
 * PhantomJS (in order to run JavaScript during Behat tests)
+* PHP 5.6 or higher
 
 ## Install build system
 
@@ -262,3 +263,8 @@ $ ./bin/phpcs
 # Scan only a single folder.
 $ ./bin/phpcs profiles/common/modules/custom/ecas
 ```
+
+# Docker-compose.yml file
+
+Our developement environment already provides a docker-compose.yml file.
+It can be found on https://github.com/ec-europa/cloud9/blob/master/salt/docker/files/docker-compose/docker-compose-all.yml
