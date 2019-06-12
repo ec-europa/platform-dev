@@ -272,7 +272,7 @@ function multisite_eu_cookie_compliance_strongarm() {
       'value' => '<p>Thank you for accepting cookies.You can now hide this message or find out more about cookies.</p>',
       'format' => 'plain_text',
     ),
-    'popup_link' => 'http://www.google.com',
+    'popup_link' => 'http://ec.europa.eu/cookies/index_en.htm',
     'popup_height' => '60',
     'popup_width' => '100%',
     'popup_delay' => '1',
