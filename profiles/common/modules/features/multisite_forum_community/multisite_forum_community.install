@@ -31,7 +31,7 @@ function multisite_forum_community_disable() {
   unset($og_context_negotiation_group_context['multisite_forum_community']);
   variable_set('og_context_negotiation_group_context', $og_context_negotiation_group_context);
 
-  /*   * * Remove permissions ** */
+  // Remove permissions.
   multisite_drupal_toolbox_disable_content_type('discussion');
 
   drupal_set_message(t('Multisite Forum Community feature is now inactive on your site.'));
@@ -45,8 +45,7 @@ function multisite_forum_community_install() {
   multisite_drupal_toolbox_add_path_context('communities', 'community/*/forum*');
   // If we enable forum_community at the same time as forum_core we need to call
   // drupal_flush_all_caches to force rebuild feature
-  // (needs for the forum taxonomy creation)
-  // features_flush_caches();
+  // (needed for the forum taxonomy creation)
   drupal_flush_all_caches();
 
   // multisite_forum_community uses fonctions of forum.admin.inc

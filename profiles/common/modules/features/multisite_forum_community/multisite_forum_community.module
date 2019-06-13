@@ -8,13 +8,6 @@
 include_once 'multisite_forum_community.features.inc';
 
 /**
- * Implements hook_init().
- */
-function multisite_forum_community_init() {
-
-}
-
-/**
  * Implements hook_og_permission().
  */
 function multisite_forum_community_og_permission() {
