@@ -283,14 +283,16 @@ class FrontendCacheContext implements Context {
     $link = $row->findLink($arg1);
     $link->click();
   }
-  
+
   /**
+   * Clicks a link in a specific table row given a element in that row.
+   * 
    * @When I click :arg1 on the :arg2 row
    */
   public function iClickOnTheRow($arg1, $arg2)
   {
     $page = $this->getSession()->getPage();
-    
+
     if ($row = $this->getTableRow($page, $arg2)) {
       $row->findLink($arg1)->click();
     }
