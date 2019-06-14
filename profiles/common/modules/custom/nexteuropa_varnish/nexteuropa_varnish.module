@@ -280,6 +280,22 @@ function nexteuropa_varnish_node_delete($node) {
 }
 
 /**
+ * Implements hook_file_delete().
+ */
+function nexteuropa_varnish_file_delete($file) {
+  $scheme = file_uri_scheme($file->uri);
+  if ($scheme && file_stream_wrapper_valid_scheme($scheme)) {
+    // Get path on filesystem.
+    $wrapper = file_stream_wrapper_get_instance_by_scheme($scheme);
+    $dir = $wrapper->getDirectoryPath($file);
+    // Get path alias.
+    
+    $paths = array('escaped_alias' => preg_quote($dir . '/' . $file->filename, '/'));
+    _nexteuropa_varnish_purge_paths($paths);
+  }
+}
+
+/**
  * Implements hook_path_delete().
  */
 function nexteuropa_varnish_path_delete($path) {
@@ -288,14 +304,15 @@ function nexteuropa_varnish_path_delete($path) {
   }
 
   $node = menu_get_object('node', 1, $path['source']);
+  $is_file = strpos($path['source'], 'file/');
 
-  // Its a node path.
-  if (empty($node)) {
+  // Has to be a node or file path.
+  if (empty($node) && $is_file === FALSE) {
     return;
   }
 
   // No rule defined for the node: Ignore the rest of the process.
-  if (!nexteuropa_varnish_node_has_rules($node)) {
+  if ($node && !nexteuropa_varnish_node_has_rules($node)) {
     return;
   }
 
