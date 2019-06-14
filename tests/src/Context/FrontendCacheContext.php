@@ -292,8 +292,7 @@ class FrontendCacheContext implements Context {
     $page = $this->getSession()->getPage();
     
     if ($row = $this->getTableRow($page, $arg2)) {
-      $link = $row->findLink($arg1);
-      $link->click();  
+      $row->findLink($arg1)->click();
     }
     else {
       throw new \Exception(sprintf("No row with '%s", $arg2));
