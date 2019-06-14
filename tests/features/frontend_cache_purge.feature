@@ -99,7 +99,7 @@ Feature:
       | node\/[node:last-deleted-node-id]                           | 1       |
       | node\/[node:last-deleted-node-id]_[a-z]{2}                  | 1       |
 
-  @moderated-content @andras
+  @moderated-content
   Scenario: Flush cache when file was deleted.
     Given I go to "file/add"
     And I attach the file "/tests/files/logo.png" to "edit-upload-upload"
