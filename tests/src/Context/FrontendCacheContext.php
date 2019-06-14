@@ -283,6 +283,22 @@ class FrontendCacheContext implements Context {
     $link = $row->findLink($arg1);
     $link->click();
   }
+  
+  /**
+   * @When I click :arg1 on the :arg2 row
+   */
+  public function iClickOnTheRow($arg1, $arg2)
+  {
+    $page = $this->getSession()->getPage();
+    
+    if ($row = $this->getTableRow($page, $arg2)) {
+      $link = $row->findLink($arg1);
+      $link->click();  
+    }
+    else {
+      throw new \Exception(sprintf("No row with '%s", $arg2));
+    }
+  }
 
   /**
    * Asserts that the web front end cache received certain purge requests.

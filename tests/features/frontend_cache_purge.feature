@@ -99,19 +99,19 @@ Feature:
       | node\/[node:last-deleted-node-id]                           | 1       |
       | node\/[node:last-deleted-node-id]_[a-z]{2}                  | 1       |
 
-  @moderated-content
+  @moderated-content @andras
   Scenario: Flush cache when file was deleted.
     Given I go to "file/add"
     And I attach the file "/tests/files/logo.png" to "edit-upload-upload"
     And I press "Next"
     And I select the radio button "Public local files served by the webserver."
     And I press "Next"
-    And I press "Save" button
+    And I press "Save"
     Then I should see "Image logo.png was uploaded."
     When I am on "admin/content/file"
     And I click "Delete" on the "logo.png" row
     Then I should see "Are you sure you want to delete the file test.png?"
-    And I press "Delete" button
+    And I press "Delete"
     Then the web front end cache was instructed to purge the multiple paths for the application tag "my-website":
       | Path                              | Request |
       | file\/logopng_[a-z]{2}            | 0       |
