@@ -290,7 +290,7 @@ class FrontendCacheContext implements Context {
    * @When I click :arg1 on the :arg2 row
    */
   public function iClickOnTheRow($arg1, $arg2) {
-    $page = $this->getSession()->getPage();
+    $page = $this->mink->getSession()->getPage();
 
     if ($row = $this->getTableRow($page, $arg2)) {
       $row->findLink($arg1)->click();
