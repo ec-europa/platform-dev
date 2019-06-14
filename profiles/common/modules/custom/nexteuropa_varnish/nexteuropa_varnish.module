@@ -284,6 +284,7 @@ function nexteuropa_varnish_node_delete($node) {
  */
 function nexteuropa_varnish_file_delete($file) {
   $scheme = file_uri_scheme($file->uri);
+
   if ($scheme !== FALSE && file_stream_wrapper_valid_scheme($scheme) === TRUE) {
     // Get path on filesystem.
     $wrapper = file_stream_wrapper_get_instance_by_scheme($scheme);
