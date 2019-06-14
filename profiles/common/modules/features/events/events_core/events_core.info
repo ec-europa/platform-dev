@@ -9,6 +9,7 @@ dependencies[] = fullcalendar_colors
 dependencies[] = fullcalendar_legend
 dependencies[] = fullcalendar_options
 dependencies[] = link
+dependencies[] = multisite_drupal_toolbox
 features[ctools][] = field_group:field_group:1
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
