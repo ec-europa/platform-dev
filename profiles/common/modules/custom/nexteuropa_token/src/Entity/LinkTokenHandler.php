@@ -49,6 +49,11 @@ class LinkTokenHandler extends TokenAbstractHandler {
           $entity_info = entity_get_info($entity_type);
           // Check if the entity is available.
           if ($entity = $entity_info['load hook']($entity_id)) {
+            // Is the entity unpublished ?
+            if (isset($entity->status) && $entity->status == 0) {
+              $replacements[$original] = '';
+              continue;
+            }
             $label = entity_label($entity_type, $entity);
             $uri = entity_uri($entity_type, $entity);
             $link_from_token = l($label, $uri['path'], array('absolute' => TRUE));

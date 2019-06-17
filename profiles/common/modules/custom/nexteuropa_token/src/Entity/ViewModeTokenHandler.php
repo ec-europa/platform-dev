@@ -61,6 +61,9 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
                 // variable content.
                 $render = $render_tmp;
               }
+              else {
+                $render = array();
+              }
             }
           }
 
