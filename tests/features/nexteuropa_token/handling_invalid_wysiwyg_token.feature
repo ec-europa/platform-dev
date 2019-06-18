@@ -35,7 +35,7 @@ Feature: Testing wrong token association for Next Europa token module
     And I press "Delete"
     And I press "Delete"
 
-  @javascript @andras
+  @javascript
   Scenario: Checking WYSIWYG tokens substitution
     Given I am viewing an "page" content:
      | title            | This is a page i want to reference                               |
