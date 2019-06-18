@@ -34,7 +34,7 @@ function multisite_create_button_block_view($delta = '') {
 
     case 'og-contextual-links':
       $block['subject'] = t('Create content');
-      $block['content'] = _multisite_create_button_contextual_links();
+      $block['content'] = _multisite_og_button_contextual_links();
       break;
   }
 
@@ -48,9 +48,7 @@ function _multisite_create_button_contextual_links() {
   global $theme_key;
   $element = NULL;
   $content = system_admin_menu_block(menu_get_item('node/add'));
-  $context = og_context();
   $profile = drupal_get_profile();
-  $options = array();
   if ($profile == 'multisite_drupal_standard') {
     if (!empty($content)) {
       $options = array(
@@ -76,11 +74,22 @@ function _multisite_create_button_contextual_links() {
         );
       }
     }
-    $element['#options'] = $options;
   }
+  return $element;
+}
+
+/**
+ * Helper function to fetch the links.
+ */
+function _multisite_og_button_contextual_links() {
+  global $theme_key;
+  $element = NULL;
+  $content = system_admin_menu_block(menu_get_item('node/add'));
+  $context = og_context();
+  $profile = drupal_get_profile();
 
   if ($profile == 'multisite_drupal_communities') {
-    if ($context) {
+    if ($context && !empty($content)) {
       // Use different theme components for the different themes.
       if ($theme_key == 'ec_resp') {
         $links = og_node_create_links('node', $context['gid'], 'og_group_ref');
@@ -97,6 +106,7 @@ function _multisite_create_button_contextual_links() {
             // Instance doesn't allow prepopulating.
             continue;
           }
+
           $names[$type_name] = node_type_get_name($type_name);
         }
         if (empty($names)) {
