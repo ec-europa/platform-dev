@@ -45,7 +45,6 @@ function multisite_create_button_block_view($delta = '') {
  * Helper function to fetch the links.
  */
 function _multisite_create_button_contextual_links() {
-  global $theme_key;
   $element = NULL;
   $content = system_admin_menu_block(menu_get_item('node/add'));
   $profile = drupal_get_profile();
