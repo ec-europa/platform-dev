@@ -110,7 +110,7 @@ Feature:
     Then I should see "Image logo.png was uploaded."
     When I am on "admin/content/file"
     And I click "Delete" on the "logo.png" row
-    Then I should see "Are you sure you want to delete the file test.png?"
+    Then I should see "Are you sure you want to delete the file logo.png?"
     And I press "Delete"
     Then the web front end cache was instructed to purge the multiple paths for the application tag "my-website":
       | Path                              | Request |
