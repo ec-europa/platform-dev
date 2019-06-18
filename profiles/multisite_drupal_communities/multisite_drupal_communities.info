@@ -106,3 +106,6 @@ dependencies[] = multisite_wysiwyg
 
 ; NextEuropa features.
 dependencies[] = nexteuropa_admin_language
+
+; Atomium >= 3.x and ec_europa dependencies.
+dependencies[] = registryonsteroids_alter

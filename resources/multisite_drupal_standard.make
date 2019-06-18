@@ -23,9 +23,6 @@ projects[advagg][version] = "2.33"
 projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.4"
 
-projects[alternatives][subdir] = "contrib"
-projects[alternatives][version] = "1.0"
-
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.8"
 ; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
@@ -648,8 +645,12 @@ projects[registry_autoload][version] = 1.3
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1950
 projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issues/autoload_bootstrap_dependency_issues-2870868-2.patch
 
+; Atomium and ec_europa dependencies.
+projects[xautoload][subdir] = "contrib"
+projects[xautoload][version] = 5.7
+
 projects[registryonsteroids][subdir] = "contrib"
-projects[registryonsteroids][version] = 1.3
+projects[registryonsteroids][version] = 1.9
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.11"

@@ -107,3 +107,6 @@ dependencies[] = nexteuropa_core
 dependencies[] = nexteuropa_editorial
 dependencies[] = nexteuropa_multilingual
 dependencies[] = nexteuropa_pages
+
+; Atomium >= 3.x and ec_europa dependencies.
+dependencies[] = registryonsteroids_alter
