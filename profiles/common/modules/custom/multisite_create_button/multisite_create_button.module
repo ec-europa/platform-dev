@@ -57,22 +57,14 @@ function _multisite_create_button_contextual_links() {
       foreach ($content as $content_type) {
         $options[url($content_type['link_path'], array('absolute' => TRUE))] = $content_type['link_title'];
       }
-      if ($context) {
-        $element = og_node_create_links('node', $context['gid'], 'og_group_ref');
-        if ($element) {
-          $element['og_node_create_links']['#theme'] = 'dropdown';
-        }
-      }
-      else {
-        $element = array(
-          '#theme' => array('select__create_content_button'),
-          '#title' => t('Create content'),
-          '#options' => $options,
-          '#attributes' => array(
-            'onChange' => 'if (this.value) window.location.href=this.value;',
-          ),
-        );
-      }
+      $element = array(
+        '#theme' => array('select__create_content_button'),
+        '#title' => t('Create content'),
+        '#options' => $options,
+        '#attributes' => array(
+          'onChange' => 'if (this.value) window.location.href=this.value;',
+        ),
+      );
     }
   }
   return $element;
