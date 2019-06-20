@@ -1,0 +1,137 @@
+diff --git a/includes/media_avportal.formatters.inc b/includes/media_avportal.formatters.inc
+index 33638f8..172e30c 100644
+--- a/includes/media_avportal.formatters.inc
++++ b/includes/media_avportal.formatters.inc
+@@ -52,19 +52,28 @@ function media_avportal_file_formatter_video_view($file, $display) {
+ 
+     // Let's add the language to the options.
+     global $language;
+-    $wrapper = file_stream_wrapper_get_instance_by_uri($file->uri);
+-    $languages = $wrapper->getAvailableVideoLanguage();
+-    $video_language = 'en';
+-    if (in_array($language->language, $languages)) {
+-      $video_language = $language->language;
+-    }
+-    $options['lg'] = $video_language;
+ 
+-    return array(
+-      '#theme' => 'media_avportal_video',
+-      '#uri' => $file->uri,
+-      '#options' => $options,
+-    );
++    try {
++      $wrapper = file_stream_wrapper_get_instance_by_uri($file->uri);
++      $languages = $wrapper->getAvailableVideoLanguage();
++      $video_language = 'en';
++      if (in_array($language->language, $languages)) {
++        $video_language = $language->language;
++      }
++      $options['lg'] = $video_language;
++
++      return array(
++        '#theme' => 'media_avportal_video',
++        '#uri' => $file->uri,
++        '#options' => $options,
++      );
++    }
++    catch (Exception $e) {
++      return array(
++        '#theme' => 'media_avportal_broken',
++        'variables' => array('message' => t('This video is temporarily unavailable.')),
++      );
++    }
+   }
+ }
+ 
+@@ -110,25 +119,33 @@ function media_avportal_file_formatter_image_view($file, $display) {
+     return;
+   }
+ 
+-  $wrapper = file_stream_wrapper_get_instance_by_uri($file->uri);
+-  $image_style = $display['settings']['image_style'];
+-  $valid_image_styles = image_style_options(FALSE);
+-  $path = $wrapper->getLocalThumbnailPath();
++  try {
++    $wrapper = file_stream_wrapper_get_instance_by_uri($file->uri);
++    $image_style = $display['settings']['image_style'];
++    $valid_image_styles = image_style_options(FALSE);
++    $path = $wrapper->getLocalThumbnailPath();
++
++    if (empty($image_style) || !isset($valid_image_styles[$image_style])) {
++      return array(
++        '#theme' => 'image',
++        '#path' => str_replace('http:', '', $path),
++        '#alt' => isset($file->override['attributes']['alt']) ? $file->override['attributes']['alt'] : $file->filename,
++      );
++    }
+ 
+-  if (empty($image_style) || !isset($valid_image_styles[$image_style])) {
+     return array(
+-      '#theme' => 'image',
+-      '#path' => str_replace('http:', '', $path),
++      '#theme' => 'image_style',
++      '#style_name' => $image_style,
++      '#path' => $path,
+       '#alt' => isset($file->override['attributes']['alt']) ? $file->override['attributes']['alt'] : $file->filename,
+     );
+   }
+-
+-  return array(
+-    '#theme' => 'image_style',
+-    '#style_name' => $image_style,
+-    '#path' => $path,
+-    '#alt' => isset($file->override['attributes']['alt']) ? $file->override['attributes']['alt'] : $file->filename,
+-  );
++  catch (Exception $e) {
++    return array(
++      '#theme' => 'media_avportal_broken',
++      'variables' => array('message' => t('This thumbnail is temporarily unavailable.')),
++    );
++  }
+ }
+ 
+ /**
+diff --git a/includes/themes/media-avportal-video.tpl.php b/includes/themes/media-avportal-video.tpl.php
+index 3fb7f5c..804939d 100644
+--- a/includes/themes/media-avportal-video.tpl.php
++++ b/includes/themes/media-avportal-video.tpl.php
+@@ -4,16 +4,16 @@
+  * Template file for theme('media_avportal_video').
+  *
+  * Variables available:
+- *  $uri - The media uri for the YouTube video (e.g., avportal://v/xsy7x8c9).
+- *  $video_id - The unique identifier of the YouTube video (e.g., xsy7x8c9).
++ *  $uri - The media uri for the AV portal video (e.g., avportal://v/xsy7x8c9).
++ *  $video_id - The unique identifier of the AV portal video (e.g., xsy7x8c9).
+  *  $id - The file entity ID (fid).
+- *  $url - The full url including query options for the Youtube iframe.
+- *  $options - An array containing the Media Youtube formatter options.
++ *  $url - The full url including query options for the AV portal iframe.
++ *  $options - An array containing the Media AV portal formatter options.
+  *  $api_id_attribute - An id attribute if the Javascript API is enabled;
+  *  otherwise NULL.
+- *  $width - The width value set in Media: Youtube file display options.
+- *  $height - The height value set in Media: Youtube file display options.
+- *  $title - The Media: YouTube file's title.
++ *  $width - The width value set in Media: AV portal file display options.
++ *  $height - The height value set in Media: AV portal file display options.
++ *  $title - The Media: AV portal file's title.
+  *  $alternative_content - Text to display for browsers that don't support
+  *  iframes.
+  */
+diff --git a/media_avportal.module b/media_avportal.module
+index 6a64155..68d6bf0 100644
+--- a/media_avportal.module
++++ b/media_avportal.module
+@@ -44,6 +44,11 @@ function media_avportal_theme($existing, $type, $theme, $path) {
+       'path' => $path . '/includes/themes',
+       'template' => 'media-avportal-video',
+     ),
++    'media_avportal_broken' => array(
++      'variables' => array('message' => ''),
++      'path' => $path . '/includes/themes',
++      'template' => 'media-avportal-broken',
++    ),
+   );
+ }
+ 

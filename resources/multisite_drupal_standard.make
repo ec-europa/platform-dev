@@ -480,6 +480,7 @@ projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.4"
+projects[media_avportal][patch][] = patches/media_avportal-improve-exception-management.patch
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
