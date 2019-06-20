@@ -697,7 +697,7 @@ projects[scheduler_workbench][version] = 1.3
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2504
 ; https://www.drupal.org/project/scheduler_workbench/issues/2048999
-projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2019-06-19/scheduler_workbench-revision_publish-2048999-55.patch
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2019-06-20/scheduler_workbench-revision_publish-2048999-58.patch
 ; Allow publication of revisions with selected status. This patch requires the patch from issue https://www.drupal.org/project/scheduler_workbench/issues/2048999
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
 ; This patch requieres https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-46.patch from
