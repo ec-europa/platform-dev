@@ -49,6 +49,7 @@ Feature: Testing wrong token association for Next Europa token module
     And I click "Node link"
     And I should see the heading "This is a page i want to reference"
     Then I visit the "page" content with title "Node with tokens"
+    And I wait 5 seconds
     And I should see the link "This is a page i want to reference"
     Then I click "This is a page i want to reference"
     And I should see the heading "This is a page i want to reference"
