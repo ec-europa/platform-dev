@@ -883,7 +883,7 @@ projects[views_slideshow_slider][subdir] = "contrib"
 projects[views_slideshow_slider][version] = "3.0"
 
 projects[votingapi][subdir] = "contrib"
-projects[votingapi][version] = "2.12"
+projects[votingapi][version] = "2.15"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.16"
