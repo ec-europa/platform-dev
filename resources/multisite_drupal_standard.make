@@ -202,6 +202,8 @@ projects[easy_breadcrumb][version] = "2.12"
 ; https://www.drupal.org/node/2290941
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6753
 projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/check-plain-vs-filter-xss_0_1.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2531
+projects[easy_breadcrumb][patch][] = patches/sa-contrib-2019-053.patch
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
