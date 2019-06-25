@@ -15,7 +15,7 @@ index 33638f8..544f8ba 100644
 +    }
      $video_language = 'en';
 -    if (in_array($language->language, $languages)) {
-+    if (isset($languages) && in_array($language->language, $languages)) {
++    if (is_array($languages) && in_array($language->language, $languages)) {
        $video_language = $language->language;
      }
      $options['lg'] = $video_language;
