@@ -48,7 +48,7 @@ projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_
 ; Delay removing entities from the index.
 ; https://www.drupal.org/node/2764637
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
-projects[apachesolr][patch][] = patches/apachesolr-delay-entity-removal.patch
+projects[apachesolr][patch][] = patches/apachesolr-delay-entity-removal-2764637.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
