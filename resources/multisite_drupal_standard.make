@@ -804,10 +804,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.22
-; Error when configuring exposed group filter: "The value is required if title for this item is defined."
-; https://www.drupal.org/node/1818176
-projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_empty_not_empty_filter_error-1818176-37.patch
+projects[views][version] = 3.23
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
@@ -816,9 +813,6 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; https://www.drupal.org/project/views/issues/3012609
 ; https://www.drupal.org/project/views/issues/1809958
 projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-25/issues-ajax-exposed-filters-blocks-1809958-70.patch
-; Issue #2985178: Views 3.18 > 3.20 update problem with duplicate/group_by
-; https://www.drupal.org/node/2985178
-projects[views][patch][] = https://www.drupal.org/files/issues/2018-07-15/mysql-group-by-duplication-workaround-2985178-7.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
