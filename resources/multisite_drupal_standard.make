@@ -182,7 +182,7 @@ projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
-projects[easy_breadcrumb][version] = "2.16"
+projects[easy_breadcrumb][version] = "2.17"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
