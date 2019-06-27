@@ -361,18 +361,13 @@ projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.25"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.24"
+projects[i18n][version] = "1.26"
 ; Language field display should default to hidden.
 ; https://www.drupal.org/node/1350638
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
-; Call "18n_taxonomy_translate_terms" on a non-translated taxonomy term
-; triggers a "PHP Fatal error: Call to a member function get_translations() on boolean"
-; https://www.drupal.org/project/i18n/issues/2984895
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2006
-projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-07-10/i18n_taxonomy-i18n_taxonomy_translate_terms_get_translations-2984895-1.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
