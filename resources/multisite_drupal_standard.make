@@ -299,7 +299,7 @@ projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group
 
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.21"
+projects[file_entity][version] = "2.25"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.11"
