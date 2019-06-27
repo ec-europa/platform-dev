@@ -428,7 +428,7 @@ projects[link][patch][] = https://www.drupal.org/files/issues/2018-05-24/2974486
 projects[link][patch][] = https://www.drupal.org/files/issues/2018-08-30/link-949604-63-fixed.patch
 
 projects[linkchecker][subdir] = "contrib"
-projects[linkchecker][version] = "1.3"
+projects[linkchecker][version] = "1.4"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 
