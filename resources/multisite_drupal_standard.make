@@ -618,7 +618,7 @@ projects[rate][patch][] = patches/rate-translate_description-1178.patch
 projects[rate][patch][] = https://www.drupal.org/files/issues/rate-is_null_fix-1421016-9.patch
 
 projects[realname][subdir] = "contrib"
-projects[realname][version] = "1.3"
+projects[realname][version] = "1.4"
 
 projects[redirect][subdir] = "contrib"
 ; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
