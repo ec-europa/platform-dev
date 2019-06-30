@@ -166,7 +166,7 @@ projects[date][version] = "2.11-beta2"
 ; https://www.drupal.org/node/2305049
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
-projects[date][patch][] = https://www.drupal.org/files/issues/2019-06-27/2305049-12_0.patch
+projects[date][patch][] = https://www.drupal.org/files/issues/2019-06-30/2305049-12_1.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
