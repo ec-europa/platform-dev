@@ -1,0 +1,45 @@
+diff --git a/easy_breadcrumb.module b/easy_breadcrumb.module
+index 17cde4e..1d40d88 100644
+--- a/easy_breadcrumb.module
++++ b/easy_breadcrumb.module
+@@ -153,12 +153,11 @@ function theme_easy_breadcrumb($variables) {
+ 
+     for ($i = 0, $s = $segments_quantity - 1; $i < $segments_quantity; ++$i) {
+ 			$it = $breadcrumb[$i];
+-      $content = decode_entities($it['content']);
+ 			if (isset($it['url'])) {
+-				$html .= l($content, $it['url'], array('attributes' => array('class' => $it['class'])));
++				$html .= l($it['content'], $it['url'], array('attributes' => array('class' => $it['class'])));
+ 			} else {
+         $class = implode(' ', $it['class']);
+-				$html .= '<span class="' . $class . '">'	. filter_xss($content) . '</span>';
++				$html .= '<span class="' . $class . '">'	. $it['content'] . '</span>';
+ 			}
+ 			if ($i < $s) {
+ 				$html .= '<span class="easy-breadcrumb_segment-separator"> ' . $separator . ' </span>';
+diff --git a/includes/easy_breadcrumb.blocks.inc b/includes/easy_breadcrumb.blocks.inc
+index b007cd1..a6a4614 100644
+--- a/includes/easy_breadcrumb.blocks.inc
++++ b/includes/easy_breadcrumb.blocks.inc
+@@ -181,7 +181,7 @@ function _easy_breadcrumb_obtain_page_title($page_text) {
+  *   the generated breadcrumb item.
+  */
+ function _easy_breadcrumb_build_item($item_title, $item_classes, $item_url, $as_link = TRUE) {
+-  $item = array('content' => $item_title, 'class' => $item_classes);
++  $item = array('content' => filter_xss($item_title), 'class' => $item_classes);
+   if ($as_link) {
+     $item['url'] = $item_url;
+   }
+@@ -262,9 +262,10 @@ function _easy_breadcrumb_obtain_segment_title($normal_path, $valid_path, $segme
+  *   normalized title.
+  */
+ function _easy_breadcrumb_normalize_text($raw_text) {
+-
++  // Filter the raw text against XSS.
++  $normalized_text = check_url($raw_text);
+   // Transforms '-hello--world_javascript-' on 'hello world javascript'.
+-  $normalized_text = str_replace(array('-', '_'), ' ', $raw_text);
++  $normalized_text = str_replace(array('-', '_'), ' ', $normalized_text);
+   $normalized_text = trim($normalized_text);
+   $normalized_text = preg_replace('/\s{2,}/', ' ', $normalized_text);
+ 
