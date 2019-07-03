@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file
+ * Drupal Module: NextEuropa cookie consent kit.
+ *
+ * Integrates webtool Cookie Consent Kit (CCK).
+ */
+
+define('NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL', 'https://ec.europa.eu/wel/cookie-consent/');
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_cookie_consent_kit_menu() {
+  $items = array();
+  $items['admin/config/system/nexteuropa-cookie-consent-kit'] = array(
+    'title' => 'NextEuropa cookie consent kit',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_cookie_consent_kit_admin_form'),
+    'access arguments' => array('administer nexteuropa cookie consent kit configuration'),
+    'file' => 'nexteuropa_cookie_consent_kit.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function nexteuropa_cookie_consent_kit_permission() {
+  $permissions = array(
+    'administer nexteuropa cookie consent kit configuration' => array(
+      'title' => t('Administer nexteuropa cookie consent kit configuration'),
+      'description' => t('Administer nexteuropa cookie consent kit configuration'),
+    ),
+  );
+
+  return $permissions;
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function nexteuropa_cookie_consent_kit_preprocess_html(&$vars) {
+  if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_banner', 0)) {
+    drupal_add_js(NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL . 'consent.js',  array(
+      'type' => 'external',
+      'scope' => 'header',
+      'group' => JS_LIBRARY,
+      'every_page' => TRUE,
+      'weight' => -100,
+      'requires_jquery' => FALSE,
+    ));
+  }
+}
