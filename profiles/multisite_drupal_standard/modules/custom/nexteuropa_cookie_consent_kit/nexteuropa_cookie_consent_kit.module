@@ -75,6 +75,7 @@ function nexteuropa_cookie_consent_kit_process_media_vimeo_video(&$variables) {
  */
 function nexteuropa_cookie_consent_kit_process_media_dailymotion_video(&$variables) {
   if (!isset($variables['url'])) {
+    // Prepare the url for the dailymotion video.
     $daily_query = array('logo' => 0, 'autoPlay' => $variables['autoplay']);
     $variables['url'] = url('//www.dailymotion.com/embed/video/' . $variables['video_id'], array('query' => $daily_query, 'external' => TRUE));
   }
@@ -99,9 +100,20 @@ function _nexteuropa_cookie_consent_kit_process_media_provider_video(&$variables
     // Allow other modules to alter query parameters.
     drupal_alter('nexteuropa_cookie_consent_kit_query', $query);
 
+    // Override the url with the cookie consent url and add the required query
+    // string.
     $variables['url'] = url(variable_get('cookie_consent_webservice_prurl', NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC), array(
       'query' => $query,
       'external' => TRUE,
     ));
+
+    // Media dailymotion module is injecting the output in the templete and
+    // hard coding the src for the iframe.
+    // @see media_dailymotion_preprocess_media_dailymotion_video().
+    if ($variables['theme_hook_original'] === 'media_dailymotion_video' && !module_exists('ec_embedded_video')) {
+       $variables['output'] = <<<OUTPUT
+    <iframe frameborder="0" width="{$variables['width']}" height="{$variables['height']}" src="{$variables['url']}"></iframe>
+OUTPUT;
+    }
   }
 }
