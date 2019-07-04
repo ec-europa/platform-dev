@@ -1,4 +1,4 @@
-@api
+@api @javascript
 Feature: NextEuropa cookie content kit
   In order to accept/reject cookies
   As a website visitor
