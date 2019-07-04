@@ -57,29 +57,58 @@ function nexteuropa_cookie_consent_kit_preprocess_html(&$vars) {
 }
 
 /**
- * Implements template_process_media_youtube_video().
+ * Implements hook_theme_registry_alter().
  */
-function nexteuropa_cookie_consent_kit_process_media_youtube_video(&$variables) {
-  _nexteuropa_cookie_consent_kit_process_media_provider_video($variables);
+function nexteuropa_cookie_consent_kit_theme_registry_alter(&$theme_registry) {
+  // Add Cookie Consent support theming and preprocess for supported filetypes.
+  foreach (array(
+    'media_youtube',
+    'media_vimeo',
+    'media_dailymotion',
+  ) as $module) {
+    if (module_exists($module)) {
+      // Add our preprocess function.
+      $theme_registry[$module . '_video']['preprocess functions'][] = '_nexteuropa_cookie_consent_kit_preprocess_' . $module . '_video';
+    }
+  }
 }
 
 /**
- * Implements template_process_media_vimeo_video().
+ * Implements hook_module_implements_alter().
  */
-function nexteuropa_cookie_consent_kit_process_media_vimeo_video(&$variables) {
-  _nexteuropa_cookie_consent_kit_process_media_provider_video($variables);
+function nexteuropa_cookie_consent_kit_module_implements_alter(&$implementations, $hook) {
+  // Run our theme_registry_alter hooks in last position.
+  if ($hook == 'theme_registry_alter' && isset($implementations['nexteuropa_cookie_consent_kit'])) {
+    $group = $implementations['nexteuropa_cookie_consent_kit'];
+    unset($implementations['nexteuropa_cookie_consent_kit']);
+    $implementations['nexteuropa_cookie_consent_kit'] = $group;
+  }
 }
 
 /**
- * Implements template_process_media_dailymotion_video().
+ * Implements template_preprocess_media_youtube_video().
  */
-function nexteuropa_cookie_consent_kit_process_media_dailymotion_video(&$variables) {
+function _nexteuropa_cookie_consent_kit_preprocess_media_youtube_video(&$variables) {
+  _nexteuropa_cookie_consent_kit_preprocess_media_provider_video($variables);
+}
+
+/**
+ * Implements template_preprocess_media_vimeo_video().
+ */
+function _nexteuropa_cookie_consent_kit_preprocess_media_vimeo_video(&$variables) {
+  _nexteuropa_cookie_consent_kit_preprocess_media_provider_video($variables);
+}
+
+/**
+ * Implements template_preprocess_media_dailymotion_video().
+ */
+function _nexteuropa_cookie_consent_kit_preprocess_media_dailymotion_video(&$variables) {
   if (!isset($variables['url'])) {
     // Prepare the url for the dailymotion video.
     $daily_query = array('logo' => 0, 'autoPlay' => $variables['autoplay']);
     $variables['url'] = url('//www.dailymotion.com/embed/video/' . $variables['video_id'], array('query' => $daily_query, 'external' => TRUE));
   }
-  _nexteuropa_cookie_consent_kit_process_media_provider_video($variables);
+  _nexteuropa_cookie_consent_kit_preprocess_media_provider_video($variables);
 }
 
 /**
@@ -88,7 +117,7 @@ function nexteuropa_cookie_consent_kit_process_media_dailymotion_video(&$variabl
  * Rewrites iframe src to point to the Video Cookie Consent webservice and sends
  * the original src along in the oriurl parameter.
  */
-function _nexteuropa_cookie_consent_kit_process_media_provider_video(&$variables) {
+function _nexteuropa_cookie_consent_kit_preprocess_media_provider_video(&$variables) {
   if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_video', 0)) {
     global $language;
 
@@ -97,8 +126,8 @@ function _nexteuropa_cookie_consent_kit_process_media_provider_video(&$variables
     $query['oriurl'] = $variables['url'];
     $query['lang'] = $language->language;
 
-    // Allow other modules to alter query parameters.
-    drupal_alter('nexteuropa_cookie_consent_kit_query', $query);
+    // Allow other modules to alter iframe query parameters.
+    drupal_alter('nexteuropa_cookie_consent_kit_iframe_query', $query);
 
     // Override the url with the cookie consent url and add the required query
     // string.
@@ -107,8 +136,8 @@ function _nexteuropa_cookie_consent_kit_process_media_provider_video(&$variables
       'external' => TRUE,
     ));
 
-    // Media dailymotion module is injecting the output in the templete and
-    // hard coding the src for the iframe.
+    // Media dailymotion module is hardcoding the src of the iframe and then
+    // injecting the iframe in the templete file.
     // @see media_dailymotion_preprocess_media_dailymotion_video().
     if ($variables['theme_hook_original'] === 'media_dailymotion_video' && !module_exists('ec_embedded_video')) {
        $variables['output'] = <<<OUTPUT
