@@ -8,6 +8,7 @@
  */
 
 define('NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL', 'https://ec.europa.eu/wel/cookie-consent/');
+define('NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC', '//ec.europa.eu/cookie-consent/iframe');
 
 /**
  * Implements hook_menu().
@@ -51,6 +52,56 @@ function nexteuropa_cookie_consent_kit_preprocess_html(&$vars) {
       'every_page' => TRUE,
       'weight' => -100,
       'requires_jquery' => FALSE,
+    ));
+  }
+}
+
+/**
+ * Implements template_process_media_youtube_video().
+ */
+function nexteuropa_cookie_consent_kit_process_media_youtube_video(&$variables) {
+  _nexteuropa_cookie_consent_kit_process_media_provider_video($variables);
+}
+
+/**
+ * Implements template_process_media_vimeo_video().
+ */
+function nexteuropa_cookie_consent_kit_process_media_vimeo_video(&$variables) {
+  _nexteuropa_cookie_consent_kit_process_media_provider_video($variables);
+}
+
+/**
+ * Implements template_process_media_dailymotion_video().
+ */
+function nexteuropa_cookie_consent_kit_process_media_dailymotion_video(&$variables) {
+  if (!isset($variables['url'])) {
+    $daily_query = array('logo' => 0, 'autoPlay' => $variables['autoplay']);
+    $variables['url'] = url('//www.dailymotion.com/embed/video/' . $variables['video_id'], array('query' => $daily_query, 'external' => TRUE));
+  }
+  _nexteuropa_cookie_consent_kit_process_media_provider_video($variables);
+}
+
+/**
+ * Custom function to alter media_[module]_video template variables.
+ *
+ * Rewrites iframe src to point to the Video Cookie Consent webservice and sends
+ * the original src along in the oriurl parameter.
+ */
+function _nexteuropa_cookie_consent_kit_process_media_provider_video(&$variables) {
+  if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_video', 0)) {
+    global $language;
+
+    // Build the final url.
+    $query = array();
+    $query['oriurl'] = $variables['url'];
+    $query['lang'] = $language->language;
+
+    // Allow other modules to alter query parameters.
+    drupal_alter('nexteuropa_cookie_consent_kit_query', $query);
+
+    $variables['url'] = url(variable_get('cookie_consent_webservice_prurl', NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC), array(
+      'query' => $query,
+      'external' => TRUE,
     ));
   }
 }
