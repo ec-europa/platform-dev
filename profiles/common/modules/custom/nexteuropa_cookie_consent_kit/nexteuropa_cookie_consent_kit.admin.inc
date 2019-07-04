@@ -16,8 +16,7 @@
  * @return array
  *   Admin form render array.
  */
-function nexteuropa_cookie_consent_kit_admin_form(array $form, array $form_state) {
-  $form = array();
+function nexteuropa_cookie_consent_kit_admin_form(array $form, array &$form_state) {
   $form['banner'] = array(
     '#type' => 'fieldset',
     '#title' => t('Banner settings'),
