@@ -45,7 +45,7 @@ function nexteuropa_cookie_consent_kit_permission() {
  */
 function nexteuropa_cookie_consent_kit_preprocess_html(&$vars) {
   if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_banner', 0)) {
-    drupal_add_js(NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL . 'consent.js',  array(
+    drupal_add_js(NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL . 'consent.js', array(
       'type' => 'external',
       'scope' => 'header',
       'group' => JS_LIBRARY,
@@ -140,7 +140,7 @@ function _nexteuropa_cookie_consent_kit_preprocess_media_provider_video(&$variab
     // injecting the iframe in the templete file.
     // @see media_dailymotion_preprocess_media_dailymotion_video().
     if ($variables['theme_hook_original'] === 'media_dailymotion_video' && !module_exists('ec_embedded_video')) {
-       $variables['output'] = <<<OUTPUT
+      $variables['output'] = <<<OUTPUT
     <iframe frameborder="0" width="{$variables['width']}" height="{$variables['height']}" src="{$variables['url']}"></iframe>
 OUTPUT;
     }
