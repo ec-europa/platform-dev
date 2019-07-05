@@ -41,9 +41,11 @@ function nexteuropa_cookie_consent_kit_permission() {
 }
 
 /**
- * Implements hook_preprocess_html().
+ * Implements hook__page_alter().
+ *
+ * This adds the webtools CCK js to the head of normal page.
  */
-function nexteuropa_cookie_consent_kit_preprocess_html(&$vars) {
+function nexteuropa_cookie_consent_kit_page_alter(&$page) {
   if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_banner', 0)) {
     drupal_add_js(NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL . 'consent.js', array(
       'type' => 'external',
