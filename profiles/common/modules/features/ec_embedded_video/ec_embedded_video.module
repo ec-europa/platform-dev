@@ -44,7 +44,7 @@ function ec_embedded_video_file_type($file) {
  * @deprecated in platform:2.5 and will be removed from platform:2.6 use
  * NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC instead.
  */
-define('EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_PRURL', '//ec.europa.eu/cookie-consent/iframe');
+define('EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_PRURL', '//europa.eu/webtools/crs/iframe');
 
 /**
  * Implements hook_theme_registry_alter().
@@ -98,6 +98,10 @@ function _ec_embedded_video_preprocess_media_dailymotion_video(&$variables) {
  */
 function ec_embedded_video_preprocess_common_file_video(&$variables) {
   $variables['no_wrapper'] = isset($variables['options']['no_wrapper']) ?:FALSE;
+
+  // Deprecated but we ensure the retro-compatibility of sites using this
+  // variables item.
+  $variables['ec_embedded_video_url'] = $variables['url'];
 }
 
 /**

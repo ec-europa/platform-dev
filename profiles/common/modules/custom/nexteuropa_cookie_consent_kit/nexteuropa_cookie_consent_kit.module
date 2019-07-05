@@ -7,8 +7,8 @@
  * Integrates webtool Cookie Consent Kit (CCK).
  */
 
-define('NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL', 'https://ec.europa.eu/wel/cookie-consent/');
-define('NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC', '//ec.europa.eu/cookie-consent/iframe');
+define('NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL', '//ec.europa.eu/wel/cookie-consent/');
+define('NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC', '//europa.eu/webtools/crs/iframe');
 
 /**
  * Implements hook_menu().
@@ -125,6 +125,7 @@ function _nexteuropa_cookie_consent_kit_preprocess_media_provider_video(&$variab
 
     // Build the final url.
     $query = array();
+
     $query['oriurl'] = $variables['url'];
     $query['lang'] = $language->language;
 
@@ -133,10 +134,15 @@ function _nexteuropa_cookie_consent_kit_preprocess_media_provider_video(&$variab
 
     // Override the url with the cookie consent url and add the required query
     // string.
-    $variables['url'] = url(variable_get('cookie_consent_webservice_prurl', NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC), array(
-      'query' => $query,
-      'external' => TRUE,
-    ));
+    $variables['url'] = _nexteuropa_cookie_consent_kit_build_cck_url($query);
+
+    // Ensure that sites having an implementation based on a version of
+    // ec_embedded_video prior to the version 2.5.138.1 of the platform,
+    // receive the CCK URL too.
+    if (isset($variables['ec_embedded_video_url'])) {
+      $query['oriurl'] = $variables['ec_embedded_video_url'];
+      $variables['ec_embedded_video_url'] = _nexteuropa_cookie_consent_kit_build_cck_url($query);
+    }
 
     // Media dailymotion module is hardcoding the src of the iframe and then
     // injecting the iframe in the templete file.
@@ -147,4 +153,20 @@ function _nexteuropa_cookie_consent_kit_preprocess_media_provider_video(&$variab
 OUTPUT;
     }
   }
+}
+
+/**
+ * Builds the media URL with Cookie Consent Kit URL.
+ *
+ * @param array $query
+ *   The URL query items to be used in the Cookie Consent Kit URL.
+ *
+ * @return string
+ *   The built Cookie Consent Kit URL.
+ */
+function _nexteuropa_cookie_consent_kit_build_cck_url(array $query) {
+  return url(variable_get('cookie_consent_webservice_prurl', NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC), array(
+    'query' => $query,
+    'external' => TRUE,
+  ));
 }
