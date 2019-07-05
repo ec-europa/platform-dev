@@ -9,6 +9,8 @@
 
 define('NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL', '//ec.europa.eu/wel/cookie-consent/');
 define('NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC', '//europa.eu/webtools/crs/iframe');
+define('NEXTEUROPA_COOKIE_CONSENT_KIT_NO_BANNER_PATHS', "admin\nadmin/*\nmedia/browser\nmedia/ajax\nsystem/ajax\nmedia/*/format-form\n
+file/*/edit\nnode/*/*\nnode/add*\nfile/add*");
 
 /**
  * Implements hook_menu().
@@ -47,6 +49,12 @@ function nexteuropa_cookie_consent_kit_permission() {
  */
 function nexteuropa_cookie_consent_kit_page_alter(&$page) {
   if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_banner', 0)) {
+    // Checks if the Cookie banner JS file must be included in the requested
+    // page.
+    if (_nexteuropa_cookie_consent_kit_is_no_banner_path()) {
+      return;
+    }
+
     drupal_add_js(NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL . 'consent.js', array(
       'type' => 'external',
       'scope' => 'header',
@@ -121,6 +129,7 @@ function _nexteuropa_cookie_consent_kit_preprocess_media_dailymotion_video(&$var
  */
 function _nexteuropa_cookie_consent_kit_preprocess_media_provider_video(&$variables) {
   if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_video', 0)) {
+
     global $language;
 
     // Build the final url.
@@ -145,7 +154,7 @@ function _nexteuropa_cookie_consent_kit_preprocess_media_provider_video(&$variab
     }
 
     // Media dailymotion module is hardcoding the src of the iframe and then
-    // injecting the iframe in the templete file.
+    // injecting the iframe in the template file.
     // @see media_dailymotion_preprocess_media_dailymotion_video().
     if ($variables['theme_hook_original'] === 'media_dailymotion_video' && !module_exists('ec_embedded_video')) {
       $variables['output'] = <<<OUTPUT
@@ -169,4 +178,22 @@ function _nexteuropa_cookie_consent_kit_build_cck_url(array $query) {
     'query' => $query,
     'external' => TRUE,
   ));
+}
+
+/**
+ * Checks if the current path should not receives the CCK JS file.
+ *
+ * @return bool
+ *   TRUE if the path is white listed for not including the CCK JS file.
+ */
+function _nexteuropa_cookie_consent_kit_is_no_banner_path() {
+  // Convert the Drupal path to lowercase.
+  $path = drupal_strtolower(drupal_get_path_alias());
+  // Compare the lowercase internal and lowercase path alias (if any).
+  $page_match = drupal_match_path($path, NEXTEUROPA_COOKIE_CONSENT_KIT_NO_BANNER_PATHS);
+  if ($path != $_GET['q']) {
+    $page_match = $page_match || drupal_match_path($_GET['q'], NEXTEUROPA_COOKIE_CONSENT_KIT_NO_BANNER_PATHS);
+  }
+
+  return $page_match;
 }
