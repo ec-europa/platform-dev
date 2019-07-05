@@ -25,7 +25,7 @@ TROUBLESHOOTING
 ----------------
 * After activating the banner in the administration interface, the CCK banner 
 does not appear or does not block the third party cookies.<br />
-Please make sure make sure that the consent.js file is the first loaded JS file 
+Please make sure that the consent.js file is the first loaded JS file 
 in the head tag of your website's pages. Without that it cannot work properly.
 
 DEVELOPERS
