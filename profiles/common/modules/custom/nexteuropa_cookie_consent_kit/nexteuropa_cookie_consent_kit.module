@@ -187,12 +187,13 @@ function _nexteuropa_cookie_consent_kit_build_cck_url(array $query) {
  *   TRUE if the path is white listed for not including the CCK JS file.
  */
 function _nexteuropa_cookie_consent_kit_is_no_banner_path() {
+  $no_banner_paths_list = variable_get('nexteuropa_cookie_consent_kit_no_banner_paths', NEXTEUROPA_COOKIE_CONSENT_KIT_NO_BANNER_PATHS);
   // Convert the Drupal path to lowercase.
   $path = drupal_strtolower(drupal_get_path_alias());
   // Compare the lowercase internal and lowercase path alias (if any).
-  $page_match = drupal_match_path($path, NEXTEUROPA_COOKIE_CONSENT_KIT_NO_BANNER_PATHS);
+  $page_match = drupal_match_path($path, $no_banner_paths_list);
   if ($path != $_GET['q']) {
-    $page_match = $page_match || drupal_match_path($_GET['q'], NEXTEUROPA_COOKIE_CONSENT_KIT_NO_BANNER_PATHS);
+    $page_match = $page_match || drupal_match_path($_GET['q'], $no_banner_paths_list);
   }
 
   return $page_match;
