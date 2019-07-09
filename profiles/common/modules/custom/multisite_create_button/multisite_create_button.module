@@ -79,7 +79,7 @@ function _multisite_og_button_contextual_links() {
   $context = og_context();
   $profile = drupal_get_profile();
 
-  if ($profile == 'multisite_drupal_communities') {
+  if ($profile == 'multisite_drupal_communities' || module_exists('nexteuropa_communities')) {
     if ($context && !empty($content)) {
       // Use different theme components for the different themes.
       if ($theme_key == 'ec_resp') {
