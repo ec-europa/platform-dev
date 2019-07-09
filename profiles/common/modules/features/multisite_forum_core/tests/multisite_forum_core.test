@@ -8,7 +8,7 @@
 /**
  * Test Multisite Forum features to ensure it follows QA requirements.
  */
-class MultisiteForumCoreQAWebTestCase extends MultisiteDrupalWebTestCase {
+class MultisiteForumCoreQAWebTestCase extends DrupalWebTestCase {
 
   protected $user1;
   protected $user2;
@@ -33,7 +33,7 @@ class MultisiteForumCoreQAWebTestCase extends MultisiteDrupalWebTestCase {
     parent::setUp('multisite_forum_core');
     $this->user1 = $this->drupalCreateUser();
     $this->user2 = $this->drupalCreateUser();
-    $this->privilegedUser = $this->multisiteDrupalToolboxCreateUserWithRole('administrator');
+    $this->privilegedUser = $this->drupalCreateUserWithRole('administrator');
   }
 
   /**
@@ -112,6 +112,29 @@ class MultisiteForumCoreQAWebTestCase extends MultisiteDrupalWebTestCase {
     // Check if user cannot edit post of another user.
     $this->drupalGet("node/{$node->nid}/edit");
     $this->assertResponse('403', 'User cannot edit post of another user.');
+  }
+
+  /**
+   * Creates a user with the give role.
+   * */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
   }
 
 }
