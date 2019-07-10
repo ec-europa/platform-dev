@@ -812,7 +812,7 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
 ; https://www.drupal.org/project/views/issues/3012609
 ; https://www.drupal.org/project/views/issues/1809958
-projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-25/issues-ajax-exposed-filters-blocks-1809958-70.patch
+projects[views][patch][] = https://www.drupal.org/files/issues/2019-07-09/issues-ajax-exposed-filters-blocks-1809958-74.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
