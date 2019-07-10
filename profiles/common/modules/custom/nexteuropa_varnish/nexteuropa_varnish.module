@@ -273,9 +273,7 @@ function nexteuropa_varnish_node_delete($node) {
   }
 
   if (!empty($paths)) {
-    // Removing duplicates.
     $paths = array_unique($paths);
-    // Remove all entries of the array that equal to FALSE.
     $paths = array_filter($paths);
     _nexteuropa_varnish_purge_paths($paths);
   }
@@ -657,7 +655,7 @@ function _nexteuropa_varnish_get_node_paths($node) {
       $lang_codes = array_keys($translations->data);
       $all_languages = entity_translation_languages('node', $node);
       // Small workaround for undefined language.
-      if (count($lang_codes) === 1 && 'und' == $lang_codes[0]) {
+      if (count($lang_codes) === 1 && LANGUAGE_NONE == $lang_codes[0]) {
         // Push all the languages.
         $lang_codes = array_keys($all_languages);
       }
@@ -685,7 +683,7 @@ function _nexteuropa_varnish_get_node_paths($node) {
       $original_alias = $alias;
 
       // Language is undefined, the content will show on all languages.
-      if ('und' == $lang_code) {
+      if (LANGUAGE_NONE == $lang_code) {
         foreach ($all_languages as $code => $data) {
           $lang = $all_languages[$code];
           // Add the prefix or suffix.
@@ -821,10 +819,10 @@ function _nexteuropa_varnish_compare_node_path_revisions($old_paths, $new_paths)
  *   The list of node's paths set in the previous revision.
  */
 function _nexteuropa_varnish_process_paths_sending($node, $updated_node_paths = array()) {
-  $updated_node_paths += _nexteuropa_varnish_get_paths_to_purge($node);
+  $paths = _nexteuropa_varnish_get_paths_to_purge($node);
+  $updated_node_paths = array_merge($updated_node_paths, $paths);
 
   if (!empty($updated_node_paths)) {
-    // Removing duplicates and all entries of the array equal to FALSE.
     $updated_node_paths = array_unique($updated_node_paths);
     $updated_node_paths = array_filter($updated_node_paths);
 

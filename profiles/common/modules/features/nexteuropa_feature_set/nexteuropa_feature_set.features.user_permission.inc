@@ -155,15 +155,6 @@ function nexteuropa_feature_set_user_default_permissions() {
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'manage feature multisite_audio'.
-  $permissions['manage feature multisite_audio'] = array(
-    'name' => 'manage feature multisite_audio',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'multisite_drupal_features_set_standard',
-  );
-
   // Exported permission: 'manage feature multisite_maxlength'.
   $permissions['manage feature multisite_maxlength'] = array(
     'name' => 'manage feature multisite_maxlength',
