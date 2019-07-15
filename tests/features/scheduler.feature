@@ -50,7 +50,7 @@ Feature: Scheduler features
     And I should see the text "The 'publish on' date must be in the future"
     And I change the variable "scheduler_publish_past_date_page" to "schedule"
     And I press the "Save" button
-    Then I should see the text "This post is unpublished and will be published 2000-12-31 23:59:00."
+    Then I should see the text "This post is unpublished and will be published 2000-12-31 23:59:59."
     And I should see the text "Revision state: draft"
 
   Scenario: User with permissions can schedule a date to publish a content after configuring allowed status
@@ -72,7 +72,7 @@ Feature: Scheduler features
     And I should see the text "The 'publish on' date must be in the future"
     And I change the variable "scheduler_publish_past_date_page" to "schedule"
     And I press the "Save" button
-    Then I should see the text "This post is unpublished and will be published 2000-12-31 23:59:00."
+    Then I should see the text "This post is unpublished and will be published 2000-12-31 23:59:59."
     And I should see the text "Revision state: Draft"
 
   Scenario: User can schedule a draft to publish a content and wont be published
@@ -198,4 +198,4 @@ Feature: Scheduler features
     Then I am logged in as a user with the 'editor' role
     And I visit the "page" content with title "Next content"
     And I click "Moderate"
-    Then I should see the text "This revision will be published 2050-12-31 23:59:00"
+    Then I should see the text "This revision will be published 2050-12-31 23:59:59"
