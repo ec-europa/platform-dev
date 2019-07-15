@@ -24,7 +24,7 @@ projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.4"
 
 projects[apachesolr][subdir] = "contrib"
-projects[apachesolr][version] = "1.8"
+projects[apachesolr][version] = "1.11"
 ; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
 ; https://drupal.org/node/2178283
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2890
@@ -48,7 +48,7 @@ projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_
 ; Delay removing entities from the index.
 ; https://www.drupal.org/node/2764637
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
-projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-delay-entity-removal-2764637-1.patch
+projects[apachesolr][patch][] = patches/apachesolr-delay-entity-removal-2764637.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
@@ -155,18 +155,18 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.14"
+projects[ctools][version] = "1.15"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.11-beta1"
+projects[date][version] = "2.11-beta2"
 ; Issue #2305049: Wrong timezone handling in migrate process.
 ; https://www.drupal.org/node/2305049
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
-projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
+projects[date][patch][] = https://www.drupal.org/files/issues/2019-06-30/2305049-12_1.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
@@ -182,7 +182,7 @@ projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
-projects[easy_breadcrumb][version] = "2.16"
+projects[easy_breadcrumb][version] = "2.17"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -299,7 +299,7 @@ projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group
 
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.21"
+projects[file_entity][version] = "2.25"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.11"
@@ -361,18 +361,13 @@ projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.25"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.24"
+projects[i18n][version] = "1.26"
 ; Language field display should default to hidden.
 ; https://www.drupal.org/node/1350638
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
-; Call "18n_taxonomy_translate_terms" on a non-translated taxonomy term
-; triggers a "PHP Fatal error: Call to a member function get_translations() on boolean"
-; https://www.drupal.org/project/i18n/issues/2984895
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2006
-projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-07-10/i18n_taxonomy-i18n_taxonomy_translate_terms_get_translations-2984895-1.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
@@ -428,7 +423,7 @@ projects[link][patch][] = https://www.drupal.org/files/issues/2018-05-24/2974486
 projects[link][patch][] = https://www.drupal.org/files/issues/2018-08-30/link-949604-63-fixed.patch
 
 projects[linkchecker][subdir] = "contrib"
-projects[linkchecker][version] = "1.3"
+projects[linkchecker][version] = "1.4"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 
@@ -544,7 +539,7 @@ projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-suppor
 
 projects[nexteuropa_newsroom][download][type] = git
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
-projects[nexteuropa_newsroom][download][tag] = v3.5.5
+projects[nexteuropa_newsroom][download][tag] = 3.5.13
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
@@ -713,7 +708,7 @@ projects[subscriptions][subdir] = "contrib"
 projects[subscriptions][version] = "1.1"
 
 projects[tagclouds][subdir] = "contrib"
-projects[tagclouds][version] = "1.11"
+projects[tagclouds][version] = "1.12"
 
 projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.11"
@@ -788,7 +783,7 @@ projects[user_field_privacy][subdir] = "contrib"
 projects[user_field_privacy][version] = "1.2"
 
 projects[username_enumeration_prevention][subdir] = "contrib"
-projects[username_enumeration_prevention][version] = "1.2"
+projects[username_enumeration_prevention][version] = "1.3"
 
 projects[uuid][subdir] = "contrib"
 projects[uuid][version] = "1.3"
