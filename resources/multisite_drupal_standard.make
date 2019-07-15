@@ -423,7 +423,7 @@ projects[link][patch][] = https://www.drupal.org/files/issues/2018-05-24/2974486
 projects[link][patch][] = https://www.drupal.org/files/issues/2018-08-30/link-949604-63-fixed.patch
 
 projects[linkchecker][subdir] = "contrib"
-projects[linkchecker][version] = "1.3"
+projects[linkchecker][version] = "1.4"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 
@@ -613,7 +613,7 @@ projects[rate][patch][] = patches/rate-translate_description-1178.patch
 projects[rate][patch][] = https://www.drupal.org/files/issues/rate-is_null_fix-1421016-9.patch
 
 projects[realname][subdir] = "contrib"
-projects[realname][version] = "1.3"
+projects[realname][version] = "1.4"
 
 projects[redirect][subdir] = "contrib"
 ; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
@@ -783,7 +783,7 @@ projects[user_field_privacy][subdir] = "contrib"
 projects[user_field_privacy][version] = "1.2"
 
 projects[username_enumeration_prevention][subdir] = "contrib"
-projects[username_enumeration_prevention][version] = "1.2"
+projects[username_enumeration_prevention][version] = "1.3"
 
 projects[uuid][subdir] = "contrib"
 projects[uuid][version] = "1.3"
