@@ -24,7 +24,7 @@ projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.4"
 
 projects[apachesolr][subdir] = "contrib"
-projects[apachesolr][version] = "1.8"
+projects[apachesolr][version] = "1.11"
 ; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
 ; https://drupal.org/node/2178283
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2890
@@ -48,7 +48,7 @@ projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_
 ; Delay removing entities from the index.
 ; https://www.drupal.org/node/2764637
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
-projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-delay-entity-removal-2764637-1.patch
+projects[apachesolr][patch][] = patches/apachesolr-delay-entity-removal-2764637.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
