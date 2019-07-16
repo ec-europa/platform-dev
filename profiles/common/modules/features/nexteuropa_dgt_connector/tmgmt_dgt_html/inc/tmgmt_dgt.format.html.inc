@@ -97,7 +97,7 @@ class TmgmtDgtHtmlFormat implements TMGMTFileFormatInterface {
   /**
    * {@inheritdoc}
    */
-  public function validateImport($imported_file) {
+  public function validateImport($imported_file, $is_file = TRUE) {
     $dom = new DOMDocument();
     if (file_exists($imported_file)) {
       if (!multisite_drupal_toolbox_load_html_file($dom, $imported_file)) {
