@@ -202,6 +202,8 @@ projects[easy_breadcrumb][version] = "2.12"
 ; https://www.drupal.org/node/2290941
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6753
 projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/check-plain-vs-filter-xss_0_1.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2531
+projects[easy_breadcrumb][patch][] = patches/sa-contrib-2019-053.patch
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -695,8 +697,9 @@ projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
 ; Allow to schedule the publish date of a revision
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2504
 ; https://www.drupal.org/project/scheduler_workbench/issues/2048999
-projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-47_0.patch
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2019-06-20/scheduler_workbench-revision_publish-2048999-58.patch
 ; Allow publication of revisions with selected status. This patch requires the patch from issue https://www.drupal.org/project/scheduler_workbench/issues/2048999
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
 ; This patch requieres https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-46.patch from
@@ -820,7 +823,7 @@ projects[user_field_privacy][subdir] = "contrib"
 projects[user_field_privacy][version] = "1.2"
 
 projects[username_enumeration_prevention][subdir] = "contrib"
-projects[username_enumeration_prevention][version] = "1.2"
+projects[username_enumeration_prevention][version] = "1.3"
 
 projects[uuid][subdir] = "contrib"
 projects[uuid][version] = "1.3"
