@@ -1,0 +1,171 @@
+diff --git a/password_policy.module b/password_policy.module
+index 6f5b09f..f02fce6 100644
+--- a/password_policy.module
++++ b/password_policy.module
+@@ -288,6 +288,13 @@ function _password_policy_has_account_password_element($form) {
+  */
+ function password_policy_user_profile_form_validate($form, &$form_state) {
+   if (!empty($form_state['values']['pass'])) {
++    // Validate length.
++    // Short-circuit validation if password exceeds Drupal maximum length as
++    // safeguard against potential DoS attacks.
++    if (_password_policy_is_form_password_too_long($form_state)) {
++      form_set_error('pass', t('Password exceeds maximum length. Please choose a shorter password.'));
++      return;
++    }
+     $account = $form['#user'];
+     $policies = PasswordPolicy::matchedPolicies($account);
+     $errors = array();
+@@ -544,3 +551,21 @@ function password_policy_user_delete($account) {
+     ->condition('uid', $account->uid)
+     ->execute();
+ }
++
++/**
++ * Determines whether password on form exceeds Drupal maximum length.
++ *
++ * The maximum length is copied from includes/password.inc.
++ *
++ * @param array $form_state
++ *   Form state.
++ *
++ * @return bool
++ *   TRUE if password exceeds Drupal maximum length, FALSE otherwise.
++ *
++ * @see _password_crypt()
++ */
++function _password_policy_is_form_password_too_long(array $form_state) {
++  $pass = $form_state['values']['pass'];
++  return drupal_strlen($pass) > 512;
++}
+diff --git a/password_policy.test b/password_policy.test
+index a5cf4bf..e1bf213 100644
+--- a/password_policy.test
++++ b/password_policy.test
+@@ -709,3 +709,126 @@ class PasswordPolicyUITestCase extends DrupalWebTestCase {
+   }
+ 
+ }
++
++/**
++ * Tests of restriction on password length.
++ */
++class PasswordPolicyPasswordLengthRestrictionTestCase extends DrupalWebTestCase {
++  protected $admin;
++
++  /**
++   * Get info about the test case.
++   */
++  public static function getInfo() {
++    return array(
++      'name' => 'Password length restriction',
++      'description' => 'Test that overlong passwords are disallowed.',
++      'group' => 'Password Policy',
++    );
++  }
++
++  /**
++   * Set up the test.
++   */
++  public function setUp() {
++    parent::setUp('password_policy');
++    $this->createAdmin();
++  }
++
++  /**
++   * Creates a usable admin (UID=1) user.
++   *
++   * SimpleTest creates an admin user, but it cannot log in since it has no
++   * password set. So, we give it a password. We also give it a valid email
++   * address so its user edit form can be submitted.
++   */
++  protected function createAdmin() {
++    global $user;
++    $pass = user_password();
++    $edit = array(
++      'pass' => $pass,
++      'mail' => 'foo@example.com',
++    );
++    user_save($user, $edit);
++    $user->pass_raw = $pass;
++    $this->admin = $user;
++  }
++
++  /**
++   * Tests module response to submission of an overlong password.
++   */
++  public function testOverlongPasswordSubmission() {
++    $admin = $this->admin;
++    $this->drupalLogin($admin);
++    $this->setPolicyThatAppliesToAuthenticatedUser();
++    $this->submitOverlongPassword();
++    $this->submitNotOverlongPassword();
++  }
++
++  /**
++   * Sets a password policy that applies to the authenticated user role.
++   *
++   * This is just a minimal policy to apply to the admin (UID=1) user, which is
++   * being used for this test.
++   */
++  protected function setPolicyThatAppliesToAuthenticatedUser() {
++    $rid = DRUPAL_AUTHENTICATED_RID;
++    $policy_name = $this->randomName();
++    $edit = array(
++      'name' => $policy_name,
++     "roles[$rid]" => $rid,
++      'constraint_alphanumeric' => 1,
++    );
++    $this->drupalPost('admin/config/people/password_policy/add', $edit, t('Create'));
++    $created_text = "Policy $policy_name has been created.";
++    $this->assertText($created_text, $created_text);
++    $this->enablePolicy($policy_name);
++    $this->policyRid = $rid;
++  }
++
++  /**
++   * Submits a password that is overlong.
++   */
++  protected function submitOverlongPassword() {
++    $pass = str_repeat('a', 513);
++    $edit = array(
++      'current_pass' => $this->admin->pass_raw,
++      'pass[pass1]' => $pass,
++      'pass[pass2]' => $pass,
++    );
++    $this->drupalPost('user/1/edit', $edit, t('Save'));
++    $this->assertText(t('Password exceeds maximum length.'), 'Overlong password causes form error.');
++    $this->assertNoText(t('The changes have been saved.'), 'Overlong password is not saved.');
++  }
++
++  /**
++   * Submits a password that is not overlong.
++   */
++  protected function submitNotOverlongPassword() {
++    $pass = str_repeat('a', 512);
++    $edit = array(
++      'current_pass' => $this->admin->pass_raw,
++      'pass[pass1]' => $pass,
++      'pass[pass2]' => $pass,
++    );
++    $this->drupalPost('user/1/edit', $edit, t('Save'));
++    $this->assertNoText(t('Password exceeds maximum length.'), 'Not-overlong password does not cause form error.');
++    $this->assertText(t('The changes have been saved.'), 'Not-overlong password is saved.');
++  }
++
++  /**
++   * Enables policy.
++   */
++  protected function enablePolicy($policy_name) {
++    $pid = db_query('SELECT pid FROM {password_policy} WHERE name = :name', array(':name' => $policy_name))->fetchField();
++    $edit = array(
++      "policies[$pid][enabled]" => $pid,
++    );
++    $this->drupalPost('admin/config/people/password_policy/list', $edit, t('Save changes'));
++    $this->assertText(t('The changes have been saved.'), 'Form submitted successfully.');
++    $this->drupalGet('admin/config/people/password_policy');
++    $enabled = db_query('SELECT enabled FROM {password_policy} WHERE pid = :pid', array(':pid' => $pid))->fetchField();
++    $this->assertTrue($enabled == 1, 'Policy enabled.');
++  }
++
++}
