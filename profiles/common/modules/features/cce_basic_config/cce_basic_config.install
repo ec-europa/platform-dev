@@ -1904,3 +1904,14 @@ function cce_basic_config_update_7225() {
     drupal_uninstall_modules(array('language_cookie'), FALSE);
   }
 }
+
+/**
+ * Force the activation of nexteuropa_cookie_consent_kit.
+ */
+function cce_basic_config_update_7226() {
+  // Check that no site did not push and enable the module before
+  // the deployment.
+  if (!module_exists('nexteuropa_cookie_consent_kit')) {
+    module_enable(array('nexteuropa_cookie_consent_kit'));
+  }
+}

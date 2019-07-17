@@ -112,15 +112,11 @@ projects[chosen][subdir] = "contrib"
 projects[chosen][version] = "2.1"
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.8"
-; Issue #2355631 : rewrite header host without port number.
+projects[chr][version] = "1.9"
+; Issue #2355631: rewrite header host without port number.
 ; https://www.drupal.org/node/2355631
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch
-; Issue #2816399: the module trims spaces from the response received and might cause corrupted binary files
-; https://www.drupal.org/node/2816399
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-185
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch
 ; Issue #2825701: allow PURGE requests.
 ; https://www.drupal.org/node/2825701
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-81
@@ -700,8 +696,9 @@ projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
 ; Allow to schedule the publish date of a revision
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2504
 ; https://www.drupal.org/project/scheduler_workbench/issues/2048999
-projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-47_0.patch
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2019-06-20/scheduler_workbench-revision_publish-2048999-58.patch
 ; Allow publication of revisions with selected status. This patch requires the patch from issue https://www.drupal.org/project/scheduler_workbench/issues/2048999
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
 ; This patch requieres https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-46.patch from
@@ -888,7 +885,7 @@ projects[views_slideshow_slider][subdir] = "contrib"
 projects[views_slideshow_slider][version] = "3.0"
 
 projects[votingapi][subdir] = "contrib"
-projects[votingapi][version] = "2.12"
+projects[votingapi][version] = "2.15"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.16"
