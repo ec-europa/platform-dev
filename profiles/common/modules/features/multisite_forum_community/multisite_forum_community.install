@@ -18,7 +18,6 @@ function multisite_forum_community_enable() {
   $og_context_negotiation_group_context['multisite_forum_community'] = array();
   variable_set('og_context_negotiation_group_context', $og_context_negotiation_group_context);
 
-  // Add multilinual forum to ogcontexte negocation (not.
   drupal_set_message(t('Multisite Forum Community feature is now active on your site.'));
 }
 
