@@ -198,7 +198,6 @@ function nexteuropa_metatags_metatag_config_default() {
  * Declaration of tags that are specifically provided by nexteuropa feature.
  */
 function nexteuropa_metatags_metatag_info() {
-
   // Create a tag group for nexteuropa tags.
   $info['groups']['nexteuropa'] = array(
     'label' => t('Nexteuropa tags'),
@@ -221,19 +220,20 @@ function nexteuropa_metatags_metatag_info() {
       $term_full = taxonomy_term_load($term->tid);
       $options[$term_full->field_meta_value[LANGUAGE_NONE][0]['value']] = str_repeat('-', $term->depth) . $term->name;
     }
+
+    $info['tags']['ESS_GF'] = array(
+      'label' => t('ESS GF'),
+      'description' => t('Global search'),
+      'class' => 'DrupalTextMetaTag',
+      'group' => 'ESS_metatags',
+      'form' => array(
+        '#type' => 'select',
+        '#options' => $options,
+        '#empty_option' => t('- None -'),
+      ),
+      'select_or_other' => TRUE,
+    );
   }
-  $info['tags']['ESS_GF'] = array(
-    'label' => t('ESS GF'),
-    'description' => t('Global search'),
-    'class' => 'DrupalTextMetaTag',
-    'group' => 'ESS_metatags',
-    'form' => array(
-      '#type' => 'select',
-      '#options' => $options,
-      '#empty_option' => t('- None -'),
-    ),
-    'select_or_other' => TRUE,
-  );
 
   $info['tags']['ESS_RF'] = array(
     'label' => t('ESS RF'),
@@ -244,18 +244,17 @@ function nexteuropa_metatags_metatag_info() {
 
   // Default values for each nexteuropa meta tag.
   $ne_defaults = array(
-    'description' => '',
     'class' => 'DrupalTextMetaTag',
     'group' => 'nexteuropa',
     'element' => array(
       '#theme' => 'metatag_property',
     ),
+    'context' => array('global'),
   );
 
   $info['tags']['creator'] = array(
     'label' => t('Creator'),
     'description' => t('Ex. COMM/DG/UNIT (max. 30 characters).<br/>This text will supply information to METADATA "Creator".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_2" target="_blank">IPG guidelines</a> for more information.'),
-    'context' => array('global'),
   ) + $ne_defaults;
 
   $info['tags']['classification'] = array(
