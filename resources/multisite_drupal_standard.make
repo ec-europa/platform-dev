@@ -597,6 +597,9 @@ projects[om_maximenu][patch][1824704] = https://www.drupal.org/files/issues/fix_
 
 projects[password_policy][subdir] = "contrib"
 projects[password_policy][version] = "2.0-alpha7"
+; NEPT-2174: Implement security patch on password policy.
+; https://www.drupal.org/project/password_policy/issues/3018480
+projects[password_policy][patch][] = patches/forward-port-of-sa-contrib-2018-077.patch
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.3"
