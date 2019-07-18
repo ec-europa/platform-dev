@@ -1860,7 +1860,7 @@ function cce_basic_config_update_7233() {
   $og_image_fid = variable_get('meta_og_image', '');
   $meta_creator = variable_get('meta_creator', '');
   $reference = variable_get('meta_reference', '');
-  // So we save them in dediated ones.
+  // So we save them in dedicated ones.
   variable_set('nexteuropa_classification', $classification);
   variable_set('nexteuropa_og_image', $og_image_fid);
   variable_set('nexteuropa_creator', $meta_creator);
