@@ -1,0 +1,7 @@
+name = NextEuropa cookie consent kit
+description = Integrates webtool Cookie Consent Kit (CCK)
+core = 7.x
+configure = admin/config/system/nexteuropa-cookie-consent-kit
+package = NextEuropa
+
+dependencies[] = path
