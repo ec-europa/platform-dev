@@ -650,6 +650,9 @@ projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issue
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.12"
+; NEPT-2566:
+; https://www.drupal.org/node/3028444
+projects[rules][patch][] = https://www.drupal.org/files/issues/2019-01-25/3028444-6-markup-and-test.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
