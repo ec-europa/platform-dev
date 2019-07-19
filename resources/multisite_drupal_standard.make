@@ -190,7 +190,7 @@ projects[diff][download][revision] = b1b09189d52380a008c9cb29b879e3aa140ec2e0
 projects[diff][download][type] = git
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.15"
+projects[ds][version] = "2.16"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
