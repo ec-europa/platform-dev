@@ -74,11 +74,6 @@
             <!-- Install all contributed projects inside the chosen profile. -->
             <option name="contrib-destination">profiles/${platform.profile.name}</option>
         </drush>
-        <delete>
-          <fileset dir="${platform.build.dir}/profiles/${platform.profile.name}/libraries/mpdf/ttfonts" >
-            <include name="*.*" />
-          </fileset>
-        </delete>
         <composer command="install" composer="${composer.bin}">
           <arg value="--working-dir=${platform.build.profiles.dir}/${platform.profile.name}/libraries/mpdf" />
           <arg value="--no-dev" />
