@@ -451,7 +451,7 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $paths
   );
 
-  if (variable_get('nexteuropa_varnish-granularity', 2) === 2) {
+  if ((int) variable_get('nexteuropa_varnish-granularity', 2) === 2) {
     watchdog(
       'nexteuropa_varnish',
       'Clearing paths: @paths',
@@ -495,7 +495,7 @@ function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array())
         $request_options
       );
 
-      if (isset($response->error) && variable_get('nexteuropa_varnish-granularity', 2) > 0) {
+      if (isset($response->error) && (int) variable_get('nexteuropa_varnish-granularity', 2) > 0) {
         watchdog(
           'nexteuropa_varnish',
           'Clear operation failed for target %target: %code %error',
@@ -513,7 +513,7 @@ function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array())
     return $requests_ok;
   }
   catch (InvalidArgumentException $iae) {
-    if (variable_get('nexteuropa_varnish-granularity', 2) > 0) {
+    if ((int) variable_get('nexteuropa_varnish-granularity', 2) > 0) {
       $log_link = l(t('status report page'), 'admin/reports/status_en');
       watchdog(
         'nexteuropa_varnish',
