@@ -502,7 +502,7 @@ projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-
 
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.22"
+projects[metatag][version] = "1.25"
 
 projects[migrate][subdir] = contrib
 projects[migrate][version] = "2.11"
