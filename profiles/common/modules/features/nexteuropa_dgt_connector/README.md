@@ -257,8 +257,7 @@ Translations sent and received from the webservices are saved into the watchdog.
 
 :warning: We gradually move the _dblog_ to
 [kibana](https://webgate.ec.europa.eu/fpfis/logging/) and if dblog is disabled
-from your instance, request access to Kibana by creating a request in
-[Jira's MULTISITE project](https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa).
+from your instance, please contact CEM.
 
 [Go to top](#table-of-contents)
 
