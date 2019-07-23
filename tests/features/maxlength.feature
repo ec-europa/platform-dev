@@ -8,6 +8,7 @@ Feature: Check the feature Maxlength
     Given the module is enabled
       | modules                 |
       | multisite_maxlength     |
+      | field_ui                |
 
   @api @resetFields
   Scenario: Contributor User can check the maxlength counts (without the tags and specific characters).
