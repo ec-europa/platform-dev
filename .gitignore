@@ -41,3 +41,4 @@ profiles/common/libraries/modernizr/
 profiles/common/libraries/plupload/
 profiles/common/modules/features/multisite_wysiwyg/ckeditor/skins/
 profiles/*/modules/custom/nexteuropa_newsroom/
+profiles/*/modules/custom/nexteuropa_varnish/
