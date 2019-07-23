@@ -1779,6 +1779,17 @@ function cce_basic_config_update_7225() {
 }
 
 /**
+ * Force the activation of nexteuropa_cookie_consent_kit.
+ */
+function cce_basic_config_update_7226() {
+  // Check that no site did not push and enable the module before
+  // the deployment.
+  if (!module_exists('nexteuropa_cookie_consent_kit')) {
+    module_enable(array('nexteuropa_cookie_consent_kit'));
+  }
+}
+
+/**
  * Remove the multisite_version variable NEPT-2065.
  */
 function cce_basic_config_update_7227() {

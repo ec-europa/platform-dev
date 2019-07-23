@@ -24,7 +24,7 @@ projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.4"
 
 projects[apachesolr][subdir] = "contrib"
-projects[apachesolr][version] = "1.8"
+projects[apachesolr][version] = "1.11"
 ; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
 ; https://drupal.org/node/2178283
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2890
@@ -48,7 +48,7 @@ projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_
 ; Delay removing entities from the index.
 ; https://www.drupal.org/node/2764637
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
-projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-delay-entity-removal-2764637-1.patch
+projects[apachesolr][patch][] = patches/apachesolr-delay-entity-removal-2764637.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
@@ -69,7 +69,7 @@ projects[apachesolr_multilingual][subdir] = "contrib"
 projects[apachesolr_multilingual][version] = "1.3"
 
 projects[apachesolr_multisitesearch][subdir] = "contrib"
-projects[apachesolr_multisitesearch][version] = "1.1"
+projects[apachesolr_multisitesearch][version] = "1.2"
 
 projects[autologout][subdir] = "contrib"
 projects[autologout][version] = "4.5"
@@ -155,18 +155,18 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.14"
+projects[ctools][version] = "1.15"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.11-beta1"
+projects[date][version] = "2.11-beta2"
 ; Issue #2305049: Wrong timezone handling in migrate process.
 ; https://www.drupal.org/node/2305049
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
-projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
+projects[date][patch][] = https://www.drupal.org/files/issues/2019-06-30/2305049-12_1.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
@@ -182,7 +182,7 @@ projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.15"
 
 projects[easy_breadcrumb][subdir] = "contrib"
-projects[easy_breadcrumb][version] = "2.16"
+projects[easy_breadcrumb][version] = "2.17"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -299,7 +299,7 @@ projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group
 
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.21"
+projects[file_entity][version] = "2.25"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.11"
@@ -361,18 +361,13 @@ projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.25"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.24"
+projects[i18n][version] = "1.26"
 ; Language field display should default to hidden.
 ; https://www.drupal.org/node/1350638
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
-; Call "18n_taxonomy_translate_terms" on a non-translated taxonomy term
-; triggers a "PHP Fatal error: Call to a member function get_translations() on boolean"
-; https://www.drupal.org/project/i18n/issues/2984895
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2006
-projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-07-10/i18n_taxonomy-i18n_taxonomy_translate_terms_get_translations-2984895-1.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
@@ -428,7 +423,7 @@ projects[link][patch][] = https://www.drupal.org/files/issues/2018-05-24/2974486
 projects[link][patch][] = https://www.drupal.org/files/issues/2018-08-30/link-949604-63-fixed.patch
 
 projects[linkchecker][subdir] = "contrib"
-projects[linkchecker][version] = "1.3"
+projects[linkchecker][version] = "1.4"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 
@@ -442,7 +437,7 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.20
+projects[media][version] = 2.21
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
@@ -456,7 +451,7 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embe
 projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js-library-3039731-1.patch
 
 projects[media_avportal][subdir] = "contrib"
-projects[media_avportal][version] = "1.3"
+projects[media_avportal][version] = "1.4"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
@@ -529,6 +524,11 @@ projects[migrate][patch][2588341] = https://www.drupal.org/files/issues/2018-06-
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.1"
 
+; This is a dependency of media_bulk_upload that platform provides
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2498
+projects[multiform][subdir] = "contrib"
+projects[multiform][version] = "1.6"
+
 projects[nagios][download][branch] = 7.x-1.x
 projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
 projects[nagios][download][type] = git
@@ -539,7 +539,7 @@ projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-suppor
 
 projects[nexteuropa_newsroom][download][type] = git
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
-projects[nexteuropa_newsroom][download][tag] = v3.5.5
+projects[nexteuropa_newsroom][download][tag] = 3.5.13
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
@@ -551,7 +551,8 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 ; NEXTEUROPA-11789 Issue in Bean reference to OG
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
-; NEXTEUROPA-14012 Adding membership from user profile is in pending status
+; NEPT-2493 entity issue
+projects[og][patch][] = https://git.drupalcode.org/project/og/commit/a2231ab851ca82865a0070dbd58dfd5fcb2fdd66.diff
 
 projects[og_linkchecker][subdir] = "contrib"
 projects[og_linkchecker][version] = "2.0-rc1"
@@ -563,7 +564,7 @@ projects[om_maximenu][version] = "1.44"
 projects[om_maximenu][patch][1824704] = https://www.drupal.org/files/issues/fix_illegal_string_offset-1824704-8.patch
 
 projects[password_policy][subdir] = "contrib"
-projects[password_policy][version] = "2.0-alpha7"
+projects[password_policy][version] = "2.0-alpha8"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.3"
@@ -612,11 +613,13 @@ projects[rate][patch][] = patches/rate-translate_description-1178.patch
 projects[rate][patch][] = https://www.drupal.org/files/issues/rate-is_null_fix-1421016-9.patch
 
 projects[realname][subdir] = "contrib"
-projects[realname][version] = "1.3"
+projects[realname][version] = "1.4"
 
 projects[redirect][subdir] = "contrib"
 ; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
 projects[redirect][download][branch] = 7.x-1.x
+; Warning: Overwritting version or patches used may result in incompatibilities with platform development.
+; See NEPT-2399
 projects[redirect][download][revision] = d5c95c2112f05d1a31c2f10bc921c633110c8a91
 ; Target URL modified when implementing redirection using Redirect module
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2399
@@ -705,7 +708,7 @@ projects[subscriptions][subdir] = "contrib"
 projects[subscriptions][version] = "1.1"
 
 projects[tagclouds][subdir] = "contrib"
-projects[tagclouds][version] = "1.11"
+projects[tagclouds][version] = "1.12"
 
 projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.11"
@@ -780,10 +783,12 @@ projects[user_field_privacy][subdir] = "contrib"
 projects[user_field_privacy][version] = "1.2"
 
 projects[username_enumeration_prevention][subdir] = "contrib"
-projects[username_enumeration_prevention][version] = "1.2"
+projects[username_enumeration_prevention][version] = "1.3"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.2"
+projects[uuid][version] = "1.3"
+; https://www.drupal.org/project/uuid/issues/3058011
+projects[uuid][patch][] = https://git.drupalcode.org/project/uuid/commit/311a2d668f990f7547c2125cebf69b55d2349f77.diff
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -794,10 +799,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.22
-; Error when configuring exposed group filter: "The value is required if title for this item is defined."
-; https://www.drupal.org/node/1818176
-projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_empty_not_empty_filter_error-1818176-37.patch
+projects[views][version] = 3.23
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
@@ -805,10 +807,7 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
 ; https://www.drupal.org/project/views/issues/3012609
 ; https://www.drupal.org/project/views/issues/1809958
-projects[views][patch][] = https://www.drupal.org/files/issues/2019-03-25/issues-ajax-exposed-filters-blocks-1809958-70.patch
-; Issue #2985178: Views 3.18 > 3.20 update problem with duplicate/group_by
-; https://www.drupal.org/node/2985178
-projects[views][patch][] = https://www.drupal.org/files/issues/2018-07-15/mysql-group-by-duplication-workaround-2985178-7.patch
+projects[views][patch][] = https://www.drupal.org/files/issues/2019-07-09/issues-ajax-exposed-filters-blocks-1809958-74.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"

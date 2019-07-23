@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install, update and uninstall functions for the Business Indicators module.
+ * Install, update and uninstall functions for the forum core module.
  *
  * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
  */
