@@ -4,6 +4,12 @@ Feature: Page Layout
   As a citizen of the European Union
   I want to be able to see components in the right regions
 
+  Background:
+    Given these modules are enabled
+      | modules   |
+      | ds_ui     |
+      | field_ui  |
+
   @ec_resp_theme
   Scenario Outline: Anonymous user can see the links in header and footer
     Given I am not logged in
