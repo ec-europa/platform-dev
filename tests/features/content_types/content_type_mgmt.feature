@@ -5,7 +5,10 @@ Feature: Content type administration features
   I want to be able to create, customize and delete content types
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
+    Given the module is enabled
+      | modules   |
+      | field_ui  |
+    And I am logged in as a user with the 'administrator' role
 
   Scenario: I create a custom content type translated through
     entity translation, using workbench moderation and having 2 fields "Body" and

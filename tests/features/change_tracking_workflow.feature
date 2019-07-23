@@ -11,6 +11,21 @@ Feature: Change tracking features
     Given the module is enabled
       | modules                   |
       | nexteuropa_trackedchanges |
+      | bean_admin_ui             |
+      | context_ui                |
+      | field_ui                  |
+      | ds_ui                     |
+      | video_ui                  |
+      | migrate_ui                |
+      | og_ui                     |
+      | print_ui                  |
+      | rules_admin               |
+      | subscriptions_blog_ui     |
+      | subscriptions_ui          |
+      | tmgmt_ui                  |
+      | tmgmt_node_ui             |
+      | tmgmt_entity_ui           |
+      | views_ui                  |
     And I am logged in as a user with the 'administrator' role
 
   Scenario: Text formats should be available
