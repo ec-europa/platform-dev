@@ -262,10 +262,9 @@ function nexteuropa_metatags_metatag_info() {
     'description' => t('Choose the classification for your website. You can 
     also enter the token value of a taxonomy term or reference field pointing 
     to the "classification" vocabulary, by selecting "other". This 
-    classification complies with !url',
+    classification complies with <a href="@ipg-guidelines">IPG guidelines</a>',
       array(
-        '!url' => l(t('IPG guidelines'),
-        'http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm'),
+        '@ipg-guidelines' => 'http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm',
       )
     ),
     'select_or_other' => TRUE,
