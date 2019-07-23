@@ -189,6 +189,6 @@ Therefore, if you entered a rule in a previous version and this rule does not ma
 in place, a warning will appear :
 ```
 Please check your varnish rules , the regex ^an-already-inserted/rule you are trying to flush is not valid.
-We suggest you review and save your regex rules again using the documentation available and the
-"Check Scope" button. In case of doubt, please contact your site administrator or the devops team. 
+We suggest you review and save your regex rules again using the documentation available. 
+In case of doubt, please contact your site administrator or the devops team. 
 ```
