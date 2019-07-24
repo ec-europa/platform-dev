@@ -1825,5 +1825,8 @@ function cce_basic_config_update_7229() {
 function cce_basic_config_update_7230() {
   $role = user_role_load_by_name('cem');
   $permissions = array_keys(array_pop(user_role_permissions(array($role->rid => $role->name))));
-  user_role_revoke_permissions($role->rid, $permissions);
+
+  if (!empty($role) && !empty($permissions)) {
+    user_role_revoke_permissions($role->rid, $permissions);
+  }
 }
