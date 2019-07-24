@@ -4,7 +4,7 @@
  * @file
  * Webservice definition and behaviour.
  *
- * @deprecated in favor of nexteuropa_poetry.
+ * @deprecated (see NEPT-1904) in favor of nexteuropa_poetry.
  */
 
 use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;

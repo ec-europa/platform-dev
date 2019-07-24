@@ -6,7 +6,7 @@ namespace Drupal\tmgmt_poetry_mock\Mock;
  * Class provides mock of POETRY SOAP Web Service.
  */
 class PoetryMock {
-  const SOAP_METHOD = 'FPFISPoetryIntegrationRequest';
+  const SOAP_METHOD = 'handle';
   const TRANSLATOR_NAME = 'tmgmt_poetry_test_translator';
   const TRANSLATOR_LABEL = 'TMGMT Poetry Test translator';
   const COUNTER_STRING = 'NEXT_EUROPA_COUNTER';
@@ -151,7 +151,7 @@ class PoetryMock {
       $wsdl_encoded = 'data://text/plain;base64,' . base64_encode($wsdl);
       $client = new \SoapClient($wsdl_encoded, ['cache_wsdl' => WSDL_CACHE_NONE]);
 
-      $response = $client->__soapCall('handle', [
+      $response = $client->__soapCall(self::SOAP_METHOD, [
         $poetry->get('notification.username'),
         $poetry->get('notification.password'),
         $message,

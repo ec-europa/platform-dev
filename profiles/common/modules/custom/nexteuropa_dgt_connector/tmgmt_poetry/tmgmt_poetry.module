@@ -590,12 +590,13 @@ function _tmgmt_poetry_workbench_translate_form_validate($form, &$form_state) {
  */
 function tmgmt_poetry_menu() {
   $items = array();
+  // @depecrated (see NEPT-1904) in favor of poetry/notification provided by nexteuropa_poetry.
   $items['tmgmt_poetry/service_callback'] = array(
     'page callback' => '_tmgmt_poetry_service_callback',
     'access callback' => TRUE,
   );
 
-  // @depecrated in favor of poetry/wsdl provided bu nexteuropa_poetry.
+  // @depecrated (see NEPT-1904) in favor of poetry/wsdl provided by nexteuropa_poetry.
   $items[drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl"] = array(
     'page callback' => 'nexteuropa_poetry_wsdl_callback',
     'access callback' => TRUE,
