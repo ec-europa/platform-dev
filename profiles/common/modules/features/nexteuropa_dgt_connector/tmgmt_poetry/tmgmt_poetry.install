@@ -92,7 +92,6 @@ function tmgmt_poetry_requirements($phase) {
   $requirements = array();
   $t = get_t();
   global $conf;
-
   switch ($phase) {
     case 'install':
       if (!isset($conf['poetry_service']['address'])) {
