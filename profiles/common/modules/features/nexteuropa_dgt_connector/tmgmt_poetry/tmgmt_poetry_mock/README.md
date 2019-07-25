@@ -9,8 +9,9 @@ use cases provided by European Commission Poetry translation services
 
 In order to enable the mock module, you need to set up the mock path in your
 settings.php file.
-Check the build.properties.dist file, the variable mock.poetry.base_url is
-added added autromatically to settings.php file when building the platform.
+Check the build.properties.dist file, the variable mock.poetry.base_url should
+be set in your build.properties.local file, which will  automatically add it
+to settings.php file when building the platform.
 
 
 Install as usual, see http://drupal.org/node/70151 or Run the drush command
