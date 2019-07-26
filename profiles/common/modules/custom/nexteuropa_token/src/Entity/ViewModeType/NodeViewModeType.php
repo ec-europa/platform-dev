@@ -24,9 +24,6 @@ class NodeViewModeType extends ViewModeTypeBase {
       if ($this->entityAccess()) {
         return entity_view($this->getType(), array($this->getEntity()), $configuration['view mode']);
       }
-      else {
-        return array('#markup' => t('content is not available'));
-      }
     }
 
     return FALSE;

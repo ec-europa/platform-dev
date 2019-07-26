@@ -51,7 +51,7 @@ class LinkTokenHandler extends TokenAbstractHandler {
           if ($entity = $entity_info['load hook']($entity_id)) {
             // Does the user have access ?
             if (!$this->entityAccess($entity)) {
-              $replacements[$original] = t('content is not available');
+              $replacements[$original] = '';
               continue;
             }
 
