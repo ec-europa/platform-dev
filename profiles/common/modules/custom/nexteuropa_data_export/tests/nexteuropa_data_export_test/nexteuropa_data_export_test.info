@@ -7,7 +7,6 @@ dependencies[] = text
 dependencies[] = views
 dependencies[] = views_data_export
 dependencies[] = nexteuropa_data_export
-dependencies[] = views_ui
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[field_base][] = body

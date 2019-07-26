@@ -11,6 +11,23 @@ Feature: Multilingual features
       | fr        |
       | de        |
       | it        |
+    And the module is enabled
+      | modules               |
+      | bean_admin_ui         |
+      | context_ui            |
+      | field_ui              |
+      | ds_ui                 |
+      | video_ui              |
+      | migrate_ui            |
+      | og_ui                 |
+      | print_ui              |
+      | rules_admin           |
+      | subscriptions_blog_ui |
+      | subscriptions_ui      |
+      | tmgmt_ui              |
+      | tmgmt_node_ui         |
+      | tmgmt_entity_ui       |
+      | views_ui              |
 
   @theme_wip
   # It is in wip for the europa theme because it implies a step referring a
