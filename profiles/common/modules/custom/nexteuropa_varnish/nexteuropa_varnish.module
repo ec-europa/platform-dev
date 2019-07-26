@@ -491,6 +491,9 @@ function _nexteuropa_varnish_purge_paths($paths) {
  *   TRUE if all requests have been sent successfully; otherwise FALSE.
  */
 function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array()) {
+  if (_nexteuropa_varnish_prevent_purge()) {
+    return FALSE;
+  }
   try {
     $settings = _nexteuropa_varnish_get_varnish_settings();
 
