@@ -164,13 +164,13 @@ function nexteuropa_metatags_metatag_config_default() {
       'value' => '[node:title]',
     ),
     'description' => array(
-      'value' => '[node:field-meta-description]',
+      'value' => '[node:summary]',
     ),
     'keywords' => array(
       'value' => '[node:field-tags]',
     ),
     'og:description' => array(
-      'value' => '[node:field-meta-description]',
+      'value' => '[site:name] - [site:slogan]',
     ),
     'og:title' => array(
       'value' => '[node:title] - [site:name] - European Commission',
@@ -284,5 +284,6 @@ function nexteuropa_metatags_metatag_info() {
     'description' => t('Usually the acronym of the DG / Site name (max. 30 characters).<br/>This text will supply information to METADATA "Reference".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_1" target="_blank">IPG guidelines</a> for more information.'),
     'select_or_other' => TRUE,
   ) + $ne_defaults;
+
   return $info;
 }

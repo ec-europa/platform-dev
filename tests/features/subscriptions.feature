@@ -14,9 +14,6 @@ Feature: Subscription
       | og_ui                         |
       | subscriptions_blog_ui         |
       | subscriptions_ui              |
-      | subscriptions_content         |
-      | subscriptions_mail            |
-      | subscriptions_taxonomy        |
       | subscriptions_og              |
       | views_ui                      |
 
@@ -28,7 +25,6 @@ Feature: Subscription
   Scenario: Create a page and have someone subscribe to it
     And I go to "admin/config/system/site-information_en"
     When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"
-    And I select "01000" from "classification"
     And I press "Save configuration"
     When I go to "node/add/page"
     And I fill in "Title" with "New page"
@@ -73,7 +69,6 @@ Feature: Subscription
   Scenario: Have someone subscribe to Basic page content
     And I go to "admin/config/system/site-information_en"
     When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"
-    And I select "01000" from "classification"
     And I press "Save configuration"
     Then I am logged in as a user with the "authenticated" role
     And I am on "user"
