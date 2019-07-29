@@ -375,16 +375,6 @@ projects[i18nviews][version] = "3.0-alpha1"
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.8"
 
-projects[integration][download][branch] = 7.x-1.x
-projects[integration][download][revision] = fb3cf87
-projects[integration][download][type] = git
-projects[integration][subdir] = contrib
-
-projects[integration_couchdb][download][revision] = "dcadb1ea483cbdaa7f476f7e0e8530873f484616"
-projects[integration_couchdb][download][type] = "git"
-projects[integration_couchdb][download][url] = http://git.drupal.org/project/integration_couchdb.git
-projects[integration_couchdb][subdir] = "contrib"
-
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
@@ -1058,7 +1048,7 @@ libraries[modernizr][destination] = "../common/libraries"
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v7.1.0.zip
+libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v8.0.2.zip
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
