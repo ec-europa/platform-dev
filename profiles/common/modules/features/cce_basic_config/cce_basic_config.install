@@ -1830,3 +1830,11 @@ function cce_basic_config_update_7230() {
     user_role_revoke_permissions($role->rid, $permissions);
   }
 }
+
+/**
+ * Set CKEditor librarie to the right version.
+ */
+function cce_basic_config_update_7232() {
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.9.2.95e5d83');
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('filtered_html', 'version', '4.9.2.95e5d83');
+}
