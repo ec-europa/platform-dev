@@ -566,7 +566,8 @@ class MinkContext extends DrupalExtensionMinkContext {
    */
   public function responseShouldContainMetaTag($arg1) {
     $page = $this->getSession()->getPage();
-    $element = $page->find('css', sprintf('meta[http-equiv="%s"]', $arg1));
+    //$element = $page->find('css', sprintf('meta[http-equiv="%s"]', $arg1));
+    $element = $page->find('xpath', sprintf('//meta[@http-equiv="%s"]', $arg1));
 
     assert($element, isNotEmpty(), sprintf('The meta tag "%s" has not been found', $arg1));
     assert('IE=edge', equals($element->getAttribute('content')), sprintf('The meta tag "%s" does not have "IE=edge" as content attribute.', $arg1));
