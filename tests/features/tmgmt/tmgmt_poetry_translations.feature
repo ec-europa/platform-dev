@@ -210,7 +210,6 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
-    And I store node ID of translation request page
 
     When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->it" row
@@ -870,24 +869,11 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Validate max field length when TMGMT Auto accept is enabled.
     Given I am logged in as a user with the "administrator" role
+    And tmgmt_poetry is configured to use tmgmt_poetry_mock
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
-    And I check the box "Auto accept finished translations"
-    And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
-    And I fill in "Requester code" with "WEB"
-    And I fill in "Callback User" with "drupal_callback_user"
     And I fill in "Callback Password" with "drupal_callback_password"
-    And I fill in "Poetry User" with "poetry_user"
     And I fill in "Poetry Password" with "poetry_password"
-    And I fill in "Website identifier" with "my-website"
-    And I fill in "Responsable" with "DIGIT"
-    And I fill in "DG Author" with "IE/CE/DIGIT"
-    And I fill in "Requester" with "IE/CE/DIGIT/A/3"
-    And I fill in "Author" with "limaari"
-    And I fill in "Secretaire" with "limaari"
-    And I fill in "Contact" with "limaari"
-    And I fill in "Responsible" with "limaari"
-    And I fill in "Email to" with "limaari@sapo.pt"
-    And I fill in "Email CC" with "limaari@sapo.pt"
+    And I check the box "Auto accept finished translations"
     And I press the "Save translator" button
     Then I should see the success message "The configuration options have been saved."
 
@@ -907,7 +893,6 @@ Feature: TMGMT Poetry features
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
 
     When I go to "admin/poetry_mock/dashboard"
-    Then break
     And I click "Translate" in the "en->fr" row
     And I click "Check the translation page"
     Then I should see "Needs review" in the "French" row
