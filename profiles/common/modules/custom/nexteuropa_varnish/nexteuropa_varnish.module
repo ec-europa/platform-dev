@@ -466,14 +466,18 @@ function _nexteuropa_varnish_purge_paths($paths) {
     },
     $paths
   );
-  watchdog(
-    'nexteuropa_varnish',
-    'Clearing paths: @paths',
-    array(
-      '@paths' => implode(', ', $escaped_paths),
-    ),
-    WATCHDOG_INFO
-  );
+
+  if ((int) variable_get('nexteuropa_varnish-granularity', 2) === 2) {
+    watchdog(
+      'nexteuropa_varnish',
+      'Clearing paths: @paths',
+      array(
+        '@paths' => implode(', ', $escaped_paths),
+      ),
+      WATCHDOG_INFO
+    );
+  }
+
   _nexteuropa_varnish_varnish_requests_send($escaped_paths);
 }
 
@@ -510,7 +514,7 @@ function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array())
         $request_options
       );
 
-      if (isset($response->error)) {
+      if (isset($response->error) && (int) variable_get('nexteuropa_varnish-granularity', 2) > 0) {
         watchdog(
           'nexteuropa_varnish',
           'Clear operation failed for target %target: %code %error',
@@ -528,14 +532,17 @@ function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array())
     return $requests_ok;
   }
   catch (InvalidArgumentException $iae) {
-    $log_link = l(t('status report page'), 'admin/reports/status_en');
-    watchdog(
-      'nexteuropa_varnish',
-      'No path has been sent for clearing because all module settings are not set.',
-      array(),
-      WATCHDOG_CRITICAL,
-      $log_link
-    );
+    if ((int) variable_get('nexteuropa_varnish-granularity', 2) > 0) {
+      $log_link = l(t('status report page'), 'admin/reports/status_en');
+      watchdog(
+        'nexteuropa_varnish',
+        'No path has been sent for clearing because all module settings are not set.',
+        array(),
+        WATCHDOG_CRITICAL,
+        $log_link
+      );
+    }
+
     return FALSE;
   }
 }
