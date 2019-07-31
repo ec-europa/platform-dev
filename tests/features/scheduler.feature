@@ -4,6 +4,43 @@ Feature: Scheduler features
   As an authenticated user
   I want to be able to schedule state transitions for contents
 
+  Scenario: User can update the status of an scheduled revision and it will be published
+    Given I am logged in as a user with the 'contributor' role
+      Given users:
+      | name               | mail         | roles        | status |
+      | contributor_user   | foo@bar.com  | contributor  | 1      |
+    And I am logged in as "contributor_user"
+    And I go to "node/add/page"
+    And I fill in "Title" with "Next content"
+    And I click "Revision information"
+    When I select "Needs Review" from "Moderation state"
+    And I press the "Save" button
+    And I should see the text "Basic page Next content has been created."
+    Then I am logged in as a user with the 'editor' role
+    And I visit the "page" content with title "Next content"
+    And I click "Edit draft"
+    And I click "Revision information"
+    And I select "Published" from "Moderation state"
+    And I press the "Save" button
+    And I should see the text "Revision state: Published"
+    Then I am logged in as "contributor_user"
+    And I visit the "page" content with title "Next content"
+    And I click "New draft"
+    And I fill in "Title" with "Next revision"
+    And I click "Metadata"
+    And I click "Scheduling options"
+    And I fill in "revision_publish_on[date]" with current day
+    And I fill in "revision_publish_on[time]" with future time
+    And I press the "Save" button
+    Then I should see the text "This revision is unpublished and will be published"
+    Then I am logged in as a user with the 'administrator' role
+    And I visit the "page" content with title "Next content"
+    And I click "Moderate"
+    And I select "Validated" from "Moderation state"
+    And I press the "Apply" button
+    Then I should not see the text "Currently there is no published revision of this node"
+    And I wait 20 seconds
+
   Scenario: User can schedule a date to unpublish a content
     Given I am logged in as a user with the 'contributor' role
     When I go to "node/add/page"
