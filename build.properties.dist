@@ -253,12 +253,6 @@ phpcs.verbose = 0
 flickr.key = foobar
 flickr.secret = bas
 
-# Integration configuration
-# -------------------------
-
-# Port on which the mocked integration server used by the behat tests will listen.
-integration.server.port = 8888
-
 # Varnish configuration
 # -------------------------
 
