@@ -88,8 +88,6 @@ The option **`A specific list of regex`**  allows defining a set of regex matchi
 
 The field description provides hints for testing validity of the regex you entered in the field.
 
-The `Check scope` button allows evaluating if the regex is built to return the paths you would expect to clear.
-
 After setting up a rule you need to submit it by clicking the **'Save'** button.
 If the regular expression you entered is not valid, the following warning will be shown
 ```

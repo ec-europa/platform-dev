@@ -43,15 +43,6 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
     '#prefix' => '<div id="specifics-for-cache-purge-type">',
     '#suffix' => '</div>',
   );
-  // Code here to populate the scope container.
-  // @TODO views paths?
-  if (isset($form_state['scope'])) {
-    $warning = '<h2>Here is the 100 first results matching your regex</h2>';
-    $warning .= '<h3>Your rule was not saved, to save it click "Save" button</h3>';
-    $form['scope']['#prefix'] = '<div class="messages status">';
-    $form['scope']['#suffix'] = '</div>';
-    $form['scope']['#markup'] = $warning . $form_state['scope'];
-  }
 
   $current_rule_type = isset($form_state['values']['rule_type']) ? $form_state['values']['rule_type'] : $type_default_value;
 
