@@ -1850,8 +1850,9 @@ function cce_basic_config_update_7231() {
 function cce_basic_config_update_7232() {
   multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.9.2.95e5d83');
   multisite_config_service('wysiwyg')->addPreferenceToProfile('filtered_html', 'version', '4.9.2.95e5d83');
+}
 
-/**  
+/**
  * Force activation of nexteuropa_metatags NEPT-18.
  */
 function cce_basic_config_update_7233() {
