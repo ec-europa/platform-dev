@@ -612,6 +612,7 @@ projects[redirect][download][revision] = 7f9531d08c4a3ffb18685fa894d3034299a572c
 ; https://www.drupal.org/node/1396446
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
 projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2019-07-29/redirect_purge_from_created_1396446-67.patch
+projects[redirect][patch][] = patches/redirect_nept_2502.patch
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.7"
