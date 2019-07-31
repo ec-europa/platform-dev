@@ -1842,10 +1842,10 @@ function cce_basic_config_update_7230() {
 function cce_basic_config_update_7231() {
   multisite_config_service('wysiwyg')->addSettingToProfile('full_html', 'simple_source_formatting', '1');
   multisite_config_service('wysiwyg')->addSettingToProfile('filtered_html', 'simple_source_formatting', '1');
-  
 }
-/*
- * Set CKEditor librarie to the right version.
+
+/**
+ * Set CKEditor library to the right version.
  */
 function cce_basic_config_update_7232() {
   multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.9.2.95e5d83');
