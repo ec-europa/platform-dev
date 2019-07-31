@@ -432,6 +432,10 @@ function cce_basic_config_install() {
     multisite_config_service('wysiwyg')->addButtonsToProfile('filtered_html', $group, $buttons);
   }
 
+  // Add simple source formatting setting on wysiwyg.
+  multisite_config_service('wysiwyg')->addSettingToProfile('full_html', 'simple_source_formatting', '1');
+  multisite_config_service('wysiwyg')->addSettingToProfile('filtered_html', 'simple_source_formatting', '1');
+
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
   // in a regular feature since it includes the path to where the Print PDF
   // module is installed, which is different depending on the installation
@@ -1829,4 +1833,12 @@ function cce_basic_config_update_7230() {
   if (!empty($role) && !empty($permissions)) {
     user_role_revoke_permissions($role->rid, $permissions);
   }
+}
+
+/**
+ * Add simple source formatting setting on wysiwyg.
+ */
+function cce_basic_config_update_7231() {
+  multisite_config_service('wysiwyg')->addSettingToProfile('full_html', 'simple_source_formatting', '1');
+  multisite_config_service('wysiwyg')->addSettingToProfile('filtered_html', 'simple_source_formatting', '1');
 }
