@@ -724,7 +724,7 @@ projects[title][download][type] = git
 projects[title][subdir] = "contrib"
 
 projects[tmgmt][subdir] = contrib
-projects[tmgmt][version] = 1.0-rc2
+projects[tmgmt][version] = 1.0-rc3
 ; @see https://www.drupal.org/node/2489134
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
 ; @see https://www.drupal.org/node/2722455
