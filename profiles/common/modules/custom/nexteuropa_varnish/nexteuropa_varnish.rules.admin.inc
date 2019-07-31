@@ -43,15 +43,6 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
     '#prefix' => '<div id="specifics-for-cache-purge-type">',
     '#suffix' => '</div>',
   );
-  // Code here to populate the scope container.
-  // @TODO views paths?
-  if (isset($form_state['scope'])) {
-    $warning = '<h2>Here is the 100 first results matching your regex</h2>';
-    $warning .= '<h3>Your rule was not saved, to save it click "Save" button</h3>';
-    $form['scope']['#prefix'] = '<div class="messages status">';
-    $form['scope']['#suffix'] = '</div>';
-    $form['scope']['#markup'] = $warning . $form_state['scope'];
-  }
 
   $current_rule_type = isset($form_state['values']['rule_type']) ? $form_state['values']['rule_type'] : $type_default_value;
 
@@ -67,12 +58,6 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
       ),
       '#required' => TRUE,
       '#description' => _nexteuropa_varnish_paths_description(),
-    );
-    $form['specifics']['actions']['check_scope'] = array(
-      '#type' => 'submit',
-      '#value' => t('Check scope'),
-      '#submit' => array('_nexteuropa_varnish_check_scope'),
-      '#weight' => 41,
     );
     $form['#validate'][] = '_nexteuropa_varnish_regex_validate';
   }
@@ -105,33 +90,6 @@ function _nexteuropa_varnish_regex_validate($form, &$form_state) {
 }
 
 /**
- * Custom function checks which site URLs match the regex pattern.
- */
-function _nexteuropa_varnish_check_scope(&$form, &$form_state) {
-  $output = '';
-  $regex = _nexteuropa_varnish_gather_expressions($form_state['values']['paths']);
-  $query = db_select('url_alias', 'u')
-    ->fields('u');
-  $or = db_or();
-  $or->condition('alias', $regex, 'REGEXP');
-  $query->condition($or);
-  $query = $query->extend('PagerDefault')->limit(100);
-  $results = $query->execute();
-
-  $headers = array('URL alias');
-  $rows = array();
-  foreach ($results as $u) {
-    $rows[] = array($u->alias);
-  }
-  if (!empty($rows)) {
-    $output = theme('table', array('header' => $headers, 'rows' => $rows)) . theme('pager');
-  }
-
-  $form_state['rebuild'] = TRUE;
-  $form_state['scope'] = $output;
-}
-
-/**
  * Custom function that gather the regex entered into one single expression.
  */
 function _nexteuropa_varnish_gather_expressions($paths) {
@@ -156,7 +114,6 @@ function nexteuropa_varnish_cache_purge_rule_type_selection($form, $form_state) 
 function _nexteuropa_varnish_paths_description() {
   $regex_descriptions = array(
     t('Add ^ at the begining of each path, unless you want to match using part of the path. <br>Example : ^content\/article\/(how-to-.*|faqs\/.*) will match <b>content/article/how-to-use-regex</b> and <b>content/article/faqs/using-regex</b> but not <b>my-content/article/how-to-use-regex</b>'),
-    t('You can test your site URLs matching the regex by clicking the <b>Check scope</b> button.'),
     t('Regex validation is done at save. For example, if you try saving <b>*</b> alone, you will get an error.'),
   );
 
