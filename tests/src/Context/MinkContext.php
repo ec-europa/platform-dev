@@ -567,7 +567,7 @@ class MinkContext extends DrupalExtensionMinkContext {
   public function responseShouldContainMetaTag($arg1) {
     $page = $this->getSession()->getPage();
     $element = FALSE;
-    $tags = $page->findAll('xpath', '//meta');
+    $tags = $page->findAll('css', 'meta');
 
     foreach ($tags as $tag) {
       if ($tag->hasAttribute('http-equiv') && $tag->getAttribute('http-equiv') === 'X-UA-Compatible') {
