@@ -479,6 +479,9 @@ function cce_basic_config_install() {
   // Use soft config for comment_body field instance.
   _cce_basic_config_comment_body_field_instance_add();
 
+  if (!module_exists('nexteuropa_metatags')) {
+    module_enable(array('nexteuropa_metatags'));
+  }
 }
 
 /**
