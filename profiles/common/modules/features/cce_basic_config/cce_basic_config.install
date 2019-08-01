@@ -404,7 +404,7 @@ function cce_basic_config_install() {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
   }
 
-  multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.4.8.ccd0038');
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.9.2.95e5d83');
 
   // Create WYSIWYG profile for Filtered  HTML text format.
   multisite_config_service('wysiwyg')->createProfile('filtered_html', 'ckeditor');
@@ -435,6 +435,7 @@ function cce_basic_config_install() {
   // Add simple source formatting setting on wysiwyg.
   multisite_config_service('wysiwyg')->addSettingToProfile('full_html', 'simple_source_formatting', '1');
   multisite_config_service('wysiwyg')->addSettingToProfile('filtered_html', 'simple_source_formatting', '1');
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('filtered_html', 'version', '4.9.2.95e5d83');
 
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
   // in a regular feature since it includes the path to where the Print PDF
@@ -1841,4 +1842,12 @@ function cce_basic_config_update_7230() {
 function cce_basic_config_update_7231() {
   multisite_config_service('wysiwyg')->addSettingToProfile('full_html', 'simple_source_formatting', '1');
   multisite_config_service('wysiwyg')->addSettingToProfile('filtered_html', 'simple_source_formatting', '1');
+}
+
+/**
+ * Set CKEditor library to the right version.
+ */
+function cce_basic_config_update_7232() {
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.9.2.95e5d83');
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('filtered_html', 'version', '4.9.2.95e5d83');
 }
