@@ -557,27 +557,36 @@ class MinkContext extends DrupalExtensionMinkContext {
     $this->fillField($content_field_id, $arg1);
   }
 
-  /**
+ /**
    * Checks that HTML response contains the specified meta tag.
    *
    * It checks the name and the content attributes values.
    *
-   * @Then the response should contain the :arg1 meta tag
+   * @Then the response should contain the meta tag with the :arg1 name the :arg2 type and the :arg3 content
    */
-  public function responseShouldContainMetaTag($arg1) {
-    $page = $this->getSession()->getPage();
-    $element = FALSE;
-    $tags = $page->findAll('css', 'meta');
+  public function responseShouldContainMetaTagWithNameAndContent($arg1, $arg2, $arg3) {
+    $metatag = $this->getMetaTagByName($arg1, $arg2);
 
-    foreach ($tags as $tag) {
-      if ($tag->hasAttribute('http-equiv') && $tag->getAttribute('http-equiv') == 'X-UA-Compatible') {
-        $element = $tag;
-        break;
-      }
-    }
-
-    assert($element, isNotEmpty(), sprintf('The meta tag "%s" has not been found', $arg1));
-    assert('IE=edge', equals($element->getAttribute('content')), sprintf('The meta tag "%s" does not have "IE=edge" as content attribute.', $arg1));
+    assert($arg3, equals($metatag->getAttribute('content')), sprintf('The meta tag "%s" of type "%s" does not have "%s" as content attribute.', $arg1, $arg2, $arg3));
   }
+
+  /**
+   * Gets the meta tag NodeElement from the name attribute value.
+   *
+   * @param string $name
+   *   The name value for the meta tag.
+   *
+   * @return \Behat\Mink\ElementNodeElement
+   *   The meta tag node element.
+   */
+  protected function getMetaTagByName($name, $type) {
+    $page = $this->getSession()->getPage();
+    $element = $page->find('css', sprintf('meta[%s="%s"]', $type, $name));
+
+    assert($element, isNotEmpty(), sprintf('The meta tag type "%s" with "%s" name has not been found', $type, $name));
+
+    return $element;
+  }
+
 
 }
