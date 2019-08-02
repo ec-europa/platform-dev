@@ -184,6 +184,18 @@ function nexteuropa_metatags_metatag_config_default() {
   );
   $configs[$config->instance] = $config;
 
+  // We expect the front page to have the same title as global.
+  $config = new stdClass();
+  $config->instance = 'global:frontpage';
+  $config->api_version = 1;
+  $config->disabled = FALSE;
+  $config->config = array(
+    'title' => array(
+      'value' => '[current-page:title] | [site:name]',
+    ),
+  );
+  $configs[$config->instance] = $config;
+
   // Before returning these, allow the bundled submodules to override them, thus
   // extending the "real" defaults before they can then be altered by other
   // modules.
