@@ -639,7 +639,10 @@ projects[registry_autoload][version] = 1.3
 projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issues/autoload_bootstrap_dependency_issues-2870868-2.patch
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.11"
+projects[rules][version] = "2.12"
+; NEPT-2566:
+; https://www.drupal.org/node/3028444
+projects[rules][patch][] = https://www.drupal.org/files/issues/2019-01-25/3028444-6-markup-and-test.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5

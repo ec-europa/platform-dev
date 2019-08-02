@@ -36,7 +36,6 @@ Feature: WebTools LACO feature
       | field_ne_body    | <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> |
     Then the response should contain "{\"service\":\"laco\",\"include\":\"#block-system-main, #sidebar-left, #sidebar-right, .page-content aside\",\"coverage\":{\"document\":\"any\",\"page\":\"any\"},\"language\":\"eu\",\"icon\":\"dot\"}"
     # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
-
     And the response should contain the meta tag with the "X-UA-Compatible" name the "http-equiv" type and the "IE=edge" content
 
   Scenario: Check if the LACO script is not embedded into the non existing pages
