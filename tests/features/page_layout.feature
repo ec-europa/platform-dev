@@ -52,7 +52,7 @@ Feature: Page Layout
     Examples:
       | page       | text                           |
       | /          | Welcome to European Commission |
-      | user       | Log in                         |
+      | user       | User account                   |
 
   @javascript @maximizedwindow @ec_resp_theme
   Scenario: Logged user can see the content in the column right and left

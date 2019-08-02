@@ -583,7 +583,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    */
   protected function getMetaTagByName($name, $type) {
     $page = $this->getSession()->getPage();
-    $element = $page->find('css', sprintf('meta %s="%s"', $type, $name));
+    $element = $page->find('css', sprintf('meta[%s="%s"]', $type, $name));
 
     assert($element, isNotEmpty(), sprintf('The meta tag type "%s" with "%s" name has not been found', $type, $name));
 
