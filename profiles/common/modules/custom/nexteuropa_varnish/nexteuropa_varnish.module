@@ -436,7 +436,7 @@ function _nexteuropa_varnish_purge_paths($paths) {
       else {
         drupal_set_message(
           t(
-            'Please !check_config, the regex %regex you are trying to flush is not valid. We suggest you review and save your regex rules again using <a href="@doc">the documentation available</a> and the "Check Scope" button. In case of doubt, please contact your site administrator or the devops team.',
+            'Please !check_config, the regex %regex you are trying to flush is not valid. We suggest you review and save your regex rules again using <a href="@doc">the documentation available</a>. In case of doubt, please contact your site administrator or the devops team.',
             array(
               '!check_config' => l(
                 t('check your varnish rules'),
