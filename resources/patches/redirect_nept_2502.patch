@@ -1,0 +1,43 @@
+--- redirect.install.orig	2019-07-31 09:08:53.000000000 +0000
++++ redirect.install	2019-07-31 10:02:41.745604075 +0000
+@@ -478,8 +478,16 @@
+  * Add an index on the redirect column in the redirect table.
+  */
+ function redirect_update_7104() {
++  // NEPT-2502 : replay change from 7103 that was not played on platform.
++  // We launched the code of current 7105 instead.
++  // There is no issue replaying that code even if it was already done.
++  db_change_field('redirect', 'redirect_options', 'redirect_options', array('type' => 'blob'));
++  db_change_field('redirect', 'source_options', 'source_options', array('type' => 'blob'));
++  // Now play the hook_7104.
++  // We need to modify it a bit
++  // See https://stackoverflow.com/questions/1814532/1071-specified-key-was-too-long-max-key-length-is-767-bytes
+   if (!db_index_exists('redirect', 'redirect')) {
+-    db_add_index('redirect', 'redirect', array('redirect'));
++    db_add_index('redirect', 'redirect', array(array('0' => 'redirect', '1' => '255')));
+   }
+ }
+ 
+@@ -487,11 +495,15 @@
+  * Adds the {redirect}.created field.
+  */
+ function redirect_update_7105() {
+-  db_add_field('redirect', 'created', array(
+-    'type' => 'int',
+-    'unsigned' => TRUE,
+-    'not null' => TRUE,
+-    'default' => 0,
+-    'description' => 'The timestamp of when the redirect was created.',
+-  ));
++  // Because this hook was already run as 7103 in the platform, add a custom
++  // check to avoir errors
++  if (!db_field_exists('redirect', 'created')) {
++    db_add_field('redirect', 'created', array(
++      'type' => 'int',
++      'unsigned' => TRUE,
++      'not null' => TRUE,
++      'default' => 0,
++      'description' => 'The timestamp of when the redirect was created.',
++    ));
++  }
+ }
