@@ -130,13 +130,10 @@ function _check_poetry_service_variable() {
  *   Absolute URL of the mocked Poetry WSDL.
  */
 function _tmgmt_poetry_mock_get_poetry_service_wsdl() {
-  return url(
-    'tmgmt_poetry_mock/tmgmt_poetry_mock.wsdl',
-    [
-      'absolute' => TRUE,
-      'language' => (object) ['language' => FALSE],
-    ]
-  );
+  $mock_base = variable_get('poetry_mock_base_url', '');
+  if (!empty($mock_base)) {
+    return $mock_base . '/tmgmt_poetry_mock/tmgmt_poetry_mock.wsdl';
+  }
 }
 
 /**
@@ -162,6 +159,10 @@ function _tmgmt_poetry_mock_get_poetry_service_endpoint() {
  *   Absolute URL of the tmgmt_poetry WSDL.
  */
 function _tmgmt_poetry_mock_get_drupal_service_wsdl() {
+  $mock_base = variable_get('poetry_mock_base_url', '');
+  if (!empty($mock_base)) {
+    return $mock_base . "/" . drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl";
+  }
   return url(
     drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl",
     [
