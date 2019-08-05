@@ -49,6 +49,12 @@ class LinkTokenHandler extends TokenAbstractHandler {
           $entity_info = entity_get_info($entity_type);
           // Check if the entity is available.
           if ($entity = $entity_info['load hook']($entity_id)) {
+            // Does the user have access ?
+            if (!$this->entityAccess($entity)) {
+              $replacements[$original] = '';
+              continue;
+            }
+
             $label = entity_label($entity_type, $entity);
             $uri = entity_uri($entity_type, $entity);
             $link_from_token = l($label, $uri['path'], array('absolute' => TRUE));
@@ -65,6 +71,40 @@ class LinkTokenHandler extends TokenAbstractHandler {
       }
     }
     return $replacements;
+  }
+
+  /**
+   * Does the viewer have access to the entity?
+   *
+   * @param object $entity
+   *   The entity checked against.
+   *
+   * @return bool
+   *   The response.
+   */
+  public function entityAccess($entity) {
+    global $user;
+
+    // Make sure we don't render a node inside itself, preventing infinite loop.
+    $object = menu_get_object('node');
+    if (is_object($object) && isset($object->nid) && $object->nid == $entity->nid) {
+      drupal_set_message(t('Cannot render a node inside itself, remove any view mode token related to the current node.'));
+      return FALSE;
+    }
+
+    // Make sure current user can actually access the rendered node.
+    if (user_access('bypass node access') || user_access('administer nodes')) {
+      return TRUE;
+    }
+    if (!node_access('view', $entity)) {
+      return FALSE;
+    }
+    if ($entity->status == 0) {
+      return ($entity->uid == $user->uid) && user_access('view own unpublished content');
+    }
+    else {
+      return TRUE;
+    }
   }
 
 }
