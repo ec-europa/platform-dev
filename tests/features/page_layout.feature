@@ -34,7 +34,7 @@ Feature: Page Layout
   Scenario Outline: Anonymous user can see the page title
     Given I am not logged in
     When I am on "<page>"
-    Then I should see "<text> - European Commission" in the "nept_element:title-metatag" element
+    Then I should see "<text> | European Commission" in the "nept_element:title-metatag" element
 
     # Test the page head title in different pages
     Examples:
