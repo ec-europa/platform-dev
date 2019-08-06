@@ -7,7 +7,7 @@ Feature: Test the creation of new contents and the display of them in a page usi
     And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "Content to reference in a simple paragraph"
+    And I fill in the content's title with "Content to reference in a simple paragraph"
     And I fill in "Body" with "Here is the content of the page referenced in a simple paragraph."
     And I press "Save"
     And I select "Published" from "state"

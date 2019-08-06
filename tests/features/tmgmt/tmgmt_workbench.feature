@@ -125,7 +125,7 @@ Feature: TMGMT Workbench features
     And I select "Translator A" from "Translator"
     And I press "Submit to translator"
     Then I click "In progress" in the "French" row
-    And I press "Save"
+    And I press the "Save" button
     And I click "Needs review" in the "French" row
     And I fill in "edit-title-field0value-translation" with "FR Original version"
     And I press "Save as completed"
@@ -133,7 +133,7 @@ Feature: TMGMT Workbench features
     Then the url should match "(.)*content/original-version_en"
     Then I click "New draft" in the "primary_tabs" region
     And I fill in "Other different Title" for "Title"
-    And I press "Save"
+    And I press the "Save" button
     And I select "Validated" from "Moderation state"
     And I press "Apply"
     And I click "View published" in the "primary_tabs" region
@@ -144,7 +144,7 @@ Feature: TMGMT Workbench features
     And local translator "Translator A" is available
     When I go to "node/add/page"
     And I fill in "Title" with "Title of the Basic page"
-    And I press "Save"
+    And I press the "Save" button
     And I click "Translate" in the "primary_tabs" region
     Then I should see the text "The current piece of content's moderation state is: draft"
     And I should see the text "Current moderation state does not allow to request a translation for this content."

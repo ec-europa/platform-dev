@@ -11,7 +11,7 @@ Feature: Testing wrong token association for Next Europa token module
   Scenario: Checking WYSIWYG elements and processing content to get entry in Drupal watchdog
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "This is a page i want to reference"
+    And I fill in the content's title with "Title" with "This is a page i want to reference"
     And I fill in "Body" with "Here is the content of the referenced page."
     And I press "Save"
     And I select "Published" from "state"
@@ -40,7 +40,7 @@ Feature: Testing wrong token association for Next Europa token module
     Given I am viewing an "page" content:
      | title            | This is a page i want to reference                               |
     When I go to "node/add/page"
-    And I fill in "Title" with "Node with tokens"
+    And I fill in the content's title with "Node with tokens"
     And I fill in the rich text editor "Body" with token "<a href='[node:last-created-node-id:url]'>Node link</a>[node:last-created-node-id:link]"
     And I press "Save"
     And I select "Published" from "state"
