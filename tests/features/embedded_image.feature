@@ -30,7 +30,7 @@ Feature: Embedded images
   @wip @resetNodeTypes
   Scenario Outline: Embed Flickr photoset via media asset field
     When I go to "node/add/test-media-gallery"
-    And I fill in "title" with "<title>"
+    And I fill in the content's title with "<title>"
     And I click "Browse"
     Then the media browser opens
     When I fill in "File URL or media resource" with "<url>"
@@ -48,7 +48,7 @@ Feature: Embedded images
 
   Scenario Outline: Error when an invalid Flickr url is filled in
     When I go to "node/add/test-media-gallery"
-    And I fill in "title" with "<title>"
+    And I fill in the content's title with "<title>"
     And I click "Browse"
     Then the media browser opens
     When I fill in "File URL or media resource" with "<url>"

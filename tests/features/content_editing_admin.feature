@@ -11,7 +11,7 @@ Feature: Content editing as administrator
     # whitespace and some additional tags. Hence the expected HTML differs from
     # the entered HTML.
     When I go to "node/add/page"
-    And I fill in "Title" with "The right way is the right way"
+    And I fill in the content's title with "The right way is the right way"
     And I fill in "Body" with "<html>"
     And I press "Save"
     Then the response should contain "<expected>"

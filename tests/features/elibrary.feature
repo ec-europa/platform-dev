@@ -30,7 +30,7 @@ Feature: E-Library
   Scenario: An administrator can propose and publish a document
     Given  I am logged in as a user with the 'administrator' role
     When I am on "node/add/document"
-    And I fill in "Title" with "Document title"
+    And I fill in the content's title with "Document title"
     And I attach the file "/tests/files/logo.png" to "edit-field-document-und-0-upload"
     And I press "Save"
     Then I should see "Document Document title has been created."
@@ -53,7 +53,7 @@ Feature: E-Library
      | contributor_user | contributor@user.com | password123 | contributor |
     And I am logged in as "contributor_user"
     When I am on "node/add/document"
-    And I fill in "Title" with "Document title"
+    And I fill in the content's title with "Document title"
     And I attach the file "/tests/files/logo.png" to "edit-field-document-und-0-upload"
     And I press "Save"
     Then I should see "Document Document title has been created."
@@ -79,7 +79,7 @@ Feature: E-Library
   Scenario: Show image when the display checkbox is checked
     Given  I am logged in as a user with the 'administrator' role
     When I am on "node/add/document"
-    And I fill in "Title" with "Document title"
+    And I fill in the content's title with "Document title"
     And I attach the file "/tests/files/logo.png" to "edit-field-document-und-0-upload"
     And I press "Save"
     Then I should see "Document Document title has been created."

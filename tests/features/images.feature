@@ -10,7 +10,7 @@ Feature: Images
   Scenario: Add a caption to an Article image
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/article"
-    And I fill in "Title" with "Article with image and caption"
+    And I fill in the content's title with "Article with image and caption"
     And I attach the file "/tests/files/logo.png" to "edit-field-image-und-0-upload"
     And I press "Save"
     Then the response should contain "has been created."

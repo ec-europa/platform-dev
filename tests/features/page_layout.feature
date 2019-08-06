@@ -89,7 +89,7 @@ Feature: Page Layout
     And I press the "Save" button
     Then I should see the success message "Your settings have been saved."
     When I visit "node/add/content-type-test"
-    And I fill in "Title" with "Example to compare two divs"
+    And I fill in the content's title with "Example to compare two divs"
     And I fill in "field 1" with "text 1"
     And I fill in "field 2" with "text 2"
     And I press the "Save" button

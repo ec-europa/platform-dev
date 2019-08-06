@@ -27,7 +27,7 @@ Feature: Subscription
     When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"
     And I press "Save configuration"
     When I go to "node/add/page"
-    And I fill in "Title" with "New page"
+    And I fill in the content's title with "New page"
     And I press "Save"
     And I select "Published" from "Moderation state"
     When I press "Apply"
@@ -46,7 +46,7 @@ Feature: Subscription
     When I am logged in as a user with the 'administrator' role
     And I am on "content/new-page"
     And I click "New draft" in the "primary_tabs" region
-    And I fill in "Title" with "New Page title"
+    And I fill in the content's title with "New Page title"
     And I select "Basic HTML" from "Text format"
     And I fill in "Body" with "A body text"
     And I press "Save"
@@ -79,7 +79,7 @@ Feature: Subscription
     And I press "Save"
     When I am logged in as a user with the 'administrator' role
     When I go to "node/add/page"
-    And I fill in "Title" with "Another page"
+    And I fill in the content's title with "Another page"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
     When I press "Save"

@@ -11,7 +11,7 @@ Feature: Scheduler features
       | contributor_user   | foo@bar.com  | contributor  | 1      |
     And I am logged in as "contributor_user"
     And I go to "node/add/page"
-    And I fill in "Title" with "Next content"
+    And I fill in the content's title with "Next content"
     And I click "Revision information"
     When I select "Needs Review" from "Moderation state"
     And I press the "Save" button
@@ -26,7 +26,7 @@ Feature: Scheduler features
     Then I am logged in as "contributor_user"
     And I visit the "page" content with title "Next content"
     And I click "New draft"
-    And I fill in "Title" with "Next revision"
+    And I fill in the content's title with "Next revision"
     And I click "Metadata"
     And I click "Scheduling options"
     And I fill in "revision_publish_on[date]" with current day
@@ -44,7 +44,7 @@ Feature: Scheduler features
   Scenario: User can schedule a date to unpublish a content
     Given I am logged in as a user with the 'contributor' role
     When I go to "node/add/page"
-    And I fill in "Title" with "Old content"
+    And I fill in the content's title with "Old content"
     And I click "Revision information"
     And I select "Needs Review" from "Moderation state"
     And I click "Metadata"
@@ -76,7 +76,7 @@ Feature: Scheduler features
   Scenario: User can schedule a date to publish a content with default configuration
     Given I am logged in as a user with the 'contributor' role
     When I go to "node/add/page"
-    And I fill in "Title" with "Next content"
+    And I fill in the content's title with "Next content"
     And I click "Metadata"
     And I click "Scheduling options"
     And I fill in "publish_on[date]" with "2000-12-31"
@@ -98,7 +98,7 @@ Feature: Scheduler features
     Then I should see the text "The configuration options have been saved."
     Then I am logged in as a user with the 'contributor' role
     Then I go to "node/add/page"
-    And I fill in "Title" with "Next content"
+    And I fill in the content's title with "Next content"
     And I click "Metadata"
     And I click "Scheduling options"
     And I fill in "publish_on[date]" with "2000-12-31"
@@ -115,7 +115,7 @@ Feature: Scheduler features
   Scenario: User can schedule a draft to publish a content and wont be published
     Given I am logged in as a user with the 'contributor' role
     When I go to "node/add/page"
-    And I fill in "Title" with "Not to be published"
+    And I fill in the content's title with "Not to be published"
     And I click "Metadata"
     And I click "Scheduling options"
     And I fill in "publish_on[date]" with "2000-12-31"
@@ -140,7 +140,7 @@ Feature: Scheduler features
       | contributor_user   | foo@bar.com  | contributor  | 1      |
     Then I am logged in as "contributor_user"
     Then I go to "node/add/page"
-    And I fill in "Title" with "Next content"
+    And I fill in the content's title with "Next content"
     And I click "Revision information"
     When I select "Needs Review" from "Moderation state"
     And I press the "Save" button
@@ -152,7 +152,7 @@ Feature: Scheduler features
     Then I am logged in as "contributor_user"
     And I visit the "page" content with title "Next content"
     And I click "New draft"
-    And I fill in "Title" with "Next revision"
+    And I fill in the content's title with "Next revision"
     And I click "Metadata"
     And I click "Scheduling options"
     And I fill in "revision_publish_on[date]" with current day
@@ -182,7 +182,7 @@ Feature: Scheduler features
      | contributor_user   | foo@bar.com  | contributor  | 1      |
     And I am logged in as "contributor_user"
     And I go to "node/add/page"
-    And I fill in "Title" with "Next content"
+    And I fill in the content's title with "Next content"
     And I click "Revision information"
     When I select "Needs Review" from "Moderation state"
     And I press the "Save" button
@@ -197,7 +197,7 @@ Feature: Scheduler features
     Then I am logged in as "contributor_user"
     And I visit the "page" content with title "Next content"
     And I click "New draft"
-    And I fill in "Title" with "Next revision"
+    And I fill in the content's title with "Next revision"
     And I click "Metadata"
     And I click "Scheduling options"
     And I fill in "revision_publish_on[date]" with current day
@@ -223,7 +223,7 @@ Feature: Scheduler features
   Scenario: A user can see the date scheduled for publication
     Given I am logged in as a user with the 'contributor' role
     Then I go to "node/add/page"
-    And I fill in "Title" with "Next content"
+    And I fill in the content's title with "Next content"
     And I click "Revision information"
     When I select "Draft" from "Moderation state"
     And I click "Metadata"

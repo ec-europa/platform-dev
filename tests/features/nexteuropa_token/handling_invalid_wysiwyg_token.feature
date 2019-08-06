@@ -11,13 +11,13 @@ Feature: Testing wrong token association for Next Europa token module
   Scenario: Checking WYSIWYG elements and processing content to get entry in Drupal watchdog
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
-    And I fill in the content's title with "Title" with "This is a page i want to reference"
+    And I fill in the content's title with "This is a page i want to reference"
     And I fill in "Body" with "Here is the content of the referenced page."
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
     When I go to "node/add/page"
-    And I fill in "Title" with "The right way is the right way"
+    And I fill in the content's title with "The right way is the right way"
     And I click the "Insert internal content" button in the "edit-field-ne-body-en-0-value" WYSIWYG editor
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
     And I wait for AJAX to finish

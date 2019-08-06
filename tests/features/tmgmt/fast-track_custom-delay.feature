@@ -139,7 +139,7 @@ Feature: Fast track
     }
     """
     And I go to "node/add/page"
-    And I fill in "Title" with "Test page"
+    And I fill in the content's title with "Test page"
     And I fill in "edit-delay-date-und-0-value-day" with "14"
     And I fill in "edit-delay-date-und-0-value-month" with "11"
     And I fill in "edit-delay-date-und-0-value-year" with "2018"

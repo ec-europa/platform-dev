@@ -34,14 +34,14 @@ Feature: Content translation
       | de        |
     And the "field_ne_body" field is translatable
     When I go to "node/add/page"
-    And I fill in "Title" with "English title"
+    And I fill in the content's title with "English title"
     And I press "Save"
     And I select "Validated" from "state"
     And I press "Apply"
     And I click "Translate" in the "primary_tabs" region
     And I click "add"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "Deutsch title"
+    And I fill in the content's title with "Deutsch title"
     And I fill in "Body" with "Deutsch Body not for English version."
     And I press "Save"
     Then I should see the text "Deutsch title"

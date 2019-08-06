@@ -15,7 +15,7 @@ Feature: Webtools feature
   Scenario: Create and delete a block 'Map'
     When I go to "block/add/webtools"
     And I fill in "Label" with "Block Map Webtools"
-    And I fill in "Title" with "Block Map Webtools Title"
+    And I fill in the content's title with "Block Map Webtools Title"
     And I fill in "JSON Object" with "{\"service\":\"map\"}"
     And I fill in "URL" with "http://europa.eu/webtools/showcase/demo/map/samples/demo.js"
     And I press "Save"
@@ -54,7 +54,7 @@ Feature: Webtools feature
   Scenario: Create and delete a block 'Basic map'
     When I go to "block/add/webtools"
     And I fill in "Label" with "Block Basic Map Webtools"
-    And I fill in "Title" with "Block Basic Map Webtools Title"
+    And I fill in the content's title with "Block Basic Map Webtools Title"
     And I fill in "JSON Object" with "{\"service\": \"map\",\"map\": {\"zoom\": \"15\",\"center\": [\"50.5037\",\"4.2258\"],\"background\": [\"osmec\"]}}"
     And I press "Save"
     Then I should see the text "webtools Block Basic Map Webtools Title has been created."
@@ -72,7 +72,7 @@ Feature: Webtools feature
   Scenario: Create and delete a block 'Chart'
     When I go to "block/add/webtools"
     And I fill in "Label" with "Block Chart Webtools"
-    And I fill in "Title" with "Block Chart Webtools Title"
+    And I fill in the content's title with "Block Chart Webtools Title"
     And I fill in "JSON Object" with "{\"service\": \"charts\",\"provider\": \"highcharts\",\"data\": \"//europa.eu/webtools/showcase/demo/charts/wikis/airport-transport-of-passenger-in-the-eu-2014-options.json\"}"
     And I press "Save"
     Then I should see the text "webtools Block Chart Webtools Title has been created."
@@ -90,7 +90,7 @@ Feature: Webtools feature
   Scenario: Create and delete a block 'Social bookmark'
     When I go to "block/add/webtools"
     And I fill in "Label" with "Block Social bookmark Webtools"
-    And I fill in "Title" with "Block Social bookmark Webtools Title"
+    And I fill in the content's title with "Block Social bookmark Webtools Title"
     And I fill in "JSON Object" with "{\"service\": \"sbkm\",\"to\": [\"twitter\",\"facebook\",\"linkedin\",\"googleplus\"],\"selection\": false}"
     And I press "Save"
     Then I should see the text "webtools Block Social bookmark Webtools Title has been created."
@@ -108,7 +108,7 @@ Feature: Webtools feature
   Scenario: Create and delete a block 'Social Media Kit'
     When I go to "block/add/webtools"
     And I fill in "Label" with "Block SMK Webtools"
-    And I fill in "Title" with "Block SMK Webtools Title"
+    And I fill in the content's title with "Block SMK Webtools Title"
     And I fill in "JSON Object" with "{\"service\": \"twitter\",\"type\": \"user\",\"screen_name\": \"EU_Commission\",\"include_rts\": true}"
     And I press "Save"
     Then I should see the text "webtools Block SMK Webtools Title has been created."

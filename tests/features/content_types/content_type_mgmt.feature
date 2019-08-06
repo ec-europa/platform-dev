@@ -42,7 +42,7 @@ Feature: Content type administration features
     And I press the "Save settings" button
     Then I should see the success message "Saved Select an option configuration."
     When I go to "node/add/groovy-type"
-    And I fill in "Title" with "Lorem ipsum dolor sit amet"
+    And I fill in the content's title with "Lorem ipsum dolor sit amet"
     And I fill in "Body" with "Consectetur adipiscing elit."
     And I select the radio button "Option 1" with the id "edit-field-select-an-option-en-option-1"
     And I press "Save"

@@ -55,7 +55,7 @@ Feature: TMGMT Workbench features
       | fr       | Title in French 1.0  |
     Then the url should match "(.)*content/title-english-10_en"
     And I click "New draft"
-    And I fill in "Title" with "Title in English 1.1"
+    And I fill in the content's title with "Title in English 1.1"
     And I select "Validated" from "Moderation state"
     And I press the "Save" button
     And I visit the "page" content with title "Title in English 1.0"
@@ -115,7 +115,7 @@ Feature: TMGMT Workbench features
     Given local translator "Translator A" is available
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
-    And I fill in "Title" with "Original version"
+    And I fill in the content's title with "Original version"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
@@ -143,7 +143,7 @@ Feature: TMGMT Workbench features
     Given I am logged in as a user with the 'administrator' role
     And local translator "Translator A" is available
     When I go to "node/add/page"
-    And I fill in "Title" with "Title of the Basic page"
+    And I fill in the content's title with "Title of the Basic page"
     And I press the "Save" button
     And I click "Translate" in the "primary_tabs" region
     Then I should see the text "The current piece of content's moderation state is: draft"
