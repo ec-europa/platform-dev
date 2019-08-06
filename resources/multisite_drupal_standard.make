@@ -498,7 +498,7 @@ projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-
 
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.22"
+projects[metatag][version] = "1.25"
 
 projects[migrate][subdir] = contrib
 projects[migrate][version] = "2.11"
@@ -729,6 +729,9 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
+; https://www.drupal.org/project/tmgmt/issues/3050356
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2590
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-04-24/count_error_php_7_2-3050356-2.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"

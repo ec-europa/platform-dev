@@ -356,7 +356,7 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
 
       // If there was already a job item for new target language, delete it.
       // This is usefull for the #cart.
-      $result = tmgmt_poetry_obtain_related_translation_jobs(array($new_main_lg), 'SUB_' . $origin_job->tjid);
+      $result = tmgmt_poetry_obtain_related_translation_jobs($new_main_lg, 'SUB_' . $origin_job->tjid);
 
       if ($row = $result->fetchAssoc()) {
         entity_get_controller('tmgmt_job')->delete(array($row['tjid']));
@@ -489,7 +489,7 @@ function tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '
   $query->fields('job', array('tjid'));
   $query->fields('job_item', array('tjiid'));
 
-  if (count($languages) > 0) {
+  if (is_array($languages) &&  count($languages) > 0) {
     $query->condition('job.target_language', $languages, 'IN');
   }
 
