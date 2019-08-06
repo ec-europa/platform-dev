@@ -88,7 +88,7 @@ function tmgmt_poetry_mock_uninstall() {
   $field_query = new EntityFieldQuery();
   $file_fids = $field_query->entityCondition('entity_type', 'file')
     ->propertyCondition('filemime', 'application/xml', '=')
-    ->propertyCondition('uri', db_like(TMGMT_POETRY_MOCK_REQUESTS_PATH) . '%', 'LIKE')
+    ->propertyCondition('uri', db_like('TMGMT_POETRY_MOCK_REQUESTS_PATH') . '%', 'LIKE')
     ->execute();
   if (isset($file_fids['file'])) {
     $fids = array_keys($file_fids['file']);
