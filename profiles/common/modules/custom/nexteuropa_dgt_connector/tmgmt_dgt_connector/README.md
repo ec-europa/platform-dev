@@ -75,7 +75,7 @@ In the translation checkout page, the translator ```TMGMT DGT Translator``` must
 
 # Configuration
 
-* Install and configure [NextEuropa DGT Connector](https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/nexteuropa_dgt_connector);
+* Install and configure [NextEuropa DGT Connector](https://github.com/ec-europa/platform-dev/blob/release-2.6/profiles/common/modules/custom/nexteuropa_dgt_connector);
 * Enable modules ```TMGMT DGT connector (tmgmt_dgt_connector)``` and ```TMGMT DGT Connector Cart (tmgmt_dgt_connector_cart)```;
 * Configure settings in ```admin/config/regional/poetry-client``` for the helper module
 [Nexteuropa Poetry](https://github.com/ec-europa/nexteuropa_poetry#configuration),

@@ -259,11 +259,7 @@ projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta3"
-; Issue #2828605: feeds_system_info_alter() can triggers "The following module has moved within the file system".
-; https://www.drupal.org/node/2828605
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
-projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
+projects[feeds][version] = "2.0-beta4"
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
 ; So far, the module does not have any official release.
@@ -606,26 +602,13 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.4"
 
 projects[redirect][subdir] = "contrib"
-; In order to be able to #1396446 patch the module we need to point to the latest dev commit.
 projects[redirect][download][branch] = 7.x-1.x
-; Warning: Overwritting version or patches used may result in incompatibilities with platform development.
-; See NEPT-2399
-projects[redirect][download][revision] = d5c95c2112f05d1a31c2f10bc921c633110c8a91
-; Target URL modified when implementing redirection using Redirect module
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2399
-projects[redirect][patch][] = patches/target-modified-implementing-redirection.patch
+projects[redirect][download][revision] = 7f9531d08c4a3ffb18685fa894d3034299a572c0
 ; Prevent new redirects from being deleted on cron runs.
 ; https://www.drupal.org/node/1396446
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1945
-projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2018-05-09/redirect-purge-from-created-1396446-54.patch
-; Prevent duplicate hashes causing database exceptions
-; https://www.drupal.org/node/2260499
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1946
-; The creation of a specific patch based on
-; https://www.drupal.org/files/issues/redirect-duplicate_redirect_save_handling-2260499-11.patch
-; is necessary because it is in conflict with the 2 other "Redirect" patches and rerolling the D.o issue
-; is not possible as the 2 others are not committed in the DEV branch.
-projects[redirect][patch][] = patches/redirect-duplicate_redirect_save_handling-2260499-nept-1946.patch
+projects[redirect][patch][1396446] = https://www.drupal.org/files/issues/2019-07-29/redirect_purge_from_created_1396446-67.patch
+projects[redirect][patch][] = patches/redirect_nept_2502.patch
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.7"
@@ -639,7 +622,10 @@ projects[registry_autoload][version] = 1.3
 projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issues/autoload_bootstrap_dependency_issues-2870868-2.patch
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.11"
+projects[rules][version] = "2.12"
+; NEPT-2566:
+; https://www.drupal.org/node/3028444
+projects[rules][patch][] = https://www.drupal.org/files/issues/2019-01-25/3028444-6-markup-and-test.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
@@ -648,8 +634,9 @@ projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
 ; Allow to schedule the publish date of a revision
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2504
 ; https://www.drupal.org/project/scheduler_workbench/issues/2048999
-projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-47_0.patch
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2019-06-20/scheduler_workbench-revision_publish-2048999-58.patch
 ; Allow publication of revisions with selected status. This patch requires the patch from issue https://www.drupal.org/project/scheduler_workbench/issues/2048999
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
 ; This patch requieres https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-46.patch from

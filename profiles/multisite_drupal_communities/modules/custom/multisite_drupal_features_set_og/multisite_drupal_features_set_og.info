@@ -272,7 +272,7 @@ feature_sets[splash_screen][disable][] = splash_screen
 
 feature_sets[nexteuropa_dgt_connector][title] = 'Nexteuropa DGT Connector'
 feature_sets[nexteuropa_dgt_connector][description] = 'Provides services to send translations to DGT.'
-feature_sets[nexteuropa_dgt_connector][documentation] = 'https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/nexteuropa_dgt_connector/README.md'
+feature_sets[nexteuropa_dgt_connector][documentation] = 'https://github.com/ec-europa/platform-dev/blob/release-2.6/profiles/common/modules/custom/nexteuropa_dgt_connector/README.md'
 feature_sets[nexteuropa_dgt_connector][category] = 'Multilingualism'
 feature_sets[nexteuropa_dgt_connector][icon] = ''
 feature_sets[nexteuropa_dgt_connector][font] = 'multisite-icon-share'
