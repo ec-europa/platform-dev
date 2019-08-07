@@ -16,7 +16,6 @@ function multisite_custom_error_enable() {
   module_load_include('module', 'customerror');
   foreach (_customerror_enum_errors() as $code => $desc) {
     variable_set('site_' . $code, 'customerror/' . $code);
-    variable_set('customerror_' . $code . '_theme', 'ec_resp');
     drupal_set_message(t('Default error page has been set.'));
   }
   $link = l(t('Site information'), 'admin/config/system/site-information', array('attributes' => array('target' => '_blank')));
@@ -36,8 +35,21 @@ function multisite_custom_error_disable() {
   foreach (_customerror_enum_errors() as $code => $desc) {
     if (variable_get('site_' . $code, '') == 'customerror/' . $code) {
       variable_del('site_' . $code);
-      variable_del('customerror_' . $code . '_theme');
       drupal_set_message(t('Default %v error page has been restored.', array('%v' => $code)));
+    }
+  }
+}
+
+/**
+ * NEPT-1017.
+ *
+ * Remove unused variable if it is set.
+ */
+function multisite_custom_error_update_7001() {
+  module_load_include('module', 'customerror');
+  foreach (_customerror_enum_errors() as $code => $desc) {
+    if (variable_get('customerror_' . $code . '_theme') != NULL) {
+      variable_del('customerror_' . $code . '_theme');
     }
   }
 }
