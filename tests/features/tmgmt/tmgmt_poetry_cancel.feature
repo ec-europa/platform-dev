@@ -18,17 +18,15 @@ Feature: TMGMT Poetry features
   @theme_wip
   Scenario: Cancel main language in translation request
     Given I am viewing a multilingual "page" content:
-      | language | title            | body                    |
-      | en       | Nice title            | Last change column test |
-    And I click "Translate" in the "primary_tabs" region
-    Then I should not see "Request addition of new languages"
-
-    When I check the box on the "French" row
+      | language | title      | body                    |
+      | en       | Nice title | Last change column test |
+    Then break
+    When I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
     And I check the box on the "Portuguese" row
     And I press "Request translation"
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
-    And I store the job reference of the translation request page
     And I go to "admin/poetry_mock/dashboard"
     And I click "Send 'ONG' status" in the "en->fr" row
     And I click "Send 'ONG' status" in the "en->pt-pt" row
@@ -64,7 +62,6 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
-    And I store the job reference of the translation request page
     And I go to "admin/poetry_mock/dashboard"
     And I click "Send 'ONG' status" in the "en->fr" row
     And I click "Send 'ONG' status" in the "en->pt-pt" row
