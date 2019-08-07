@@ -20,7 +20,6 @@ Feature: TMGMT Poetry features
     Given I am viewing a multilingual "page" content:
       | language | title      | body                    |
       | en       | Nice title | Last change column test |
-    Then break
     When I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I check the box on the "Portuguese" row

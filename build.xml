@@ -5,7 +5,6 @@
     <property file="build.properties.local" />
     <property file="build.properties" />
     <property file="build.properties.dist" />
-    <property file="build.properties.docker" />
 
     <target name="help" description="Phing target list">
         <exec executable="${phing.bin}"
