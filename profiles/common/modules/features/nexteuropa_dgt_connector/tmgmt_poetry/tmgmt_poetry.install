@@ -92,10 +92,9 @@ function tmgmt_poetry_requirements($phase) {
   $requirements = array();
   $t = get_t();
   global $conf;
-
   switch ($phase) {
     case 'install':
-      if (!isset($conf['poetry_service']['address'])) {
+      if (!isset($conf['poetry_service']['address']) && empty($conf['poetry_mock_base_url'])) {
         $requirements['poetry_service'] = array(
           'title' => 'DGT connector webservice',
           'severity' => REQUIREMENT_ERROR,
