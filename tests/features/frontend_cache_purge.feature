@@ -76,7 +76,7 @@ Feature:
   @moderated-content
   Scenario: Flush cache when content was deleted.
     Given I go to "node/add/page"
-    And I fill in "Title" with "Flush cache when content was deleted"
+    And I fill in the content's title with "Flush cache when content was deleted"
     And I press the "Save" button
     And I go to "content/flush-cache-when-content-was-deleted"
     And I click "Edit draft"
@@ -98,7 +98,7 @@ Feature:
       | page         | \/more\-basic\-pages    |
       | article      | \/all\-articles        |
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
 
@@ -112,7 +112,7 @@ Feature:
       | article      | \/all\-articles         |
     And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
@@ -133,7 +133,7 @@ Feature:
       | article      | \/all\-articles         |
     And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I press "Save"
     And I click "Moderate"
     And I select "Needs Review" from "state"
@@ -150,7 +150,7 @@ Feature:
       | article      | \/all\-articles        |
     And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I press "Save"
     And I click "Moderate"
     And I select "Published" from "state"
@@ -306,7 +306,7 @@ Feature:
       | page         |                |
     And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
-    And I fill in "Title" with "frontend-cache-purge-publish-immediately"
+    And I fill in the content's title with "frontend-cache-purge-publish-immediately"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
@@ -355,7 +355,7 @@ Feature:
       | page         |                |
     And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
-    And I fill in "Title" with "frontend-cache-purge-publication"
+    And I fill in the content's title with "frontend-cache-purge-publication"
     And I press "Save"
     And I click "Moderate"
     And I select "Published" from "state"
@@ -382,7 +382,7 @@ Feature:
       | Content Type | Paths to Purge |
       | page         |                |
     When I go to "node/add/page"
-    And I fill in "Title" with "frontend-cache-purge-published-page"
+    And I fill in the content's title with "frontend-cache-purge-published-page"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
@@ -511,7 +511,7 @@ Feature:
     And the web front end cache is ready to receive requests.
     And nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
@@ -527,7 +527,7 @@ Feature:
     And nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
     And the web front end cache will refuse the authentication credentials
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
@@ -544,7 +544,7 @@ Feature:
     And nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
     And the web front end cache will refuse the authentication credentials
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
@@ -558,7 +558,7 @@ Feature:
       | page         |                          |
     And "my-website" is "not correctly" configured as the purge application tag
     When I go to "node/add/page"
-    And I fill in "Title" with "frontend-cache-purge-publish-immediately"
+    And I fill in the content's title with "frontend-cache-purge-publish-immediately"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
@@ -597,7 +597,7 @@ Feature:
   Scenario: Purge the paths of a basic page when it is published via moderation using the default purge rule.
     Given the web front end cache is ready to receive requests.
     When I go to "node/add/page"
-    And I fill in "Title" with "frontend-cache-purge-publication"
+    And I fill in the content's title with "frontend-cache-purge-publication"
     And I press "Save"
     And I click "Moderate"
     And I select "Published" from "state"

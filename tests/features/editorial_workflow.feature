@@ -23,7 +23,7 @@ Feature: Editorial workflow
     Given I am logged in as a user with the '<role>' role
     And I have the 'contributor' role in the 'Global editorial team' group
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I select "Global editorial team" from "Groups audience"
     And I press "Save"
     Then I should see "View draft"
@@ -50,7 +50,7 @@ Feature: Editorial workflow
     Given I am logged in as a user with the '<role>' role
     And I have the 'validator' role in the 'Global editorial team' group
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I select "Global editorial team" from "Groups audience"
     And I press "Save"
     Then I should see "View draft"
@@ -77,7 +77,7 @@ Feature: Editorial workflow
     Given I am logged in as a user with the '<role>' role
     And I have the 'publisher' role in the 'Global editorial team' group
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I select "Global editorial team" from "Groups audience"
     And I press "Save"
     Then I should see "View draft"
@@ -180,7 +180,7 @@ Feature: Editorial workflow
     Scenario: A user with contributor role can create content and check it on "My Workbench"
       Given I am logged in as a user with the 'contributor' role
       When I go to "node/add/page"
-      And I fill in "Title" with "Testing draft permissions"
+      And I fill in the content's title with "Testing draft permissions"
       And I press "Save"
       Then I should see "View draft"
       When I go to "admin/workbench"

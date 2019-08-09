@@ -32,7 +32,7 @@ Feature: TMGMT Poetry features
 
     When I am logged in as a user with the "administrator" role
     And I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I fill in "Body" with "Page body content"
     And I press "Save"
     And I select "Published" from "state"
@@ -116,7 +116,7 @@ Feature: TMGMT Poetry features
   Scenario: Checking the counter init request.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I fill in "Body" with "Page body content"
     And I press "Save"
     And I select "Published" from "state"
@@ -196,7 +196,7 @@ Feature: TMGMT Poetry features
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "Page for main and sub jobs"
+    And I fill in the content's title with "Page for main and sub jobs"
     And I fill in "Body" with "Here is the content of the page for main and sub jobs."
     And I press "Save"
     And I select "Published" from "state"
@@ -227,7 +227,7 @@ Feature: TMGMT Poetry features
   Scenario: Test not sending one job and moving to another job.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
-    And I fill in "Title" with "Original version"
+    And I fill in the content's title with "Original version"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
@@ -236,7 +236,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I press the "Delete" button
     And I go to "node/add/page"
-    And I fill in "Title" with "A second original version"
+    And I fill in the content's title with "A second original version"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
@@ -259,7 +259,7 @@ Feature: TMGMT Poetry features
   Scenario: Request main job before other translations.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
-    And I fill in "Title" with "Page for main and subjobs"
+    And I fill in the content's title with "Page for main and subjobs"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
@@ -292,7 +292,7 @@ Feature: TMGMT Poetry features
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "Original version"
+    And I fill in the content's title with "Original version"
     And I fill in "Body" with "Here is the content of the page for original version."
     And I press "Save"
     And I select "Published" from "state"
@@ -382,7 +382,7 @@ Feature: TMGMT Poetry features
   Scenario Outline: Request translation of a basic page into French.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
-    And I fill in "Title" with "<title>"
+    And I fill in the content's title with "<title>"
     And I fill in the rich text editor "Body" with <body>
     And I press "Save"
     And I select "Published" from "state"
@@ -413,7 +413,7 @@ Feature: TMGMT Poetry features
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "<title>"
+    And I fill in the content's title with "<title>"
     And I fill in "Body" with "<body>"
     And I press "Save"
     And I select "Published" from "state"
@@ -451,7 +451,7 @@ Feature: TMGMT Poetry features
   Scenario Outline: Request translation for multiple languages.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
-    And I fill in "Title" with "<title>"
+    And I fill in the content's title with "<title>"
     And I fill in the rich text editor "Body" with <body>
     And I press "Save"
     And I select "Published" from "state"
@@ -502,7 +502,7 @@ Feature: TMGMT Poetry features
   Scenario: Fill in metadata when requesting a translation.
     Given I am logged in as a user with the "administrator" role
     And I go to "node/add/page"
-    And I fill in "Title" with "Title"
+    And I fill in the content's title with "Title"
     And I fill in the rich text editor "Body" with "Metadata test"
     And I press "Save"
     And I select "Published" from "state"
@@ -787,7 +787,7 @@ Feature: TMGMT Poetry features
     Given <translatorType> translator "Translator <translatorType>" is available
     And I am logged in as a user with the 'administrator' role
     When I go to "node/add/page"
-    And I fill in "Title" with "Test"
+    And I fill in the content's title with "Test"
     And I fill in the rich text editor "Body" with "Test."
     And I press "Save"
     And I select "Published" from "state"
@@ -880,7 +880,7 @@ Feature: TMGMT Poetry features
     When I am logged in as a user with the "administrator" role
     And I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "Here is an English title to validate the field while sending to translation with auto accept enabled. This title is exactly 255 characters long, this way we test the translation is fine, since the response from mock will add exactly four characters fields"
+    And I fill in the content's title with "Here is an English title to validate the field while sending to translation with auto accept enabled. This title is exactly 255 characters long, this way we test the translation is fine, since the response from mock will add exactly four characters fields"
     And I fill in "Body" with "The title max length is 255 characters, if this limit is exceeded an error will be thrown before trying to save the data in database, due to the validation on the needsReview process which check the translation data against field limit."
     And I press "Save"
     And I select "Published" from "state"

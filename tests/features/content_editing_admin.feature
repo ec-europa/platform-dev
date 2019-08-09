@@ -6,12 +6,14 @@ Feature: Content editing as administrator
 
   Background:
     Given I am logged in as a user with the 'administrator' role
+  @javascript
   Scenario Outline: Test allowed HTML
     # The Wysiwyg does not return the HTML exactly as entered. It will insert
     # whitespace and some additional tags. Hence the expected HTML differs from
     # the entered HTML.
     When I go to "node/add/page"
-    And I fill in "Title" with "The right way is the right way"
+    And I click "Disable rich-text"
+    And I fill in the content's title with "The right way is the right way"
     And I fill in "Body" with "<html>"
     And I press "Save"
     Then the response should contain "<expected>"
@@ -32,9 +34,11 @@ Feature: Content editing as administrator
       | <dl><dt>List Title</dt><dd>List item</dd></dl>                                               | <dt>List Title</dt>                                                                          |
       | <div id=\"2validid\">A container with an valid HTML ID</div>                                 | 2validid                                                               |
 
+  @javascript
   Scenario Outline: Test disallowed HTML
     When I go to "node/add/page"
-    And I fill in "Title" with "<title>"
+    And I click "Disable rich-text"
+    And I fill in the content's title with "<title>"
     And I fill in "Body" with "<html>"
     And I press "Save"
     Then the response should not contain "<unexpected>"
@@ -42,8 +46,8 @@ Feature: Content editing as administrator
     Examples:
       | title                                                                 | html                                                                  | unexpected                                                              |
       | <script>alert('xss');</script>                                        | <script>alert('xss');</script>                                        | <script>alert('xss');</script>                                          |
-      | <a href=\"javascript:alert('xss');\">xss</a>                          | <a href=\"javascript:alert('xss');\">xss</a>                          | <a href=\"javascript:alert('xss');\">xss</a>                            |
-      | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>   | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>   | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>     |
+      | <a href='javascript:alert('xss');'>xss</a>                            | <a href=\"javascript:alert('xss');\">xss</a>                          | <a href=\"javascript:alert('xss');\">xss</a>                            |
+      | <p style='background-image: url(javascript:alert('xss'))'>xss</p>   | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>   | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>     |
       | This is not the right way                                             | <div class=\"2classname\">Applied invalid css class</div>             | classname                                                               |
       | This is not the right way                                             | <div class=\"classname?&*\">Applied invalid css class</div>           | classname                                                               |
  

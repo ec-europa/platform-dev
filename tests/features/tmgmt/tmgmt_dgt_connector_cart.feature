@@ -185,7 +185,7 @@ Feature: TMGMT Poetry Cart features
     # When there is only one bean it goes directly to that bean's creation page
     # And I click "New bean"
     And I fill in "Label" with "Label for New bean Block"
-    And I fill in "Title" with "Title for New bean Block"
+    And I fill in the content's title with "Title for New bean Block"
     And I press "Save"
     Then I should see "New bean Title for New bean Block has been created."
 

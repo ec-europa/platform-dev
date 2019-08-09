@@ -70,15 +70,6 @@ feature_sets[multi_user_blog][font] = 'multisite-icon-book'
 feature_sets[multi_user_blog][enable][] = multi_user_blog
 feature_sets[multi_user_blog][disable][] = multi_user_blog
 
-feature_sets[multisite_metatags][title] = 'Meta tags'
-feature_sets[multisite_metatags][description] = 'Add metatag information to nodes, that respects the IPG guidelines.'
-feature_sets[multisite_metatags][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/CIbhAg'
-feature_sets[multisite_metatags][category] = 'Communication'
-feature_sets[multisite_metatags][icon] = ''
-feature_sets[multisite_metatags][font] = 'multisite-icon-bookmarks'
-feature_sets[multisite_metatags][enable][] = multisite_metatags
-feature_sets[multisite_metatags][disable][] = multisite_metatags
-
 feature_sets[wiki_og][title] = 'Wiki'
 feature_sets[wiki_og][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every visitor, can view the content of the wiki.'
 feature_sets[wiki_og][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/IYXhAg'
