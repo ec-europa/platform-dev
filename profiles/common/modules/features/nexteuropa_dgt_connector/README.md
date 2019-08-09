@@ -187,6 +187,8 @@ your production environment.
 - When you are browsing a node that is translatable, an additional tab
 **Translate** appears,
 
+> Note: The content type should use multilingual support with *field translation* and have *moderation* enabled.
+
 - Click that tab and select languages you wish to request a translation for,
 
 - Submit the **Request translation** button,
