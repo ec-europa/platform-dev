@@ -10,7 +10,7 @@ Feature: Content editing as editor
   @api
   Scenario: User can create an article and update it
     When I go to "node/add/article"
-    And I fill in "Title" with "Lorem ipsum dolor sit amet"
+    And I fill in the content's title with "Lorem ipsum dolor sit amet"
     And I fill in "Body" with "<p>Consectetur adipiscing elit.</p>"
     And I press "Save"
     Then I should see the heading "Lorem ipsum dolor sit amet"
@@ -23,7 +23,7 @@ Feature: Content editing as editor
   @api
   Scenario Outline: User can create an article with allowed HTML
     When I go to "node/add/article"
-    And I fill in "Title" with "This is the title"
+    And I fill in the content's title with "This is the title"
     And I fill in "Body" with "<html>"
     And I press "Save"
     Then the response should contain "<expected>"
@@ -43,14 +43,14 @@ Feature: Content editing as editor
   Scenario: User can create an article but he cannot define its path alias, even during an update.
     The alias is generated automatically.
     When I go to "node/add/article"
-    And I fill in "Title" with "Automate article alias"
+    And I fill in the content's title with "Automate article alias"
     And I fill in "Body" with "<p>Consectetur adipiscing elit.</p>"
     Then the response should not contain "<strong>URL path settings</strong>"
     And the response should not contain "<label for=\"edit-path-alias\">URL alias</label>"
     When I press "Save"
     Then I should be on "content/automate-article-alias_en"
     When I click "Edit draft"
-    And I fill in "Title" with "2nd Automate article alias"
+    And I fill in the content's title with "2nd Automate article alias"
     Then the response should not contain "<strong>URL path settings</strong>"
     And the response should not contain "<label for=\"edit-path-alias\">URL alias</label>"
     When I press "Save"

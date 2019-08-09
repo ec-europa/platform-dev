@@ -161,7 +161,7 @@ Feature: Multilingual features
       | Your settings have been saved. |
     When I go to "node/add/article"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "This is a new article title"
+    And I fill in the content's title with "This is a new article title"
     And I fill in "Body" with "This is a new article body"
     And I press "Save"
     And I select "Published" from "Moderation state"

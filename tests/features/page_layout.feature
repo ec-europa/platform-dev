@@ -34,7 +34,7 @@ Feature: Page Layout
   Scenario Outline: Anonymous user can see the page title
     Given I am not logged in
     When I am on "<page>"
-    Then I should see "<text> - European Commission" in the "nept_element:title-metatag" element
+    Then I should see "<text> | European Commission" in the "nept_element:title-metatag" element
 
     # Test the page head title in different pages
     Examples:
@@ -52,7 +52,7 @@ Feature: Page Layout
     Examples:
       | page       | text                           |
       | /          | Welcome to European Commission |
-      | user       | Log in                         |
+      | user       | User account                   |
 
   @javascript @maximizedwindow @ec_resp_theme
   Scenario: Logged user can see the content in the column right and left
@@ -89,7 +89,7 @@ Feature: Page Layout
     And I press the "Save" button
     Then I should see the success message "Your settings have been saved."
     When I visit "node/add/content-type-test"
-    And I fill in "Title" with "Example to compare two divs"
+    And I fill in the content's title with "Example to compare two divs"
     And I fill in "field 1" with "text 1"
     And I fill in "field 2" with "text 2"
     And I press the "Save" button

@@ -18,7 +18,7 @@ Feature: Wiki communities
     When I go to "community/community-example"
     And I click "Create content"
     And I click "Wiki" in the "sidebar_left" region
-    And I fill in "Title" with "New Wiki Page"
+    And I fill in the content's title with "New Wiki Page"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
     And I press the "Save" button
@@ -31,7 +31,7 @@ Feature: Wiki communities
     Given I am logged in as a user with the "administrator" role
     When I go to "community/community-example"
     And I click "Wiki" in the "sidebar_left" region
-    And I fill in "Title" with "New Wiki Page"
+    And I fill in the content's title with "New Wiki Page"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
     And I press the "Save" button
@@ -48,7 +48,7 @@ Feature: Wiki communities
     When I go to "community/community-example"
     And I click "Create content"
     And I click "Wiki" in the "sidebar_left" region
-    And I fill in "Title" with "New Wiki Page"
+    And I fill in the content's title with "New Wiki Page"
     And I press the "Save" button
 
     When I am logged in as a user with the "administrator" role
@@ -70,7 +70,7 @@ Feature: Wiki communities
     And I have the "member" role in the "Community Example" group
     When I go to "community/community-example"
     And I click "Wiki" in the "sidebar_left" region
-    And I fill in "Title" with "New Wiki Page"
+    And I fill in the content's title with "New Wiki Page"
     And I press the "Save" button
 
     When I am logged in as a user with the "administrator" role

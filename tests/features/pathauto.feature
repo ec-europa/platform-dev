@@ -15,7 +15,7 @@ Feature: Pathauto
     And the term football with the parent term ballsports in the vocabulary tags exists
     And the pathauto "pathauto_node_article_pattern" pattern is set to "[node:field-tag:parents-uri]/[node:field-tag:name]/[node:source:title]"
     Then I go to "node/add/article"
-    And I fill in "Title" with "TestArticle"
+    And I fill in the content's title with "TestArticle"
     And I fill in "Tag" with "football"
     And I press "Save"
     Then I should be on "/sport/ballsports/football/testarticle_en"

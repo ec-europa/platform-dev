@@ -7,20 +7,20 @@ Feature: Test the creation of new contents and the display of them in a page usi
     And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "Content to reference in a simple paragraph"
+    And I fill in the content's title with "Content to reference in a simple paragraph"
     And I fill in "Body" with "Here is the content of the page referenced in a simple paragraph."
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "Content to reference in a table"
+    And I fill in the content's title with "Content to reference in a table"
     And I fill in "Body" with "Here is the content of the page referenced in a table."
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
     When I go to "/node/add/page"
-    And I fill in "Title" with "This is a page with some content token"
+    And I fill in the content's title with "This is a page with some content token"
     And I select "Full HTML" from "Text format"
     And I click the "Insert internal content" button in the "Body" WYSIWYG editor
     And I wait for AJAX to finish

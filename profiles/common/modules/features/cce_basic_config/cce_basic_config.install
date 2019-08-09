@@ -479,6 +479,9 @@ function cce_basic_config_install() {
   // Use soft config for comment_body field instance.
   _cce_basic_config_comment_body_field_instance_add();
 
+  if (!module_exists('nexteuropa_metatags')) {
+    module_enable(array('nexteuropa_metatags'));
+  }
 }
 
 /**
@@ -1850,4 +1853,24 @@ function cce_basic_config_update_7231() {
 function cce_basic_config_update_7232() {
   multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.9.2.95e5d83');
   multisite_config_service('wysiwyg')->addPreferenceToProfile('filtered_html', 'version', '4.9.2.95e5d83');
+}
+
+/**
+ * Force activation of nexteuropa_metatags NEPT-18.
+ */
+function cce_basic_config_update_7233() {
+  // These variables will disappear.
+  $classification = variable_get('classification', '');
+  $og_image_fid = variable_get('meta_og_image', '');
+  $meta_creator = variable_get('meta_creator', '');
+  $reference = variable_get('meta_reference', '');
+  // So we save them in dedicated ones.
+  variable_set('nexteuropa_classification', $classification);
+  variable_set('nexteuropa_og_image', $og_image_fid);
+  variable_set('nexteuropa_creator', $meta_creator);
+  variable_set('nexteuropa_reference', $reference);
+
+  module_enable(array('nexteuropa_metatags'));
+  module_disable(array('multisite_metatags'));
+  drupal_uninstall_modules(array('multisite_metatags'));
 }
