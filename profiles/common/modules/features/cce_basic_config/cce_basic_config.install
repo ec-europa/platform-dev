@@ -545,17 +545,6 @@ function cce_basic_config_enable() {
 
   // My Account.
   variable_set('user_logout_data_image', 'log-out');
-
-  // Do not allow the modes to be used from the wysiwyg.
-  $types = array('image', 'document');
-  $displays = array('default', 'teaser', 'preview');
-  foreach ($types as $type) {
-    foreach ($displays as $display) {
-      db_delete('media_restrict_wysiwyg')->condition('type', $type)->condition('display', $display)->execute();
-      $record = array('type' => $type, 'display' => $display);
-      drupal_write_record('media_restrict_wysiwyg', $record);
-    }
-  }
 }
 
 /**
