@@ -488,9 +488,7 @@ projects[media_dailymotion][patch][] = https://www.drupal.org/files/issues/media
 projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
-projects[media_flickr][version] = "2.0-alpha4"
-projects[media_flickr][patch][] = patches/media_flickr-missing_thumbnail-2494.patch
-projects[media_flickr][patch][] = patches/media_flickr-undefined_index-2183.patch
+projects[media_flickr][version] = "2.0-alpha5"
 
 projects[media_node][subdir] = "contrib"
 projects[media_node][version] = "1.0-rc2"
