@@ -583,6 +583,9 @@ projects[print][version] = "2.2"
 ; https://www.drupal.org/project/print/issues/3036143
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2253
 projects[print][patch][] = https://www.drupal.org/files/issues/2019-03-06/location_ttfont_directories-3036143-4.patch
+; https://www.drupal.org/node/3006747
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2639
+projects[print][patch][] = https://www.drupal.org/files/issues/2018-10-15/print-support-72.patch
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
