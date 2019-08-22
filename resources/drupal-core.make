@@ -93,3 +93,7 @@ projects[drupal][patch][] = https://www.drupal.org/files/locale.module-array_uns
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2429
 ; https://www.drupal.org/project/drupal/issues/2666908
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-500_exception_on_exception-12221055-6.patch
+; Hide username in RSS feed if content type is set to hide author.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2201
+; https://www.drupal.org/project/drupal/issues/421586
+projects[drupal][patch][] = https://www.drupal.org/files/issues/2019-08-19/node-post-setting-with-test-421586-31.patch
