@@ -237,6 +237,9 @@ projects[facetapi][version] = "1.5"
 ; and https://www.drupal.org/node/2373023
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2042
 projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-2768779-facetapi_map_assoc-undefined-index.patch
+; and https://www.drupal.org/node/3055360
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2631
+projects[facetapi][patch][] = https://www.drupal.org/files/issues/2019-08-23/facetapi-func_get_args-3055360-7_d7.patch
 
 projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
