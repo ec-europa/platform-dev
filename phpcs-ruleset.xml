@@ -78,7 +78,8 @@
 
     <!-- Next Europa PiwikRuleEntityUIController do not follow Drupal function name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_standard/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
     </rule>
 
     <!-- Comments in exported fields are missing a period at the end. -->
@@ -102,7 +103,8 @@
         <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/multisite_twitterblock_reaction.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/tmgmt_workbench/includes/tmgmt_workbench.ui.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_piwik/src/EntityDefaultUIController/PiwikRuleEntityUIController.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_standard/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_dgt_connector/tmgmt_dgt_connector/tmgmt_dgt_connector_cart/src/EntityUIController/*</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_dgt_connector/tmgmt_dgt_connector/tmgmt_dgt_connector_cart/src/EntityViewsController/*</exclude-pattern>
     </rule>
@@ -122,9 +124,12 @@
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_piwik/nexteuropa_piwik.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_token/src/Entity/TokenAbstractHandler.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/nexteuropa_varnish.helper.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/nexteuropa_varnish.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/src/PurgeRuleController.php</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_standard/modules/custom/nexteuropa_varnish/nexteuropa_varnish.helper.inc</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_standard/modules/custom/nexteuropa_varnish/nexteuropa_varnish.module</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_standard/modules/custom/nexteuropa_varnish/src/PurgeRuleController.php</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/nexteuropa_varnish/nexteuropa_varnish.helper.inc</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/nexteuropa_varnish/nexteuropa_varnish.module</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/nexteuropa_varnish/src/PurgeRuleController.php</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/tmgmt_workbench/includes/tmgmt_workbench.ui.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.helpers.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_dgt_connector/tmgmt_dgt_html/tmgmt_dgt_html.module</exclude-pattern>
