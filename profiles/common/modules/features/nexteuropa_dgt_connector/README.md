@@ -5,6 +5,7 @@ that make use of the European Commission DGT connector services
 ## Table of Contents
 - [Installation](#installation)
   - [Webmaster / Site builder](#webmaster--site-builder)
+    - [Site requirements](#site-requirements)
     - [Requesting access](#requesting-access-to-the-dgt-connector)
     - [Configuration of the feature](#activation-of-the-feature)
   - [Server configuration](#server-configuration-devops)
@@ -30,6 +31,12 @@ that make use of the European Commission DGT connector services
 
 # Installation
 ## Webmaster / Site builder
+### Site requirements
+To be able to make use of the DGT connector services, the desired target 
+languages need to be enabled on the site. Content types that will be translated 
+in this way must use multilingual support with **field translation** and need 
+to have **moderation** of revisions enabled.
+
 ### Requesting access to the DGT-Connector
 Before you can start using the DGT-Connector on Playground or Production,
 a representative of your DG at the 
@@ -257,8 +264,7 @@ Translations sent and received from the webservices are saved into the watchdog.
 
 :warning: We gradually move the _dblog_ to
 [kibana](https://webgate.ec.europa.eu/fpfis/logging/) and if dblog is disabled
-from your instance, request access to Kibana by creating a request in
-[Jira's MULTISITE project](https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa).
+from your instance, please contact CEM.
 
 [Go to top](#table-of-contents)
 

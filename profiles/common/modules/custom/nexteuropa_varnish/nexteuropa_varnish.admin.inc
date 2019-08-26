@@ -39,6 +39,19 @@ function nexteuropa_varnish_admin_settings_form($form, $form_state) {
     '#disabled' => $disabled,
   );
 
+  $form['watchdog_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Watchdog settings'),
+    '#description' => t('Set varnish watchdog logging granularity.'),
+  );
+
+  $form['watchdog_settings']['nexteuropa_varnish-granularity'] = array(
+    '#type' => 'radios',
+    '#title' => t('Granularity'),
+    '#default_value' => variable_get('nexteuropa_varnish-granularity', 2),
+    '#options' => array(0 => t('None'), 1 => t('Only errors'), 2 => t('All')),
+  );
+
   $form['settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Settings'),
