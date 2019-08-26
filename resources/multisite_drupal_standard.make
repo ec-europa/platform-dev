@@ -295,7 +295,9 @@ projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group
 ; https://www.drupal.org/node/2926605
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2016
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group-remove-array_parents-2494385-11.patch
-
+; https://www.drupal.org/node/3016503
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2633
+projects[field_group][patch][] = https://www.drupal.org/files/issues/2018-11-28/field_group-func_get_args-3016503-2.patch
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.25"
@@ -586,6 +588,9 @@ projects[print][version] = "2.2"
 ; https://www.drupal.org/project/print/issues/3036143
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2253
 projects[print][patch][] = https://www.drupal.org/files/issues/2019-03-06/location_ttfont_directories-3036143-4.patch
+; https://www.drupal.org/node/3006747
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2639
+projects[print][patch][] = https://www.drupal.org/files/issues/2018-10-15/print-support-72.patch
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
