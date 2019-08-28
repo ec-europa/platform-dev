@@ -209,6 +209,10 @@ projects[entitycache][version] = 1.5
 ; Issue #10558568 : Broken updates due to Classes living in .module files
 ; https://www.drupal.org/node/2441965#comment-10558568
 projects[entitycache][patch][] = https://www.drupal.org/files/issues/entitycache_fix_upgrade_path-2441965-62.patch
+; Issue #2981629 : create_function is deprecated in PHP 7.2
+; https://www.drupal.org/project/entitycache/issues/2981629
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2635
+projects[entitycache][patch][] = https://www.drupal.org/files/issues/2018-07-05/entitycache_php_7-2981629-0.patch
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
