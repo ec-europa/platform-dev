@@ -12,7 +12,7 @@
  *
  * Both will be included from the FPFIS_COMMON_LIBRARIES_PATH.
  */
- 
+
 // Include the constants sued in the different part of the module.
 $constants_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.constants.inc';
 include_once $constants_ecas_module_include;
