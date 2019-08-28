@@ -152,7 +152,7 @@ function ecas_admin_settings() {
     '#rows' => 5,
     '#description' => t('Message on the warning page when a blocked account user is trying to log in'),
   );
-  
+
   _ecas_text_format_set_default_value($form['param'], ECAS_WARNING_MESSAGE);
 
   $form['param'][ECAS_WARNING_MESSAGE_NO_EMAIL] = array(
@@ -162,50 +162,50 @@ function ecas_admin_settings() {
     '#rows' => 5,
     '#description' => t('Text supplying information about the error caused by the an e-mail in the EU Login profile used in another.'),
   );
-  
+
   _ecas_text_format_set_default_value(
     $form['param'],
     ECAS_WARNING_MESSAGE_NO_EMAIL
   );
 
- $form['param'][ECAS_WARNING_MESSAGE_EXISTING_EMAIL] = array(
-   '#type' => 'text_format',
-   '#title' => t('Error message text in case of an e-mail address already used'),
-   '#cols' => 60,
-   '#rows' => 5,
-   '#description' => t('Text supplying information about the error caused by the an e-mail in the EU Login profile used in another.'),
- );
- 
- _ecas_text_format_set_default_value(
+  $form['param'][ECAS_WARNING_MESSAGE_EXISTING_EMAIL] = array(
+    '#type' => 'text_format',
+    '#title' => t('Error message text in case of an e-mail address already used'),
+    '#cols' => 60,
+    '#rows' => 5,
+    '#description' => t('Text supplying information about the error caused by the an e-mail in the EU Login profile used in another.'),
+  );
+
+  _ecas_text_format_set_default_value(
    $form['param'],
    ECAS_WARNING_MESSAGE_EXISTING_EMAIL
- );
+  );
 
- $form['param'][ECAS_WARNING_MESSAGE_NOT_CREATED] = array(
-   '#type' => 'text_format',
-   '#title' => t('Error message text in case of an drupal user is not created'),
-   '#cols' => 60,
-   '#rows' => 5,
-   '#description' => t('Text supplying information about the error caused by the non-creation of Drupal user from an EU Login profile.'),
- );
- _ecas_text_format_set_default_value(
+  $form['param'][ECAS_WARNING_MESSAGE_NOT_CREATED] = array(
+    '#type' => 'text_format',
+    '#title' => t('Error message text in case of an drupal user is not created'),
+    '#cols' => 60,
+    '#rows' => 5,
+    '#description' => t('Text supplying information about the error caused by the non-creation of Drupal user from an EU Login profile.'),
+  );
+  _ecas_text_format_set_default_value(
    $form['param'],
    ECAS_WARNING_MESSAGE_NOT_CREATED
- );
+  );
 
- $form['param'][ECAS_WARNING_MESSAGE_INCOMPLETE_USER] = array(
-   '#type' => 'text_format',
-   '#title' => t('Error message text in case of an ecas user is incomplete'),
-   '#cols' => 60,
-   '#rows' => 5,
-   '#description' => t(
+  $form['param'][ECAS_WARNING_MESSAGE_INCOMPLETE_USER] = array(
+    '#type' => 'text_format',
+    '#title' => t('Error message text in case of an ecas user is incomplete'),
+    '#cols' => 60,
+    '#rows' => 5,
+    '#description' => t(
      'Text supplying information about the error because the EU Login profile does not contain the required data, other then the email.'
-   ),
- );
- _ecas_text_format_set_default_value(
+    ),
+  );
+  _ecas_text_format_set_default_value(
    $form['param'],
    ECAS_WARNING_MESSAGE_INCOMPLETE_USER
- );
+  );
 
   $form['param']['ecas_update_mail_address'] = array(
     '#type' => 'checkbox',
@@ -332,25 +332,25 @@ function _ecas_domains() {
 }
 
 /**
-  * Sets the default value of a text_format form input based on a variable.
-  *
-  * @param array $form_param_input
-  *   The 'param' item of the form input containing the where to set the
-  *   default value.
-  * @param string $variable_name
-  *   The variable name containing the default value.
-  */
+ * Sets the default value of a text_format form input based on a variable.
+ *
+ * @param array $form_param_input
+ *   The 'param' item of the form input containing the where to set the
+ *   default value.
+ * @param string $variable_name
+ *   The variable name containing the default value.
+ */
 function _ecas_text_format_set_default_value(array &$form_param_input, $variable_name) {
 
- $value = variable_get($variable_name, _ecas_get_default_warning_message($variable_name));
+  $value = variable_get($variable_name, _ecas_get_default_warning_message($variable_name));
 
- if (is_array($value)) {
-   $form_param_input[$variable_name]['#default_value'] = $value['value'];
-   $form_param_input[$variable_name]['#format'] = $value['format'];
+  if (is_array($value)) {
+    $form_param_input[$variable_name]['#default_value'] = $value['value'];
+    $form_param_input[$variable_name]['#format'] = $value['format'];
 
-   return;
- }
+    return;
+  }
 
- $form_param_input[$variable_name]['#default_value'] = $value;
- $form_param_input[$variable_name]['#format'] = filter_default_format();
+  $form_param_input[$variable_name]['#default_value'] = $value;
+  $form_param_input[$variable_name]['#format'] = filter_default_format();
 }

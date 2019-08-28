@@ -156,19 +156,19 @@ function _ecas_menu(array &$items) {
 }
 
 /**
-  * Implements hook_theme().
-  */
+ * Implements hook_theme().
+ */
 function ecas_theme() {
- return array(
-   'ecas_profile_warning_page' => array(
-     'variables' =>
+  return array(
+    'ecas_profile_warning_page' => array(
+      'variables' =>
        array(
          'warning_title' => NULL,
          'warning_text' => NULL,
        ),
-     'template' => 'theme/templates/ecas-profile-warning-page',
-   ),
- );
+      'template' => 'theme/templates/ecas-profile-warning-page',
+    ),
+  );
 }
 
 /**
@@ -218,7 +218,7 @@ function ecas_menu_check() {
  */
 function ecas_login_page() {
   try {
-   ecas_login_check();
+    ecas_login_check();
   }
   catch (Exception $e) {
     watchdog_exception('user', $e);
@@ -295,16 +295,16 @@ function ecas_save_page() {
   if (isset($_SESSION['ecas_goto'])) {
     return;
   }
-  
+
   if (arg(0) == 'ecas') {
     // Saving the ECAS page does not make sense, use HTTP referer (absolute
     // URL) instead.
     $referer = (isset($_GET['referer'])) ? $_GET['referer'] : $_SERVER['HTTP_REFERER'];
     $_SESSION['ecas_goto'] = $referer;
-    
+
     return;
   }
-  
+
   // Save the Drupal path (i.e. not an absolute URL).
   $_SESSION['ecas_goto'] = $_GET['q'];
 }
@@ -384,39 +384,39 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
 }
 
 /**
-  * Synchronizes the Drupal user with the Ecas data.
-  *
-  * Update information: core mail address, profile, Content Profile, roles, ...
-  *
-  * When all information has been synced, this function invokes the
-  * hook_ecas_sync_user_info() and hook_ecas_user_roles_alter() hooks.
-  *
-  * The function does not save the synchronized user object. That must be done
-  * later through ecas_save_user().
-  *
-  * @param object $user
-  *   A user object.
-  * @param array $user_info
-  *   An associative array with the following interesting keys:
-  *   - mail: mail address.
-  *   - givenname: first name.
-  *   - sn: last name.
-  *   These values will be used to fill fields/profiles/...
-  * @param array $args
-  *   Extra parameters, not used directly in this function but passed to the
-  *   ecas_sync_user_info() and ecas_user_roles_alter() hooks.
-  *
-  * @return array
-  *   An array of fields and values to save like user_save() uses.
-  *   For example array('name' => 'My name').
-  *   Key / value pairs added to the $edit['data'] will be serialized and
-  *   saved in the {users.data} column.
-  *
-  * @see ecas_save_user()
-  */
+ * Synchronizes the Drupal user with the Ecas data.
+ *
+ * Update information: core mail address, profile, Content Profile, roles, ...
+ *
+ * When all information has been synced, this function invokes the
+ * hook_ecas_sync_user_info() and hook_ecas_user_roles_alter() hooks.
+ *
+ * The function does not save the synchronized user object. That must be done
+ * later through ecas_save_user().
+ *
+ * @param object $user
+ *   A user object.
+ * @param array $user_info
+ *   An associative array with the following interesting keys:
+ *   - mail: mail address.
+ *   - givenname: first name.
+ *   - sn: last name.
+ *   These values will be used to fill fields/profiles/...
+ * @param array $args
+ *   Extra parameters, not used directly in this function but passed to the
+ *   ecas_sync_user_info() and ecas_user_roles_alter() hooks.
+ *
+ * @return array
+ *   An array of fields and values to save like user_save() uses.
+ *   For example array('name' => 'My name').
+ *   Key / value pairs added to the $edit['data'] will be serialized and
+ *   saved in the {users.data} column.
+ *
+ * @see ecas_save_user()
+ */
 function ecas_sync_drupal_user_with_ecas_info(&$user, array $user_info, array $args) {
   $edit = (array) $user;
-   
+
   // Update the user mail in the users table.
   if (variable_get('ecas_update_mail_address', TRUE)) {
     $edit['mail'] = (isset($user_info['cas:email'])) ? $user_info['cas:email'] : '';
@@ -512,7 +512,7 @@ function ecas_login_check() {
     phpCAS::forceAuthentication();
   }
 
-// Check the user is authenticated by ecas.
+  // Check the user is authenticated by ecas.
   // if not, we stop here with a warning message page.
   if (!phpCAS::isAuthenticated()) {
     _ecas_warning_goto(
