@@ -86,8 +86,14 @@ define('ECAS_WARNING_MESSAGE_NOT_CREATED', 'ecas_not_created_message');
 define('ECAS_WARNING_MESSAGE_INCOMPLETE_USER', 'ecas_incomplete_user_message');
 
 /**
+  * Name of the ecas no email variable message variable.
+  */
+define('ECAS_WARNING_MESSAGE_SOCIAL', 'social_role_not_allowed_message');
+
+/**
   * Ids for the different reasons causing a ECAS login failures.
   */
+define('ECAS_WARNING_REASON_SOCIAL', 'social_role_not_allowed');
 define('ECAS_WARNING_REASON_NO_EMAIL', 'no_mail');
 define('ECAS_WARNING_REASON_EXISTING_EMAIL', 'mail_already_exists');
 define('ECAS_WARNING_REASON_NOT_CREATED', 'not_created');

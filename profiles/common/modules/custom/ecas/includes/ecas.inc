@@ -616,6 +616,20 @@ function ecas_login_check() {
     );
   }
 
+  // Check that social login user has authenticated role only.
+  $authenticated_role = user_role_load_by_name('authenticated user');
+
+  if ($ecas_social_login == 'v' && (!user_has_role($authenticated_role->rid, $account) || count($account->roles) > 1)) {
+    _ecas_warning_goto(
+      ECAS_WARNING_REASON_SOCIAL,
+      $ecas_user_language,
+      'Login denied for %ecas_name because the account has more then authenticated role.',
+      array(
+        '%ecas_name' => $ecas_name,
+      )
+    );
+  }
+
   // Time to save the user.
   $saved_account = ecas_save_user($account, $account_edit, $ecas_attributes, $ecas_sync_user_info_args);
 
@@ -738,6 +752,11 @@ function ecas_warning_page($reason) {
   $theme_variables = array('warning_title' => t("Your site's account cannot be created"));
 
   switch ($reason) {
+    case ECAS_WARNING_REASON_SOCIAL:
+      $theme_variables['warning_title'] = t("Social login is not permitted with your users role.");
+      $message_key = ECAS_WARNING_MESSAGE_SOCIAL;
+      break;
+
     case ECAS_WARNING_REASON_BLOCKED:
       $theme_variables['warning_title'] = t("Your site's account is currently blocked");
       $message_key = ECAS_WARNING_MESSAGE;
@@ -1296,6 +1315,10 @@ function _ecas_get_default_warning_message($related_variable_name) {
   switch ($related_variable_name) {
     case ECAS_WARNING_MESSAGE:
       $value = 'Your account is not yet approved';
+      break;
+
+    case ECAS_WARNING_MESSAGE_SOCIAL:
+      $value = 'Please use a more secure login by using the EU Login form.';
       break;
 
     case ECAS_WARNING_MESSAGE_NO_EMAIL:
