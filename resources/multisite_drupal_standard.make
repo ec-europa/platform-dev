@@ -209,6 +209,10 @@ projects[entitycache][version] = 1.5
 ; Issue #10558568 : Broken updates due to Classes living in .module files
 ; https://www.drupal.org/node/2441965#comment-10558568
 projects[entitycache][patch][] = https://www.drupal.org/files/issues/entitycache_fix_upgrade_path-2441965-62.patch
+; Issue #2981629 : create_function is deprecated in PHP 7.2
+; https://www.drupal.org/project/entitycache/issues/2981629
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2635
+projects[entitycache][patch][] = https://www.drupal.org/files/issues/2018-07-05/entitycache_php_7-2981629-0.patch
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
@@ -506,11 +510,8 @@ projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.25"
 
 projects[migrate][subdir] = contrib
-projects[migrate][version] = "2.11"
-; Migration::applyMappings() problem with handle multifield subfields.
-; https://www.drupal.org/project/migrate/issues/2588341
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2000
-projects[migrate][patch][2588341] = https://www.drupal.org/files/issues/2018-06-25/2588341-9.patch
+projects[migrate][download][branch] = 7.x-1.x
+projects[migrate][download][revision] = ac8a749e580c16b6963088fb1901aebb052e1008
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.1"
