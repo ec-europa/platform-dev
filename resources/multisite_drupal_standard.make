@@ -267,6 +267,11 @@ projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta4"
+; Feeds is not compatible with php 7.2.
+; https://www.drupal.org/project/feeds/issues/1139676
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2638
+projects[feeds][patch][] = https://www.drupal.org/files/issues/2019-05-17/1139676_removing_the_PHP_7.2_warning.patch
+projects[feeds][patch][] = patches/feeds-php7-nept-2638.patch
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
 ; So far, the module does not have any official release.

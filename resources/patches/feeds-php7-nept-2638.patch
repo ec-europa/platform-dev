@@ -1,0 +1,16 @@
+diff --git a/libraries/http_request.inc b/libraries/http_request.inc
+index ef7a15ad..200cff96 100644
+--- a/libraries/http_request.inc
++++ b/libraries/http_request.inc
+@@ -427,11 +427,6 @@ function http_request_use_curl() {
+     return FALSE;
+   }
+ 
+-  // cURL below PHP 5.6.0 must not have open_basedir or safe_mode enabled.
+-  if (version_compare(PHP_VERSION, '5.6.0', '<')) {
+-    return !ini_get('safe_mode') && !ini_get('open_basedir');
+-  }
+-
+   // cURL in PHP 5.6.0 and above re-enables CURLOPT_FOLLOWLOCATION with
+   // open_basedir so there is no need to check for this.
+   return TRUE;
