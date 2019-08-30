@@ -21,7 +21,7 @@ projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.33"
 
 projects[advanced_help][subdir] = "contrib"
-projects[advanced_help][version] = "1.4"
+projects[advanced_help][version] = "1.5"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.11"
