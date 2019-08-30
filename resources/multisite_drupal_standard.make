@@ -463,18 +463,13 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.21
+projects[media][version] = 2.23
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1015
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
-
-; Ensure the media_wysiwyg.filter.js is loaded.
-; https://www.drupal.org/project/media/issues/3039731
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2243
-projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js-library-3039731-1.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.5"
