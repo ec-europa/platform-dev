@@ -105,15 +105,11 @@ projects[chosen][subdir] = "contrib"
 projects[chosen][version] = "2.1"
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.8"
-; Issue #2355631 : rewrite header host without port number.
+projects[chr][version] = "1.9"
+; Issue #2355631: rewrite header host without port number.
 ; https://www.drupal.org/node/2355631
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch
-; Issue #2816399: the module trims spaces from the response received and might cause corrupted binary files
-; https://www.drupal.org/node/2816399
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-185
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch
 ; Issue #2825701: allow PURGE requests.
 ; https://www.drupal.org/node/2825701
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-81
@@ -179,7 +175,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = 3.4
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.15"
+projects[ds][version] = "2.16"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.17"
@@ -201,8 +197,8 @@ projects[entity_translation][version] = "1.0"
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
 ; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
-; https://www.drupal.org/node/2741407
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
+; https://www.drupal.org/project/entity_translation/issues/3010146
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-10-30/entity_translation-pathauto_exposed_configuration-3010146-2.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -451,7 +447,7 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embe
 projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js-library-3039731-1.patch
 
 projects[media_avportal][subdir] = "contrib"
-projects[media_avportal][version] = "1.4"
+projects[media_avportal][version] = "1.5"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
@@ -462,9 +458,7 @@ projects[media_dailymotion][patch][] = https://www.drupal.org/files/issues/media
 projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
-projects[media_flickr][version] = "2.0-alpha4"
-projects[media_flickr][patch][] = patches/media_flickr-missing_thumbnail-2494.patch
-projects[media_flickr][patch][] = patches/media_flickr-undefined_index-2183.patch
+projects[media_flickr][version] = "2.0-alpha5"
 
 projects[media_node][subdir] = "contrib"
 projects[media_node][version] = "1.0-rc2"
@@ -790,6 +784,10 @@ projects[variable][version] = "2.5"
 projects[video][subdir] = "contrib"
 projects[video][version] = "2.14"
 projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
+;NEPT-2629 PHP7 compatibility
+projects[video][patch][] = patches/phpvideotoolkit-2629.patch
+projects[video][patch][] = https://www.drupal.org/files/issues/2019-08-06/video-php7.2-3039351-3-7.x.patch
+;MULTISITE-883 security
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
@@ -838,7 +836,7 @@ projects[views_slideshow_slider][subdir] = "contrib"
 projects[views_slideshow_slider][version] = "3.0"
 
 projects[votingapi][subdir] = "contrib"
-projects[votingapi][version] = "2.12"
+projects[votingapi][version] = "2.15"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.16"
