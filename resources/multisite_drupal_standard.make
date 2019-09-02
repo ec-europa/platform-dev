@@ -908,10 +908,6 @@ projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.3"
-; Issue 3077075: func_get_args(), no longer report the original value as passed to a parameter
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2643
-; https://www.drupal.org/project/xml_field/issues/3077075
-projects[xml_field][patch][] = https://www.drupal.org/files/issues/2019-08-25/xml_field-3077075-2.patch
 
 projects[xmlsitemap][subdir] = "contrib"
 projects[xmlsitemap][version] = "2.6"
