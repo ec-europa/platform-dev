@@ -190,6 +190,7 @@ projects[entity][version] = "1.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1025
 projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
+projects[entity_translation][subdir] = "contrib"
 projects[entity_translation][download][type] = git
 projects[entity_translation][download][revision] = 2e46cdb51a49b5e27500350662c6b54de38ece04
 projects[entity_translation][download][branch] = 7.x-1.x
