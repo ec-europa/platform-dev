@@ -28,7 +28,6 @@
     <exclude-pattern>profiles/common/libraries/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_*/libraries/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_*/modules/contrib/</exclude-pattern>
-    <exclude-pattern>profiles/*/modules/contrib/xml_field/modules/xml_field_test/</exclude-pattern>
 
     <exclude-pattern>profiles/common/modules/custom/ecas/libraries/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tests/</exclude-pattern>

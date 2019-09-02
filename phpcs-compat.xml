@@ -31,6 +31,8 @@
     <exclude-pattern>/vendor/phing/</exclude-pattern>
     <exclude-pattern>/vendor/composer/</exclude-pattern>
 
+    <exclude-pattern>/profiles/*/modules/contrib/xml_field/modules/xml_field_test/</exclude-pattern>
+
     <arg name="extensions" value="php,inc,module,install,profile,theme"/>
     <arg name="report" value="csv"/>
     <arg name="report-file" value="php-compatibility-report.csv"/>
