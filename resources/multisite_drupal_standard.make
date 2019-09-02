@@ -197,8 +197,8 @@ projects[entity_translation][version] = "1.0"
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
 ; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
-; https://www.drupal.org/node/2741407
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
+; https://www.drupal.org/project/entity_translation/issues/3010146
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-10-30/entity_translation-pathauto_exposed_configuration-3010146-2.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
