@@ -784,6 +784,10 @@ projects[variable][version] = "2.5"
 projects[video][subdir] = "contrib"
 projects[video][version] = "2.14"
 projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
+;NEPT-2629 PHP7 compatibility
+projects[video][patch][] = patches/phpvideotoolkit-2629.patch
+projects[video][patch][] = https://www.drupal.org/files/issues/2019-08-06/video-php7.2-3039351-3-7.x.patch
+;MULTISITE-883 security
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
