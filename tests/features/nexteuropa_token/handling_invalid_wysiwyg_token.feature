@@ -30,7 +30,7 @@ Feature: Testing wrong token association for Next Europa token module
     Then I should see ":view-mode:full]{This is a page i want to reference as Full content}</p>"
     And I fill in "Body" with "<p>[node:99999:view-mode:full]{A node that does not exist as Full content}</p>"
     And I press "Save"
-    Then I should see "[node:99999:view-mode:full]"
+    Then I should not see "[node:99999:view-mode:full]"
     And I click "Edit draft"
     And I press "Delete"
     And I press "Delete"
@@ -49,6 +49,7 @@ Feature: Testing wrong token association for Next Europa token module
     And I click "Node link"
     And I should see the heading "This is a page i want to reference"
     Then I visit the "page" content with title "Node with tokens"
+    And I wait 10 seconds
     And I should see the link "This is a page i want to reference"
     Then I click "This is a page i want to reference"
     And I should see the heading "This is a page i want to reference"
