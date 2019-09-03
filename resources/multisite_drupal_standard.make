@@ -800,6 +800,10 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; https://www.drupal.org/project/views/issues/3012609
 ; https://www.drupal.org/project/views/issues/1809958
 projects[views][patch][] = https://www.drupal.org/files/issues/2019-07-09/issues-ajax-exposed-filters-blocks-1809958-74.patch
+; Issue 3076826: func_get_args(), no longer report the original value as passed to a parameter
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2641
+; https://www.drupal.org/project/views/issues/3076826
+projects[views][patch][] = https://www.drupal.org/files/issues/2019-08-23/views-php7-3076826-2.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
