@@ -84,7 +84,7 @@ projects[bean][subdir] = "contrib"
 projects[bean][version] = 1.13
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.5"
+projects[better_exposed_filters][version] = "3.6"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta2"
@@ -191,14 +191,14 @@ projects[entity][version] = "1.9"
 projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][version] = "1.0"
+projects[entity_translation][download][type] = git
+projects[entity_translation][download][revision] = 2e46cdb51a49b5e27500350662c6b54de38ece04
+projects[entity_translation][download][branch] = 7.x-1.x
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
 ; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
-; https://www.drupal.org/node/2741407
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -784,6 +784,10 @@ projects[variable][version] = "2.5"
 projects[video][subdir] = "contrib"
 projects[video][version] = "2.14"
 projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
+;NEPT-2629 PHP7 compatibility
+projects[video][patch][] = patches/phpvideotoolkit-2629.patch
+projects[video][patch][] = https://www.drupal.org/files/issues/2019-08-06/video-php7.2-3039351-3-7.x.patch
+;MULTISITE-883 security
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
@@ -796,6 +800,10 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; https://www.drupal.org/project/views/issues/3012609
 ; https://www.drupal.org/project/views/issues/1809958
 projects[views][patch][] = https://www.drupal.org/files/issues/2019-07-09/issues-ajax-exposed-filters-blocks-1809958-74.patch
+; Issue 3076826: func_get_args(), no longer report the original value as passed to a parameter
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2641
+; https://www.drupal.org/project/views/issues/3076826
+projects[views][patch][] = https://www.drupal.org/files/issues/2019-08-23/views-php7-3076826-2.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
