@@ -54,6 +54,68 @@ function multi_user_blog_install() {
   );
   $all_permissions = array_keys(module_invoke_all('permission'));
   multisite_config_service('user')->grantPermission(CCE_BASIC_CONFIG_CEM_ROLE_NAME, array_intersect($all_permissions, $cem_permissions));
+
+  // Add a fivestar rate widget.
+  $path = drupal_get_path('module', 'rate');
+  $rate_widgets = array(
+    (object) array(
+      'name' => 'rate_fivestar',
+      'tag' => 'vote',
+      'title' => 'rate_fivestar',
+      'node_types' => array(),
+      'comment_types' => array(),
+      'options' => array(
+        0 => array(
+          0 => '0',
+          1 => '1',
+        ),
+        1 => array(
+          0 => '25',
+          1 => '2',
+        ),
+        2 => array(
+          0 => '50',
+          1 => '3',
+        ),
+        3 => array(
+          0 => '75',
+          1 => '4',
+        ),
+        4 => array(
+          0 => '100',
+          1 => '5',
+        ),
+      ),
+      'template' => 'fivestar',
+      'node_display' => '2',
+      'teaser_display' => FALSE,
+      'comment_display' => '2',
+      'node_display_mode' => '1',
+      'teaser_display_mode' => '1',
+      'comment_display_mode' => '1',
+      'roles' => array(
+        2 => '2',
+        3 => 0,
+        1 => 0,
+        4 => 0,
+        5 => 0,
+      ),
+      'allow_voting_by_author' => 1,
+      'noperm_behaviour' => '1',
+      'displayed' => '1',
+      'displayed_just_voted' => '2',
+      'description' => '',
+      'description_in_compact' => TRUE,
+      'delete_vote_on_second_click' => '0',
+      'use_source_translation' => TRUE,
+      'value_type' => 'percent',
+      'theme' => 'rate_template_fivestar',
+      'css' => $path . '/templates/fivestar/fivestar.css',
+      'js' => $path . '/templates/fivestar/fivestar.js',
+      'translate' => TRUE,
+    ),
+  );
+  variable_set('rate_widgets', $rate_widgets);
 }
 
 /**
