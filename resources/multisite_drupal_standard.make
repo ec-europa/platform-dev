@@ -816,6 +816,9 @@ projects[views_bulk_operations][version] = "3.5"
 ; Rules actions 'View and display' only works if Bulk Ops field is in 'master' of a view.
 ; https://www.drupal.org/node/2856974
 projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/non_master_views_actions_2856974-2.patch
+; Issue #3054586: [php7 compatibility]: func_get_args(), no longer report the original value as passed to a parameter
+; https://www.drupal.org/project/views_bulk_operations/issues/3054586
+projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/2019-05-16/removed_warning_for_php7.2.patch
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.2"
