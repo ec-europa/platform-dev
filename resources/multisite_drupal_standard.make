@@ -668,6 +668,9 @@ projects[simplenews][patch][] = https://www.drupal.org/files/issues/entitycache_
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2100
 ; https://www.drupal.org/project/simplenews/issues/3017665#comment-12879291
 projects[simplenews][patch][] = https://www.drupal.org/files/issues/2019-02-11/Add_hook_drush_sql_sync_sanitize-3017665-7.patch
+; Issue 3051338: Support PHP 7.2
+; https://www.drupal.org/project/simplenews/issues/3051338
+projects[simplenews][patch][] = https://www.drupal.org/files/issues/2019-04-28/remove-deprecated-each.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
