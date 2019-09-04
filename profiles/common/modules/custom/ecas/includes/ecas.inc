@@ -753,7 +753,7 @@ function ecas_warning_page($reason) {
 
   switch ($reason) {
     case ECAS_WARNING_REASON_SOCIAL:
-      $theme_variables['warning_title'] = t("Social login is not permitted with your users role.");
+      $theme_variables['warning_title'] = t("Your social network account does not allow you to login.");
       $message_key = ECAS_WARNING_MESSAGE_SOCIAL;
       break;
 
@@ -1318,7 +1318,7 @@ function _ecas_get_default_warning_message($related_variable_name) {
       break;
 
     case ECAS_WARNING_MESSAGE_SOCIAL:
-      $value = 'Please use a more secure login by using the EU Login form.';
+      $value = 'please use <a href="https://ecas.ec.europa.eu/cas/logout">EU login</a>.';
       break;
 
     case ECAS_WARNING_MESSAGE_NO_EMAIL:
