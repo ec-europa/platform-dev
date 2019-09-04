@@ -70,6 +70,15 @@ function ecas_variable_info($options) {
     'localize' => TRUE,
   );
 
+  $variables[ECAS_WARNING_MESSAGE_SOCIAL] = array(
+    'type' => 'text_format',
+    'title' => t('Error message text in case of social login', array(), $options),
+    'default' => _ecas_get_default_warning_message(ECAS_WARNING_MESSAGE_SOCIAL),
+    'description' => t('Warning when a user with more then authenticated role is trying to log in with social media login.'),
+    'group' => 'ecas',
+    'localize' => TRUE,
+  );
+
   return $variables;
 }
 
