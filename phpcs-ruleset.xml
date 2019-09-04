@@ -34,6 +34,9 @@
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg/ckeditor/skins</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/icons</exclude-pattern>
 
+    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2604 -->
+     <exclude-pattern>profiles/*/modules/custom/nexteuropa_varnish/nexteuropa_varnish.info</exclude-pattern>
+
     <!-- This module is not supported by Core team so we exclude it from QA -->
     <exclude-pattern>profiles/*/modules/custom/nexteuropa_newsroom/</exclude-pattern>
 
