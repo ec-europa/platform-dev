@@ -67,6 +67,9 @@ projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/
 
 projects[apachesolr_multilingual][subdir] = "contrib"
 projects[apachesolr_multilingual][version] = "1.3"
+; Issue #2998996: [ PHP 7.2 Compatibility ] - Function each() is deprecated since PHP 7.2; Use a foreach loop instead
+; https://www.drupal.org/project/apachesolr_multilingual/issues/2998996
+projects[apachesolr_multilingual][patch][] = https://www.drupal.org/files/issues/2019-06-26/apachesolr_multilingual-each_deprecated-2998996-9-D7.patch
 
 projects[apachesolr_multisitesearch][subdir] = "contrib"
 projects[apachesolr_multisitesearch][version] = "1.2"
