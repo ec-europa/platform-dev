@@ -514,6 +514,12 @@ projects[migrate][download][revision] = ac8a749e580c16b6963088fb1901aebb052e1008
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.1"
+; Issue #3052121: INI directive 'safe_mode' is deprecated since PHP 5.3 and removed since PHP 5.4
+; https://www.drupal.org/project/mimemail/issues/3052121
+projects[mimemail][patch][] = https://www.drupal.org/files/issues/2019-05-02/remove-deprecated-function-3052121-2.patch
+; Issue #2947006: Remove usage of deprecated create_function() calls for PHP 7.2+ future proofing
+; https://www.drupal.org/project/mimemail/issues/2947006
+projects[mimemail][patch][] = https://www.drupal.org/files/issues/2018-05-28/mimemail-support_php_72-2947006-4.patch
 
 ; This is a dependency of media_bulk_upload that platform provides
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2498
