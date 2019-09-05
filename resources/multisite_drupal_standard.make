@@ -1147,4 +1147,4 @@ projects[nexteuropa_varnish][subdir] = "custom"
 projects[nexteuropa_varnish][type] = module
 projects[nexteuropa_varnish][download][type] = git
 projects[nexteuropa_varnish][download][url] = https://github.com/ec-europa/digit-ne-varnish.git
-projects[nexteuropa_varnish][download][tag] = v1.0.6
+projects[nexteuropa_varnish][download][tag] = v1.0.5
