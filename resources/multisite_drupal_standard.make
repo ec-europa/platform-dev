@@ -822,6 +822,9 @@ projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/n
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.2"
+; PHP 7 compatibility Issue
+; https://www.drupal.org/project/views_data_export/issues/3005288
+projects[views_data_export][patch][] = https://www.drupal.org/files/issues/2018-10-09/views_data_export-phpcs_warning-php_tag.patch
 
 projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
