@@ -105,15 +105,11 @@ projects[chosen][subdir] = "contrib"
 projects[chosen][version] = "2.1"
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.8"
-; Issue #2355631 : rewrite header host without port number.
+projects[chr][version] = "1.9"
+; Issue #2355631: rewrite header host without port number.
 ; https://www.drupal.org/node/2355631
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch
-; Issue #2816399: the module trims spaces from the response received and might cause corrupted binary files
-; https://www.drupal.org/node/2816399
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-185
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch
 ; Issue #2825701: allow PURGE requests.
 ; https://www.drupal.org/node/2825701
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-81
@@ -179,7 +175,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = 3.4
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.15"
+projects[ds][version] = "2.16"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.17"
@@ -201,14 +197,18 @@ projects[entity_translation][version] = "1.0"
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
 ; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
-; https://www.drupal.org/node/2741407
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
+; https://www.drupal.org/project/entity_translation/issues/3010146
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-10-30/entity_translation-pathauto_exposed_configuration-3010146-2.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
 ; Issue #10558568 : Broken updates due to Classes living in .module files
 ; https://www.drupal.org/node/2441965#comment-10558568
 projects[entitycache][patch][] = https://www.drupal.org/files/issues/entitycache_fix_upgrade_path-2441965-62.patch
+; Issue #2981629 : create_function is deprecated in PHP 7.2
+; https://www.drupal.org/project/entitycache/issues/2981629
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2635
+projects[entitycache][patch][] = https://www.drupal.org/files/issues/2018-07-05/entitycache_php_7-2981629-0.patch
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
@@ -263,6 +263,11 @@ projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta4"
+; Feeds is not compatible with php 7.2.
+; https://www.drupal.org/project/feeds/issues/1139676
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2638
+projects[feeds][patch][] = https://www.drupal.org/files/issues/2019-05-17/1139676_removing_the_PHP_7.2_warning.patch
+projects[feeds][patch][] = patches/feeds-php7-nept-2638.patch
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
 ; So far, the module does not have any official release.
@@ -442,7 +447,7 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embe
 projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js-library-3039731-1.patch
 
 projects[media_avportal][subdir] = "contrib"
-projects[media_avportal][version] = "1.4"
+projects[media_avportal][version] = "1.5"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
@@ -453,9 +458,7 @@ projects[media_dailymotion][patch][] = https://www.drupal.org/files/issues/media
 projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
-projects[media_flickr][version] = "2.0-alpha4"
-projects[media_flickr][patch][] = patches/media_flickr-missing_thumbnail-2494.patch
-projects[media_flickr][patch][] = patches/media_flickr-undefined_index-2183.patch
+projects[media_flickr][version] = "2.0-alpha5"
 
 projects[media_node][subdir] = "contrib"
 projects[media_node][version] = "1.0-rc2"
@@ -506,11 +509,8 @@ projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.25"
 
 projects[migrate][subdir] = contrib
-projects[migrate][version] = "2.11"
-; Migration::applyMappings() problem with handle multifield subfields.
-; https://www.drupal.org/project/migrate/issues/2588341
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2000
-projects[migrate][patch][2588341] = https://www.drupal.org/files/issues/2018-06-25/2588341-9.patch
+projects[migrate][download][branch] = 7.x-1.x
+projects[migrate][download][revision] = ac8a749e580c16b6963088fb1901aebb052e1008
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.1"
@@ -784,6 +784,10 @@ projects[variable][version] = "2.5"
 projects[video][subdir] = "contrib"
 projects[video][version] = "2.14"
 projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
+;NEPT-2629 PHP7 compatibility
+projects[video][patch][] = patches/phpvideotoolkit-2629.patch
+projects[video][patch][] = https://www.drupal.org/files/issues/2019-08-06/video-php7.2-3039351-3-7.x.patch
+;MULTISITE-883 security
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
@@ -796,6 +800,10 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 ; https://www.drupal.org/project/views/issues/3012609
 ; https://www.drupal.org/project/views/issues/1809958
 projects[views][patch][] = https://www.drupal.org/files/issues/2019-07-09/issues-ajax-exposed-filters-blocks-1809958-74.patch
+; Issue 3076826: func_get_args(), no longer report the original value as passed to a parameter
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2641
+; https://www.drupal.org/project/views/issues/3076826
+projects[views][patch][] = https://www.drupal.org/files/issues/2019-08-23/views-php7-3076826-2.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -828,7 +836,7 @@ projects[views_slideshow_slider][subdir] = "contrib"
 projects[views_slideshow_slider][version] = "3.0"
 
 projects[votingapi][subdir] = "contrib"
-projects[votingapi][version] = "2.12"
+projects[votingapi][version] = "2.15"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.16"

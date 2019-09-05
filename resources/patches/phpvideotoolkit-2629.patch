@@ -1,0 +1,18 @@
+--- libraries/phpvideotoolkit/phpvideotoolkit.php5.php	2019-08-29 14:18:50.000000000 +0200
++++ libraries/phpvideotoolkit/phpvideotoolkit.php5.php	2019-08-29 14:21:05.000000000 +0200
+@@ -2621,14 +2621,9 @@
+    * @return array An array of codecs available to ffmpeg.
+    */
+   public static function getAvailableCodecs($type=FALSE) {
+-// 			check to see if this is a static call
+-    if (isset($this) === FALSE) {
+       $toolkit = new PHPVideoToolkit();
+       $info = $toolkit->getFFmpegInfo();
+-    }
+-    else {
+-      $info = $this->getFFmpegInfo();
+-    }
++    
+ // 			are we checking for particluar method?
+     $return_vals = array();
+     if ($type === FALSE) {

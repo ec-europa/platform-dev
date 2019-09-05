@@ -6,40 +6,6 @@
  */
 
 /**
- * Calculate the total length of the translatable strings of a content.
- *
- * @param object $entity
- *   The entity to translate.
- *
- * @return int
- *   Length of all translatable content.
- */
-function _tmgmt_dgt_connector_get_content_length($entity) {
-  $length = 0;
-
-  $fields = field_read_fields(array(
-    'entity_type' => $entity->entity_type,
-    'bundle' => $entity->type,
-    'module' => 'text',
-    'translatable' => TRUE,
-  ));
-
-  foreach ($fields as $field) {
-    if ($field['translatable']) {
-      $field_name = $field['field_name'];
-      $values = $entity->$field_name;
-      if (!empty($values[$entity->language])) {
-        foreach ($values[$entity->language] as $value) {
-          $length += drupal_strlen(strip_tags($value['value']));
-        }
-      }
-    }
-  }
-
-  return $length;
-}
-
-/**
  * Loads the structured source data array from the source.
  *
  * @param string $plugin_type
@@ -356,6 +322,13 @@ function _tmgmt_dgt_connector_smalljob_translation_possible($plugin_type, $item_
   // Currently length only matters for nodes.
   if ('node' !== $item_type) {
     return TRUE;
+  }
+
+  // Current tmgmt_poetry implementation works only for the content types
+  // which are moderated via the workbench moderation module functionality.
+  $node = node_load($item_id);
+  if (!workbench_moderation_node_moderated($node)) {
+    return FALSE;
   }
 
   $length = _tmgmt_dgt_connector_count_source_data($source_data);
