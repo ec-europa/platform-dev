@@ -114,9 +114,9 @@ Feature:
     And I press "Delete"
     Then the web front end cache was instructed to purge the multiple paths for the application tag "my-website":
       | Path                              | Request |
-      | file\/logopng_[a-z]{2}            | 0       |
-      | file\/logopng                     | 0       |
-      | sites\/default\/files\/logo\.png  | 1       |
+      | sites\/default\/files\/logo\.png  | 0       |
+      | file\/logopng_[a-z]{2}            | 1       |
+      | file\/logopng                     | 1       |
 
   @moderated-content
   Scenario: Create a draft.
