@@ -338,7 +338,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'edit own image files',
     'moderate content from draft to needs_review',
     'moderate content from needs_review to draft',
-    're convert video',
     'revert revisions',
     'show format selection for comment',
     'show format selection for file',
