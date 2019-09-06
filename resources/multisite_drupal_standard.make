@@ -67,6 +67,9 @@ projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/
 
 projects[apachesolr_multilingual][subdir] = "contrib"
 projects[apachesolr_multilingual][version] = "1.3"
+; Issue #2998996: [ PHP 7.2 Compatibility ] - Function each() is deprecated since PHP 7.2; Use a foreach loop instead
+; https://www.drupal.org/project/apachesolr_multilingual/issues/2998996
+projects[apachesolr_multilingual][patch][] = https://www.drupal.org/files/issues/2019-06-26/apachesolr_multilingual-each_deprecated-2998996-9-D7.patch
 
 projects[apachesolr_multisitesearch][subdir] = "contrib"
 projects[apachesolr_multisitesearch][version] = "1.2"
@@ -84,7 +87,7 @@ projects[bean][subdir] = "contrib"
 projects[bean][version] = 1.13
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.5"
+projects[better_exposed_filters][version] = "3.6"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta2"
@@ -191,14 +194,14 @@ projects[entity][version] = "1.9"
 projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][version] = "1.0"
+projects[entity_translation][download][type] = git
+projects[entity_translation][download][revision] = 2e46cdb51a49b5e27500350662c6b54de38ece04
+projects[entity_translation][download][branch] = 7.x-1.x
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
 ; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
-; https://www.drupal.org/project/entity_translation/issues/3010146
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-10-30/entity_translation-pathauto_exposed_configuration-3010146-2.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -819,6 +822,9 @@ projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/n
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.2"
+; PHP 7 compatibility Issue
+; https://www.drupal.org/project/views_data_export/issues/3005288
+projects[views_data_export][patch][] = https://www.drupal.org/files/issues/2018-10-09/views_data_export-phpcs_warning-php_tag.patch
 
 projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
@@ -915,7 +921,7 @@ projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e94860
 projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
 
 projects[xml_field][subdir] = "contrib"
-projects[xml_field][version] = "2.2"
+projects[xml_field][version] = "2.3"
 
 projects[xmlsitemap][subdir] = "contrib"
 projects[xmlsitemap][version] = "2.6"
