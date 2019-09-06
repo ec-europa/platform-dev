@@ -362,6 +362,10 @@ projects[geophp][download][branch] = 7.x-1.x
 projects[geophp][download][revision] = 2777c5e
 projects[geophp][download][type] = git
 projects[geophp][subdir] = "contrib"
+; Issue #3058149: No PHP code was found in this file and short open tags are not allowed by this install of PHP
+; https://www.drupal.org/project/geophp/issues/3058149
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2660
+projects[geophp][patch][] = https://www.drupal.org/files/issues/2019-09-06/geophp-php7-compatibility-3058149-4.patch
 
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.25"
