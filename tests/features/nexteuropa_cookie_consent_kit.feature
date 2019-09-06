@@ -11,5 +11,5 @@ Feature: NextEuropa cookie content kit
     And I change the variable "nexteuropa_cookie_consent_kit_display_cookie_banner" to "1"
     When I am logged in as a user with the "anonymous user" role
     And I am on the homepage
-    And I wait
+    And I wait 2 seconds
     Then I should see the text "This site uses cookies to offer you a better browsing experience"
