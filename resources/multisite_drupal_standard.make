@@ -1142,3 +1142,9 @@ projects[nexteuropa_poetry][type] = module
 projects[nexteuropa_poetry][download][type] = git
 projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
 projects[nexteuropa_poetry][download][tag] = 0.1.0
+
+projects[nexteuropa_varnish][subdir] = "custom"
+projects[nexteuropa_varnish][type] = module
+projects[nexteuropa_varnish][download][type] = git
+projects[nexteuropa_varnish][download][url] = https://github.com/ec-europa/digit-ne-varnish.git
+projects[nexteuropa_varnish][download][tag] = v1.0.7
