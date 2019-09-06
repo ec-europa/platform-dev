@@ -32,6 +32,7 @@
     <exclude-pattern>/vendor/composer/</exclude-pattern>
 
     <exclude-pattern>/profiles/*/modules/contrib/xml_field/modules/xml_field_test/</exclude-pattern>
+    <exclude-pattern>/profiles/*/modules/contrib/geophp/geoPHP/tests/</exclude-pattern>
 
     <arg name="extensions" value="php,inc,module,install,profile,theme"/>
     <arg name="report" value="csv"/>
