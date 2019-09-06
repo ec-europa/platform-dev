@@ -155,6 +155,12 @@ projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.15"
+; PHP 7 compatibility.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2662
+; https://www.drupal.org/project/ctools/issues/3006202
+; https://www.drupal.org/project/ctools/issues/3079343
+projects[ctools][patch][] = https://www.drupal.org/files/issues/2019-04-03/ctools-func_get_args-3006202-13.patch
+projects[ctools][patch][] = https://www.drupal.org/files/issues/2019-09-05/ctools-php7-3079343-3.patch
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
