@@ -356,6 +356,11 @@ projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/uncaught_t
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7373
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7237
 projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/2325549-jquery19_ajax.patch
+; Issue #3063000: PHP7 compatibility.
+; https://www.drupal.org/project/fullcalendar/issues/3063000
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2661
+projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/2019-06-20/php7.2-upgrade-707484-1.patch
+
 
 projects[geofield][subdir] = "contrib"
 projects[geofield][version] = "2.3"
