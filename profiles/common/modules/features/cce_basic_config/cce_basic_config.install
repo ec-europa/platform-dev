@@ -1874,3 +1874,39 @@ function cce_basic_config_update_7233() {
   module_disable(array('multisite_metatags'));
   drupal_uninstall_modules(array('multisite_metatags'));
 }
+
+/**
+ * Force deactivation of video module if not used.
+ */
+function cce_basic_config_update_7234() {
+  if (!module_exists('video')) {
+    return 'No action, video module is already disabled';
+  }
+  $query = db_select('field_config', 'fc');
+  $query->join('field_config_instance', 'fci', 'fci.field_id = fc.id');
+  $fields = $query->fields('fci', array("field_name", "entity_type", "bundle"))
+    ->condition('fc.type', "video", '=')
+    ->execute()
+    ->fetchAll();
+  if (empty($fields)) {
+    module_disable(array('video'), FALSE);
+    drupal_uninstall_modules(array('video'), FALSE);
+    return "No video field exists, module video was uninstalled.";
+  }
+  else {
+    foreach ($fields as $field) {
+      $entities = db_select('field_data_' . $field->field_name, 'fd')
+        ->fields('fd', array("entity_type", "entity_id"))
+        ->execute()
+        ->fetchAll();
+      if (empty($entities)) {
+        module_disable(array('video'), FALSE);
+        drupal_uninstall_modules(array('video'), FALSE);
+        return "Video field exist, but no content was added. Module video was uninstalled.";
+      }
+      else {
+        return "Some video content was found on that site, video module cannot be disabled";
+      }
+    }
+  }
+}
