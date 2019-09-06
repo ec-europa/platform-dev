@@ -67,6 +67,9 @@ projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/
 
 projects[apachesolr_multilingual][subdir] = "contrib"
 projects[apachesolr_multilingual][version] = "1.3"
+; Issue #2998996: [ PHP 7.2 Compatibility ] - Function each() is deprecated since PHP 7.2; Use a foreach loop instead
+; https://www.drupal.org/project/apachesolr_multilingual/issues/2998996
+projects[apachesolr_multilingual][patch][] = https://www.drupal.org/files/issues/2019-06-26/apachesolr_multilingual-each_deprecated-2998996-9-D7.patch
 
 projects[apachesolr_multisitesearch][subdir] = "contrib"
 projects[apachesolr_multisitesearch][version] = "1.2"
@@ -152,6 +155,12 @@ projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.15"
+; PHP 7 compatibility.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2662
+; https://www.drupal.org/project/ctools/issues/3006202
+; https://www.drupal.org/project/ctools/issues/3079343
+projects[ctools][patch][] = https://www.drupal.org/files/issues/2019-04-03/ctools-func_get_args-3006202-13.patch
+projects[ctools][patch][] = https://www.drupal.org/files/issues/2019-09-05/ctools-php7-3079343-3.patch
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -353,6 +362,11 @@ projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/uncaught_t
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7373
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7237
 projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/2325549-jquery19_ajax.patch
+; Issue #3063000: PHP7 compatibility.
+; https://www.drupal.org/project/fullcalendar/issues/3063000
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2661
+projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/2019-06-20/php7.2-upgrade-707484-1.patch
+
 
 projects[geofield][subdir] = "contrib"
 projects[geofield][version] = "2.3"
@@ -674,6 +688,9 @@ projects[simplenews][patch][] = https://www.drupal.org/files/issues/entitycache_
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2100
 ; https://www.drupal.org/project/simplenews/issues/3017665#comment-12879291
 projects[simplenews][patch][] = https://www.drupal.org/files/issues/2019-02-11/Add_hook_drush_sql_sync_sanitize-3017665-7.patch
+; Issue 3051338: Support PHP 7.2
+; https://www.drupal.org/project/simplenews/issues/3051338
+projects[simplenews][patch][] = https://www.drupal.org/files/issues/2019-04-28/remove-deprecated-each.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
@@ -825,6 +842,9 @@ projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/n
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.2"
+; PHP 7 compatibility Issue
+; https://www.drupal.org/project/views_data_export/issues/3005288
+projects[views_data_export][patch][] = https://www.drupal.org/files/issues/2018-10-09/views_data_export-phpcs_warning-php_tag.patch
 
 projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
@@ -1142,3 +1162,9 @@ projects[nexteuropa_poetry][type] = module
 projects[nexteuropa_poetry][download][type] = git
 projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
 projects[nexteuropa_poetry][download][tag] = 0.1.0
+
+projects[nexteuropa_varnish][subdir] = "custom"
+projects[nexteuropa_varnish][type] = module
+projects[nexteuropa_varnish][download][type] = git
+projects[nexteuropa_varnish][download][url] = https://github.com/ec-europa/digit-ne-varnish.git
+projects[nexteuropa_varnish][download][tag] = v1.0.7
