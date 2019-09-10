@@ -619,7 +619,7 @@ function ecas_login_check() {
   // Check that social login user has authenticated role only.
   $authenticated_role = user_role_load_by_name('authenticated user');
 
-  if ($ecas_social_login == 'v' && (!user_has_role($authenticated_role->rid, $account) || count($account->roles) > 1)) {
+  if ($ecas_social_login == 'v' && (user_has_role($authenticated_role->rid, $account) && count($account->roles) > 1)) {
     _ecas_warning_goto(
       ECAS_WARNING_REASON_SOCIAL,
       $ecas_user_language,
