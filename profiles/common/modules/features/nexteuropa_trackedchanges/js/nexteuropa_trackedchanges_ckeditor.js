@@ -25,7 +25,7 @@
               $('select.filter-list').prop('disabled', 'disabled');
             }
           });
-          
+
           CKEDITOR.instances[i].on('afterCommandExec', function (event) {
             var editor = event.editor;
             var editorContent = editor.getData();
