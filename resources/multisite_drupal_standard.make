@@ -528,6 +528,12 @@ projects[migrate][download][revision] = ac8a749e580c16b6963088fb1901aebb052e1008
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.1"
+; Issue #3052121: INI directive 'safe_mode' is deprecated since PHP 5.3 and removed since PHP 5.4
+; https://www.drupal.org/project/mimemail/issues/3052121
+projects[mimemail][patch][] = https://www.drupal.org/files/issues/2019-05-02/remove-deprecated-function-3052121-2.patch
+; Issue #2947006: Remove usage of deprecated create_function() calls for PHP 7.2+ future proofing
+; https://www.drupal.org/project/mimemail/issues/2947006
+projects[mimemail][patch][] = https://www.drupal.org/files/issues/2018-05-28/mimemail-support_php_72-2947006-4.patch
 
 ; This is a dependency of media_bulk_upload that platform provides
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2498
@@ -833,6 +839,9 @@ projects[views_bulk_operations][version] = "3.5"
 ; Rules actions 'View and display' only works if Bulk Ops field is in 'master' of a view.
 ; https://www.drupal.org/node/2856974
 projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/non_master_views_actions_2856974-2.patch
+; Issue #3054586: [php7 compatibility]: func_get_args(), no longer report the original value as passed to a parameter
+; https://www.drupal.org/project/views_bulk_operations/issues/3054586
+projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/2019-05-16/removed_warning_for_php7.2.patch
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.2"
