@@ -1,0 +1,10 @@
+diff --git a/templates/site_switcher/site-switcher.tpl.php b/templates/site_switcher/site-switcher.tpl.php
+index 53f14f7e..25cdf3cc 100644
+--- a/templates/site_switcher/site-switcher.tpl.php
++++ b/templates/site_switcher/site-switcher.tpl.php
+@@ -6,5 +6,4 @@
+  */
+ ?>
+ <div<?php print $atomium['attributes']['wrapper']; ?>>
+-  <?php print render($links); ?>
+ </div>
