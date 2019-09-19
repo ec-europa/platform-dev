@@ -457,7 +457,7 @@ function _nexteuropa_varnish_purge_paths($paths) {
                 t('check your varnish rules'),
                 'admin/config/system/nexteuropa-varnish/purge_rules'),
               '%regex' => $regex,
-              '@doc' => "https://github.com/ec-europa/platform-dev/tree/nept-1545-2.5/profiles/common/modules/custom/nexteuropa_varnish#purge-nodes-that-match-this-regex",
+              '@doc' => "https://github.com/ec-europa/platform-dev/tree/release-2.5/profiles/common/modules/custom/nexteuropa_varnish#purge-nodes-that-match-this-regex",
             )
             ),
         'error');
