@@ -45,11 +45,11 @@ function nexteuropa_communities_context_default_contexts() {
           'region' => 'sidebar_left',
           'weight' => '-10',
         ),
-        'multisite_create_button-og-contextual-links' => array(
-          'module' => 'multisite_create_button',
+        'multisite_og_button-og-contextual-links' => array(
+          'module' => 'multisite_og_button',
           'delta' => 'og-contextual-links',
           'region' => 'sidebar_left',
-          'weight' => '-10',
+          'weight' => '-9',
         ),
         'views-community_members-block_1' => array(
           'module' => 'views',
