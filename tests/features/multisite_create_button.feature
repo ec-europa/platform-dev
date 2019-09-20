@@ -15,7 +15,7 @@ Feature: Create content button
     Then I should see the text "<node_type>"
     And I click "<node_type>"
     Then I should see "Create <node_type>"
-    And I fill in "Title" with "<title>"
+    And I fill in the content's title with "<title>"
     And I press "Save"
     Then I should see "<title> has been created"
 
@@ -32,7 +32,7 @@ Feature: Create content button
     Then I should see the text "<node_type>"
     And I should see "<node_type>"
     And I click on option "<node_type>" from element "#block-multisite-create-button-create-content-button .ecl-select"
-    Then I fill in "Title" with "<title>"
+    Then I fill in the content's title with "<title>"
     And I press "Save"
     Then I should see "<title> has been created"
 

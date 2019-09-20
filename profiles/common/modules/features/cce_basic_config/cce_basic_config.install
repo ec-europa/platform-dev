@@ -404,7 +404,7 @@ function cce_basic_config_install() {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
   }
 
-  multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.4.8.ccd0038');
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.9.2.95e5d83');
 
   // Create WYSIWYG profile for Filtered  HTML text format.
   multisite_config_service('wysiwyg')->createProfile('filtered_html', 'ckeditor');
@@ -431,6 +431,11 @@ function cce_basic_config_install() {
   foreach ($plugin_settings as $group => $buttons) {
     multisite_config_service('wysiwyg')->addButtonsToProfile('filtered_html', $group, $buttons);
   }
+
+  // Add simple source formatting setting on wysiwyg.
+  multisite_config_service('wysiwyg')->addSettingToProfile('full_html', 'simple_source_formatting', '1');
+  multisite_config_service('wysiwyg')->addSettingToProfile('filtered_html', 'simple_source_formatting', '1');
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('filtered_html', 'version', '4.9.2.95e5d83');
 
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
   // in a regular feature since it includes the path to where the Print PDF
@@ -474,6 +479,9 @@ function cce_basic_config_install() {
   // Use soft config for comment_body field instance.
   _cce_basic_config_comment_body_field_instance_add();
 
+  if (!module_exists('nexteuropa_metatags')) {
+    module_enable(array('nexteuropa_metatags'));
+  }
 }
 
 /**
@@ -1779,6 +1787,17 @@ function cce_basic_config_update_7225() {
 }
 
 /**
+ * Force the activation of nexteuropa_cookie_consent_kit.
+ */
+function cce_basic_config_update_7226() {
+  // Check that no site did not push and enable the module before
+  // the deployment.
+  if (!module_exists('nexteuropa_cookie_consent_kit')) {
+    module_enable(array('nexteuropa_cookie_consent_kit'));
+  }
+}
+
+/**
  * Remove the multisite_version variable NEPT-2065.
  */
 function cce_basic_config_update_7227() {
@@ -1814,5 +1833,80 @@ function cce_basic_config_update_7229() {
 function cce_basic_config_update_7230() {
   $role = user_role_load_by_name('cem');
   $permissions = array_keys(array_pop(user_role_permissions(array($role->rid => $role->name))));
-  user_role_revoke_permissions($role->rid, $permissions);
+
+  if (!empty($role) && !empty($permissions)) {
+    user_role_revoke_permissions($role->rid, $permissions);
+  }
+}
+
+/**
+ * Add simple source formatting setting on wysiwyg.
+ */
+function cce_basic_config_update_7231() {
+  multisite_config_service('wysiwyg')->addSettingToProfile('full_html', 'simple_source_formatting', '1');
+  multisite_config_service('wysiwyg')->addSettingToProfile('filtered_html', 'simple_source_formatting', '1');
+}
+
+/**
+ * Set CKEditor library to the right version.
+ */
+function cce_basic_config_update_7232() {
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.9.2.95e5d83');
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('filtered_html', 'version', '4.9.2.95e5d83');
+}
+
+/**
+ * Force activation of nexteuropa_metatags NEPT-18.
+ */
+function cce_basic_config_update_7233() {
+  // These variables will disappear.
+  $classification = variable_get('classification', '');
+  $og_image_fid = variable_get('meta_og_image', '');
+  $meta_creator = variable_get('meta_creator', '');
+  $reference = variable_get('meta_reference', '');
+  // So we save them in dedicated ones.
+  variable_set('nexteuropa_classification', $classification);
+  variable_set('nexteuropa_og_image', $og_image_fid);
+  variable_set('nexteuropa_creator', $meta_creator);
+  variable_set('nexteuropa_reference', $reference);
+
+  module_enable(array('nexteuropa_metatags'));
+  module_disable(array('multisite_metatags'));
+  drupal_uninstall_modules(array('multisite_metatags'));
+}
+
+/**
+ * Force deactivation of video module if not used.
+ */
+function cce_basic_config_update_7234() {
+  if (!module_exists('video')) {
+    return 'No action, video module is already disabled';
+  }
+  $query = db_select('field_config', 'fc');
+  $query->join('field_config_instance', 'fci', 'fci.field_id = fc.id');
+  $fields = $query->fields('fci', array("field_name", "entity_type", "bundle"))
+    ->condition('fc.type', "video", '=')
+    ->execute()
+    ->fetchAll();
+  if (empty($fields)) {
+    module_disable(array('video'), FALSE);
+    drupal_uninstall_modules(array('video'), FALSE);
+    return "No video field exists, module video was uninstalled.";
+  }
+  else {
+    foreach ($fields as $field) {
+      $entities = db_select('field_data_' . $field->field_name, 'fd')
+        ->fields('fd', array("entity_type", "entity_id"))
+        ->execute()
+        ->fetchAll();
+      if (empty($entities)) {
+        module_disable(array('video'), FALSE);
+        drupal_uninstall_modules(array('video'), FALSE);
+        return "Video field exist, but no content was added. Module video was uninstalled.";
+      }
+      else {
+        return "Some video content was found on that site, video module cannot be disabled";
+      }
+    }
+  }
 }

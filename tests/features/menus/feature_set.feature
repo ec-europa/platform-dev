@@ -14,7 +14,6 @@ Feature: Feature set menu
     # feature because it is already elsewhere on the page for another purpose.
     And I should see the text "Allows contributors to store a bookmark/URL to another website they wish to share with visitors."
     And I should see the text "Multi-user blog"
-    And I should see the text "Meta tags"
     And I should see the text "Registration"
     And I should see the text "Text collapse"
     And I should see the text "Webtools"

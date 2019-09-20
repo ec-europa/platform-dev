@@ -6,9 +6,25 @@ Feature: news communities and news core
 
   Background:
     Given the module is enabled
-      | modules       |
-      | news_core     |
-      | news_og       |
+      | modules                   |
+      | news_core                 |
+      | news_og                   |
+      | bean_admin_ui             |
+      | context_ui                |
+      | field_ui                  |
+      | ds_ui                     |
+      | video_ui                  |
+      | migrate_ui                |
+      | og_ui                     |
+      | print_ui                  |
+      | rules_admin               |
+      | subscriptions_blog_ui     |
+      | subscriptions_ui          |
+      | tmgmt_ui                  |
+      | tmgmt_node_ui             |
+      | tmgmt_entity_ui           |
+      | views_ui                  |
+      
     And I am viewing a "community" content:
       | title                          | Public community 1  |
       | workbench_moderation_state     | published           |

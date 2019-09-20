@@ -11,6 +11,23 @@ Feature: Multilingual features
       | fr        |
       | de        |
       | it        |
+    And the module is enabled
+      | modules               |
+      | bean_admin_ui         |
+      | context_ui            |
+      | field_ui              |
+      | ds_ui                 |
+      | video_ui              |
+      | migrate_ui            |
+      | og_ui                 |
+      | print_ui              |
+      | rules_admin           |
+      | subscriptions_blog_ui |
+      | subscriptions_ui      |
+      | tmgmt_ui              |
+      | tmgmt_node_ui         |
+      | tmgmt_entity_ui       |
+      | views_ui              |
 
   @theme_wip
   # It is in wip for the europa theme because it implies a step referring a
@@ -144,7 +161,7 @@ Feature: Multilingual features
       | Your settings have been saved. |
     When I go to "node/add/article"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "This is a new article title"
+    And I fill in the content's title with "This is a new article title"
     And I fill in "Body" with "This is a new article body"
     And I press "Save"
     And I select "Published" from "Moderation state"

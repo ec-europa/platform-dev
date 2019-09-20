@@ -10,7 +10,7 @@ Feature: Testing the rich text options available with the toolbar present on WYS
     # Necessary for PhantomJS to set a wider screen resolution.
     Given I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I click the "Link" button in the "Body" WYSIWYG editor
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Link" title
     When I fill in "URL" with "europa.eu/european-union/index_ga"

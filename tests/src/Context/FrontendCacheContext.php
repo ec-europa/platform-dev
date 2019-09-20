@@ -285,6 +285,22 @@ class FrontendCacheContext implements Context {
   }
 
   /**
+   * Clicks a link in a specific table row given a element in that row.
+   *
+   * @When I click :arg1 on the :arg2 row
+   */
+  public function iClickOnTheRow($arg1, $arg2) {
+    $page = $this->mink->getSession()->getPage();
+
+    if ($row = $this->mink->getTableRow($page, $arg2)) {
+      $row->findLink($arg1)->click();
+    }
+    else {
+      throw new \Exception(sprintf("No row with '%s", $arg2));
+    }
+  }
+
+  /**
    * Asserts that the web front end cache received certain purge requests.
    *
    * @Then the web front end cache is ready to receive requests.

@@ -17,7 +17,7 @@ Feature: Content translation
     Given I am logged in as a user with the '<role>' role
     And I have the 'contributor' role in the 'Global editorial team' group
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I select "Global editorial team" from "Groups audience"
     And I press "Save"
     And I click "Translate"
@@ -42,7 +42,7 @@ Feature: Content translation
     Given I am logged in as a user with the '<role>' role
     And I have the 'publisher' role in the 'Global editorial team' group
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I select "Global editorial team" from "Groups audience"
     And I press "Save"
     And I click "Edit draft"
@@ -70,7 +70,7 @@ Feature: Content translation
     Given I am logged in as a user with the '<role>' role
     And I have the 'publisher' role in the 'Global editorial team' group
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I select "Global editorial team" from "Groups audience"
     And I press "Save"
     And I click "Edit draft"
@@ -78,7 +78,7 @@ Feature: Content translation
     And I press "Save"
     And I click "Translate"
     And I click "add"
-    And I fill in "Title" with "Translated page title"
+    And I fill in the content's title with "Translated page title"
     And I press "Save"
     And I click "Translate"
     Then I should see "Page title"
@@ -101,14 +101,14 @@ Feature: Content translation
     Given I am logged in as a user with the '<role>' role
     And I have the 'publisher' role in the 'Global editorial team' group
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I select "Global editorial team" from "Groups audience"
     And I press "Save"
     And I click "Edit draft"
     And I select "<status>" from "Moderation state"
     And I press "Save"
     And I go to "node/add/page"
-    And I fill in "Title" with "Page title in draft"
+    And I fill in the content's title with "Page title in draft"
     And I select "Global editorial team" from "Groups audience"
     And I press "Save"
     And I go to "admin/tmgmt/sources/workbench_moderation_node"

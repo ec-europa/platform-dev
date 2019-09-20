@@ -4,7 +4,6 @@ dependencies[] = taxonomy
 dependencies[] = list
 dependencies[] = number
 dependencies[] = migrate
-dependencies[] = migrate_ui
 dependencies[] = entity
 dependencies[] = views
 dependencies[] = features

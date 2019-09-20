@@ -4,10 +4,47 @@ Feature: Scheduler features
   As an authenticated user
   I want to be able to schedule state transitions for contents
 
+  Scenario: User can update the status of an scheduled revision and it will be published
+    Given I am logged in as a user with the 'contributor' role
+      Given users:
+      | name               | mail         | roles        | status |
+      | contributor_user   | foo@bar.com  | contributor  | 1      |
+    And I am logged in as "contributor_user"
+    And I go to "node/add/page"
+    And I fill in the content's title with "Next content"
+    And I click "Revision information"
+    When I select "Needs Review" from "Moderation state"
+    And I press the "Save" button
+    And I should see the text "Basic page Next content has been created."
+    Then I am logged in as a user with the 'editor' role
+    And I visit the "page" content with title "Next content"
+    And I click "Edit draft"
+    And I click "Revision information"
+    And I select "Published" from "Moderation state"
+    And I press the "Save" button
+    And I should see the text "Revision state: Published"
+    Then I am logged in as "contributor_user"
+    And I visit the "page" content with title "Next content"
+    And I click "New draft"
+    And I fill in the content's title with "Next revision"
+    And I click "Metadata"
+    And I click "Scheduling options"
+    And I fill in "revision_publish_on[date]" with current day
+    And I fill in "revision_publish_on[time]" with future time
+    And I press the "Save" button
+    Then I should see the text "This revision is unpublished and will be published"
+    Then I am logged in as a user with the 'administrator' role
+    And I visit the "page" content with title "Next content"
+    And I click "Moderate"
+    And I select "Validated" from "Moderation state"
+    And I press the "Apply" button
+    Then I should not see the text "Currently there is no published revision of this node"
+    And I wait 20 seconds
+
   Scenario: User can schedule a date to unpublish a content
     Given I am logged in as a user with the 'contributor' role
     When I go to "node/add/page"
-    And I fill in "Title" with "Old content"
+    And I fill in the content's title with "Old content"
     And I click "Revision information"
     And I select "Needs Review" from "Moderation state"
     And I click "Metadata"
@@ -39,7 +76,7 @@ Feature: Scheduler features
   Scenario: User can schedule a date to publish a content with default configuration
     Given I am logged in as a user with the 'contributor' role
     When I go to "node/add/page"
-    And I fill in "Title" with "Next content"
+    And I fill in the content's title with "Next content"
     And I click "Metadata"
     And I click "Scheduling options"
     And I fill in "publish_on[date]" with "2000-12-31"
@@ -50,7 +87,7 @@ Feature: Scheduler features
     And I should see the text "The 'publish on' date must be in the future"
     And I change the variable "scheduler_publish_past_date_page" to "schedule"
     And I press the "Save" button
-    Then I should see the text "This post is unpublished and will be published 2000-12-31 23:59:00."
+    Then I should see the text "This post is unpublished and will be published 2000-12-31 23:59:59."
     And I should see the text "Revision state: draft"
 
   Scenario: User with permissions can schedule a date to publish a content after configuring allowed status
@@ -61,7 +98,7 @@ Feature: Scheduler features
     Then I should see the text "The configuration options have been saved."
     Then I am logged in as a user with the 'contributor' role
     Then I go to "node/add/page"
-    And I fill in "Title" with "Next content"
+    And I fill in the content's title with "Next content"
     And I click "Metadata"
     And I click "Scheduling options"
     And I fill in "publish_on[date]" with "2000-12-31"
@@ -72,13 +109,13 @@ Feature: Scheduler features
     And I should see the text "The 'publish on' date must be in the future"
     And I change the variable "scheduler_publish_past_date_page" to "schedule"
     And I press the "Save" button
-    Then I should see the text "This post is unpublished and will be published 2000-12-31 23:59:00."
+    Then I should see the text "This post is unpublished and will be published 2000-12-31 23:59:59."
     And I should see the text "Revision state: Draft"
 
   Scenario: User can schedule a draft to publish a content and wont be published
     Given I am logged in as a user with the 'contributor' role
     When I go to "node/add/page"
-    And I fill in "Title" with "Not to be published"
+    And I fill in the content's title with "Not to be published"
     And I click "Metadata"
     And I click "Scheduling options"
     And I fill in "publish_on[date]" with "2000-12-31"
@@ -103,7 +140,7 @@ Feature: Scheduler features
       | contributor_user   | foo@bar.com  | contributor  | 1      |
     Then I am logged in as "contributor_user"
     Then I go to "node/add/page"
-    And I fill in "Title" with "Next content"
+    And I fill in the content's title with "Next content"
     And I click "Revision information"
     When I select "Needs Review" from "Moderation state"
     And I press the "Save" button
@@ -115,7 +152,7 @@ Feature: Scheduler features
     Then I am logged in as "contributor_user"
     And I visit the "page" content with title "Next content"
     And I click "New draft"
-    And I fill in "Title" with "Next revision"
+    And I fill in the content's title with "Next revision"
     And I click "Metadata"
     And I click "Scheduling options"
     And I fill in "revision_publish_on[date]" with current day
@@ -124,7 +161,7 @@ Feature: Scheduler features
     And I select "Needs Review" from "Moderation state"
     And I press the "Save" button
     Then I should see the text "Revision state: Needs Review"
-    And I wait 60 seconds
+    And I wait 90 seconds
     Then I am logged in as a user with the 'administrator' role
     Then I am on "admin/config/system/cron_en"
     And I press "Run cron"
@@ -145,7 +182,7 @@ Feature: Scheduler features
      | contributor_user   | foo@bar.com  | contributor  | 1      |
     And I am logged in as "contributor_user"
     And I go to "node/add/page"
-    And I fill in "Title" with "Next content"
+    And I fill in the content's title with "Next content"
     And I click "Revision information"
     When I select "Needs Review" from "Moderation state"
     And I press the "Save" button
@@ -160,7 +197,7 @@ Feature: Scheduler features
     Then I am logged in as "contributor_user"
     And I visit the "page" content with title "Next content"
     And I click "New draft"
-    And I fill in "Title" with "Next revision"
+    And I fill in the content's title with "Next revision"
     And I click "Metadata"
     And I click "Scheduling options"
     And I fill in "revision_publish_on[date]" with current day
@@ -175,7 +212,7 @@ Feature: Scheduler features
     And I click "Revision information"
     And I select "Validated" from "Moderation state"
     And I press the "Save" button
-    And I wait 60 seconds
+    And I wait 90 seconds
     Then I am logged in as a user with the 'administrator' role
     Then I am on "admin/config/system/cron_en"
     And I press "Run cron"
@@ -186,7 +223,7 @@ Feature: Scheduler features
   Scenario: A user can see the date scheduled for publication
     Given I am logged in as a user with the 'contributor' role
     Then I go to "node/add/page"
-    And I fill in "Title" with "Next content"
+    And I fill in the content's title with "Next content"
     And I click "Revision information"
     When I select "Draft" from "Moderation state"
     And I click "Metadata"
@@ -198,4 +235,4 @@ Feature: Scheduler features
     Then I am logged in as a user with the 'editor' role
     And I visit the "page" content with title "Next content"
     And I click "Moderate"
-    Then I should see the text "This revision will be published 2050-12-31 23:59:00"
+    Then I should see the text "This revision will be published 2050-12-31 23:59:59"

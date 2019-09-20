@@ -202,7 +202,7 @@ function ecas_login_page() {
 
   // If it is the user's first CAS login and initial login redirection is
   // enabled, go to the set page.
-  if ($_SESSION['ecas_goto']) {
+  if (!empty($_SESSION['ecas_goto'])) {
     $destination = $_SESSION['ecas_goto'];
     unset($_SESSION['ecas_goto']);
   }

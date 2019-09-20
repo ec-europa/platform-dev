@@ -23,14 +23,14 @@ Feature:
 
   Scenario: Create a draft.
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I press "Save"
     And I run cron
     Then the apachesolr server was not instructed to index any node
 
   Scenario: Immediately publish a new page.
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I select "Published" from "Moderation state"
     And I press "Save"
     And I run cron
@@ -38,7 +38,7 @@ Feature:
 
   Scenario: Moderate a page.
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I press "Save"
     And I click "Moderate"
     And I select "Needs Review" from "state"
@@ -48,7 +48,7 @@ Feature:
 
   Scenario: Publish a page with moderation.
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I press "Save"
     And I click "Moderate"
     And I select "Published" from "state"
@@ -58,7 +58,7 @@ Feature:
 
   Scenario: Withdraw a published page.
     When I go to "node/add/page"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I select "Published" from "Moderation state"
     And I press "Save"
     And I click "Unpublish this revision"

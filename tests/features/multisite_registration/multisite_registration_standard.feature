@@ -10,6 +10,8 @@ Feature: Multisite registration standard
       | modules                         |
       | multisite_registration_core     |
       | multisite_registration_standard |
+      | field_ui                        |
+      | og_ui                           |
 
   Scenario: as administrator I can add a registration field to a content type
     Given I am on "/admin/structure/types/manage/article/fields"
@@ -37,7 +39,7 @@ Feature: Multisite registration standard
     Given I am on "/node/add/article"
     Then  I should see "Registration field test"
     And   I should see "multisite_registration"
-    When  I fill in "Title" with "Registration Article"
+    When  I fill in the content's title with "Registration Article"
     When  I select "multisite_registration" from "Registration field test"
     And   I click "Publishing options"
     And   I select "Published" from "Moderation state"
@@ -52,7 +54,7 @@ Feature: Multisite registration standard
   Scenario: as administrator I can disable registration when I create a new content with registration field
     Given I am on "/node/add/article"
     Then  I should see "Registration field test"
-    When  I fill in "Title" with "Registration Article"
+    When  I fill in the content's title with "Registration Article"
     When  I select "-- Disable Registrations --" from "Registration field test"
     And   I click "Publishing options"
     And   I select "Published" from "Moderation state"

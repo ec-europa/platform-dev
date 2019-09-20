@@ -16,7 +16,7 @@ Feature: WebTools LACO feature
     And I am on the homepage
     Then the response should contain "{\"service\":\"laco\",\"include\":\"#block-system-main, #sidebar-left, #sidebar-right, .page-content aside\",\"coverage\":{\"document\":\"any\",\"page\":\"any\"},\"language\":\"eu\",\"icon\":\"dot\"}"
     # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
-    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
+    And the response should contain the meta tag with the "x-ua-compatible" name the "http-equiv" type and the "IE=edge" content
     When I go to "node/add/page"
     And I fill in the content's title with "Lorem ipsum dolor sit amet"
     And I fill in "Body" with "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
@@ -24,7 +24,7 @@ Feature: WebTools LACO feature
     And I press the "Save" button
     Then the response should contain "{\"service\":\"laco\",\"include\":\"#block-system-main, #sidebar-left, #sidebar-right, .page-content aside\",\"coverage\":{\"document\":\"any\",\"page\":\"any\"},\"language\":\"eu\",\"icon\":\"dot\"}"
     # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
-    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
+    And the response should contain the meta tag with the "x-ua-compatible" name the "http-equiv" type and the "IE=edge" content
 
   Scenario: Check if the LACO script is correctly embedded into pages viewed by anonymous users
     Given I am an anonymous user
@@ -36,7 +36,7 @@ Feature: WebTools LACO feature
       | field_ne_body    | <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> |
     Then the response should contain "{\"service\":\"laco\",\"include\":\"#block-system-main, #sidebar-left, #sidebar-right, .page-content aside\",\"coverage\":{\"document\":\"any\",\"page\":\"any\"},\"language\":\"eu\",\"icon\":\"dot\"}"
     # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
-    And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
+    And the response should contain the meta tag with the "x-ua-compatible" name the "http-equiv" type and the "IE=edge" content
 
   Scenario: Check if the LACO script is not embedded into the non existing pages
     Given I go to "falsepage"

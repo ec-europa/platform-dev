@@ -1,0 +1,200 @@
+<?php
+
+/**
+ * @file
+ * Drupal Module: NextEuropa cookie consent kit.
+ *
+ * Integrates webtool Cookie Consent Kit (CCK).
+ */
+
+define('NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL', '//ec.europa.eu/wel/cookie-consent/');
+define('NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC', '//europa.eu/webtools/crs/iframe');
+define('NEXTEUROPA_COOKIE_CONSENT_KIT_NO_BANNER_PATHS', "admin\nadmin/*\nmedia/browser\nmedia/ajax\nsystem/ajax\nmedia/*/format-form\n
+file/*/edit\nnode/*/*\nnode/add*\nfile/add*");
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_cookie_consent_kit_menu() {
+  $items = array();
+  $items['admin/config/system/nexteuropa-cookie-consent-kit'] = array(
+    'title' => 'NextEuropa cookie consent kit',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_cookie_consent_kit_admin_form'),
+    'access arguments' => array('administer nexteuropa cookie consent kit configuration'),
+    'file' => 'nexteuropa_cookie_consent_kit.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function nexteuropa_cookie_consent_kit_permission() {
+  $permissions = array(
+    'administer nexteuropa cookie consent kit configuration' => array(
+      'title' => t('Administer nexteuropa cookie consent kit configuration'),
+      'description' => t('Administer nexteuropa cookie consent kit configuration'),
+    ),
+  );
+
+  return $permissions;
+}
+
+/**
+ * Implements hook__page_alter().
+ *
+ * This adds the webtools CCK js to the head of normal page.
+ */
+function nexteuropa_cookie_consent_kit_page_alter(&$page) {
+  if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_banner', 0)) {
+    // Checks if the Cookie banner JS file must be included in the requested
+    // page.
+    if (_nexteuropa_cookie_consent_kit_is_no_banner_path()) {
+      return;
+    }
+
+    drupal_add_js(NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL . 'consent.js', array(
+      'type' => 'external',
+      'scope' => 'header',
+      'group' => JS_LIBRARY,
+      'every_page' => TRUE,
+      'weight' => -100,
+      'requires_jquery' => FALSE,
+    ));
+  }
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function nexteuropa_cookie_consent_kit_theme_registry_alter(&$theme_registry) {
+  // Add Cookie Consent support theming and preprocess for supported filetypes.
+  foreach (array(
+    'media_youtube',
+    'media_vimeo',
+    'media_dailymotion',
+  ) as $module) {
+    if (module_exists($module)) {
+      // Add our preprocess function.
+      $theme_registry[$module . '_video']['preprocess functions'][] = '_nexteuropa_cookie_consent_kit_preprocess_' . $module . '_video';
+    }
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function nexteuropa_cookie_consent_kit_module_implements_alter(&$implementations, $hook) {
+  // Run our theme_registry_alter hooks in last position.
+  if ($hook == 'theme_registry_alter' && isset($implementations['nexteuropa_cookie_consent_kit'])) {
+    $group = $implementations['nexteuropa_cookie_consent_kit'];
+    unset($implementations['nexteuropa_cookie_consent_kit']);
+    $implementations['nexteuropa_cookie_consent_kit'] = $group;
+  }
+}
+
+/**
+ * Implements template_preprocess_media_youtube_video().
+ */
+function _nexteuropa_cookie_consent_kit_preprocess_media_youtube_video(&$variables) {
+  _nexteuropa_cookie_consent_kit_preprocess_media_provider_video($variables);
+}
+
+/**
+ * Implements template_preprocess_media_vimeo_video().
+ */
+function _nexteuropa_cookie_consent_kit_preprocess_media_vimeo_video(&$variables) {
+  _nexteuropa_cookie_consent_kit_preprocess_media_provider_video($variables);
+}
+
+/**
+ * Implements template_preprocess_media_dailymotion_video().
+ */
+function _nexteuropa_cookie_consent_kit_preprocess_media_dailymotion_video(&$variables) {
+  if (!isset($variables['url'])) {
+    // Prepare the url for the dailymotion video.
+    $daily_query = array('logo' => 0, 'autoPlay' => $variables['autoplay']);
+    $variables['url'] = url('//www.dailymotion.com/embed/video/' . $variables['video_id'], array('query' => $daily_query, 'external' => TRUE));
+  }
+  _nexteuropa_cookie_consent_kit_preprocess_media_provider_video($variables);
+}
+
+/**
+ * Custom function to alter media_[module]_video template variables.
+ *
+ * Rewrites iframe src to point to the Video Cookie Consent webservice and sends
+ * the original src along in the oriurl parameter.
+ */
+function _nexteuropa_cookie_consent_kit_preprocess_media_provider_video(&$variables) {
+  if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_video', 0)) {
+
+    global $language;
+
+    // Build the final url.
+    $query = array();
+
+    $query['oriurl'] = $variables['url'];
+    $query['lang'] = $language->language;
+
+    // Allow other modules to alter iframe query parameters.
+    drupal_alter('nexteuropa_cookie_consent_kit_iframe_query', $query);
+
+    // Override the url with the cookie consent url and add the required query
+    // string.
+    $variables['url'] = _nexteuropa_cookie_consent_kit_build_cck_url($query);
+
+    // Ensure that sites having an implementation based on a version of
+    // ec_embedded_video prior to the version 2.5.138.1 of the platform,
+    // receive the CCK URL too.
+    if (isset($variables['ec_embedded_video_url'])) {
+      $query['oriurl'] = $variables['ec_embedded_video_url'];
+      $variables['ec_embedded_video_url'] = _nexteuropa_cookie_consent_kit_build_cck_url($query);
+    }
+
+    // Media dailymotion module is hardcoding the src of the iframe and then
+    // injecting the iframe in the template file.
+    // @see media_dailymotion_preprocess_media_dailymotion_video().
+    if ($variables['theme_hook_original'] === 'media_dailymotion_video' && !module_exists('ec_embedded_video')) {
+      $variables['output'] = <<<OUTPUT
+    <iframe frameborder="0" width="{$variables['width']}" height="{$variables['height']}" src="{$variables['url']}"></iframe>
+OUTPUT;
+    }
+  }
+}
+
+/**
+ * Builds the media URL with Cookie Consent Kit URL.
+ *
+ * @param array $query
+ *   The URL query items to be used in the Cookie Consent Kit URL.
+ *
+ * @return string
+ *   The built Cookie Consent Kit URL.
+ */
+function _nexteuropa_cookie_consent_kit_build_cck_url(array $query) {
+  return url(variable_get('cookie_consent_webservice_prurl', NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC), array(
+    'query' => $query,
+    'external' => TRUE,
+  ));
+}
+
+/**
+ * Checks if the current path should not receives the CCK JS file.
+ *
+ * @return bool
+ *   TRUE if the path is white listed for not including the CCK JS file.
+ */
+function _nexteuropa_cookie_consent_kit_is_no_banner_path() {
+  $no_banner_paths_list = variable_get('nexteuropa_cookie_consent_kit_no_banner_paths', NEXTEUROPA_COOKIE_CONSENT_KIT_NO_BANNER_PATHS);
+  // Convert the Drupal path to lowercase.
+  $path = drupal_strtolower(drupal_get_path_alias());
+  // Compare the lowercase internal and lowercase path alias (if any).
+  $page_match = drupal_match_path($path, $no_banner_paths_list);
+  if ($path != $_GET['q']) {
+    $page_match = $page_match || drupal_match_path($_GET['q'], $no_banner_paths_list);
+  }
+
+  return $page_match;
+}

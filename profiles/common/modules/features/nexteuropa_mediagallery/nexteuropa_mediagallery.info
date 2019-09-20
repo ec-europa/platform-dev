@@ -12,7 +12,6 @@ dependencies[] = image
 dependencies[] = media_colorbox
 dependencies[] = mediafield
 dependencies[] = nexteuropa_multilingual
-dependencies[] = og_ui
 dependencies[] = text
 dependencies[] = views
 dependencies[] = views_bootstrap

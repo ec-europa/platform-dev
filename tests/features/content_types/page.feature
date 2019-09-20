@@ -11,7 +11,7 @@ Feature: Page content type
       | Corporate tax law | 5      | A fine term.  |
     And I am logged in as a user with the 'editor' role
     When I go to "node/add/page"
-    And I fill in "Title" with "EC decides tax advantages for Fiat are illegal"
+    And I fill in the content's title with "EC decides tax advantages for Fiat are illegal"
     And I fill in "Body" with "Commissioner states tax rulings are not in line with state aid rules."
     And I fill in "Tags" with "State aid, Corporate tax law"
     And I press the "Save" button
@@ -24,19 +24,19 @@ Feature: Page content type
   Scenario: Edit a page
     Given I am logged in as a user with the 'contributor' role
     And I go to "node/add/page"
-    And I fill in "Title" with "EC decides tax advantages for Fiat are now legal"
+    And I fill in the content's title with "EC decides tax advantages for Fiat are now legal"
     And I press the "Save" button
     When I am logged in as a user with the 'editor' role
     And I go to "content/ec-decides-tax-advantages-fiat-are-now-legal"
     And I click "Edit draft"
-    And I fill in "Title" with "EC decides tax advantages for Fiat are now legal again"
+    And I fill in the content's title with "EC decides tax advantages for Fiat are now legal again"
     And I press the "Save" button
     Then I should see the success message "Basic page EC decides tax advantages for Fiat are now legal again has been updated."
 
   Scenario: Delete a page
     Given I am logged in as a user with the 'contributor' role
     And I go to "node/add/page"
-    And I fill in "Title" with "EC decides tax advantages for Fiat are illegal again"
+    And I fill in the content's title with "EC decides tax advantages for Fiat are illegal again"
     And I press the "Save" button
     When I am logged in as a user with the 'editor' role
     And I go to "content/ec-decides-tax-advantages-fiat-are-illegal-again"

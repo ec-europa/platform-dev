@@ -8,6 +8,7 @@ Feature: Check the feature Maxlength
     Given the module is enabled
       | modules                 |
       | multisite_maxlength     |
+      | field_ui                |
 
   @api @resetFields
   Scenario: Contributor User can check the maxlength counts (without the tags and specific characters).
@@ -20,7 +21,7 @@ Feature: Check the feature Maxlength
     Then I should see the success message "Saved test_maxlength configuration."
     When I am logged in as a user with the 'contributor' role
     And I go to "/node/add/article"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I fill in "test_maxlength" with "&&&&&&&&&&"
     And I press "Save"
     Then I should see the success message "Article Page title has been created."
@@ -37,7 +38,7 @@ Feature: Check the feature Maxlength
     Then I should see the success message "Saved test_maxlength configuration."
     When I am logged in as a user with the 'administrator' role
     And I go to "/node/add/article"
-    And I fill in "Title" with "Page title"
+    And I fill in the content's title with "Page title"
     And I fill in "test_maxlength" with "AAAAAAAAAAAA"
     And I press "Save"
     Then I should see the success message "Article Page title has been created."

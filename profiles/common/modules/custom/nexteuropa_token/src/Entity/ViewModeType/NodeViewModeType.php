@@ -56,7 +56,6 @@ class NodeViewModeType extends ViewModeTypeBase {
     else {
       return TRUE;
     }
-
   }
 
 }

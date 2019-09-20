@@ -61,6 +61,25 @@ class Config extends ConfigBase {
   }
 
   /**
+   * Add a general settings to a WYSIWYG profile.
+   *
+   * @param string $format_name
+   *   Text format machine name, for example: "full_html".
+   * @param string $setting
+   *   String of setting names.
+   *   Ex. 'smple_source_formatting','theme'.
+   * @param string $value
+   *   Value to assign to setting.
+   *   Ex. '1', 'advanced', etc.
+   */
+  public function addSettingToProfile($format_name, $setting, $value) {
+    if (($profile = $this->getProfile($format_name))) {
+      $profile->settings[$setting] = $value;
+      $this->updateProfile($profile);
+    }
+  }
+
+  /**
    * Remove a button from a WYSIWYG profile.
    *
    * @param string $format_name

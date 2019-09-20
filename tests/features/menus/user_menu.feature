@@ -3,6 +3,12 @@ Feature: User menu
   In order to easily access the important functionality
   As an administrative user
   I want to have links to the most important pages in my user menu
+  
+  Background:
+    Given these modules are enabled
+      | modules     |
+      | context_ui  |
+      | views_ui    |
 
   Scenario Outline: Test user menu as administrator
     Given I am logged in as a user with the "administrator" role and I have the following fields:

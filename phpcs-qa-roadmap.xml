@@ -21,8 +21,8 @@
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-824 -->
     <rule ref="DrupalPractice.FunctionDefinitions.AccessHookMenu.OpenCallback">
         <exclude-pattern>profiles/common/modules/features/wiki/wiki_og/wiki_og.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry_mock/tmgmt_poetry_mock.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry_mock/tmgmt_poetry_mock.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/survey/survey_core/survey_core.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/survey/survey_og/survey_og.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/links/links_og/links_og.module</exclude-pattern>

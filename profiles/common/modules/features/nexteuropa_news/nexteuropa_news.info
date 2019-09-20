@@ -12,7 +12,6 @@ dependencies[] = image
 dependencies[] = link
 dependencies[] = list
 dependencies[] = og
-dependencies[] = og_ui
 dependencies[] = options
 dependencies[] = strongarm
 dependencies[] = taxonomy

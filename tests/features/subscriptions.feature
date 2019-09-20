@@ -6,8 +6,17 @@ Feature: Subscription
 
   Background:
     Given the module is enabled
-      |modules                      |
-      |multisite_notifications_core |
+      | modules                       |
+      | multisite_notifications_core  |
+      | context_ui                    |
+      | field_ui                      |
+      | ds_ui                         |
+      | og_ui                         |
+      | subscriptions_blog_ui         |
+      | subscriptions_ui              |
+      | subscriptions_og              |
+      | views_ui                      |
+
     And I am logged in as a user with the 'administrator' role
 
   @javascript @theme_wip
@@ -16,10 +25,9 @@ Feature: Subscription
   Scenario: Create a page and have someone subscribe to it
     And I go to "admin/config/system/site-information_en"
     When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"
-    And I select "01000" from "classification"
     And I press "Save configuration"
     When I go to "node/add/page"
-    And I fill in "Title" with "New page"
+    And I fill in the content's title with "New page"
     And I press "Save"
     And I select "Published" from "Moderation state"
     When I press "Apply"
@@ -38,7 +46,7 @@ Feature: Subscription
     When I am logged in as a user with the 'administrator' role
     And I am on "content/new-page"
     And I click "New draft" in the "primary_tabs" region
-    And I fill in "Title" with "New Page title"
+    And I fill in the content's title with "New Page title"
     And I select "Basic HTML" from "Text format"
     And I fill in "Body" with "A body text"
     And I press "Save"
@@ -61,7 +69,6 @@ Feature: Subscription
   Scenario: Have someone subscribe to Basic page content
     And I go to "admin/config/system/site-information_en"
     When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"
-    And I select "01000" from "classification"
     And I press "Save configuration"
     Then I am logged in as a user with the "authenticated" role
     And I am on "user"
@@ -72,7 +79,7 @@ Feature: Subscription
     And I press "Save"
     When I am logged in as a user with the 'administrator' role
     When I go to "node/add/page"
-    And I fill in "Title" with "Another page"
+    And I fill in the content's title with "Another page"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
     When I press "Save"

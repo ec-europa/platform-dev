@@ -6,8 +6,23 @@ Feature: Embedded images
 
   Background:
     Given the module is enabled
-    | modules           |
-    | ec_embedded_image |
+    | modules               |
+    | ec_embedded_image     |
+    | bean_admin_ui         |
+    | context_ui            |
+    | field_ui              |
+    | ds_ui                 |
+    | video_ui              |
+    | migrate_ui            |
+    | og_ui                 |
+    | print_ui              |
+    | rules_admin           |
+    | subscriptions_blog_ui |
+    | subscriptions_ui      |
+    | tmgmt_ui              |
+    | tmgmt_node_ui         |
+    | tmgmt_entity_ui       |
+    | views_ui              |
     And a valid Flickr API key & secret have been configured
     And there is a media gallery content type with a field to embed images from flickr
     And I am logged in as a user with the 'contributor' role
@@ -15,7 +30,7 @@ Feature: Embedded images
   @wip @resetNodeTypes
   Scenario Outline: Embed Flickr photoset via media asset field
     When I go to "node/add/test-media-gallery"
-    And I fill in "title" with "<title>"
+    And I fill in the content's title with "<title>"
     And I click "Browse"
     Then the media browser opens
     When I fill in "File URL or media resource" with "<url>"
@@ -33,7 +48,7 @@ Feature: Embedded images
 
   Scenario Outline: Error when an invalid Flickr url is filled in
     When I go to "node/add/test-media-gallery"
-    And I fill in "title" with "<title>"
+    And I fill in the content's title with "<title>"
     And I click "Browse"
     Then the media browser opens
     When I fill in "File URL or media resource" with "<url>"

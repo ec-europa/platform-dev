@@ -19,7 +19,7 @@ Feature: Survey Standard test
   Scenario: Make sure we can create Survey
     Given I am logged in as a user with the 'contributor' role
     When I go to "node/add/webform"
-    And I fill in "Title" with "The right way"
+    And I fill in the content's title with "The right way"
     And I fill in "Body" with "BDD TEST SURVEY PAGE"
     And I press "Save"
     Then the response should contain "The right way"

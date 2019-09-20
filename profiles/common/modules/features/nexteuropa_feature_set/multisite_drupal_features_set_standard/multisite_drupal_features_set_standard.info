@@ -51,7 +51,7 @@ feature_sets[nexteuropa_varnish][disable][] = nexteuropa_varnish
 
 feature_sets[nexteuropa_dgt_connector][title] = 'Nexteuropa DGT Connector'
 feature_sets[nexteuropa_dgt_connector][description] = 'Provides services to send translations to DGT.'
-feature_sets[nexteuropa_dgt_connector][documentation] = 'https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/nexteuropa_dgt_connector/README.md'
+feature_sets[nexteuropa_dgt_connector][documentation] = 'https://github.com/ec-europa/platform-dev/blob/release-2.6/profiles/common/modules/custom/nexteuropa_dgt_connector/README.md'
 feature_sets[nexteuropa_dgt_connector][category] = 'Multilingualism'
 feature_sets[nexteuropa_dgt_connector][icon] = ''
 feature_sets[nexteuropa_dgt_connector][font] = 'multisite-icon-share'
@@ -77,15 +77,6 @@ feature_sets[multi_user_blog][icon] = ''
 feature_sets[multi_user_blog][font] = 'multisite-icon-book'
 feature_sets[multi_user_blog][enable][] = multi_user_blog
 feature_sets[multi_user_blog][disable][] = multi_user_blog
-
-feature_sets[multisite_metatags][title] = 'Meta tags'
-feature_sets[multisite_metatags][description] = 'Add metatag information to nodes, that respects the IPG guidelines.'
-feature_sets[multisite_metatags][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/CIbhAg'
-feature_sets[multisite_metatags][category] = 'Communication'
-feature_sets[multisite_metatags][icon] = ''
-feature_sets[multisite_metatags][font] = 'multisite-icon-bookmarks'
-feature_sets[multisite_metatags][enable][] = multisite_metatags
-feature_sets[multisite_metatags][disable][] = multisite_metatags
 
 feature_sets[nexteuropa_webtools][title] = 'Webtools'
 feature_sets[nexteuropa_webtools][description] = 'Provides usefull widgets to webmasters.'

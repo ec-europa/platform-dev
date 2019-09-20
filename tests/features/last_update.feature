@@ -20,7 +20,7 @@ Scenario: Administrators can add the last update block in a region
 Scenario: Check that the last update block is not shown if a node is not published
   Given that the block "last_update" from module "nexteuropa_lastupdate" is assigned to the region "footer"
   When I go to "node/add/page"
-  And I fill in "Title" with "Page title"
+  And I fill in the content's title with "Page title"
   And I press "Save"
   Then I should not see an "nept_element:block:last-update" element
 
@@ -30,7 +30,7 @@ Scenario: Check that the last update block is not shown if a node is not publish
 Scenario: Check that the last update block is shown if a node is published
   Given that the block "last_update" from module "nexteuropa_lastupdate" is assigned to the region "footer"
   When I go to "node/add/page"
-  And I fill in "Title" with "Page title"
+  And I fill in the content's title with "Page title"
   And I select "Published" from "Moderation state"
   And I press "Save"
   Then I should see "Last published" in the "nept_element:block:last-update" element

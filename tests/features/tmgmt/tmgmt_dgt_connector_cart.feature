@@ -5,14 +5,24 @@ Feature: TMGMT Poetry Cart features
   I want to be able to create/manage translation cart.
 
   Background:
-    Given the module is enabled
-      | modules                  |
-      | tmgmt_dgt_connector_cart |
-    And the following languages are available:
+    Given the following languages are available:
       | languages |
       | en        |
       | pt-pt     |
       | fr        |
+    And the module is enabled
+      | modules                   |
+      | tmgmt_dgt_connector_cart  |
+      | bean_admin_ui             |
+      | context_ui                |
+      | field_ui                  |
+      | ds_ui                     |
+      | og_ui                     |
+      | rules_admin               |
+      | tmgmt_ui                  |
+      | tmgmt_node_ui             |
+      | tmgmt_entity_ui           |
+      | views_ui                  |
     And I change the variable "nexteuropa_poetry_notification_username" to "foo"
     And I change the variable "nexteuropa_poetry_notification_password" to "bar"
     And I change the variable "nexteuropa_poetry_service_username" to "bar"
@@ -175,7 +185,7 @@ Feature: TMGMT Poetry Cart features
     # When there is only one bean it goes directly to that bean's creation page
     # And I click "New bean"
     And I fill in "Label" with "Label for New bean Block"
-    And I fill in "Title" with "Title for New bean Block"
+    And I fill in the content's title with "Title for New bean Block"
     And I press "Save"
     Then I should see "New bean Title for New bean Block has been created."
 

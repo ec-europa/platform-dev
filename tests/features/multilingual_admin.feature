@@ -6,6 +6,23 @@ Feature: Content translation
 
   Background:
     Given I am logged in as a user with the 'administrator' role
+    And the module is enabled
+      | modules               |
+      | bean_admin_ui         |
+      | context_ui            |
+      | field_ui              |
+      | ds_ui                 |
+      | video_ui              |
+      | migrate_ui            |
+      | og_ui                 |
+      | print_ui              |
+      | rules_admin           |
+      | subscriptions_blog_ui |
+      | subscriptions_ui      |
+      | tmgmt_ui              |
+      | tmgmt_node_ui         |
+      | tmgmt_entity_ui       |
+      | views_ui              |
 
   @theme_wip
   # It is in wip for the europa theme because it implies a step referring a
@@ -17,14 +34,14 @@ Feature: Content translation
       | de        |
     And the "field_ne_body" field is translatable
     When I go to "node/add/page"
-    And I fill in "Title" with "English title"
+    And I fill in the content's title with "English title"
     And I press "Save"
     And I select "Validated" from "state"
     And I press "Apply"
     And I click "Translate" in the "primary_tabs" region
     And I click "add"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "Deutsch title"
+    And I fill in "edit-title-field-de-0-value" with "Deutsch title"
     And I fill in "Body" with "Deutsch Body not for English version."
     And I press "Save"
     Then I should see the text "Deutsch title"

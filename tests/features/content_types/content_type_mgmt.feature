@@ -5,7 +5,10 @@ Feature: Content type administration features
   I want to be able to create, customize and delete content types
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
+    Given the module is enabled
+      | modules   |
+      | field_ui  |
+    And I am logged in as a user with the 'administrator' role
 
   Scenario: I create a custom content type translated through
     entity translation, using workbench moderation and having 2 fields "Body" and
@@ -39,7 +42,7 @@ Feature: Content type administration features
     And I press the "Save settings" button
     Then I should see the success message "Saved Select an option configuration."
     When I go to "node/add/groovy-type"
-    And I fill in "Title" with "Lorem ipsum dolor sit amet"
+    And I fill in the content's title with "Lorem ipsum dolor sit amet"
     And I fill in "Body" with "Consectetur adipiscing elit."
     And I select the radio button "Option 1" with the id "edit-field-select-an-option-en-option-1"
     And I press "Save"

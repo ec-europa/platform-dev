@@ -5,8 +5,10 @@ Feature: Field Multilingual features
   I want to be able to read field label in my native language
 
   Background:
-
-    Given the following languages are available:
+    Given these modules are enabled
+      | modules   |
+      | field_ui  |
+    And the following languages are available:
       | languages |
       | en        |
       | fr        |

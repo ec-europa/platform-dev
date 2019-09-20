@@ -47,7 +47,7 @@ drupal.htaccess.path = ${platform.build.dir}/.htaccess
 drupal.htaccess.append.text =
 
 # Configuration to append to the settings.php file of the build.
-drupal.settings.append.text = $conf['multisite_toolbox_cs_whitelist'] = array('*.europa.eu');
+drupal.settings.append.text = ${line.separator}$conf['multisite_toolbox_cs_whitelist'] = array('*.europa.eu', 'europa.eu');${line.separator}$conf['poetry_mock_base_url'] = "${mock.poetry.base_url}";${line.separator}
 
 
 # Platform configuration
@@ -167,6 +167,9 @@ behat.poetry.wsdl = /wsdl
 behat.poetry.username = username
 behat.poetry.password = password
 
+# Poetry mock
+# Example mock.poetry.base_url = http://127.0.0.1:8080/platform-dev/build
+mock.poetry.base_url =
 
 # PHPUnit configuration
 # -------------------
@@ -252,12 +255,6 @@ phpcs.verbose = 0
 # A valid API key & secret used by the behat tests
 flickr.key = foobar
 flickr.secret = bas
-
-# Integration configuration
-# -------------------------
-
-# Port on which the mocked integration server used by the behat tests will listen.
-integration.server.port = 8888
 
 # Varnish configuration
 # -------------------------

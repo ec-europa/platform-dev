@@ -3,10 +3,13 @@ Feature: Test the creation of new block type (bean) and the display of them in a
 
   Background:
     Given the module is enabled
-      | modules                  |
-      | nexteuropa_webtools      |
-    And I am logged in as a user with the 'administrator' role
+      | modules               |
+      | nexteuropa_webtools   |
+      | ds_ui                 |
+      | views_ui              |
 
+    And I am logged in as a user with the 'administrator' role
+  
   Scenario: Add a new block type
     Given the cache has been cleared
     When I create the new block type "Behat For The Win"
@@ -16,7 +19,7 @@ Feature: Test the creation of new block type (bean) and the display of them in a
     When I go to "admin/structure/block-types"
     And I click "Delete" in the "Behat For The Win" row
     And I press the "Delete" button
-    Then the response status code should be 200
+    Then I should not see "Behat For The Win"
 
   @javascript
   Scenario: Create a page with a new block type token

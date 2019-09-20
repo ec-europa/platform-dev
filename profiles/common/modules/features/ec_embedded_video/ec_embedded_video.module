@@ -40,8 +40,11 @@ function ec_embedded_video_file_type($file) {
  * is that all embedded YouTube, Vimeo and dailymotion iframe sources are
  * rewritten to point to this service. After explicit consent to eventual third
  * party cookies the service will serve the video.
+ *
+ * @deprecated in platform:2.5 and will be removed from platform:2.6 use
+ * NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC instead.
  */
-define('EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_PRURL', '//ec.europa.eu/cookie-consent/iframe');
+define('EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_PRURL', '//europa.eu/webtools/crs/iframe');
 
 /**
  * Implements hook_theme_registry_alter().
@@ -49,7 +52,11 @@ define('EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_PRURL', '//ec.europa.eu/cook
 function ec_embedded_video_theme_registry_alter(&$theme_registry) {
   $path = drupal_get_path('module', 'ec_embedded_video') . '/themes';
 
-  // Add Cookie Consent support theming and preprocess for supported filetypes.
+  if (module_exists('media_dailymotion')) {
+    // Add our preprocess function to the bottom.
+    $theme_registry['media_dailymotion_video']['preprocess functions'][] = '_ec_embedded_video_preprocess_media_dailymotion_video';
+  }
+
   foreach (array(
     'media_youtube',
     'media_vimeo',
@@ -63,36 +70,11 @@ function ec_embedded_video_theme_registry_alter(&$theme_registry) {
       // Add a new parameter to the media video modules' video template.
       $theme_registry[$module . '_video']['variables']['no_wrapper'] = FALSE;
 
-      // Add our preprocess function to the bottom.
-      $theme_registry[$module . '_video']['preprocess functions'][] = '_ec_embedded_video_preprocess_' . $module . '_video';
-
       // Add our preprocess function common to all media video modules to
       // the bottom.
       $theme_registry[$module . '_video']['preprocess functions'][] = 'ec_embedded_video_preprocess_common_file_video';
     }
   }
-}
-
-/**
- * Preprocess function for media_youtube_video.
- */
-function _ec_embedded_video_preprocess_media_youtube_video(&$variables) {
-  _ec_embedded_video_preprocess_ec_embedded_video_video($variables);
-}
-
-/**
- * Preprocess function for media_vimeo_video.
- */
-function _ec_embedded_video_preprocess_media_vimeo_video(&$variables) {
-  _ec_embedded_video_preprocess_ec_embedded_video_video($variables);
-}
-
-/**
- * Preprocess function for media_avportal_video.
- */
-function _ec_embedded_video_preprocess_media_avportal_video(&$variables) {
-  // Don't use cookie compliant for avportal video.
-  $variables['ec_embedded_video_url'] = $variables['url'];
 }
 
 /**
@@ -103,29 +85,6 @@ function _ec_embedded_video_preprocess_media_dailymotion_video(&$variables) {
   // @see media_dailymotion.theme.inc.
   $daily_query = array('logo' => 0, 'autoPlay' => $variables['autoplay']);
   $variables['url'] = url('//www.dailymotion.com/embed/video/' . $variables['video_id'], array('query' => $daily_query, 'external' => TRUE));
-
-  _ec_embedded_video_preprocess_ec_embedded_video_video($variables);
-}
-
-/**
- * Custom function to alter media_[module]_video template variables.
- *
- * Rewrites iframe src to point to the Video Cookie Consent webservice and sends
- * the original src along in the oriurl parameter.
- */
-function _ec_embedded_video_preprocess_ec_embedded_video_video(&$variables) {
-  global $language;
-
-  // Build the final url.
-  $ec_embedded_video_webservice_url = variable_get('cookie_consent_webservice_prurl', EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_PRURL);
-  $query = array();
-  $query['oriurl'] = $variables['url'];
-  $query['lang'] = $language->language;
-
-  // Allow other modules to alter query parameters.
-  drupal_alter('ec_embedded_video_query', $query);
-
-  $variables['ec_embedded_video_url'] = url($ec_embedded_video_webservice_url, array('query' => $query, 'external' => TRUE));
 }
 
 /**
@@ -139,6 +98,10 @@ function _ec_embedded_video_preprocess_ec_embedded_video_video(&$variables) {
  */
 function ec_embedded_video_preprocess_common_file_video(&$variables) {
   $variables['no_wrapper'] = isset($variables['options']['no_wrapper']) ?:FALSE;
+
+  // Deprecated but we ensure the retro-compatibility of sites using this
+  // variables item.
+  $variables['ec_embedded_video_url'] = $variables['url'];
 }
 
 /**

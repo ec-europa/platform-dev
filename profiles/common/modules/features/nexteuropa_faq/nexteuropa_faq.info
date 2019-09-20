@@ -10,7 +10,6 @@ dependencies[] = i18n_taxonomy
 dependencies[] = list
 dependencies[] = nexteuropa_multilingual
 dependencies[] = og
-dependencies[] = og_ui
 dependencies[] = options
 dependencies[] = strongarm
 dependencies[] = taxonomy

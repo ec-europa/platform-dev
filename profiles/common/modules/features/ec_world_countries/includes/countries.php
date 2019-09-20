@@ -22,6 +22,7 @@ function ec_world_countries_countries() {
       'CF' => t('Central African Republic'),
       'TD' => t('Chad'),
       'KM' => t('Comoros'),
+      'CD' => t('Democratic Republic of the Congo'),
       'CG' => t('Congo [Republic]'),
       'DJ' => t('Djibouti'),
       'EG' => t('Egypt'),
