@@ -149,7 +149,8 @@ Feature: Nexteuropa Communities
       | workbench_moderation_state_new | published           |
     And I have the "member" role in the "My public Community" group
     When I reload the page
-    And I click "Basic page" in the sidebar_left
+    And I click "Create content"
+    And I click "Basic page" in the "sidebar_left" region
     And I fill in "title_field[en][0][value]" with "Page in My public Community"
     And I fill in "field_ne_body[en][0][value]" with "Lorem ipsum dolor sit amet"
     And I press the "Save" button
@@ -177,6 +178,7 @@ Feature: Nexteuropa Communities
       | workbench_moderation_state_new | published            |
     And I have the "member" role in the "My private Community" group
     When I reload the page
+    And I click "Create content"
     And I click "Basic page" in the sidebar_left
     And I fill in "title_field[en][0][value]" with "Page in My private Community"
     And I fill in "field_ne_body[en][0][value]" with "Lorem ipsum dolor sit amet"

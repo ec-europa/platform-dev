@@ -57,8 +57,8 @@ function communities_context_default_contexts() {
           'region' => 'sidebar_left',
           'weight' => '-20',
         ),
-        'multisite_og_button-og-contextual-links' => array(
-          'module' => 'multisite_og_button',
+        'multisite_create_button-og-contextual-links' => array(
+          'module' => 'multisite_create_button',
           'delta' => 'og-contextual-links',
           'region' => 'sidebar_left',
           'weight' => '-10',

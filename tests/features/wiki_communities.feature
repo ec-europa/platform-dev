@@ -26,7 +26,7 @@ Feature: Wiki communities
     And I click "Wikis" in the "sidebar_left" region
     Then I should see the text "New Wiki Page"
 
-  @ec_europa_theme
+  @ec_europa_theme @theme_wip
   Scenario: An administrator user can create a wiki on a community
     Given I am logged in as a user with the "administrator" role
     When I go to "community/community-example"
@@ -61,7 +61,7 @@ Feature: Wiki communities
     And I click "Wikis" in the "sidebar_left" region
     Then I should see the text "New Wiki Page"
 
-  @ec_europa_theme
+  @ec_europa_theme @theme_wip
   Scenario: A contributor user added to a community can create a wiki on that community
     Given users:
       | name             | roles       |
