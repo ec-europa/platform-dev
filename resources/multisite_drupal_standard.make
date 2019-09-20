@@ -795,9 +795,7 @@ projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1
 
 projects[translation_overview][subdir] = "contrib"
-projects[translation_overview][version] = "2.0-beta1"
-; https://www.drupal.org/node/2673314
-projects[translation_overview][patch][] = https://www.drupal.org/files/issues/translation_overview-simpletest-warning-message-2673314-2-D7.patch
+projects[translation_overview][version] = "2.0-beta2"
 
 projects[translation_table][subdir] = "contrib"
 projects[translation_table][version] = "1.0-beta1"
