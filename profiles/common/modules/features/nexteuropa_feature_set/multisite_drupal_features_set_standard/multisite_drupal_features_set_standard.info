@@ -60,7 +60,7 @@ feature_sets[nexteuropa_varnish][disable][] = nexteuropa_varnish
 
 feature_sets[nexteuropa_dgt_connector][title] = 'Nexteuropa DGT Connector'
 feature_sets[nexteuropa_dgt_connector][description] = 'Provides services to send translations to DGT.'
-feature_sets[nexteuropa_dgt_connector][documentation] = 'https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/nexteuropa_dgt_connector/README.md'
+feature_sets[nexteuropa_dgt_connector][documentation] = 'https://github.com/ec-europa/platform-dev/tree/release-2.5/profiles/common/modules/features/nexteuropa_dgt_connector/README.md'
 feature_sets[nexteuropa_dgt_connector][category] = 'Multilingualism'
 feature_sets[nexteuropa_dgt_connector][icon] = ''
 feature_sets[nexteuropa_dgt_connector][font] = 'multisite-icon-share'
@@ -229,7 +229,7 @@ feature_sets[e_library_standard][disable][] = e_library_core
 
 feature_sets[ec_embedded_video][title] = 'Embedded videos'
 feature_sets[ec_embedded_video][description] = 'Allows to embed videos from Youtube, dailymotion or vimeo.'
-feature_sets[ec_embedded_video][documentation] = 'https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/ec_embedded_video/README.md'
+feature_sets[ec_embedded_video][documentation] = 'https://github.com/ec-europa/platform-dev/tree/release-2.5/profiles/common/modules/features/ec_embedded_video/README.md'
 feature_sets[ec_embedded_video][category] = 'Media'
 feature_sets[ec_embedded_video][icon] = ''
 feature_sets[ec_embedded_video][font] = 'multisite-icon-camera'
