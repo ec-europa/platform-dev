@@ -114,7 +114,7 @@ function ec_embedded_video_csp_list_alter(&$domains) {
     '*.youtube-nocookie.com',
     '*.youtube.com',
     '*.vimeo.com',
-    '*.dailymotion.com'
+    '*.dailymotion.com',
   );
   $domains = array_merge($extra_domains, $domains);
 }
