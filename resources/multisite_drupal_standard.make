@@ -786,7 +786,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
 ; https://www.drupal.org/node/3021843
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2178
-projects[tmgmt][patch][] =  patches/translation_not_taking_into_account_the_source_data_update-3021843-22.patch
+projects[tmgmt][patch][] =  https://www.drupal.org/files/issues/2019-09-17/translation_not_taking_into_account_the_source_data_update-3021843-22.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
@@ -798,9 +798,7 @@ projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1
 
 projects[translation_overview][subdir] = "contrib"
-projects[translation_overview][version] = "2.0-beta1"
-; https://www.drupal.org/node/2673314
-projects[translation_overview][patch][] = https://www.drupal.org/files/issues/translation_overview-simpletest-warning-message-2673314-2-D7.patch
+projects[translation_overview][version] = "2.0-beta2"
 
 projects[translation_table][subdir] = "contrib"
 projects[translation_table][version] = "1.0-beta1"
