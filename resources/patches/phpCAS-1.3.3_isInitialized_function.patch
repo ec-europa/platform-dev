@@ -1,0 +1,21 @@
+diff --git a/CAS.php b/CAS.php
+index 63b6ce4..6fd45ce 100644
+--- a/CAS.php
++++ b/CAS.php
+@@ -388,6 +388,16 @@ class phpCAS
+         phpCAS :: traceEnd();
+     }
+ 
++    /**
++     * Answer whether or not the client or proxy has been initialized
++     *
++     * @return bool
++     */
++    public static function isInitialized ()
++    {
++        return (is_object(self::$_PHPCAS_CLIENT));
++    }
++
+     /** @} */
+     // ########################################################################
+     //  DEBUGGING
