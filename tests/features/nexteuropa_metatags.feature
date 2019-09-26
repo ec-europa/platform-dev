@@ -10,6 +10,7 @@ Feature: NextEuropa Metatags feature
       | nexteuropa_metatags |
     And I change the variable "nexteuropa_classification" to "03000"
     And I change the variable "nexteuropa_og_image" to "/tests/files/logo.png"
+    And the cache has been cleared
 
   Scenario: As anonymous I should see the nexteuropa tags (Creator, IPG Classification, Reference)
     Given I am on the homepage
