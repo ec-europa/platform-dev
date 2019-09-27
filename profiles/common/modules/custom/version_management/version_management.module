@@ -135,7 +135,7 @@ function version_management_node_presave($node) {
   }
 
   // Process node to keep date.
-  $node->changed = $node->original->workbench_moderation['current']->timestamp;
+  $node->changed = $node->original->changed;
 
 }
 
