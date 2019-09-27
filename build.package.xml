@@ -158,6 +158,11 @@
           patchfile="${platform.resources.dir}/patches/ecas_renew.patch"  haltonfailure='true'
           originalfile="${platform.build.dir}/vendor/jasig/phpcas/source/CAS/Client.php"
         />
+        <!-- Better handle XML parsing for attributes ( modification of http://www.akchauhan.com/convert-xml-to-array-using-dom-extension-in-php5/) -->
+        <patch
+          patchfile="${platform.resources.dir}/patches/phpCAS-1.3.8_handle_XML_parsing_ECAS_attributes.patch"  haltonfailure='true'
+          originalfile="${platform.build.dir}/vendor/jasig/phpcas/source/CAS/Client.php"
+        />
     </target>
 
     <!-- Link site document root to Webserver document root. -->
