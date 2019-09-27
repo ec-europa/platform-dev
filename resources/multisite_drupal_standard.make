@@ -822,6 +822,8 @@ projects[uuid][subdir] = "contrib"
 projects[uuid][version] = "1.3"
 ; https://www.drupal.org/project/uuid/issues/3058011
 projects[uuid][patch][] = https://git.drupalcode.org/project/uuid/commit/311a2d668f990f7547c2125cebf69b55d2349f77.diff
+; https://www.drupal.org/node/3061669
+projects[uuid][patch][] = https://www.drupal.org/files/issues/2019-09-27/uuid-fix_missing_services_test_class-3061669-17.patch
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
