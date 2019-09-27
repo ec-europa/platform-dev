@@ -1,0 +1,82 @@
+diff --git a/source/CAS/Client.php b/source/CAS/Client.php
+index f06c154..fac4357 100644
+--- a/source/CAS/Client.php
++++ b/source/CAS/Client.php
+@@ -3336,6 +3336,50 @@ class CAS_Client
+         return $result;
+     }
+ 
++    /**
++     * This method will parse the DOM and pull out the attributes from the XML
++     * payload and put them into an array.
++     *
++     * @param DOMXml $node DOMXML node to get an array from
++     *
++     * @return array Array representation of the XML node
++     */
++    private function _xmlToArray($node) {
++        if($node->nodeType == XML_TEXT_NODE) {
++            $result = $node->nodeValue;
++        }
++        else {
++            if($node->hasChildNodes()){
++                $occurance = array();
++                foreach($node->childNodes as $child) {
++                    $occurance[$child->nodeName] = isset( $occurance[$child->nodeName] ) ? ++$occurance[$child->nodeName] : 1;
++                }
++                $children = $node->childNodes;
++
++                for($i=0; $i<$children->length; $i++) {
++                    $child = $children->item($i);
++
++                    if($child->nodeName != '#text') {
++                        if($occurance[$child->nodeName] > 1) {
++                            $result[$child->nodeName][] = $this->_xmlToArray($child);
++                        }
++                        else {
++                            $result[$child->nodeName] = $this->_xmlToArray($child);
++                        }
++                    }
++                    else if ($child->nodeName == '#text') {
++                        $text = $this->_xmlToArray($child);
++
++                        if (trim($text) != '') {
++                            $result = $this->_xmlToArray($child);
++                        }
++                    }
++                }
++            }
++        }
++
++        return $result;
++    }
+ 
+     /**
+      * This method will parse the DOM and pull out the attributes from the XML
+@@ -3412,25 +3456,7 @@ class CAS_Client
+             // 	</cas:serviceResponse>
+             //
+             phpCAS :: trace("Testing for rubycas style attributes");
+-            $childnodes = $success_elements->item(0)->childNodes;
+-            foreach ($childnodes as $attr_node) {
+-                switch ($attr_node->localName) {
+-                case 'user':
+-                case 'proxies':
+-                case 'proxyGrantingTicket':
+-                    break;
+-                default:
+-                    if (strlen(trim($attr_node->nodeValue))) {
+-                        phpCAS :: trace(
+-                            "Attribute [".$attr_node->localName."] = ".$attr_node->nodeValue
+-                        );
+-                        $this->_addAttributeToArray(
+-                            $extra_attributes, $attr_node->localName,
+-                            $attr_node->nodeValue
+-                        );
+-                    }
+-                }
+-            }
++            $extra_attributes = $this->_xmlToArray($success_elements->item(0));
+         }
+ 
+         // "Name-Value" attributes.
