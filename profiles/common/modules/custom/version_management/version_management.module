@@ -135,7 +135,8 @@ function version_management_node_presave($node) {
   }
 
   // Process node to keep date.
-  $node->changed = $node->original->changed;
+  unset($node->changed);
+  $node->revision_timestamp = $node->timestamp;
 
 }
 
