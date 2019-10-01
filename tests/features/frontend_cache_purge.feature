@@ -720,17 +720,17 @@ Feature:
     And I fill in "Name" with "Varinsh rule"
     And I select "After updating existing file" from "React on event"
     And I wait for AJAX to finish
-    And I click "Save"
+    And I press "Save"
     Then I should see "Your changes have been saved."
     Then I click on element ".add_action a"
     And I select "Varnish flush" from "Select the action to add"
     And I wait for AJAX to finish
     Then I fill in "Data selector" with "file"
     And I fill in "Value" with "test"
-    And I click "Save"
+    And I press "Save"
     Then I should see "Your changes have been saved."
     When I am on "file/1/edit"
-    And I click "Save"
+    And I press "Save"
     Then the web front end cache was instructed to purge the multiple paths for the application tag "my-website":
       | Path                                      | Request |
       | sites\/default\/files\/user_default\.png  | 0       |
