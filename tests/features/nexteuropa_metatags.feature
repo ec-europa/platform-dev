@@ -14,7 +14,7 @@ Feature: NextEuropa Metatags feature
     When I go to "admin/config/search/metatags/config/global"
     And I select "03000 - European citizenship, right to vote, ombudsman, protection of privacy" from "IPG Classification"
     And I fill in "Image" with "/tests/files/logo.png"
-    Then I click "Save"
+    Then I press "Save"
     Then I should see "The meta tag defaults for Global have been saved."
     When I go to "admin/config/search/metatags/config/node"
     And I should see "<meta_tags>"
