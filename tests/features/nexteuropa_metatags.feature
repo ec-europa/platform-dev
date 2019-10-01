@@ -20,7 +20,7 @@ Feature: NextEuropa Metatags feature
     And the response should contain the meta tag with the "reference" name the "property" type and the "European Commission" content
     And the response should contain the meta tag with the "og:image" name the "property" type and the "/tests/files/logo.png" content
 
-  Scenario Outline: As an administrator I want to be able to set metatags for a given content
+  Scenario Outline: As an administrator I want to be able to set metatags
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/search/metatags/config/node"
     And I should see "<meta_tags>"
