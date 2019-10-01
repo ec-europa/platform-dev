@@ -12,9 +12,7 @@ Feature: NextEuropa Metatags feature
   Scenario Outline: As an administrator I want to be able to set metatags
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/search/metatags/config/global"
-    Then I click "Nexteuropa tags"
     And I select "03000 - European citizenship, right to vote, ombudsman, protection of privacy" from "IPG Classification"
-    Then I click "Open Graph"
     And I fill in "Image" with "/tests/files/logo.png"
     Then I click "Save"
     Then I should see "The meta tag defaults for Global have been saved."
@@ -34,7 +32,6 @@ Feature: NextEuropa Metatags feature
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     Then I should see the text "Meta tags"
-    When I click "Meta tags"
     And I should see "<meta_tags>"
 
     Examples:
