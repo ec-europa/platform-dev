@@ -12,7 +12,7 @@ function nexteuropa_varnish_rules_action_info() {
   return array(
     'nexteuropa_varnish_rules_action_flush' => array(
       'label' => t('Varnish flush'),
-      'group' => t('Entity'),
+      'group' => t('Nexteuropa Varnish'),
       'parameter' => array(
         'entity' => array(
           'type' => 'entity',
@@ -39,5 +39,5 @@ function nexteuropa_varnish_rules_action_info() {
 function nexteuropa_varnish_rules_action_flush($wrapper, $string) {
   module_load_include('inc', 'nexteuropa_varnish', 'nexteuropa_varnish.rules.admin');
   $regex = _nexteuropa_varnish_gather_expressions($string);
-  _nexteuropa_varnish_purge_paths(array($regex));
+  _nexteuropa_varnish_purge_paths(array($regex), 'admin/config/workflow/rules');
 }
