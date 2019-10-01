@@ -33,7 +33,7 @@ function nexteuropa_metatags_metatag_config_default() {
   $og_image_fid = variable_get('nexteuropa_og_image', '');
   $meta_creator = variable_get('nexteuropa_creator', '');
   $reference = variable_get('nexteuropa_reference', '');
-$classification = '04000';
+
   $configs = array();
 
   $config = new stdClass();
