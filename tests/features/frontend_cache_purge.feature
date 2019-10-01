@@ -717,16 +717,16 @@ Feature:
     Given the default purge rule is disabled
     And I am logged in as a user with the "administrator" role
     And I go to "admin/config/workflow/rules/reaction/add"
-    And I fill "Name" with "Varinsh rule"
+    And I fill in "Name" with "Varinsh rule"
     And I select "After updating existing file" from "React on event"
     And I wait for AJAX to finish
     And I click "Save"
     Then I should see "Your changes have been saved."
-    Then I click on "Add action"
+    Then I click on element ".add_action a"
     And I select "Varnish flush" from "Select the action to add"
     And I wait for AJAX to finish
-    Then I fill "Data selector" with "file"
-    And I fill "Value" with "test"
+    Then I fill in "Data selector" with "file"
+    And I fill in "Value" with "test"
     And I click "Save"
     Then I should see "Your changes have been saved."
     When I am on "file/1/edit"
