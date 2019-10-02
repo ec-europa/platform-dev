@@ -1330,7 +1330,7 @@ EOF;
 
     case ECAS_WARNING_MESSAGE_EXISTING_EMAIL:
       $value = <<< EOF
-      We cannot log you in as the e-mail of your EU Login e-mail is already used by another account.<br /> 
+      We cannot log you in as the e-mail of your EU Login is already used by another account.<br /> 
       Please log in with this existing account.
 EOF;
       break;
