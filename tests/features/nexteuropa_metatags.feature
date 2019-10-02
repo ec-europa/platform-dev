@@ -4,11 +4,6 @@ Feature: NextEuropa Metatags feature
   As an administrator
   I want to be able to configure metatags for the whole site, for a given content type and for a given content
 
-  Background:
-    Given these modules are enabled
-      | modules             |
-      | nexteuropa_metatags |
-
   Scenario Outline: As an administrator I want to be able to set metatags
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/search/metatags/config/global"
@@ -49,3 +44,4 @@ Feature: NextEuropa Metatags feature
     Then the response should contain the meta tag with the "creator" name the "property" type and the "COMM/DG/UNIT" content
     And the response should contain the meta tag with the "classification" name the "property" type and the "03000" content
     And the response should contain the meta tag with the "reference" name the "property" type and the "European Commission" content
+    And the response should contain the meta tag with the "og:image" name the "property" type and the "/tests/files/logo.png" content
