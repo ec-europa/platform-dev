@@ -1,4 +1,4 @@
-@api
+@api @javascript
 Feature: NextEuropa Metatags feature
   In order to manage metatags (some of the metatags are mandatory)
   As an administrator
@@ -7,7 +7,9 @@ Feature: NextEuropa Metatags feature
   Scenario Outline: As an administrator I want to be able to set metatags
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/search/metatags/config/global"
+    And I click the "#edit-metatags-und-nexteuropa .fieldset-title" element
     And I select "03000 - European citizenship, right to vote, ombudsman, protection of privacy" from "IPG Classification"
+    And I click the "#edit-metatags-und-open-graph .fieldset-title" element
     And I fill in "Image" with "/tests/files/logo.png"
     Then I press "Save"
     Then I should see "The meta tag defaults for Global have been saved."
