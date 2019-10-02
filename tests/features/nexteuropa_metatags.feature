@@ -4,41 +4,34 @@ Feature: NextEuropa Metatags feature
   As an administrator
   I want to be able to configure metatags for the whole site, for a given content type and for a given content
 
-  Scenario Outline: As an administrator I want to be able to set metatags
+  Scenario: As an administrator I want to be able to set metatags
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/search/metatags/config/global"
     And I click the "#edit-metatags-und-nexteuropa .fieldset-title" element
     And I select "03000 - European citizenship, right to vote, ombudsman, protection of privacy" from "IPG Classification"
     And I click the "#edit-metatags-und-open-graph .fieldset-title" element
-    And I fill in "Image" with "/tests/files/logo.png"
+    And I fill in "edit-metatags-und-ogimage-value" with "/tests/files/logo.png"
     Then I press "Save"
     Then I should see "The meta tag defaults for Global have been saved."
     When I go to "admin/config/search/metatags/config/node"
-    And I should see "<meta_tags>"
+    And I should see "BASIC TAGS"
+    And I should see "Page title"
+    And I should see "Description"
+    And I should see "Keywords"
+    And I should see "ADVANCED TAGS"
+    And I should see "OPEN GRAPH"
 
-    Examples:
-      | meta_tags       |
-      | BASIC TAGS      |
-      | Page title      |
-      | Description     |
-      | Keywords        |
-      | ADVANCED TAGS   |
-      | OPEN GRAPH      |
-
-  Scenario Outline: As an administrator I want to be able to set metatags for a given content
+  Scenario: As an administrator I want to be able to set metatags for a given content
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     Then I should see the text "Meta tags"
-    And I should see "<meta_tags>"
-
-    Examples:
-      | meta_tags       |
-      | Basic tags      |
-      | Page title      |
-      | Description     |
-      | Keywords        |
-      | Advanced tags   |
-      | Open Graph      |
+    When I click "Meta tags"
+    Then I should see "BASIC TAGS"
+    And I should see "Page title"
+    And I should see "Description"
+    And I should see "Keywords"
+    And I should see "ADVANCED TAGS"
+    And I should see "OPEN GRAPH"
 
   Scenario: As anonymous I should see the nexteuropa tags (Creator, IPG Classification, Reference)
     Given I am on the homepage
