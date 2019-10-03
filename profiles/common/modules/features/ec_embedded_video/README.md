@@ -42,4 +42,10 @@ If necessary, this configuration can be change via the "Manage file display" adm
 (see admin/structure/file-types/manage/video/file-display/wysiwyg), and select the mode you want.
 **Please note that the 2 mentioned modes cannot be activated together!**
 
+# Privacy enhanced mode
+By default youtube videos are displayed in privacy enhanced mode, this means that all youtube urls
+are replaced with https://www.youtube-nocookie.com...
+This behaviour can be changed in admin/structure/file-types/manage/video/file-display_en, just uncheck
+the "Use privacy enhanced (no cookie) mode" option.
+
 [Go to top](#table-of-content)
