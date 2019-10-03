@@ -785,6 +785,9 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
+; https://www.drupal.org/node/3021843
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2178
+projects[tmgmt][patch][] =  https://www.drupal.org/files/issues/2019-09-17/translation_not_taking_into_account_the_source_data_update-3021843-22.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
@@ -1178,6 +1181,7 @@ projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
 projects[ec_europa][download][tag] = 0.0.14
+projects[ec_europa][patch][] = patches/nept-2585-remove-site-switcher.patch
 
 ; ==============
 ; Custom modules
