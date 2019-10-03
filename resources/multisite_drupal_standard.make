@@ -13,6 +13,7 @@ includes[] = "drupal-core.make"
 
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc6"
+projects[admin_menu][patch][]  = admin_menu_above_globab-nept-2677-.patch
 
 projects[administration_language_negotiation][subdir] = "contrib"
 projects[administration_language_negotiation][version] = "1.4"
