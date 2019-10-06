@@ -297,7 +297,7 @@ function nexteuropa_metatags_metatag_info() {
   $info['tags']['date'] = array(
     'label' => t('Date'),
     'name' => 'date',
-    'description' => '',
+    'description' => 'Date associated with the resource.',
   ) + $ne_defaults;
 
   return $info;
