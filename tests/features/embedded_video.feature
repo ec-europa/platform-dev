@@ -8,10 +8,10 @@ Feature: Embedded videos
     Given the module is enabled
       | modules           |
       | ec_embedded_video |
+    And I am logged in as a user with the 'administrator' role
 
   Scenario: As an administrator I can add Youtube videos.
-    Given I am logged in as a user with the 'administrator' role
-    And I go to "admin/structure/types/manage/page/fields"
+    Given I go to "admin/structure/types/manage/page/fields"
     And I fill in "edit-fields-add-new-field-label" with "YTvideo"
     And I select "Multimedia asset" from "edit-fields-add-new-field-type"
     And I wait for AJAX to finish
@@ -27,9 +27,8 @@ Feature: Embedded videos
     Then I should see "Saved YTvideo configuration."
 
   Scenario: Youtube videos are displayed in privacy enhanced mode.
-    Given I am logged in as a user with the 'administrator' role
-    And I go to "node/add/page"
-    And I fill in "Title" with "YTvideo"
+    Given I go to "node/add/page"
+    And I fill in the content's title with "YTvideo"
     And I click "Browse"
     Then the media browser opens
     And I fill in "File URL or media resource" with "https://www.youtube.com/embed/1W7NlAfTZU4"
@@ -41,15 +40,14 @@ Feature: Embedded videos
     And the response should contain "https://www.youtube-nocookie.com"
 
   Scenario: As an administrator I can disable privacy enhanced mode.
-    Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/structure/file-types/manage/video/file-display"
+    Given I go to "admin/structure/file-types/manage/video/file-display"
     And I click "YouTube Video"
     Then I should see "Use privacy enhanced (no cookie) mode"
     And I uncheck "Use privacy enhanced (no cookie) mode"
     And I press "Save configuration"
     Then I should see "Your settings have been saved."
     And I go to "node/add/page"
-    And I fill in "Title" with "YTvideo"
+    And I fill in the content's title with "YTvideo" 
     And I click "Browse"
     Then the media browser opens
     And I fill in "File URL or media resource" with "https://www.youtube.com/embed/1W7NlAfTZU4"
