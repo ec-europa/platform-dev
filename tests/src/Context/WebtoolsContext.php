@@ -45,7 +45,7 @@ class WebtoolsContext implements Context {
    * Constructs a new WebtoolsContext.
    */
   public function __construct() {
-    $this->smartloadUrl = "http://europa.eu/webtools/load.js";
+    $this->smartloadUrl = "//europa.eu/webtools/load.js?globan=1110";
   }
 
   /**
