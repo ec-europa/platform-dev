@@ -1146,8 +1146,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-;projects[ec_resp][download][tag] = 2.3.10
-projects[ec_resp][download][branch] = nept-536-theme
+projects[ec_resp][download][tag] = 2.3.11
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.12
