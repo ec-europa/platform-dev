@@ -250,6 +250,9 @@ PHPUnit tests can be executed from the repository root by running:
 $ ./bin/phpunit -c tests/phpunit.xml
 ```
 
+## Running Drupal Simpletests on the platform
+
+Check the documentation [here](https://webgate.ec.europa.eu/fpfis/wikis/x/NJUQE)
 
 ## Checking for coding standards violations
 
