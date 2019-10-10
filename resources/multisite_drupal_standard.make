@@ -13,6 +13,7 @@ includes[] = "drupal-core.make"
 
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc6"
+projects[admin_menu][patch][]  = patches/admin_menu_above_globan-nept-2667.patch
 
 projects[administration_language_negotiation][subdir] = "contrib"
 projects[administration_language_negotiation][version] = "1.4"
@@ -798,9 +799,7 @@ projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1
 
 projects[translation_overview][subdir] = "contrib"
-projects[translation_overview][version] = "2.0-beta1"
-; https://www.drupal.org/node/2673314
-projects[translation_overview][patch][] = https://www.drupal.org/files/issues/translation_overview-simpletest-warning-message-2673314-2-D7.patch
+projects[translation_overview][version] = "2.0-beta2"
 
 projects[translation_table][subdir] = "contrib"
 projects[translation_table][version] = "1.0-beta1"
@@ -824,6 +823,8 @@ projects[uuid][subdir] = "contrib"
 projects[uuid][version] = "1.3"
 ; https://www.drupal.org/project/uuid/issues/3058011
 projects[uuid][patch][] = https://git.drupalcode.org/project/uuid/commit/311a2d668f990f7547c2125cebf69b55d2349f77.diff
+; https://www.drupal.org/node/3061669
+projects[uuid][patch][] = https://www.drupal.org/files/issues/2019-09-27/uuid-fix_missing_services_test_class-3061669-17.patch
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
