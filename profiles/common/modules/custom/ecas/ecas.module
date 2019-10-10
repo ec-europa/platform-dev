@@ -13,9 +13,11 @@
  * Both will be included from the FPFIS_COMMON_LIBRARIES_PATH.
  */
 
-define('ECAS_MIN_PHPCAS_VERSION', "1.3.3");
+// Include the constants sued in the different part of the module.
+$constants_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.constants.inc';
+include_once $constants_ecas_module_include;
 
-// Include the admin part of the module first.
+// Include the admin part of the module.
 $admin_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.admin.inc';
 include_once $admin_ecas_module_include;
 

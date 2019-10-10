@@ -432,7 +432,7 @@ function nexteuropa_varnish_query_allow_all_entity_alter(QueryAlterableInterface
 /**
  * Purges certain paths on the web frontend cache.
  */
-function _nexteuropa_varnish_purge_paths($paths) {
+function _nexteuropa_varnish_purge_paths($paths, $varnish_rules_uri = 'admin/config/system/nexteuropa-varnish/purge_rules') {
   // First clear the actual backend page cache (usually DrupalDatabaseCache).
   // Otherwise the web frontend cache will receive again
   // outdated cached versions of pages.
@@ -443,7 +443,7 @@ function _nexteuropa_varnish_purge_paths($paths) {
 
   // Escape the paths for usage in a regular expression.
   $escaped_paths = array_map(
-    function ($regex) {
+    function ($regex) use ($varnish_rules_uri) {
       // Check if the regular expression is valid.
       if (@preg_match('/' . $regex . '/', NULL) !== FALSE) {
         return $regex;
@@ -455,7 +455,7 @@ function _nexteuropa_varnish_purge_paths($paths) {
             array(
               '!check_config' => l(
                 t('check your varnish rules'),
-                'admin/config/system/nexteuropa-varnish/purge_rules'),
+                $varnish_rules_uri),
               '%regex' => $regex,
               '@doc' => "https://github.com/ec-europa/platform-dev/tree/release-2.5/profiles/common/modules/custom/nexteuropa_varnish#purge-nodes-that-match-this-regex",
             )
