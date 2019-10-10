@@ -201,7 +201,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         ->setAuthor($organization['auteur'])
         ->setApplicationId('FPFIS')
         ->setDelay($delai)
-        ->setRemark('')
+        ->setRemark($job->settings['remark'])
         ->setReferenceFilesRemark($base_url)
         ->setProcedure('NEANT')
         ->setDestination('PUBLIC')
