@@ -34,7 +34,7 @@ function multisite_create_button_block_view($delta = '') {
 
     case 'og-contextual-links':
       $block['subject'] = t('Create content');
-      $block['content'] = _multisite_og_button_contextual_links();
+      $block['content'] = _multisite_create_button_og_contextual_links();
       break;
   }
 
@@ -72,7 +72,7 @@ function _multisite_create_button_contextual_links() {
 /**
  * Helper function to fetch the links.
  */
-function _multisite_og_button_contextual_links() {
+function _multisite_create_button_og_contextual_links() {
   global $theme_key;
   $element = NULL;
   $content = system_admin_menu_block(menu_get_item('node/add'));
