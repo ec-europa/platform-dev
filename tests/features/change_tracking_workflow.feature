@@ -35,7 +35,12 @@ Feature: Change tracking features
       | modules              |
       | nexteuropa_webtools |
     And a valid Smartload Url has been configured
-    And a map webtools "Block Webtools" exists
+    When I go to "block/add/webtools"
+    And I fill in "Label" with "Block Map Webtools"
+    And I fill in "Title" with "Block Map Webtools Title"
+    And I fill in "JSON Object" with "{\"service\":\"map\"}"
+    And I fill in "URL" with "http://europa.eu/webtools/showcase/demo/map/samples/demo.js"
+    And I press "Save"
     When I go to "node/add/page"
     And I fill in the content's title with "Basic page with a Map"
     And I select "Full HTML + Change tracking" from "Text format"
