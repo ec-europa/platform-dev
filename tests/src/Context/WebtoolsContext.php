@@ -82,6 +82,13 @@ class WebtoolsContext implements Context {
           ),
         ),
       ),
+      'field_custom_js_status' => array(
+        LANGUAGE_NONE => array(
+          0 => array(
+            'value' => '1',
+          ),
+        ),
+      ),
       'field_custom_js_link' => array(
         LANGUAGE_NONE => array(
           0 => array(
