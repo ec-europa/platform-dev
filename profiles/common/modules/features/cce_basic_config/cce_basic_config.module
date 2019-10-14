@@ -45,11 +45,16 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
   // Create fieldset 'META Data'.
   $form['meta'] = array(
     '#type' => 'fieldset',
-    '#title' => t('META data'),
+    '#title' => t('IPG'),
     '#weight' => 10,
     '#collapsible' => FALSE,
   );
-
+  // Add a variable that allows users to hide the global banner.
+  $form['meta']['webtoolds_globan'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display the global banner'),
+    '#default_value' => variable_get('webtoolds_globan', 1),
+  );
   // Create select field.
   $form['meta']['classification'] = array(
     '#type' => 'select',
@@ -476,4 +481,34 @@ function cce_basic_config_field_widget_entityreference_autocomplete_form_alter(&
  */
 function cce_basic_config_field_widget_entityreference_autocomplete_tags_form_alter(&$element, &$form_state, $context) {
   _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_js_alter().
+ *
+ * Change the load.js value in all features, if none, then add the loader.
+ */
+function cce_basic_config_js_alter(&$javascript) {
+  // If checkbox is unchecked, don't modify the values of the load.js.
+  $show_banner = variable_get('webtoolds_globan', 1);
+  if (!$show_banner) {
+    return;
+  }
+  // Otherwise, override the values.
+  variable_set('nexteuropa_laco_smartloader_prurl', '//europa.eu/webtools/load.js?globan=1110');
+  variable_set('nexteuropa_piwik_smartloader_prurl', '//europa.eu/webtools/load.js?globan=1110');
+  variable_set('nexteuropa_webtools_smartloader_prurl', '//europa.eu/webtools/load.js?globan=1110');
+  // If that made the trick, just stop here.
+  if (isset($javascript['//europa.eu/webtools/load.js?globan=1110'])) {
+    return;
+  }
+  // If the load has not been added yet, add it.
+  $smartloader_prurl = variable_get('nexteuropa_laco_smartloader_prurl');
+  drupal_add_js($smartloader_prurl, array(
+    'type' => 'external',
+    'scope' => 'header',
+    'defer' => TRUE,
+    'weight' => 5,
+  ));
+
 }
