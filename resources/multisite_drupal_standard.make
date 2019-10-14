@@ -21,7 +21,7 @@ projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.33"
 
 projects[advanced_help][subdir] = "contrib"
-projects[advanced_help][version] = "1.4"
+projects[advanced_help][version] = "1.5"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.11"
@@ -447,18 +447,13 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.21
+projects[media][version] = 2.23
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1015
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
-
-; Ensure the media_wysiwyg.filter.js is loaded.
-; https://www.drupal.org/project/media/issues/3039731
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2243
-projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js-library-3039731-1.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.5"
@@ -760,6 +755,9 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
+; https://www.drupal.org/node/3021843
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2178
+projects[tmgmt][patch][] =  https://www.drupal.org/files/issues/2019-09-17/translation_not_taking_into_account_the_source_data_update-3021843-22.patch
 ; https://www.drupal.org/project/tmgmt/issues/3050356
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2590
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-04-24/count_error_php_7_2-3050356-2.patch
