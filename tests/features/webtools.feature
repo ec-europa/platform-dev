@@ -6,8 +6,9 @@ Feature: Webtools feature
 
   Background:
     Given these modules are enabled
-      | modules             |
-      | nexteuropa_webtools |
+      | modules                   |
+      | nexteuropa_webtools       |
+      | nexteuropa_trackedchanges |
     And a valid Smartload Url has been configured
     And I am logged in as a user with the 'administrator' role
 
@@ -25,7 +26,7 @@ Feature: Webtools feature
     And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
     Then I go to "node/add/page"
     And I fill in the content's title with "Basic page with a Map"
-    And I select "Full HTML" from "Text format"
+    And I select "Full HTML + Change tracking" from "Text format"
     And I click the "Insert internal content" button in the "Body" WYSIWYG editor
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
     When I click the "Insert internal blocks" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor

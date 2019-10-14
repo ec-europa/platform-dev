@@ -1,11 +1,9 @@
 @api
 Feature: Change tracking features
   In order to ease communications between editors while they manage website
-  content, a tracking feature is available with WYSIWYG fields.
-  I want to use it while I edit content, and I want to see tracked
-  changes while I view content draft.
+  content, I want to use the tracking feature available with WYSIWYG fields.
   Tracked changes must be cleared before content is published or sent for
-  translation; otherwise the content publishing is blocked
+  translation; otherwise the content publishing is blocked.
 
   Background:
     Given the module is enabled
@@ -17,7 +15,7 @@ Feature: Change tracking features
     When I go to "admin/config/content/formats"
     Then I should see "Full HTML + Change tracking"
 
-  @javascript @maximizedwindow
+  @javascript
   Scenario: Checking WYSIWYG enabling and disabling change tracking on given WYSIWYG profile
     When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
     And I click "enable tracked changes buttons" in the "Full HTML" row
@@ -27,32 +25,6 @@ Feature: Change tracking features
     And I wait for the end of the batch job
     Then I should see "Disabled" in the "Full HTML" row
     And I should see the message "Change tracking disabled on full_html WYSIWYG profile"
-
-  @javascript
-  Scenario: Check that users can insert a webtools block into a content by using the Full HTML + Change tracking
-  text format
-    Given the module is enabled
-      | modules              |
-      | nexteuropa_webtools |
-    And a valid Smartload Url has been configured
-    When I go to "block/add/webtools"
-    And I fill in "Label" with "Block Webtools"
-    And I fill in "Title" with "Block Webtools"
-    And I fill in "JSON Object" with "{\"service\":\"map\"}"
-    And I fill in "URL" with "http://europa.eu/webtools/showcase/demo/map/samples/demo.js"
-    And I press "Save"
-    When I go to "node/add/page"
-    And I fill in the content's title with "Basic page with a Map"
-    And I select "Full HTML + Change tracking" from "Text format"
-    And I click the "Insert internal content" button in the "Body" WYSIWYG editor
-    Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
-    When I click the "Insert internal blocks" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
-    And I wait for AJAX to finish
-    When I click "Default" in the "Block Webtools" row
-    And I wait for AJAX to finish
-    And I press "Save"
-    Then I should see the success message "Basic page Basic page with a Map has been created."
-    And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
 
   @javascript @maximizedwindow
   Scenario: Checking if WYSIWYG options are applied to CKEditor
