@@ -571,13 +571,11 @@ function multisite_drupal_toolbox_sanitize($content) {
  * Remove ftp: protocol from field values.
  */
 function multisite_drupal_toolbox_preprocess_field(&$variables) {
-  switch ($variables['element']['#field_type']) {
-    case 'link_field':
-      foreach ($variables['items'] as $key => $value) {
-        $variables['items'][$key]['#element']['url'] = multisite_drupal_toolbox_filter_xss_bad_protocol($value['#element']['url']);
-        $variables['items'][$key]['#element']['display_url'] = multisite_drupal_toolbox_filter_xss_bad_protocol($value['#element']['display_url']);
-      }
-      break;
+  if ($variables['element']['#field_type'] === 'link_field') {
+    foreach ($variables['items'] as $key => $value) {
+      $variables['items'][$key]['#element']['url'] = multisite_drupal_toolbox_filter_xss_bad_protocol($value['#element']['url']);
+      $variables['items'][$key]['#element']['display_url'] = multisite_drupal_toolbox_filter_xss_bad_protocol($value['#element']['display_url']);
+    }
   }
 }
 
