@@ -283,15 +283,14 @@ function nexteuropa_varnish_node_delete($node) {
  * Implements hook_file_delete().
  */
 function nexteuropa_varnish_file_delete($file) {
-  $scheme = file_uri_scheme($file->uri);
+  _nexteuropa_varnish_flush_file($file);
+}
 
-  if ($scheme !== FALSE && file_stream_wrapper_valid_scheme($scheme) === TRUE) {
-    // Get path on filesystem.
-    $wrapper = file_stream_wrapper_get_instance_by_scheme($scheme);
-    _nexteuropa_varnish_purge_paths(array(
-      'escaped_alias' => preg_quote($wrapper->getDirectoryPath($file) . '/' . $file->filename, '/'),
-    ));
-  }
+/**
+ * Implements hook_file_update().
+ */
+function nexteuropa_varnish_file_update($file) {
+  _nexteuropa_varnish_flush_file($file);
 }
 
 /**
@@ -941,4 +940,23 @@ function _nexteuropa_varnish_trim_base_path($path, $base_path = NULL) {
   }
 
   return $path;
+}
+
+/**
+ * Flushes the path on disk of a file entity.
+ *
+ * @param object $file
+ *   The file entity.
+ */
+function _nexteuropa_varnish_flush_file(&$file) {
+  $scheme = file_uri_scheme($file->uri);
+  $base_name = drupal_basename($file->uri);
+
+  if ($scheme !== FALSE && file_stream_wrapper_valid_scheme($scheme) === TRUE) {
+    // Get path on filesystem.
+    $wrapper = file_stream_wrapper_get_instance_by_scheme($scheme);
+    _nexteuropa_varnish_purge_paths(array(
+      'escaped_alias' => preg_quote($wrapper->getDirectoryPath($file) . '/' . $base_name, '/'),
+    ));
+  }
 }
