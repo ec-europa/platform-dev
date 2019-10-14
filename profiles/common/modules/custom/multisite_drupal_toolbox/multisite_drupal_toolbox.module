@@ -565,7 +565,6 @@ function multisite_drupal_toolbox_sanitize($content) {
   return multisite_drupal_toolbox_filter_xss($content, multisite_drupal_toolbox_get_default_filter_options());
 }
 
-
 /**
  * Implements hook_preprocess_field().
  *
