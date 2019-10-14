@@ -2,3 +2,5 @@ name = EU Login
 core = 7.x
 package = "ECAS"
 description = "Provides single sign-on EU Login (former ECAS)"
+
+dependencies[] = filter

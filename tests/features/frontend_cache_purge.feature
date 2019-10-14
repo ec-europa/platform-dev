@@ -114,9 +114,9 @@ Feature:
     And I press "Delete"
     Then the web front end cache was instructed to purge the multiple paths for the application tag "my-website":
       | Path                              | Request |
-      | file\/logopng_[a-z]{2}            | 0       |
-      | file\/logopng                     | 0       |
-      | sites\/default\/files\/logo\.png  | 1       |
+      | sites\/default\/files\/logo\.png  | 0       |
+      | file\/logopng_[a-z]{2}            | 1       |
+      | file\/logopng                     | 1       |
 
   @moderated-content
   Scenario: Create a draft.
@@ -712,3 +712,26 @@ Feature:
     When I press the "Continue" button
     Then the web front end cache was instructed to purge completely its index for the application tag "my-website"
     And I should see the success message "The Drupal and Varnish caches have been fully flushed."
+
+  Scenario: Rules can flush the varnish caches
+    Given the default purge rule is disabled
+    And I am logged in as a user with the "administrator" role
+    And I go to "admin/config/workflow/rules/reaction/add"
+    And I fill in "Name" with "Varinsh rule"
+    And I select "After updating existing file" from "React on event"
+    And I wait for AJAX to finish
+    And I press "Save"
+    Then I should see "Your changes have been saved."
+    Then I click on element ".add_action a"
+    And I select "Varnish flush" from "Select the action to add"
+    And I wait for AJAX to finish
+    Then I fill in "Data selector" with "file"
+    And I fill in "Value" with "test"
+    And I press "Save"
+    Then I should see "Your changes have been saved."
+    When I am on "file/1/edit"
+    And I press "Save"
+    Then the web front end cache was instructed to purge the multiple paths for the application tag "my-website":
+      | Path                                      | Request |
+      | sites\/default\/files\/user_default\.png  | 0       |
+      | test                                      | 1       |
