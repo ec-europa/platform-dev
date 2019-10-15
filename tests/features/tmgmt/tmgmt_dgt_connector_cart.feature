@@ -161,11 +161,10 @@ Feature: TMGMT Poetry Cart features
     And I check the box "Block"
     And I press "Save configuration"
     Then I should see the message "The configuration options have been saved."
-
     When I create the new block type "New bean"
     And I go to "admin/structure/block-types"
     # It does not work without drush cc all
-    And I run drush "cc" "all"
+		And I run drush "cc" "all"
     And I click "manage fields" in the "New bean" row
     And I click "replace"
     And I check the box "Replace title with a field instance"
@@ -178,7 +177,6 @@ Feature: TMGMT Poetry Cart features
     And I fill in "Title" with "Title for New bean Block"
     And I press "Save"
     Then I should see "New bean Title for New bean Block has been created."
-
     When I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row

@@ -14,6 +14,7 @@ use Behat\MinkExtension\Context\RawMinkContext;
  * @package Drupal\nexteuropa\Context
  */
 class AgnosticBatchContext extends RawMinkContext {
+  use \Drupal\nexteuropa\Context\ContextUtil;
 
   /**
    * Wait for the Batch API to finish.
@@ -24,7 +25,12 @@ class AgnosticBatchContext extends RawMinkContext {
    * @Given /^I wait for the end of the batch job$/
    */
   public function iWaitForEndBatchJob() {
-    $this->getSession()->wait(600000, 'document.getElementById("updateprogress") == null');
+    $this->spin(function ($context) {
+      $inprogress = $this->getSession()->getPage()->findById('updateprogress');
+      if ($inprogress === NULL) {
+        return TRUE;
+      }
+    }, array(), '60');
   }
 
 }
