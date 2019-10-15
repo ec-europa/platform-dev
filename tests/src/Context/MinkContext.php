@@ -571,6 +571,18 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
+   * Checks that HTML response contains the specified meta tag.
+   *
+   * It checks the name and the content attributes values.
+   *
+   * @Then the response should contain the meta tag with the :arg1 name and the :arg2 content
+   */
+  public function responseShouldContainMetaTagWithNameAndContent($arg1, $arg2) {
+    $metatag = $this->getMetaTagByName($arg1);
+    assert($arg2, equals($metatag->getAttribute('content')), sprintf('The meta tag "%s" does not have "%s" as content attribute.', $arg1, $arg2));
+  }
+
+  /**
    * Gets the meta tag NodeElement from the type attribute value.
    *
    * @param string $name
@@ -581,11 +593,16 @@ class MinkContext extends DrupalExtensionMinkContext {
    * @return \Behat\Mink\ElementNodeElement
    *   The meta tag node element.
    */
-  protected function getMetaTagByName($name, $type) {
+  protected function getMetaTagByName($name, $type = NULL) {
     $page = $this->getSession()->getPage();
-    $meta_type = sprintf('meta[%s="%s"]', $type, $name);
-    $element = $page->find('css', $meta_type);
+    if ($type) {
+      $meta_type = sprintf('meta[%s="%s"]', $type, $name);
+    }
+    else {
+      $meta_type = $page->find('css', sprintf('meta[name="%s"]', $name));
+    }
 
+    $element = $page->find('css', $meta_type);
     assert($element, isNotEmpty(), sprintf('The meta tag type "%s" with "%s" name has not been found', $type, $name));
 
     return $element;
