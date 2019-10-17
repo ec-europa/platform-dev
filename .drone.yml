@@ -1,0 +1,219 @@
+# ==============================================================================
+# Pull request clone ===========================================================
+# ==============================================================================
+# Use plugin to checkout pull requests for caching issue:
+# https://github.com/drone/drone/issues/2390
+# ==============================================================================
+clone:
+  git:
+    image: plugins/git:next
+    depth: 1
+    # The tags property is not documented but can be found in the following
+    # snippet of code
+    # https://github.com/drone-plugins/drone-git/blob/master/plugin.go#L153
+    tags: true
+    when:
+      event: [ push, pull_request, tag ]
+  git:
+    image: plugins/git
+    when:
+      event: [ deployment ]
+
+# ==============================================================================
+# Workspace location ===========================================================
+# ==============================================================================
+# Define the build path inside the container ( Here /test/platform )
+# ==============================================================================
+workspace: 
+  base: /test 
+  path: platform
+
+# ==============================================================================
+# Main services ================================================================
+# ==============================================================================
+services:
+  web:
+    image: ${IMAGE_PHP=fpfis/httpd-php-ci:5.6}
+    environment:
+      - DOCUMENT_ROOT=/test/platform
+    pull: true
+    when:
+      event: [ push, pull_request, tag ]
+  mysql:
+    image: percona/percona-server:5.6
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    pull: true
+    when:
+      event: [ push, pull_request, tag ]
+  selenium:
+    image: wernight/phantomjs
+    environment:
+      - DISPLAY=:99
+      - SE_OPTS=-debug
+    pull: true
+    command: "phantomjs --webdriver=8910 --ignore-ssl-errors=true --ssl-protocol=any"
+    when:
+      event: [ push, pull_request, tag ]
+
+# ==============================================================================
+# pipeline =====================================================================
+# ==============================================================================
+pipeline:
+
+  # ============================================================================
+  # Build install and tests ====================================================
+  # ============================================================================
+  # Build and install developement platform and run phpcs and behat tests
+  # ============================================================================
+
+  # Build and install platform
+  site-build:
+    image: ${IMAGE_PHP=fpfis/httpd-php-ci:5.6}
+    commands:
+      - php --version
+      - composer install --ansi --no-suggest --no-progress
+      - ./bin/phing build-platform-dev -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+      - ./bin/phing setup-drone-file-system -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+      - ./bin/phing install-platform  -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+    volumes:
+      - /cache:/cache
+    when:
+      event: [push, tag, pull_request]
+
+  # Run phpcs tests
+  phpcs:
+    image: ${IMAGE_PHP=fpfis/httpd-php-ci:5.6}
+    commands:
+      - ./bin/phpcs
+    when:
+      matrix:
+        CODE_COMPLIANCE: 1
+      event: [push, tag, pull_request]
+
+  # Run phpunit tests
+  phpunit:
+    image: ${IMAGE_PHP=fpfis/httpd-php-ci:5.6}
+    commands:
+      - ./bin/phpunit -c tests/phpunit.xml
+    when:
+      matrix:
+        CODE_COMPLIANCE: 1
+      event: [push, tag, pull_request]
+
+  # Run behat tests
+  behat:
+    image: ${IMAGE_PHP=fpfis/httpd-php-ci:5.6}
+    commands:
+      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
+    when:
+      matrix:
+        CODE_COMPLIANCE: 0
+      event: [push, tag, pull_request]
+
+  # If error on behat test, upload screenshots
+  upload-screenshots:
+    image: drillster/drone-rsync
+    user: web_asda
+    secrets: [ plugin_key, plugin_hosts ]
+    source: tests/screenshots/
+    target: ${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/screenshots/${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/
+    script:
+      - echo "Screenshots available at https://asda.fpfis.tech.ec.europa.eu/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/screenshots/${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/"
+    when:
+      status: [ failure ]
+      event: [push, tag, pull_request]
+
+  # Slack notification in #core-ci
+  slack-notify-published:
+    image: plugins/slack
+    secrets: [ slack_webhook ]
+    channel: core-ci
+    username: corebot
+    icon_url: https://d30y9cdsu7xlg0.cloudfront.net/png/62766-200.png
+    when:
+      event: [push, tag, pull_request]
+      status: [ success, failure ]
+    template: >
+      {{#success build.status}}
+        {{repo.name}}@{{build.branch}} <{{build.link}}|Build  {{truncate build.commit 8}} passed> the core tests.
+      {{else}}
+        {{repo.name}}@{{build.branch}} <{{build.link}}|Build  {{truncate build.commit 8}} failed> the core tests.
+        Screenshots for failed behat steps (that use javascript) can be found at: https://asda.fpfis.tech.ec.europa.eu/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/screenshots/${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/
+      {{/success}}
+
+# ============================================================================
+# Matrix =====================================================================
+# ============================================================================
+# Matrix used for test different platform profile in parallel
+# ============================================================================
+matrix:
+  include:
+    - CODE_COMPLIANCE: 1
+      # Communities profile, ec_resp theme
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: communities_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-ci:5.6
+      PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_resp
+
+      # Communities profile, ec_europa theme
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: communities
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-ci:5.6
+      PLATFORM_PROFILE: multisite_drupal_communities
+      THEME_DEFAULT: ec_europa
+
+      # Standard profile, ec_europa theme
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-ci:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 1
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-ci:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 2
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-ci:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+    - BEHAT_PART: 3
+      BEHAT_PROFILE: default
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-ci:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_europa
+
+      # Standard profile, ec_resp theme
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-ci:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 1
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-ci:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 2
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-ci:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 3
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      IMAGE_PHP: fpfis/httpd-php-ci:5.6
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
