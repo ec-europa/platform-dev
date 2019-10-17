@@ -168,6 +168,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * @BeforeScenario @maximizedwindow
    */
   public function maximizeBrowserWindow() {
+    sleep(30);
     $this->getSession()->getDriver()->maximizeWindow();
   }
 
