@@ -161,7 +161,7 @@ Feature: Scheduler features
     And I select "Needs Review" from "Moderation state"
     And I press the "Save" button
     Then I should see the text "Revision state: Needs Review"
-    And I wait 60 seconds
+    And I wait 75 seconds
     Then I am logged in as a user with the 'administrator' role
     Then I am on "admin/config/system/cron_en"
     And I press "Run cron"
@@ -212,7 +212,7 @@ Feature: Scheduler features
     And I click "Revision information"
     And I select "Validated" from "Moderation state"
     And I press the "Save" button
-    And I wait 60 seconds
+    And I wait 75 seconds
     Then I am logged in as a user with the 'administrator' role
     Then I am on "admin/config/system/cron_en"
     And I press "Run cron"
