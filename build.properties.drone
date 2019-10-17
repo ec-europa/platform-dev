@@ -4,7 +4,7 @@
 composer.bin = /usr/bin/composer
 behat.screenshots.path = /test/platform/tests/screenshots
 behat.base_url = http://web:8080/build
-behat.wd_host.url = http://selenium:8910/wd/hub
+behat.wd_host.url = http://selenium:4444/wd/hub
 behat.browser.name = chrome
 
 mock.poetry.base_url = http://web:8080/build
