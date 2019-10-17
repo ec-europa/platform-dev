@@ -436,6 +436,29 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
           $elements[$delta] = $link;
         }
       }
+      elseif ('file' == $field['type']) {
+        foreach ($items as $delta => $item) {
+          $link = array(
+            '#theme' => 'link',
+            '#text' => $item['filename'],
+            '#path' => file_create_url($item['uri']),
+            '#options' => array(
+              'attributes' => array(
+                'target' => array(
+                  '_blank',
+                ),
+                'class'  => array(
+                  'ecl-button',
+                  'ecl-button--default',
+                  'ecl-file__download',
+                  'ecl-button--file',
+                ),
+              ),
+            ),
+          );
+          $elements[$delta] = $link;
+        }
+      }
       break;
 
     case 'ne_social_icon':
