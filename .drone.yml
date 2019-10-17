@@ -47,7 +47,7 @@ services:
     when:
       event: [ push, pull_request, tag ]
   selenium:
-    image: selenium/standalone-chrome:3.141.5
+    image: selenium/standalone-chrome-debug:3.141.5
     pull: true
     when:
       event: [ push, pull_request, tag ]

@@ -81,12 +81,12 @@ default:
       goutte: ~
       javascript_session: 'selenium2'
       browser_name: '{{ behat.browser.name }}'
-      capabilities: {
-        chromeOptions: { 
-          marionette: true,
-          args: [ '--start-maximized', '--disable-impl-side-painting']
-        }
-      }
+      capabilities: 
+        marionette: true
+        chromeOptions:
+          args: 
+            '--start-maximized'
+            '--disable-impl-side-painting'
       selenium2:
         browser: '{{ behat.browser.name }}'
         wd_host: '{{ behat.wd_host.url }}'
