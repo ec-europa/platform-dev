@@ -47,12 +47,8 @@ services:
     when:
       event: [ push, pull_request, tag ]
   selenium:
-    image: wernight/phantomjs
-    environment:
-      - DISPLAY=:99
-      - SE_OPTS=-debug
+    image: selenium/standalone-chrome:3.141.5
     pull: true
-    command: "phantomjs --webdriver=8910 --ignore-ssl-errors=true --ssl-protocol=any"
     when:
       event: [ push, pull_request, tag ]
 
