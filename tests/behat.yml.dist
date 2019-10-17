@@ -83,10 +83,6 @@ default:
       browser_name: '{{ behat.browser.name }}'
       capabilities: 
         marionette: true
-        chromeOptions:
-          args: 
-            '--start-maximized'
-            '--disable-impl-side-painting'
       selenium2:
         browser: '{{ behat.browser.name }}'
         wd_host: '{{ behat.wd_host.url }}'
