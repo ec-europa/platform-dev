@@ -1,4 +1,4 @@
-@api @javascript @maximizedwindow
+@api @javascript @ec_resp_theme
 Feature: Multisite registration standard
   In order to add registration option to different content types
   As different types of users
@@ -51,7 +51,8 @@ Feature: Multisite registration standard
     Then  I should see "This registration is for:"
 
   Scenario: as administrator I can disable registration when I create a new content with registration field
-    Given I am on "/node/add/article"
+    Given I am logged in as a user with the 'administrator' role
+    And I am on "/node/add/article"
     Then  I should see "Registration field test"
     When  I fill in "Title" with "Registration Article"
     When  I select "-- Disable Registrations --" from "Registration field test"
