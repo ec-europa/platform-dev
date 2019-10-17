@@ -34,12 +34,13 @@ Feature: Multisite registration standard
     And   I should see "multisite_registration"
 
   Scenario: as administrator I can enable registration when I create a new content with registration field
-    Given I am on "/node/add/article"
+    Given I am logged in as a user with the 'administrator' role
+    And I am on "/node/add/article"
     Then  I should see "Registration field test"
     And   I should see "multisite_registration"
     When  I fill in "Title" with "Registration Article"
     When  I select "multisite_registration" from "Registration field test"
-    And   I click "Publishing options"
+    And   I follow "Publishing options"
     And   I select "Published" from "Moderation state"
     And   I press "Save"
     And   I should see the text "Article Registration Article has been created"
@@ -54,7 +55,7 @@ Feature: Multisite registration standard
     Then  I should see "Registration field test"
     When  I fill in "Title" with "Registration Article"
     When  I select "-- Disable Registrations --" from "Registration field test"
-    And   I click "Publishing options"
+    And   I follow "Publishing options"
     And   I select "Published" from "Moderation state"
     And   I press "Save"
     And   I should see the text "Article Registration Article has been created"

@@ -19,7 +19,7 @@ Feature: Wiki communities
     And I click "Create content"
     And I click "Wiki" in the "sidebar_left" region
     And I fill in "Title" with "New Wiki Page"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I select "Published" from "Moderation state"
     And I press the "Save" button
     And I go to "community/community-example"
@@ -32,7 +32,7 @@ Feature: Wiki communities
     When I go to "community/community-example"
     And I click "Wiki" in the "sidebar_left" region
     And I fill in "Title" with "New Wiki Page"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I select "Published" from "Moderation state"
     And I press the "Save" button
     And I go to "community/community-example/wiki"

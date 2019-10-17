@@ -1,4 +1,4 @@
-@api @javascript @maximizedwindow @reset-nodes @ec_resp
+@api @javascript @maximizedwindow @reset-nodes @ec_resp_theme
 Feature:
   In order to make new or updated content quickly available to the public
   Or to urgently hide content again from the public
@@ -142,7 +142,7 @@ Feature:
     And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
@@ -227,7 +227,7 @@ Feature:
     And the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I uncheck the box "Published"
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
@@ -259,11 +259,11 @@ Feature:
     And the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I uncheck the box "Published"
     And I press "Save"
     And I click "Edit"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I check the box "Published"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
@@ -276,7 +276,7 @@ Feature:
     And the web front end cache is ready to receive requests.
     And I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I uncheck the box "Published"
     And I press "Save"
     And I click "Edit"
@@ -297,7 +297,7 @@ Feature:
       | page           | \/more\-basic\-pages   |
       | editorial_team | \/all\-articles       |
     When I click "Edit"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I uncheck the box "Published"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
@@ -336,7 +336,7 @@ Feature:
     And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "frontend-cache-purge-publish-immediately"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
@@ -412,13 +412,13 @@ Feature:
       | page         |                |
     When I go to "node/add/page"
     And I fill in "Title" with "frontend-cache-purge-published-page"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
     And the web front end cache is ready to receive requests.
     When I click "New draft"
-    And I click "URL path settings"
+    And I follow "URL path settings"
     And I uncheck the box "Generate automatic URL alias"
     And I fill in "URL alias" with "frontend-cache-purge-published-page-custom-alias"
     And I press "Save"
@@ -457,11 +457,11 @@ Feature:
     And the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "frontend-cache-purge-editorial-team-publish-draft"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I uncheck the box "Published"
     And I press "Save"
     And I click "Edit"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I check the box "Published"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
@@ -503,7 +503,7 @@ Feature:
     And the web front end cache is ready to receive requests.
     And I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I uncheck the box "Published"
     And I press "Save"
     And I click "Edit"
@@ -522,7 +522,7 @@ Feature:
       | editorial_team |                |
     And the web front end cache is ready to receive requests.
     When I click "Edit"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I uncheck the box "Published"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
@@ -541,7 +541,7 @@ Feature:
     And nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
@@ -557,7 +557,7 @@ Feature:
     And the web front end cache will refuse the authentication credentials
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
@@ -574,7 +574,7 @@ Feature:
     And the web front end cache will refuse the authentication credentials
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
@@ -588,7 +588,7 @@ Feature:
     And "my-website" is "not correctly" configured as the purge application tag
     When I go to "node/add/page"
     And I fill in "Title" with "frontend-cache-purge-publish-immediately"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
@@ -643,11 +643,11 @@ Feature:
     Given the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "frontend-cache-purge-editorial-team-publish-draft"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I uncheck the box "Published"
     And I press "Save"
     And I click "Edit"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I check the box "Published"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
@@ -663,11 +663,11 @@ Feature:
     Given I request to change the variable nexteuropa_varnish_prevent_purge to "TRUE"
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "frontend-cache-purge-editorial-team-publish-draft"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I uncheck the box "Published"
     And I press "Save"
     And I click "Edit"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I check the box "Published"
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths

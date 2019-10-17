@@ -73,7 +73,7 @@ Feature: Subscription
     When I am logged in as a user with the 'administrator' role
     When I go to "node/add/page"
     And I fill in "Title" with "Another page"
-    And I click "Publishing options"
+    And I follow "Publishing options"
     And I select "Published" from "Moderation state"
     When I press "Save"
     And I am on "admin/config/system/cron_en"
