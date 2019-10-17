@@ -160,19 +160,6 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
-   * Maximizes the browser window.
-   *
-   * Use this when some tests fail due to elements not being visible because
-   * of a limited screen size.
-   *
-   * @BeforeScenario @maximizedwindow
-   */
-  public function maximizeBrowserWindow() {
-    sleep(30);
-    $this->getSession()->getDriver()->maximizeWindow();
-  }
-
-  /**
    * Increase ajax timeout value.
    *
    * @BeforeScenario @increase_timeout
