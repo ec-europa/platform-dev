@@ -36,6 +36,8 @@ Feature: Embedded videos
     Then I should see "File name"
     And I press "Save"
     And I wait for AJAX to finish
+    Then the media browser closes
+    And I wait for AJAX to finish
     And I press "Save"
     And the response should contain "https://www.youtube-nocookie.com"
 
@@ -54,6 +56,8 @@ Feature: Embedded videos
     And I press "Next"
     Then I should see "File name"
     And I press "Save"
+    And I wait for AJAX to finish
+    Then the media browser closes
     And I wait for AJAX to finish
     And I press "Save"
     And the response should contain "https://www.youtube.com"
