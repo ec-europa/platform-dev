@@ -149,6 +149,9 @@
         </behat:balancer>
     </target>
 
+    <target name="setup-balancer-optimizer">
+        <exec command="tail -n 1 ${behat.dir}/balancer/behat.communities.1.yml >> ${behat.dir}/balancer/behat.communities.0.yml" dir="${behat.dir}" />
+    </target>
     <!-- Run Behat tests. -->
     <target name="behat" description="Run Behat tests.">
         <foreach param="filename" absparam="config" target="behat-suite">
