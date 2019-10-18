@@ -1,8 +1,17 @@
 diff --git a/source/CAS/Client.php b/source/CAS/Client.php
-index f06c154..fac4357 100644
+index f06c154..bb34b1d 100644
 --- a/source/CAS/Client.php
 +++ b/source/CAS/Client.php
-@@ -3336,6 +3336,50 @@ class CAS_Client
+@@ -1655,7 +1655,7 @@ class CAS_Client
+      *
+      * @return void
+      */
+-    public function redirectToCas($gateway=false,$renew=false)
++    public function redirectToCas($gateway=false,$renew=true)
+     {
+         phpCAS::traceBegin();
+         $cas_url = $this->getServerLoginURL($gateway, $renew);
+@@ -2149,6 +2149,51 @@ class CAS_Client
          return $result;
      }
  
@@ -50,10 +59,11 @@ index f06c154..fac4357 100644
 +
 +        return $result;
 +    }
- 
++
      /**
-      * This method will parse the DOM and pull out the attributes from the XML
-@@ -3412,25 +3456,7 @@ class CAS_Client
+      * This method will parse the DOM and pull out the attributes from the SAML
+      * payload and put them into an array, then put the array into the session.
+@@ -3412,25 +3457,7 @@ class CAS_Client
              // 	</cas:serviceResponse>
              //
              phpCAS :: trace("Testing for rubycas style attributes");
