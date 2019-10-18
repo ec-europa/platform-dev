@@ -1,4 +1,4 @@
-@api @javascript @reset-nodes @ec_resp
+@api @javascript @reset-nodes @ec_resp_theme
 Feature:
   In order to make new or updated content quickly available to the public
   Or to urgently hide content again from the public
