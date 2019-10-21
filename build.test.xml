@@ -137,9 +137,6 @@
             <filters profile="default">
                     <tags><![CDATA[ ~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip ]]></tags>
             </filters>
-            <filters profile="communities">
-                <tags><![CDATA[ ~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities ]]></tags>
-            </filters>
             <filters profile="standard_ec_resp">
                 <tags><![CDATA[ ~@wip&&~@ec_europa_theme&&~@communities ]]></tags>
             </filters>
@@ -147,10 +144,16 @@
                 <tags><![CDATA[ ~@wip&&~@ec_europa_theme&&@communities ]]></tags>
             </filters>
         </behat:balancer>
-    </target>
-
-    <target name="setup-balancer-optimizer">
-        <exec command="tail -n 1 ${behat.dir}/balancer/behat.communities.1.yml >> ${behat.dir}/balancer/behat.communities.0.yml" dir="${behat.dir}" />
+        <behat:balancer
+            containers="1"
+            root="${behat.load_balancer.root}"
+            destination="${behat.load_balancer.destination}"
+            import="${behat.load_balancer.import}"
+        >
+            <filters profile="communities">
+                <tags><![CDATA[ ~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities ]]></tags>
+            </filters>
+        </behat:balancer>
     </target>
     <!-- Run Behat tests. -->
     <target name="behat" description="Run Behat tests.">
