@@ -1,0 +1,13 @@
+diff --git a/admin_menu.css b/admin_menu.css
+index 42cdbf0..6c33fa1 100644
+--- a/admin_menu.css
++++ b/admin_menu.css
+@@ -52,7 +52,7 @@ body.admin-menu {
+   list-style: none;
+   margin: 0;
+   padding: 0;
+-  z-index: 999;
++  z-index: 2147483647;
+ }
+ #admin-menu .dropdown {
+   position: static;
