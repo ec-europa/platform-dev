@@ -45,7 +45,7 @@ class WebtoolsContext implements Context {
    * Constructs a new WebtoolsContext.
    */
   public function __construct() {
-    $this->smartloadUrl = "http://europa.eu/webtools/load.js";
+    $this->smartloadUrl = "//europa.eu/webtools/load.js?globan=1110";
   }
 
   /**
@@ -78,7 +78,14 @@ class WebtoolsContext implements Context {
       'field_json_object' => array(
         LANGUAGE_NONE => array(
           0 => array(
-            'value' => '{"service":"map","custom":"//europa.eu/webtools/showcase/demo/map/samples/demo.js"}',
+            'value' => '{"service":"map"}',
+          ),
+        ),
+      ),
+      'field_custom_js_status' => array(
+        LANGUAGE_NONE => array(
+          0 => array(
+            'value' => '1',
           ),
         ),
       ),
