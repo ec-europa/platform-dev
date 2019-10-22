@@ -1,0 +1,17 @@
+diff --git a/media.module b/media.module
+index 49d47fe..c888a21 100644
+--- a/media.module
++++ b/media.module
+@@ -368,6 +368,12 @@ function media_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
+     // presumably they will not need a long list of extensions.
+   }
+ 
++  if (!isset($form['instance']['widget']['type'])) {
++    $form['instance']['widget']['type'] = array(
++      '#value' => $form['#instance']['widget']['type'],
++    );
++  }
++
+   // Add a validation function to any field instance which uses the media widget
+   // to ensure that the upload destination scheme is one of the allowed schemes
+   // if any defined by settings.
