@@ -271,3 +271,29 @@ $ ./bin/phpcs profiles/common/modules/custom/ecas
 
 Our developement environment already provides a docker-compose.yml file.
 It can be found on https://github.com/ec-europa/cloud9/blob/master/salt/docker/files/docker-compose/docker-compose-all.yml
+
+# Patches
+
+## Composer patches
+
+Composer patches are added via cweagans/composer-patches to projects via composer.json.
+
+### rych/random
+
+Add PHP 7 compatibility.
+```
+"https://github.com/rchouinard/rych-random/pull/5": "https://patch-diff.githubusercontent.com/raw/rchouinard/rych-random/pull/5.patch"
+```
+
+Provide new generator that works with PHP version >= 7.1
+```
+"https://github.com/rchouinard/rych-random/pull/7": "https://patch-diff.githubusercontent.com/raw/rchouinard/rych-random/pull/7.patch
+```
+
+### jasig/phpcas
+
+Prevent infinite loops (see https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2160)
+```
+"phpCAS-1.3.8_handle_XML_parsing_ECAS_attributes.patch": "../resources/patches/phpCAS-1.3.8_handle_XML_parsing_ECAS_attributes.patch"
+```
+
