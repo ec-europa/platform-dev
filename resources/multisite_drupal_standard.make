@@ -1152,11 +1152,7 @@ projects[atomium][version] = 2.30
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-<<<<<<< HEAD
-projects[ec_europa][download][tag] = 0.0.15
-=======
 projects[ec_europa][download][tag] = 0.0.21
->>>>>>> NEPT-2708: Update atomium and ec_europa.
 
 ; ==============
 ; Custom modules
