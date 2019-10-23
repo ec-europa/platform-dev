@@ -13,6 +13,7 @@ includes[] = "drupal-core.make"
 
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc6"
+projects[admin_menu][patch][]  = patches/admin_menu_above_globan-nept-2667.patch
 
 projects[administration_language_negotiation][subdir] = "contrib"
 projects[administration_language_negotiation][version] = "1.4"
@@ -460,7 +461,7 @@ projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contrib"
-projects[maxlength][version] = "3.2-beta2"
+projects[maxlength][version] = "3.3"
 
 projects[media][subdir] = contrib
 projects[media][version] = 2.23
@@ -681,6 +682,7 @@ projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issue
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.11"
+projects[rules][patch][] = https://www.drupal.org/files/issues/file_events-826986-31_0.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5

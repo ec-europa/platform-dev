@@ -137,7 +137,7 @@ behat.base_url = http://localhost
 behat.wd_host.url = http://localhost:8643/wd/hub
 
 # The browser to use for javascript testing.
-behat.browser.name = phantomjs
+behat.browser.name = chrome
 
 # The location to search for Behat subcontexts.
 behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules

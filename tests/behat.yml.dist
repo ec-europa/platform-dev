@@ -84,6 +84,8 @@ default:
       selenium2:
         browser: '{{ behat.browser.name }}'
         wd_host: '{{ behat.wd_host.url }}'
+        capabilities:
+          marionette: true
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
       ajax_timeout: 30
