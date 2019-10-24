@@ -5,9 +5,9 @@
     "php": ">=5.4",
     "drupol/drupal7_psr3_watchdog": "^1.0",
     "ec-europa/oe-poetry-client": "0.3.6",
-    "jasig/phpcas": "^1.3.8",
+    "jasig/phpcas": " 1.3.8",
     "guzzlehttp/guzzle": "^6.2.1",
-    "cweagans/composer-patches": "~2.0"
+    "cweagans/composer-patches": "1.6.5"
   },
   "require-dev": {
     "behat/behat": "~3.2",
