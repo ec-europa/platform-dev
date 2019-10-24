@@ -6,8 +6,7 @@
  */
 
 define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
-define('MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT', -50);
-define('MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MAX_WEIGHT', 50);
+define('MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT', -49);
 
 /**
  * Implements hook_permission().
