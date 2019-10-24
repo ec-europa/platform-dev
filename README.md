@@ -274,6 +274,11 @@ It can be found on https://github.com/ec-europa/cloud9/blob/master/salt/docker/f
 
 # Patches
 
+## Make file patches
+
+Make file patches are added to drupal.org contributed modules while building the platform, just after the contributed modules
+gets downloaded.
+
 ## Composer patches
 
 Composer patches are added via cweagans/composer-patches to projects via composer.json.
