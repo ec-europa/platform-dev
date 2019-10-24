@@ -297,7 +297,9 @@ Provide new generator that works with PHP version >= 7.1
 
 ### jasig/phpcas
 
-Prevent infinite loops (see https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2160)
+Prevent infinite loops, see https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2160
+To better handle XML parsing for attributes (modification of http://www.akchauhan.com/convert-xml-to-array-using-dom-extension-in-php5/),
+see https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1278
 ```
 "phpCAS-1.3.8_handle_XML_parsing_ECAS_attributes.patch": "../resources/patches/phpCAS-1.3.8_handle_XML_parsing_ECAS_attributes.patch"
 ```
