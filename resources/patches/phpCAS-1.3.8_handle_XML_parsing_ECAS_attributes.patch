@@ -2,6 +2,15 @@ diff --git a/source/CAS/Client.php b/source/CAS/Client.php
 index f06c154..bb34b1d 100644
 --- a/source/CAS/Client.php
 +++ b/source/CAS/Client.php
+@@ -1655,7 +1655,7 @@ class CAS_Client
+      *
+      * @return void
+      */
+-    public function redirectToCas($gateway=false,$renew=false)
++    public function redirectToCas($gateway=false,$renew=true)
+     {
+         phpCAS::traceBegin();
+         $cas_url = $this->getServerLoginURL($gateway, $renew);
 @@ -2149,6 +2149,51 @@ class CAS_Client
          return $result;
      }
