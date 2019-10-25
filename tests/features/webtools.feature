@@ -12,7 +12,7 @@ Feature: Webtools feature
     And a valid Smartload Url has been configured
     And I am logged in as a user with the 'administrator' role
 
-  @api @standard_ec_resp @javascript @wip
+  @api @standard_ec_resp @javascript
   Scenario: Insert a webtools block into a content and delete a block 'Map'
     When I go to "block/add/webtools"
     And I fill in "Label" with "Block Map Webtools"
