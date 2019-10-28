@@ -34,8 +34,10 @@ Feature: Embedded videos
     And I fill in "File URL or media resource" with "https://www.youtube.com/embed/1W7NlAfTZU4"
     And I press "Next"
     Then I should see "File name"
-    And I press "Save"
+    And I click on element "#media-browser-page #edit-submit"
+    And I wait for AJAX to finish
     Then the media browser closes
+    And I wait for AJAX to finish
     And I press "Save"
     And the response should contain "https://www.youtube-nocookie.com"
 
@@ -53,7 +55,9 @@ Feature: Embedded videos
     And I fill in "File URL or media resource" with "https://www.youtube.com/embed/1W7NlAfTZU4"
     And I press "Next"
     Then I should see "File name"
-    And I press "Save"
+    And I click on element "#media-browser-page #edit-submit"
+    And I wait for AJAX to finish
     Then the media browser closes
+    And I wait for AJAX to finish
     And I press "Save"
     And the response should contain "https://www.youtube.com"
