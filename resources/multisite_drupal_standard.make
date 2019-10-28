@@ -649,6 +649,9 @@ projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.12"
 ; https://www.drupal.org/node/3028444
 projects[rules][patch][] = https://www.drupal.org/files/issues/2019-01-25/3028444-6-markup-and-test.patch
+; https://www.drupal.org/node/826986
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2160
+projects[rules][patch][] = https://www.drupal.org/files/issues/file_events-826986-31_0.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
