@@ -14,7 +14,6 @@
         <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark_bar.admin.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
     </rule>
 
     <!-- Provide a reason in a comment on the line above as to why it should be open. -->
