@@ -171,3 +171,21 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     file_display_save($file_display);
   }
 }
+
+/**
+ * Soft configure privacy enhanced (no cookie) mode.
+ */
+function _ec_embedded_video_install_nocookie() {
+  $view_modes = array('default', 'teaser', 'preview', 'wysiwyg');
+
+  foreach ($view_modes as $view_mode) {
+    $displays = file_displays_load('video', $view_mode, TRUE);
+
+    foreach ($displays as $display) {
+      if (isset($display->settings['nocookie'])) {
+        $display->settings['nocookie'] = 1;
+        file_display_save($display);
+      }
+    }
+  }
+}

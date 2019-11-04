@@ -42,3 +42,10 @@ function ec_embedded_video_disable() {
 function ec_embedded_video_update_7001() {
   _ec_embedded_video_install_soft_configured_file_display();
 }
+
+/**
+ * NEPT-2418: Improve whitelisting in ec_embedded_videos.
+ */
+function ec_embedded_video_update_7002() {
+  _ec_embedded_video_install_nocookie();
+}
