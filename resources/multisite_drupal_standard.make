@@ -462,6 +462,8 @@ projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.3"
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2731 
+projects[maxlength][patch][] = https://www.drupal.org/files/issues/2018-09-24/maxlength_js_label_translatable-3001622-2.patch
 
 projects[media][subdir] = contrib
 projects[media][version] = 2.23
