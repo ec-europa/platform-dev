@@ -12,6 +12,7 @@ Feature:
     And these modules are enabled
       | modules            |
       | nexteuropa_varnish |
+      | rules_admin        |
     And I am logged in as a user with the "administrator" role
 
   Scenario: View purge rules.
