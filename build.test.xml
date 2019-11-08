@@ -137,18 +137,31 @@
             <filters profile="default">
                     <tags><![CDATA[ ~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip ]]></tags>
             </filters>
-            <filters profile="communities">
-                <tags><![CDATA[ ~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities ]]></tags>
-            </filters>
             <filters profile="standard_ec_resp">
                 <tags><![CDATA[ ~@wip&&~@ec_europa_theme&&~@communities ]]></tags>
             </filters>
+        </behat:balancer>
+        <behat:balancer
+            containers="1"
+            root="${behat.load_balancer.root}"
+            destination="${behat.load_balancer.destination}"
+            import="${behat.load_balancer.import}"
+        >
+            <filters profile="communities">
+                <tags><![CDATA[ ~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities ]]></tags>
+            </filters>
+        </behat:balancer>
+        <behat:balancer
+            containers="1"
+            root="${behat.load_balancer.root}"
+            destination="${behat.load_balancer.destination}"
+            import="${behat.load_balancer.import}"
+        >
             <filters profile="communities_ec_resp">
                 <tags><![CDATA[ ~@wip&&~@ec_europa_theme&&@communities ]]></tags>
             </filters>
         </behat:balancer>
     </target>
-
     <!-- Run Behat tests. -->
     <target name="behat" description="Run Behat tests.">
         <foreach param="filename" absparam="config" target="behat-suite">
