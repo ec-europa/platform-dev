@@ -7,7 +7,7 @@
   Drupal.behaviors.nexteuropa_trackedchanges_ckeditor = {
     attach: function () {
       $(function () {
-        function filterTracked(event) {
+        function filterTracked (event) {
           var editor = event.editor;
           var editorContent = editor.getData();
           var trackedChanges = editorContent.search('(<span[^>]+class\s*=\s*(")ice-[^>]*>)[^<]*(</span>)');

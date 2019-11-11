@@ -778,7 +778,7 @@ function nexteuropa_trackedchanges_cron_queue_info() {
 function nexteuropa_trackedchanges_form_node_form_alter(&$form, &$form_state, $form_id) {
   $wysiwyg_profiles = _nexteuropa_trackedchanges_get_profiles();
   $tracking_profiles = array();
-  
+
   if (!empty($wysiwyg_profiles['info'])) {
     foreach ($wysiwyg_profiles['info'] as $name => $profile) {
       if ($profile['cke_lite_status'] === TRUE) {
