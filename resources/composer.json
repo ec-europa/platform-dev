@@ -5,9 +5,9 @@
     "php": ">=5.4",
     "drupol/drupal7_psr3_watchdog": "^1.0",
     "ec-europa/oe-poetry-client": "0.3.6",
-    "jasig/phpcas": "^1.3.5",
+    "jasig/phpcas": " 1.3.8",
     "guzzlehttp/guzzle": "^6.2.1",
-    "cweagans/composer-patches": "~1.0"
+    "cweagans/composer-patches": "1.6.5"
   },
   "require-dev": {
     "behat/behat": "~3.2",
@@ -31,6 +31,9 @@
       "rych/random": {
         "https://github.com/rchouinard/rych-random/pull/5": "https://patch-diff.githubusercontent.com/raw/rchouinard/rych-random/pull/5.patch",
         "https://github.com/rchouinard/rych-random/pull/7": "https://patch-diff.githubusercontent.com/raw/rchouinard/rych-random/pull/7.patch"
+      },
+      "jasig/phpcas": {
+        "phpCAS-1.3.8_handle_XML_parsing_ECAS_attributes.patch": "../resources/patches/phpCAS-1.3.8_handle_XML_parsing_ECAS_attributes.patch"
       }
     }
   }
