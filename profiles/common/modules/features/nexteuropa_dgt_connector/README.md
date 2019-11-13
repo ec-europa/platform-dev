@@ -235,6 +235,9 @@ date from the calendar that will pop up. This is an indicative date for DGT.
 [Go to top](#table-of-contents)
 
 # Interesting information regarding the DGT connector
+## TMGMT DGT CONNECTOR module
+The readme file of [NextEuropa DGT Connector](https://github.com/ec-europa/platform-dev/tree/release-2.5/profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_connector/README.md)
+ module provides useful information on scope and usage of the functionalities.
 ## DGT Web app: Checking the translation was received
 Once a translation has been requested to DGT, the status is updated on the
 Drupal site. In addition it is also possible for EC staff to view translation
