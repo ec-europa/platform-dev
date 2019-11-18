@@ -459,7 +459,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
 
           // If the value is empty, no need to keep it in the display.
           if (empty($attrinfo['value'])) {
-            continue;
+            continue 2;
           }
           break;
 
@@ -468,7 +468,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
 
           // If the value is empty, no need to keep it in the display.
           if (empty($attrinfo['value'])) {
-            continue;
+            continue 2;
           }
           break;
 
@@ -477,7 +477,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
 
           // If the value is empty, no need to keep it in the display.
           if (empty($attrinfo['value'])) {
-            continue;
+            continue 2;
           }
           break;
 
@@ -487,7 +487,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
 
           // If the value is empty, no need to keep it in the display.
           if (empty($attrinfo['value'])) {
-            continue;
+            continue 2;
           }
           break;
 
@@ -503,7 +503,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
 
           // If the value is empty, no need to keep it in the display.
           if (empty($attrinfo['value'])) {
-            continue;
+            continue 2;
           }
           break;
 
