@@ -8,6 +8,7 @@ Feature: Embedded videos
     Given the module is enabled
       | modules           |
       | ec_embedded_video |
+      | field_ui          |
     And I am logged in as a user with the 'administrator' role
 
   Scenario: As an administrator I can add Youtube videos.
