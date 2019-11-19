@@ -25,7 +25,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__no_wrapper_media_avportal_video';
     $file_display->weight = -39;
     $file_display->status = TRUE;
-    $file_display->export_type = 'EXPORT_IN_DATABASE';
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '390',
@@ -39,7 +39,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__no_wrapper_media_dailymotion_video';
     $file_display->weight = -43;
     $file_display->status = TRUE;
-    $file_display->export_type = 'EXPORT_IN_DATABASE';
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '560',
       'height' => '340',
@@ -55,7 +55,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__no_wrapper_media_vimeo_video';
     $file_display->weight = -49;
     $file_display->status = TRUE;
-    $file_display->export_type = 'EXPORT_IN_DATABASE';
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '360',
@@ -78,7 +78,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__no_wrapper_media_youtube_video';
     $file_display->weight = -46;
     $file_display->status = TRUE;
-    $file_display->export_type = 'EXPORT_IN_DATABASE';
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '390',
@@ -105,7 +105,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__media_avportal_video';
     $file_display->weight = -41;
     $file_display->status = FALSE;
-    $file_display->export_type = 'EXPORT_IN_DATABASE';
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '390',
@@ -119,7 +119,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__media_dailymotion_video';
     $file_display->weight = -40;
     $file_display->status = FALSE;
-    $file_display->export_type = 'EXPORT_IN_DATABASE';
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '560',
       'height' => '340',
@@ -135,7 +135,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__media_vimeo_video';
     $file_display->weight = -47;
     $file_display->status = FALSE;
-    $file_display->export_type = 'EXPORT_IN_DATABASE';
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '360',
@@ -158,7 +158,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__media_youtube_video';
     $file_display->weight = -46;
     $file_display->status = FALSE;
-    $file_display->export_type = 'EXPORT_IN_DATABASE';
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '390',
