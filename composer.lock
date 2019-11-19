@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0019391d34c635827a12d59c4f61a67a",
+    "content-hash": "2083a7d1361909b4b47f740d84b94b5c",
     "packages": [
         {
             "name": "consolidation/annotated-command",
@@ -2098,12 +2098,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "261562a9c048aa10932e5e1d596da6c761cf95bb"
+                "reference": "b04afa5560ac7f34fe6a24c620ccb199d61624a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/261562a9c048aa10932e5e1d596da6c761cf95bb",
-                "reference": "261562a9c048aa10932e5e1d596da6c761cf95bb",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/b04afa5560ac7f34fe6a24c620ccb199d61624a0",
+                "reference": "b04afa5560ac7f34fe6a24c620ccb199d61624a0",
                 "shasum": ""
             },
             "conflict": {
@@ -2171,7 +2171,7 @@
                 "league/commonmark": "<0.18.3",
                 "magento/magento1ce": "<1.9.4.3",
                 "magento/magento1ee": ">=1,<1.14.4.3",
-                "magento/product-community-edition": ">=2,<2.2.10|>=2.3,<2.3.3",
+                "magento/product-community-edition": ">=2,<2.2.10|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2|>=2.3,<2.3.3,<2.3.2-p2",
                 "monolog/monolog": ">=1.8,<1.12",
                 "namshi/jose": "<2.2",
                 "onelogin/php-saml": "<2.10.4",
@@ -2308,7 +2308,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2019-11-15T09:15:43+00:00"
+            "time": "2019-11-19T10:33:37+00:00"
         }
     ],
     "aliases": [],
@@ -2320,7 +2320,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.6",
+        "php": "^7.3",
         "ext-json": "*",
         "ext-phar": "*",
         "ext-xml": "*",
