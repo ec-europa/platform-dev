@@ -29,15 +29,6 @@
               }
           }
           targetTab.elements[0].children[0].items = optionsToKeep;
-          // NEPT-2613: Block FTP protocol from the wysiwyg filters.
-          var ftpIndex = false;
-          for (i = dialogDefinition.getContents('info').get('protocol')['items'].length - 1; i >= 0; i--) {
-            ftpIndex = dialogDefinition.getContents('info').get('protocol')['items'][i].indexOf("ftp://");
-
-            if (ftpIndex !== -1) {
-              dialogDefinition.getContents('info').get('protocol')['items'].splice(i, 1);
-            }
-          }
         }
     });
 })();
