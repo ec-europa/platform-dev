@@ -6,7 +6,8 @@
  */
 
 define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
-define('MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT', -49);
+define('MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT', -50);
+define('MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MAX_WEIGHT', 50);
 
 /**
  * Implements hook_permission().
@@ -534,7 +535,7 @@ function multisite_drupal_toolbox_filter_format_update($format) {
 }
 
 /**
- * Implements hook_filter_info().
+ * Implements hook_filter_info_alter().
  */
 function multisite_drupal_toolbox_filter_info() {
   $info['toolbox_sanitize'] = array(
@@ -544,27 +545,6 @@ function multisite_drupal_toolbox_filter_info() {
   );
 
   return $info;
-}
-
-/**
- * Implements hook_filter_info_alter().
- */
-function multisite_drupal_toolbox_filter_info_alter(&$info) {
-  $info['filter_html_escape']['process callback'] = '_multisite_drupal_toolbox_filter_html_escape';
-}
-
-/**
- * Alter filter process callback for the token input filter.
- *
- * @param string $text
- *   The text to filter.
- *
- * @see multisite_drupal_toolbox_filter_info_alter()
- */
-function _multisite_drupal_toolbox_filter_html_escape($text) {
-  $text = str_ireplace('ftp://', '//', $text);
-
-  return _filter_html_escape($text);
 }
 
 /**
@@ -583,35 +563,6 @@ function multisite_drupal_toolbox_sanitize($content) {
   module_load_include('inc', 'multisite_drupal_toolbox', 'multisite_drupal_toolbox.sanitize');
 
   return multisite_drupal_toolbox_filter_xss($content, multisite_drupal_toolbox_get_default_filter_options());
-}
-
-/**
- * Implements hook_preprocess_field().
- *
- * Remove ftp: protocol from field values.
- */
-function multisite_drupal_toolbox_preprocess_field(&$variables) {
-  if ($variables['element']['#field_type'] === 'link_field') {
-    foreach ($variables['items'] as $key => $value) {
-      $variables['items'][$key]['#element']['url'] = multisite_drupal_toolbox_filter_xss_bad_protocol($value['#element']['url']);
-      $variables['items'][$key]['#element']['display_url'] = multisite_drupal_toolbox_filter_xss_bad_protocol($value['#element']['display_url']);
-    }
-  }
-}
-
-/**
- * Implements template_preprocess_views_view_fields().
- *
- * Remove ftp: protocol from field values.
- */
-function multisite_drupal_toolbox_preprocess_views_view_fields(&$vars) {
-  $fields = &$vars['fields'];
-
-  foreach ($fields as $key => $value) {
-    if (!empty($value->handler->field_info) && $value->handler->field_info['type'] === 'link_field') {
-      $fields[$key]->content = str_ireplace('ftp://', '//', $fields[$key]->content);
-    }
-  }
 }
 
 /**
