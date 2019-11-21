@@ -34,7 +34,7 @@
           });
 
           // Remove browser incompatibility notice.
-          CKEDITOR.instances[i].on('instanceReady', function(ev) {
+          CKEDITOR.instances[i].on('instanceReady', function (ev) {
             ev.editor.lang.clipboard.pasteNotification = "Press %1 to paste.";
           });
         }
