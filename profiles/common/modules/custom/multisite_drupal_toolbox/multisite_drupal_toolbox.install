@@ -22,12 +22,16 @@ function multisite_drupal_toolbox_enable() {
   // Drupal minimum value.
   multisite_config_service('filter')->enableTextFilter('basic_html', 'toolbox_sanitize');
   multisite_config_service('filter')->setTextFilterWeight('basic_html', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
+  multisite_config_service('filter')->setTextFilterWeight('basic_html', 'filter_url', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT - 1);
   multisite_config_service('filter')->enableTextFilter('filtered_html', 'toolbox_sanitize');
   multisite_config_service('filter')->setTextFilterWeight('filtered_html', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
+  multisite_config_service('filter')->setTextFilterWeight('filtered_html', 'filter_url', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT - 1);
   multisite_config_service('filter')->enableTextFilter('full_html', 'toolbox_sanitize');
   multisite_config_service('filter')->setTextFilterWeight('full_html', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
+  multisite_config_service('filter')->setTextFilterWeight('full_html', 'filter_url', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT - 1);
   multisite_config_service('filter')->enableTextFilter('full_html_track', 'toolbox_sanitize');
   multisite_config_service('filter')->setTextFilterWeight('full_html_track', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
+  multisite_config_service('filter')->setTextFilterWeight('full_html_track', 'filter_url', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT - 1);
 }
 
 /**
@@ -97,6 +101,7 @@ function multisite_drupal_toolbox_update_7202() {
 
     // If $filter_html_escape is enabled no need to use toolbox_sanitize.
     multisite_config_service('filter')->disableTextFilter($format_machine_name, 'toolbox_sanitize');
+    multisite_config_service('filter')->setTextFilterWeight($format_machine_name, 'filter_url', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT - 1);
     watchdog('multisite drupal toolbox', '"Updatedb process: toolbox_sanitize" has been disabled for @text_format.', array('@text_format' => $format_machine_name), WATCHDOG_INFO);
   }
 
