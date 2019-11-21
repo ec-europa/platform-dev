@@ -7,8 +7,13 @@
   Drupal.behaviors.multisite_wysiwyg_paste_from_word = {
     attach: function () {
       $(function () {
+        var activeFilter = [];
+
         for (var i in CKEDITOR.instances) {
           CKEDITOR.instances[i].on('paste', function (evt) {
+            if (activeFilter[i] !== true) {
+              return;
+            }
             // Create a standalone filter.
             var rules = 'em strong abrr img cite blockquote code ul ol li dl dt td br p; a[href]';
             var filter = new CKEDITOR.filter(rules),
@@ -18,11 +23,19 @@
             filter.applyTo(fragment);
             fragment.writeHtml(writer);
             evt.data.dataValue = writer.getHtml();
-        });
+            activeFilter[i] = false;
+          });
 
-          CKEDITOR.instances[i].on('afterCommandExec', function (event) {
-            // console.log(event.data.name);
-            // this.filter.disabled = true;.
+          // Enable filer when button is pressed.
+          CKEDITOR.instances[i].on('beforeCommandExec', function (event) {
+            if (event.data.name === 'pastefromword') {
+              activeFilter[i] = true;
+            }
+          });
+
+          // Remove browser incompatibility notice.
+          CKEDITOR.instances[i].on('instanceReady', function(ev) {
+            ev.editor.lang.clipboard.pasteNotification = "Press %1 to paste.";
           });
         }
       });
