@@ -593,11 +593,11 @@ function multisite_drupal_toolbox_sanitize($content) {
 function multisite_drupal_toolbox_preprocess_field(&$variables) {
   if ($variables['element']['#field_type'] === 'link_field') {
     module_load_include('inc', 'multisite_drupal_toolbox', 'multisite_drupal_toolbox.sanitize');
-    
+
     foreach ($variables['items'] as $key => $value) {
       if (isset($variables['items'][$key]['#element'])) {
         $variables['items'][$key]['#element']['url'] = multisite_drupal_toolbox_filter_xss_bad_protocol($value['#element']['url']);
-        $variables['items'][$key]['#element']['display_url'] = multisite_drupal_toolbox_filter_xss_bad_protocol($value['#element']['display_url']); 
+        $variables['items'][$key]['#element']['display_url'] = multisite_drupal_toolbox_filter_xss_bad_protocol($value['#element']['display_url']);
       }
     }
   }
