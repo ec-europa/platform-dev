@@ -18,8 +18,7 @@
     "roave/security-advisories": "dev-master"
   },
   "replace": {
-      "wimg/php-compatibility": "^8.1",
-      "squizlabs/php_codesniffe": "^3.5.2"
+      "wimg/php-compatibility": "^8.1"
   },
   "prefer-stable": true,
   "autoload": {
