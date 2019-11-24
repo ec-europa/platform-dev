@@ -14,7 +14,7 @@ use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
 use Behat\Gherkin\Node\TableNode;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isTrue;
 
@@ -255,7 +255,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   public function assertTranslationRequestDocumentIsValidXhtml() {
 
     $msg = 'You need Tidy extension to test if XHTML is valid.';
-    assert(class_exists('tidy'), isTrue(), $msg);
+    assertThat(class_exists('tidy'), isTrue(), $msg);
 
     $this->assertTranslationRequest();
 
@@ -263,7 +263,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
 
     $tidy = new tidy();
     $tidy->parseString($document);
-    assert($tidy->getStatus(), equals(0), sprintf(
+    assertThat($tidy->getStatus(), equals(0), sprintf(
       'The translation document did not pass the tidy XHTML validation: %s.',
       $tidy->errorBuffer
     ));
@@ -286,7 +286,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
     usort($expected_contacts, $by_type);
     usort($this->translationRequest['data']['contacts'], $by_type);
 
-    assert($this->translationRequest['data']['contacts'], equals($expected_contacts));
+    assertThat($this->translationRequest['data']['contacts'], equals($expected_contacts));
   }
 
   /**
@@ -364,7 +364,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
 
     $value = $this->translationRequest['data']['demande'][$property];
 
-    assert($value, $predicate);
+    assertThat($value, $predicate);
   }
 
   /**
@@ -391,7 +391,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
     $this->assertTranslationRequest();
     $value = $this->translationRequest['demande_id'][$property];
 
-    assert($value, $predicate);
+    assertThat($value, $predicate);
   }
 
   /**
@@ -404,7 +404,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    */
   protected function assertTranslationRequestSequenceProperty($value, $predicate) {
     $this->assertTranslationRequest();
-    assert($value, $predicate);
+    assertThat($value, $predicate);
   }
 
   /**
@@ -475,7 +475,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
 
     }
 
-    assert($new_languages, equals($expected_languages));
+    assertThat($new_languages, equals($expected_languages));
   }
 
   /**
@@ -500,7 +500,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       // corresponds to specified date.
       foreach ($results as $result) {
         foreach ($result->children('attributionsDelai') as $delay) {
-          assert((string) $delay, equals($relative_date));
+          assertThat((string) $delay, equals($relative_date));
         }
       }
     }

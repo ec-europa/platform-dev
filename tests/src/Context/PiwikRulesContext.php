@@ -6,7 +6,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\Element;
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
 
@@ -87,7 +87,7 @@ class PiwikRulesContext implements Context {
 
     $rows = $overview->findAll('css', 'tr');
 
-    \bovigo\assert\assert($rows, isOfSize(count($expected_rules)));
+    \bovigo\assert\assertThat($rows, isOfSize(count($expected_rules)));
 
     /** @var \Behat\Mink\Element\Element $row */
     foreach (array_values($rows) as $i => $row) {
@@ -120,10 +120,10 @@ class PiwikRulesContext implements Context {
   protected function assertOverviewPiwikRule(Element $row, array $expected_rule) {
     /** @var \Behat\Mink\Element\Element[] $cells */
     $cells = $row->findAll('css', 'td');
-    assert($cells[1]->getText(), equals($expected_rule['Rule section']));
-    assert($cells[2]->getText(), equals($expected_rule['Rule language']));
-    assert($cells[3]->getText(), equals($expected_rule['Rule path']));
-    assert($cells[4]->getText(), equals($expected_rule['Rule path type']));
+    assertThat($cells[1]->getText(), equals($expected_rule['Rule section']));
+    assertThat($cells[2]->getText(), equals($expected_rule['Rule language']));
+    assertThat($cells[3]->getText(), equals($expected_rule['Rule path']));
+    assertThat($cells[4]->getText(), equals($expected_rule['Rule path type']));
   }
 
   /**
@@ -135,13 +135,13 @@ class PiwikRulesContext implements Context {
     $overview = $this->getPiwikRulesOverview();
 
     $matched = preg_match('/^[0-9]+/', $nth, $matches);
-    assert($matched, equals(1));
+    assertThat($matched, equals(1));
     // In human language we start to count from 1, but in code from 0.
     // So we need to substract by 1.
     $row_number = $matches[0] - 1;
 
     $rows = $overview->findAll('css', 'tr');
-    assert($rows, \bovigo\assert\predicate\hasKey($row_number));
+    assertThat($rows, \bovigo\assert\predicate\hasKey($row_number));
     $row = $rows[$row_number];
 
     $link = $row->findLink($arg1);
