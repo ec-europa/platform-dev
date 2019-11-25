@@ -14,7 +14,7 @@ use GuzzleHttp\Client;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isNotEmpty;
 use function bovigo\assert\predicate\isTrue;
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 
 /**
  * Provides step definitions for interacting with Mink.
@@ -239,7 +239,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       );
     }
 
-    assert($item->getValue(), equals($item->getAttribute('value')));
+    assertThat($item->getValue(), equals($item->getAttribute('value')));
   }
 
   /**
@@ -423,7 +423,7 @@ class MinkContext extends DrupalExtensionMinkContext {
     $javascript2 = "return jQuery('." . $div2 . "').offset().top;";
     $result_div2 = intval($this->getSession()->evaluateScript($javascript2));
 
-    assert($result_div1, equals($result_div2));
+    assertThat($result_div1, equals($result_div2));
   }
 
   /**
@@ -476,10 +476,10 @@ class MinkContext extends DrupalExtensionMinkContext {
   public function theButtonIsDisabled($button) {
     $element = $this->getSession()->getPage();
     $button_obj = $element->findButton($button);
-    assert($button_obj, isNotEmpty(), sprintf('The button "%s" has not been found', $button));
+    assertThat($button_obj, isNotEmpty(), sprintf('The button "%s" has not been found', $button));
 
     $disabled_attr = $button_obj->getAttribute('disabled');
-    assert($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
+    assertThat($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
   }
 
   /**
@@ -496,7 +496,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       $value_label,
     ));
 
-    assert($optionField->isSelected(), isTrue(), sprintf('The selected option in "%s" is not "%s".', $selector, $value_label));
+    assertThat($optionField->isSelected(), isTrue(), sprintf('The selected option in "%s" is not "%s".', $selector, $value_label));
   }
 
   /**
@@ -508,11 +508,11 @@ class MinkContext extends DrupalExtensionMinkContext {
     $element = $this->getSession()->getPage();
     $field_container = $element->find('css', $container_selector);
 
-    assert($field_container, isNotEmpty(), sprintf('The container identified by the "%s" css selector has not been found', $container_selector));
+    assertThat($field_container, isNotEmpty(), sprintf('The container identified by the "%s" css selector has not been found', $container_selector));
 
     $link_containers = $field_container->findAll('xpath', $html_element);
 
-    assert($link_containers, isNotEmpty(), sprintf('The "%s" element has not been found in the container identified by the "%s" css selector', $html_element, $container_selector));
+    assertThat($link_containers, isNotEmpty(), sprintf('The "%s" element has not been found in the container identified by the "%s" css selector', $html_element, $container_selector));
 
     foreach ($link_containers as $link_container) {
       $result = $link_container->findLink($link);
@@ -521,7 +521,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       }
     }
 
-    assert($result, isNotEmpty(), sprintf("No link to '%s' in a %s", $link, $html_element));
+    assertThat($result, isNotEmpty(), sprintf("No link to '%s' in a %s", $link, $html_element));
   }
 
   /**
@@ -567,7 +567,7 @@ class MinkContext extends DrupalExtensionMinkContext {
   public function responseShouldContainMetaTagWithNameTypeAndContent($arg1, $arg2, $arg3) {
     $metatag = $this->getMetaTagByName($arg1, $arg2);
 
-    assert($arg3, equals($metatag->getAttribute('content')), sprintf('The meta tag "%s" of type "%s" does not have "%s" as content attribute.', $arg1, $arg2, $arg3));
+    assertThat($arg3, equals($metatag->getAttribute('content')), sprintf('The meta tag "%s" of type "%s" does not have "%s" as content attribute.', $arg1, $arg2, $arg3));
   }
 
   /**
@@ -579,7 +579,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    */
   public function responseShouldContainMetaTagWithNameAndContent($arg1, $arg2) {
     $metatag = $this->getMetaTagByName($arg1);
-    assert($arg2, equals($metatag->getAttribute('content')), sprintf('The meta tag "%s" does not have "%s" as content attribute.', $arg1, $arg2));
+    assertThat($arg2, equals($metatag->getAttribute('content')), sprintf('The meta tag "%s" does not have "%s" as content attribute.', $arg1, $arg2));
   }
 
   /**
@@ -601,7 +601,7 @@ class MinkContext extends DrupalExtensionMinkContext {
     $meta_type = sprintf('meta[%s="%s"]', $type, $name);
 
     $element = $page->find('css', $meta_type);
-    assert($element, isNotEmpty(), sprintf('The meta tag type "%s" with "%s" name has not been found', $type, $name));
+    assertThat($element, isNotEmpty(), sprintf('The meta tag type "%s" with "%s" name has not been found', $type, $name));
 
     return $element;
   }

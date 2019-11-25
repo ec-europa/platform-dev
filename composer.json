@@ -1,20 +1,21 @@
 {
   "require": {
-    "php": ">=5.6",
+    "php": "^7.3",
+    "ext-json": "*",
+    "ext-phar": "*",
+    "ext-tidy": "*",
+    "ext-xml": "*",
     "drupal/phingdrushtask": "^1.1",
     "drupol/phingbehattask": "^1.0",
     "drush/drush": "8.2.2",
     "ec-europa/qa-automation": "^3.0",
-    "ext-json": "*",
-    "ext-phar": "*",
-    "ext-xml": "*",
     "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
-    "phpcompatibility/php-compatibility": "9.1.1",
     "phing/phing": "~2",
-    "ext-tidy": "*"
+    "phpcompatibility/php-compatibility": "9.1.1"
   },
   "require-dev": {
+    "bovigo/assert": "^5.0",
     "roave/security-advisories": "dev-master"
   },
   "replace": {

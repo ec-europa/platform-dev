@@ -3,7 +3,7 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
-use function \bovigo\assert\assert;
+use function \bovigo\assert\assertThat;
 use function \bovigo\assert\predicate\isOfType;
 use function \bovigo\assert\predicate\matches;
 use function \bovigo\assert\predicate\isNotOfType;
@@ -73,11 +73,11 @@ class DatabaseLogContext implements Context {
   protected function assertMessageLogged($severity, $type, $message) {
     $log = $this->getLogMessages($severity, $type);
 
-    assert($log, isOfType('object'));
+    assertThat($log, isOfType('object'));
 
     $full_message = strtr($log->message, unserialize($log->variables));
 
-    assert($full_message, matches('@' . $message . '@'));
+    assertThat($full_message, matches('@' . $message . '@'));
   }
 
   /**
@@ -95,13 +95,13 @@ class DatabaseLogContext implements Context {
   protected function assertRegexMessageLogged($severity, $type, $message) {
     $log = $this->getLogMessages($severity, $type);
 
-    assert($log, isOfType('object'));
+    assertThat($log, isOfType('object'));
     $full_message = strtr($log->message, unserialize($log->variables));
     // Workaround to avoir preg_quote replacing \- with \\\-.
     $message = preg_replace('/:/', '\:', $message);
     $message = preg_replace('/\//', '\\/', $message);
     $message = preg_replace('/\-/', '\\-', $message);
-    assert($full_message, matches('@' . $message . '@'));
+    assertThat($full_message, matches('@' . $message . '@'));
   }
 
   /**
@@ -119,7 +119,7 @@ class DatabaseLogContext implements Context {
   protected function assertMessageNotLogged($severity, $type, $message) {
     $log = $this->getLogMessages($severity, $type);
 
-    assert($log, isNotOfType('object'));
+    assertThat($log, isNotOfType('object'));
   }
 
   /**

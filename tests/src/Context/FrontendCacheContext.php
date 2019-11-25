@@ -7,7 +7,7 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\Element;
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
 use function bovigo\assert\predicate\matches;
@@ -226,7 +226,7 @@ class FrontendCacheContext implements Context {
 
     $rows = $overview->findAll('css', 'tr');
 
-    \bovigo\assert\assert($rows, isOfSize(count($expected_rules)));
+    \bovigo\assert\assertThat($rows, isOfSize(count($expected_rules)));
 
     /** @var \Behat\Mink\Element\Element $row */
     foreach (array_values($rows) as $i => $row) {
@@ -258,8 +258,8 @@ class FrontendCacheContext implements Context {
     /** @var \Behat\Mink\Element\Element[] $cells */
     $cells = $row->findAll('css', 'td');
 
-    assert($cells[0]->getText(), equals($expected_rule['Content Type']));
-    assert($cells[1]->getText(), equals($expected_rule['Paths to Purge']));
+    assertThat($cells[0]->getText(), equals($expected_rule['Content Type']));
+    assertThat($cells[1]->getText(), equals($expected_rule['Paths to Purge']));
   }
 
   /**
@@ -271,13 +271,13 @@ class FrontendCacheContext implements Context {
     $overview = $this->getCachePurgeRulesOverview();
 
     $matched = preg_match('/^[0-9]+/', $nth, $matches);
-    assert($matched, equals(1));
+    assertThat($matched, equals(1));
     // In human language we start to count from 1, but in code from 0.
     // So we need to substract by 1.
     $row_number = $matches[0] - 1;
 
     $rows = $overview->findAll('css', 'tr');
-    assert($rows, \bovigo\assert\predicate\hasKey($row_number));
+    assertThat($rows, \bovigo\assert\predicate\hasKey($row_number));
     $row = $rows[$row_number];
 
     $link = $row->findLink($arg1);
@@ -321,7 +321,7 @@ class FrontendCacheContext implements Context {
   public function theWebFrontEndCacheWasInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
 
     $requests = $this->getRequests();
-    assert($requests, isOfSize(1));
+    assertThat($requests, isOfSize(1));
 
     $purge_request = $requests->last();
 
@@ -345,9 +345,9 @@ class FrontendCacheContext implements Context {
     $content_url = preg_quote(ltrim(url(), '/'));
     $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray());
 
-    assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
-    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
-    assert($purge_request_paths, equals([$path_string]));
+    assertThat($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
+    assertThat($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
+    assertThat($purge_request_paths, equals([$path_string]));
   }
 
   /**
@@ -376,9 +376,9 @@ class FrontendCacheContext implements Context {
       // Some of environments returns different paths. To pass the test given
       // environment path is removed from the assertion process.
       $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray()['0']);
-      assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
-      assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
-      assert($purge_request_paths, equals($path_string));
+      assertThat($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
+      assertThat($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
+      assertThat($purge_request_paths, equals($path_string));
     }
   }
 
@@ -390,11 +390,11 @@ class FrontendCacheContext implements Context {
   public function theWebFrontEndCacheWasInstructedToPurgeCompletelyItsIndexForTheApplicationTag($arg1) {
     $requests = $this->getRequests();
 
-    assert($requests, isOfSize(1));
+    assertThat($requests, isOfSize(1));
 
     $purge_request = $requests->last();
-    assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
-    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['full']));
+    assertThat($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
+    assertThat($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['full']));
   }
 
   /**
@@ -404,7 +404,7 @@ class FrontendCacheContext implements Context {
    */
   public function theWebFrontEndCacheWasNotInstructedToPurgeAnyPaths() {
     $requests = $this->getRequests();
-    assert($requests, isOfSize(0));
+    assertThat($requests, isOfSize(0));
   }
 
   /**
@@ -454,12 +454,12 @@ class FrontendCacheContext implements Context {
    */
   public function theWebFrontEndCacheWasInstructedToPurgeCertainPaths($arg1) {
     $requests = $this->getRequests();
-    assert($requests, isOfSize(1));
+    assertThat($requests, isOfSize(1));
 
     $purge_request = $requests->last();
 
-    assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
-    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
+    assertThat($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
+    assertThat($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp']));
   }
 
   /**
@@ -473,7 +473,7 @@ class FrontendCacheContext implements Context {
     $paths = $this->getPathsFromTable($table);
 
     foreach ($paths as $path) {
-      assert($path, matches('@' . $purge_pattern . '@'));
+      assertThat($path, matches('@' . $purge_pattern . '@'));
     }
   }
 
@@ -488,7 +488,7 @@ class FrontendCacheContext implements Context {
     $paths = $this->getPathsFromTable($table);
 
     foreach ($paths as $path) {
-      assert($path, not(matches('@' . $purge_pattern . '@')));
+      assertThat($path, not(matches('@' . $purge_pattern . '@')));
     }
   }
 
@@ -500,7 +500,7 @@ class FrontendCacheContext implements Context {
    */
   private function getPurgePatternFromLastRequest() {
     $requests = $this->getRequests();
-    assert($requests, isOfSize(1));
+    assertThat($requests, isOfSize(1));
 
     $purge_request = $requests->last();
 
@@ -555,12 +555,12 @@ class FrontendCacheContext implements Context {
     $authorization = $purge_request->getHeader('Authorization')->toArray();
     $authorization = reset($authorization);
 
-    assert($authorization, matches('@Basic [ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=]+@'));
+    assertThat($authorization, matches('@Basic [ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=]+@'));
 
     $base64_user_password = substr($authorization, 5);
     $decoded_user_password = base64_decode($base64_user_password);
 
-    assert($decoded_user_password, equals("{$arg1}:{$arg2}"));
+    assertThat($decoded_user_password, equals("{$arg1}:{$arg2}"));
   }
 
   /**

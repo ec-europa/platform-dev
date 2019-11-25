@@ -4,7 +4,7 @@ namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isNotEqualTo;
 use function bovigo\assert\predicate\hasKey;
@@ -167,21 +167,21 @@ class ApacheSolrContext implements Context {
     $solr_request = (string) $index_request->getBody();
 
     // Assert the last request is a POST.
-    assert($index_request->getMethod(), equals('POST'));
+    assertThat($index_request->getMethod(), equals('POST'));
 
     // Assert there is only one document in the request.
-    assert(substr_count($solr_request, '<doc>'), equals(1));
+    assertThat(substr_count($solr_request, '<doc>'), equals(1));
 
     // Get the node title from the request.
     preg_match('~<field name="label">([^>]*)<\/field>~', $solr_request, $match);
-    assert(count($match), equals(2));
+    assertThat(count($match), equals(2));
     $node_title = $match[1];
-    assert($node_title, equals($arg2));
+    assertThat($node_title, equals($arg2));
     // Get the node type from the request.
     preg_match('~<field name="bundle">([^>]*)<\/field>~', $solr_request, $match);
-    assert(count($match), equals(2));
+    assertThat(count($match), equals(2));
     $node_type = $match[1];
-    assert($node_type, equals($arg1));
+    assertThat($node_type, equals($arg1));
   }
 
   /**
@@ -192,7 +192,7 @@ class ApacheSolrContext implements Context {
   public function theApacheSolrServerWasNotInstructedToIndexAnyNode() {
     $requests = $this->getRequests();
     $index_request = $requests->last();
-    assert($index_request->getMethod(), isNotEqualTo('POST'));
+    assertThat($index_request->getMethod(), isNotEqualTo('POST'));
   }
 
   /**
@@ -204,11 +204,11 @@ class ApacheSolrContext implements Context {
     $requests = $this->getRequests();
     $index_request = $requests->last();
     // Assert the last request is a POST.
-    assert($index_request->getMethod(), equals('POST'));
+    assertThat($index_request->getMethod(), equals('POST'));
 
     $solr_request = (string) $index_request->getBody();
     // Assert the request is for deleting a node.
-    assert(substr_count($solr_request, '<delete>'), equals(1));
+    assertThat(substr_count($solr_request, '<delete>'), equals(1));
   }
 
   /**
@@ -218,7 +218,7 @@ class ApacheSolrContext implements Context {
    */
   public function theFacetShouldBeEnabledForTheSearcher($arg1, $arg2) {
     $enabled_facets = facetapi_get_enabled_facets($arg2);
-    assert($enabled_facets, hasKey($arg1));
+    assertThat($enabled_facets, hasKey($arg1));
   }
 
   /**
