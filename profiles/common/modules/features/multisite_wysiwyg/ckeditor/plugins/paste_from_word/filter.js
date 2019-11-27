@@ -15,7 +15,7 @@
               return;
             }
             // Create a standalone filter.
-            var rules = 'em strong abrr img cite blockquote code ul ol li dl dt td br p; a[href]';
+            var rules = 'em strong abrr img cite blockquote code ul ol li dl dt table tr td br p; a[href]';
             var filter = new CKEDITOR.filter(rules),
             // Parse the HTML string to a pseudo-DOM structure.
             fragment = CKEDITOR.htmlParser.fragment.fromHtml(evt.data.dataValue),
