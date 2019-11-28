@@ -6,6 +6,45 @@
  */
 
 /**
+ * Alters the Ecas login process before performing Drupal-Ecas synchronisation.
+ *
+ * It is triggered just after getting the Drupal user based on the Ecas user
+ * name.
+ * It allows modifying the process based on Drupal user properties or fields
+ * of an existing account or the Ecas user name.
+ *
+ * Note also that the phpCAS object is already available and instantiated with
+ * the current Ecas user data.
+ *
+ * @param string $ecas_name
+ *   The user name as defined in Ecas.
+ * @param bool|object $account
+ *   The Drupal user object associated to the Ecas user name or FALSE if the
+ *   user is not registered in Drupal yet.
+ * @param string $destination
+ *   The final destination value as set at Ecas module level.
+ *   This value is also by default the value stored in session,
+ *   $_SESSION['ecas_goto'].
+ *
+ * @see user_load_by_name()
+ * @see hook_ecas_sync_user_info()
+ */
+function hook_ecas_extra_filter_alter(&$ecas_name, &$account, &$destination) {
+  if (!$account) {
+    $ecas_attributes = phpCAS::getAttributes();
+    $first_name = $ecas_attributes['cas:firstName'];
+    $last_name = $ecas_attributes['cas:lastName'];
+
+    $drupal_lastname = field_get_items('user', $account, 'field_lastname');
+    $drupal_firstname = field_get_items('user', $account, 'field_firstname');
+    if (($drupal_lastname[0]['value'] != $last_name) || ($drupal_firstname[0]['value'] != $first_name)) {
+      unset($_REQUEST['destination']);
+      drupal_goto('custom_error_page');
+    }
+  }
+}
+
+/**
  * Acts on the list of user data value to save of the Ecas user.
  *
  * @param object $user

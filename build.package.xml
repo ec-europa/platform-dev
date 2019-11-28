@@ -154,10 +154,6 @@
         <composer command="install" composer="${composer.bin}">
             <arg value="--working-dir=${platform.build.dir}" />
         </composer>
-        <patch
-          patchfile="${platform.resources.dir}/patches/ecas_renew.patch"  haltonfailure='true'
-          originalfile="${platform.build.dir}/vendor/jasig/phpcas/source/CAS/Client.php"
-        />
     </target>
 
     <!-- Link site document root to Webserver document root. -->
@@ -309,6 +305,34 @@
         <gitcheckout
             repository="${platform.resources.profiles.common.themes.dir}/ec_europa"
             branchname="${platform.theme.europa.repo.branch}"/>
+        
+        <!-- Checking if we should overwrite atomium or ec_europa theme -->
+        <if>
+            <and>
+                <isset property="platform.theme.atomium.dev" />
+                <equals arg1="${platform.theme.atomium.dev}" arg2="true" />
+            </and>
+            <then>
+                <echo msg="Overwriting atomium from make file with branch ${platform.theme.atomium.repo.branch}." />
+                <!-- Deleteing the theme directories from the current profile -->
+                <delete dir="profiles/${platform.profile.name}/themes/atomium" quiet="true"/>
+                <!-- Symlinking the atomium theme from the "common" profile folder -->
+                <symlink link="profiles/${platform.profile.name}/themes/atomium" target="${platform.resources.profiles.common.themes.dir}/atomium" />
+            </then>
+        </if>
+        <if>
+            <and>
+                <isset property="platform.theme.europa.dev" />
+                <equals arg1="${platform.theme.europa.dev}" arg2="true" />
+            </and>
+            <then>
+                <echo msg="Overwriting ec_europa from make file with branch ${platform.theme.europa.repo.branch}." />
+                <!-- Deleteing the theme directories from the current profile -->
+                <delete dir="profiles/${platform.profile.name}/themes/ec_europa" quiet="true"/>
+                <!-- Symlinking the ec_europa theme from the "common" profile folder -->
+                <symlink link="profiles/${platform.profile.name}/themes/ec_europa" target="${platform.resources.profiles.common.themes.dir}/ec_europa" />
+            </then>
+        </if>
     </target>
 
     <!-- Generating assets -->

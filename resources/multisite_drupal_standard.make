@@ -13,6 +13,7 @@ includes[] = "drupal-core.make"
 
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc6"
+projects[admin_menu][patch][]  = patches/admin_menu_above_globan-nept-2667.patch
 
 projects[administration_language_negotiation][subdir] = "contrib"
 projects[administration_language_negotiation][version] = "1.4"
@@ -21,7 +22,7 @@ projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.33"
 
 projects[advanced_help][subdir] = "contrib"
-projects[advanced_help][version] = "1.4"
+projects[advanced_help][version] = "1.5"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.11"
@@ -208,6 +209,9 @@ projects[entity_translation][download][branch] = 7.x-1.x
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
 ; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
+; NEPT-2499: Content types with another language than English don't show their values.
+; https://www.drupal.org/project/entity_translation/issues/2877103
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-10-03/entity_translation-content_not_in_current_language-2877103-17.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -444,21 +448,16 @@ projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contrib"
-projects[maxlength][version] = "3.2-beta2"
+projects[maxlength][version] = "3.3"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.21
+projects[media][version] = 2.23
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1015
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
-
-; Ensure the media_wysiwyg.filter.js is loaded.
-; https://www.drupal.org/project/media/issues/3039731
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2243
-projects[media][patch][] = https://www.drupal.org/files/issues/2019-03-13/add-js-library-3039731-1.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.5"
@@ -483,6 +482,7 @@ projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "3.4"
+projects[media_youtube][patch][] = https://www.drupal.org/files/issues/2018-06-28/nocookie-default.patch
 
 projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
@@ -651,9 +651,11 @@ projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issue
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.12"
-; NEPT-2566:
 ; https://www.drupal.org/node/3028444
 projects[rules][patch][] = https://www.drupal.org/files/issues/2019-01-25/3028444-6-markup-and-test.patch
+; https://www.drupal.org/node/826986
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2160
+projects[rules][patch][] = https://www.drupal.org/files/issues/file_events-826986-31_0.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
@@ -760,6 +762,9 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
+; https://www.drupal.org/node/3021843
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2178
+projects[tmgmt][patch][] =  https://www.drupal.org/files/issues/2019-09-17/translation_not_taking_into_account_the_source_data_update-3021843-22.patch
 ; https://www.drupal.org/project/tmgmt/issues/3050356
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2590
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-04-24/count_error_php_7_2-3050356-2.patch
@@ -774,9 +779,7 @@ projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1
 
 projects[translation_overview][subdir] = "contrib"
-projects[translation_overview][version] = "2.0-beta1"
-; https://www.drupal.org/node/2673314
-projects[translation_overview][patch][] = https://www.drupal.org/files/issues/translation_overview-simpletest-warning-message-2673314-2-D7.patch
+projects[translation_overview][version] = "2.0-beta2"
 
 projects[translation_table][subdir] = "contrib"
 projects[translation_table][version] = "1.0-beta1"
@@ -800,6 +803,8 @@ projects[uuid][subdir] = "contrib"
 projects[uuid][version] = "1.3"
 ; https://www.drupal.org/project/uuid/issues/3058011
 projects[uuid][patch][] = https://git.drupalcode.org/project/uuid/commit/311a2d668f990f7547c2125cebf69b55d2349f77.diff
+; https://www.drupal.org/node/3061669
+projects[uuid][patch][] = https://www.drupal.org/files/issues/2019-09-27/uuid-fix_missing_services_test_class-3061669-17.patch
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -1170,4 +1175,4 @@ projects[nexteuropa_varnish][subdir] = "custom"
 projects[nexteuropa_varnish][type] = module
 projects[nexteuropa_varnish][download][type] = git
 projects[nexteuropa_varnish][download][url] = https://github.com/ec-europa/digit-ne-varnish.git
-projects[nexteuropa_varnish][download][tag] = v1.0.7
+projects[nexteuropa_varnish][download][tag] = v1.0.8

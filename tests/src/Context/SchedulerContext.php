@@ -84,7 +84,7 @@ class SchedulerContext implements Context {
       throw new \InvalidArgumentException(sprintf('Could not find: "%s"', $arg1));
     }
     date_default_timezone_set(drupal_get_user_timezone());
-    $scheduler = date('H:i:10', strtotime('1 minute'));
+    $scheduler = date('H:i:10', strtotime('+1 minutes 10 seconds'));
     $element->setValue($scheduler);
   }
 

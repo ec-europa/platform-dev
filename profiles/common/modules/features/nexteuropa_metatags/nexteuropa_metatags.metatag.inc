@@ -56,6 +56,9 @@ function nexteuropa_metatags_metatag_config_default() {
       'value' => !empty($classification) ? $classification : '',
       'readonly' => 'readonly',
     ),
+    'date' => array(
+      'value' => '[current-date:short]',
+    ),
     // Basic tags.
     'description' => array(
       'value' => '[site:name] - [site:slogan]',
@@ -72,9 +75,6 @@ function nexteuropa_metatags_metatag_config_default() {
     ),
     'content-language' => array(
       'value' => '[language:language-ui:language]',
-    ),
-    'date' => array(
-      'value' => '[current-date:short]',
     ),
     'dcterms.format' => array(
       'value' => 'text/html',
@@ -258,9 +258,6 @@ function nexteuropa_metatags_metatag_info() {
   $ne_defaults = array(
     'class' => 'DrupalTextMetaTag',
     'group' => 'nexteuropa',
-    'element' => array(
-      '#theme' => 'metatag_property',
-    ),
     'context' => array('global'),
   );
 
@@ -295,6 +292,12 @@ function nexteuropa_metatags_metatag_info() {
     'label' => t('Reference'),
     'description' => t('Usually the acronym of the DG / Site name (max. 30 characters).<br/>This text will supply information to METADATA "Reference".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_1" target="_blank">IPG guidelines</a> for more information.'),
     'select_or_other' => TRUE,
+  ) + $ne_defaults;
+
+  $info['tags']['date'] = array(
+    'label' => t('Date'),
+    'name' => 'date',
+    'description' => 'Date associated with the resource.',
   ) + $ne_defaults;
 
   return $info;
