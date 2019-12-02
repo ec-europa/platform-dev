@@ -599,6 +599,9 @@ function multisite_drupal_toolbox_preprocess_field(&$variables) {
         $variables['items'][$key]['#element']['url'] = multisite_drupal_toolbox_filter_xss_bad_protocol($value['#element']['url']);
         $variables['items'][$key]['#element']['display_url'] = multisite_drupal_toolbox_filter_xss_bad_protocol($value['#element']['display_url']);
       }
+      elseif (!empty($variables['items'][$key]['#markup'])) {
+        $variables['items'][$key]['#markup'] = str_ireplace('ftp://', '//', $variables['items'][$key]['#markup']);
+      }
     }
   }
 }
