@@ -1,0 +1,22 @@
+php_version: 7.2
+pre_upgrade:
+  - drush rr
+  - drush vset maintenance_mode 1
+  - drush dis image_captcha captcha hidden_captcha fblikebutton fpa language_cookie piwik multisite_business_indicators_core multisite_business_indicators_standard multisite_business_indicators_community multisite_settings_standard multisite_og_button multisite_audio nexteuropa_integration integration integration_couchdb --yes
+  - drush pmu image_captcha hidden_captcha fblikebutton fpa language_cookie piwik multisite_business_indicators_core multisite_business_indicators_standard multisite_business_indicators_community multisite_settings_standard multisite_og_button multisite_audio nexteuropa_integration integration integration_couchdb --yes
+  - drush pm-uninstall captcha --yes
+upgrade_commands:
+  - echo '----------   drush rr   ----------'
+  - drush rr
+  - echo '----------  drush updb -y   ----------'
+  - drush updb -y
+  - echo '----------  drush fr -y cce_basic_config.password_policy   ----------'
+  - drush fr -y cce_basic_config.password_policy
+  - echo '----------  drush cc all   ----------'
+  - drush cc all
+  - echo '----------  drush features-revert   ----------'
+  - drush features-revert $(drush sqlq "SELECT name FROM system WHERE (filename LIKE 'profiles/common/modules/features%' OR filename LIKE 'profiles/multisite_drupal_standard/modules/features%' OR filename LIKE 'profiles/multisite_drupal_communities/modules/features%') AND status = 1 AND name NOT IN ('cce_basic_config', 'multisite_settings_core', 'multisite_drupal_features_set_standard') AND CAST(info AS CHAR(10000) CHARACTER SET utf8) LIKE ('%\"features\"%')") --yes
+  - echo '----------  drush vset maintenance_mode 0   ----------'
+  - drush vset maintenance_mode 0
+  - echo '----------  drush cc all   ----------'
+  - drush cc all
