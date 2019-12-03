@@ -25,11 +25,12 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__no_wrapper_media_avportal_video';
     $file_display->weight = -39;
     $file_display->status = TRUE;
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '390',
     );
-    file_display_save($file_display);
+    file_display_save((object) $file_display);
   }
 
   if (empty($existing_fileDisplays) || !isset($existing_fileDisplays['no_wrapper_media_dailymotion_video'])) {
@@ -38,13 +39,14 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__no_wrapper_media_dailymotion_video';
     $file_display->weight = -43;
     $file_display->status = TRUE;
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '560',
       'height' => '340',
       'autoplay' => 0,
       'iframe' => 1,
     );
-    file_display_save($file_display);
+    file_display_save((object) $file_display);
   }
 
   if (empty($existing_fileDisplays) || !isset($existing_fileDisplays['no_wrapper_media_vimeo_video'])) {
@@ -53,6 +55,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__no_wrapper_media_vimeo_video';
     $file_display->weight = -49;
     $file_display->status = TRUE;
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '360',
@@ -66,7 +69,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
       'portrait' => 1,
       'api' => 0,
     );
-    file_display_save($file_display);
+    file_display_save((object) $file_display);
   }
 
   if (empty($existing_fileDisplays) || !isset($existing_fileDisplays['no_wrapper_media_youtube_video'])) {
@@ -75,6 +78,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__no_wrapper_media_youtube_video';
     $file_display->weight = -46;
     $file_display->status = TRUE;
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '390',
@@ -86,13 +90,13 @@ function _ec_embedded_video_install_soft_configured_file_display() {
       'showinfo' => 1,
       'modestbranding' => 0,
       'rel' => 1,
-      'nocookie' => 0,
+      'nocookie' => 1,
       'protocol_specify' => 0,
       'protocol' => 'https:',
       'enablejsapi' => 0,
       'origin' => '',
     );
-    file_display_save($file_display);
+    file_display_save((object) $file_display);
   }
 
   if (empty($existing_fileDisplays) || !isset($existing_fileDisplays['media_avportal_video'])) {
@@ -101,11 +105,12 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__media_avportal_video';
     $file_display->weight = -41;
     $file_display->status = FALSE;
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '390',
     );
-    file_display_save($file_display);
+    file_display_save((object) $file_display);
   }
 
   if (empty($existing_fileDisplays) || !isset($existing_fileDisplays['media_dailymotion_video'])) {
@@ -114,13 +119,14 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__media_dailymotion_video';
     $file_display->weight = -40;
     $file_display->status = FALSE;
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '560',
       'height' => '340',
       'autoplay' => 0,
       'iframe' => 1,
     );
-    file_display_save($file_display);
+    file_display_save((object) $file_display);
   }
 
   if (empty($existing_fileDisplays) || !isset($existing_fileDisplays['media_vimeo_video'])) {
@@ -129,6 +135,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__media_vimeo_video';
     $file_display->weight = -47;
     $file_display->status = FALSE;
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '360',
@@ -142,7 +149,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
       'portrait' => 1,
       'api' => 0,
     );
-    file_display_save($file_display);
+    file_display_save((object) $file_display);
   }
 
   if (empty($existing_fileDisplays) || !isset($existing_fileDisplays['media_youtube_video'])) {
@@ -151,6 +158,7 @@ function _ec_embedded_video_install_soft_configured_file_display() {
     $file_display->name = 'video__wysiwyg__media_youtube_video';
     $file_display->weight = -46;
     $file_display->status = FALSE;
+    $file_display->export_type = EXPORT_IN_DATABASE;
     $file_display->settings = array(
       'width' => '640',
       'height' => '390',
@@ -162,12 +170,30 @@ function _ec_embedded_video_install_soft_configured_file_display() {
       'showinfo' => 1,
       'modestbranding' => 0,
       'rel' => 1,
-      'nocookie' => 0,
+      'nocookie' => 1,
       'protocol_specify' => 0,
       'protocol' => 'https:',
       'enablejsapi' => 0,
       'origin' => '',
     );
-    file_display_save($file_display);
+    file_display_save((object) $file_display);
+  }
+}
+
+/**
+ * Soft configure privacy enhanced (no cookie) mode.
+ */
+function _ec_embedded_video_install_nocookie() {
+  $view_modes = array('default', 'teaser', 'preview', 'wysiwyg');
+
+  foreach ($view_modes as $view_mode) {
+    $displays = file_displays_load('video', $view_mode, TRUE);
+
+    foreach ($displays as $display) {
+      if (isset($display->settings['nocookie'])) {
+        $display->settings['nocookie'] = 1;
+        file_display_save($display);
+      }
+    }
   }
 }
