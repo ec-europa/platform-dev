@@ -119,6 +119,9 @@ which points here:
 
 and edits 'DGT Connector'.
 
+Only UUID 1 can delete the translator, should you need to perform this
+operation on playground or production, please send a request to CEM.
+
 ### TRANSLATOR SETTINGS
 - *Auto accept finished translations*: Check this if the site owner wants to
 review a translation before publishing it.
