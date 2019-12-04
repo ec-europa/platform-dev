@@ -48,7 +48,7 @@ Feature: Page Layout
       | /          | Welcome to European Commission |
       | user       | Log in                         |
 
-  @javascript @maximizedwindow @ec_resp_theme
+  @javascript @ec_resp_theme
   Scenario: Logged user can see the content in the column right and left
     Given I am logged in as a user with the 'administrator' role
     When I visit "admin/structure/types/add"
