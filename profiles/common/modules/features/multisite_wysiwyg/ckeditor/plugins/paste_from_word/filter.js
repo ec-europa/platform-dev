@@ -14,12 +14,33 @@
             if (activeFilter[i] !== true) {
               return;
             }
+
             // Create a standalone filter.
             var rules = 'h2 h3 h4 h5 h6 em strong abrr cite blockquote code ul ol li dl dt table tr td br; a[href]; img[src, alt]; p[align]';
             var filter = new CKEDITOR.filter(rules),
             // Parse the HTML string to a pseudo-DOM structure.
             fragment = CKEDITOR.htmlParser.fragment.fromHtml(evt.data.dataValue),
             writer = new CKEDITOR.htmlParser.basicWriter();
+            // Some needed transformations.
+            filter.addTransformations([
+              [
+                {
+                  element: 'b',
+                  right: function (el, tools) {
+                    tools.transform(el, 'strong');
+                  }
+                }
+              ],
+              [
+                {
+                  element: 'i',
+                  right: function (el, tools) {
+                    tools.transform(el, 'em');
+                  }
+                }
+              ]
+            ]);
+
             filter.applyTo(fragment);
             fragment.writeHtml(writer);
             evt.data.dataValue = writer.getHtml();
