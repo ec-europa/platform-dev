@@ -209,6 +209,9 @@ projects[entity_translation][download][branch] = 7.x-1.x
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
 ; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
+; NEPT-2499: Content types with another language than English don't show their values.
+; https://www.drupal.org/project/entity_translation/issues/2877103
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-10-03/entity_translation-content_not_in_current_language-2877103-17.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -479,6 +482,7 @@ projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "3.4"
+projects[media_youtube][patch][] = https://www.drupal.org/files/issues/2018-06-28/nocookie-default.patch
 
 projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
@@ -649,6 +653,9 @@ projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.12"
 ; https://www.drupal.org/node/3028444
 projects[rules][patch][] = https://www.drupal.org/files/issues/2019-01-25/3028444-6-markup-and-test.patch
+; https://www.drupal.org/node/826986
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2160
+projects[rules][patch][] = https://www.drupal.org/files/issues/file_events-826986-31_0.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
@@ -1168,4 +1175,4 @@ projects[nexteuropa_varnish][subdir] = "custom"
 projects[nexteuropa_varnish][type] = module
 projects[nexteuropa_varnish][download][type] = git
 projects[nexteuropa_varnish][download][url] = https://github.com/ec-europa/digit-ne-varnish.git
-projects[nexteuropa_varnish][download][tag] = v1.0.7
+projects[nexteuropa_varnish][download][tag] = v1.0.8

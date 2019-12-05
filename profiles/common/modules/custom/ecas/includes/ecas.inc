@@ -928,8 +928,12 @@ function ecas_save_user($account, $edit, array $ecas_user_info, array $args = ar
   // Load the user account and update realname, to ensure the safe_value of
   // fields are updated.
   cache_clear_all();
-  $update_account = user_load($account->uid, TRUE);
-  realname_update($update_account);
+
+  if (module_exists('realname')) {
+    $update_account = user_load($account->uid, TRUE);
+    realname_update($update_account);
+  }
+
   return $account;
 }
 
