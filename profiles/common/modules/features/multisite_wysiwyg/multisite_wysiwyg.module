@@ -36,6 +36,9 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     if (in_array('Link', $settings['toolbar'][0])) {
       drupal_add_js(drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/link_alter.js');
     }
+
+    // TODO: add this only if paste from word plugin is enabled.
+    drupal_add_js(drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/plugins/paste_from_word/filter.js');
   }
 }
 
