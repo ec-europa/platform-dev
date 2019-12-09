@@ -823,6 +823,8 @@ projects[video][patch][] = patches/phpvideotoolkit-2629.patch
 projects[video][patch][] = https://www.drupal.org/files/issues/2019-08-06/video-php7.2-3039351-3-7.x.patch
 ;MULTISITE-883 security
 projects[video][patch][] = patches/video-security-883.patch
+;NEPT-2690 PHP7.3 compatibility
+projects[video][patch][] = https://www.drupal.org/files/issues/2019-08-20/continue_in_switch-3042169-2.patch
 
 projects[views][subdir] = "contrib"
 projects[views][version] = 3.23
