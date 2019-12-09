@@ -209,6 +209,9 @@ projects[entity_translation][download][branch] = 7.x-1.x
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
 ; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
+; NEPT-2499: Content types with another language than English don't show their values.
+; https://www.drupal.org/project/entity_translation/issues/2877103
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-10-03/entity_translation-content_not_in_current_language-2877103-17.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -278,6 +281,12 @@ projects[feeds][version] = "2.0-beta4"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2638
 projects[feeds][patch][] = https://www.drupal.org/files/issues/2019-05-17/1139676_removing_the_PHP_7.2_warning.patch
 projects[feeds][patch][] = patches/feeds-php7-nept-2638.patch
+; Feeds is not compatible with php 7.3.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2689
+projects[feeds][patch][] = https://www.drupal.org/files/issues/2019-10-10/feeds-v2.0-beta4-php7-compatibility-deprecated-continue-in-switch-3013743.patch
+; https://www.drupal.org/node/2980096
+projects[feeds][patch][] = https://www.drupal.org/files/issues/2018-06-18/feeds-i18n-node-languages-require-bundle-2980096-7.patch
+
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
 ; So far, the module does not have any official release.
@@ -479,6 +488,7 @@ projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "3.4"
+projects[media_youtube][patch][] = https://www.drupal.org/files/issues/2018-06-28/nocookie-default.patch
 
 projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
@@ -813,6 +823,8 @@ projects[video][patch][] = patches/phpvideotoolkit-2629.patch
 projects[video][patch][] = https://www.drupal.org/files/issues/2019-08-06/video-php7.2-3039351-3-7.x.patch
 ;MULTISITE-883 security
 projects[video][patch][] = patches/video-security-883.patch
+;NEPT-2690 PHP7.3 compatibility
+projects[video][patch][] = https://www.drupal.org/files/issues/2019-08-20/continue_in_switch-3042169-2.patch
 
 projects[views][subdir] = "contrib"
 projects[views][version] = 3.23
@@ -1084,7 +1096,7 @@ libraries[modernizr][destination] = "../common/libraries"
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v8.0.2.zip
+libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v8.0.4.zip
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet

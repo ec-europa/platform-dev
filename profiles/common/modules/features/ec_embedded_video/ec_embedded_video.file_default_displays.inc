@@ -263,7 +263,7 @@ function ec_embedded_video_file_default_displays() {
     'showinfo' => 1,
     'modestbranding' => 0,
     'rel' => 1,
-    'nocookie' => 0,
+    'nocookie' => 1,
     'protocol_specify' => 0,
     'protocol' => 'https:',
     'enablejsapi' => 0,
