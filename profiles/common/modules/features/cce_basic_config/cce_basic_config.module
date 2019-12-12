@@ -524,7 +524,7 @@ function cce_basic_config_js_alter(&$javascript) {
 }
 
 /**
- * Implements hook_js_alter().
+ * Implements hook_query_alter().
  */
 function cce_basic_config_query_alter(QueryAlterableInterface $query) {
   // Restrict access to user_administrator.
