@@ -510,5 +510,17 @@ function cce_basic_config_js_alter(&$javascript) {
     'defer' => TRUE,
     'weight' => 5,
   ));
+}
 
+/**
+ * Implements hook_js_alter().
+ */
+function cce_basic_config_query_alter(QueryAlterableInterface $query) {
+  // Restrict access to user_administrator.
+  $tables = &$query->getTables();
+  $account = user_load_by_name('user_administrator');
+
+  if (isset($tables['u'])) {
+    $query->condition('u.uid', $account->uid, '<>');
+  }
 }
