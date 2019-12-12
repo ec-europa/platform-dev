@@ -186,6 +186,17 @@ function cce_basic_config_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function cce_basic_config_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  $account = user_load_by_name('user_administrator');
+
+  if (!empty($account) && $account->uid == $form['#user']->uid) {
+    drupal_goto('admin/people', [], 307);
+  }
+}
+
+/**
  * Implements hook_field_info_alter().
  */
 function cce_basic_config_field_info_alter(&$info) {
@@ -518,9 +529,12 @@ function cce_basic_config_js_alter(&$javascript) {
 function cce_basic_config_query_alter(QueryAlterableInterface $query) {
   // Restrict access to user_administrator.
   $tables = &$query->getTables();
-  $account = user_load_by_name('user_administrator');
 
   if (isset($tables['u'])) {
-    $query->condition('u.uid', $account->uid, '<>');
+    $account = user_load_by_name('user_administrator');
+
+    if (!empty($account)) {
+      $query->condition('u.uid', $account->uid, '<>');
+    }
   }
 }
