@@ -886,6 +886,11 @@ projects[webform][version] = "4.16"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
 ; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2757
+; https://www.drupal.org/sa-contrib-2019-096
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/67dc234f8973a04b93be8fd47c18b41ab6a1b938.patch
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/e0baea943dce2b50463348abf859f43b7f4c961d.patch
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/97ce29f6d36ff6ea9389fd493772479e421ba7b5.patch
 
 projects[webform_rules][subdir] = "contrib"
 projects[webform_rules][version] = "1.6"
