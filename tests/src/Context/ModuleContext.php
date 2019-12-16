@@ -4,7 +4,7 @@ namespace Drupal\nexteuropa\Context;
 
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Gherkin\Node\TableNode;
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\isEmpty;
 
 /**
@@ -52,7 +52,7 @@ class ModuleContext extends RawDrupalContext {
       }
     }
 
-    assert($message, isEmpty(), sprintf('Module "%s" not correctly enabled', implode(', ', $message)));
+    assertThat($message, isEmpty(), sprintf('Module "%s" not correctly enabled', implode(', ', $message)));
 
     if ($cache_flushing) {
       drupal_flush_all_caches();
@@ -87,7 +87,7 @@ class ModuleContext extends RawDrupalContext {
       }
     }
 
-    assert($message, isEmpty(), sprintf('Module "%s" not correctly disabled', implode(', ', $message)));
+    assertThat($message, isEmpty(), sprintf('Module "%s" not correctly disabled', implode(', ', $message)));
 
     if ($cache_flushing) {
       drupal_flush_all_caches();
@@ -127,7 +127,7 @@ class ModuleContext extends RawDrupalContext {
       }
     }
 
-    assert($message, isEmpty(), sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
+    assertThat($message, isEmpty(), sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
 
     if ($cache_flushing) {
       // Necessary for rebuilding the menu after enabling some specific

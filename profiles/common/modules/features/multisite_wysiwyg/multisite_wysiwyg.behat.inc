@@ -10,7 +10,7 @@ use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Mink\Element\Element;
 use function bovigo\assert\predicate\isNotEmpty;
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 
 /**
  * Behat step definitions for the NextEuropa Editorial module.
@@ -313,7 +313,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
   protected function getWysiwygModalTableRow(Element $element, $search) {
     $modal_tables = $element->findAll('xpath', "//td[@class='cke_dialog_ui_vbox_child']");
 
-    assert($modal_tables, isNotEmpty(), sprintf('No rows found in the Wysiwyg modal on the page %s', $this->getSession()->getCurrentUrl()));
+    assertThat($modal_tables, isNotEmpty(), sprintf('No rows found in the Wysiwyg modal on the page %s', $this->getSession()->getCurrentUrl()));
 
     foreach ($modal_tables as $modal_table) {
       $row = $this->getTableRow($modal_table, $search);
@@ -322,7 +322,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
       }
     }
 
-    assert($row, isNotEmpty(), sprintf('Failed to find a row containing "%s" in the Wysiwyg modal on the page %s', $search, $this->getSession()->getCurrentUrl()));
+    assertThat($row, isNotEmpty(), sprintf('Failed to find a row containing "%s" in the Wysiwyg modal on the page %s', $search, $this->getSession()->getCurrentUrl()));
   }
 
   /**
