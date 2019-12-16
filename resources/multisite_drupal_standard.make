@@ -213,14 +213,10 @@ projects[entity][version] = "1.9"
 projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][version] = "1.0"
+projects[entity_translation][version] = "1.1"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
-; https://www.drupal.org/node/2856927
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
-; https://www.drupal.org/node/2741407
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
