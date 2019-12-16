@@ -6,7 +6,5 @@ if [ -h ".git/hooks/pre-push" ] ; then
 fi
 ln -s "../../vendor/pfrenssen/phpcs-pre-push/pre-push" ".git/hooks/pre-push"
 
-# Copy PHPCompatibility coding standard over to CodeSniffer directory.
-# See https://github.com/wimg/PHPCompatibility/issues/102.
-rm -rf vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCompatibility;
-cp -r vendor/phpcompatibility/php-compatibility vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCompatibility;
+# Install PHPCompatibility.
+./bin/phpcs --config-set installed_paths '../../drupal/coder/coder_sniffer,../../phpcompatibility/php-compatibility,../../ec-europa/qa-automation/phpcs'
