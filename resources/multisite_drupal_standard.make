@@ -576,6 +576,9 @@ projects[om_maximenu][patch][1824704] = https://www.drupal.org/files/issues/fix_
 
 projects[password_policy][subdir] = "contrib"
 projects[password_policy][version] = "2.0-alpha8"
+;NEPT-2749: password_policy_user_load() assumes field is_generated exists
+;https://www.drupal.org/node/2978953
+projects[password_policy][patch][] = https://www.drupal.org/files/issues/2019-11-22/password_policy-check_existence_of_is_generated-2978953-7.patch
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.3"
