@@ -77,6 +77,9 @@ In the translation checkout page, the translator ```TMGMT DGT Translator``` must
 
 * Install and configure [NextEuropa DGT Connector](https://github.com/ec-europa/platform-dev/tree/release-2.5/profiles/common/modules/features/nexteuropa_dgt_connector);
 * Enable modules ```TMGMT DGT connector (tmgmt_dgt_connector)``` and ```TMGMT DGT Connector Cart (tmgmt_dgt_connector_cart)```;
+* Enable translatability of your content types.
+* Enable translatability of each field you want to send to translation (including
+title field) in admin/structure/types/manage/my_content_type/fields/my_field_field.
 * Configure settings in ```admin/config/regional/poetry-client``` for the helper module
 [Nexteuropa Poetry](https://github.com/ec-europa/nexteuropa_poetry#configuration),
 as described in "Configuration" section.
