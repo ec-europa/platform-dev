@@ -4,13 +4,12 @@ Feature: User authentication
   As a product owner
   I want to make sure only authenticated users can access the site administration
 
-@theme_wip
 # It is in theme wip waiting for the resolution of the NEPT-1190.
-Scenario: Anonymous user can see the user login page
+Scenario: Anonymous user can see the EU login link
   Given I am not logged in
-  When I visit "user"
   Then I should see the text "EU Login"
-  And I should see the text "Request new password"
+  When I visit "user"
+  Then I should see the text "Request new password"
   And I should see the text "Username"
   And I should see the text "Password"
   But I should not see the text "Log out"

@@ -35,6 +35,8 @@ function nexteuropa_communities_enable() {
  */
 function nexteuropa_communities_install() {
   multisite_config_service('comment')->setThreadingCommentForContentType('communities', 1);
+
+  module_enable(array('multisite_og_button'));
 }
 
 /**

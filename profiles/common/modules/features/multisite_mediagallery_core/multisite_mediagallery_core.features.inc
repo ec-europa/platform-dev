@@ -18,6 +18,9 @@ function multisite_mediagallery_core_ctools_plugin_api($module = NULL, $api = NU
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
+  if ($module == "context" && $api == "context") {
+    return array("version" => "3");
+  }
 }
 
 /**
