@@ -2,11 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-<<<<<<< HEAD
 projects[drupal][version] = "7.69"
-=======
-projects[drupal][version] = "7.68"
->>>>>>> NEPT-2709: Upgrade drupal to latest version.
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -96,7 +92,13 @@ projects[drupal][patch][] = https://www.drupal.org/files/locale.module-array_uns
 <<<<<<< HEAD
 =======
 ; HTTP status 200 returned for ”Additional uncaught exception thrown while handling exception”
+<<<<<<< HEAD
 >>>>>>> NEPT-2709: Upgrade drupal to latest version.
+=======
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2429
+; https://www.drupal.org/project/drupal/issues/2666908
+projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-500_exception_on_exception-12221055-6.patch
+>>>>>>> Revert "NEPT-2709: Upgrade drupal to latest version."
 ; Hide username in RSS feed if content type is set to hide author.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2201
 ; https://www.drupal.org/project/drupal/issues/421586
