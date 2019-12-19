@@ -97,3 +97,6 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-500_excep
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2201
 ; https://www.drupal.org/project/drupal/issues/421586
 projects[drupal][patch][] = https://www.drupal.org/files/issues/2019-08-19/node-post-setting-with-test-421586-31.patch
+
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2768
+projects[drupal][patch][] = https://git.drupalcode.org/project/drupal/commit/75689e47e66de30b11ca26d8018c678c05a028a0.diff
