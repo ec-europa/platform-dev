@@ -1,3 +1,10 @@
+<?php
+
+/**
+ * @file
+ * Template to foce using hook_multisite_drupal_toolbox_filter_options_alter.
+ */
+?>
 <p>For security matters, this form has been removed.</p>
 
 <p>If you still want to configure the allowed tags, you need to do it via code.</p>
