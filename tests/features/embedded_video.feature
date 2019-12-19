@@ -9,9 +9,9 @@ Feature: Embedded videos
       | modules           |
       | ec_embedded_video |
       | field_ui          |
-    And I am logged in as a user with the 'administrator' role
 
  Scenario Outline: Embed youtube video via media web tab
+    Given I am logged in as a user with the 'contributor' role
     When I go to "file/add/web"
     And I fill in "File URL" with "<url>"
     Then I press "Next"
@@ -29,7 +29,8 @@ Feature: Embedded videos
       | AV portal   | STOCKSHOTS                                       | https://ec.europa.eu/avservices/video/player.cfm?sitelang=en&ref=I143092 |
 
   Scenario: As an administrator I can add Youtube videos.
-    Given I go to "admin/structure/types/manage/page/fields"
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "admin/structure/types/manage/page/fields"
     And I fill in "edit-fields-add-new-field-label" with "YTvideo"
     And I select "Multimedia asset" from "edit-fields-add-new-field-type"
     And I wait for AJAX to finish
@@ -45,7 +46,8 @@ Feature: Embedded videos
     Then I should see "Saved YTvideo configuration."
 
   Scenario: Youtube videos are displayed in privacy enhanced mode.
-    Given I go to "node/add/page"
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
     And I fill in the content's title with "YTvideo"
     And I click "Browse"
     Then the media browser opens
@@ -60,7 +62,8 @@ Feature: Embedded videos
     And the response should contain "https://www.youtube-nocookie.com"
 
   Scenario: As an administrator I can disable privacy enhanced mode.
-    Given I go to "admin/structure/file-types/manage/video/file-display"
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "admin/structure/file-types/manage/video/file-display"
     And I click "YouTube Video"
     Then I should see "Use privacy enhanced (no cookie) mode"
     And I uncheck "Use privacy enhanced (no cookie) mode"
@@ -79,4 +82,3 @@ Feature: Embedded videos
     And I wait for AJAX to finish
     And I press "Save"
     And the response should contain "https://www.youtube.com"
-    
