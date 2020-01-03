@@ -11,7 +11,7 @@ Feature: Embedded videos
       | field_ui          |
 
  Scenario Outline: Embed youtube video via media web tab
-    Given I am logged in as a user with the 'contributor' role
+    Given I am logged in as a user with the 'administrator' role
     When I go to "file/add/web"
     And I fill in "File URL" with "<url>"
     Then I press "Next"
