@@ -16,7 +16,6 @@ Feature: Embedded videos
     And I fill in "File URL" with "<url>"
     Then I press "Next"
     And I fill in "File name" with "<title>"
-    And I fill in "Video Description" with "text"
     And I press "Save"
     And I click "<title>"
     Then I should see the "<provider>" video iframe
