@@ -316,7 +316,7 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
           case 'entityreference':
             // If the access is denied to the term, we do not display it.
             if (empty($item['access'])) {
-              continue;
+              continue 2;
             }
             // Calling EntityReferenceHandler::getLabel() would make a repeated,
             // wasteful call to entity_access().
@@ -347,7 +347,7 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
           case 'entityreference':
             // If the access is denied to the term, we do not display it.
             if (empty($item['access'])) {
-              continue;
+              continue 2;
             }
             // Calling EntityReferenceHandler::getLabel() would make a repeated,
             // wasteful call to entity_access().
