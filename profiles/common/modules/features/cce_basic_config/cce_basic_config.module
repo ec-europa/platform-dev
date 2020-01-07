@@ -187,7 +187,7 @@ function cce_basic_config_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
- * 
+ *
  * Restrict access to user_administrator profile form.
  */
 function cce_basic_config_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
@@ -528,7 +528,7 @@ function cce_basic_config_js_alter(&$javascript) {
 
 /**
  * Implements hook_query_alter().
- * 
+ *
  * Restrict access to user_administrator.
  */
 function cce_basic_config_query_alter(QueryAlterableInterface $query) {
