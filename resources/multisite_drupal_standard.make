@@ -884,7 +884,7 @@ projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.15"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.16"
+projects[webform][version] = "4.21"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
 ; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
