@@ -187,11 +187,14 @@ function cce_basic_config_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ * 
+ * Restrict access to user_administrator profile form.
  */
 function cce_basic_config_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
   $account = user_load_by_name('user_administrator');
 
-  if (!empty($account) && $account->uid == $form['#user']->uid) {
+  if (!empty($account) && $account->uid == $form['#user']->uid && $user->uid != 1 && $user->uid != $account->uid) {
     drupal_goto('admin/people', [], 307);
   }
 }
@@ -525,9 +528,16 @@ function cce_basic_config_js_alter(&$javascript) {
 
 /**
  * Implements hook_query_alter().
+ * 
+ * Restrict access to user_administrator.
  */
 function cce_basic_config_query_alter(QueryAlterableInterface $query) {
-  // Restrict access to user_administrator.
+  global $user;
+
+  if ($user->uid == 1) {
+    return;
+  }
+
   $tables = &$query->getTables();
 
   if (
