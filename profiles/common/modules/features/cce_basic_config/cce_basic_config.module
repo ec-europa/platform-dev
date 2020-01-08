@@ -194,7 +194,7 @@ function cce_basic_config_form_user_profile_form_alter(&$form, &$form_state, $fo
   global $user;
   $account = user_load_by_name('user_administrator');
 
-  if (!empty($account) && $account->uid == $form['#user']->uid && $user->uid != 1 && $user->uid != $account->uid) {
+  if (!empty($account) && $account->uid == $form['#user']->uid && $user->uid != 1) {
     drupal_goto('admin/people', [], 307);
   }
 }
