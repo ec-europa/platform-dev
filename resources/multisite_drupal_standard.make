@@ -213,14 +213,10 @@ projects[entity][version] = "1.9"
 projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][version] = "1.0"
+projects[entity_translation][version] = "1.1"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
-; https://www.drupal.org/node/2856927
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
-; https://www.drupal.org/node/2741407
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -536,15 +532,8 @@ projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.22"
 
-; A recent version of the Migrate module is pinned that contains a fix for
-; https://www.drupal.org/node/2504517
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
-; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
-projects[migrate][download][branch] = 7.x-2.x
-projects[migrate][download][revision] = bdb5a86116295df7c35fbb39bdd4397f743498c1
-projects[migrate][download][type] = git
-projects[migrate][subdir] = contrib
-projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909252-1.patch
+projects[migrate][subdir] = "contrib"
+projects[migrate][version] = "2.11"
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.1"
@@ -892,6 +881,11 @@ projects[webform][version] = "4.16"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
 ; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2757
+; https://www.drupal.org/sa-contrib-2019-096
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/67dc234f8973a04b93be8fd47c18b41ab6a1b938.patch
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/e0baea943dce2b50463348abf859f43b7f4c961d.patch
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/97ce29f6d36ff6ea9389fd493772479e421ba7b5.patch
 
 projects[webform_rules][subdir] = "contrib"
 projects[webform_rules][version] = "1.6"
@@ -962,6 +956,9 @@ projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e94860
 ; CKEditor height does not reflect the rows attribute
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
 projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
+; Error highlight missing on wysiwyg
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2199
+projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/wysiwyg-highlighting-required-field-error-2685519-2.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
@@ -1183,7 +1180,7 @@ projects[atomium][version] = 2.12
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.14
+projects[ec_europa][download][tag] = 0.0.14.1
 projects[ec_europa][patch][] = patches/nept-2585-remove-site-switcher.patch
 projects[ec_europa][patch][] = patches/nept-2668-language-switcher.patch
 
@@ -1195,4 +1192,4 @@ projects[nexteuropa_poetry][subdir] = "contrib"
 projects[nexteuropa_poetry][type] = module
 projects[nexteuropa_poetry][download][type] = git
 projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
-projects[nexteuropa_poetry][download][tag] = 0.1.0
+projects[nexteuropa_poetry][download][tag] = 0.1.1
