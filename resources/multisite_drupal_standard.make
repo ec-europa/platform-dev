@@ -464,6 +464,8 @@ projects[media][version] = 2.23
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1015
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
+; NEPT-2718 Error thrown when maxlength module is enabled
+projects[media][patch][] = patches/media-nept-2718-maxlength-title-error.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.5"

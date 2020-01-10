@@ -10,6 +10,7 @@ Feature: Multisite registration og
       | modules                         |
       | multisite_registration_core     |
       | multisite_registration_og       |
+      | field_ui                        |
     And I am viewing a "community" content:
       | title                          | Public community 1  |
       | workbench_moderation_state     | published           |

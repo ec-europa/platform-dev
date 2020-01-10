@@ -688,9 +688,7 @@ function ecas_menu_logout_check() {
 
   // We provide access to this menu entry only if we are logged via ECAS.
   if (isset($_SESSION['phpCAS']) && isset($user->name)) {
-    if ($_SESSION['phpCAS']['user'] === $user->name) {
-      return TRUE;
-    }
+    return TRUE;
   }
 
   return FALSE;
