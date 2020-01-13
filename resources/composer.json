@@ -11,7 +11,7 @@
   },
   "require-dev": {
     "behat/behat": "~3.2",
-    "bovigo/assert": "^1.7",
+    "bovigo/assert": "^5",
     "drupal/drupal-extension": "^4@beta",
     "ec-europa/oe-poetry-behat": "~0.3",
     "internations/http-mock": "^0.8",
