@@ -156,7 +156,13 @@ function _poetry_mock_get_data_row_action_links($data_row) {
     ],
     'send_ong_status' => [
       'title' => "Send 'ONG' status",
-      'href' => 'tmgmt_poetry_mock/send-status/ong/'
+      'href' => 'tmgmt_poetry_mock/send-status/ONG/'
+      . $data_row['tjid'],
+      'query' => ['destination' => current_path()],
+    ],
+    'send_cnl_status' => [
+      'title' => "Send 'CNL' status",
+      'href' => 'tmgmt_poetry_mock/send-status/CNL/'
       . $data_row['tjid'],
       'query' => ['destination' => current_path()],
     ],

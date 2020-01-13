@@ -4,6 +4,8 @@
  * @file
  * Template file for the POETRY mock WSDL.
  *
+ * Soon @depecrated in favor of poetry/wsdl provided by nexteuropa_poetry.
+ *
  * Available custom variables:
  * - $uri: uri of WSDL.
  */

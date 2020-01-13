@@ -104,7 +104,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
                 ->condition('tjiid', $result->tjiid, '=')
                 ->execute()
                 ->fetchAssoc();
-              if (empty($result_ps) || (!empty($result_ps) && $result_ps['status'] == POETRY_STATUS_MESSAGE_PEN)) {
+              if (empty($result_ps) || (!empty($result_ps) && $result_ps['status'] == TMGMT_POETRY_STATUS_MSG_PEN)) {
                 return FALSE;
               }
             }
@@ -257,11 +257,11 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     // Generate the callback parameters.
     $callback_username = $settings['callback_user'];
     $callback_password = $settings['callback_password'];
-    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+    $callback_address = url('poetry/wsdl', array(
       'absolute' => TRUE,
       'language' => (object) array('language' => FALSE),
     ));
-    $callback_path = 'FPFISPoetryIntegrationRequest';
+    $callback_path = 'handle';
     $callback_remark = '';
 
     // Create initial XML element using POETRY headers.
@@ -287,12 +287,13 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $demande = $request->addChild('demande');
     $demande->addChild('userReference', 'Job ID ' . $job->tjid);
 
+    $label = tmgmt_poetry_change_label($job->label);
     $website_identifier = $settings['website_identifier'];
     if (isset($website_identifier)) {
-      $request_title = "NE-CMS: {$website_identifier} - {$job->label}";
+      $request_title = "NE-CMS: {$website_identifier} - {$label}";
     }
     else {
-      $request_title = 'NE-CMS: ' . $job->label;
+      $request_title = 'NE-CMS: ' . $label;
     }
 
     $demande->titre = $request_title;
@@ -692,7 +693,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    */
   protected function appendAttributionsXmlElement(SimpleXMLElement $request_xml, array $new_languages, $delivery_date, $settings) {
     $callback_username = $settings['callback_user'];
-    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+    $callback_address = url('poetry/wsdl', array(
       'absolute' => TRUE,
       'language' => (object) array('language' => FALSE),
     ));

@@ -1,5 +1,5 @@
 @api @i18n @poetry @theme_wip
-Feature: TMGMT Poetry Client features
+Feature: TMGMT DGT Connector features
   In order to request Carts translations with Poetry service.
   As an Administrator
   I want to be able to create/manage translation requests.

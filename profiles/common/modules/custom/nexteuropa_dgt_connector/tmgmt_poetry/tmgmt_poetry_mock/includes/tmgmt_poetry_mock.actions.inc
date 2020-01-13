@@ -45,27 +45,5 @@ function _tmgmt_poetry_mock_refuse_job($file_id, $entity_id) {
  */
 function _tmgmt_poetry_mock_send_status($status_code, $job_id) {
   $poetry_mock = new PoetryMock();
-  $request_status_msg = 'OK';
-  $demande_status_msg = _tmgmt_poetry_mock_get_demande_status($status_code);
-  $poetry_mock->sendStatus($job_id, $status_code, $request_status_msg, $demande_status_msg);
-}
-
-/**
- * Returns the 'demande' status message for given status code.
- *
- * @param string $status_code
- *   Status code.
- *
- * @return string
- *   The 'demande' status message.
- */
-function _tmgmt_poetry_mock_get_demande_status($status_code) {
-  $status_msg = '';
-  switch ($status_code) {
-    case 'ong':
-      $status_msg = 'REQUEST ACCEPTED';
-      break;
-  }
-
-  return $status_msg;
+  $poetry_mock->sendStatus($job_id, $status_code);
 }

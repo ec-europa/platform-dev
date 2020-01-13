@@ -153,10 +153,10 @@ function _tmgmt_poetry_mock_get_poetry_service_endpoint() {
 }
 
 /**
- * Get the URL of the tmgmt_poetry WSDL.
+ * Get the URL of the poetry WSDL, provided bu Nexteuropa Poetry.
  *
  * @return string
- *   Absolute URL of the tmgmt_poetry WSDL.
+ *   Absolute URL of the poetry WSDL.
  */
 function _tmgmt_poetry_mock_get_drupal_service_wsdl() {
   $mock_base = variable_get('poetry_mock_base_url', '');
@@ -164,7 +164,7 @@ function _tmgmt_poetry_mock_get_drupal_service_wsdl() {
     return $mock_base . "/" . drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl";
   }
   return url(
-    drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl",
+    'poetry/wsdl',
     [
       'absolute' => TRUE,
       'language' => (object) ['language' => FALSE],
