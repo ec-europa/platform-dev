@@ -1,12 +1,12 @@
 /*
 * Styling to prevent CCK and Globan from switching places
-* !important to override inline styles
+* !important needed to override inline style
 */
 
 #cookie-consent-banner {
     margin-top: 28px !important;
 }
-#globan {
+#globan#globan {
     position: absolute;
     top: 0;
 }
