@@ -673,14 +673,14 @@ projects[scheduler][download][revision] = "89707ba3affa72beea0b428230e61f4c5a0c1
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][download][type] = "git"
 projects[scheduler_workbench][download][url] = "https://git.drupalcode.org/project/scheduler_workbench.git"
-projects[scheduler_workbench][download][revision] = "e1a379f8eefc4d993162e390de3a8d02f27f537c"
+projects[scheduler_workbench][download][revision] = "46e8db33e54a0d873ff60956d4d2f90d27c4735d"
 
 ; Allow to schedule the publish date of a revision
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2504
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
 ; https://www.drupal.org/project/scheduler_workbench/issues/2048999
-projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2019-09-16/scheduler_workbench-revision_publish-2048999-62.patch
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2020-01-21/scheduler_workbench-revision_publish-2048999-66.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.24
