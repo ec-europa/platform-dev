@@ -661,24 +661,26 @@ projects[rules][patch][] = https://www.drupal.org/files/issues/2019-01-25/302844
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2160
 projects[rules][patch][] = https://www.drupal.org/files/issues/file_events-826986-31_0.patch
 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
+; We use the dev version of the module to be able to run the module simpletes.
 projects[scheduler][subdir] = "contrib"
-projects[scheduler][version] = 1.5
+projects[scheduler][download][type] = "git"
+projects[scheduler][download][url] = "https://git.drupalcode.org/project/scheduler.git"
+projects[scheduler][download][revision] = "89707ba3affa72beea0b428230e61f4c5a0c1283"
 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
+; We use the dev version of the module to be able to run the module simpletes.
 projects[scheduler_workbench][subdir] = "contrib"
-projects[scheduler_workbench][version] = 1.3
+projects[scheduler_workbench][download][type] = "git"
+projects[scheduler_workbench][download][url] = "https://git.drupalcode.org/project/scheduler_workbench.git"
+projects[scheduler_workbench][download][revision] = "e1a379f8eefc4d993162e390de3a8d02f27f537c"
+
 ; Allow to schedule the publish date of a revision
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2504
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
 ; https://www.drupal.org/project/scheduler_workbench/issues/2048999
-projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2019-06-20/scheduler_workbench-revision_publish-2048999-58.patch
-; Allow publication of revisions with selected status. This patch requires the patch from issue https://www.drupal.org/project/scheduler_workbench/issues/2048999
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
-; This patch requieres https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-46.patch from
-; this issue https://www.drupal.org/project/scheduler_workbench/issues/2048999.
-; It is based on the issue https://www.drupal.org/project/scheduler_workbench/issues/1955938 but the patch on
-; the issue doesn't take into account the changes introduced on issue
-; https://www.drupal.org/project/scheduler_workbench/issues/2048999, so we created a local patch for it.
-projects[scheduler_workbench][patch][] = patches/scheduler_workbench-allowed_status.patch
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2019-09-16/scheduler_workbench-revision_publish-2048999-62.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.24
