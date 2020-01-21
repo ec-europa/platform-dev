@@ -988,11 +988,11 @@ libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archi
 libraries[colorbox][directory_name] = colorbox
 libraries[colorbox][destination] = libraries
 
-; ckeditor 4.9.2
+; ckeditor 4.13.1
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.11.0/ckeditor_4.11.0_full.zip
+libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.13.1/ckeditor_4.13.1_full.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().
