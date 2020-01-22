@@ -201,17 +201,10 @@ projects[entity][version] = "1.9"
 projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][download][type] = git
-projects[entity_translation][download][revision] = 2e46cdb51a49b5e27500350662c6b54de38ece04
-projects[entity_translation][download][branch] = 7.x-1.x
+projects[entity_translation][version] = "1.1"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
-; https://www.drupal.org/node/2856927
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
-; NEPT-2499: Content types with another language than English don't show their values.
-; https://www.drupal.org/project/entity_translation/issues/2877103
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-10-03/entity_translation-content_not_in_current_language-2877103-17.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -890,6 +883,11 @@ projects[webform][version] = "4.21"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
 ; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2757
+; https://www.drupal.org/sa-contrib-2019-096
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/67dc234f8973a04b93be8fd47c18b41ab6a1b938.patch
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/e0baea943dce2b50463348abf859f43b7f4c961d.patch
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/97ce29f6d36ff6ea9389fd493772479e421ba7b5.patch
 
 projects[webform_rules][subdir] = "contrib"
 projects[webform_rules][version] = "1.6"
@@ -960,6 +958,9 @@ projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e94860
 ; CKEditor height does not reflect the rows attribute
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
 projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
+; Error highlight missing on wysiwyg
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2199
+projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/wysiwyg-highlighting-required-field-error-2685519-2.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.3"
@@ -1173,6 +1174,7 @@ projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
 projects[ec_europa][download][tag] = 0.0.15
+projects[ec_europa][patch][] = patches/nept-2585-remove-site-switcher.patch
 
 ; ==============
 ; Custom modules
@@ -1182,7 +1184,7 @@ projects[nexteuropa_poetry][subdir] = "contrib"
 projects[nexteuropa_poetry][type] = module
 projects[nexteuropa_poetry][download][type] = git
 projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
-projects[nexteuropa_poetry][download][tag] = 0.1.0
+projects[nexteuropa_poetry][download][tag] = 0.1.1
 
 projects[nexteuropa_varnish][subdir] = "custom"
 projects[nexteuropa_varnish][type] = module
