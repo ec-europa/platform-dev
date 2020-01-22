@@ -703,7 +703,7 @@ function _nexteuropa_varnish_get_node_paths($node) {
     else {
       // Content translation.
       $lang_code = entity_language('node', $node);
-      $all_languages = language_list('enabled');
+      $all_languages = language_list('enabled')[1];
       $alias = drupal_get_path_alias($entity_uri['path'], $lang_code);
       $original_alias = $alias;
 
