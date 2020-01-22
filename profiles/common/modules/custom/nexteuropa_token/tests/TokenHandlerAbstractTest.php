@@ -7,7 +7,7 @@ namespace Drupal\nexteuropa_token\Tests;
  *
  * @package Drupal\nexteuropa_token\Tests
  */
-abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
+abstract class TokenHandlerAbstractTest extends \PHPUnit\Framework\TestCase {
 
   /**
    * Test content type fixtures.

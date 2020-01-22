@@ -10,7 +10,7 @@ use GuzzleHttp\Client;
  *
  * @package Drupal\nexteuropa_laco\Tests
  */
-class LanguageCoverageServiceTest extends \PHPUnit_Framework_TestCase {
+class LanguageCoverageServiceTest extends \PHPUnit\Framework\TestCase {
 
   /**
    * Test HTTP request.

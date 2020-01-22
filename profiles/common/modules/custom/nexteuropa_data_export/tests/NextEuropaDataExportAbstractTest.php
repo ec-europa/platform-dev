@@ -13,7 +13,7 @@ use Drupal\Driver\DrupalDriver;
  *
  * @package Drupal\nexteuropa_data_export\Tests
  */
-abstract class NextEuropaDataExportAbstractTest extends \PHPUnit_Framework_TestCase {
+abstract class NextEuropaDataExportAbstractTest extends \PHPUnit\Framework\TestCase {
 
   /**
    * Mink instance.

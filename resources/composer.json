@@ -11,10 +11,11 @@
   },
   "require-dev": {
     "behat/behat": "~3.2",
-     "bovigo/assert": "^5",
+    "bovigo/assert": "^5.0",
     "drupal/drupal-extension": "^4@beta",
     "ec-europa/oe-poetry-behat": "~0.3",
     "internations/http-mock": "^0.10",
+    "phpunit/phpunit": "^7.0",
     "jfhovinne/updater" : "^1.1",
     "openeuropa/behat-transformation-context": "^0.1",
     "roave/security-advisories": "dev-master",

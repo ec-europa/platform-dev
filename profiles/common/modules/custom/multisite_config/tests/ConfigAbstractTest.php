@@ -7,7 +7,7 @@ namespace Drupal\multisite_config\Tests;
  *
  * @package Drupal\multisite_config\Tests
  */
-abstract class ConfigAbstractTest extends \PHPUnit_Framework_TestCase {
+abstract class ConfigAbstractTest extends \PHPUnit\Framework\TestCase {
 
   const CONTENT_TYPE_WITH_FIELDS = 'test_with_fields';
   const CONTENT_TYPE_WITHOUT_FIELDS = 'test_without_fields';
