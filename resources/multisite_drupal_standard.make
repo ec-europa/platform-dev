@@ -1168,8 +1168,7 @@ projects[atomium][version] = 2.12
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.15
-projects[ec_europa][patch][] = patches/nept-2585-remove-site-switcher.patch
+projects[ec_europa][download][tag] = 0.0.23
 
 ; ==============
 ; Custom modules
