@@ -9,6 +9,7 @@ Feature: Geofield feature
     And the module is enabled
       | modules             |
       | nexteuropa_geofield |
+      | field_ui            |
 
   Scenario: add field to a content type
     When  I go to "/admin/structure/types/manage/article/fields"
