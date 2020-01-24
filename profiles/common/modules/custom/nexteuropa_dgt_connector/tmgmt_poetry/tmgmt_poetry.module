@@ -30,8 +30,10 @@ function tmgmt_poetry_entity_info_alter(&$entity_info) {
  *   Boolean
  */
 function _tmgmt_poetry_translator_access($op, $translator, $account) {
+  global $user;
+
   if (!empty($translator) && $translator->plugin == 'poetry') {
-    if ($op == 'delete'  && $translator->name != 'tmgmt_poetry_test_translator') {
+    if ($op == 'delete' && $user->uid != 1) {
       return FALSE;
     }
     else {
@@ -41,7 +43,6 @@ function _tmgmt_poetry_translator_access($op, $translator, $account) {
   else {
     return tmgmt_translator_access($op, $translator, $account);
   }
-
 }
 
 /**
