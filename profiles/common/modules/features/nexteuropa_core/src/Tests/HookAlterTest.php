@@ -3,7 +3,7 @@
 namespace Drupal\nexteuropa_core\Tests;
 
 use Drupal\nexteuropa\Unit\AbstractUnitTest;
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\hasKey;
 
 /**
@@ -19,9 +19,9 @@ class HookAlterTest extends AbstractUnitTest {
   public function testTokenInfoAlterSmoke() {
     $data = [];
     nexteuropa_core_token_info_alter($data);
-    assert($data, hasKey('tokens'));
-    assert($data['tokens'], hasKey('term'));
-    assert($data['tokens']['term'], hasKey('parents-uri'));
+    assertThat($data, hasKey('tokens'));
+    assertThat($data['tokens'], hasKey('term'));
+    assertThat($data['tokens']['term'], hasKey('parents-uri'));
   }
 
 }
