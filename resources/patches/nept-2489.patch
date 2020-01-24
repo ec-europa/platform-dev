@@ -1,0 +1,17 @@
+diff --git a/templates/form_element/form_element.component.inc b/templates/form_element/form_element.component.inc
+index fdaa6078..ef812ad0 100644
+--- a/templates/form_element/form_element.component.inc
++++ b/templates/form_element/form_element.component.inc
+@@ -94,7 +94,9 @@ function ec_europa_preprocess_form_element__checkbox(array &$variables, $hook) {
+  * Implements hook_preprocess_hook().
+  */
+ function ec_europa_preprocess_form_element__textarea(array &$variables, $hook) {
+-  $variables['label']['#attributes'] = array(
+-    'id' => array($variables['element']['#id'] . '_label'),
+-  );
++  if (isset($variables['label']['#attributes'])) {
++    $variables['label']['#attributes'] = array(
++      'id' => array($variables['element']['#id'] . '_label'),
++    );
++  }
+ }
