@@ -4,13 +4,14 @@ namespace Drupal\nexteuropa_laco\Tests;
 
 use Drupal\nexteuropa_laco\LanguageCoverageService as Service;
 use GuzzleHttp\Client;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class LanguageCoverageServiceTest.
  *
  * @package Drupal\nexteuropa_laco\Tests
  */
-class LanguageCoverageServiceTest extends \PHPUnit_Framework_TestCase {
+class LanguageCoverageServiceTest extends TestCase {
 
   /**
    * Test HTTP request.
