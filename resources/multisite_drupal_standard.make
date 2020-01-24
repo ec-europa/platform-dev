@@ -201,17 +201,10 @@ projects[entity][version] = "1.9"
 projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][download][type] = git
-projects[entity_translation][download][revision] = 2e46cdb51a49b5e27500350662c6b54de38ece04
-projects[entity_translation][download][branch] = 7.x-1.x
+projects[entity_translation][version] = "1.1"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
-; https://www.drupal.org/node/2856927
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
-; NEPT-2499: Content types with another language than English don't show their values.
-; https://www.drupal.org/project/entity_translation/issues/2877103
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-10-03/entity_translation-content_not_in_current_language-2877103-17.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -281,6 +274,12 @@ projects[feeds][version] = "2.0-beta4"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2638
 projects[feeds][patch][] = https://www.drupal.org/files/issues/2019-05-17/1139676_removing_the_PHP_7.2_warning.patch
 projects[feeds][patch][] = patches/feeds-php7-nept-2638.patch
+; Feeds is not compatible with php 7.3.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2689
+projects[feeds][patch][] = https://www.drupal.org/files/issues/2019-10-10/feeds-v2.0-beta4-php7-compatibility-deprecated-continue-in-switch-3013743.patch
+; https://www.drupal.org/node/2980096
+projects[feeds][patch][] = https://www.drupal.org/files/issues/2018-06-18/feeds-i18n-node-languages-require-bundle-2980096-7.patch
+
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
 ; So far, the module does not have any official release.
@@ -318,7 +317,7 @@ projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group
 projects[field_group][patch][] = https://www.drupal.org/files/issues/2018-11-28/field_group-func_get_args-3016503-2.patch
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.25"
+projects[file_entity][version] = "2.27"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.11"
@@ -458,6 +457,8 @@ projects[media][version] = 2.23
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1015
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
+; NEPT-2718 Error thrown when maxlength module is enabled
+projects[media][patch][] = patches/media-nept-2718-maxlength-title-error.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.5"
@@ -576,6 +577,9 @@ projects[om_maximenu][patch][1824704] = https://www.drupal.org/files/issues/fix_
 
 projects[password_policy][subdir] = "contrib"
 projects[password_policy][version] = "2.0-alpha8"
+;NEPT-2749: password_policy_user_load() assumes field is_generated exists
+;https://www.drupal.org/node/2978953
+projects[password_policy][patch][] = https://www.drupal.org/files/issues/2019-11-22/password_policy-check_existence_of_is_generated-2978953-7.patch
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.3"
@@ -817,6 +821,8 @@ projects[video][patch][] = patches/phpvideotoolkit-2629.patch
 projects[video][patch][] = https://www.drupal.org/files/issues/2019-08-06/video-php7.2-3039351-3-7.x.patch
 ;MULTISITE-883 security
 projects[video][patch][] = patches/video-security-883.patch
+;NEPT-2690 PHP7.3 compatibility
+projects[video][patch][] = https://www.drupal.org/files/issues/2019-08-20/continue_in_switch-3042169-2.patch
 
 projects[views][subdir] = "contrib"
 projects[views][version] = 3.23
@@ -873,7 +879,7 @@ projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.15"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.16"
+projects[webform][version] = "4.21"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
 ; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
@@ -947,6 +953,9 @@ projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e94860
 ; CKEditor height does not reflect the rows attribute
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
 projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
+; Error highlight missing on wysiwyg
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2199
+projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/wysiwyg-highlighting-required-field-error-2685519-2.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.3"
@@ -1088,7 +1097,7 @@ libraries[modernizr][destination] = "../common/libraries"
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v8.0.2.zip
+libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v8.0.4.zip
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
@@ -1160,6 +1169,7 @@ projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
 projects[ec_europa][download][tag] = 0.0.15
+projects[ec_europa][patch][] = patches/nept-2585-remove-site-switcher.patch
 
 ; ==============
 ; Custom modules
@@ -1169,7 +1179,7 @@ projects[nexteuropa_poetry][subdir] = "contrib"
 projects[nexteuropa_poetry][type] = module
 projects[nexteuropa_poetry][download][type] = git
 projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
-projects[nexteuropa_poetry][download][tag] = 0.1.0
+projects[nexteuropa_poetry][download][tag] = 0.1.1
 
 projects[nexteuropa_varnish][subdir] = "custom"
 projects[nexteuropa_varnish][type] = module
