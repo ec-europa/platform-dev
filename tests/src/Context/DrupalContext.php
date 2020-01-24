@@ -6,7 +6,7 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Drupal\DrupalExtension\Context\DrupalContext as DrupalExtensionDrupalContext;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\Element;
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\hasKey;
 
 /**
@@ -66,9 +66,9 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   public function setLanguageProperty($code, $property, $value) {
     $languages = language_list();
 
-    assert($languages, hasKey($code), "Language {$code} is not enabled.");
+    assertThat($languages, hasKey($code), "Language {$code} is not enabled.");
     $language = (array) $languages[$code];
-    assert($language, hasKey($property), "Language property {$property} does not exists.");
+    assertThat($language, hasKey($property), "Language property {$property} does not exists.");
     $this->modifiedLanguages[$code] = $language;
 
     $language[$property] = $value;

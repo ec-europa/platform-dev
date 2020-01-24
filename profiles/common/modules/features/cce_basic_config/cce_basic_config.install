@@ -478,6 +478,10 @@ function cce_basic_config_install() {
   multisite_config_service('comment')->createCommentBodyField();
   // Use soft config for comment_body field instance.
   _cce_basic_config_comment_body_field_instance_add();
+  // Add video description as soft dependency.
+  _cce_basic_config_video_description_field_add();
+  // Add video tags as soft dependency.
+  _cce_basic_config_video_tags_field_add();
 
   if (!module_exists('nexteuropa_metatags')) {
     module_enable(array('nexteuropa_metatags'));
@@ -1880,7 +1884,7 @@ function cce_basic_config_update_7233() {
  */
 function cce_basic_config_update_7234() {
   if (!module_exists('video')) {
-    return 'No action, video module is already disabled';
+    return 'video module is already disabled';
   }
   $query = db_select('field_config', 'fc');
   $query->join('field_config_instance', 'fci', 'fci.field_id = fc.id');

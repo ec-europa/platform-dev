@@ -173,7 +173,6 @@ Feature: Scheduler features
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/content/scheduler/scheduler_workbench"
     And I check the box "Validated"
-    And I uncheck the box "Needs Review"
     And I press "Save configuration"
     And I should see the text "The configuration options have been saved."
     Then I am logged in as a user with the 'contributor' role

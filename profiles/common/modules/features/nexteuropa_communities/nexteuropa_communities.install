@@ -34,6 +34,9 @@ function nexteuropa_communities_enable() {
  * Use soft config for communities comment form location.
  */
 function nexteuropa_communities_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('communities', 1);
+
+  module_enable(array('multisite_og_button'));
   // Use soft config for nexteuropa_communities comment form location.
   multisite_config_service('comment')->setReplyFormCommentForContentType('community', 1);
   // Use soft config to allow comments from authenticated users.
