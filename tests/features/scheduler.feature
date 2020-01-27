@@ -82,18 +82,18 @@ Feature: Scheduler features
     And I fill in "publish_on[date]" with "2000-12-31"
     And I fill in "publish_on[time]" with "23:59:59"
     And I click "Revision information"
-    When I select "Draft" from "Moderation state"
+    When I select "Needs Review" from "Moderation state"
     And I press the "Save" button
     And I should see the text "The 'publish on' date must be in the future"
     And I change the variable "scheduler_publish_past_date_page" to "schedule"
     And I press the "Save" button
     Then I should see the text "This post is unpublished and will be published 2000-12-31 23:59:59."
-    And I should see the text "Revision state: draft"
+    And I should see the text "Revision state: Needs Review"
 
   Scenario: User with permissions can schedule a date to publish a content after configuring allowed status
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/content/scheduler/scheduler_workbench"
-    And I check the box "Validated"
+    And I check the box "Draft"
     And I press "Save configuration"
     Then I should see the text "The configuration options have been saved."
     Then I am logged in as a user with the 'contributor' role
