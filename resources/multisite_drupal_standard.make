@@ -680,7 +680,7 @@ projects[scheduler_workbench][download][revision] = "46e8db33e54a0d873ff60956d4d
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2504
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
 ; https://www.drupal.org/project/scheduler_workbench/issues/2048999
-projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2020-01-24/scheduler_workbench-revision_publish-2048999-67.patch
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2020-01-24/scheduler_workbench-revision_publish-2048999-68.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.24
