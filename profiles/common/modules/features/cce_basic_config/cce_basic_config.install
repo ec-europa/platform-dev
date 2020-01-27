@@ -1914,3 +1914,27 @@ function cce_basic_config_update_7234() {
     }
   }
 }
+
+/**
+ * Restore user_administrator.
+ */
+function cce_basic_config_update_7235() {
+  $account = user_load_by_name('user_administrator');
+  $role = user_role_load_by_name('administrator');
+
+  if (empty($account) && !empty($role)) {
+    $account = array(
+      'name' => 'user_administrator',
+      'pass' => 'pass',
+      'mail' => 'administrator@nomail.nodomain.notld',
+      'status' => 1,
+      'init' => 'administrator@nomail.nodomain.notld',
+      'roles' => array(
+        DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+        $role->rid => $role->name,
+      ),
+    );
+
+    user_save(FALSE, $account);
+  }
+}
