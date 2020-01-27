@@ -56,7 +56,10 @@ Feature: Page Layout
 
   @javascript @ec_resp_theme
   Scenario: Logged user can see the content in the column right and left
-    Given I am logged in as a user with the 'administrator' role
+    Given the module is enabled
+      | modules           |
+      | field_ui          |
+    And I am logged in as a user with the 'administrator' role
     When I visit "admin/structure/types/add"
     And I fill in "name" with "Content type test"
     And I press the "Save and add fields" button
