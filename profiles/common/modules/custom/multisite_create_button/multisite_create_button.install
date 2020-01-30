@@ -26,3 +26,16 @@ function multisite_create_button_disable() {
   }
   drupal_set_message(t("Content creation button uninstalled"));
 }
+
+/**
+ * Enable og contextual links.
+ */
+function multisite_create_button_update_7001() {
+  $profile = drupal_get_profile();
+  if ($profile == 'multisite_drupal_communities') {
+    multisite_drupal_toolbox_add_block_context('communities', 'menu-communities-menu', 'menu', 'menu-communities-menu', 'sidebar_first', -20);
+    multisite_drupal_toolbox_add_block_context('communities', 'og-contextual-links', 'multisite_create_button', 'og-contextual-links', 'sidebar_first', -10);
+    multisite_drupal_toolbox_add_block_context('communities', 'communities_members-block_1', 'views', 'communities_members-block_1', 'sidebar_first', -5);
+    drupal_set_message(t("Community blocks enabled"));
+  }
+}
