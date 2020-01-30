@@ -5,6 +5,11 @@ Feature: Scheduler features
   I want to be able to schedule state transitions for contents
 
   Scenario: User can update the status of an scheduled revision and it will be published
+    Given I am logged in as a user with the 'administrator' role
+    When I go to "admin/config/content/scheduler/scheduler_workbench"
+    And I check the box "Draft"
+    And I press "Save configuration"
+    Then I should see the text "The configuration options have been saved."
     Given I am logged in as a user with the 'contributor' role
       Given users:
       | name               | mail         | roles        | status |
@@ -91,11 +96,12 @@ Feature: Scheduler features
     And I should see the text "Revision state: Needs Review"
  
   Scenario: User can schedule a draft to publish a content and wont be published
-    Given I am logged in as a user with the 'contributor' role
+    Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/content/scheduler/scheduler_workbench"
     And I uncheck the box "Draft"
     And I press "Save configuration"
     Then I should see the text "The configuration options have been saved."
+    Given I am logged in as a user with the 'contributor' role
     When I go to "node/add/page"
     And I fill in the content's title with "Not to be published"
     And I click "Metadata"
@@ -224,11 +230,12 @@ Feature: Scheduler features
     Then I should see the text "Revision state: Published"
 
   Scenario: A user can see the date scheduled for publication
-    Given I am logged in as a user with the 'contributor' role
+    Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/content/scheduler/scheduler_workbench"
     And I check the box "Draft"
     And I press "Save configuration"
     Then I should see the text "The configuration options have been saved."
+    Given I am logged in as a user with the 'contributor' role
     Then I go to "node/add/page"
     And I fill in the content's title with "Next content"
     And I click "Revision information"
