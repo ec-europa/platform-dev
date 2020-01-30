@@ -7,13 +7,14 @@ use Behat\Mink\Session;
 use Behat\Mink\Driver\GoutteDriver;
 use Behat\Mink\Driver\Goutte\Client as GoutteClient;
 use Drupal\Driver\DrupalDriver;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class NextEuropaDataExportAbstractTest.
  *
  * @package Drupal\nexteuropa_data_export\Tests
  */
-abstract class NextEuropaDataExportAbstractTest extends \PHPUnit_Framework_TestCase {
+abstract class NextEuropaDataExportAbstractTest extends TestCase {
 
   /**
    * Mink instance.

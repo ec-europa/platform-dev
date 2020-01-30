@@ -2,6 +2,8 @@
 
 namespace Drupal\nexteuropa_token\Tests;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class PoetryTokenProcessorsTest.
  *
@@ -9,7 +11,7 @@ namespace Drupal\nexteuropa_token\Tests;
  *
  * @package Drupal\nexteuropa_token\Tests
  */
-class PoetryTokenProcessorsTest extends \PHPUnit_Framework_TestCase {
+class PoetryTokenProcessorsTest extends TestCase {
 
   /**
    * Test replacement of NextEuropa tokens with ignore token.

@@ -478,6 +478,10 @@ function cce_basic_config_install() {
   multisite_config_service('comment')->createCommentBodyField();
   // Use soft config for comment_body field instance.
   _cce_basic_config_comment_body_field_instance_add();
+  // Add video description as soft dependency.
+  _cce_basic_config_video_description_field_add();
+  // Add video tags as soft dependency.
+  _cce_basic_config_video_tags_field_add();
 
   if (!module_exists('nexteuropa_metatags')) {
     module_enable(array('nexteuropa_metatags'));
@@ -1880,7 +1884,7 @@ function cce_basic_config_update_7233() {
  */
 function cce_basic_config_update_7234() {
   if (!module_exists('video')) {
-    return 'No action, video module is already disabled';
+    return 'video module is already disabled';
   }
   $query = db_select('field_config', 'fc');
   $query->join('field_config_instance', 'fci', 'fci.field_id = fc.id');
@@ -1908,5 +1912,29 @@ function cce_basic_config_update_7234() {
         return "Some video content was found on that site, video module cannot be disabled";
       }
     }
+  }
+}
+
+/**
+ * Restore user_administrator.
+ */
+function cce_basic_config_update_7235() {
+  $account = user_load_by_name('user_administrator');
+  $role = user_role_load_by_name('administrator');
+
+  if (empty($account) && !empty($role)) {
+    $account = array(
+      'name' => 'user_administrator',
+      'pass' => 'pass',
+      'mail' => 'administrator@nomail.nodomain.notld',
+      'status' => 1,
+      'init' => 'administrator@nomail.nodomain.notld',
+      'roles' => array(
+        DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+        $role->rid => $role->name,
+      ),
+    );
+
+    user_save(FALSE, $account);
   }
 }

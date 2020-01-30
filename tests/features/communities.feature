@@ -14,8 +14,6 @@ Feature: Communities
     Then I should see the heading "Create Community"
 
    Scenario: Check nexteuropa module activation
-    Given I run drush pmi nexteuropa_core
-    Then drush output should contain "not installed"
     Given I run drush pmi nexteuropa_multilingual
     Then drush output should contain "not installed"
     Given I run drush pmi nexteuropa_communities
