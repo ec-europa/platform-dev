@@ -92,6 +92,10 @@ Feature: Scheduler features
  
   Scenario: User can schedule a draft to publish a content and wont be published
     Given I am logged in as a user with the 'contributor' role
+    When I go to "admin/config/content/scheduler/scheduler_workbench"
+    And I uncheck the box "Draft"
+    And I press "Save configuration"
+    Then I should see the text "The configuration options have been saved."
     When I go to "node/add/page"
     And I fill in the content's title with "Not to be published"
     And I click "Metadata"
@@ -221,6 +225,10 @@ Feature: Scheduler features
 
   Scenario: A user can see the date scheduled for publication
     Given I am logged in as a user with the 'contributor' role
+    When I go to "admin/config/content/scheduler/scheduler_workbench"
+    And I check the box "Draft"
+    And I press "Save configuration"
+    Then I should see the text "The configuration options have been saved."
     Then I go to "node/add/page"
     And I fill in the content's title with "Next content"
     And I click "Revision information"
