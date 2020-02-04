@@ -37,7 +37,7 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple
 ; Issue #2446419 : Incorrect display of some main menu items and browser tab titles on some pages.
 ; https://www.drupal.org/node/2446419
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
-projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-translated_menu_title-2446419-4.patch
 ; Issue #2657666 : Notice: Undefined property: stdClass::$status_message
 ; https://www.drupal.org/node/2657666
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7651
