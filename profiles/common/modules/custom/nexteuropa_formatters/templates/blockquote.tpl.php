@@ -10,5 +10,5 @@
 ?>
 
 <blockquote class="blockquote"<?php print $attributes; ?>>
-  <p><?php print render($markup);?></p>
+  <p><?php print render($markup); ?></p>
 </blockquote>
