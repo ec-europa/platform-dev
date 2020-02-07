@@ -1180,11 +1180,7 @@ projects[atomium][version] = 2.12
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-<<<<<<< HEAD
-projects[ec_europa][download][branch] = nept-2781
-=======
 projects[ec_europa][download][tag] = 0.0.14.2
->>>>>>> NEPT-2781: Use tag instead of branch for ec_europa.
 projects[ec_europa][patch][] = patches/nept-2585-remove-site-switcher.patch
 projects[ec_europa][patch][] = patches/nept-2668-language-switcher.patch
 
