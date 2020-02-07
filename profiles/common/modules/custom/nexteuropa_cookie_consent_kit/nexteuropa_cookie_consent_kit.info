@@ -5,3 +5,4 @@ configure = admin/config/system/nexteuropa-cookie-consent-kit
 package = NextEuropa
 
 dependencies[] = path
+stylesheets[all][] = css/nexteuropa_cookie_consent.css

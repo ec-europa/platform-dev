@@ -13,7 +13,7 @@
  * @see template_process()
  */
 ?>
-<?php if (!empty($label) && !empty($date)) : ?>
+<?php if (!empty($label) && !empty($date)): ?>
   <div class="last-update">
     <?php print $label; ?> : <?php print $date; ?>
   </div>
