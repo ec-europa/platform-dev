@@ -1938,3 +1938,12 @@ function cce_basic_config_update_7235() {
     user_save(FALSE, $account);
   }
 }
+
+/**
+ * Restore print_pdf_pdf_tool path.
+ */
+function cce_basic_config_update_7236() {
+  if (module_exists('print_pdf_mpdf')) {
+    variable_set('print_pdf_pdf_tool', 'print_pdf_mpdf|' . libraries_get_path('mpdf') . '/vendor/autoload.php');
+  }
+}
