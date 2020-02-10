@@ -425,15 +425,7 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.5"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.6"
-; Issue #2975586: Title field assumed when it may not exist
-; https://www.drupal.org/node/2974486
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2008
-projects[link][patch][] = https://www.drupal.org/files/issues/2018-05-24/2974486-Title-field-assumed-when-it-may-not-exist.patch
-; Static link text cannot be translated
-; https://www.drupal.org/project/link/issues/949604
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2008
-projects[link][patch][] = https://www.drupal.org/files/issues/2018-08-30/link-949604-63-fixed.patch
+projects[link][version] = "1.7"
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.4"
@@ -1163,13 +1155,12 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.10
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.12
+projects[atomium][version] = 2.30
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.15
-projects[ec_europa][patch][] = patches/nept-2585-remove-site-switcher.patch
+projects[ec_europa][download][tag] = 0.0.24
 
 ; ==============
 ; Custom modules
