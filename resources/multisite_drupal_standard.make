@@ -662,14 +662,14 @@ projects[rules][patch][] = https://www.drupal.org/files/issues/2019-01-25/302844
 projects[rules][patch][] = https://www.drupal.org/files/issues/file_events-826986-31_0.patch
 
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
-; We use the dev version of the module to be able to run the module simpletes.
+; We use the dev version of the module to be able to run the module simpletest.
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][download][type] = "git"
 projects[scheduler][download][url] = "https://git.drupalcode.org/project/scheduler.git"
 projects[scheduler][download][revision] = "89707ba3affa72beea0b428230e61f4c5a0c1283"
 
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
-; We use the dev version of the module to be able to run the module simpletes.
+; We use the dev version of the module to be able to run the module simpletest.
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][download][type] = "git"
 projects[scheduler_workbench][download][url] = "https://git.drupalcode.org/project/scheduler_workbench.git"
