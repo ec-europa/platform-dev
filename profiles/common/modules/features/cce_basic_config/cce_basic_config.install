@@ -437,26 +437,8 @@ function cce_basic_config_install() {
   multisite_config_service('wysiwyg')->addSettingToProfile('filtered_html', 'simple_source_formatting', '1');
   multisite_config_service('wysiwyg')->addPreferenceToProfile('filtered_html', 'version', '4.9.2.95e5d83');
 
-  // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
-  // in a regular feature since it includes the path to where the Print PDF
-  // module is installed, which is different depending on the installation
-  // profile that is used.
-  // Get the list of available PDF converters.
-  // See print_pdf_settings().
-  $dynamic_variables = array();
-  $available_libs = array();
-  drupal_alter('print_pdf_available_libs', $available_libs);
-
-  // We are using the "mpdf" tool, extract it from the available converters.
-  $pdf_tool = preg_grep('/^print_pdf_mpdf|/', array_keys($available_libs));
-
-  if (!empty($pdf_tool)) {
-    $dynamic_variables['print_pdf_pdf_tool'] = reset($pdf_tool);
-  }
-
-  // Add the dynamic variables to the exported component.
-  foreach ($dynamic_variables as $variable => $value) {
-    variable_set($variable, $value);
+  if (module_exists('print_pdf_mpdf')) {
+    variable_set('print_pdf_pdf_tool', 'print_pdf_mpdf|' . libraries_get_path('mpdf') . '/vendor/autoload.php');
   }
 
   // Use soft config for article comment form location.
@@ -1936,5 +1918,14 @@ function cce_basic_config_update_7235() {
     );
 
     user_save(FALSE, $account);
+  }
+}
+
+/**
+ * Restore print_pdf_pdf_tool path.
+ */
+function cce_basic_config_update_7236() {
+  if (module_exists('print_pdf_mpdf')) {
+    variable_set('print_pdf_pdf_tool', 'print_pdf_mpdf|' . libraries_get_path('mpdf') . '/vendor/autoload.php');
   }
 }

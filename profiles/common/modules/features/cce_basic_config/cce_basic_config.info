@@ -37,6 +37,7 @@ dependencies[] = password_policy
 dependencies[] = print
 dependencies[] = print_mail
 dependencies[] = print_pdf
+dependencies[] = print_ui
 dependencies[] = print_pdf_mpdf
 dependencies[] = rules
 dependencies[] = rules_scheduler
@@ -161,9 +162,6 @@ features[variable][] = print_pdf_node_link_pages
 features[variable][] = print_pdf_node_link_visibility
 features[variable][] = print_pdf_page_orientation
 features[variable][] = print_pdf_paper_size
-# The print_pdf_pdf_tool variable is set in cce_basic_config_strongarm_alter().
-# Please do not remove this entry when re-exporting the variables.
-features[variable][] = print_pdf_pdf_tool
 features[variable][] = print_pdf_show_link
 features[variable][] = print_pdf_sys_link_pages
 features[variable][] = print_pdf_sys_link_visibility
