@@ -37,7 +37,7 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple
 ; Issue #2446419 : Incorrect display of some main menu items and browser tab titles on some pages.
 ; https://www.drupal.org/node/2446419
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
-projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-translated_menu_title-2446419-4.patch
 ; Issue #2657666 : Notice: Undefined property: stdClass::$status_message
 ; https://www.drupal.org/node/2657666
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7651
@@ -49,7 +49,7 @@ projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_
 ; Delay removing entities from the index.
 ; https://www.drupal.org/node/2764637
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
-projects[apachesolr][patch][] = patches/apachesolr-delay-entity-removal-2764637.patch
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/2020-01-28/apachesolr-delay-entity-removal-2764637-4.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
@@ -429,15 +429,7 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.5"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.6"
-; Issue #2975586: Title field assumed when it may not exist
-; https://www.drupal.org/node/2974486
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2008
-projects[link][patch][] = https://www.drupal.org/files/issues/2018-05-24/2974486-Title-field-assumed-when-it-may-not-exist.patch
-; Static link text cannot be translated
-; https://www.drupal.org/project/link/issues/949604
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2008
-projects[link][patch][] = https://www.drupal.org/files/issues/2018-08-30/link-949604-63-fixed.patch
+projects[link][version] = "1.7"
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.4"
@@ -555,7 +547,7 @@ projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-suppor
 
 projects[nexteuropa_newsroom][download][type] = git
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
-projects[nexteuropa_newsroom][download][tag] = 3.5.13
+projects[nexteuropa_newsroom][download][tag] = v3.5.15
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
@@ -1167,13 +1159,12 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.10
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.12
+projects[atomium][version] = 2.30
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.15
-projects[ec_europa][patch][] = patches/nept-2585-remove-site-switcher.patch
+projects[ec_europa][download][tag] = 0.0.24
 
 ; ==============
 ; Custom modules
