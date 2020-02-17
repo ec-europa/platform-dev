@@ -1347,7 +1347,7 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
   else {
     // Try to see if link is valid.
     $geturl = drupal_http_request($url);
-    if ($geturl->error != '') {
+    if (isset($geturl->error) && $geturl->error != '') {
       form_set_error($field, t('Please check that @url does exist. [@message]', array('@url' => $url, '@message' => $geturl->error)));
       return FALSE;
     };
