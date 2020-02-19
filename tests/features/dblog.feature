@@ -4,7 +4,7 @@ Feature: Administrators can check information on Recent log messages page
   As an administrator
   I can access to the Recent log messages page
 
-@api
+@api  @javascript
 Scenario: Filter log messages
   Given I am logged in as a user with the 'administrator' role
   When I go to "admin/reports/dblog"
