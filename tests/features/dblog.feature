@@ -9,6 +9,7 @@ Scenario: Filter log messages
   Given I am logged in as a user with the 'administrator' role
   When I go to "admin/reports/dblog"
   Then I click on element "#dblog-filter-form a.fieldset-title"
+  And I click on element "#edit-severity"
   And I select "info" from "Severity"
   And I press "Filter"
   Then I should see "Session opened for" in the "user" row
