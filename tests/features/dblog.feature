@@ -10,5 +10,5 @@ Scenario: Filter log messages
   When I go to "admin/reports/dblog"
   And I select "info" from "Severity"
   And I press "Filter"
-  Then I should see "dblog module installed." in the "system" row
+  Then I should see "Session opened for" in the "user" row
   
