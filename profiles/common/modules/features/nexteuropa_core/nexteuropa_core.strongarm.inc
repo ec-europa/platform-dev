@@ -91,6 +91,13 @@ function nexteuropa_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'chosen_include';
+  $strongarm->value = "CHOSEN_INCLUDE_NO_ADMIN";
+  $export['chosen_include'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'autologout_use_alt_logout_method';
   $strongarm->value = 1;
   $export['autologout_use_alt_logout_method'] = $strongarm;
