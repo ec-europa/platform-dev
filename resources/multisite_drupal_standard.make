@@ -37,7 +37,7 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple
 ; Issue #2446419 : Incorrect display of some main menu items and browser tab titles on some pages.
 ; https://www.drupal.org/node/2446419
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
-projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-translated_menu_title-2446419-4.patch
 ; Issue #2657666 : Notice: Undefined property: stdClass::$status_message
 ; https://www.drupal.org/node/2657666
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7651
@@ -49,7 +49,7 @@ projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_
 ; Delay removing entities from the index.
 ; https://www.drupal.org/node/2764637
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
-projects[apachesolr][patch][] = patches/apachesolr-delay-entity-removal-2764637.patch
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/2020-01-28/apachesolr-delay-entity-removal-2764637-4.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
@@ -61,7 +61,11 @@ projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/
 ; https://www.drupal.org/node/1854088
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3744
 projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr_attachments-cleanup_efficiency_and_deadlock_chance_reduction-1854088-16.patch
-; Issue #1854088 : Cannot install on mysql >= 5.6
+; Issue #2017705 : Performance! Add missed indexes to apachesolr_index_entities_file table
+; https://www.drupal.org/node/2017705
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2776
+projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/module_slows_down-2017705-7.patch
+; Issue #2677866 : Cannot install on mysql >= 5.6
 ; https://www.drupal.org/node/2677866
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-326
 projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/mysql-56-compatibility-2677866-12.patch
@@ -653,24 +657,26 @@ projects[rules][patch][] = https://www.drupal.org/files/issues/2019-01-25/302844
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2160
 projects[rules][patch][] = https://www.drupal.org/files/issues/file_events-826986-31_0.patch
 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
+; We use the dev version of the module to be able to run the module simpletest.
 projects[scheduler][subdir] = "contrib"
-projects[scheduler][version] = 1.5
+projects[scheduler][download][type] = "git"
+projects[scheduler][download][url] = "https://git.drupalcode.org/project/scheduler.git"
+projects[scheduler][download][revision] = "89707ba3affa72beea0b428230e61f4c5a0c1283"
 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
+; We use the dev version of the module to be able to run the module simpletest.
 projects[scheduler_workbench][subdir] = "contrib"
-projects[scheduler_workbench][version] = 1.3
+projects[scheduler_workbench][download][type] = "git"
+projects[scheduler_workbench][download][url] = "https://git.drupalcode.org/project/scheduler_workbench.git"
+projects[scheduler_workbench][download][revision] = "46e8db33e54a0d873ff60956d4d2f90d27c4735d"
+
 ; Allow to schedule the publish date of a revision
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2504
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
 ; https://www.drupal.org/project/scheduler_workbench/issues/2048999
-projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2019-06-20/scheduler_workbench-revision_publish-2048999-58.patch
-; Allow publication of revisions with selected status. This patch requires the patch from issue https://www.drupal.org/project/scheduler_workbench/issues/2048999
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
-; This patch requieres https://www.drupal.org/files/issues/2018-09-20/scheduler_workbench-revision_publish-2048999-46.patch from
-; this issue https://www.drupal.org/project/scheduler_workbench/issues/2048999.
-; It is based on the issue https://www.drupal.org/project/scheduler_workbench/issues/1955938 but the patch on
-; the issue doesn't take into account the changes introduced on issue
-; https://www.drupal.org/project/scheduler_workbench/issues/2048999, so we created a local patch for it.
-projects[scheduler_workbench][patch][] = patches/scheduler_workbench-allowed_status.patch
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2020-01-30/scheduler_workbench-revision_publish-2048999-69.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.24
