@@ -703,20 +703,20 @@ function _nexteuropa_varnish_get_node_paths($node) {
     else {
       // Content translation.
       $lang_code = entity_language('node', $node);
-      $all_languages = language_list();
+      $enabled_languages = language_list('enabled')[1];
       $alias = drupal_get_path_alias($entity_uri['path'], $lang_code);
       $original_alias = $alias;
 
       // Language is undefined, the content will show on all languages.
       if (LANGUAGE_NONE == $lang_code) {
-        foreach ($all_languages as $code => $data) {
-          $lang = $all_languages[$code];
+        foreach ($enabled_languages as $code => $data) {
+          $lang = $enabled_languages[$code];
           // Add the prefix or suffix.
           $paths[$code] = _nexteuropa_varnish_build_path($url_locale, $lang, $alias, $entity_uri);
         }
       }
       else {
-        $lang = $all_languages[$lang_code];
+        $lang = $enabled_languages[$lang_code];
         // Add the prefix or suffix.
         $paths[$lang_code] = _nexteuropa_varnish_build_path($url_locale, $lang, $alias, $entity_uri);
       }
