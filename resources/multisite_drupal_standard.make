@@ -61,7 +61,11 @@ projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/
 ; https://www.drupal.org/node/1854088
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3744
 projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr_attachments-cleanup_efficiency_and_deadlock_chance_reduction-1854088-16.patch
-; Issue #1854088 : Cannot install on mysql >= 5.6
+; Issue #2017705 : Performance! Add missed indexes to apachesolr_index_entities_file table
+; https://www.drupal.org/node/2017705
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2776
+projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/module_slows_down-2017705-7.patch
+; Issue #2677866 : Cannot install on mysql >= 5.6
 ; https://www.drupal.org/node/2677866
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-326
 projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/mysql-56-compatibility-2677866-12.patch
