@@ -8,7 +8,7 @@
 /**
  * Class to define a row plugin handler.
  *
- * @codingStandardsIgnoreFile.
+ * @codingStandardsIgnoreFile
  */
 class nexteuropa_formatters_views_timelines_rows extends views_plugin_row {
 
