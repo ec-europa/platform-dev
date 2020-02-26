@@ -517,7 +517,7 @@ projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-
 
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.25"
+projects[metatag][version] = "1.27"
 
 projects[migrate][subdir] = contrib
 projects[migrate][download][branch] = 7.x-1.x
