@@ -44,8 +44,6 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_s
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
 ;https://www.drupal.org/node/2333447#comment-10826660
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
-; Issue NEXTEUROPA-11356 - setting up default timeout value for drupal_http_request function (500 errors investigation).
-projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_timeout_value.patch
 ; Delay removing entities from the index.
 ; https://www.drupal.org/node/2764637
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
@@ -1180,7 +1178,7 @@ projects[atomium][version] = 2.12
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.14.1
+projects[ec_europa][download][tag] = 0.0.14.2
 projects[ec_europa][patch][] = patches/nept-2585-remove-site-switcher.patch
 projects[ec_europa][patch][] = patches/nept-2668-language-switcher.patch
 
