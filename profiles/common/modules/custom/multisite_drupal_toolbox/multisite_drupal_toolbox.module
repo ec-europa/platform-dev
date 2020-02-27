@@ -1268,17 +1268,28 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
   // @codingStandardsIgnoreStart
   $parts_url = parse_url(trim($url, '/'));
   // @codingStandardsIgnoreEnd
-  $parts['scheme'] = $parts_url['scheme'];
-  $parts['host'] = $parts_url['host'];
   if (!isset($parts['path'])) {
     form_set_error($field, t('Please insert a complete url. ex: !url', array('!url' => 'http://www.myurl.com')));
     return FALSE;
   }
-  $parts['path'] = $parts_url['path'];
-  if (!isset($parts['scheme'])) {
+  if (isset($parts_url['path'])) {
+    $parts['path'] = $parts_url['path'];
+  }
+  if (!isset($parts_url['scheme'])) {
     // Not an absolute URL.
     form_set_error($field, t('Please add the protocol to the url, http or https, ex: !url', array('!url' => 'http://www.myurl.com')));
     return FALSE;
+  }
+  else {
+    $parts['scheme'] = $parts_url['scheme'];
+  }
+  if (!isset($parts_url['host'])) {
+    // Not an absolute URL.
+    form_set_error($field, t('Please add the host to the url.'));
+    return FALSE;
+  }
+  else {
+    $parts['host'] = $parts_url['host'];
   }
   // Make a new array, this will hold the components from drupal_parse_url()
   // and our own "Linkit" components.
@@ -1336,8 +1347,9 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
   else {
     // Try to see if link is valid.
     $geturl = drupal_http_request($url);
-    if ($geturl->errno != 0) {
-      drupal_set_message(t('Please check that @url does exist', array('@url' => $url)), 'warning');
+    if (isset($geturl->error) && $geturl->error != '') {
+      form_set_error($field, t('Please check that @url does exist. [@message]', array('@url' => $url, '@message' => $geturl->error)));
+      return FALSE;
     };
   }
   return $path_info;
