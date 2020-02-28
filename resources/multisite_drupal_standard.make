@@ -385,7 +385,7 @@ projects[geophp][download][type] = git
 projects[geophp][subdir] = "contrib"
 
 projects[honeypot][subdir] = "contrib"
-projects[honeypot][version] = "1.25"
+projects[honeypot][version] = "1.26"
 
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.26"
