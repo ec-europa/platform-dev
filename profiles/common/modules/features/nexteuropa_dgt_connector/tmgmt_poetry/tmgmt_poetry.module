@@ -592,11 +592,6 @@ function _tmgmt_poetry_get_active_translation_jobs_by_entity_id($entity_id) {
  *   Item delay.
  */
 function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $delai) {
-  // Converting date format.
-  if (strtotime($delai)) {
-    $delai = format_date(strtotime($delai), 'custom', 'd/m/Y');
-  }
-
   db_insert('poetry_status')
     ->fields(array(
       'tjiid' => $tjiid,
@@ -876,7 +871,11 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
         if (_tmgmt_poetry_check_jobs_translatability($existing_jobs)) {
           // If yes, inject form elements which are allowing to sent an update
           // translation request.
-          _tmgmt_poetry_inject_request_update_elements($form);
+          $translations_possible = _tmgmt_poetry_translations_possible($form_state);
+
+          if (in_array('regular', $translations_possible)) {
+            _tmgmt_poetry_inject_request_update_elements($form);
+          }
         }
         else {
           // If no, disable action elements and provide the message box.
