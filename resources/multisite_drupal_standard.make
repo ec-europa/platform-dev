@@ -385,7 +385,7 @@ projects[geophp][download][type] = git
 projects[geophp][subdir] = "contrib"
 
 projects[honeypot][subdir] = "contrib"
-projects[honeypot][version] = "1.25"
+projects[honeypot][version] = "1.26"
 
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.26"
@@ -1184,4 +1184,4 @@ projects[nexteuropa_varnish][subdir] = "custom"
 projects[nexteuropa_varnish][type] = module
 projects[nexteuropa_varnish][download][type] = git
 projects[nexteuropa_varnish][download][url] = https://github.com/ec-europa/digit-ne-varnish.git
-projects[nexteuropa_varnish][download][tag] = v1.0.8
+projects[nexteuropa_varnish][download][tag] = v1.0.9
