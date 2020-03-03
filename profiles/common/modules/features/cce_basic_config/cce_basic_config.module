@@ -538,19 +538,32 @@ function cce_basic_config_query_alter(QueryAlterableInterface $query) {
     return;
   }
 
+  $path = current_path();
+
+  if ($path !== 'admin/people') {
+    return;
+  }
+
   $tables = &$query->getTables();
 
-  if (
-    isset($tables['u']) &&
-    (
-      (isset($tables['u']['table']) && $tables['u']['table'] == 'users') ||
-      (isset($tables['u']['base']) && $tables['u']['base']['table'] && $tables['u']['base']['table'] == 'users')
-    )
-  ) {
+  if (isset($tables['u']) && isset($tables['u']['table']) && $tables['u']['table'] == 'users') {
     $account = user_load_by_name('user_administrator');
 
     if (!empty($account)) {
       $query->condition('u.uid', $account->uid, '<>');
+    }
+  }
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function cce_basic_config_views_query_alter(&$view, &$query) {
+  if ($view->base_table == 'users') {
+    $account = user_load_by_name('user_administrator');
+
+    if (!empty($account)) {
+      $query->add_where('users', 'users.uid', $account->uid, '<>');
     }
   }
 }
