@@ -19,6 +19,7 @@ function nexteuropa_json_field_field_info() {
       ),
       'default_widget' => 'text_textarea',
       'default_formatter' => 'json_settings_default',
+      'property_type' => 'text',
     ),
   );
 }
