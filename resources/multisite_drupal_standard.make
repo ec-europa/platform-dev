@@ -691,6 +691,9 @@ projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/201
 ; the issue doesn't take into account the changes introduced on issue
 ; https://www.drupal.org/project/scheduler_workbench/issues/2048999, so we created a local patch for it.
 projects[scheduler_workbench][patch][] = patches/scheduler_workbench-allowed_status.patch
+; NEPT-2787: Remove already published nodes from scheduler list
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2787
+projects[scheduler_workbench][patch][] = patches/nept-2787_scheduler_workbench.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.24
