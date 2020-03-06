@@ -539,10 +539,12 @@ function cce_basic_config_query_alter(QueryAlterableInterface $query) {
     return;
   }
 
-  $path = current_path();
-
   if (function_exists('current_path')) {
     $path = current_path();
+  }
+
+  if ($path !== 'admin/people') {
+    return;
   }
 
   $tables = &$query->getTables();
