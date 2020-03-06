@@ -7,8 +7,6 @@
 
 /**
  * Views style plugin.
- *
- * @codingStandardsIgnoreFile
  */
 class nexteuropa_link_blocks_style extends views_plugin_style {
 

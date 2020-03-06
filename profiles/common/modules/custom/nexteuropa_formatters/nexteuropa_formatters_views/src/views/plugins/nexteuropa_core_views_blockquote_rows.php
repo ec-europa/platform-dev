@@ -7,8 +7,6 @@
 
 /**
  * Class to define a row plugin handler.
- *
- * @codingStandardsIgnoreFile
  */
 class nexteuropa_formatters_views_blockquote_rows extends views_plugin_row {
 
