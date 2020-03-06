@@ -1,0 +1,32 @@
+diff --git a/scheduler_workbench.module b/scheduler_workbench.module
+index 2fe3d63..63746c1 100644
+--- a/scheduler_workbench.module
++++ b/scheduler_workbench.module
+@@ -184,3 +184,27 @@ function scheduler_workbench_scheduler_allow_publishing($node) {
+ 
+   return $allowed;
+ }
++
++/**
++ * Implements hook_scheduler_nid_list_alter().
++ */
++function scheduler_workbench_scheduler_nid_list_alter(&$nids, $action) {
++  if ($action === 'publish') {
++    $nodes = node_load_multiple($nids);
++
++    foreach ($nodes as $node) {
++      // or my_revision ?
++      if ($node->workbench_moderation['current']->state === workbench_moderation_state_published()) {
++        $index = array_search($node->nid, $nids);
++        unset($nids[$index]);
++
++        db_delete('scheduler')
++        ->condition('nid', $node->nid, '=')
++        ->condition('publish_on', 0, '!=')
++        ->execute();
++      }
++    }
++  }
++
++  return $nids;
++}
