@@ -533,6 +533,7 @@ function cce_basic_config_js_alter(&$javascript) {
  */
 function cce_basic_config_query_alter(QueryAlterableInterface $query) {
   global $user;
+  $path = '';
 
   if ($user->uid == 1) {
     return;
@@ -540,8 +541,8 @@ function cce_basic_config_query_alter(QueryAlterableInterface $query) {
 
   $path = current_path();
 
-  if ($path !== 'admin/people') {
-    return;
+  if (function_exists('current_path')) {
+    $path = current_path();
   }
 
   $tables = &$query->getTables();
