@@ -93,3 +93,7 @@ projects[drupal][patch][] = https://www.drupal.org/files/locale.module-array_uns
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2201
 ; https://www.drupal.org/project/drupal/issues/421586
 projects[drupal][patch][] = https://www.drupal.org/files/issues/2019-08-19/node-post-setting-with-test-421586-31.patch
+; filesize() fails for remote files -- called from file_save()
+; https://www.drupal.org/project/drupal/issues/3087532
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2807
+projects[drupal][patch][] = https://www.drupal.org/files/issues/2019-12-09/core-remote_file_save-3087532-3.patch
