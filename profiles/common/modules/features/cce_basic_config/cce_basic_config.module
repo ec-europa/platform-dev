@@ -533,15 +533,12 @@ function cce_basic_config_js_alter(&$javascript) {
  */
 function cce_basic_config_query_alter(QueryAlterableInterface $query) {
   global $user;
-  $path = '';
 
-  if ($user->uid == 1) {
+  if ($user->uid == 1 || !function_exists('current_path')) {
     return;
   }
-
-  if (function_exists('current_path')) {
-    $path = current_path();
-  }
+  
+  $path = current_path();
 
   if ($path !== 'admin/people') {
     return;
