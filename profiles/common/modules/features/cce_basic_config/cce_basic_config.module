@@ -537,7 +537,7 @@ function cce_basic_config_query_alter(QueryAlterableInterface $query) {
   if ($user->uid == 1 || !function_exists('current_path')) {
     return;
   }
-  
+
   $path = current_path();
 
   if ($path !== 'admin/people') {
