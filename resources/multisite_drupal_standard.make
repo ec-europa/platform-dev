@@ -1161,7 +1161,8 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.10
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.31
+projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
+projects[atomium][download][revision] = 4522670fa31a8429ef36d05e806dc8d86e56b86b
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
