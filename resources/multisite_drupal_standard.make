@@ -1163,6 +1163,8 @@ projects[ec_resp][download][tag] = 2.3.10
 projects[atomium][type] = theme
 projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
 projects[atomium][download][revision] = 4522670fa31a8429ef36d05e806dc8d86e56b86b
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2797
+projects[atomium][patch][] = patches/atomium_nept2797.patch
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
