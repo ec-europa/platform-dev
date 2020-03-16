@@ -317,17 +317,6 @@ feature_sets[contact_form][font] = 'multisite-icon-mail'
 feature_sets[contact_form][enable][] = contact_form
 feature_sets[contact_form][disable][] = contact_form
 
-feature_sets[idea_standard][title] = 'Ideas'
-feature_sets[idea_standard][description] = 'Suggest ideas, vote on and discuss already submitted ideas, surface most important/best ideas.'
-feature_sets[idea_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/mobhAg'
-feature_sets[idea_standard][category] = 'Users feedback'
-feature_sets[idea_standard][icon] = ''
-feature_sets[idea_standard][font] = 'multisite-icon-light-bulb'
-feature_sets[idea_standard][enable][] = idea_standard
-feature_sets[idea_standard][enable][] = idea_core
-feature_sets[idea_standard][disable][] = idea_standard
-feature_sets[idea_standard][disable][] = idea_core
-
 feature_sets[survey_og][title] = 'Surveys'
 feature_sets[survey_og][description] = 'Allows administrators to question site visitors. Every visitor concerned by the poll/survey can respond as many times as allowed by the survey initiator. Results are stored and some statistics are generated and can be browsed by visitors.'
 feature_sets[survey_og][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/MobhAg'
