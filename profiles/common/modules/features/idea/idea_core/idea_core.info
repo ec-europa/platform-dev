@@ -1,7 +1,7 @@
 name = idea_core
 description = suggest ideas, vote on and discuss already submitted ideas
 core = 7.x
-package = Multisite Core Features
+package = deprecated
 dependencies[] = apachesolr
 dependencies[] = cce_basic_config
 dependencies[] = survey_core
