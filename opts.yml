@@ -2,8 +2,8 @@ php_version: 7.3
 pre_upgrade:
   - drush rr
   - drush vset maintenance_mode 1
-  - drush dis image_captcha captcha hidden_captcha fblikebutton fpa language_cookie piwik multisite_business_indicators_core multisite_business_indicators_standard multisite_business_indicators_community multisite_settings_standard multisite_og_button multisite_audio nexteuropa_integration integration integration_couchdb multisite_charts idea_core idea_standard --yes
-  - drush pmu image_captcha hidden_captcha fblikebutton fpa language_cookie piwik multisite_business_indicators_core multisite_business_indicators_standard multisite_business_indicators_community multisite_settings_standard multisite_og_button multisite_audio nexteuropa_integration integration integration_couchdb multisite_charts idea_core idea_standard --yes
+  - drush dis image_captcha captcha hidden_captcha fblikebutton fpa language_cookie piwik multisite_business_indicators_core multisite_business_indicators_standard multisite_business_indicators_community multisite_settings_standard multisite_og_button multisite_audio nexteuropa_integration integration integration_couchdb multisite_charts idea_standard idea_core --yes
+  - drush pmu image_captcha hidden_captcha fblikebutton fpa language_cookie piwik multisite_business_indicators_core multisite_business_indicators_standard multisite_business_indicators_community multisite_settings_standard multisite_og_button multisite_audio nexteuropa_integration integration integration_couchdb multisite_charts idea_standard idea_core --yes
   - drush pm-uninstall captcha --yes
 upgrade_commands:
   - echo '----------   drush rr   ----------'
