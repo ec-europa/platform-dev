@@ -693,7 +693,7 @@ projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/201
 projects[scheduler_workbench][patch][] = patches/scheduler_workbench-allowed_status.patch
 ; NEPT-2787: Remove already published nodes from scheduler list
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2787
-projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2020-03-09/persistent_nodes-3118719-2.patch
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2020-03-20/persistent_nodes-3118719-3.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.24
