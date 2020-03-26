@@ -1,8 +1,0 @@
-name = Idea Standard
-description = Override idea_core
-core = 7.x
-package = Multisite Standard Features
-dependencies[] = idea_core
-features[features_api][] = api:2
-features[ctools][] = context:context:3
-features[context][] = idea_posts
