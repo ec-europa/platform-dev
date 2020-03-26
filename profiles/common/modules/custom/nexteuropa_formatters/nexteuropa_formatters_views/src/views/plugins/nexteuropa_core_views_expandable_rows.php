@@ -70,23 +70,25 @@ class nexteuropa_formatters_views_expandable_rows extends views_plugin_row {
   }
 
   /**
-   * Render a row object. This usually passes through to a theme template
-   * of some form, but not always.
+   * Render a row object.
    *
-   * @param stdClass $row
+   * This usually passes through to a theme template of some form,
+   * but not always.
+   *
+   * @param object $row
    *   A single row of the query result, so an element of $view->result.
    *
    * @return string
    *   The rendered output of a single row, used by the style plugin.
    */
-  function render($row) {
+  public function render($row) {
     static $row_index;
 
     $row_index = isset($row_index) ? $row_index + 1 : 0;
 
     // In order to have automatic theme hooks suggestions.
     $theme = array(
-      sprintf('%s__%s__%s__%s', 'expandable', $this->view->name, $this->view->current_display, 'row_' . $row_index)
+      sprintf('%s__%s__%s__%s', 'expandable', $this->view->name, $this->view->current_display, 'row_' . $row_index),
     );
 
     return theme($theme,
@@ -101,15 +103,16 @@ class nexteuropa_formatters_views_expandable_rows extends views_plugin_row {
   /**
    * Retrieves a views field value from the style plugin.
    *
-   * @param $index
-   *   The index count of the row as expected by views_plugin_style::get_field().
-   * @param $field_id
+   * @param int $index
+   *   The index count of the row expected by views_plugin_style::get_field().
+   * @param string $field_id
    *   The ID assigned to the required field in the display.
    */
-  function get_field($index, $field_id) {
+  public function get_field($index, $field_id) {
     if (empty($this->view->style_plugin) || !is_object($this->view->style_plugin) || empty($field_id)) {
       return '';
     }
     return $this->view->style_plugin->get_field($index, $field_id);
   }
+
 }
