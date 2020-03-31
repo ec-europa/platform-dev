@@ -1,28 +1,32 @@
 <?php
+
 /**
  * @file
- * nexteuropa_links_block_style.php.
+ * Nexteuropa_links_block_style.php.
  */
+
 /**
  * Views style plugin.
  *
  * @codingStandardsIgnoreFile
  */
 class nexteuropa_link_blocks_style extends views_plugin_style {
+
   /**
-   * Set default options
+   * Set default options.
    */
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
     $options['type'] = array('default' => 'ul');
     $options['class'] = array('default' => '');
     $options['wrapper_class'] = array('default' => 'other_class');
     return $options;
   }
+
   /**
    * Render the given style.
    */
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $form['type'] = array(
       '#type' => 'radios',
@@ -45,10 +49,11 @@ class nexteuropa_link_blocks_style extends views_plugin_style {
       '#default_value' => $this->options['class'],
     );
   }
+
   /**
    * {@inheritdoc}
    */
-  function render_grouping_sets($sets, $level = 0) {
+  public function render_grouping_sets($sets, $level = 0) {
     $output = array();
     foreach ($sets as $set) {
       $row = reset($set['rows']);
@@ -86,7 +91,7 @@ class nexteuropa_link_blocks_style extends views_plugin_style {
               '#tag' => 'li',
               '#value' => $set['rows'][$index]->link,
               '#attributes' => array(
-                  'class' => 'ecl-link-block__item',
+                'class' => 'ecl-link-block__item',
               ),
             );
           }
@@ -104,4 +109,5 @@ class nexteuropa_link_blocks_style extends views_plugin_style {
     unset($this->view->row_index);
     return $output;
   }
+
 }
