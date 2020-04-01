@@ -468,6 +468,7 @@ function cce_basic_config_install() {
   if (!module_exists('nexteuropa_metatags')) {
     module_enable(array('nexteuropa_metatags'));
   }
+  variable_set('user_failed_login_ip_limit', 5);
 }
 
 /**
@@ -1928,4 +1929,13 @@ function cce_basic_config_update_7236() {
   if (module_exists('print_pdf_mpdf')) {
     variable_set('print_pdf_pdf_tool', 'print_pdf_mpdf|' . libraries_get_path('mpdf') . '/vendor/autoload.php');
   }
+}
+
+/**
+ * Limit user login by IP to 50.
+ *
+ * NEPT-2517.
+ */
+function cce_basic_config_update_7237() {
+  variable_set('user_failed_login_ip_limit', 5);
 }
