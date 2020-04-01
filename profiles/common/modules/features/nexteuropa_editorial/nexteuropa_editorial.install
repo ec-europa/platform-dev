@@ -89,7 +89,7 @@ function nexteuropa_editorial_install() {
   multisite_config_service('user')->grantPermission(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $permissions, 'nexteuropa_editorial');
 
   // Set "administrator" permissions.
-  multisite_config_service('user')->grantPermission('administrator', $permissions);
+  multisite_config_service('user')->grantPermission('administrator', $permissions, 'nexteuropa_editorial');
 
   // Rebuilds the node access database.
   node_access_rebuild();
