@@ -671,7 +671,7 @@ projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issue
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.11"
-projects[rules][patch][] = https://www.drupal.org/files/issues/file_events-826986-31_0.patch
+projects[rules][patch][] = https://www.drupal.org/files/issues/2020-03-19/file_events-826986-42.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
