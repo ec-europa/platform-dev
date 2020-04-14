@@ -677,7 +677,9 @@ projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
 
 projects[scheduler_workbench][subdir] = "contrib"
-projects[scheduler_workbench][version] = 1.3
+projects[scheduler_workbench][download][branch] = 7.x-1.x
+projects[scheduler_workbench][download][revision] = 46e8db33e54a0d873ff60956d4d2f90d27c4735d
+projects[scheduler_workbench][download][url] = https://git.drupal.org/project/scheduler_workbench.git
 ; Allow to schedule the publish date of a revision
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1999
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2504
