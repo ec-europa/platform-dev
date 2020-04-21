@@ -49,8 +49,6 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-t
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
 ;https://www.drupal.org/node/2333447#comment-10826660
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
-; Issue NEXTEUROPA-11356 - setting up default timeout value for drupal_http_request function (500 errors investigation).
-projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_timeout_value.patch
 ; Delay removing entities from the index.
 ; https://www.drupal.org/node/2764637
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
@@ -451,7 +449,7 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.3"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.23
+projects[media][version] = 2.24
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
@@ -658,11 +656,12 @@ projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issue
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.12"
+projects[rules][version] = "2.12"
 ; https://www.drupal.org/node/3028444
 projects[rules][patch][] = https://www.drupal.org/files/issues/2019-01-25/3028444-6-markup-and-test.patch
 ; https://www.drupal.org/node/826986
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2160
-projects[rules][patch][] = https://www.drupal.org/files/issues/file_events-826986-31_0.patch
+projects[rules][patch][] = https://www.drupal.org/files/issues/2020-03-19/file_events-826986-42.patch
 
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
 ; We use the dev version of the module to be able to run the module simpletest.
@@ -773,7 +772,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
 ; https://www.drupal.org/node/3021843
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2178
-projects[tmgmt][patch][] =  https://www.drupal.org/files/issues/2019-09-17/translation_not_taking_into_account_the_source_data_update-3021843-22.patch
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2020-02-26/translation_not_taking_into_account_the_source_data_update-3021843-23.patch
 ; https://www.drupal.org/project/tmgmt/issues/3050356
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2590
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-04-24/count_error_php_7_2-3050356-2.patch
@@ -990,11 +989,11 @@ libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archi
 libraries[colorbox][directory_name] = colorbox
 libraries[colorbox][destination] = libraries
 
-; ckeditor 4.9.2
+; ckeditor 4.13.1
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_full.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.14.0/ckeditor_4.14.0_full.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().
