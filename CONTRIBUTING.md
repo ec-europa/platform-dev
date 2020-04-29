@@ -27,4 +27,4 @@ nept-[ticket_number]-[base_branch]-[additional_information]
 ```
 
 ### Base Branch and Additional Information
-The base branch and the additional information are not mandatory
+The base branch and the additional information are not mandatory.
