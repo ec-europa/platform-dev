@@ -163,10 +163,7 @@ function ecas_admin_settings() {
     '#description' => t('Text supplying information about the error caused by the an e-mail in the EU Login profile used in another.'),
   );
 
-  _ecas_text_format_set_default_value(
-    $form['param'],
-    ECAS_WARNING_MESSAGE_NO_EMAIL
-  );
+  _ecas_text_format_set_default_value($form['param'], ECAS_WARNING_MESSAGE_NO_EMAIL);
 
   $form['param'][ECAS_WARNING_MESSAGE_EXISTING_EMAIL] = array(
     '#type' => 'text_format',
@@ -176,10 +173,7 @@ function ecas_admin_settings() {
     '#description' => t('Text supplying information about the error caused by the an e-mail in the EU Login profile used in another.'),
   );
 
-  _ecas_text_format_set_default_value(
-   $form['param'],
-   ECAS_WARNING_MESSAGE_EXISTING_EMAIL
-  );
+  _ecas_text_format_set_default_value($form['param'], ECAS_WARNING_MESSAGE_EXISTING_EMAIL);
 
   $form['param'][ECAS_WARNING_MESSAGE_NOT_CREATED] = array(
     '#type' => 'text_format',
@@ -202,10 +196,20 @@ function ecas_admin_settings() {
      'Text supplying information about the error because the EU Login profile does not contain the required data, other then the email.'
     ),
   );
-  _ecas_text_format_set_default_value(
-   $form['param'],
-   ECAS_WARNING_MESSAGE_INCOMPLETE_USER
+
+  _ecas_text_format_set_default_value($form['param'], ECAS_WARNING_MESSAGE_INCOMPLETE_USER);
+
+  $form['param'][ECAS_WARNING_MESSAGE_INVALID_STRENGTH] = array(
+    '#type' => 'text_format',
+    '#title' => t('Error message text in case of an EU Login authentication without the required level.'),
+    '#cols' => 60,
+    '#rows' => 5,
+    '#description' => t(
+      'Text supplying information about the message text in case of an EU Login authentication without the required level.'
+    ),
   );
+
+  _ecas_text_format_set_default_value($form['param'], ECAS_WARNING_MESSAGE_INVALID_STRENGTH);
 
   $form['param']['ecas_update_mail_address'] = array(
     '#type' => 'checkbox',

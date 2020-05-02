@@ -539,6 +539,19 @@ function ecas_login_check() {
     );
   }
 
+  $strengths_sent = _ecas_get_strengths();
+  if(!empty($strengths_sent) && $strengths_sent !== $ecas_attributes['cas:strengths']['cas:strength']) {
+    _ecas_warning_goto(
+      ECAS_WARNING_REASON_INVALID_STRENGTH,
+      NULL,
+      'Login process failed for "%ecas_name" because "%strength" is not an accepted authentication method.',
+      array(
+        '%ecas_name' => $ecas_name,
+        '%strength' => $ecas_attributes['cas:strengths']['cas:strength'],
+      )
+    );
+  }
+
   $ecas_social_login = $ecas_attributes['cas:employeeType'];
   $ecas_user_language = ecas_get_ecas_user_language($ecas_attributes);
 
@@ -673,6 +686,22 @@ function ecas_login_check() {
 }
 
 /**
+ * Get the strengths according to the assurance level.
+ **/
+function _ecas_get_strengths() {
+  $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
+
+  if ($assurance_level === 'MEDIUM') {
+    return variable_get('ecas_assurance_level_strength_medium', ECAS_ASSURANCE_LEVELS_STRENGTH_MEDIUM);
+  }
+  else if ($assurance_level === 'HIGH') {
+    return variable_get('ecas_assurance_level_strength_high', ECAS_ASSURANCE_LEVELS_STRENGTH_HIGH);
+  }
+
+  return NULL;
+}
+
+/**
  * Check to see if we need to display the logout menu.
  *
  * @return bool
@@ -747,7 +776,7 @@ function ecas_block_info() {
  *   The themed warning page display.
  */
 function ecas_warning_page($reason) {
-  $theme_variables = array('warning_title' => t("Your site's account cannot be created"));
+  $theme_variables = array('warning_title' => t("Your site's account cannot be activated"));
 
   switch ($reason) {
     case ECAS_WARNING_REASON_SOCIAL:
@@ -776,11 +805,13 @@ function ecas_warning_page($reason) {
       $message_key = ECAS_WARNING_MESSAGE_INCOMPLETE_USER;
       break;
 
+    case ECAS_WARNING_REASON_INVALID_STRENGTH:
+      $message_key = ECAS_WARNING_MESSAGE_INVALID_STRENGTH;
+      break;
+
     default:
       $theme_variables['warning_text'] = t("The reason is unknown. Please contact the site's administrator.");
-
       return theme('ecas_profile_warning_page', $theme_variables);
-
   }
 
   $message = variable_get($message_key, _ecas_get_default_warning_message($message_key));
@@ -795,6 +826,7 @@ function ecas_warning_page($reason) {
     );
     $message = array('value' => $message);
   }
+
   $theme_variables['warning_text'] = _ecas_filter_variable_text($message);
 
   return theme('ecas_profile_warning_page', $theme_variables);
@@ -1347,6 +1379,12 @@ EOF;
       $value = <<< EOF
       We do not receive all required data of your EU Login. That prevent us to create your account.<br /> 
       Please complete your EU-Login account or contact <a href="https://ecas.ec.europa.eu/cas/contact.html">EU-Login support</a>.
+EOF;
+      break;
+
+    case ECAS_WARNING_MESSAGE_INVALID_STRENGTH:
+      $value = <<< EOF
+      Authentication in EU Login was done with a method that is not accepted.
 EOF;
       break;
 

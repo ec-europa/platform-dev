@@ -71,19 +71,24 @@ define('ECAS_WARNING_MESSAGE', 'ecas_warning_message');
 define('ECAS_WARNING_MESSAGE_NO_EMAIL', 'ecas_no_email_message');
 
 /**
-  * Name of the ecas existing email  message variable.
+  * Name of the ecas existing email message variable.
   */
 define('ECAS_WARNING_MESSAGE_EXISTING_EMAIL', 'ecas_existing_mail_message');
 
 /**
-  * Name of the ecas existing email  message variable.
+  * Name of the ecas not created message variable.
   */
 define('ECAS_WARNING_MESSAGE_NOT_CREATED', 'ecas_not_created_message');
 
 /**
-  * Name of the ecas incomplete user  message variable.
+  * Name of the ecas incomplete user message variable.
   */
 define('ECAS_WARNING_MESSAGE_INCOMPLETE_USER', 'ecas_incomplete_user_message');
+
+/**
+ * Name of the ecas invalid strength message variable.
+ */
+define('ECAS_WARNING_MESSAGE_INVALID_STRENGTH', 'ecas_invalid_strength_message');
 
 /**
   * Name of the ecas no email variable message variable.
@@ -99,4 +104,18 @@ define('ECAS_WARNING_REASON_EXISTING_EMAIL', 'mail_already_exists');
 define('ECAS_WARNING_REASON_NOT_CREATED', 'not_created');
 define('ECAS_WARNING_REASON_BLOCKED', 'account_blocked');
 define('ECAS_WARNING_REASON_INCOMPLETE_USER', 'ecas_incomplete_user');
+define('ECAS_WARNING_REASON_INVALID_STRENGTH', 'invalid_strength');
 define('ECAS_WARNING_REASON_UNKNOWN', 'unknown');
+
+/**
+ * The full list of authentication methods for medium level of assurance is:
+ * PASSWORD_SMS, PASSWORD_SOFTWARE_TOKEN, PASSWORD_MOBILE_APP, MOBILE_APP and MDM_CERT.
+ * But it does not matter which of them we use for sending as strength.
+ * It is enough to send one of these, to ensure the medium level of assurance will be used.
+ * Also specifying others would not make any difference, since what is considered by EuLogin is
+ * the level of the method, not the method itself.
+ * The full list of authentication methods for medium level of assurance is:
+ * PASSWORD_TOKEN,PASSWORD_TOKEN_CRAM, CLIENT_CERT.
+ */
+define('ECAS_ASSURANCE_LEVELS_STRENGTH_MEDIUM', 'MOBILE_APP');
+define('ECAS_ASSURANCE_LEVELS_STRENGTH_HIGH', 'PASSWORD_TOKEN');

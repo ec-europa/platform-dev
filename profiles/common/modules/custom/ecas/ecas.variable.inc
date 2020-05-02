@@ -42,10 +42,22 @@ function ecas_variable_info($options) {
 
   $variables[ECAS_WARNING_MESSAGE_INCOMPLETE_USER] = array(
     'type' => 'text_format',
-    'title' => t('Error message text in case of an ecas user is incomplete', array(), $options),
+    'title' => t('Error message text in case of an EU Login user is incomplete', array(), $options),
     'default' => _ecas_get_default_warning_message(ECAS_WARNING_MESSAGE_INCOMPLETE_USER),
     'description' => t(
       'Text supplying information about the error because the EU Login profile does not contain the required data, other then the email.'
+    ),
+    'required' => TRUE,
+    'group' => 'ecas',
+    'localize' => TRUE,
+  );
+
+  $variables[ECAS_WARNING_MESSAGE_INVALID_STRENGTH] = array(
+    'type' => 'text_format',
+    'title' => t('Error message text in case of an EU Login authentication without the required level.', array(), $options),
+    'default' => _ecas_get_default_warning_message(ECAS_WARNING_MESSAGE_INVALID_STRENGTH),
+    'description' => t(
+      'EU Login authentication method does not comply with required level.'
     ),
     'required' => TRUE,
     'group' => 'ecas',
@@ -77,6 +89,24 @@ function ecas_variable_info($options) {
     'description' => t('Warning when a user with more then authenticated role is trying to log in with social media login.'),
     'group' => 'ecas',
     'localize' => TRUE,
+  );
+
+  $variables['ecas_assurance_level_strength_medium'] = array(
+    'type' => 'text_format',
+    'title' => t('Strength for medium level', array(), $options),
+    'default' => ECAS_ASSURANCE_LEVELS_STRENGTH_MEDIUM,
+    'description' => t('Authentication methods (strengths) for level of assurance Medium.'),
+    'required' => TRUE,
+    'group' => 'ecas',
+  );
+
+  $variables['ecas_assurance_level_strength_high'] = array(
+    'type' => 'text_format',
+    'title' => t('Strength for high level', array(), $options),
+    'default' => ECAS_ASSURANCE_LEVELS_STRENGTH_HIGH,
+    'description' => t('Authentication methods (strengths) for level of assurance High.'),
+    'required' => TRUE,
+    'group' => 'ecas',
   );
 
   return $variables;
