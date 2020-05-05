@@ -1340,6 +1340,7 @@ function _tmgmt_poetry_get_main_job_by_entity_id($entity_id) {
   $query->fields('tj', array('tjid', 'reference'));
   $query->condition('tji.item_id', $entity_id, '=');
   $query->condition('reference', "^(MAIN)_", "REGEXP");
+  $query->orderBy('tj.tjid', 'DESC');
   $result = $query->execute()->fetchAssoc();
 
   if ($result) {
