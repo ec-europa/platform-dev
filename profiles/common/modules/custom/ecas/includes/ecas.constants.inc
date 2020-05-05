@@ -108,12 +108,16 @@ define('ECAS_WARNING_REASON_INVALID_STRENGTH', 'invalid_strength');
 define('ECAS_WARNING_REASON_UNKNOWN', 'unknown');
 
 /**
+ * Strengths used for assurance levels.
+ *
  * The full list of authentication methods for medium level of assurance is:
- * PASSWORD_SMS, PASSWORD_SOFTWARE_TOKEN, PASSWORD_MOBILE_APP, MOBILE_APP and MDM_CERT.
+ * PASSWORD_SMS, PASSWORD_SOFTWARE_TOKEN, PASSWORD_MOBILE_APP,
+ * MOBILE_APP and MDM_CERT.
  * But it does not matter which of them we use for sending as strength.
- * It is enough to send one of these, to ensure the medium level of assurance will be used.
- * Also specifying others would not make any difference, since what is considered by EuLogin is
- * the level of the method, not the method itself.
+ * It is enough to send one of these, to ensure the medium level of assurance
+ * will be used.
+ * Also specifying others would not make any difference, since what is
+ * considered by Eu Login is the level of the method, not the method itself.
  * The full list of authentication methods for medium level of assurance is:
  * PASSWORD_TOKEN,PASSWORD_TOKEN_CRAM, CLIENT_CERT.
  */

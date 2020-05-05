@@ -540,7 +540,7 @@ function ecas_login_check() {
   }
 
   $strengths_sent = _ecas_get_strengths();
-  if(!empty($strengths_sent) && $strengths_sent !== $ecas_attributes['cas:strengths']['cas:strength']) {
+  if (!empty($strengths_sent) && $strengths_sent !== $ecas_attributes['cas:strengths']['cas:strength']) {
     _ecas_warning_goto(
       ECAS_WARNING_REASON_INVALID_STRENGTH,
       NULL,
@@ -687,14 +687,14 @@ function ecas_login_check() {
 
 /**
  * Get the strengths according to the assurance level.
- **/
+ */
 function _ecas_get_strengths() {
   $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
 
   if ($assurance_level === 'MEDIUM') {
     return variable_get('ecas_assurance_level_strength_medium', ECAS_ASSURANCE_LEVELS_STRENGTH_MEDIUM);
   }
-  else if ($assurance_level === 'HIGH') {
+  elseif ($assurance_level === 'HIGH' || $assurance_level === 'TOP') {
     return variable_get('ecas_assurance_level_strength_high', ECAS_ASSURANCE_LEVELS_STRENGTH_HIGH);
   }
 
@@ -826,7 +826,6 @@ function ecas_warning_page($reason) {
     );
     $message = array('value' => $message);
   }
-
   $theme_variables['warning_text'] = _ecas_filter_variable_text($message);
 
   return theme('ecas_profile_warning_page', $theme_variables);
