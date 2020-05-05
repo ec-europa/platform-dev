@@ -303,10 +303,10 @@ function ecas_admin_settings() {
  */
 function _ecas_assurance_levels() {
   $assurance_levels = array(
-    'TOP' => t('TOP: Same as HIGH'),
-    'HIGH' => t('HIGH: No self-service'),
-    'MEDIUM' => t('MEDIUM: Self-service requiring the highest available level'),
-    'LOW' => t('BASIC: Self-service requiring the Basic level or above'),
+    'TOP' => t('TOP: EC only'),
+    'HIGH' => t('HIGH: + Other institutions'),
+    'MEDIUM' => t('MEDIUM: + Sponsored'),
+    'LOW' => t('LOW: + External + Self-registered'),
   );
   drupal_alter('ecas_assurance_levels', $assurance_levels);
   return $assurance_levels;
