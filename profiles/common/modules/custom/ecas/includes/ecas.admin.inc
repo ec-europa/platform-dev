@@ -27,6 +27,7 @@ function ecas_permission() {
     'administer ecas' => array(
       'title' => t('Administer ECAS'),
       'description' => t('Perform administration tasks for ECAS.'),
+      'restrict access' => TRUE,
     ),
   );
 }
