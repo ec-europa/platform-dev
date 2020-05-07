@@ -14,7 +14,7 @@ function nexteuropa_webtools_requirements($phase) {
   $requirements = array();
   if ($phase == 'runtime') {
     $t = get_t();
-    $smartloader_prurl = variable_get('nexteuropa_webtools_smartloader_prurl', '');
+    $smartloader_prurl = variable_get('nexteuropa_smartloader_prurl', '');
     if ($smartloader_prurl == '') {
       $requirements['webtools_smartloader_prurl'] = array(
         'description' => $t('Javascript not found. Define the webtools_smartloader_prurl at: !url', array(

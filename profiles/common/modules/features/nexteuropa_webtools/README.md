@@ -43,7 +43,7 @@ This can be done as an administrative user on "/admin/config/services/webtools".
 Most sites can use the europa.eu smartloader (//europa.eu/webtools/load.js),
 but this can be configured to use another one if needed.
 
-Or set the variable "nexteuropa_webtools_smartloader_prurl"
+Or set the variable "nexteuropa_martloader_prurl"
 
 [Go to top](#table-of-contents)
 

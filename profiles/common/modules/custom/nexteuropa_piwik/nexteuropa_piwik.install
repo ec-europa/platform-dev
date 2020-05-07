@@ -39,7 +39,6 @@ function nexteuropa_piwik_uninstall() {
   variable_del('nexteuropa_piwik_pages');
   variable_del('nexteuropa_piwik_roles');
   variable_del('nexteuropa_piwik_site_id');
-  variable_del('nexteuropa_piwik_smartloader_prurl');
   variable_del('nexteuropa_piwik_site_path');
   variable_del('nexteuropa_piwik_site_instance');
   variable_del('nexteuropa_piwik_site_section');
