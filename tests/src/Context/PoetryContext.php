@@ -41,16 +41,6 @@ class PoetryContext implements Context {
   }
 
   /**
-   * Gathers other contexts we rely on, before the scenario starts.
-   *
-   * @BeforeScenario @poetry
-   */
-  public function gatherContexts(BeforeScenarioScope $scope) {
-    $environment = $scope->getEnvironment();
-    $this->variables = $environment->getContext(VariableContext::class);
-  }
-
-  /**
    * Get the token replacements.
    *
    * @return array
