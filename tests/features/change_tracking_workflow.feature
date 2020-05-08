@@ -205,7 +205,7 @@ Feature: Change tracking features
       And I should not see "}]]"
       But the response should contain "sites/default/files/default_images/user_default.png"
 
-  @javascript @maximizedwindow
+  @javascript
    Scenario: As content administrator, I should view all entities having tracked changes in their current revision in the
      "Content tracked changes" page
      Given the following contents using "Full HTML + Change tracking" for WYSIWYG fields:
@@ -233,7 +233,7 @@ Feature: Change tracking features
      And I should not see "Page without tracked changes"
 
 
-  @javascript @maximizedwindow
+  @javascript
   Scenario: As administrator, I cannot disable Tracking change buttons from a WYSIWYG profile if tracked changes are detected
     on fields that use this profile
     Given the tracking change is activate for "Full HTML" WYSIWYG profile
