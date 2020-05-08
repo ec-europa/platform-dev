@@ -3,6 +3,7 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use Drupal\nexteuropa\Component\PyStringYamlParser;
 
@@ -37,6 +38,16 @@ class PoetryContext implements Context {
     $this->params = [
       'wsdl' => $wsdl,
     ];
+  }
+
+  /**
+   * Gathers other contexts we rely on, before the scenario starts.
+   *
+   * @BeforeScenario @poetry
+   */
+  public function gatherContexts(BeforeScenarioScope $scope) {
+    $environment = $scope->getEnvironment();
+    $this->variables = $environment->getContext(VariableContext::class);
   }
 
   /**
