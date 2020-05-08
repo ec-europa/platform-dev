@@ -3,7 +3,6 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use Drupal\nexteuropa\Component\PyStringYamlParser;
 
