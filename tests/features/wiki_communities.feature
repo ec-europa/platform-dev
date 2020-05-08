@@ -1,4 +1,4 @@
-@api @communities @javascript
+@api @communities @javascript @maximizedwindow
 Feature: Wiki communities
   In order to allow users to create and use the wiki on communities profile
   As a site administrator
