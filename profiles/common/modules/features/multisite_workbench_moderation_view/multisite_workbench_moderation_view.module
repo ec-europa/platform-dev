@@ -95,6 +95,7 @@ function multisite_workbench_moderation_view_permission() {
   $permissions['multisite_workbench_moderation_view_bulk_update'] = array(
     'title' => t('Moderate workbench in bulk'),
     'description' => t('Allow users to manage items from the workbench in bulk.'),
+    'restrict access' => TRUE,
   );
   return $permissions;
 }
