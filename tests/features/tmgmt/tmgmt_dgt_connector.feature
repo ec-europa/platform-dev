@@ -11,7 +11,7 @@ Feature: TMGMT Poetry features
     And the following languages are available:
       | languages |
       | en        |
-      | es        |
+      | pt-pt     |
       | fr        |
     And I am logged in as a user with the "administrator" role
     And I change the variable "nexteuropa_poetry_notification_username" to "foo"
