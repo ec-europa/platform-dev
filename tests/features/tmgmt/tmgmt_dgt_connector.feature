@@ -1,4 +1,4 @@
-@api @poetry_mock @i18n @poetry @theme_wip
+@api @i18n @poetry @theme_wip
 Feature: TMGMT Poetry features
   In order to request Carts translations with Poetry service.
   As an Administrator
@@ -11,7 +11,7 @@ Feature: TMGMT Poetry features
     And the following languages are available:
       | languages |
       | en        |
-      | pt-pt     |
+      | es        |
       | fr        |
     And I am logged in as a user with the "administrator" role
     And I change the variable "nexteuropa_poetry_notification_username" to "foo"
