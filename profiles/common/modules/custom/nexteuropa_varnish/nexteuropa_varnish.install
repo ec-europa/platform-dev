@@ -95,7 +95,6 @@ function nexteuropa_varnish_enable() {
       $administrator->rid,
       array(
         'administer frontend cache purge rules',
-        'register access' => TRUE,
       )
     );
   }
