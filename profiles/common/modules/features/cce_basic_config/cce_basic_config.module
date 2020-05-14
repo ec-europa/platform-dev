@@ -41,7 +41,18 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
     '#title' => t('Display the global banner'),
     '#default_value' => variable_get('webtoolds_globan', 1),
   );
+  // NEPT-2823.
+  // After updating system info, update smartloader.
+  $form['#submit'][] = 'cce_basic_config_site_information_submit';
+}
 
+/**
+ * Update var nexteuropa_smartloader_prurl.
+ *
+ * NEPT-2823.
+ */
+function cce_basic_config_site_information_submit($form, &$form_state) {
+  _cce_basic_config_smartloader();
 }
 
 /**
@@ -525,4 +536,18 @@ function cce_basic_config_views_query_alter(&$view, &$query) {
       $query->add_where('users', 'users.uid', $account->uid, '<>');
     }
   }
+}
+
+/**
+ * Configure webtools smartloader.
+ *
+ * NEPT-2823.
+ * @return void
+ */
+function _cce_basic_config_smartloader() {
+  $nexteuropa_smartloader_prurl = '//europa.eu/webtools/load.js';
+  if (variable_get('webtoolds_globan', 1) == 1) {
+    $nexteuropa_smartloader_prurl .= '?globan=1110';
+  }
+  variable_set('nexteuropa_smartloader_prurl', $nexteuropa_smartloader_prurl);
 }

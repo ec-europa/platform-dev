@@ -469,6 +469,10 @@ function cce_basic_config_install() {
     module_enable(array('nexteuropa_metatags'));
   }
   variable_set('user_failed_login_ip_limit', 5);
+
+  // NEPT-2823.
+  _cce_basic_config_smartloader();
+  variable_set('webtoolds_globan', 1);
 }
 
 /**
@@ -1946,10 +1950,6 @@ function cce_basic_config_update_7237() {
  * NEPT-2823.
  */
 function cce_basic_config_update_7238() {
-  $nexteuropa_smartloader_prurl = '//europa.eu/webtools/load.js';
-
-  if (!variable_get('webtoolds_globan', TRUE)) {
-    $nexteuropa_smartloader_prurl .= '?globan=1110';
-  }
-  variable_set('nexteuropa_smartloader_prurl', $nexteuropa_smartloader_prurl);
+  _cce_basic_config_smartloader();
 }
+
