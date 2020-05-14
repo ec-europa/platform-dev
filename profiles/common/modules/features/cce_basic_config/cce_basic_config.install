@@ -1952,4 +1952,3 @@ function cce_basic_config_update_7237() {
 function cce_basic_config_update_7238() {
   _cce_basic_config_smartloader();
 }
-

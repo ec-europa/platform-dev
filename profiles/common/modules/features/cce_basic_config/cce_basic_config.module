@@ -542,7 +542,6 @@ function cce_basic_config_views_query_alter(&$view, &$query) {
  * Configure webtools smartloader.
  *
  * NEPT-2823.
- * @return void
  */
 function _cce_basic_config_smartloader() {
   $nexteuropa_smartloader_prurl = '//europa.eu/webtools/load.js';
