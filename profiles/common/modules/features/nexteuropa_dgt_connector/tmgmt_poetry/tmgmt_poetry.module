@@ -892,7 +892,7 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
         // inject elements of the 'additional languages requests' functionality.
         if (_tmgmt_poetry_check_translatability($form_state['tmgmt_cart']['item_id'])) {
           // Checking and getting additional translatable languages.
-          if (!empty($trans_langs = _tmgmt_poetry_get_translatable_languages($existing_jobs, $form, $form_state))) {
+          if (!empty($trans_langs = _tmgmt_poetry_get_translatable_languages($existing_jobs, $form))) {
             // Injecting 'request additional languages' functionality form
             // elements.
             _tmgmt_poetry_inject_add_new_languages_elements($form, $trans_langs);
@@ -1187,14 +1187,13 @@ function _tmgmt_poetry_disable_form_elements(&$form) {
  * @return array
  *   An empty array or an array with translatable language codes.
  */
-function _tmgmt_poetry_get_translatable_languages($existing_jobs, &$form, &$form_state) {
+function _tmgmt_poetry_get_translatable_languages($existing_jobs, &$form) {
   $existing_lg = array_keys($existing_jobs);
   $translatable_lg = array();
   $languages = language_list();
 
   foreach ($form['languages']['#options'] as $lg_code => $language) {
     if (!in_array($lg_code, $existing_lg) &&
-      !in_array($lg_code, array_keys($form_state['entity']->translations->data)) &&
       $language[TMGMT_WORKBENCH_REQUEST_SOURCE_LG_INDEX] != '(original content)'
     ) {
       $translatable_lg[$lg_code] = $languages[$lg_code]->name;
