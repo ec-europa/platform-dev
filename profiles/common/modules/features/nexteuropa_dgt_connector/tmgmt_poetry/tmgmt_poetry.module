@@ -1181,8 +1181,6 @@ function _tmgmt_poetry_disable_form_elements(&$form) {
  *   An array with existing TMGMT jobs.
  * @param array $form
  *   Reference to the $form variable.
- * @param array $form_state
- *   Reference to the $form_state variable.
  *
  * @return array
  *   An empty array or an array with translatable language codes.
