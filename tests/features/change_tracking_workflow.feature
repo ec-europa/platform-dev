@@ -35,8 +35,6 @@ Feature: Change tracking features
     And I should see the message "Change tracking enabled on full_html WYSIWYG profile"
     When I go to "node/add/page"
     And I fill in the content's title with "This is a page I want to reference"
-    Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
-    And I should not see the "Stop tracking changes" button in the "Body" WYSIWYG editor
     When  I fill in the rich text editor "Body" with "Text should change because life is always moving."
     And I press "Save"
     And I click "Edit draft"

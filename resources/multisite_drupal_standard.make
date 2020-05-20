@@ -44,8 +44,6 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_s
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
 ;https://www.drupal.org/node/2333447#comment-10826660
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
-; Issue NEXTEUROPA-11356 - setting up default timeout value for drupal_http_request function (500 errors investigation).
-projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_timeout_value.patch
 ; Delay removing entities from the index.
 ; https://www.drupal.org/node/2764637
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
@@ -213,14 +211,10 @@ projects[entity][version] = "1.9"
 projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][version] = "1.0"
+projects[entity_translation][version] = "1.1"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/2018-07-25/workbench_moderation-1707156-83.patch
-; https://www.drupal.org/node/2856927
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
-; https://www.drupal.org/node/2741407
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.5
@@ -464,7 +458,7 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.3"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.23
+projects[media][version] = 2.24
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
@@ -536,15 +530,8 @@ projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.22"
 
-; A recent version of the Migrate module is pinned that contains a fix for
-; https://www.drupal.org/node/2504517
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
-; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
-projects[migrate][download][branch] = 7.x-2.x
-projects[migrate][download][revision] = bdb5a86116295df7c35fbb39bdd4397f743498c1
-projects[migrate][download][type] = git
-projects[migrate][subdir] = contrib
-projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909252-1.patch
+projects[migrate][subdir] = "contrib"
+projects[migrate][version] = "2.11"
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.1"
@@ -684,7 +671,7 @@ projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issue
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.11"
-projects[rules][patch][] = https://www.drupal.org/files/issues/file_events-826986-31_0.patch
+projects[rules][patch][] = https://www.drupal.org/files/issues/2020-03-19/file_events-826986-42.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.5
@@ -790,7 +777,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-02-04/check_
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
 ; https://www.drupal.org/node/3021843
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2178
-projects[tmgmt][patch][] =  https://www.drupal.org/files/issues/2019-09-17/translation_not_taking_into_account_the_source_data_update-3021843-22.patch
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2020-02-26/translation_not_taking_into_account_the_source_data_update-3021843-23.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
@@ -892,6 +879,11 @@ projects[webform][version] = "4.16"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
 ; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2757
+; https://www.drupal.org/sa-contrib-2019-096
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/67dc234f8973a04b93be8fd47c18b41ab6a1b938.patch
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/e0baea943dce2b50463348abf859f43b7f4c961d.patch
+projects[webform][patch][] = https://git.drupalcode.org/project/webform/commit/97ce29f6d36ff6ea9389fd493772479e421ba7b5.patch
 
 projects[webform_rules][subdir] = "contrib"
 projects[webform_rules][version] = "1.6"
@@ -962,6 +954,9 @@ projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e94860
 ; CKEditor height does not reflect the rows attribute
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
 projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
+; Error highlight missing on wysiwyg
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2199
+projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/wysiwyg-highlighting-required-field-error-2685519-2.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
@@ -991,11 +986,11 @@ libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archi
 libraries[colorbox][directory_name] = colorbox
 libraries[colorbox][destination] = libraries
 
-; ckeditor 4.9.2
+; ckeditor 4.13.1
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_full.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.14.0/ckeditor_4.14.0_full.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().
@@ -1183,7 +1178,7 @@ projects[atomium][version] = 2.12
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.14
+projects[ec_europa][download][tag] = 0.0.14.2
 projects[ec_europa][patch][] = patches/nept-2585-remove-site-switcher.patch
 projects[ec_europa][patch][] = patches/nept-2668-language-switcher.patch
 
@@ -1195,4 +1190,4 @@ projects[nexteuropa_poetry][subdir] = "contrib"
 projects[nexteuropa_poetry][type] = module
 projects[nexteuropa_poetry][download][type] = git
 projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
-projects[nexteuropa_poetry][download][tag] = 0.1.0
+projects[nexteuropa_poetry][download][tag] = 0.1.1
