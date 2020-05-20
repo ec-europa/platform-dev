@@ -12,7 +12,7 @@ Feature: Webtools feature
     And a valid Smartload Url has been configured
     And I am logged in as a user with the 'administrator' role
 
-  @api @standard_ec_resp @javascript
+  @api @javascript
   Scenario: Insert a webtools block into a content and delete a block 'Map'
     When I go to "block/add/webtools"
     And I fill in "Label" with "Block Map Webtools"
@@ -20,7 +20,7 @@ Feature: Webtools feature
     And I fill in "JSON Object" with "{\"service\":\"map\"}"
     And I fill in "URL" with "http://europa.eu/webtools/showcase/demo/map/samples/demo.js"
     And I press "Save"
-    Then I should see the success message "webtools Block Map Webtools Title has been created."
+    Then I should see the text "webtools Block Map Webtools Title has been created."
     And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
     And the response should contain "contextual-links-wrapper"
     And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
