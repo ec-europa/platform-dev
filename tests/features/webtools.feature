@@ -13,7 +13,7 @@ Feature: Webtools feature
     And I am logged in as a user with the 'administrator' role
 
   @api @javascript
-  Scenario: Insert a webtools block into a content and delete a block 'Map'
+  Scenario: Insert a webtools block into a content and delete a block 'Twitter'
     When I go to "block/add/webtools"
     And I fill in "Label" with "Block Twitter Webtools"
     And I fill in "Title" with "Block Twitter Webtools Title"
@@ -61,7 +61,7 @@ Feature: Webtools feature
     Then I should see "Are you sure you want to delete Block Basic Map Webtools Title?"
     When I press "Delete"
     Then I should see the text "webtools Block Basic Map Webtools Title has been deleted."
-  
+
   @api
   Scenario: Create and delete a block 'Chart'
     When I go to "block/add/webtools"
