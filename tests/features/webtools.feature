@@ -20,7 +20,6 @@ Feature: Webtools feature
     And I fill in "JSON Object" with "{\"service\":\"twitter\",\"type\": \"user\"}"
     And I press "Save"
     Then I should see the text "webtools Block Twitter Webtools Title has been created."
-    And the response should contain "<script type=\"application/json\" data-process=\"true\" data-run=\"true\">{\"service\":\"twitter\",\"type\": \"user\"}</script>"
     And the response should contain "contextual-links-wrapper"
     And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
     Then I go to "node/add/page"
