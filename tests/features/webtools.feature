@@ -19,7 +19,7 @@ Feature: Webtools feature
     And I fill in "Title" with "Block Twitter Webtools Title"
     And I fill in "JSON Object" with "{\"service\":\"twitter\",\"type\": \"user\"}"
     And I press "Save"
-    And I wait for AJAX to finish
+    And I wait 2 seconds
     Then I should see the text "webtools Block Twitter Webtools Title has been created."
     And the response should contain "<script type=\"application/json\" data-process=\"true\" data-run=\"true\">{\"service\":\"twitter\",\"type\": \"user\"}</script>"
     And the response should contain "contextual-links-wrapper"
@@ -34,7 +34,7 @@ Feature: Webtools feature
     When I click "Default" in the "Block Twitter Webtools" row
     And I wait for AJAX to finish
     And I press "Save"
-    And I wait for AJAX to finish
+    And I wait 2 seconds
     Then I should see the success message "Basic page Basic page with Twitter has been created."
     And the response should contain "<script type=\"application/json\" data-process=\"true\" data-run=\"true\">{\"service\":\"twitter\",\"type\": \"user\"}</script>"
     And the response should contain "contextual-links-wrapper"
