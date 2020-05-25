@@ -375,11 +375,11 @@ function ecas_sync_profile_core(&$user, array $user_info, array &$edit = array()
  *   info_ecas_update() hook.
  *
  * @deprecated
- *   Use the combination of ecas_sync_drupal_user_on_ecas_info() and
+ *   Use the combination of ecas_sync_drupal_user_with_ecas_info() and
  *   ecas_save_user() instead.
  */
 function ecas_sync_user_info(&$user, array $user_info, array $args) {
-  $account_edit = ecas_sync_drupal_user_on_ecas_info($user, $user_info, $args);
+  $account_edit = ecas_sync_drupal_user_with_ecas_info($user, $user_info, $args);
   ecas_save_user($user, $account_edit, $user_info, $args);
 }
 
