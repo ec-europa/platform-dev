@@ -8,12 +8,12 @@ Feature: TMGMT Poetry features
     Given the module is enabled
       | modules             |
       | tmgmt_dgt_connector |
+    And I am logged in as a user with the "administrator" role
     And the following languages are available:
       | languages |
       | en        |
       | pt-pt     |
       | fr        |
-    And I am logged in as a user with the "administrator" role
     And I change the variable "nexteuropa_poetry_notification_username" to "foo"
     And I change the variable "nexteuropa_poetry_notification_password" to "bar"
     And I change the variable "nexteuropa_poetry_service_username" to "bar"
