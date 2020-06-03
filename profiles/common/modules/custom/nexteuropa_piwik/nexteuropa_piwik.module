@@ -46,6 +46,7 @@ function nexteuropa_piwik_permission() {
     'administer nexteuropa_piwik' => array(
       'title' => t('Administer Nexteuropa Piwik'),
       'description' => t('Perform maintenance tasks for Piwik.'),
+      'restrict access' => TRUE,
     ),
   );
 }
