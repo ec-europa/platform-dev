@@ -176,7 +176,7 @@ If you are working in collaboration with a contractor and he needs to test
 the DGT-Connector UI and the workflow locally, this can be done without the
 need to access the webservice by using the tmgmt_poetry_mock module.
 
- Contractors : see [the mock readme](tmgmt_poetry_mock/README.md) for more
+ Contractors : see [the mock readme](tmgmt_poetry/tmgmt_poetry_mock/README.md) for more
  information on testing with the mock.
 
 ## Testing in-house (for webmasters)
