@@ -84,6 +84,7 @@ function nexteuropa_varnish_permission() {
     'administer frontend cache purge rules' => array(
       'title' => 'Administer frontend cache purge rules',
       'description' => '',
+      'restrict access' => TRUE,
     ),
   );
 }
