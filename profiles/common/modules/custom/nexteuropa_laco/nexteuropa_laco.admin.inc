@@ -35,16 +35,6 @@ function nexteuropa_laco_settings_form($form, &$form_state) {
     ),
   );
 
-  $form['nexteuropa_laco_icon_settings']['nexteuropa_laco_smartloader_prurl'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Smarloader Protocol-Relative URL'),
-    '#default_value' => variable_get('nexteuropa_laco_smartloader_prurl', '//europa.eu/webtools/load.js'),
-    '#size' => 80,
-    '#maxlength' => 255,
-    '#required' => TRUE,
-    '#description' => t("The URL of the default webtools smartloader is '//europa.eu/webtools/load.js'"),
-  );
-
   $raw_default_value = variable_get(
     'nexteuropa_laco_icon_include',
     array(

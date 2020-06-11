@@ -44,7 +44,7 @@ function nexteuropa_webtools_permission() {
  * Implements hook_json_field_js_to_load().
  */
 function nexteuropa_webtools_json_field_js_to_load() {
-  return array('nexteuropa_webtools_smartloader_prurl' => t('Webtools load.js'));
+  return array('nexteuropa_smartloader_prurl' => t('Webtools load.js'));
 }
 
 /**

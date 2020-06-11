@@ -41,7 +41,18 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
     '#title' => t('Display the global banner'),
     '#default_value' => variable_get('webtoolds_globan', 1),
   );
+  // NEPT-2823.
+  // After updating system info, update smartloader.
+  $form['#submit'][] = 'cce_basic_config_site_information_submit';
+}
 
+/**
+ * Update var nexteuropa_smartloader_prurl.
+ *
+ * NEPT-2823.
+ */
+function cce_basic_config_site_information_submit($form, &$form_state) {
+  _cce_basic_config_smartloader();
 }
 
 /**
@@ -467,20 +478,16 @@ function cce_basic_config_field_widget_entityreference_autocomplete_tags_form_al
  */
 function cce_basic_config_js_alter(&$javascript) {
   // If checkbox is unchecked, don't modify the values of the load.js.
-  $show_banner = variable_get('webtoolds_globan', 1);
-  if (!$show_banner) {
+  if (!variable_get('webtoolds_globan', TRUE)) {
     return;
   }
-  // Otherwise, override the values.
-  variable_set('nexteuropa_laco_smartloader_prurl', '//europa.eu/webtools/load.js?globan=1110');
-  variable_set('nexteuropa_piwik_smartloader_prurl', '//europa.eu/webtools/load.js?globan=1110');
-  variable_set('nexteuropa_webtools_smartloader_prurl', '//europa.eu/webtools/load.js?globan=1110');
-  // If that made the trick, just stop here.
+
+  // If already set, stop here.
   if (isset($javascript['//europa.eu/webtools/load.js?globan=1110'])) {
     return;
   }
   // If the load has not been added yet, add it.
-  $smartloader_prurl = variable_get('nexteuropa_laco_smartloader_prurl');
+  $smartloader_prurl = variable_get('nexteuropa_smartloader_prurl');
   drupal_add_js($smartloader_prurl, array(
     'type' => 'external',
     'scope' => 'header',
@@ -529,4 +536,17 @@ function cce_basic_config_views_query_alter(&$view, &$query) {
       $query->add_where('users', 'users.uid', $account->uid, '<>');
     }
   }
+}
+
+/**
+ * Configure webtools smartloader.
+ *
+ * NEPT-2823.
+ */
+function _cce_basic_config_smartloader() {
+  $nexteuropa_smartloader_prurl = '//europa.eu/webtools/load.js';
+  if (variable_get('webtoolds_globan', 1) == 1) {
+    $nexteuropa_smartloader_prurl .= '?globan=1110';
+  }
+  variable_set('nexteuropa_smartloader_prurl', $nexteuropa_smartloader_prurl);
 }
