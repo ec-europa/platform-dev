@@ -32,10 +32,12 @@ function nexteuropa_webtools_permission() {
     'administer webtools' => array(
       'title' => t('Administer webtools'),
       'description' => t('Administer nexteuropa_webbools feature.'),
+      'restrict access' => TRUE,
     ),
     'upload webtools custom js' => array(
       'title' => t('Upload webtools custom js'),
       'description' => t('Allows users to upload a custom js in webtools bean.'),
+      'restrict access' => TRUE,
     ),
   );
 }
