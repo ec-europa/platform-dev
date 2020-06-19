@@ -159,23 +159,20 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
     // early. DO NOT FORGET TO ENCODE!
     drupal_array_set_nested_value($values, $json_object_parents, drupal_json_encode($json_object));
   }
-  // Controls to add js and/or javascript files.
-  $field_custom_js_status = field_get_items('bean', $bean, 'field_custom_js_status');
-  $field_custom_css_status = field_get_items('bean', $bean, 'field_custom_css_status');
   // Do not set the "custom" attribute when this has been turned off.
   $add_custom = [
-      'js' => [
-          'enable' => field_get_items('bean', $bean, 'field_custom_js_status'),
-          'file' => field_get_items('bean', $bean, 'field_custom_js_file'),
-          'url' => field_get_items('bean', $bean, 'field_custom_js_link'),
-        ],
-      'css' => [
-          'enable' => field_get_items('bean', $bean, 'field_custom_css_status'),
-          'file' => field_get_items('bean', $bean, 'field_custom_css_file'),
-          'url' => field_get_items('bean', $bean, 'field_custom_css_link'),
-        ],
-    ];
-  foreach ($add_custom as $key => $value) {
+    'js' => [
+      'enable' => field_get_items('bean', $bean, 'field_custom_js_status'),
+      'file' => field_get_items('bean', $bean, 'field_custom_js_file'),
+      'url' => field_get_items('bean', $bean, 'field_custom_js_link'),
+    ],
+    'css' => [
+      'enable' => field_get_items('bean', $bean, 'field_custom_css_status'),
+      'file' => field_get_items('bean', $bean, 'field_custom_css_file'),
+      'url' => field_get_items('bean', $bean, 'field_custom_css_link'),
+    ],
+  ];
+  foreach ($add_custom as $value) {
     if (isset($value['enable'][0]['value']) && 1 == $value['enable'][0]['value']) {
       // Add file if is set.
       $file = FALSE;
@@ -189,7 +186,7 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
       }
       // When no file was uploaded, get the value from field_custom_js_external.
       if (FALSE === $file && isset($value['url'][0]['url'])) {
-          $file_url = $value['url'][0]['url'];
+        $file_url = $value['url'][0]['url'];
       }
       if (isset($file_url) && $file_url != '') {
         // Add the absolute url as "custom" attribute.
