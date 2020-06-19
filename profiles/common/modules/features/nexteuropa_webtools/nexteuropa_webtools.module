@@ -35,8 +35,8 @@ function nexteuropa_webtools_permission() {
       'restrict access' => TRUE,
     ),
     'upload webtools custom js' => array(
-      'title' => t('Upload webtools custom js or css'),
-      'description' => t('Allows users to upload custom js and css in webtools bean.'),
+      'title' => t('Add js or css url to webtools'),
+      'description' => t('Allows users to add an url to custom js and/or css in webtools bean.'),
       'restrict access' => TRUE,
     ),
   );
@@ -64,62 +64,10 @@ function nexteuropa_webtools_form_bean_form_alter(&$form, &$form_state) {
   // granted to the user using the bean form.
   // This because we don't want the field values to be changed when resubmitting
   // the form with a role not granted with above mentoined permission.
-  $form['field_custom_js_file']['#access'] = $access;
   $form['field_custom_js_link']['#access'] = $access;
-  $form['field_custom_css_file']['#access'] = $access;
   $form['field_custom_css_link']['#access'] = $access;
   // No need to add a custom submit handler, the handling of the fields and json
   // object will be done in hook_bean_submit().
-}
-
-/**
- * Implements hook_file_insert().
- *
- * Allow the upload of js files to the field_custom_js_file.
- *
- * @see file_save_upload()
- */
-function nexteuropa_webtools_file_insert($file) {
-  // This only works/tested for the field_custom_js_file field on webtools bean.
-  if (!isset($file->source) || strpos($file->source, 'field_custom_js_file') !== 0) {
-    return;
-  }
-  // Drupal Core will not allow users to upload js files.
-  // To bypass this with Core, a variable needs to be set to allow ALL
-  // insecure uploads. This is not something we want to do.
-  // So we are going to rename the file uploaded to this field back to *.js.
-  // First of all, we construct the file destination based on the field.
-  $field = field_info_field('field_custom_js_file');
-  $instance = field_info_instance('bean', 'field_custom_js_file', 'webtools');
-  $destination = file_field_widget_uri($field, $instance);
-  // Stole following lines from file_save_upload().
-  // A URI may already have a trailing slash or look like "public://".
-  if (drupal_substr($destination, -1) != '/') {
-    $destination .= '/';
-  }
-  // Rename and move the file.
-  $original_file_name = $file->filename;
-  $destination .= str_replace('.txt', '', $file->filename);
-  // The mimetype will be updated automatically.
-  // This will save and return the file when successfull.
-  file_move($file, $destination);
-
-  // As Core sets a message warning the user of the renaming and as we undo it,
-  // we want to remove that message.
-  // This will prevent confusion and bug logging.
-  // This is removed from $_SESSION directly, so we don't have to get and set
-  // other existing messages.
-  $messages = $_SESSION['messages'];
-  // Copy from the original drupal_set_message() in file_save_upload().
-  $message_to_suppress = t('For security reasons, your upload has been renamed to %filename.', array('%filename' => $original_file_name));
-  $index = array_search($message_to_suppress, $messages['status']);
-  if ($index !== FALSE) {
-    unset($_SESSION['messages']['status'][$index]);
-  }
-  // Prevent from showing an empty status box to the user.
-  if (empty($_SESSION['messages']['status'])) {
-    unset($_SESSION['messages']['status']);
-  }
 }
 
 /**
@@ -163,29 +111,17 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
   $add_custom = [
     'js' => [
       'enable' => field_get_items('bean', $bean, 'field_custom_js_status'),
-      'file' => field_get_items('bean', $bean, 'field_custom_js_file'),
       'url' => field_get_items('bean', $bean, 'field_custom_js_link'),
     ],
     'css' => [
       'enable' => field_get_items('bean', $bean, 'field_custom_css_status'),
-      'file' => field_get_items('bean', $bean, 'field_custom_css_file'),
       'url' => field_get_items('bean', $bean, 'field_custom_css_link'),
     ],
   ];
   foreach ($add_custom as $value) {
     if (isset($value['enable'][0]['value']) && 1 == $value['enable'][0]['value']) {
-      // Add file if is set.
-      $file = FALSE;
       $file_url = '';
-      if (isset($value['file'][0]['fid']) && $value['file'][0]['fid'] > 0) {
-        $file = file_load($value['file'][0]['fid']);
-        // Get url from the file to insert into the json object.
-        if ($file !== FALSE) {
-          $file_url = file_create_url($file->uri);
-        }
-      }
-      // When no file was uploaded, get the value from field_custom_js_external.
-      if (FALSE === $file && isset($value['url'][0]['url'])) {
+      if (isset($value['url'][0]['url'])) {
         $file_url = $value['url'][0]['url'];
       }
       if (isset($file_url) && $file_url != '') {
@@ -195,7 +131,6 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
       }
     }
   }
-
   // Add the JSON_UNESCAPED_SLASHES option to json_encode because we need the
   // full url in the json_object.
   // @codingStandardsIgnoreLine: Can't use drupal_json_encode because we need our own parameters.

@@ -11,64 +11,6 @@
 function nexteuropa_webtools_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'bean-webtools-field_custom_css_file'.
-  $field_instances['bean-webtools-field_custom_css_file'] = array(
-    'bundle' => 'webtools',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 3,
-      ),
-    ),
-    'entity_type' => 'bean',
-    'field_name' => 'field_custom_css_file',
-    'label' => 'File',
-    'required' => 0,
-    'settings' => array(
-      'description_field' => 0,
-      'entity_translation_sync' => FALSE,
-      'file_directory' => '',
-      'file_extensions' => 'css',
-      'max_filesize' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'file',
-      'settings' => array(
-        'filefield_sources' => array(
-          'filefield_sources' => array(
-            'attach' => 0,
-            'clipboard' => 0,
-            'plupload' => 0,
-            'reference' => 0,
-            'remote' => 0,
-            'upload' => 'upload',
-          ),
-          'source_attach' => array(
-            'absolute' => 0,
-            'attach_mode' => 'move',
-            'path' => 'file_attach',
-          ),
-          'source_imce' => array(
-            'imce_mode' => 0,
-          ),
-          'source_reference' => array(
-            'autocomplete' => 0,
-            'search_all_fields' => 0,
-          ),
-        ),
-        'progress_indicator' => 'throbber',
-      ),
-      'type' => 'file_generic',
-      'weight' => 7,
-    ),
-  );
-
   // Exported field_instance: 'bean-webtools-field_custom_css_link'.
   $field_instances['bean-webtools-field_custom_css_link'] = array(
     'bundle' => 'webtools',
@@ -154,73 +96,6 @@ function nexteuropa_webtools_field_default_field_instances() {
       ),
       'type' => 'options_onoff',
       'weight' => 6,
-    ),
-  );
-
-  // Exported field_instance: 'bean-webtools-field_custom_js_file'.
-  $field_instances['bean-webtools-field_custom_js_file'] = array(
-    'bundle' => 'webtools',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 5,
-      ),
-    ),
-    'entity_type' => 'bean',
-    'field_name' => 'field_custom_js_file',
-    'label' => 'File',
-    'required' => 0,
-    'settings' => array(
-      'description_field' => 0,
-      'entity_translation_sync' => FALSE,
-      'file_directory' => '',
-      'file_extensions' => 'js',
-      'max_filesize' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'file',
-      'settings' => array(
-        'allowed_schemes' => array(
-          'node' => 0,
-          'private' => 'private',
-          'public' => 0,
-        ),
-        'allowed_types' => array(
-          'audio' => 0,
-          'document' => 0,
-          'image' => 0,
-          'video' => 0,
-        ),
-        'browser_plugins' => array(
-          'media_default--media_browser_1' => 0,
-          'media_default--media_browser_my_files' => 0,
-          'media_internet' => 0,
-          'upload' => 0,
-        ),
-        'filefield_sources' => array(
-          'filefield_sources' => array(),
-          'source_attach' => array(
-            'absolute' => 0,
-            'attach_mode' => 'move',
-            'path' => 'file_attach',
-          ),
-          'source_imce' => array(
-            'imce_mode' => 0,
-          ),
-          'source_reference' => array(
-            'autocomplete' => 0,
-          ),
-        ),
-        'progress_indicator' => 'throbber',
-      ),
-      'type' => 'file_generic',
-      'weight' => 7,
     ),
   );
 
@@ -383,7 +258,6 @@ function nexteuropa_webtools_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('<a href="https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Webtools+feature" target="_blank">See Webtools documentation</a>');
   t('External link');
-  t('File');
   t('Included');
   t('Indicate if the custom js needs to be included in the json object.');
   t('JSON Object');
