@@ -436,6 +436,8 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   }
 
   /**
+   * Add role to a user.
+   *
    * @Given Role :arg1 has permission :arg2
    */
   public function roleHasPermission($arg1, $arg2) {
@@ -447,4 +449,5 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       throw new \Exception(sprintf('There is no role: "%s"', $arg1));
     }
   }
+
 }
