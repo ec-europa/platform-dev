@@ -144,7 +144,7 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
 /**
  * Save logs when updating webtools external reference.
  *
- * @param $uid
+ * @param int $uid
  *   User uid.
  */
 function _nexteuropa_webtools_save_logs($uid) {
