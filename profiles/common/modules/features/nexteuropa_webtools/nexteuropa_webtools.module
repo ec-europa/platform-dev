@@ -79,13 +79,13 @@ function nexteuropa_webtools_form_bean_form_alter(&$form, &$form_state) {
  * @see bean_form_submit_build_bean()
  */
 function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
+  global $user;
   // At this point, the values in form_state were copied to the bean. So we can
   // use both the values or the bean fields itself to change the json_object.
   // The values from the form_state will be copied to the bean again after this
   // hook.
   // I will prefer to use the form_state regarding the json_object and the bean
   // for checking the field values that do not have to change.
-  // E.g. field_custom_js_file.
   if ($bean->type !== 'webtools') {
     return;
   }
@@ -131,8 +131,23 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
       }
     }
   }
+  // Save log when we save css and/or js externla links.
+  if (isset($json_object['custom']) && count($json_object['custom']) > 0) {
+    _nexteuropa_webtools_save_logs($user->uid);
+  }
   // Add the JSON_UNESCAPED_SLASHES option to json_encode because we need the
   // full url in the json_object.
   // @codingStandardsIgnoreLine: Can't use drupal_json_encode because we need our own parameters.
   drupal_array_set_nested_value($values, $json_object_parents, json_encode($json_object, JSON_UNESCAPED_SLASHES));
+}
+
+/**
+ * Save logs when updating webtools external reference.
+ *
+ * @param $uid
+ *   User uid.
+ */
+function _nexteuropa_webtools_save_logs($uid) {
+  $message = "A new webtools widget external reference field was updated by %uid";
+  watchdog('nexteuropa_webbools', $message, array('%uid' => $uid), WATCHDOG_NOTICE);
 }
