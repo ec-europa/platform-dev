@@ -435,4 +435,16 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     return $this->maxNodeId;
   }
 
+  /**
+   * @Given Role :arg1 has permission :arg2
+   */
+  public function roleHasPermission($arg1, $arg2) {
+    $rid = user_role_load_by_name($arg1);
+    if (isset($rid->rid) && $rid->rid > 0) {
+      user_role_grant_permissions($rid->rid, [$arg2]);
+    }
+    else {
+      throw new \Exception(sprintf('There is no role: "%s"', $arg1));
+    }
+  }
 }
