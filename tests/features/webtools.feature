@@ -50,10 +50,10 @@ Feature: Webtools feature
     And I go to "block/add/webtools"
     And I fill in "Label" with "Block Chart Webtools"
     And I fill in "Title" with "Block Chart Webtools Title"
-    And I fill in "JSON Object" with "{\"service\": \"charts\",\"provider\": \"highcharts\",\"data\": \"//europa.eu/webtools/showcase/demo/charts/wikis/airport-transport-of-passenger-in-the-eu-2014-options.json\"}"
+    And I fill in "JSON Object" with "{\"service\":\"charts\",\"provider\":\"highcharts\"}"
     And I press "Save"
     Then I should see the text "webtools Block Chart Webtools Title has been created."
-    And the response should contain "{\"service\": \"charts\",\"provider\": \"highcharts\",\"data\": \"//europa.eu/webtools/showcase/demo/charts/wikis/airport-transport-of-passenger-in-the-eu-2014-options.json\"}"
+    And the response should contain "{\"service\":\"charts\",\"provider\":\"highcharts\"}"
     And the response should contain "contextual-links-wrapper"
     # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
     And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
@@ -69,10 +69,10 @@ Feature: Webtools feature
     And I go to "block/add/webtools"
     And I fill in "Label" with "Block Social bookmark Webtools"
     And I fill in "Title" with "Block Social bookmark Webtools Title"
-    And I fill in "JSON Object" with "{\"service\": \"sbkm\",\"to\": [\"twitter\",\"facebook\",\"linkedin\",\"googleplus\"],\"selection\": false}"
+    And I fill in "JSON Object" with "{\"service\":\"sbkm\",\"to\":[\"twitter\",\"facebook\",\"linkedin\",\"googleplus\"],\"selection\":false}"
     And I press "Save"
     Then I should see the text "webtools Block Social bookmark Webtools Title has been created."
-    And the response should contain "{\"service\": \"sbkm\",\"to\": [\"twitter\",\"facebook\",\"linkedin\",\"googleplus\"],\"selection\": false}"
+    And the response should contain "{\"service\":\"sbkm\",\"to\":[\"twitter\",\"facebook\",\"linkedin\",\"googleplus\"],\"selection\":false}"
     And the response should contain "contextual-links-wrapper"
     # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
     And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
@@ -88,10 +88,10 @@ Feature: Webtools feature
     And I go to "block/add/webtools"
     And I fill in "Label" with "Block SMK Webtools"
     And I fill in "Title" with "Block SMK Webtools Title"
-    And I fill in "JSON Object" with "{\"service\": \"twitter\",\"type\": \"user\",\"screen_name\": \"EU_Commission\",\"include_rts\": true}"
+    And I fill in "JSON Object" with "{\"service\":\"twitter\",\"type\":\"user\",\"screen_name\":\"EU_Commission\",\"include_rts\":true}"
     And I press "Save"
     Then I should see the text "webtools Block SMK Webtools Title has been created."
-    And the response should contain "{\"service\": \"twitter\",\"type\": \"user\",\"screen_name\": \"EU_Commission\",\"include_rts\": true}"
+    And the response should contain "{\"service\":\"twitter\",\"type\":\"user\",\"screen_name\":\"EU_Commission\",\"include_rts\":true}"
     And the response should contain "contextual-links-wrapper"
     # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
     And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
@@ -116,7 +116,7 @@ Feature: Webtools feature
     And I go to "block/add/webtools"
     And I fill in "Label" with "Block Map Webtools"
     And I fill in "Title" with "Block Map Webtools Title"
-    And I fill in "JSON Object" with "{\"service\": \"map\", \"version\": \"2.0\", \"efbdata\": {\"year\": \"1998-2019\", \"base\": \"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/base_2019.xlsx\", \"details\": \"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/defict_2019.xlsx\"}}"
+    And I fill in "JSON Object" with "{\"service\":\"map\",\"version\":\"2.0\",\"efbdata\":{\"year\":\"1998-2019\",\"base\":\"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/base_2019.xlsx\",\"details\":\"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/defict_2019.xlsx\"}}"
     And I fill in "edit-field-custom-js-link-und-0-url" with "https://ec.europa.eu/test_cem/index.js"
     And I fill in "edit-field-custom-css-link-und-0-url" with "https://ec.europa.eu/test_cem/style.css"
     And I press "Save"
