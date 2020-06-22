@@ -11,15 +11,16 @@ Feature: Webtools feature
       | nexteuropa_trackedchanges |
     And a valid Smartload Url has been configured
 
-  @api @standard_ec_resp @javascript @wip
+  @api @standard_ec_resp @javascript
   Scenario: Insert a webtools block into a content and delete a block 'Map'
-    When I go to "block/add/webtools"
+    Given I am logged in as a user with the 'editor' role
+    And I go to "block/add/webtools"
     And I fill in "Label" with "Block Map Webtools"
     And I fill in "Title" with "Block Map Webtools Title"
-    And I fill in "JSON Object" with "{\"service\": \"map\", \"version\": \"2.0\", \"efbdata\": {\"year\": \"1998-2019\", \"base\": \"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/base_2019.xlsx\", \"details\": \"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/defict_2019.xlsx\"}}"
+    And I fill in "JSON Object" with "{\"service\":\"map\",\"version\":\"2.0\",\"efbdata\":{\"year\":\"1998-2019\"}}"
     And I press "Save"
-    Then I should see the success message "webtools Block Map Webtools Title has been created."
-    And the response should contain "{\"service\": \"map\", \"version\": \"2.0\", \"efbdata\": {\"year\": \"1998-2019\", \"base\": \"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/base_2019.xlsx\", \"details\": \"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/defict_2019.xlsx\"}}</script>"
+    Then I should see the text "webtools Block Map Webtools Title has been created."
+    And the response should contain "{\"service\":\"map\",\"version\":\"2.0\",\"efbdata\":{\"year\":\"1998-2019\"}}"
     And the response should contain "contextual-links-wrapper"
     # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
     And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
@@ -34,7 +35,7 @@ Feature: Webtools feature
     And I wait for AJAX to finish
     And I press "Save"
     Then I should see the success message "Basic page with a Map has been created."
-    And the response should contain "{\"service\": \"map\", \"version\": \"2.0\", \"efbdata\": {\"year\": \"1998-2019\", \"base\": \"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/base_2019.xlsx\", \"details\": \"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/defict_2019.xlsx\"}}"
+    And the response should contain "{\"service\":\"map\",\"version\":\"2.0\",\"efbdata\":{\"year\":\"1998-2019\"}}"
     And the response should contain "contextual-links-wrapper"
     # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
     And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
