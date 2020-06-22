@@ -11,7 +11,7 @@ Feature: Webtools feature
       | nexteuropa_trackedchanges |
     And a valid Smartload Url has been configured
 
-  @api @standard_ec_resp @javascript
+  @api @standard_ec_resp @javascript @wip
   Scenario: Insert a webtools block into a content and delete a block 'Map'
     Given I am logged in as a user with the 'administrator' role
     And I go to "block/add/webtools"
@@ -113,6 +113,7 @@ Feature: Webtools feature
   Scenario: A user with permission 'Add js or css url to webtools' can add custom css and js links
     Given Role 'editor' has permission 'upload webtools custom js'
     And Role 'editor' has permission 'administer beans'
+    And Role 'editor' has permission 'view bean page'
     When I am logged in as a user with the 'editor' role
     And I go to "block/add/webtools"
     And I fill in "Label" with "Block Map Webtools"
@@ -123,6 +124,5 @@ Feature: Webtools feature
     And I press "Save"
     Then I should see the text "webtools Block Map Webtools Title has been created."
     And the response should contain "{\"service\":\"map\",\"version\":\"2.0\",\"efbdata\":{\"year\":\"1998-2019\"},\"custom\":[\"//ec.europa.eu/test_cem/index.js\",\"//ec.europa.eu/test_cem/style.css\"]}"
-    And the response should contain "contextual-links-wrapper"
     # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
     And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
