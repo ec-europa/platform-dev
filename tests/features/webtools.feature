@@ -13,7 +13,7 @@ Feature: Webtools feature
 
   @api @standard_ec_resp @javascript
   Scenario: Insert a webtools block into a content and delete a block 'Map'
-    Given I am logged in as a user with the 'editor' role
+    Given I am logged in as a user with the 'administrator' role
     And I go to "block/add/webtools"
     And I fill in "Label" with "Block Map Webtools"
     And I fill in "Title" with "Block Map Webtools Title"
