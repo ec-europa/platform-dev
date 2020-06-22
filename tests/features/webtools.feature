@@ -116,12 +116,12 @@ Feature: Webtools feature
     And I go to "block/add/webtools"
     And I fill in "Label" with "Block Map Webtools"
     And I fill in "Title" with "Block Map Webtools Title"
-    And I fill in "JSON Object" with "{\"service\":\"map\",\"version\":\"2.0\",\"efbdata\":{\"year\":\"1998-2019\",\"base\":\"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/base_2019.xlsx\",\"details\":\"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/defict_2019.xlsx\"}}"
+    And I fill in "JSON Object" with "{\"service\":\"map\",\"version\":\"2.0\",\"efbdata\":{\"year\":\"1998-2019\"}}"
     And I fill in "edit-field-custom-js-link-und-0-url" with "https://ec.europa.eu/test_cem/index.js"
     And I fill in "edit-field-custom-css-link-und-0-url" with "https://ec.europa.eu/test_cem/style.css"
     And I press "Save"
-    Then I should see the success message "webtools Block Map Webtools Title has been created."
-    And the response should contain "{\"service\":\"map\",\"version\":\"2.0\",\"efbdata\":{\"year\":\"1998-2019\",\"base\":\"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/base_2019.xlsx\",\"details\":\"https://webgate.ec.europa.eu/webtools/asset-manager/stc/europa.eu/webtools/poc/sg-efb-dataviz/defict_2019.xlsx\"},\"custom\":[\"//ec.europa.eu/test_cem/index.js\",\"//ec.europa.eu/test_cem/style.css\"]}"
+    Then I should see the text "webtools Block Map Webtools Title has been created."
+    And the response should contain "{\"service\":\"map\",\"version\":\"2.0\",\"efbdata\":{\"year\":\"1998-2019\"},\"custom\":[\"//ec.europa.eu/test_cem/index.js\",\"//ec.europa.eu/test_cem/style.css\"]}"
     And the response should contain "contextual-links-wrapper"
     # The meta tag below must be present in order that the Webtools widget works correctly (see NEPT-1042).
     And the response should contain the meta tag with the "X-UA-Compatible" name and the "IE=edge" content
