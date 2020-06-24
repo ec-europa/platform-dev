@@ -58,7 +58,7 @@ function nexteuropa_webtools_form_bean_form_alter(&$form, &$form_state) {
       return;
     }
   }
-
+  $form['field_custom_js_file']['#disabled'] = TRUE;
   $access = user_access('upload webtools custom js');
   // Following fields are only visible when above mentioned permission is
   // granted to the user using the bean form.

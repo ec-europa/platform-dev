@@ -11,6 +11,30 @@
 function nexteuropa_webtools_field_default_field_bases() {
   $field_bases = array();
 
+  // Exported field_base: 'field_custom_js_file'.
+  $field_bases['field_custom_js_file'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_custom_js_file',
+    'indexes' => array(
+      'fid' => array(
+        0 => 'fid',
+      ),
+    ),
+    'module' => 'file',
+    'settings' => array(
+      'display_default' => 0,
+      'display_field' => 0,
+      'entity_translation_sync' => array(
+        0 => 'fid',
+      ),
+      'uri_scheme' => 'private',
+    ),
+    'translatable' => 0,
+    'type' => 'file',
+  );
   // Exported field_base: 'field_custom_css_link'.
   $field_bases['field_custom_css_link'] = array(
     'active' => 1,
