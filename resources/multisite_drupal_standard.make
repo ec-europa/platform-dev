@@ -391,7 +391,7 @@ projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.26"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.26"
+projects[i18n][version] = "1.27"
 ; Language field display should default to hidden.
 ; https://www.drupal.org/node/1350638
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
