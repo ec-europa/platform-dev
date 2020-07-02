@@ -170,7 +170,7 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
       'url' => field_get_items('bean', $bean, 'field_custom_css_link'),
     ],
   ];
-  foreach ($add_custom as $key => $value) {
+  foreach ($add_custom as $value) {
     if (isset($value['enable'][0]['value']) && 1 == $value['enable'][0]['value']) {
       // Add file if it is set.
       $file = FALSE;
@@ -184,7 +184,7 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
       }
       // When no file was uploaded, get the value from field_custom_js_external.
       if (FALSE === $file && isset($value['url'][0]['url'])) {
-          $file_url = $value['url'][0]['url'];
+        $file_url = $value['url'][0]['url'];
       }
       if (isset($file_url) && $file_url != '') {
         // Add the absolute url as "custom" attribute.
