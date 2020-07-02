@@ -10,6 +10,7 @@
  */
 function nexteuropa_webtools_field_default_field_instances() {
   $field_instances = array();
+
   // Exported field_instance: 'bean-webtools-field_custom_js_file'.
   $field_instances['bean-webtools-field_custom_js_file'] = array(
     'bundle' => 'webtools',
@@ -27,7 +28,6 @@ function nexteuropa_webtools_field_default_field_instances() {
     'field_name' => 'field_custom_js_file',
     'label' => 'File',
     'required' => 0,
-    'disabled' => TRUE,
     'settings' => array(
       'description_field' => 0,
       'entity_translation_sync' => FALSE,
@@ -325,6 +325,7 @@ function nexteuropa_webtools_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('<a href="https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Webtools+feature" target="_blank">See Webtools documentation</a>');
   t('External link');
+  t('File');
   t('Included');
   t('Indicate if the custom js needs to be included in the json object.');
   t('JSON Object');

@@ -25,7 +25,6 @@ function nexteuropa_webtools_field_group_info() {
     'weight' => '4',
     'children' => array(
       0 => 'field_custom_css_status',
-      1 => 'field_custom_css_file',
       2 => 'field_custom_css_link',
     ),
     'format_type' => 'fieldset',

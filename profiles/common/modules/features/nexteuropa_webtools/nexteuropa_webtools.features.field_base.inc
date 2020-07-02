@@ -23,6 +23,7 @@ function nexteuropa_webtools_field_default_field_bases() {
         0 => 'fid',
       ),
     ),
+    'locked' => 1,
     'module' => 'file',
     'settings' => array(
       'display_default' => 0,
@@ -35,6 +36,7 @@ function nexteuropa_webtools_field_default_field_bases() {
     'translatable' => 0,
     'type' => 'file',
   );
+
   // Exported field_base: 'field_custom_css_link'.
   $field_bases['field_custom_css_link'] = array(
     'active' => 1,

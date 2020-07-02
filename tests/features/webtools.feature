@@ -107,7 +107,10 @@ Feature: Webtools feature
     Given Role 'editor' has permission 'administer beans'
     When I am logged in as a user with the 'editor' role
     And I go to "block/add/webtools"
-    Then I should not see the text "External link"
+    Then I should see the text "Create webtools block"
+    And I should not see "File" in the ".group-custom-js-settings" element
+    And I should not see "External link" in the ".group-custom-js-settings" element
+    And I should not see "External link" in the ".group-custom-css-settings" element
  
   @api
   Scenario: A user with permission 'Add js or css url to webtools' can add custom css and js links
@@ -116,7 +119,10 @@ Feature: Webtools feature
     And Role 'editor' has permission 'view bean page'
     When I am logged in as a user with the 'editor' role
     And I go to "block/add/webtools"
-    And I fill in "Label" with "Block Map Webtools"
+    And I should see "File" in the ".group-custom-js-settings" element
+    And I should see "External link" in the ".group-custom-js-settings" element
+    And I should see "External link" in the ".group-custom-css-settings" element
+    Then I fill in "Label" with "Block Map Webtools"
     And I fill in "Title" with "Block Map Webtools Title"
     And I fill in "JSON Object" with "{\"service\":\"map\",\"version\":\"2.0\",\"efbdata\":{\"year\":\"1998-2019\"}}"
     And I fill in "edit-field-custom-js-link-und-0-url" with "https://ec.europa.eu/test_cem/index.js"
