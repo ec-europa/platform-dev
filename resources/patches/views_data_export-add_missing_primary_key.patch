@@ -1,0 +1,32 @@
+diff --git a/views_data_export.install b/views_data_export.install
+index ba44a56..61fa49c 100644
+--- a/views_data_export.install
++++ b/views_data_export.install
+@@ -81,6 +81,7 @@ function views_data_export_schema() {
+         'serialize' => TRUE,
+       ),
+     ),
++		'primary key' => array('eid'),
+     'indexes' => array(
+       'eid' => array('eid'),
+       'updated' => array('updated'),
+@@ -155,6 +156,19 @@ function views_data_export_update_7301(){
+   db_change_field('views_data_export_object_cache', 'data', 'data', $spec);
+ }
+ 
++/**
++ * Add missing primary key.
++ */
++function views_data_export_update_7302() {
++  $db_table = 'views_data_export_object_cache';
++
++  // If not already done manually,
++  // set primary key.
++  if (!db_index_exists($db_table, 'PRIMARY')) {
++
++    db_add_primary_key('views_data_export_object_cache', array('eid'));
++  }
++}
+ 
+ /**
+  * Implements hook_requirements().

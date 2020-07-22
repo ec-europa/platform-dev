@@ -1,0 +1,30 @@
+diff --git a/modules/forum/forum.install b/modules/forum/forum.install
+index 57e116b711..d0a7008bbf 100644
+--- a/modules/forum/forum.install
++++ b/modules/forum/forum.install
+@@ -222,6 +222,7 @@ function forum_schema() {
+       'created' => array('created'),
+       'last_comment_timestamp' => array('last_comment_timestamp'),
+     ),
++    'primary key' => array('nid', 'tid'),
+     'foreign keys' => array(
+       'tracked_node' => array(
+         'table' => 'node',
+@@ -465,3 +466,17 @@ function forum_update_7012() {
+ /**
+  * @} End of "addtogroup updates-7.x-extra".
+  */
++
++/**
++ * Add missing primary key.
++ */
++function forum_update_7013() {
++  $db_table = 'forum_index';
++
++  // If not already done manually,
++  // set primary key.
++  if (!db_index_exists($db_table, 'PRIMARY')) {
++
++    db_add_primary_key($db_table, array('nid', 'tid'));
++  }
++}

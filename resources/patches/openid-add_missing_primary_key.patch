@@ -1,0 +1,49 @@
+diff --git a/modules/openid/openid.install b/modules/openid/openid.install
+index e382d869ad..6892c1740a 100644
+--- a/modules/openid/openid.install
++++ b/modules/openid/openid.install
+@@ -61,6 +61,12 @@ function openid_schema() {
+   $schema['openid_nonce'] = array(
+     'description' => 'Stores received openid.response_nonce per OpenID endpoint URL to prevent replay attacks.',
+     'fields' => array(
++      'id' => array(
++        'description' => 'The unique identifier received openid.response_nonce.',
++        'type' => 'serial',
++        'unsigned' => TRUE,
++        'not null' => TRUE,
++      ),
+       'idp_endpoint_uri' => array(
+         'type' => 'varchar',
+         'length' => 255,
+@@ -78,6 +84,7 @@ function openid_schema() {
+         'description' => 'A Unix timestamp indicating when the entry should expire.',
+       ),
+     ),
++    'primary key' => array('id'),
+     'indexes' => array(
+       'nonce' => array('nonce'),
+       'expires' => array('expires'),
+@@ -228,3 +235,23 @@ function openid_update_7000() {
+ /**
+  * @} End of "addtogroup updates-7.x-extra".
+  */
++
++/**
++ * Add a primary key to openid_nonce table.
++ */
++function openid_update_7001() {
++  $db_table = 'openid_nonce';
++
++  if (!db_index_exists($db_table, 'PRIMARY')
++    && !db_field_exists($db_table, 'id')) {
++
++    db_add_field($db_table, 'id',
++      array(
++        'description' => 'Serial primary key.',
++        'type' => 'serial',
++        'unsigned' => TRUE,
++        'not null' => TRUE,
++      ),
++      array('primary key' => array('id')));
++  }
++}

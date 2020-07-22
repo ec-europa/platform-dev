@@ -1952,34 +1952,3 @@ function cce_basic_config_update_7237() {
 function cce_basic_config_update_7238() {
   _cce_basic_config_smartloader();
 }
-
-/**
- * Add missing Primary Keys NEPT-2845.
- */
-function cce_basic_config_update_7239() {
-
-  // Missing PK tables.
-  $db_tables = array(
-    'honeypot_user' => array(
-      'uid',
-      'hostname',
-      'timestamp',
-    ),
-    'taxonomy_index' => array(
-      'nid',
-      'tid',
-      'sticky',
-      'created',
-    ),
-  );
-
-  foreach ($db_tables as $db_table => $table_primary_keys) {
-    $db_table_exists = db_table_exists($db_table);
-    $db_table_has_primary_key = ($db_table_exists && db_index_exists($db_table, 'PRIMARY')) ? TRUE : FALSE;
-
-    if ($db_table_exists && !$db_table_has_primary_key) {
-
-      db_add_primary_key($db_table, $table_primary_keys);
-    }
-  }
-}

@@ -342,6 +342,8 @@ projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/iss
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
+; NEPT-2845 Fix missing Primary Key issues.
+projects[flag][patch][] = patches/flag-add_missing_primary_key.patch
 
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc1"
@@ -389,6 +391,9 @@ projects[geophp][subdir] = "contrib"
 
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.26"
+; NEPT-2845 Fix missing primary key issues.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2845
+projects[honeypot][patch][] = patches/honeypot-add_missing_primary_key.patch
 
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.26"
@@ -458,6 +463,8 @@ projects[media][version] = 2.24
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
 ; NEPT-2718 Error thrown when maxlength module is enabled
 projects[media][patch][] = patches/media-nept-2718-maxlength-title-error.patch
+; NEPT-2845 Fix missing primary key issues.
+projects[media][patch][] = patches/media-add_missing_primary_key.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.5"
@@ -866,6 +873,9 @@ projects[views_data_export][version] = "3.2"
 ; PHP 7 compatibility Issue
 ; https://www.drupal.org/project/views_data_export/issues/3005288
 projects[views_data_export][patch][] = https://www.drupal.org/files/issues/2018-10-09/views_data_export-phpcs_warning-php_tag.patch
+; NEPT-2845 Fix missing primary key issues.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2845
+projects[views_data_export][patch][] = patches/views_data_export-add_missing_primary_key.patch
 
 projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
