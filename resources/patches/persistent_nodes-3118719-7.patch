@@ -1,0 +1,32 @@
+--- scheduler_workbench.module	2020-07-23 17:30:03.000000000 +0000
++++ scheduler_workbench.module	2020-07-23 17:32:53.708339651 +0000
+@@ -432,3 +432,29 @@
+   }
+   return $allowed_status;
+ }
++
++/**
++ * Implements hook_scheduler_nid_list_alter().
++ */
++function scheduler_workbench_scheduler_nid_list_alter(&$nids, $action) {
++  if ($action === 'publish') {
++    $nodes = node_load_multiple($nids);
++
++    foreach ($nodes as $node) {
++      if (!isset($node->workbench_moderation)) {
++        continue;
++      }
++      if ($node->workbench_moderation['current']->state === workbench_moderation_state_published()) {
++        $index = array_search($node->nid, $nids);
++        unset($nids[$index]);
++
++        db_delete('scheduler')
++          ->condition('nid', $node->nid, '=')
++          ->condition('publish_on', 0, '!=')
++          ->execute();
++      }
++    }
++  }
++
++  return $nids;
++}

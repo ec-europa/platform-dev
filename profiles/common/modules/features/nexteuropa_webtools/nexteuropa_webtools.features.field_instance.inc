@@ -21,7 +21,7 @@ function nexteuropa_webtools_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 5,
       ),
     ),
     'entity_type' => 'bean',
@@ -78,6 +78,94 @@ function nexteuropa_webtools_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'bean-webtools-field_custom_css_link'.
+  $field_instances['bean-webtools-field_custom_css_link'] = array(
+    'bundle' => 'webtools',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
+    ),
+    'entity_type' => 'bean',
+    'field_name' => 'field_custom_css_link',
+    'label' => 'External link',
+    'required' => 0,
+    'settings' => array(
+      'absolute_url' => 1,
+      'attributes' => array(
+        'class' => '',
+        'configurable_class' => 0,
+        'configurable_title' => 0,
+        'rel' => '',
+        'target' => 'default',
+        'title' => '',
+      ),
+      'display' => array(
+        'url_cutoff' => 80,
+      ),
+      'enable_tokens' => 1,
+      'entity_translation_sync' => FALSE,
+      'rel_remove' => 'default',
+      'title' => 'none',
+      'title_label_use_field_label' => 0,
+      'title_maxlength' => 128,
+      'title_value' => '',
+      'url' => 0,
+      'user_register_form' => FALSE,
+      'validate_url' => 1,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'link',
+      'settings' => array(),
+      'type' => 'link_field',
+      'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'bean-webtools-field_custom_css_status'.
+  $field_instances['bean-webtools-field_custom_css_status'] = array(
+    'bundle' => 'webtools',
+    'default_value' => array(
+      0 => array(
+        'value' => 1,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
+    ),
+    'entity_type' => 'bean',
+    'field_name' => 'field_custom_css_status',
+    'label' => 'Included',
+    'required' => 0,
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 6,
+    ),
+  );
+
   // Exported field_instance: 'bean-webtools-field_custom_js_link'.
   $field_instances['bean-webtools-field_custom_js_link'] = array(
     'bundle' => 'webtools',
@@ -89,7 +177,7 @@ function nexteuropa_webtools_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 6,
       ),
     ),
     'entity_type' => 'bean',
@@ -144,7 +232,7 @@ function nexteuropa_webtools_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 7,
       ),
     ),
     'entity_type' => 'bean',
@@ -171,7 +259,7 @@ function nexteuropa_webtools_field_default_field_instances() {
     'bundle' => 'webtools',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => l(t('See Webtools documentation'), 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Webtools+feature', array('external' => TRUE, 'attributes' => array('target' => '_blank'))),
+    'description' => '<a href="https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Webtools+feature" target="_blank">See Webtools documentation</a>',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -234,6 +322,7 @@ function nexteuropa_webtools_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('<a href="https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Webtools+feature" target="_blank">See Webtools documentation</a>');
   t('External link');
   t('File');
   t('Included');
