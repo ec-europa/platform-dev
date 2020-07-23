@@ -398,6 +398,9 @@ projects[i18n][version] = "1.26"
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
+; Patch for SA-CONTRIB-2020-025
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2850
+projects[i18n][patch][] = https://git.drupalcode.org/project/i18n/-/commit/707a74104683caddf3c0c0960db60a4d30369ad1.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
@@ -682,10 +685,11 @@ projects[scheduler_workbench][download][revision] = "46e8db33e54a0d873ff60956d4d
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2504
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
 ; https://www.drupal.org/project/scheduler_workbench/issues/2048999
-https://www.drupal.org/files/issues/2020-01-30/scheduler_workbench-revision_publish-2048999-69.patch
+projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2020-01-30/scheduler_workbench-revision_publish-2048999-69.patch
 ; NEPT-2787: Remove already published nodes from scheduler list
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2787
-projects[scheduler_workbench][patch][] = https://www.drupal.org/files/issues/2020-04-29/persistent_nodes-3118719-6.patch
+; We need a local patch for d.o/3118719 as the above already modidifies the files
+projects[scheduler_workbench][patch][] = patches/persistent_nodes-3118719-7.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.24

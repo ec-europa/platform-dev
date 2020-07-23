@@ -1571,12 +1571,6 @@ function multisite_drupal_toolbox_taxonomy_term_delete($term_obj) {
       'error_message' => t('Found some error here.'),
     );
     batch_set($batch);
-    // Only trigger the processing of the batch when none is running.
-    $current_batch =& batch_get();
-    // A batch with an id is currently being executed.
-    if (empty($current_batch['id'])) {
-      batch_process();
-    }
   }
 }
 
