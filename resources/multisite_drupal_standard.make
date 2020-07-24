@@ -398,9 +398,6 @@ projects[i18n][version] = "1.27"
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
-; Patch for SA-CONTRIB-2020-025
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2850
-projects[i18n][patch][] = https://git.drupalcode.org/project/i18n/-/commit/707a74104683caddf3c0c0960db60a4d30369ad1.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
