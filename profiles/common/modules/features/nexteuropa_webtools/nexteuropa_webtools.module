@@ -35,8 +35,8 @@ function nexteuropa_webtools_permission() {
       'restrict access' => TRUE,
     ),
     'upload webtools custom js' => array(
-      'title' => t('Upload webtools custom js'),
-      'description' => t('Allows users to upload a custom js in webtools bean.'),
+      'title' => t('Add js or css url to webtools'),
+      'description' => t('Allows users to add an url to custom js and/or css in webtools bean.'),
       'restrict access' => TRUE,
     ),
   );
@@ -58,14 +58,14 @@ function nexteuropa_webtools_form_bean_form_alter(&$form, &$form_state) {
       return;
     }
   }
-
   $access = user_access('upload webtools custom js');
   // Following fields are only visible when above mentioned permission is
   // granted to the user using the bean form.
   // This because we don't want the field values to be changed when resubmitting
   // the form with a role not granted with above mentoined permission.
-  $form['field_custom_js_file']['#access'] = $access;
   $form['field_custom_js_link']['#access'] = $access;
+  $form['field_custom_css_link']['#access'] = $access;
+  $form['field_custom_js_file']['#access'] = $access;
   // No need to add a custom submit handler, the handling of the fields and json
   // object will be done in hook_bean_submit().
 }
@@ -129,6 +129,7 @@ function nexteuropa_webtools_file_insert($file) {
  * @see bean_form_submit_build_bean()
  */
 function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
+  global $user;
   // At this point, the values in form_state were copied to the bean. So we can
   // use both the values or the bean fields itself to change the json_object.
   // The values from the form_state will be copied to the bean again after this
@@ -157,41 +158,58 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
     // early. DO NOT FORGET TO ENCODE!
     drupal_array_set_nested_value($values, $json_object_parents, drupal_json_encode($json_object));
   }
-
-  $field_custom_js_status = field_get_items('bean', $bean, 'field_custom_js_status');
   // Do not set the "custom" attribute when this has been turned off.
-  if (empty($field_custom_js_status) || $field_custom_js_status[0]['value'] === 0) {
-    return;
-  }
-
-  $url = '';
-  // Set the "custom" attribute when either field values are provided.
-  // We prefer the uploaded file above the external link field.
-  $field_custom_js_file = field_get_items('bean', $bean, 'field_custom_js_file');
-  if (!empty($field_custom_js_file)) {
-    $js_file = file_load($field_custom_js_file[0]['fid']);
-    // Get url from the file to insert into the json object.
-    if ($js_file !== FALSE) {
-      $url = file_create_url($js_file->uri);
+  $add_custom = [
+    'js' => [
+      'enable' => field_get_items('bean', $bean, 'field_custom_js_status'),
+      'file' => field_get_items('bean', $bean, 'field_custom_js_file'),
+      'url' => field_get_items('bean', $bean, 'field_custom_js_link'),
+    ],
+    'css' => [
+      'enable' => field_get_items('bean', $bean, 'field_custom_css_status'),
+      'url' => field_get_items('bean', $bean, 'field_custom_css_link'),
+    ],
+  ];
+  foreach ($add_custom as $value) {
+    if (isset($value['enable'][0]['value']) && 1 == $value['enable'][0]['value']) {
+      // Add file if it is set.
+      $file = FALSE;
+      $file_url = '';
+      if (isset($value['file'][0]['fid']) && $value['file'][0]['fid'] > 0) {
+        $file = file_load($value['file'][0]['fid']);
+        // Get url from the file to insert into the json object.
+        if ($file !== FALSE) {
+          $file_url = file_create_url($file->uri);
+        }
+      }
+      // When no file was uploaded, get the value from field_custom_js_external.
+      if (FALSE === $file && isset($value['url'][0]['url'])) {
+        $file_url = $value['url'][0]['url'];
+      }
+      if (isset($file_url) && $file_url != '') {
+        // Add the absolute url as "custom" attribute.
+        // Do some magic to get the absolute url without protocol.
+        $json_object['custom'][] = '//' . file_uri_target($file_url);
+      }
     }
   }
-
-  // When no file was uploaded, get the value from field_custom_js_external.
-  if (empty($url)) {
-    $field_custom_js_link = field_get_items('bean', $bean, 'field_custom_js_link');
-    if (!empty($field_custom_js_link)) {
-      $url = $field_custom_js_link[0]['url'];
-    }
+  // Save log when we save css and/or js externla links.
+  if (isset($json_object['custom']) && count($json_object['custom']) > 0) {
+    _nexteuropa_webtools_save_logs($user->uid);
   }
+  // Add the JSON_UNESCAPED_SLASHES option to json_encode because we need the
+  // full url in the json_object.
+  // @codingStandardsIgnoreLine: Can't use drupal_json_encode because we need our own parameters.
+  drupal_array_set_nested_value($values, $json_object_parents, json_encode($json_object, JSON_UNESCAPED_SLASHES));
+}
 
-  // Add the absolute url as "custom" attribute.
-  if (!empty($url)) {
-    // Do some magic to get the absolute url without protocol.
-    $url = '//' . file_uri_target($url);
-    $json_object['custom'] = $url;
-    // Add the JSON_UNESCAPED_SLASHES option to json_encode because we need the
-    // full url in the json_object.
-    // @codingStandardsIgnoreLine: Can't use drupal_json_encode because we need our own parameters.
-    drupal_array_set_nested_value($values, $json_object_parents, json_encode($json_object, JSON_UNESCAPED_SLASHES));
-  }
+/**
+ * Save logs when updating webtools external reference.
+ *
+ * @param int $uid
+ *   User uid.
+ */
+function _nexteuropa_webtools_save_logs($uid) {
+  $message = "A new webtools widget external reference field was updated by %uid";
+  watchdog('nexteuropa_webbools', $message, array('%uid' => $uid), WATCHDOG_NOTICE);
 }
