@@ -119,6 +119,9 @@ which points here:
 
 and edits 'DGT Connector'.
 
+Only UUID 1 can delete the translator, should you need to perform this
+operation on playground or production, please send a request to CEM.
+
 ### TRANSLATOR SETTINGS
 - *Auto accept finished translations*: Check this if the site owner wants to
 review a translation before publishing it.
@@ -173,7 +176,7 @@ If you are working in collaboration with a contractor and he needs to test
 the DGT-Connector UI and the workflow locally, this can be done without the
 need to access the webservice by using the tmgmt_poetry_mock module.
 
- Contractors : see [the mock readme](tmgmt_poetry_mock/README.md) for more
+ Contractors : see [the mock readme](tmgmt_poetry/tmgmt_poetry_mock/README.md) for more
  information on testing with the mock.
 
 ## Testing in-house (for webmasters)
@@ -235,6 +238,9 @@ date from the calendar that will pop up. This is an indicative date for DGT.
 [Go to top](#table-of-contents)
 
 # Interesting information regarding the DGT connector
+## TMGMT DGT CONNECTOR module
+The readme file of [NextEuropa DGT Connector](https://github.com/ec-europa/platform-dev/tree/release-2.5/profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_connector/README.md)
+ module provides useful information on scope and usage of the functionalities.
 ## DGT Web app: Checking the translation was received
 Once a translation has been requested to DGT, the status is updated on the
 Drupal site. In addition it is also possible for EC staff to view translation

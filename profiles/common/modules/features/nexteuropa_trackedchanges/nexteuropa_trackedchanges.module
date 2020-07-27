@@ -776,8 +776,21 @@ function nexteuropa_trackedchanges_cron_queue_info() {
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function nexteuropa_trackedchanges_form_node_form_alter(&$form, &$form_state, $form_id) {
-  $form['#attached']['js'][] = array(
-    'data' => drupal_get_path('module', 'nexteuropa_trackedchanges') . '/js/nexteuropa_trackedchanges_ckeditor.js',
-    'type' => 'file',
-  );
+  $wysiwyg_profiles = _nexteuropa_trackedchanges_get_profiles();
+  $tracking_profiles = array();
+
+  if (!empty($wysiwyg_profiles['info'])) {
+    foreach ($wysiwyg_profiles['info'] as $name => $profile) {
+      if ($profile['cke_lite_status'] === TRUE) {
+        $tracking_profiles[] = $name;
+      }
+    }
+
+    drupal_add_js(array('tracking_profiles' => $tracking_profiles), 'setting');
+
+    $form['#attached']['js'][] = array(
+      'data' => drupal_get_path('module', 'nexteuropa_trackedchanges') . '/js/nexteuropa_trackedchanges_ckeditor.js',
+      'type' => 'file',
+    );
+  }
 }
