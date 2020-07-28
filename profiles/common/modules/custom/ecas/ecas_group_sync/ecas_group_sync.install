@@ -71,16 +71,16 @@ function ecas_group_sync_disable() {
 function ecas_group_sync_update_7001() {
   $db_table = 'ecas_sync_mapping';
 
-  if (!db_index_exists($db_table, 'PRIMARY')
-    && !db_field_exists($db_table, 'id')) {
-
-    db_add_field($db_table, 'id',
-      array(
-        'description' => 'Primary Key: Unique sync mapping ID.',
-        'type' => 'serial',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ),
-      array('primary key' => array('id')));
+  if (db_index_exists($db_table, 'PRIMARY')) {
+    db_drop_primary_key($db_table);
   }
+
+  db_add_field($db_table, 'id',
+    array(
+      'description' => 'Primary Key: Unique sync mapping ID.',
+      'type' => 'serial',
+      'unsigned' => TRUE,
+      'not null' => TRUE,
+    ),
+    array('primary key' => array('id')));
 }

@@ -1,0 +1,28 @@
+--- a/modules/forum/forum.install	2020-07-31 14:36:39.648648734 +0000
++++ b/modules/forum/forum.install	2020-07-31 14:39:13.345001250 +0000
+@@ -222,6 +222,7 @@
+       'created' => array('created'),
+       'last_comment_timestamp' => array('last_comment_timestamp'),
+     ),
++    'primary key' => array('nid', 'tid'),
+     'foreign keys' => array(
+       'tracked_node' => array(
+         'table' => 'node',
+@@ -466,3 +467,16 @@
+  * @} End of "addtogroup updates-7.x-extra".
+  */
+  
+\ No newline at end of file
++/**
++ * Add missing primary key.
++ */
++function forum_update_7013() {
++  $db_table = 'forum_index';
++
++  // If it was already done manually,
++  // remove primary key.
++  if (db_index_exists($db_table, 'PRIMARY')) {
++    db_drop_primary_key($db_table);
++  }
++  db_add_primary_key($db_table, array('nid', 'tid'));
++}
