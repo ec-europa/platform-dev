@@ -78,9 +78,17 @@ function ecas_group_sync_update_7001() {
   db_add_field($db_table, 'id',
     array(
       'description' => 'Primary Key: Unique sync mapping ID.',
-      'type' => 'serial',
-      'unsigned' => TRUE,
+      'type' => 'int',
       'not null' => TRUE,
+    ));
+  // https://api.drupal.org/api/drupal/includes%21database%21database.inc/function/db_change_field/7.x
+  db_change_field($db_table, 'id', 'id', array(
+    'type' => 'serial',
+    'not null' => TRUE,
+  ),
+  array(
+    'primary key' => array(
+      'id',
     ),
-    array('primary key' => array('id')));
+  ));
 }
