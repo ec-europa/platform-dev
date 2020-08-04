@@ -101,4 +101,4 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/2020-06-18/drupa
 
 ; Add missing primary key to forum.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2845
-;projects[drupal][patch][] = https://www.drupal.org/files/issues/2020-08-03/forum-duplicate_forum_nodes-1466458-35.patch
+projects[drupal][patch][] = https://www.drupal.org/files/issues/2020-08-03/forum-duplicate_forum_nodes-1466458-35%20.patch
