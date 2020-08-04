@@ -23,15 +23,6 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
     '#required' => TRUE,
     '#description' => t('The user account number is unique to the websites domain. Click the <strong>Settings</strong> link in your Piwik account, then the <strong>Websites</strong> tab and enter the appropriate site <strong>ID</strong> into this field.'),
   );
-  $form['account']['nexteuropa_piwik_smartloader_prurl'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Smarloader Protocol-Relative URL'),
-    '#default_value' => variable_get('nexteuropa_piwik_smartloader_prurl', '//europa.eu/webtools/load.js'),
-    '#size' => 80,
-    '#maxlength' => 255,
-    '#required' => TRUE,
-    '#description' => t("The URL of the default webtools smartloader is '//europa.eu/webtools/load.js'"),
-  );
 
   $instance_options = array(
     "europa.eu" => t("europa.eu"),

@@ -36,17 +36,6 @@ To activate the feature, an administrator user needs to:
 
 # Configuration
 
-## Configure the Smartloader
-
-The only thing that needs to be configured is the url where the Smartloader is defined.
-This can be done as an administrative user on "/admin/config/services/webtools".
-Most sites can use the europa.eu smartloader (//europa.eu/webtools/load.js),
-but this can be configured to use another one if needed.
-
-Or set the variable "nexteuropa_webtools_smartloader_prurl"
-
-[Go to top](#table-of-contents)
-
 ## Set up permissions
 
 To allow users to change the "custom" parameter in the JSON Object field,

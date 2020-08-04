@@ -51,7 +51,7 @@ Feature: Content translation
     And I should not see the text "Deutsch Body not for English version."
     But I should see the text "English title"
 
-  @javascript @maximizedwindow
+  @javascript
   Scenario: Make sure that I can add "title_field" fields to a view when the Estonian language is enabled.
     Given the following languages are available:
       | languages |

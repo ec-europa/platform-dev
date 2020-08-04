@@ -154,10 +154,6 @@
         <composer command="install" composer="${composer.bin}">
             <arg value="--working-dir=${platform.build.dir}" />
         </composer>
-        <patch
-          patchfile="${platform.resources.dir}/patches/ecas_renew.patch"  haltonfailure='true'
-          originalfile="${platform.build.dir}/vendor/jasig/phpcas/source/CAS/Client.php"
-        />
     </target>
 
     <!-- Link site document root to Webserver document root. -->

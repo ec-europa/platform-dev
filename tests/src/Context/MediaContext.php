@@ -108,4 +108,20 @@ class MediaContext implements Context {
     }
   }
 
+  /**
+   * Look for an iframe by xpath.
+   *
+   * @param string $arg1
+   *   Provider being tested.
+   *
+   * @Then I should see the :arg1 video iframe
+   */
+  public function iSeeTheVideoIframe($arg1) {
+    $provider = strtolower(str_replace(' ', '', $arg1));
+    $iframe = $this->mink->getSession()->getPage()->findAll('css', 'div.file-video-' . $provider);
+    if (empty($iframe)) {
+      throw new \Exception(sprintf('No video iframe found'));
+    }
+  }
+
 }

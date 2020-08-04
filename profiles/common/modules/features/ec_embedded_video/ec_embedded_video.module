@@ -109,6 +109,12 @@ function ec_embedded_video_preprocess_common_file_video(&$variables) {
  */
 function ec_embedded_video_csp_list_alter(&$domains) {
   // Allow youtube, dailymotion and vimeo domains. AV Portal is default.
-  $extra_domains = array('*.youtube.com', '*.vimeo.com', '*.dailymotion.com');
+  $extra_domains = array(
+    'youtube.com',
+    '*.youtube-nocookie.com',
+    '*.youtube.com',
+    '*.vimeo.com',
+    '*.dailymotion.com',
+  );
   $domains = array_merge($extra_domains, $domains);
 }

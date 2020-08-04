@@ -6,6 +6,7 @@ dependencies[] = cce_basic_config
 dependencies[] = diff
 dependencies[] = multisite_block_carousel
 dependencies[] = multisite_drupal_toolbox
+dependencies[] = video
 features[ctools][] = field_group:field_group:1
 features[ctools][] = file_entity:file_default_displays:1
 features[ctools][] = strongarm:strongarm:1

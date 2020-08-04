@@ -1,9 +1,0 @@
-<?php
-
-/**
- * @file
- * Idea standard Module File.
- */
-
-include_once 'idea_standard.features.inc';
-include_once 'idea_standard.views_alter.inc';

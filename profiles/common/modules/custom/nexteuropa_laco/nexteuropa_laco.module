@@ -143,7 +143,7 @@ function _nexteuropa_laco_add_load_js_to_page() {
   }
 
   // Loading variables.
-  $smartloader_prurl = variable_get('nexteuropa_laco_smartloader_prurl', '//europa.eu/webtools/load.js');
+  $smartloader_prurl = variable_get('nexteuropa_smartloader_prurl', '//europa.eu/webtools/load.js?globan=1110');
 
   // Add smart loader.
   // Ensure to use a PR URL (compatibility for http/https).

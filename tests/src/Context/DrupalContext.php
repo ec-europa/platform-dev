@@ -6,7 +6,7 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Drupal\DrupalExtension\Context\DrupalContext as DrupalExtensionDrupalContext;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\Element;
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\hasKey;
 
 /**
@@ -66,9 +66,9 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   public function setLanguageProperty($code, $property, $value) {
     $languages = language_list();
 
-    assert($languages, hasKey($code), "Language {$code} is not enabled.");
+    assertThat($languages, hasKey($code), "Language {$code} is not enabled.");
     $language = (array) $languages[$code];
-    assert($language, hasKey($property), "Language property {$property} does not exists.");
+    assertThat($language, hasKey($property), "Language property {$property} does not exists.");
     $this->modifiedLanguages[$code] = $language;
 
     $language[$property] = $value;
@@ -433,6 +433,21 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   public function getLastNode() {
     $this->rememberCurrentLastNode();
     return $this->maxNodeId;
+  }
+
+  /**
+   * Add role to a user.
+   *
+   * @Given Role :arg1 has permission :arg2
+   */
+  public function roleHasPermission($arg1, $arg2) {
+    $rid = user_role_load_by_name($arg1);
+    if (isset($rid->rid) && $rid->rid > 0) {
+      user_role_grant_permissions($rid->rid, [$arg2]);
+    }
+    else {
+      throw new \Exception(sprintf('There is no role: "%s"', $arg1));
+    }
   }
 
 }

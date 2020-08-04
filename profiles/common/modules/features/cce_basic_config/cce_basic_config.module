@@ -27,20 +27,6 @@ function cce_basic_config_menu_alter(&$items) {
  * Implements hook_form_system_site_information_settings_alter().
  */
 function cce_basic_config_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
-  // Get Taxonomy classification vid.
-  $vid_classification = db_select('taxonomy_vocabulary', 't')
-    ->fields('t')
-    ->condition('machine_name', 'classification', '=')
-    ->execute()
-    ->fetchAll();
-
-  // Get Taxonomy tree.
-  $classification = taxonomy_get_tree($vid_classification[0]->vid);
-
-  $list = array();
-  foreach ($classification as $obj_term) {
-    $list[$obj_term->name] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
-  }
 
   // Create fieldset 'META Data'.
   $form['meta'] = array(
@@ -55,30 +41,18 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
     '#title' => t('Display the global banner'),
     '#default_value' => variable_get('webtoolds_globan', 1),
   );
-  // Create select field.
-  $form['meta']['classification'] = array(
-    '#type' => 'select',
-    '#title' => t('IPG Classification'),
-    '#options' => $list,
-    '#required' => TRUE,
-    '#empty_option' => 'none',
-    '#default_value' => variable_get('meta_configuration', 'none'),
-    '#description' => t('Choose the classification for your website. This classification respects the !url', array('!url' => l(t('IPG guidelines'), "http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm"))),
-  );
+  // NEPT-2823.
+  // After updating system info, update smartloader.
+  $form['#submit'][] = 'cce_basic_config_site_information_submit';
+}
 
-  // @codingStandardsIgnoreStart: NEPT-1304: $form_state['values'] is not populated at this stage.
-  // Get the 'code' and set meta_configuration variable.
-  if (isset($form_state['input']['op']) && $form_state['input']['op'] == 'Save configuration') {
-    if (isset($form_state['input']['classification'])) {
-      $pattern = '@(^[0-9]+).*@';
-      $subject = $form_state['input']['classification'];
-      preg_match($pattern, $subject, $matches);
-      if (isset($matches[1])) {
-        variable_set('meta_configuration', $matches[1]);
-      }
-    }
-  }
-  // @codingStandardsIgnoreEnd
+/**
+ * Update var nexteuropa_smartloader_prurl.
+ *
+ * NEPT-2823.
+ */
+function cce_basic_config_site_information_submit($form, &$form_state) {
+  _cce_basic_config_smartloader();
 }
 
 /**
@@ -183,6 +157,20 @@ function cce_basic_config_form_alter(&$form, &$form_state, $form_id) {
   }
 
   return $form;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Restrict access to user_administrator profile form.
+ */
+function cce_basic_config_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  $account = user_load_by_name('user_administrator');
+
+  if (!empty($account) && $account->uid == $form['#user']->uid && $user->uid != 1) {
+    drupal_goto('admin/people', [], 307);
+  }
 }
 
 /**
@@ -490,25 +478,75 @@ function cce_basic_config_field_widget_entityreference_autocomplete_tags_form_al
  */
 function cce_basic_config_js_alter(&$javascript) {
   // If checkbox is unchecked, don't modify the values of the load.js.
-  $show_banner = variable_get('webtoolds_globan', 1);
-  if (!$show_banner) {
+  if (!variable_get('webtoolds_globan', TRUE)) {
     return;
   }
-  // Otherwise, override the values.
-  variable_set('nexteuropa_laco_smartloader_prurl', '//europa.eu/webtools/load.js?globan=1110');
-  variable_set('nexteuropa_piwik_smartloader_prurl', '//europa.eu/webtools/load.js?globan=1110');
-  variable_set('nexteuropa_webtools_smartloader_prurl', '//europa.eu/webtools/load.js?globan=1110');
-  // If that made the trick, just stop here.
+
+  // If already set, stop here.
   if (isset($javascript['//europa.eu/webtools/load.js?globan=1110'])) {
     return;
   }
   // If the load has not been added yet, add it.
-  $smartloader_prurl = variable_get('nexteuropa_laco_smartloader_prurl');
+  $smartloader_prurl = variable_get('nexteuropa_smartloader_prurl');
   drupal_add_js($smartloader_prurl, array(
     'type' => 'external',
     'scope' => 'header',
     'defer' => TRUE,
     'weight' => 5,
   ));
+}
 
+/**
+ * Implements hook_query_alter().
+ *
+ * Restrict access to user_administrator.
+ */
+function cce_basic_config_query_alter(QueryAlterableInterface $query) {
+  global $user;
+
+  if ($user->uid == 1 || !function_exists('current_path')) {
+    return;
+  }
+
+  $path = current_path();
+
+  if ($path !== 'admin/people') {
+    return;
+  }
+
+  $tables = &$query->getTables();
+
+  if (isset($tables['u']) && isset($tables['u']['table']) && $tables['u']['table'] == 'users') {
+    $account = user_load_by_name('user_administrator');
+
+    if (!empty($account)) {
+      $query->condition('u.uid', $account->uid, '<>');
+    }
+  }
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function cce_basic_config_views_query_alter(&$view, &$query) {
+  if ($view->base_table == 'users') {
+    $account = user_load_by_name('user_administrator');
+
+    if (!empty($account)) {
+      $query->add_where('users', 'users.uid', $account->uid, '<>');
+    }
+  }
+}
+
+/**
+ * Configure webtools smartloader.
+ *
+ * NEPT-2823.
+ */
+function _cce_basic_config_smartloader() {
+  $nexteuropa_smartloader_prurl = '//europa.eu/webtools/load.js';
+  if (variable_get('webtoolds_globan', 1) == 1) {
+    $nexteuropa_smartloader_prurl .= '?globan=1110';
+  }
+  variable_set('nexteuropa_smartloader_prurl', $nexteuropa_smartloader_prurl);
 }

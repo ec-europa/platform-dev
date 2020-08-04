@@ -5,7 +5,7 @@ namespace Drupal\nexteuropa\Context;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
-use function bovigo\assert\assert;
+use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isNotEmpty;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
@@ -77,7 +77,7 @@ class DrupalMailContext extends RawDrupalContext {
    */
   public function assertInternalMailHandlerReceivedTheMail() {
     $captured_mail = $this->getCapturedMail();
-    assert($captured_mail, isNotEmpty());
+    assertThat($captured_mail, isNotEmpty());
     $this->capturedMail = $captured_mail;
   }
 
@@ -90,7 +90,7 @@ class DrupalMailContext extends RawDrupalContext {
     $this->assertCapturedMail();
     $expected_properties = $table->getRowsHash();
     foreach ($expected_properties as $key => $value) {
-      assert($this->capturedMail[$key], equals($value), "Value of '{$key}' is not equal.");
+      assertThat($this->capturedMail[$key], equals($value), "Value of '{$key}' is not equal.");
     }
   }
 
