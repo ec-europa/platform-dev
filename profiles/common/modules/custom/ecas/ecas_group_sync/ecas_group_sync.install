@@ -11,6 +11,11 @@
 function ecas_group_sync_schema() {
   $schema['ecas_sync_mapping'] = array(
     'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique sync mapping ID.',
+      ),
       'LDAPfield' => array(
         'type' => 'varchar',
         'length' => '50',
@@ -36,6 +41,7 @@ function ecas_group_sync_schema() {
         'default' => '0',
       ),
     ),
+    'primary key' => array('id'),
     'indexes' => array(
       'LDAPfield_index' => array('LDAPfield'),
     ),
@@ -57,4 +63,32 @@ function ecas_group_sync_enable() {
  */
 function ecas_group_sync_disable() {
   drupal_set_message(t('ecas_group_sync module disabled'));
+}
+
+/**
+ * Add a primary key to ecas_sync_mapping table.
+ */
+function ecas_group_sync_update_7001() {
+  $db_table = 'ecas_sync_mapping';
+
+  if (db_index_exists($db_table, 'PRIMARY')) {
+    db_drop_primary_key($db_table);
+  }
+
+  db_add_field($db_table, 'id',
+    array(
+      'description' => 'Primary Key: Unique sync mapping ID.',
+      'type' => 'int',
+      'not null' => TRUE,
+    ));
+  // https://api.drupal.org/api/drupal/includes%21database%21database.inc/function/db_change_field/7.x
+  db_change_field($db_table, 'id', 'id', array(
+    'type' => 'serial',
+    'not null' => TRUE,
+  ),
+  array(
+    'primary key' => array(
+      'id',
+    ),
+  ));
 }
