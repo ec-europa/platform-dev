@@ -93,3 +93,12 @@ projects[drupal][patch][] = https://www.drupal.org/files/locale.module-array_uns
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2201
 ; https://www.drupal.org/project/drupal/issues/421586
 projects[drupal][patch][] = https://www.drupal.org/files/issues/2019-08-19/node-post-setting-with-test-421586-31.patch
+
+; Add missing primary key to taxonomy_index and fix duplicate.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2845
+; See https://www.drupal.org/project/drupal/issues/610076
+projects[drupal][patch][] = https://www.drupal.org/files/issues/2020-06-18/drupal-n610076-86.patch
+
+; Add missing primary key to forum.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2845
+projects[drupal][patch][] = https://www.drupal.org/files/issues/2020-08-03/forum-duplicate_forum_nodes-1466458-35%20.patch
