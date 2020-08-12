@@ -91,6 +91,11 @@ define('ECAS_WARNING_MESSAGE_INCOMPLETE_USER', 'ecas_incomplete_user_message');
 define('ECAS_WARNING_MESSAGE_SOCIAL', 'social_role_not_allowed_message');
 
 /**
+  * Name of the ecas tfa required variable message variable.
+  */
+define('ECAS_WARNING_MESSAGE_TFA_REQUIRED', 'ecas_tfa_required');
+
+/**
   * Ids for the different reasons causing a ECAS login failures.
   */
 define('ECAS_WARNING_REASON_SOCIAL', 'social_role_not_allowed');
@@ -100,3 +105,4 @@ define('ECAS_WARNING_REASON_NOT_CREATED', 'not_created');
 define('ECAS_WARNING_REASON_BLOCKED', 'account_blocked');
 define('ECAS_WARNING_REASON_INCOMPLETE_USER', 'ecas_incomplete_user');
 define('ECAS_WARNING_REASON_UNKNOWN', 'unknown');
+define('ECAS_WARNING_TFA_REQUIRED', 'tfa_required');

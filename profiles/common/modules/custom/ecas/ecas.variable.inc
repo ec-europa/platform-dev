@@ -79,6 +79,15 @@ function ecas_variable_info($options) {
     'localize' => TRUE,
   );
 
+  $variables[ECAS_WARNING_MESSAGE_TFA_REQUIRED] = array(
+    'type' => 'text_format',
+    'title' => t('Error message text in case of TFA is required but not used.', array(), $options),
+    'default' => _ecas_get_default_warning_message(ECAS_WARNING_MESSAGE_TFA_REQUIRED),
+    'description' => t('Text supplying information about the error caused by a one factor authentication from EU Login when the account requires a two factors authentication.'),
+    'group' => 'ecas',
+    'localize' => TRUE,
+  );
+
   return $variables;
 }
 
