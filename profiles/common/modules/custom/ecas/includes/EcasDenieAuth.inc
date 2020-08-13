@@ -120,7 +120,7 @@ class EcasDenieAuth {
    */
   private function userRolesAreWhitelisted() {
     $userRoles = $this->extend['user_roles'];
-    $whitelistedRoles = variable_get('ecas_whitelisted_user_roles', array('authenticated user'));
+    $whitelistedRoles = variable_get('ecas_whitelisted_user_roles', array());
     $userIsWhitelisted = empty(array_diff($userRoles, $whitelistedRoles));
 
     return $userIsWhitelisted;
