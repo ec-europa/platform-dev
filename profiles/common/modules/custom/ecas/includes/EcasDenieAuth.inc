@@ -93,9 +93,8 @@ class EcasDenieAuth {
     switch ($this->status) {
 
       case 'authentication_strength':
-        $restrictAuth = variable_get('ecas_restrict_auth_strength', TRUE);
 
-        $denieAuth = (!$restrictAuth || $this->userRolesAreWhitelisted()) ? FALSE : !$this->loginStrengthIsCompliant();
+        $denieAuth = ($this->userRolesAreWhitelisted()) ? FALSE : !$this->loginStrengthIsCompliant();
 
         break;
 
