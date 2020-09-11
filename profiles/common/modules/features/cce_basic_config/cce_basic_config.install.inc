@@ -1068,3 +1068,13 @@ function _cce_basic_config_video_tags_field_add() {
     field_create_instance($field_video_tags_instance);
   }
 }
+
+/**
+ * Implements hook_update_dependencies().
+ */
+function cce_basic_config_update_dependencies() {
+  $dependencies['cce_basic_config'][7235] = array(
+    'password_policy' => 7208,
+  );
+  return $dependencies;
+}
