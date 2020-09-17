@@ -9,6 +9,7 @@ Feature: NextEuropa cookie content kit
       | modules                       |
       | nexteuropa_cookie_consent_kit |
     And I change the variable "nexteuropa_cookie_consent_kit_display_cookie_banner" to "1"
+    And I change the variable "nexteuropa_cookie_consent_kit_policy_url" to "https://ec.europa.eu/info/cookies_en"
     When I am logged in as a user with the "anonymous user" role
     And I am on the homepage
     And I wait for AJAX to finish
