@@ -91,7 +91,7 @@ function nexteuropa_cookie_consent_kit_page_alter(&$page) {
     }
 
     $page['content']['nexteuropa_cookie_consent_kit'] = array(
-      '#markup' => '<script type="application/json">' . drupal_json_encode($parameters) . '</script>',
+      '#markup' => '<script type="application/json">' . strip_tags(drupal_json_encode($parameters)) . '</script>',
     );
   }
 }
