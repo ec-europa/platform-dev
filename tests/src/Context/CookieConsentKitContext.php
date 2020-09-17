@@ -36,8 +36,7 @@ class CookieConsentKitContext extends RawMinkContext {
   }
 
   /**
-   * Configures the cookie consent kit feature of the
-   * nexteuropa_cookie_consent_kit module.
+   * Configures the cckt feature of the nexteuropa_cookie_consent_kit module.
    *
    * @Given the cookie consent kit feature has been configured correctly
    */
