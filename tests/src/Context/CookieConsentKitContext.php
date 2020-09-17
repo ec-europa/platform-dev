@@ -7,7 +7,7 @@ use Behat\MinkExtension\Context\RawMinkContext;
 use PHPUnit\Framework\Assert;
 
 /**
- * Context for steps and assertions related to nexteuropa_cookie_consent_kit module.
+ * Context for steps and assertions for nexteuropa_cookie_consent_kit module.
  */
 class CookieConsentKitContext extends RawMinkContext {
 
@@ -36,7 +36,8 @@ class CookieConsentKitContext extends RawMinkContext {
   }
 
   /**
-   * Configures the cookie consent kit feature of the nexteuropa_cookie_consent_kit module.
+   * Configures the cookie consent kit feature of the
+   * nexteuropa_cookie_consent_kit module.
    *
    * @Given the cookie consent kit feature has been configured correctly
    */
@@ -45,7 +46,7 @@ class CookieConsentKitContext extends RawMinkContext {
     $this->variableContext->setVariable('nexteuropa_cookie_consent_kit_display_cookie_banner', 1);
   }
 
- /**
+  /**
    * Checks that one cookie consent kit is available on the current page.
    *
    * @Then /^I should have one cookie consent popup on the page$/
@@ -65,4 +66,5 @@ class CookieConsentKitContext extends RawMinkContext {
     }
     Assert::assertCount(1, $cck);
   }
+
 }
