@@ -49,8 +49,6 @@ function nexteuropa_cookie_consent_kit_permission() {
  */
 function nexteuropa_cookie_consent_kit_page_alter(&$page) {
   if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_banner', 0)) {
-    // Checks if the Cookie banner JS file must be included in the requested
-    // page.
     if (_nexteuropa_cookie_consent_kit_is_no_banner_path()) {
       return;
     }
