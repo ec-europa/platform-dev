@@ -43,7 +43,7 @@ function nexteuropa_cookie_consent_kit_permission() {
 }
 
 /**
- * Implements hook__page_alter().
+ * Implements hook_page_alter().
  *
  * This adds the webtools CCK js to the head of normal page.
  */
