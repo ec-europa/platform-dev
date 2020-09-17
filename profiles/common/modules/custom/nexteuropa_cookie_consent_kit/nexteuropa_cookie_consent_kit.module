@@ -57,11 +57,11 @@ function nexteuropa_cookie_consent_kit_page_alter(&$page) {
 
     // Loading variables.
     $smartloader_prurl = variable_get('nexteuropa_smartloader_prurl', '//europa.eu/webtools/load.js');
-  
+
     // Add smart loader.
     // Ensure to use a PR URL (compatibility for http/https).
     $smartloader_prurl = preg_replace("#^https?:#", "", $smartloader_prurl);
-  
+
     drupal_add_js($smartloader_prurl, array(
       'type' => 'external',
       'scope' => 'header',
