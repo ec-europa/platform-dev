@@ -41,7 +41,7 @@ class CookieConsentKitContext extends RawMinkContext {
    * @Given the cookie consent kit feature has been configured correctly
    */
   public function aValidCookieConsentKitHasBeenConfigured() {
-    $this->variableContext->setVariable('nexteuropa_smartloader_prurl', 'https://europa.eu/webtools/load.js');
+    $this->variableContext->setVariable('cce_basic_config_webtools_smartloader', 'https://europa.eu/webtools/load.js');
     $this->variableContext->setVariable('nexteuropa_cookie_consent_kit_display_cookie_banner', 1);
   }
 

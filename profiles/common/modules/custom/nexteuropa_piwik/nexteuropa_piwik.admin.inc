@@ -6,15 +6,18 @@
  */
 
 /**
- * Implements hook_admin_settings().
+ * Implements hook_form_FORM_ID_alter().
  */
-function nexteuropa_piwik_admin_settings_form($form_state) {
-  $form['account'] = array(
+function nexteuropa_piwik_form_cce_basic_config_settings_form_alter(&$form, &$form_state) {
+  $form['webtools']['piwik'] = array(
     '#type' => 'fieldset',
-    '#title' => t('General settings'),
+    '#title' => t('Piwik configuration'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#access' => user_access('administer nexteuropa_piwik'),
   );
 
-  $form['account']['nexteuropa_piwik_site_id'] = array(
+  $form['webtools']['piwik']['account']['nexteuropa_piwik_site_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Piwik site ID'),
     '#default_value' => variable_get('nexteuropa_piwik_site_id', ''),
@@ -29,7 +32,7 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
     "ec.europa.eu" => t("ec.europa.eu"),
     "testing" => t("Test instance"),
   );
-  $form['account']['nexteuropa_piwik_site_instance'] = array(
+  $form['webtools']['piwik']['account']['nexteuropa_piwik_site_instance'] = array(
     '#type' => 'select',
     '#title' => t('Piwik instance'),
     '#options' => $instance_options,
@@ -41,7 +44,7 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
     "piwik" => t("Piwik"),
     "piwiktest" => t("Piwiktest"),
   );
-  $form['account']['nexteuropa_piwik_utility'] = array(
+  $form['webtools']['piwik']['account']['nexteuropa_piwik_utility'] = array(
     '#type' => 'select',
     '#title' => t('Piwik utility'),
     '#options' => $utility_options,
@@ -51,11 +54,11 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   );
 
   // Visibility settings.
-  $form['tracking_title'] = array(
+  $form['webtools']['piwik']['tracking_title'] = array(
     '#type' => 'item',
     '#title' => t('Tracking scope'),
   );
-  $form['tracking'] = array(
+  $form['webtools']['piwik']['tracking'] = array(
     '#type' => 'vertical_tabs',
     '#attached' => array(
       'js' => array(drupal_get_path('module', 'nexteuropa_piwik') . '/nexteuropa_piwik.admin.js'),
@@ -68,12 +71,12 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   $pages = variable_get('nexteuropa_piwik_pages', NEXTEUROPA_PIWIK_PAGES);
 
   // Site paths.
-  $form['tracking']['site_path'] = array(
+  $form['webtools']['piwik']['tracking']['site_path'] = array(
     '#type' => 'fieldset',
     '#title' => t('Site paths'),
   );
 
-  $form['tracking']['site_path']['nexteuropa_piwik_site_path'] = array(
+  $form['webtools']['piwik']['tracking']['site_path']['nexteuropa_piwik_site_path'] = array(
     '#type' => 'textarea',
     '#title' => t('Site paths'),
     '#default_value' => variable_get('nexteuropa_piwik_site_path', ''),
@@ -83,12 +86,12 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   );
 
   // Site setion.
-  $form['tracking']['site_section'] = array(
+  $form['webtools']['piwik']['tracking']['site_section'] = array(
     '#type' => 'fieldset',
     '#title' => t('Site section'),
   );
 
-  $form['tracking']['site_section']['nexteuropa_piwik_site_section'] = array(
+  $form['webtools']['piwik']['tracking']['site_section']['nexteuropa_piwik_site_section'] = array(
     '#type' => 'textfield',
     '#title' => t('Site section'),
     '#default_value' => variable_get('nexteuropa_piwik_site_section', ''),
@@ -99,7 +102,7 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   );
 
   // Search result pages.
-  $form['tracking']['search'] = array(
+  $form['webtools']['piwik']['tracking']['search'] = array(
     '#type' => 'fieldset',
     '#title' => t('Search'),
   );
@@ -114,7 +117,7 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   );
   $site_search_dependencies .= '</div>';
 
-  $form['tracking']['search']['nexteuropa_piwik_site_search'] = array(
+  $form['webtools']['piwik']['tracking']['search']['nexteuropa_piwik_site_search'] = array(
     '#type' => 'checkbox',
     '#title' => t('Track internal search'),
     '#description' => t('If checked, internal search keywords are tracked.') . $site_search_dependencies,
@@ -123,7 +126,7 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   );
 
   // Pages visibility settings.
-  $form['tracking']['page_vis_settings'] = array(
+  $form['webtools']['piwik']['tracking']['page_vis_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Pages'),
     '#collapsible' => TRUE,
@@ -131,9 +134,9 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   );
 
   if ($visibility == 2 && !$php_access) {
-    $form['tracking']['page_vis_settings'] = array();
-    $form['tracking']['page_vis_settings']['nexteuropa_piwik_visibility_pages'] = array('#type' => 'value', '#value' => 2);
-    $form['tracking']['page_vis_settings']['nexteuropa_piwik_pages'] = array('#type' => 'value', '#value' => $pages);
+    $form['webtools']['piwik']['tracking']['piwik']['page_vis_settings'] = array();
+    $form['webtools']['piwik']['tracking']['piwik']['page_vis_settings']['nexteuropa_piwik_visibility_pages'] = array('#type' => 'value', '#value' => 2);
+    $form['webtools']['piwik']['tracking']['piwik']['page_vis_settings']['nexteuropa_piwik_pages'] = array('#type' => 'value', '#value' => $pages);
   }
   else {
     $options = array(
@@ -154,13 +157,13 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
     else {
       $title = t('Pages');
     }
-    $form['tracking']['page_vis_settings']['nexteuropa_piwik_visibility_pages'] = array(
+    $form['webtools']['piwik']['tracking']['page_vis_settings']['nexteuropa_piwik_visibility_pages'] = array(
       '#type' => 'radios',
       '#title' => t('Add tracking to specific pages'),
       '#options' => $options,
       '#default_value' => $visibility,
     );
-    $form['tracking']['page_vis_settings']['nexteuropa_piwik_pages'] = array(
+    $form['webtools']['piwik']['tracking']['page_vis_settings']['nexteuropa_piwik_pages'] = array(
       '#type' => 'textarea',
       '#title' => $title,
       '#title_display' => 'invisible',
@@ -171,12 +174,12 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   }
 
   // Render the role overview.
-  $form['tracking']['role_vis_settings'] = array(
+  $form['webtools']['piwik']['tracking']['role_vis_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Roles'),
   );
 
-  $form['tracking']['role_vis_settings']['nexteuropa_piwik_visibility_roles'] = array(
+  $form['webtools']['piwik']['tracking']['role_vis_settings']['nexteuropa_piwik_visibility_roles'] = array(
     '#type' => 'radios',
     '#title' => t('Add tracking for specific roles'),
     '#options' => array(
@@ -187,7 +190,7 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   );
 
   $role_options = array_map('check_plain', user_roles());
-  $form['tracking']['role_vis_settings']['nexteuropa_piwik_roles'] = array(
+  $form['webtools']['piwik']['tracking']['role_vis_settings']['nexteuropa_piwik_roles'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Roles'),
     '#default_value' => variable_get('nexteuropa_piwik_roles', array()),
@@ -196,28 +199,28 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   );
 
   // Render the advanced PIWIK rules.
-  $form['tracking']['advanced_rules'] = array(
+  $form['webtools']['piwik']['tracking']['advanced_rules'] = array(
     '#type' => 'fieldset',
     '#title' => t('Advanced PIWIK rules'),
   );
 
-  $form['tracking']['advanced_rules']['nexteuropa_piwik_rules_state'] = array(
+  $form['webtools']['piwik']['tracking']['advanced_rules']['nexteuropa_piwik_rules_state'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable advanced PIWIK rules'),
     '#description' => t('Activates the "Advanced PIWIK rules" configuration tab.'),
     '#default_value' => variable_get('nexteuropa_piwik_rules_state', FALSE),
   );
 
-  $form = system_settings_form($form);
+  // TODO Check this.
   array_unshift($form['#submit'], '_nexteuropa_piwik_rules_state_check');
-
+  $form['#validate'][] = '_nexteuropa_piwik_admin_validate';
   return $form;
 }
 
 /**
  * Implements hook_FORM_ID_form_validate().
  */
-function nexteuropa_piwik_admin_settings_form_validate($form, &$form_state) {
+function _nexteuropa_piwik_admin_validate($form, &$form_state) {
   // Trim some text area values.
   $form_state['values']['nexteuropa_piwik_site_id'] = trim($form_state['values']['nexteuropa_piwik_site_id']);
   $form_state['values']['nexteuropa_piwik_pages'] = trim($form_state['values']['nexteuropa_piwik_pages']);

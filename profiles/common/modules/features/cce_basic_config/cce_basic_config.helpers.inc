@@ -213,3 +213,59 @@ function _cce_basic_config_title_validate($form, &$form_state) {
     }
   }
 }
+
+/**
+ * Helper function to add load.js if not yet injected in the page.
+ */
+function _cce_basic_config_webtools_loader_inject($javascript) {
+
+  // If the load has not been added yet, add it.
+  $smartloader_prurl = variable_get('cce_basic_config_webtools_smartloader', '//europa.eu/webtools/load.js');
+
+  // Ensure to use a PR URL (compatibility for http/https).
+  $smartloader_prurl = preg_replace("#^https?:#", "", $smartloader_prurl);
+  // If already set, stop here.
+  if (isset($javascript[$smartloader_prurl])) {
+    return;
+  }
+
+  // Add the smart loader to the page.
+  drupal_add_js($smartloader_prurl, array(
+    'type' => 'external',
+    'scope' => 'header',
+    'defer' => TRUE,
+    'weight' => 5,
+  ));
+
+}
+
+/**
+ * Helper function to generate the required json.
+ */
+function _cce_basic_config_globan_generate_json() {
+  $theme = variable_get('cce_basic_config_globan_theme', 'dark');
+  $logo = variable_get('cce_basic_config_globan_logo', TRUE);
+  $link = variable_get('cce_basic_config_globan_link', TRUE);
+  $mode = variable_get('cce_basic_config_globan_mode', TRUE);
+  $index = variable_get('cce_basic_config_globan_index', 40);
+
+  $webtools_globan_settings = array(
+    'utility' => 'globan',
+    'theme' => $theme,
+    'logo' => $logo,
+    'link' => $link,
+    'mode' => $mode,
+    'zindex' => $index,
+  );
+
+  $webtools_globan_settings = strip_tags(drupal_json_encode($webtools_globan_settings));
+  return array(
+    '#type' => 'html_tag',
+    '#tag' => 'script',
+    '#attributes' => array(
+      'type' => 'application/json',
+    ),
+    '#weight' => '99990',
+    '#value' => $webtools_globan_settings,
+  );
+}

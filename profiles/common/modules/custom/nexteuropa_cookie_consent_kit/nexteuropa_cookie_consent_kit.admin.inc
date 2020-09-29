@@ -6,22 +6,18 @@
  */
 
 /**
- * Provides form for cookie control banner.
- *
- * @param array $form
- *   Form array.
- * @param array $form_state
- *   For state array.
- *
- * @return array
- *   Admin form render array.
+ * Implements hook_form_FORM_ID_alter().
  */
-function nexteuropa_cookie_consent_kit_admin_form(array $form, array &$form_state) {
-  $form['banner'] = array(
+function nexteuropa_cookie_consent_kit_form_cce_basic_config_settings_form_alter(&$form, &$form_state) {
+  $form['webtools']['banner'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Banner settings'),
+    '#title' => t('Cookie consent kit configuration'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => 9,
+    '#access' => user_access('administer nexteuropa cookie consent kit configuration'),
   );
-  $form['banner']['nexteuropa_cookie_consent_kit_display_cookie_banner'] = array(
+  $form['webtools']['banner']['nexteuropa_cookie_consent_kit_display_cookie_banner'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display the cookie banner'),
     '#default_value' => variable_get('nexteuropa_cookie_consent_kit_display_cookie_banner', 0),
@@ -34,7 +30,17 @@ function nexteuropa_cookie_consent_kit_admin_form(array $form, array &$form_stat
       ),
     )),
   );
-  $form['banner']['nexteuropa_cookie_consent_kit_policy_url'] = array(
+  $form['webtools']['banner']['settings'] = array(
+    '#type' => 'fieldset',
+    '#states' => array(
+      'visible' => array(
+        ':input[name="nexteuropa_cookie_consent_kit_display_cookie_banner"]' => array(
+          'checked' => TRUE,
+        ),
+      ),
+    ),
+  );
+  $form['webtools']['banner']['settings']['nexteuropa_cookie_consent_kit_policy_url'] = array(
     '#type' => 'textarea',
     '#title' => t('Policy url'),
     '#default_value' => variable_get('nexteuropa_cookie_consent_kit_policy_url', ''),
@@ -56,7 +62,7 @@ function nexteuropa_cookie_consent_kit_admin_form(array $form, array &$form_stat
       ),
     )),
   );
-  $form['banner']['nexteuropa_cookie_consent_kit_appendix'] = array(
+  $form['webtools']['banner']['settings']['nexteuropa_cookie_consent_kit_appendix'] = array(
     '#type' => 'textarea',
     '#title' => t('Appendix'),
     '#default_value' => variable_get('nexteuropa_cookie_consent_kit_appendix', ''),
@@ -78,11 +84,11 @@ function nexteuropa_cookie_consent_kit_admin_form(array $form, array &$form_stat
     )),
   );
 
-  $form['video'] = array(
+  $form['webtools']['banner']['settings']['video'] = array(
     '#type' => 'fieldset',
     '#title' => t('Video settings'),
   );
-  $form['video']['nexteuropa_cookie_consent_kit_display_cookie_video'] = array(
+  $form['webtools']['banner']['settings']['video']['nexteuropa_cookie_consent_kit_display_cookie_video'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display a specific cookie consent banner with all 3rd party video platform players (YouTube, Vimeo and Dailymotion)'),
     '#default_value' => variable_get('nexteuropa_cookie_consent_kit_display_cookie_video', 0),
@@ -96,5 +102,5 @@ function nexteuropa_cookie_consent_kit_admin_form(array $form, array &$form_stat
     )),
   );
 
-  return system_settings_form($form);
+  return $form;
 }
