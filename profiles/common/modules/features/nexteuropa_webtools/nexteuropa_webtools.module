@@ -8,23 +8,6 @@
 include_once 'nexteuropa_webtools.features.inc';
 
 /**
- * Implements hook_menu().
- */
-function nexteuropa_webtools_menu() {
-  $items = array();
-  $items['admin/config/services/webtools'] = array(
-    'title' => 'Webtools',
-    'description' => 'Webtools settings',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('nexteuropa_webtools_settings_form'),
-    'access arguments' => array('administer webtools'),
-    'file' => 'nexteuropa_webtools.admin.inc',
-    'type' => MENU_NORMAL_ITEM,
-  );
-  return $items;
-}
-
-/**
  * Implements hook_permission().
  */
 function nexteuropa_webtools_permission() {
