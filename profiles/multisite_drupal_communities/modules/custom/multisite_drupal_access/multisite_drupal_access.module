@@ -53,10 +53,9 @@ function multisite_drupal_access_node_access_records($node) {
  * Implements hook_node_grants().
  */
 function multisite_drupal_access_node_grants($account, $op) {
-  if (($op != 'view') && (!empty($account->status))) {
+  if (($op != 'view') && (empty($account->status))) {
     return;
   }
-
   $grants = &drupal_static(__FUNCTION__ . '_' . $op . '_' . $account->uid);
   if (!isset($grants)) {
     $grants = array();
