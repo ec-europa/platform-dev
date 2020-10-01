@@ -440,7 +440,7 @@ function _cce_basic_config_post_install_users() {
   $account->is_new = TRUE;
   $account->status = TRUE;
   $account->name = 'user_administrator';
-  $account->pass = user_hash_password('pass');
+  $account->pass = user_password();
   $account->mail = 'administrator@' . $default_email_domain;
   $account->init = $account->mail;
   $role = user_role_load_by_name('administrator');
@@ -453,7 +453,7 @@ function _cce_basic_config_post_install_users() {
   $account1->is_new = TRUE;
   $account1->status = TRUE;
   $account1->name = 'user_contributor';
-  $account1->pass = user_hash_password('pass');
+  $account1->pass = user_password();
   $account1->mail = 'contributor@' . $default_email_domain;
   $account1->init = $account1->mail;
   $role1 = user_role_load_by_name('contributor');
@@ -466,7 +466,7 @@ function _cce_basic_config_post_install_users() {
   $account2->is_new = TRUE;
   $account2->status = TRUE;
   $account2->name = 'user_editor';
-  $account2->pass = user_hash_password('pass');
+  $account2->pass = user_password();
   $account2->mail = 'editor@' . $default_email_domain;
   $account2->init = $account2->mail;
   $role2 = user_role_load_by_name('editor');
