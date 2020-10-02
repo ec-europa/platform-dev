@@ -53,7 +53,8 @@ function multisite_drupal_access_node_access_records($node) {
  * Implements hook_node_grants().
  */
 function multisite_drupal_access_node_grants($account, $op) {
-  if (($op != 'view') && (empty($account->status))) {
+  // Stop if user is anonymous, blocked or performing other op than viewing.
+  if (($op != 'view') || empty($account->status)) {
     return;
   }
   $grants = &drupal_static(__FUNCTION__ . '_' . $op . '_' . $account->uid);
