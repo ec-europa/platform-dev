@@ -131,7 +131,7 @@ function nexteuropa_piwik_rule_form_submit(&$form, &$form_state) {
   entity_save('nexteuropa_piwik_rule', $piwik_rule);
 
   // Redirecting a user to the PWIKI rules admin page.
-  $form_state['redirect'] = 'admin/config/system/webtools/piwik/advanced_rules';
+  $form_state['redirect'] = 'admin/config/services/webtools/piwik_advanced_rules';
 }
 
 /**

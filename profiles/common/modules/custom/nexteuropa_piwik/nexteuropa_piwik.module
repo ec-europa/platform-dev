@@ -23,7 +23,7 @@ define('NEXTEUROPA_PIWIK_PAGES', "admin\nadmin/*\nbatch\nnode/add*\nnode/*/*\nus
  */
 function nexteuropa_piwik_help($path, $arg) {
   switch ($path) {
-    case 'admin/config/system/nexteuropa_piwik':
+    case 'admin/config/services/webtools/piwik_advanced_rules':
       return t('<a href="@pk_url">Piwik - Web analytics</a> is an open source (GPL license) web analytics software. It gives interesting reports on your website visitors, your popular pages, the search engines keywords they used, the language they speak... and so much more. Piwik aims to be an open source alternative to Google Analytics.', array('@pk_url' => 'http://www.piwik.org/'));
   }
 }
@@ -277,7 +277,7 @@ function nexteuropa_piwik_entity_info() {
         'controller class' => 'EntityAPIController',
         'access callback' => 'nexteuropa_piwik_rule_access',
         'admin ui' => array(
-          'path' => 'admin/config/system/webtools/piwik/advanced_rules',
+          'path' => 'admin/config/services/webtools/piwik_advanced_rules',
           'controller class' => 'Drupal\\nexteuropa_piwik\\EntityDefaultUIController\\PiwikRuleEntityUIController',
           'file' => 'nexteuropa_piwik.rule.admin.inc',
         ),

@@ -27,7 +27,11 @@ function cce_basic_config_menu() {
     'page arguments' => array('cce_basic_config_settings_form'),
     'access arguments' => array('administer site configuration'),
     'file' => 'cce_basic_config.admin.inc',
-    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['admin/config/services/webtools/basic'] = array(
+    'title' => 'Webtools Basic',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -1,
   );
   return $items;
 }

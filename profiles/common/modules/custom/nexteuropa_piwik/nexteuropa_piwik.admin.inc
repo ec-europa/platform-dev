@@ -211,7 +211,7 @@ function nexteuropa_piwik_form_cce_basic_config_settings_form_alter(&$form, &$fo
     '#default_value' => variable_get('nexteuropa_piwik_rules_state', FALSE),
   );
 
-  // TODO Check this.
+  // On submit display the advanced tab or not.
   array_unshift($form['#submit'], '_nexteuropa_piwik_rules_state_check');
   $form['#validate'][] = '_nexteuropa_piwik_admin_validate';
   return $form;

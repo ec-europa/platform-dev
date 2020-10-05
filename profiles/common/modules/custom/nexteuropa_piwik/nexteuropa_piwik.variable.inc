@@ -32,7 +32,7 @@ function nexteuropa_piwik_variable_group_info() {
     'title' => t('Piwik'),
     'description' => t('Configure tracking behavior to get insights into your website traffic and marketing effectiveness.'),
     'access' => 'administer nexteuropa_piwik',
-    'path' => array('admin/config/system/webtools/piwik'),
+    'path' => array('admin/config/services/webtools'),
   );
 
   return $groups;
