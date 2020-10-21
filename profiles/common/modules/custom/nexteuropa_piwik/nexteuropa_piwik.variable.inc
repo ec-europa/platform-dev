@@ -43,6 +43,6 @@ function nexteuropa_piwik_variable_group_info() {
  */
 function nexteuropa_piwik_validate_piwik_site_id($variable) {
   if (!preg_match('/^\d{1,}$/', $variable['value'])) {
-    return t('A valid Piwik site ID is an integer only.');
+    return t('A valid Europa Analytics site ID is an integer only.');
   }
 }

@@ -11,7 +11,7 @@
 function nexteuropa_piwik_form_cce_basic_config_settings_form_alter(&$form, &$form_state) {
   $form['webtools']['piwik'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Piwik configuration'),
+    '#title' => t('Europa Analytics configuration'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#access' => user_access('administer nexteuropa_piwik'),
@@ -19,12 +19,12 @@ function nexteuropa_piwik_form_cce_basic_config_settings_form_alter(&$form, &$fo
 
   $form['webtools']['piwik']['account']['nexteuropa_piwik_site_id'] = array(
     '#type' => 'textfield',
-    '#title' => t('Piwik site ID'),
+    '#title' => t('Europa Analytics site ID'),
     '#default_value' => variable_get('nexteuropa_piwik_site_id', ''),
     '#size' => 15,
     '#maxlength' => 20,
     '#required' => TRUE,
-    '#description' => t('The user account number is unique to the websites domain. Click the <strong>Settings</strong> link in your Piwik account, then the <strong>Websites</strong> tab and enter the appropriate site <strong>ID</strong> into this field.'),
+    '#description' => t('The user account number is unique to the websites domain. Click the <strong>Settings</strong> link in your Europa Analytics account, then the <strong>Websites</strong> tab and enter the appropriate site <strong>ID</strong> into this field.'),
   );
 
   $instance_options = array(
@@ -34,23 +34,23 @@ function nexteuropa_piwik_form_cce_basic_config_settings_form_alter(&$form, &$fo
   );
   $form['webtools']['piwik']['account']['nexteuropa_piwik_site_instance'] = array(
     '#type' => 'select',
-    '#title' => t('Piwik instance'),
+    '#title' => t('Europa Analytics instance'),
     '#options' => $instance_options,
     '#default_value' => variable_get('nexteuropa_piwik_site_instance', 'ec.europa.eu'),
     '#required' => TRUE,
-    '#description' => t("Define the Piwik instance"),
+    '#description' => t("Define the Europa Analytics instance"),
   );
   $utility_options = array(
-    "piwik" => t("Piwik"),
-    "piwiktest" => t("Piwiktest"),
+    "piwik" => t("Europa Analytics"),
+    "piwiktest" => t("Europa Analytics test"),
   );
   $form['webtools']['piwik']['account']['nexteuropa_piwik_utility'] = array(
     '#type' => 'select',
-    '#title' => t('Piwik utility'),
+    '#title' => t('Europa Analytics utility'),
     '#options' => $utility_options,
     '#default_value' => variable_get('nexteuropa_piwik_utility', 'piwik'),
     '#required' => TRUE,
-    '#description' => t("Use Piwik as default value for production sites, and only change to Piwiktest in case there of testing mode for new webtools smart loader versions"),
+    '#description' => t("Use Europa Analytics as default value for production sites, and only change to Europa Analytics in case there of testing mode for new webtools smart loader versions"),
   );
 
   // Visibility settings.
@@ -81,7 +81,7 @@ function nexteuropa_piwik_form_cce_basic_config_settings_form_alter(&$form, &$fo
     '#title' => t('Site paths'),
     '#default_value' => variable_get('nexteuropa_piwik_site_path', ''),
     '#required' => TRUE,
-    '#description' => t("Specify site paths to be tracked in Piwik. Add paths by using their domain name e.g. <strong>ec.europa.eu/agriculture</strong>. Enter one path per line."),
+    '#description' => t("Specify site paths to be tracked in Europa Analytics. Add paths by using their domain name e.g. <strong>ec.europa.eu/agriculture</strong>. Enter one path per line."),
     '#rows' => 10,
   );
 
@@ -198,16 +198,16 @@ function nexteuropa_piwik_form_cce_basic_config_settings_form_alter(&$form, &$fo
     '#description' => t('If none of the roles are selected, all users will be tracked. If a user has any of the roles checked, that user will be tracked (or excluded, depending on the setting above).'),
   );
 
-  // Render the advanced PIWIK rules.
+  // Render the advanced Europa analytics rules.
   $form['webtools']['piwik']['tracking']['advanced_rules'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Advanced PIWIK rules'),
+    '#title' => t('Advanced Europa Analytics rules'),
   );
 
   $form['webtools']['piwik']['tracking']['advanced_rules']['nexteuropa_piwik_rules_state'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Enable advanced PIWIK rules'),
-    '#description' => t('Activates the "Advanced PIWIK rules" configuration tab.'),
+    '#title' => t('Enable advanced Europa Analytics rules'),
+    '#description' => t('Activates the "Advanced Europa Analytics rules" configuration tab.'),
     '#default_value' => variable_get('nexteuropa_piwik_rules_state', FALSE),
   );
 
@@ -226,7 +226,7 @@ function _nexteuropa_piwik_admin_validate($form, &$form_state) {
   $form_state['values']['nexteuropa_piwik_pages'] = trim($form_state['values']['nexteuropa_piwik_pages']);
 
   if (!preg_match('/^\d{1,}$/', $form_state['values']['nexteuropa_piwik_site_id'])) {
-    form_set_error('nexteuropa_piwik_site_id', t('A valid Piwik site ID is an integer only.'));
+    form_set_error('nexteuropa_piwik_site_id', t('A valid Europa Analytics site ID is an integer only.'));
   }
 }
 
@@ -359,10 +359,10 @@ function _nexteuropa_piwik_rules_state_check($form, &$form_state) {
   }
 
   // Presenting the message resetting the entity cache info and rebuilding menu.
-  // Runs only if the advanced PIWIK rules state has changed.
+  // Runs only if the advanced Europa Analytics rules state has changed.
   if ($rule_state != $rule_state_var) {
     variable_set('nexteuropa_piwik_rules_state', $rule_state);
-    drupal_set_message(t('The PIWIK advanced rules are turned @state.', array('@state' => $state)));
+    drupal_set_message(t('The Europa Analytics advanced rules are turned @state.', array('@state' => $state)));
     entity_info_cache_clear();
     menu_rebuild();
   }
