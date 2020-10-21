@@ -11,7 +11,7 @@ INSTALLATION
 
 CONFIGURATION
 -------------
-* Go to the _admin/config/system/nexteuropa-cookie-consent-kit_ page to enable/disable and configure the banner.
+* Go to the _admin/config/services/webtools_ page to enable/disable and configure the banner.
 * In case you would like to have the "Cookie Consent Kit" for 3rd party videos
 providers (YouTube, Vimeo and Dailymotion), you also need to enable the cookie 
 videos.
