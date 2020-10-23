@@ -4,7 +4,7 @@
  * @file
  * Drupal Module: NextEuropa cookie consent kit.
  *
- * Integrates webtool Cookie Consent Kit (CCK).
+ * Integrates webtools Cookie Consent Kit (CCK).
  */
 
 define('NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC', '//europa.eu/webtools/crs/iframe');

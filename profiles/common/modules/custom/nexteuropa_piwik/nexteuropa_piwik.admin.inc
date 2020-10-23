@@ -24,7 +24,7 @@ function nexteuropa_piwik_form_cce_basic_config_settings_form_alter(&$form, &$fo
     '#size' => 15,
     '#maxlength' => 20,
     '#required' => TRUE,
-    '#description' => t('The user account number is unique to the websites domain. Click the <strong>Settings</strong> link in your Europa Analytics account, then the <strong>Websites</strong> tab and enter the appropriate site <strong>ID</strong> into this field.'),
+    '#description' => t('The user account number is unique to the website\'s domain. Click the <strong>Settings</strong> link in your Europa Analytics account, then the <strong>Websites</strong> tab and enter the appropriate site <strong>ID</strong> into this field.'),
   );
 
   $instance_options = array(

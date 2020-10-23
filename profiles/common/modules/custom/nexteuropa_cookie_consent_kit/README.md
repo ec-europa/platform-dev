@@ -12,22 +12,22 @@ INSTALLATION
 CONFIGURATION
 -------------
 * Go to the _admin/config/services/webtools_ page to enable/disable and configure the banner.
-* In case you would like to have the "Cookie Consent Kit" for 3rd party videos
-providers (YouTube, Vimeo and Dailymotion), you also need to enable the cookie 
-videos.
+* In case you would like to have the "Cookie Consent Kit" for 3rd party video
+providers (YouTube, Vimeo and Dailymotion), you also need to enable the video 
+cookie banner.
 
 TROUBLESHOOTING
 ----------------
 * For non ec.europa.eu domains, after activating the banner in the administration interface, if the CCK banner 
 does not appear or does not block the third party cookies.<br />
-Please make sure that you setup the policy url.
+Please make sure that you set up the policy url.
 
 DEVELOPERS
 ----------
-* Non ec.europa.eu domains, should setup a policy url and can add appendix to the bannder. 
+* Non ec.europa.eu domains, should set up a policy url and can add an appendix to the banner. 
 For more information see the configuration page of the module.
 
-* By default, the Cookie consent banner are not inserted in the pages related to:
+* By default, the Cookie consent banner is not inserted in the pages related to:
   - The "back-end",
   - The contents management ("Edit draft", "View draft"...),
   - The files management ("file/add", "file/%file/edit"...).<br />

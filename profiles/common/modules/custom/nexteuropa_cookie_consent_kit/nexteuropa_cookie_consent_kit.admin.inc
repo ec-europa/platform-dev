@@ -24,7 +24,7 @@ function nexteuropa_cookie_consent_kit_form_cce_basic_config_settings_form_alter
     '#description' => theme('item_list', array(
       'items' => array(
         t('Tick this option to activate cookie consent kit on all pages.'),
-        t('For more information about Webtool Cookie Consent Kit, click <a href="@url">here</a>.', array(
+        t('For more information about Webtools Cookie Consent Kit, click <a href="@url">here</a>.', array(
           '@url' => url('https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Cookie+Consent+Kit+V2', array('external' => TRUE)),
         )),
       ),
@@ -46,7 +46,7 @@ function nexteuropa_cookie_consent_kit_form_cce_basic_config_settings_form_alter
     '#default_value' => variable_get('nexteuropa_cookie_consent_kit_policy_url', ''),
     '#description' => theme('item_list', array(
       'items' => array(
-        t('For non ec.europa.eu domains, you should specify the url to the cookie policy page as either a single string of text or multiple strings in json formate.'),
+        t('For non ec.europa.eu domains, you should specify the url to the cookie policy page as either a single string of text or multiple strings in json format.'),
         t('See some examples: !examples', array(
           '!examples' => theme('item_list', array(
             'items' => array(
@@ -56,7 +56,7 @@ function nexteuropa_cookie_consent_kit_form_cce_basic_config_settings_form_alter
             ),
           )),
         )),
-        t('For more information about Webtool Cookie Consent Kit, click <a href="@url">here</a>.', array(
+        t('For more information about Webtools Cookie Consent Kit, click <a href="@url">here</a>.', array(
           '@url' => url('https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Cookie+Consent+Kit+V2', array('external' => TRUE)),
         )),
       ),
@@ -68,7 +68,7 @@ function nexteuropa_cookie_consent_kit_form_cce_basic_config_settings_form_alter
     '#default_value' => variable_get('nexteuropa_cookie_consent_kit_appendix', ''),
     '#description' => theme('item_list', array(
       'items' => array(
-        t('For non ec.europa.eu domains, the appendix is appended a to the cookie consent disclaimer. It can be provided as a single string of text or multiple strings for each language in json formate.'),
+        t('For non ec.europa.eu domains, the appendix is appended a to the cookie consent disclaimer. It can be provided as a single string of text or multiple strings for each language in json format.'),
         t('See some examples: !examples', array(
           '!examples' => theme('item_list', array(
             'items' => array(
@@ -77,7 +77,7 @@ function nexteuropa_cookie_consent_kit_form_cce_basic_config_settings_form_alter
             ),
           )),
         )),
-        t('For more information about Webtool Cookie Consent Kit, click <a href="@url">here</a>.', array(
+        t('For more information about Webtools Cookie Consent Kit, click <a href="@url">here</a>.', array(
           '@url' => url('https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Cookie+Consent+Kit+V2', array('external' => TRUE)),
         )),
       ),
