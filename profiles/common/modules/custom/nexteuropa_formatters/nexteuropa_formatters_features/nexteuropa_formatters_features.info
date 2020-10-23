@@ -1,0 +1,9 @@
+name = NextEuropa Formatters - Features
+description = This modules provides features config according Nexteuropa PHPCS.
+package = NextEuropa
+core = 7.x
+
+dependencies[] = nexteuropa_formatters
+dependencies[] = features
+
+registry_autoload[] = PSR-4

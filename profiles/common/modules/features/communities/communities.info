@@ -13,6 +13,7 @@ dependencies[] = og_access
 dependencies[] = og_context
 dependencies[] = workbench_og
 dependencies[] = nexteuropa_formatters
+dependencies[] = nexteuropa_formatters_features
 dependencies[] = nexteuropa_formatters_views
 dependencies[] = multisite_drupal_toolbox
 features[context][] = communities

@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Module file.
+ */
+
+/**
+ * Implements hook_features_export_alter().
+ *
+ * Adding PHP Code Sniffer requirements.
+ */
+function nexteuropa_formatters_features_features_export_alter(&$export, $module_name) {
+  $export['multisite_version'] = '2.6';
+  $export['php'] = '7.3';
+}
