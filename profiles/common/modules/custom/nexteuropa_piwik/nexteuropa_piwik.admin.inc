@@ -24,7 +24,7 @@ function nexteuropa_piwik_form_cce_basic_config_settings_form_alter(&$form, &$fo
     '#size' => 15,
     '#maxlength' => 20,
     '#required' => TRUE,
-    '#description' => t('The user account number is unique to the website\'s domain. Click the <strong>Settings</strong> link in your Europa Analytics account, then the <strong>Websites</strong> tab and enter the appropriate site <strong>ID</strong> into this field.'),
+    '#description' => t('The user account number is unique to the website domain. Click the <strong>Settings</strong> link in your Europa Analytics account, then the <strong>Websites</strong> tab and enter the appropriate site <strong>ID</strong> into this field.'),
   );
 
   $instance_options = array(
@@ -50,7 +50,7 @@ function nexteuropa_piwik_form_cce_basic_config_settings_form_alter(&$form, &$fo
     '#options' => $utility_options,
     '#default_value' => variable_get('nexteuropa_piwik_utility', 'piwik'),
     '#required' => TRUE,
-    '#description' => t("Use Europa Analytics as default value for production sites, and only change to Europa Analytics in case there of testing mode for new webtools smart loader versions"),
+    '#description' => t("Use Europa Analytics as default value for production sites, and only change to Europa Analytics test in case there of testing mode for new webtools smart loader versions"),
   );
 
   // Visibility settings.
