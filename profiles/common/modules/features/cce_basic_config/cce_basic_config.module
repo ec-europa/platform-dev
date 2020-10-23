@@ -16,43 +16,32 @@ include_once 'cce_basic_config.default_password_policy.inc';
 define('CCE_BASIC_CONFIG_CEM_ROLE_NAME', 'cem');
 
 /**
+ * Implements hook_menu().
+ */
+function cce_basic_config_menu() {
+  $items = array();
+  $items['admin/config/services/webtools'] = array(
+    'title' => 'Webtools',
+    'description' => 'Webtools settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cce_basic_config_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'cce_basic_config.admin.inc',
+  );
+  $items['admin/config/services/webtools/basic'] = array(
+    'title' => 'Webtools Basic',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -1,
+  );
+  return $items;
+}
+
+/**
  * Implements hook_menu_alter().
  */
 function cce_basic_config_menu_alter(&$items) {
   // Hide default search tab.
   $items['search/node']['access callback'] = FALSE;
-}
-
-/**
- * Implements hook_form_system_site_information_settings_alter().
- */
-function cce_basic_config_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
-
-  // Create fieldset 'META Data'.
-  $form['meta'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('IPG'),
-    '#weight' => 10,
-    '#collapsible' => FALSE,
-  );
-  // Add a variable that allows users to hide the global banner.
-  $form['meta']['webtoolds_globan'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Display the global banner'),
-    '#default_value' => variable_get('webtoolds_globan', 1),
-  );
-  // NEPT-2823.
-  // After updating system info, update smartloader.
-  $form['#submit'][] = 'cce_basic_config_site_information_submit';
-}
-
-/**
- * Update var nexteuropa_smartloader_prurl.
- *
- * NEPT-2823.
- */
-function cce_basic_config_site_information_submit($form, &$form_state) {
-  _cce_basic_config_smartloader();
 }
 
 /**
@@ -477,23 +466,26 @@ function cce_basic_config_field_widget_entityreference_autocomplete_tags_form_al
  * Change the load.js value in all features, if none, then add the loader.
  */
 function cce_basic_config_js_alter(&$javascript) {
-  // If checkbox is unchecked, don't modify the values of the load.js.
+  // If the globan is not needed, do not add the load.js.
   if (!variable_get('webtoolds_globan', TRUE)) {
     return;
   }
+  _cce_basic_config_webtools_loader_inject($javascript);
+}
 
-  // If already set, stop here.
-  if (isset($javascript['//europa.eu/webtools/load.js?globan=1110'])) {
+/**
+ * Implements hook_process_html().
+ *
+ * Add the custom instance variables. That has to be done in the footer region.
+ * drupal_add_js won't work as we need application/json.
+ */
+function cce_basic_config_process_html(&$vars) {
+  // If the globan is not needed, do not add the load.js.
+  if (!variable_get('webtoolds_globan', TRUE)) {
     return;
   }
-  // If the load has not been added yet, add it.
-  $smartloader_prurl = variable_get('nexteuropa_smartloader_prurl');
-  drupal_add_js($smartloader_prurl, array(
-    'type' => 'external',
-    'scope' => 'header',
-    'defer' => TRUE,
-    'weight' => 5,
-  ));
+  $script = _cce_basic_config_globan_generate_json();
+  $vars['page_bottom'] .= drupal_render($script);
 }
 
 /**
@@ -536,17 +528,4 @@ function cce_basic_config_views_query_alter(&$view, &$query) {
       $query->add_where('users', 'users.uid', $account->uid, '<>');
     }
   }
-}
-
-/**
- * Configure webtools smartloader.
- *
- * NEPT-2823.
- */
-function _cce_basic_config_smartloader() {
-  $nexteuropa_smartloader_prurl = '//europa.eu/webtools/load.js';
-  if (variable_get('webtoolds_globan', 1) == 1) {
-    $nexteuropa_smartloader_prurl .= '?globan=1110';
-  }
-  variable_set('nexteuropa_smartloader_prurl', $nexteuropa_smartloader_prurl);
 }

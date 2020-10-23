@@ -12,7 +12,7 @@ use Drupal\nexteuropa_piwik\Entity\PiwikRule;
  */
 function nexteuropa_piwik_rule_form($form, &$form_state, $piwik_rule, $op = 'edit', $entity_type = NULL) {
   // Adjusting the form page title.
-  drupal_set_title(t("@operation the Next Europa PIWIK rule", array('@operation' => drupal_ucfirst($op))));
+  drupal_set_title(t("@operation the Next Europa Analytics rule", array('@operation' => drupal_ucfirst($op))));
 
   $form['rule_section'] = array(
     '#title' => t('Site section'),
@@ -131,7 +131,7 @@ function nexteuropa_piwik_rule_form_submit(&$form, &$form_state) {
   entity_save('nexteuropa_piwik_rule', $piwik_rule);
 
   // Redirecting a user to the PWIKI rules admin page.
-  $form_state['redirect'] = 'admin/config/system/webtools/piwik/advanced_rules';
+  $form_state['redirect'] = 'admin/config/services/webtools/piwik_advanced_rules';
 }
 
 /**

@@ -1,15 +1,21 @@
-@api @javascript
+@api
 Feature: NextEuropa cookie content kit
   In order to accept/reject cookies
   As a website visitor
-  I should see the cookie content banner.
+  I should have cck script embedded into the page correctly.
 
-  Scenario: Display NextEuropa cookie content kit banner
-    Given the module is enabled
-      | modules                       |
-      | nexteuropa_cookie_consent_kit |
-    And I change the variable "nexteuropa_cookie_consent_kit_display_cookie_banner" to "1"
-    When I am logged in as a user with the "anonymous user" role
+  Background:
+    Given these modules are enabled
+      | modules                         |
+      | nexteuropa_cookie_consent_kit   |
+    And the cookie consent kit feature has been configured correctly
+
+  Scenario: CCK script embedded into the page correctly
+    Given I am on the homepage
+    Then I should have one cookie consent popup on the page
+
+  Scenario: Admin can change the parameters of CCK
+    Given I change the variable "nexteuropa_cookie_consent_kit_policy_url" to "https://ec.europa.eu/info/cookies_en"
+    And I change the variable "nexteuropa_cookie_consent_kit_appendix" to "Extra text"
     And I am on the homepage
-    And I wait for AJAX to finish
-    Then I should see the text "This site uses cookies to offer you a better browsing experience"
+    Then the response should contain "{\"utility\":\"cck\",\"url\":\"https:\/\/ec.europa.eu\/info\/cookies_en\",\"appendix\":\"Extra text\"}"

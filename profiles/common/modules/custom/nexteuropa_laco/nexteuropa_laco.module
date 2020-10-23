@@ -11,6 +11,7 @@
  * @link https://www.drupal.org/project/registry_rebuild
  */
 include_once 'src/LanguageCoverageService.php';
+include_once 'nexteuropa_laco.admin.inc';
 
 use Drupal\nexteuropa_laco\LanguageCoverageService as Service;
 
@@ -38,22 +39,6 @@ function nexteuropa_laco_init() {
 }
 
 /**
- * Implements hook_menu().
- */
-function nexteuropa_laco_menu() {
-  $items['admin/config/regional/nexteuropa_laco'] = array(
-    'title' => 'Next Europa LACO - Settings',
-    'description' => 'Configuration of the WebTools LACO icon mechanism.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('nexteuropa_laco_settings_form'),
-    'access arguments' => array('administer nexteuropa laco settings'),
-    'file' => 'nexteuropa_laco.admin.inc',
-  );
-
-  return $items;
-}
-
-/**
  * Implements hook_permission().
  */
 function nexteuropa_laco_permission() {
@@ -66,12 +51,20 @@ function nexteuropa_laco_permission() {
 }
 
 /**
- * Implements hook_page_alter().
+ * Implements hook_js_alter().
  *
  * This adds the webtools smartloader js to the head of normal page.
  */
-function nexteuropa_laco_page_alter(&$page) {
-  _nexteuropa_laco_add_load_js_to_page();
+function nexteuropa_laco_js_alter(&$javascript) {
+  // If the laco is not needed, do not add the load.js.
+  if (!variable_get('nexteuropa_laco_enable_laco_icon_feature', FALSE)) {
+    return;
+  }
+  if (!_nexteuropa_laco_visibility_pages()) {
+    return;
+  }
+  // Inject the loader if not there.
+  _cce_basic_config_webtools_loader_inject($javascript);
 }
 
 /**
@@ -81,6 +74,13 @@ function nexteuropa_laco_page_alter(&$page) {
  * drupal_add_js won't work as we need application/json.
  */
 function nexteuropa_laco_process_html(&$vars) {
+  // If the laco is not needed, do not add the arguments.
+  if (!variable_get('nexteuropa_laco_enable_laco_icon_feature', FALSE)) {
+    return;
+  }
+  if (!_nexteuropa_laco_visibility_pages()) {
+    return;
+  }
   $script = _nexteuropa_laco_generate_json();
   $vars['page_bottom'] .= drupal_render($script);
 }
@@ -89,9 +89,6 @@ function nexteuropa_laco_process_html(&$vars) {
  * Helper function to generate the required json.
  */
 function _nexteuropa_laco_generate_json() {
-  if (!_nexteuropa_laco_visibility_pages()) {
-    return;
-  }
 
   // Create settings array.
   $selectors = variable_get(
@@ -130,31 +127,6 @@ function _nexteuropa_laco_generate_json() {
     '#weight' => '99999',
     '#value' => $webtools_laco_settings,
   );
-}
-
-/**
- * Injects the webtools load.js file to a page if the conditions are met.
- *
- * @see nexteuropa_laco_page_alter()
- */
-function _nexteuropa_laco_add_load_js_to_page() {
-  if (!_nexteuropa_laco_visibility_pages()) {
-    return;
-  }
-
-  // Loading variables.
-  $smartloader_prurl = variable_get('nexteuropa_smartloader_prurl', '//europa.eu/webtools/load.js?globan=1110');
-
-  // Add smart loader.
-  // Ensure to use a PR URL (compatibility for http/https).
-  $smartloader_prurl = preg_replace("#^https?:#", "", $smartloader_prurl);
-
-  drupal_add_js($smartloader_prurl, array(
-    'type' => 'external',
-    'scope' => 'header',
-    'defer' => TRUE,
-    'weight' => 5,
-  ));
 }
 
 /**

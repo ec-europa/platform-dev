@@ -4,29 +4,13 @@
  * @file
  * Drupal Module: NextEuropa cookie consent kit.
  *
- * Integrates webtool Cookie Consent Kit (CCK).
+ * Integrates webtools Cookie Consent Kit (CCK).
  */
 
-define('NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL', '//ec.europa.eu/wel/cookie-consent/');
 define('NEXTEUROPA_COOKIE_CONSENT_KIT_IFRAME_SRC', '//europa.eu/webtools/crs/iframe');
 define('NEXTEUROPA_COOKIE_CONSENT_KIT_NO_BANNER_PATHS', "admin\nadmin/*\nmedia/browser\nmedia/ajax\nsystem/ajax\nmedia/*/format-form\n
 file/*/edit\nnode/*/*\nnode/add*\nfile/add*");
-
-/**
- * Implements hook_menu().
- */
-function nexteuropa_cookie_consent_kit_menu() {
-  $items = array();
-  $items['admin/config/system/nexteuropa-cookie-consent-kit'] = array(
-    'title' => 'NextEuropa cookie consent kit',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('nexteuropa_cookie_consent_kit_admin_form'),
-    'access arguments' => array('administer nexteuropa cookie consent kit configuration'),
-    'file' => 'nexteuropa_cookie_consent_kit.admin.inc',
-  );
-
-  return $items;
-}
+include_once 'nexteuropa_cookie_consent_kit.admin.inc';
 
 /**
  * Implements hook_permission().
@@ -43,27 +27,64 @@ function nexteuropa_cookie_consent_kit_permission() {
 }
 
 /**
- * Implements hook__page_alter().
+ * Implements hook_js_alter().
  *
- * This adds the webtools CCK js to the head of normal page.
+ * This adds the webtools js to the head of the page.
  */
-function nexteuropa_cookie_consent_kit_page_alter(&$page) {
+function nexteuropa_cookie_consent_kit_js_alter(&$javascript) {
   if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_banner', 0)) {
-    // Checks if the Cookie banner JS file must be included in the requested
-    // page.
     if (_nexteuropa_cookie_consent_kit_is_no_banner_path()) {
       return;
     }
-
-    drupal_add_js(NEXTEUROPA_COOKIE_CONSENT_KIT_WEBTOOL_URL . 'consent.js', array(
-      'type' => 'external',
-      'scope' => 'header',
-      'group' => JS_LIBRARY,
-      'every_page' => TRUE,
-      'weight' => -100,
-      'requires_jquery' => FALSE,
-    ));
+    // Inject the loader if not there.
+    _cce_basic_config_webtools_loader_inject($javascript);
   }
+}
+
+/**
+ * Implements hook_process_html().
+ *
+ * Add the custom instance variables. That has to be done in the footer region.
+ * drupal_add_js won't work as we need application/json.
+ */
+function nexteuropa_cookie_consent_kit_process_html(&$vars) {
+  $script = _nexteuropa_cookie_consent_kit_generate_json();
+  $vars['page_bottom'] .= drupal_render($script);
+}
+
+/**
+ * Helper function to generate the required json.
+ */
+function _nexteuropa_cookie_consent_kit_generate_json() {
+  // Initilize the unified embed code for cck.
+  $parameters = array(
+    'utility' => 'cck',
+  );
+  // Set the policy url.
+  if (!empty(variable_get('nexteuropa_cookie_consent_kit_policy_url', ''))) {
+    $parameters['url'] = variable_get('nexteuropa_cookie_consent_kit_policy_url', '');
+    if ($multiple_urls = drupal_json_decode($parameters['url'])) {
+      $parameters['url'] = $multiple_urls;
+    }
+  }
+
+  // Set the appendix.
+  if (!empty(variable_get('nexteuropa_cookie_consent_kit_appendix', ''))) {
+    $parameters['appendix'] = variable_get('nexteuropa_cookie_consent_kit_appendix', '');
+    if ($multiple_appendixes = drupal_json_decode($parameters['appendix'])) {
+      $parameters['appendix'] = $multiple_appendixes;
+    }
+  }
+  $webtools_cck_settings = strip_tags(drupal_json_encode($parameters));
+  return array(
+    '#type' => 'html_tag',
+    '#tag' => 'script',
+    '#attributes' => array(
+      'type' => 'application/json',
+    ),
+    '#weight' => '99990',
+    '#value' => $webtools_cck_settings,
+  );
 }
 
 /**

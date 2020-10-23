@@ -12,6 +12,7 @@
 
 use Drupal\nexteuropa_piwik\Entity\PiwikRule;
 
+include_once 'nexteuropa_piwik.admin.inc';
 /**
  * Define default path exclusion list to remove tracking from admin pages.
  */
@@ -22,8 +23,8 @@ define('NEXTEUROPA_PIWIK_PAGES', "admin\nadmin/*\nbatch\nnode/add*\nnode/*/*\nus
  */
 function nexteuropa_piwik_help($path, $arg) {
   switch ($path) {
-    case 'admin/config/system/nexteuropa_piwik':
-      return t('<a href="@pk_url">Piwik - Web analytics</a> is an open source (GPL license) web analytics software. It gives interesting reports on your website visitors, your popular pages, the search engines keywords they used, the language they speak... and so much more. Piwik aims to be an open source alternative to Google Analytics.', array('@pk_url' => 'http://www.piwik.org/'));
+    case 'admin/config/services/webtools/piwik_advanced_rules':
+      return t('<a href="@pk_url">Europa Analytics</a> is based on an open source (GPL license) web analytics software. It gives interesting reports on your website visitors, your popular pages, the search engine keywords they used, the language they speak... and so much more. Piwik aims to be an open source alternative to Google Analytics.', array('@pk_url' => 'http://www.piwik.org/'));
   }
 }
 
@@ -52,39 +53,19 @@ function nexteuropa_piwik_permission() {
 }
 
 /**
- * Implements hook_menu().
+ * Implements hook_js_alter().
+ *
+ * This adds the webtools smartloader js to the head of normal page.
  */
-function nexteuropa_piwik_menu() {
-  $items['admin/config/system/webtools/piwik'] = array(
-    'title' => 'Next Europa Piwik',
-    'description' => 'Configure the settings used to generate your NextEuropa Piwik tracking code.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('nexteuropa_piwik_admin_settings_form'),
-    'access arguments' => array('administer nexteuropa_piwik'),
-    'file' => 'nexteuropa_piwik.admin.inc',
-  );
+function nexteuropa_piwik_js_alter(&$javascript) {
+  $id = variable_get('nexteuropa_piwik_site_id', '');
 
-  if (variable_get('nexteuropa_piwik_rules_state', FALSE)) {
-    $items['admin/config/system/webtools/piwik/general'] = array(
-      'title' => 'General settings',
-      'type' => MENU_DEFAULT_LOCAL_TASK,
-      'weight' => -10,
-    );
+  // 1. Check if the piwik account number has a value.
+  // 2. Track page views based on visibility and role.
+  if (preg_match('/^\d{1,}$/', $id) && _nexteuropa_piwik_visibility_pages()) {
+    // Inject the loader if not there.
+    _cce_basic_config_webtools_loader_inject($javascript);
   }
-
-  return $items;
-}
-
-/**
- * Implements hook_page_alter().
- *
- * This adds the webtools js to the head of normal page.
- * For the maintenance page, see nexteuropa_piwik_preprocess_maintenance_page().
- *
- * @see nexteuropa_piwik_preprocess_maintenance_page()
- */
-function nexteuropa_piwik_page_alter(&$page) {
-  _nexteuropa_piwik_add_load_js_to_page();
 }
 
 /**
@@ -94,21 +75,10 @@ function nexteuropa_piwik_page_alter(&$page) {
  * drupal_add_js won't work as we need application/json.
  */
 function nexteuropa_piwik_process_html(&$vars) {
-  $script = _nexteuropa_piwik_generate_json();
-  $vars['page_bottom'] .= drupal_render($script);
-}
-
-/**
- * Implements hook_preprocess_maintenance_page().
- *
- * This adds the webtools js to the head of the maintenance page.
- * The maintenance page must be treated differently compare to a normal page
- * because its building process does not pass by the call of hook_page_alter().
- *
- * @see nexteuropa_piwik_page_alter()
- */
-function nexteuropa_piwik_preprocess_maintenance_page(&$variables) {
-  _nexteuropa_piwik_add_load_js_to_page();
+  if (_nexteuropa_piwik_visibility_pages()) {
+    $script = _nexteuropa_piwik_generate_json();
+    $vars['page_bottom'] .= drupal_render($script);
+  }
 }
 
 /**
@@ -119,39 +89,6 @@ function nexteuropa_piwik_preprocess_maintenance_page(&$variables) {
 function nexteuropa_piwik_process_maintenance_page(&$variables) {
   $script = _nexteuropa_piwik_generate_json();
   $variables['scripts'] .= drupal_render($script);
-}
-
-/**
- * Injects the webtools load.js file to a page if the conditions are met.
- *
- * @see nexteuropa_piwik_page_alter()
- * @see nexteuropa_piwik_preprocess_maintenance_page()
- */
-function _nexteuropa_piwik_add_load_js_to_page() {
-  global $user;
-
-  $id = variable_get('nexteuropa_piwik_site_id', '');
-
-  // Get page status code for visibility filtering.
-  $status = drupal_get_http_header('Status');
-  // 1. Check if the piwik account number has a value.
-  // 2. Track page views based on visibility value.
-  // 3. Check if we should track the currently active user's role.
-  if (preg_match('/^\d{1,}$/', $id) && (_nexteuropa_piwik_visibility_pages() || $status == '404 Not Found') && _nexteuropa_piwik_visibility_roles($user)) {
-    // Loading variables.
-    $smartloader_prurl = variable_get('nexteuropa_piwik_smartloader_prurl', '');
-
-    // Add smart loader.
-    // Ensure to use a PR URL (compatibility for http/https).
-    $smartloader_prurl = preg_replace("#^https?:#", "", $smartloader_prurl);
-
-    drupal_add_js($smartloader_prurl, array(
-      'type' => 'external',
-      'scope' => 'header',
-      'defer' => TRUE,
-      'weight' => 5,
-    ));
-  }
 }
 
 /**
@@ -258,8 +195,16 @@ function _nexteuropa_piwik_visibility_roles($account) {
  * Return TRUE if widget should be enabled for the current page.
  */
 function _nexteuropa_piwik_visibility_pages() {
+  // Get page status code for visibility filtering.
+  $status = drupal_get_http_header('Status');
+  if ($status == '404 Not Found') {
+    return TRUE;
+  }
+  global $user;
+  if (!_nexteuropa_piwik_visibility_roles($user)) {
+    return FALSE;
+  }
   static $page_match;
-
   // Cache visibility setting in hook_init for hook_footer.
   if (!isset($page_match)) {
 
@@ -332,7 +277,7 @@ function nexteuropa_piwik_entity_info() {
         'controller class' => 'EntityAPIController',
         'access callback' => 'nexteuropa_piwik_rule_access',
         'admin ui' => array(
-          'path' => 'admin/config/system/webtools/piwik/advanced_rules',
+          'path' => 'admin/config/services/webtools/piwik_advanced_rules',
           'controller class' => 'Drupal\\nexteuropa_piwik\\EntityDefaultUIController\\PiwikRuleEntityUIController',
           'file' => 'nexteuropa_piwik.rule.admin.inc',
         ),

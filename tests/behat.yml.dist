@@ -29,6 +29,7 @@ default:
         - Drupal\nexteuropa\Context\MultilingualContext
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\nexteuropa\Context\WebtoolsContext
+        - Drupal\nexteuropa\Context\CookieConsentKitContext
         - Drupal\nexteuropa\Context\FrontendCacheContext:
             mock_server_host: {{ behat.poetry.host }}
             mock_server_port: {{ varnish.server.port }}
@@ -168,6 +169,7 @@ standard_ec_resp:
       - Drupal\nexteuropa\Context\MultilingualContext
       - Drupal\DrupalExtension\Context\MarkupContext
       - Drupal\nexteuropa\Context\WebtoolsContext
+      - Drupal\nexteuropa\Context\CookieConsentKitContext
       - Drupal\nexteuropa\Context\FrontendCacheContext:
           mock_server_host: {{ behat.poetry.host }}
           mock_server_port: {{ varnish.server.port }}
@@ -257,6 +259,7 @@ communities_ec_resp:
         - Drupal\nexteuropa\Context\MultilingualContext
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\nexteuropa\Context\WebtoolsContext
+        - Drupal\nexteuropa\Context\CookieConsentKitContext
         - Drupal\nexteuropa\Context\FrontendCacheContext:
             mock_server_host: {{ behat.poetry.host }}
             mock_server_port: {{ varnish.server.port }}

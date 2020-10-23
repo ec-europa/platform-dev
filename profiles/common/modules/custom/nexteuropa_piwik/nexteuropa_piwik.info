@@ -2,7 +2,7 @@ name = "NextEuropa Piwik Web Analytics"
 description = Adds Piwik Webtools widget to all your site's pages.
 core = 7.x
 package = NextEuropa
-configure = admin/config/system/webtools/piwik
+configure = admin/config/services/webtools
 
 dependencies[] = entity
 dependencies[] = registry_autoload

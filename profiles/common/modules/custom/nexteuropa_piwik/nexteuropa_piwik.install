@@ -71,7 +71,7 @@ function nexteuropa_piwik_requirements($phase) {
       if (!preg_match('/^\d{1,}$/', variable_get('nexteuropa_piwik_site_id', ''))) {
         $requirements['nexteuropa_piwik'] = array(
           'title' => $t('Nexteuropa Piwik module'),
-          'description' => $t('NextEuropa Piwik module has not been configured yet. Please configure its settings from the <a href="@url">Piwik settings page</a>.', array('@url' => url('admin/config/system/webtools/piwik'))),
+          'description' => $t('NextEuropa Piwik module has not been configured yet. Please configure its settings from the <a href="@url">Piwik settings page</a>.', array('@url' => url('admin/config/services/webtools'))),
           'severity' => REQUIREMENT_WARNING,
           'value' => $t('Not configured'),
         );

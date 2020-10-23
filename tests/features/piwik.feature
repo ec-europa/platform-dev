@@ -42,7 +42,7 @@ Feature: Check Piwik
       | Rule language | Rule path       | Rule path type | Rule section         |
       | all           | ^admin/*        | regexp         | Regexp based section |
       | en            | content/test    | direct         | Direct path section  |
-    When I go to "/admin/config/system/webtools/piwik/advanced_rules"
+    When I go to "/admin/config/services/webtools/piwik_advanced_rules"
     Then I see an overview with the following PIWIK rules:
       | Rule language | Rule path       | Rule path type | Rule section         |
       | all           | ^admin/*        | regexp         | Regexp based section |
@@ -51,7 +51,7 @@ Feature: Check Piwik
   @javascript @delete_piwik_rules @ec_resp_theme
   Scenario: Add a PIWIK rule.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
-    When I go to "/admin/config/system/webtools/piwik/advanced_rules"
+    When I go to "/admin/config/services/webtools/piwik_advanced_rules"
     And I click "Add piwik rule"
     And I fill in "Site section" with "Regexp based section"
     And I select "English" from "Language"
@@ -73,7 +73,7 @@ Feature: Check Piwik
       | Rule language | Rule path       | Rule path type | Rule section         |
       | all           | ^admin/*        | regexp         | Regexp based section |
       | en            | content/test    | direct         | Direct path section  |
-    When I go to "/admin/config/system/webtools/piwik/advanced_rules"
+    When I go to "/admin/config/services/webtools/piwik_advanced_rules"
     And I click "delete" next to the 2nd PIWIK rule
     And I press the "Confirm" button
     Then I see an overview with the following PIWIK rules:

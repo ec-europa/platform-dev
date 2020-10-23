@@ -2,25 +2,34 @@
 
 /**
  * @file
- * Hooks for nexteuropa_trackedchanges admin interfaces.
+ * Hooks for nexteuropa_laco admin interfaces.
  */
 
 /**
- * NextEuropa LACO settings form.
+ * Implements hook_form_FORM_ID_alter().
  */
-function nexteuropa_laco_settings_form($form, &$form_state) {
+function nexteuropa_laco_form_cce_basic_config_settings_form_alter(&$form, &$form_state) {
   $description = t('Enable the insertion of the Webtools LACO icons with content hyperlinks.');
+  // Create fieldset 'LACO' inside webtools fieldset.
+  $form['webtools']['laco'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('LACO configuration'),
+    '#weight' => 10,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#access' => user_access('administer nexteuropa laco settings'),
+  );
   if (module_exists('nexteuropa_metatags')) {
     $description .= '<br/><strong>For a better performance of the LACO icon feature, please enable the "Nexteuropa Metatags" module (nexteuropa_metatags)!</strong>';
   }
-  $form['nexteuropa_laco_enable_laco_icon_feature'] = array(
+  $form['webtools']['laco']['nexteuropa_laco_enable_laco_icon_feature'] = array(
     '#title' => t('Enable the Language Coverage icon feature'),
     '#type' => 'checkbox',
     '#description' => $description,
     '#default_value' => variable_get('nexteuropa_laco_enable_laco_icon_feature'),
   );
 
-  $form['nexteuropa_laco_icon_settings'] = array(
+  $form['webtools']['laco']['nexteuropa_laco_icon_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Webtools LACO icon settings'),
     '#description' => t('For more information about the different parameters below, please consult the Webtools Language Coverage documentation'),
@@ -44,22 +53,33 @@ function nexteuropa_laco_settings_form($form, &$form_state) {
       '.page-content aside',
     )
   );
-  $form['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_include'] = array(
+  if (is_array($raw_default_value)) {
+    $options = implode("\r\n", $raw_default_value);
+  }
+  else {
+    $options = '';
+  }
+  $form['webtools']['laco']['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_include'] = array(
     '#type' => 'textarea',
     '#title' => t('Containers to be included for the icon generation'),
-    '#default_value' => implode("\r\n", $raw_default_value),
+    '#default_value' => $options,
     '#required' => TRUE,
     '#description' => t(
       'Use any CSS selector 2.1 value to specify which links or containers are eligible. Set one selector per line.'
     ),
     '#rows' => 10,
   );
-
-  $raw_default_value = variable_get('nexteuropa_laco_icon_exclude', array());
-  $form['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_exclude'] = array(
+  $raw_default_value = variable_get('nexteuropa_laco_icon_exclude', '');
+  if (is_array($raw_default_value)) {
+    $options = implode("\r\n", $raw_default_value);
+  }
+  else {
+    $options = '';
+  }
+  $form['webtools']['laco']['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_exclude'] = array(
     '#type' => 'textarea',
     '#title' => t('Containers to be excluded for the icon generation'),
-    '#default_value' => implode("\r\n", $raw_default_value),
+    '#default_value' => $options,
     '#description' => t(
       'Use any CSS selector 2.1 value to specify which links or containers are eligible. Set one selector per line'
     ),
@@ -71,7 +91,7 @@ function nexteuropa_laco_settings_form($form, &$form_state) {
     'other' => t('Other'),
     'false' => t('None (False)'),
   );
-  $form['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_document_coverage'] = array(
+  $form['webtools']['laco']['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_document_coverage'] = array(
     '#type' => 'select',
     '#title' => t('LACO icons behaviours for documents'),
     '#default_value' => variable_get('nexteuropa_laco_icon_document_coverage', 'any'),
@@ -79,7 +99,7 @@ function nexteuropa_laco_settings_form($form, &$form_state) {
     '#description' => t('Defines how the LACO icon must be displayed beside files links.'),
   );
 
-  $form['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_page_coverage'] = array(
+  $form['webtools']['laco']['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_page_coverage'] = array(
     '#type' => 'select',
     '#title' => t('LACO icons behaviours for pages'),
     '#default_value' => variable_get('nexteuropa_laco_icon_page_coverage', 'any'),
@@ -87,7 +107,7 @@ function nexteuropa_laco_settings_form($form, &$form_state) {
     '#description' => t('Defines how the LACO icon must be displayed beside HTML page links.'),
   );
 
-  $form['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_language_coverage'] = array(
+  $form['webtools']['laco']['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_language_coverage'] = array(
     '#type' => 'select',
     '#title' => t('Languages covered by the LACO icon'),
     '#default_value' => variable_get('nexteuropa_laco_icon_language_coverage', 'eu'),
@@ -100,7 +120,7 @@ function nexteuropa_laco_settings_form($form, &$form_state) {
     ),
   );
 
-  $form['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_type'] = array(
+  $form['webtools']['laco']['nexteuropa_laco_icon_settings']['nexteuropa_laco_icon_type'] = array(
     '#type' => 'select',
     '#title' => t('LACO icon type'),
     '#default_value' => variable_get('nexteuropa_laco_icon_type', 'dot'),
@@ -114,7 +134,7 @@ function nexteuropa_laco_settings_form($form, &$form_state) {
   );
 
   // Pages visibility settings.
-  $form['nexteuropa_laco_icon_settings']['page_vis_settings'] = array(
+  $form['webtools']['laco']['nexteuropa_laco_icon_settings']['page_vis_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Pages where the LACO icon feature must be active'),
   );
@@ -122,7 +142,7 @@ function nexteuropa_laco_settings_form($form, &$form_state) {
     t('Every page except the listed pages'),
     t('The listed pages only'),
   );
-  $form['nexteuropa_laco_icon_settings']['page_vis_settings']['nexteuropa_laco_visibility_pages'] = array(
+  $form['webtools']['laco']['nexteuropa_laco_icon_settings']['page_vis_settings']['nexteuropa_laco_visibility_pages'] = array(
     '#type' => 'radios',
     '#title' => t('Add tracking to specific pages'),
     '#options' => $options,
@@ -134,23 +154,21 @@ function nexteuropa_laco_settings_form($form, &$form_state) {
     '%blog-wildcard' => 'blog/*',
     '%front' => '<front>',
   ));
-  $form['nexteuropa_laco_icon_settings']['page_vis_settings']['nexteuropa_laco_excluded_paths'] = array(
+  $form['webtools']['laco']['nexteuropa_laco_icon_settings']['page_vis_settings']['nexteuropa_laco_excluded_paths'] = array(
     '#type' => 'textarea',
     '#default_value' => variable_get('nexteuropa_laco_excluded_paths', NEXTEUROPA_LACO_PAGES),
     '#description' => $description,
   );
 
-  $form = system_settings_form($form);
-
+  $form['#validate'][] = '_nexteuropa_laco_admin_validate';
   return $form;
+
 }
 
 /**
  * Validation callback for the NextEuropa LACO settings form.
- *
- * @see nexteuropa_laco_settings_form()
  */
-function nexteuropa_laco_settings_form_validate($form, &$form_state) {
+function _nexteuropa_laco_admin_validate($form, &$form_state) {
   $values = &$form_state['values'];
   $values['nexteuropa_laco_icon_include'] = explode("\r\n", $values['nexteuropa_laco_icon_include']);
   $values['nexteuropa_laco_icon_exclude'] = explode("\r\n", $values['nexteuropa_laco_icon_exclude']);

@@ -470,8 +470,6 @@ function cce_basic_config_install() {
   }
   variable_set('user_failed_login_ip_limit', 5);
 
-  // NEPT-2823.
-  _cce_basic_config_smartloader();
   variable_set('webtoolds_globan', 1);
 }
 
@@ -1942,13 +1940,4 @@ function cce_basic_config_update_7236() {
  */
 function cce_basic_config_update_7237() {
   variable_set('user_failed_login_ip_limit', 5);
-}
-
-/**
- * Set value for common smartloader_prurl.
- *
- * NEPT-2823.
- */
-function cce_basic_config_update_7238() {
-  _cce_basic_config_smartloader();
 }

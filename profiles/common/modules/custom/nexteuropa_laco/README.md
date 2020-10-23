@@ -24,14 +24,14 @@ getting debug headers in the service response:
 $conf['nexteuropa_laco_debug'] = TRUE;
 ```
 
-The **LACO icon feature** can be enabled on the "Next Europa LACO - Settings" 
-page (path: admin/config/regional/nexteuropa_laco).
+The **LACO icon feature** can be enabled on the "Webtools Next Europa LACO"
+settings page : _admin/config/services/webtools_ .
 
 The feature is configured for a site that uses a default installation of the 
 NextEuropa platform but the module allows configuring the feature on 
 the "Next Europa LACO - Settings" page.<br />
 For each parameter described in the WebTools Language Coverage 
-[Technical documentation](https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Language+Coverage+-+Technical+details),
+[Technical documentation](https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Language+Coverage),
 a feature setting is to be defined.
 
 On this settings page, the "Pages where the LACO icon feature must be active" 
