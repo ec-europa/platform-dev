@@ -1941,3 +1941,14 @@ function cce_basic_config_update_7236() {
 function cce_basic_config_update_7237() {
   variable_set('user_failed_login_ip_limit', 5);
 }
+
+/**
+ * Use jquery 1.7 in admin UI if anyone has a lower version.
+ */
+function cce_basic_config_update_7238() {
+  $current_version = variable_get('jquery_update_jquery_admin_version');
+  $target_version = '1.7';
+  if (version_compare($target_version, $current_version, '>')) {
+    variable_set('jquery_update_jquery_admin_version', $target_version);
+  }
+}
