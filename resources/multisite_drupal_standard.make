@@ -559,7 +559,7 @@ projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-suppor
 
 projects[nexteuropa_newsroom][download][type] = git
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
-projects[nexteuropa_newsroom][download][tag] = v3.5.15
+projects[nexteuropa_newsroom][download][tag] = v3.5.17
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
