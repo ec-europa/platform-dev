@@ -29,6 +29,16 @@
               }
           }
           targetTab.elements[0].children[0].items = optionsToKeep;
+          // NEPT-2613: Block FTP protocol from the wysiwyg filters.
+          // The blocking is also added on the server side using variable "filter_allowed_protocols".
+          var ftpIndex = false;
+          for (i = dialogDefinition.getContents('info').get('protocol')['items'].length - 1; i >= 0; i--) {
+            ftpIndex = dialogDefinition.getContents('info').get('protocol')['items'][i].indexOf("ftp://");
+
+            if (ftpIndex !== -1) {
+              dialogDefinition.getContents('info').get('protocol')['items'].splice(i, 1);
+            }
+          }
         }
     });
 })();
