@@ -113,6 +113,14 @@ $ ./bin/phing build-europa-dev
 ```
 This Phing target is meant to be used only for the local development purposes.
 
+## Generic users.
+After install, generic users are created. Login using drush user-login command.
+```
+$  cd ./build
+$  drush uli
+```
+And setup a new password for these users.
+
 ## Running Behat tests
 
 The Behat test suite is located in the `tests/` folder. When the development

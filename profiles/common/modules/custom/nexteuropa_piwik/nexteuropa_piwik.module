@@ -201,6 +201,7 @@ function _nexteuropa_piwik_visibility_pages() {
     return TRUE;
   }
   global $user;
+  // Do not mark as visible if the role should not be tracked.
   if (!_nexteuropa_piwik_visibility_roles($user)) {
     return FALSE;
   }
