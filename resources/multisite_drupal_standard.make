@@ -343,7 +343,7 @@ projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/iss
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
 ; NEPT-2845 Fix missing Primary Key issues.
-projects[flag][patch][] = https://www.drupal.org/files/issues/2020-08-03/flag-add_missing_primary_key-2834419-5.patch
+projects[flag][patch][] = https://www.drupal.org/files/issues/2020-11-04/flag-add_missing_primary_key-2834419-6_1.patch
 
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc1"
