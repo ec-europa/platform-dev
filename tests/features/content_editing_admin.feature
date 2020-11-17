@@ -45,8 +45,6 @@ Feature: Content editing as administrator
 
     Examples:
       | title                                                                 | html                                                                  | unexpected                                                              |
-      | <script>alert('xss');</script>                                        | <script>alert('xss');</script>                                        | <script>alert('xss');</script>                                          |
-      | <a href='javascript:alert('xss');'>xss</a>                            | <a href=\"javascript:alert('xss');\">xss</a>                          | <a href=\"javascript:alert('xss');\">xss</a>                            |
       | <p style='background-image: url(javascript:alert('xss'))'>xss</p>   | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>   | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>     |
       | This is not the right way                                             | <div class=\"2classname\">Applied invalid css class</div>             | classname                                                               |
       | This is not the right way                                             | <div class=\"classname?&*\">Applied invalid css class</div>           | classname                                                               |
