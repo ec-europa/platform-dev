@@ -84,7 +84,9 @@ function nexteuropa_piwik_menu() {
  * @see nexteuropa_piwik_preprocess_maintenance_page()
  */
 function nexteuropa_piwik_page_alter(&$page) {
-  _nexteuropa_piwik_add_load_js_to_page();
+  if (_nexteuropa_piwik_visibility_pages()) {
+    _nexteuropa_piwik_add_load_js_to_page();
+  }
 }
 
 /**
@@ -128,16 +130,13 @@ function nexteuropa_piwik_process_maintenance_page(&$variables) {
  * @see nexteuropa_piwik_preprocess_maintenance_page()
  */
 function _nexteuropa_piwik_add_load_js_to_page() {
-  global $user;
 
   $id = variable_get('nexteuropa_piwik_site_id', '');
 
-  // Get page status code for visibility filtering.
-  $status = drupal_get_http_header('Status');
   // 1. Check if the piwik account number has a value.
   // 2. Track page views based on visibility value.
   // 3. Check if we should track the currently active user's role.
-  if (preg_match('/^\d{1,}$/', $id) && (_nexteuropa_piwik_visibility_pages() || $status == '404 Not Found') && _nexteuropa_piwik_visibility_roles($user)) {
+  if (preg_match('/^\d{1,}$/', $id) && _nexteuropa_piwik_visibility_pages()) {
     // Loading variables.
     $smartloader_prurl = variable_get('nexteuropa_piwik_smartloader_prurl', '');
 
@@ -258,6 +257,17 @@ function _nexteuropa_piwik_visibility_roles($account) {
  * Return TRUE if widget should be enabled for the current page.
  */
 function _nexteuropa_piwik_visibility_pages() {
+  global $user;
+
+  // Get page status code for visibility filtering.
+  $status = drupal_get_http_header('Status');
+  if ($status == '404 Not Found') {
+    return TRUE;
+  }
+  // Do not mark as visible if the role should not be tracked.
+  if (!_nexteuropa_piwik_visibility_roles($user)) {
+    return FALSE;
+  }
   static $page_match;
 
   // Cache visibility setting in hook_init for hook_footer.
