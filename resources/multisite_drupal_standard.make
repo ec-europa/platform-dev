@@ -275,18 +275,9 @@ projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta4"
-; Feeds is not compatible with php 7.2.
-; https://www.drupal.org/project/feeds/issues/1139676
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2638
-projects[feeds][patch][] = https://www.drupal.org/files/issues/2019-05-17/1139676_removing_the_PHP_7.2_warning.patch
-projects[feeds][patch][] = patches/feeds-php7-nept-2638.patch
-; Feeds is not compatible with php 7.3.
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2689
-projects[feeds][patch][] = https://www.drupal.org/files/issues/2019-10-10/feeds-v2.0-beta4-php7-compatibility-deprecated-continue-in-switch-3013743.patch
-; https://www.drupal.org/node/2980096
-projects[feeds][patch][] = https://www.drupal.org/files/issues/2018-06-18/feeds-i18n-node-languages-require-bundle-2980096-7.patch
-
+projects[feeds][version] = "2.0-beta5"
+projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds_delete_if_empty_source-2333667-8.patch
+projects[feeds][patch][] = patches/phpcs_ignore_safe_mode.patch
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
 ; So far, the module does not have any official release.
@@ -301,7 +292,7 @@ projects[feeds_et][download][branch] = 7.x-1.x
 ; see module README file.
 ; https://www.drupal.org/node/2078069
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2018
-projects[feeds_et][patch][] = "https://www.drupal.org/files/issues/feeds_et_link_support-2078069-3.patch"
+projects[feeds_et][patch][] = https://www.drupal.org/files/issues/feeds_et_link_support-2078069-3.patch
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.2"
