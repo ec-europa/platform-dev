@@ -1325,7 +1325,7 @@ EOF;
 
     case ECAS_WARNING_MESSAGE_TFA_REQUIRED:
       $value = <<< EOF
-      You just logged in using a one factor authentication method (I.e. Password) when your account requires a stronger authentication.
+      You just logged in using a one-factor authentication method (i.e. Password), when your account requires a stronger authentication.
       Please renew your authentication by choosing a more secure authentication method (e.g. Mobile Phone + SMS).
 EOF;
       break;
