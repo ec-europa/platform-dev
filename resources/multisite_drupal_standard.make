@@ -277,6 +277,7 @@ projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta5"
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds_delete_if_empty_source-2333667-8.patch
+projects[feeds][patch][] = patches/phpcs_ignore_safe_mode.patch
 
 ; "Feeds: Entity Translation" is a dependency for nexteuropa_newsroom module.
 ; So far, the module does not have any official release.
