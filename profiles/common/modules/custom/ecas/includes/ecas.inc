@@ -514,24 +514,24 @@ function ecas_login_check() {
   }
 
   // Instanciate EcasDenyAuth object.
-  $EcasDenyAuth = new EcasDenyAuth();
+  $ecas_deny_auth = new EcasDenyAuth();
 
   // Check if user has been authenticated by EU Login.
-  $EcasDenyAuth->check('eu_login_authentication', (!phpCAS::isAuthenticated()) ? TRUE : FALSE);
+  $ecas_deny_auth->check('eu_login_authentication', (!phpCAS::isAuthenticated()) ? TRUE : FALSE);
 
   // Get ecas user data.
   $ecas_name = phpCAS::getUser();
   $ecas_attributes = phpCAS::getAttributes();
 
   // Update object props.
-  $EcasDenyAuth->set(array(
+  $ecas_deny_auth->set(array(
     'message_args' => array(
       '%ecas_name' => (!empty($ecas_name)) ? $ecas_name : 'Unknown user name',
     ),
   ));
 
   // Check if ecas attributes are available.
-  $EcasDenyAuth->check('eu_login_account_attributes', (empty($ecas_attributes) || empty($ecas_name)) ? TRUE : FALSE);
+  $ecas_deny_auth->check('eu_login_account_attributes', (empty($ecas_attributes) || empty($ecas_name)) ? TRUE : FALSE);
 
   $ecas_social_login = $ecas_attributes['cas:employeeType'];
   $ecas_user_language = ecas_get_ecas_user_language($ecas_attributes);
@@ -583,7 +583,7 @@ function ecas_login_check() {
   $account_edit = ecas_sync_drupal_user_with_ecas_info($account, $ecas_attributes, $ecas_sync_user_info_args);
 
   // Update object props.
-  $EcasDenyAuth->set(
+  $ecas_deny_auth->set(
     array(
       'message_args' => array(
         '%ecas_name' => $ecas_name,
@@ -596,26 +596,26 @@ function ecas_login_check() {
   // user data, check the validity of the user that must be saved.
   // The ecas user must have a defined e-mail; otherwise the drupal
   // authentication is denied.
-  $EcasDenyAuth->check('e-mail_defined', (empty($account_edit['mail'])) ? TRUE : FALSE);
+  $ecas_deny_auth->check('e-mail_defined', (empty($account_edit['mail'])) ? TRUE : FALSE);
 
   // Check that the email is not used for another account; otherwise the drupal
   // authentication is denied.
-  $EcasDenyAuth->check('e-mail_exists', ($ecas_social_login == 'v' && ecas_is_email_already_used($account_edit['mail'], $account)) ? TRUE : FALSE);
+  $ecas_deny_auth->check('e-mail_exists', ($ecas_social_login == 'v' && ecas_is_email_already_used($account_edit['mail'], $account)) ? TRUE : FALSE);
 
   // Check that social login user has authenticated role only.
   $authenticated_role = user_role_load_by_name('authenticated user');
 
-  $EcasDenyAuth->check('social_login_role',
+  $ecas_deny_auth->check('social_login_role',
     ($ecas_social_login == 'v' && (user_has_role($authenticated_role->rid, $account) && count($account->roles) > 1)) ? TRUE : FALSE);
 
   // Time to save the user.
   $saved_account = ecas_save_user($account, $account_edit, $ecas_attributes, $ecas_sync_user_info_args);
 
   // Check account status.
-  $EcasDenyAuth->check('account_status', (empty($saved_account->status)) ? TRUE : FALSE);
+  $ecas_deny_auth->check('account_status', (empty($saved_account->status)) ? TRUE : FALSE);
 
   // Check EU Login authentication strength.
-  $EcasDenyAuth->check('authentication_strength', FALSE, array(
+  $ecas_deny_auth->check('authentication_strength', FALSE, array(
     'user_roles' => $saved_account->roles,
     'login_strengths' => $ecas_attributes['cas:strengths'],
   ));
@@ -1243,12 +1243,12 @@ function _ecas_get_site_frontpage_full_url() {
 function _ecas_warning_goto($path_page_argument, $language = NULL, $message = '', array $message_args = array()) {
 
   // Instanciate EcasDenyAuth object.
-  $EcasDenyAuth = new EcasDenyAuth(array(
+  $ecas_deny_auth = new EcasDenyAuth(array(
     'language' => $language,
     'message_args' => $message_args,
   ));
 
-  $EcasDenyAuth->redirect(array(
+  $ecas_deny_auth->redirect(array(
     'page_argument' => $path_page_argument,
     'message' => $message,
   ));
