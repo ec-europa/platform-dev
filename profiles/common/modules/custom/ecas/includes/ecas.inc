@@ -513,25 +513,25 @@ function ecas_login_check() {
     phpCAS::forceAuthentication();
   }
 
-  // Instanciate EcasDenieAuth object.
-  $ecasDenieAuth = new EcasDenieAuth();
+  // Instanciate EcasDenyAuth object.
+  $EcasDenyAuth = new EcasDenyAuth();
 
   // Check if user has been authenticated by EU Login.
-  $ecasDenieAuth->check('eu_login_authentication', (!phpCAS::isAuthenticated()) ? TRUE : FALSE);
+  $EcasDenyAuth->check('eu_login_authentication', (!phpCAS::isAuthenticated()) ? TRUE : FALSE);
 
   // Get ecas user data.
   $ecas_name = phpCAS::getUser();
   $ecas_attributes = phpCAS::getAttributes();
 
   // Update object props.
-  $ecasDenieAuth->set(array(
+  $EcasDenyAuth->set(array(
     'message_args' => array(
       '%ecas_name' => (!empty($ecas_name)) ? $ecas_name : 'Unknown user name',
     ),
   ));
 
   // Check if ecas attributes are available.
-  $ecasDenieAuth->check('eu_login_account_attributes', (empty($ecas_attributes) || empty($ecas_name)) ? TRUE : FALSE);
+  $EcasDenyAuth->check('eu_login_account_attributes', (empty($ecas_attributes) || empty($ecas_name)) ? TRUE : FALSE);
 
   $ecas_social_login = $ecas_attributes['cas:employeeType'];
   $ecas_user_language = ecas_get_ecas_user_language($ecas_attributes);
@@ -583,7 +583,7 @@ function ecas_login_check() {
   $account_edit = ecas_sync_drupal_user_with_ecas_info($account, $ecas_attributes, $ecas_sync_user_info_args);
 
   // Update object props.
-  $ecasDenieAuth->set(
+  $EcasDenyAuth->set(
     array(
       'message_args' => array(
         '%ecas_name' => $ecas_name,
@@ -596,26 +596,26 @@ function ecas_login_check() {
   // user data, check the validity of the user that must be saved.
   // The ecas user must have a defined e-mail; otherwise the drupal
   // authentication is denied.
-  $ecasDenieAuth->check('e-mail_defined', (empty($account_edit['mail'])) ? TRUE : FALSE);
+  $EcasDenyAuth->check('e-mail_defined', (empty($account_edit['mail'])) ? TRUE : FALSE);
 
   // Check that the email is not used for another account; otherwise the drupal
   // authentication is denied.
-  $ecasDenieAuth->check('e-mail_exists', ($ecas_social_login == 'v' && ecas_is_email_already_used($account_edit['mail'], $account)) ? TRUE : FALSE);
+  $EcasDenyAuth->check('e-mail_exists', ($ecas_social_login == 'v' && ecas_is_email_already_used($account_edit['mail'], $account)) ? TRUE : FALSE);
 
   // Check that social login user has authenticated role only.
   $authenticated_role = user_role_load_by_name('authenticated user');
 
-  $ecasDenieAuth->check('social_login_role',
+  $EcasDenyAuth->check('social_login_role',
     ($ecas_social_login == 'v' && (user_has_role($authenticated_role->rid, $account) && count($account->roles) > 1)) ? TRUE : FALSE);
 
   // Time to save the user.
   $saved_account = ecas_save_user($account, $account_edit, $ecas_attributes, $ecas_sync_user_info_args);
 
   // Check account status.
-  $ecasDenieAuth->check('account_status', (empty($saved_account->status)) ? TRUE : FALSE);
+  $EcasDenyAuth->check('account_status', (empty($saved_account->status)) ? TRUE : FALSE);
 
   // Check EU Login authentication strength.
-  $ecasDenieAuth->check('authentication_strength', FALSE, array(
+  $EcasDenyAuth->check('authentication_strength', FALSE, array(
     'user_roles' => $saved_account->roles,
     'login_strengths' => $ecas_attributes['cas:strengths'],
   ));
@@ -1204,11 +1204,11 @@ function _ecas_force_login() {
 /**
  * End session and set global variable $user to anonymous.
  *
- * This function has been replaced by EcasDenieAuth::endSession() but
+ * This function has been replaced by EcasDenyAuth::endSession() but
  * better keep it in case of subsites call.
  */
 function _ecas_session_end() {
-  EcasDenieAuth::endSession();
+  EcasDenyAuth::endSession();
 }
 
 /**
@@ -1224,7 +1224,7 @@ function _ecas_get_site_frontpage_full_url() {
 /**
  * Triggers the redirection to the ecas warning page with the right parameters.
  *
- * This function has been replaced by EcasDenieAuth::redirect() but better keep
+ * This function has been replaced by EcasDenyAuth::redirect() but better keep
  * it in case of subsites call.
  *
  * @param string $path_page_argument
@@ -1242,13 +1242,13 @@ function _ecas_get_site_frontpage_full_url() {
  */
 function _ecas_warning_goto($path_page_argument, $language = NULL, $message = '', array $message_args = array()) {
 
-  // Instanciate EcasDenieAuth object.
-  $ecasDenieAuth = new EcasDenieAuth(array(
+  // Instanciate EcasDenyAuth object.
+  $EcasDenyAuth = new EcasDenyAuth(array(
     'language' => $language,
     'message_args' => $message_args,
   ));
 
-  $ecasDenieAuth->redirect(array(
+  $EcasDenyAuth->redirect(array(
     'page_argument' => $path_page_argument,
     'message' => $message,
   ));

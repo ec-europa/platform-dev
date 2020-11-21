@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains EcasDenieAuth.
+ * Contains EcasDenyAuth.
  */
 
 /**
  * Contains logic to check and manage authentication denie.
  */
-class EcasDenieAuth {
+class EcasDenyAuth {
 
   /**
    * This variable stores current login process's status to check and manage.
@@ -43,7 +43,7 @@ class EcasDenieAuth {
   public $redirectionAttributes;
 
   /**
-   * Construct EcasDenieAuth object.
+   * Construct EcasDenyAuth object.
    */
   public function __construct(array $props = array()) {
     $this->language = isset($props['language']) ? $props['language'] : NULL;
