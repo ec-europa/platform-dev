@@ -259,7 +259,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $callback_password = $settings['callback_password'];
     $poetry = variable_get("poetry_service");
     if (isset($poetry['callback_address'])) {
-      $callback_address = $poetry['callback_address'];
+      $callback_address = $poetry['callback_address'] . "/wsdl/PoetryIntegration.wsdl";
     }
     else {
       $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
