@@ -17,7 +17,9 @@ Feature: Wiki communities
     Given I am logged in as a user with the "administrator" role
     When I go to "community/community-example"
     And I click "Create content"
-    And I click "Wiki" in the "sidebar_left" region
+    And I click on element "#block-multisite-create-button-create-content-button .ecl-select"
+    Then I should see the text "Wiki"
+    And I click on option "Wiki" from element "#block-multisite-create-button-create-content-button .ecl-select"
     And I fill in the content's title with "New Wiki Page"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
@@ -30,7 +32,9 @@ Feature: Wiki communities
   Scenario: An administrator user can create a wiki on a community
     Given I am logged in as a user with the "administrator" role
     When I go to "community/community-example"
-    And I click "Wiki" in the "sidebar_left" region
+    And I click on element "#block-multisite-create-button-create-content-button .ecl-select"
+    Then I should see the text "Wiki"
+    And I click on option "Wiki" from element "#block-multisite-create-button-create-content-button .ecl-select"
     And I fill in the content's title with "New Wiki Page"
     And I click "Publishing options"
     And I select "Published" from "Moderation state"
@@ -47,7 +51,9 @@ Feature: Wiki communities
     And I have the "member" role in the "Community Example" group
     When I go to "community/community-example"
     And I click "Create content"
-    And I click "Wiki" in the "sidebar_left" region
+    And I click on element "#block-multisite-create-button-create-content-button .ecl-select"
+    Then I should see the text "Wiki"
+    And I click on option "Wiki" from element "#block-multisite-create-button-create-content-button .ecl-select"
     And I fill in the content's title with "New Wiki Page"
     And I press the "Save" button
 
@@ -69,7 +75,9 @@ Feature: Wiki communities
     And I am logged in as "contributor_user"
     And I have the "member" role in the "Community Example" group
     When I go to "community/community-example"
-    And I click "Wiki" in the "sidebar_left" region
+    And I click on element "#block-multisite-create-button-create-content-button .ecl-select"
+    Then I should see the text "Wiki"
+    And I click on option "Wiki" from element "#block-multisite-create-button-create-content-button .ecl-select"
     And I fill in the content's title with "New Wiki Page"
     And I press the "Save" button
 

@@ -57,12 +57,6 @@ function communities_context_default_contexts() {
           'region' => 'sidebar_left',
           'weight' => '-20',
         ),
-        'multisite_og_button-og-contextual-links' => array(
-          'module' => 'multisite_og_button',
-          'delta' => 'og-contextual-links',
-          'region' => 'sidebar_left',
-          'weight' => '-10',
-        ),
         'views-community_content-block_content' => array(
           'module' => 'views',
           'delta' => 'community_content-block_content',

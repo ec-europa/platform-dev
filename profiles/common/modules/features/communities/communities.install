@@ -105,3 +105,10 @@ function communities_update_7203() {
   module_load_include('inc', 'features', "features.export");
   features_set_signature('communities', 'variable');
 }
+
+/**
+ * Replace multiste_og_button with multisite_create_button.
+ */
+function communities_update_7204() {
+  module_enable(array('multisite_create_button'));
+}
