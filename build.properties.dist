@@ -173,7 +173,7 @@ behat.poetry.password = password
 mock.poetry.base_url =
 # Example mock.poetry.drupal_wsdl = ${mock.poetry.base_url}/profiles/multisite_drupal_standard/modules/custom/nexteuropa_dgt_connector/tmgmt_poetry/wsdl/PoetryIntegration.wsdl
 mock.poetry.drupal_wsdl =
-# Example mock.poetry.poetry_endpoint = https://xxx.vfs.cloud9.eu-west-1.amazonaws.com/tmgmt_poetry_mock/soap_server
+# Example mock.poetry.poetry_endpoint = base_url/tmgmt_poetry_mock/soap_server
 mock.poetry.poetry_endpoint =
 
 # Poetry configuration
