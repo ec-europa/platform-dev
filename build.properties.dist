@@ -47,7 +47,7 @@ drupal.htaccess.path = ${platform.build.dir}/.htaccess
 drupal.htaccess.append.text =
 
 # Configuration to append to the settings.php file of the build.
-drupal.settings.append.text = ${line.separator}$conf['multisite_toolbox_cs_whitelist'] = array('*.europa.eu', 'europa.eu');${line.separator}$conf['poetry_mock_base_url'] = "${mock.poetry.base_url}";${line.separator}$conf['ecas_whitelisted_user_roles'] = array();${line.separator}
+drupal.settings.append.text = ${line.separator}$conf['multisite_toolbox_cs_whitelist'] = array('*.europa.eu', 'europa.eu');${line.separator}$conf['poetry_mock_base_url'] = "${mock.poetry.base_url}";${line.separator}${line.separator}$conf['poetry_service'] = array('address' => '${poetry_service.address}', 'method' => '${poetry_service.method}', 'callback_address' => '${poetry_service.callback_address}', 'drupal_wsdl' => '${mock.poetry.drupal_wsdl}, 'poetry_endpoint' => '${mock.poetry.poetry_endpoint}');${line.separator}
 
 
 # Platform configuration
@@ -169,7 +169,20 @@ behat.poetry.password = password
 
 # Poetry mock
 # Example mock.poetry.base_url = http://127.0.0.1:8080/platform-dev/build
+# Example mock.poetry.base_url = http://web:8080
 mock.poetry.base_url =
+# Example mock.poetry.drupal_wsdl = ${mock.poetry.base_url}/profiles/multisite_drupal_standard/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/wsdl/PoetryIntegration.wsdl
+mock.poetry.drupal_wsdl =
+# Example mock.poetry.poetry_endpoint = https://xxx.vfs.cloud9.eu-west-1.amazonaws.com/tmgmt_poetry_mock/soap_server
+mock.poetry.poetry_endpoint =
+
+# Poetry configuration
+# Example mock.poetry.poetry_endpoint = http://web:8080/tmgmt_poetry_mock/tmgmt_poetry_mock.wsdl
+poetry_service.address =
+# Example mock.poetry.poetry_endpoint = requestService
+poetry_service.method =
+# Example mock.poetry.poetry_endpoint =  http://web:8080/profiles/multisite_drupal_standard/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/wsdl/PoetryIntegration.wsdl
+poetry_service.callback_address =
 
 # PHPUnit configuration
 # -------------------
