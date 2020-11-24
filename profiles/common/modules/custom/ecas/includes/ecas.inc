@@ -229,7 +229,8 @@ function ecas_login_page() {
 
   // If it is the user's first CAS login and initial login redirection is
   // enabled, go to the set page.
-  if (!empty($_SESSION['ecas_goto'])) {
+  if (!empty($_SESSION['ecas_goto'])
+    && !_ecas_is_warning_page($_SESSION['ecas_goto'])) {
     $destination = $_SESSION['ecas_goto'];
     unset($_SESSION['ecas_goto']);
   }
@@ -512,32 +513,25 @@ function ecas_login_check() {
     phpCAS::forceAuthentication();
   }
 
-  // Check the user is authenticated by ecas.
-  // if not, we stop here with a warning message page.
-  if (!phpCAS::isAuthenticated()) {
-    _ecas_warning_goto(
-      ECAS_WARNING_REASON_UNKNOWN,
-      NULL,
-      'ECAS authentication failed for unexpected reasons.'
-    );
-  }
+  // Instanciate EcasDenyAuth object.
+  $ecas_deny_auth = new EcasDenyAuth();
+
+  // Check if user has been authenticated by EU Login.
+  $ecas_deny_auth->check('eu_login_authentication', (!phpCAS::isAuthenticated()) ? TRUE : FALSE);
 
   // Get ecas user data.
   $ecas_name = phpCAS::getUser();
   $ecas_attributes = phpCAS::getAttributes();
 
-  // If no ecas attribute are available, we cannot achieve the user login.
-  // We stop the process and redirect the user to the warning page.
-  if (empty($ecas_attributes) || empty($ecas_name)) {
-    _ecas_warning_goto(
-      ECAS_WARNING_REASON_INCOMPLETE_USER,
-      NULL,
-      'Login process failed for "%ecas_name" because of an EU login user with missing required attributes.',
-      array(
-        '%ecas_name' => !empty($ecas_name) ? $ecas_name : 'Unknown user name',
-      )
-    );
-  }
+  // Update object props.
+  $ecas_deny_auth->set(array(
+    'message_args' => array(
+      '%ecas_name' => (!empty($ecas_name)) ? $ecas_name : 'Unknown user name',
+    ),
+  ));
+
+  // Check if ecas attributes are available.
+  $ecas_deny_auth->check('eu_login_account_attributes', (empty($ecas_attributes) || empty($ecas_name)) ? TRUE : FALSE);
 
   $ecas_social_login = $ecas_attributes['cas:employeeType'];
   $ecas_user_language = ecas_get_ecas_user_language($ecas_attributes);
@@ -588,61 +582,43 @@ function ecas_login_check() {
   // There is no save inside, that will be do after further validations.
   $account_edit = ecas_sync_drupal_user_with_ecas_info($account, $ecas_attributes, $ecas_sync_user_info_args);
 
+  // Update object props.
+  $ecas_deny_auth->set(
+    array(
+      'message_args' => array(
+        '%ecas_name' => $ecas_name,
+      ),
+      'language' => $ecas_user_language,
+    )
+  );
+
   // Before saving and as we gave a last chance to other modules to change the
   // user data, check the validity of the user that must be saved.
   // The ecas user must have a defined e-mail; otherwise the drupal
   // authentication is denied.
-  if (empty($account_edit['mail'])) {
-    _ecas_warning_goto(
-      ECAS_WARNING_REASON_NO_EMAIL,
-      $ecas_user_language,
-      'Login denied for %ecas_name because it has no e-mail defined.',
-      array(
-        '%ecas_name' => $ecas_name,
-      )
-    );
-  }
+  $ecas_deny_auth->check('e-mail_defined', (empty($account_edit['mail'])) ? TRUE : FALSE);
 
   // Check that the email is not used for another account; otherwise the drupal
   // authentication is denied.
-  if ($ecas_social_login == 'v' && ecas_is_email_already_used($account_edit['mail'], $account)) {
-    _ecas_warning_goto(
-      ECAS_WARNING_REASON_EXISTING_EMAIL,
-      $ecas_user_language,
-      'Login denied for %ecas_name because the e-mail is already used by another account.',
-      array(
-        '%ecas_name' => $ecas_name,
-      )
-    );
-  }
+  $ecas_deny_auth->check('e-mail_exists', ($ecas_social_login == 'v' && ecas_is_email_already_used($account_edit['mail'], $account)) ? TRUE : FALSE);
 
   // Check that social login user has authenticated role only.
   $authenticated_role = user_role_load_by_name('authenticated user');
 
-  if ($ecas_social_login == 'v' && (user_has_role($authenticated_role->rid, $account) && count($account->roles) > 1)) {
-    _ecas_warning_goto(
-      ECAS_WARNING_REASON_SOCIAL,
-      $ecas_user_language,
-      'Login denied for %ecas_name because the account has more then authenticated role.',
-      array(
-        '%ecas_name' => $ecas_name,
-      )
-    );
-  }
+  $ecas_deny_auth->check('social_login_role',
+    ($ecas_social_login == 'v' && (user_has_role($authenticated_role->rid, $account) && count($account->roles) > 1)) ? TRUE : FALSE);
 
   // Time to save the user.
   $saved_account = ecas_save_user($account, $account_edit, $ecas_attributes, $ecas_sync_user_info_args);
 
-  if (empty($saved_account->status)) {
-    _ecas_warning_goto(
-      ECAS_WARNING_REASON_BLOCKED,
-      $ecas_user_language,
-      'Login denied for %ecas_name because the account is not active yet.',
-      array(
-        '%ecas_name' => $ecas_name,
-      )
-    );
-  }
+  // Check account status.
+  $ecas_deny_auth->check('account_status', (empty($saved_account->status)) ? TRUE : FALSE);
+
+  // Check EU Login authentication strength.
+  $ecas_deny_auth->check('authentication_strength', FALSE, array(
+    'user_roles' => $saved_account->roles,
+    'login_strengths' => $ecas_attributes['cas:strengths'],
+  ));
 
   // Finalize the user login.
   $user = $saved_account;
@@ -774,6 +750,11 @@ function ecas_warning_page($reason) {
 
     case ECAS_WARNING_REASON_INCOMPLETE_USER:
       $message_key = ECAS_WARNING_MESSAGE_INCOMPLETE_USER;
+      break;
+
+    case ECAS_WARNING_TFA_REQUIRED:
+      $theme_variables['warning_title'] = t("Your site's account requirements are not met.");
+      $message_key = ECAS_WARNING_MESSAGE_TFA_REQUIRED;
       break;
 
     default:
@@ -1222,13 +1203,12 @@ function _ecas_force_login() {
 
 /**
  * End session and set global variable $user to anonymous.
+ *
+ * This function has been replaced by EcasDenyAuth::endSession() but
+ * better keep it in case of subsites call.
  */
 function _ecas_session_end() {
-  global $user;
-
-  session_destroy();
-
-  $user = drupal_anonymous_user();
+  EcasDenyAuth::endSession();
 }
 
 /**
@@ -1244,6 +1224,9 @@ function _ecas_get_site_frontpage_full_url() {
 /**
  * Triggers the redirection to the ecas warning page with the right parameters.
  *
+ * This function has been replaced by EcasDenyAuth::redirect() but better keep
+ * it in case of subsites call.
+ *
  * @param string $path_page_argument
  *   The warning page argument to use for the redirection.
  * @param object $language
@@ -1257,28 +1240,18 @@ function _ecas_get_site_frontpage_full_url() {
  *
  * @see drupal_goto()
  */
-function _ecas_warning_goto($path_page_argument, $language = NULL, $message = NULL, array $message_args = array()) {
-  if (!empty($message)) {
-    watchdog('user', $message, $message_args, WATCHDOG_ERROR);
-  }
+function _ecas_warning_goto($path_page_argument, $language = NULL, $message = '', array $message_args = array()) {
 
-  if (empty($language)) {
-    $language = language_default();
-  }
+  // Instanciate EcasDenyAuth object.
+  $ecas_deny_auth = new EcasDenyAuth(array(
+    'language' => $language,
+    'message_args' => $message_args,
+  ));
 
-  _ecas_session_end();
-
-  // Ensure that the user is correctly redirected to warning page because
-  // if drupal_goto() detects an internal path in destination parameter, it
-  // will use it instead of the submitted parameters, see function code.
-  if (isset($_REQUEST['destination'])) {
-    unset($_REQUEST['destination']);
-  }
-  if (isset($_REQUEST['edit']['destination'])) {
-    unset($_REQUEST['edit']['destination']);
-  }
-
-  drupal_goto('eulogin_warning/' . $path_page_argument, array('language' => $language));
+  $ecas_deny_auth->redirect(array(
+    'page_argument' => $path_page_argument,
+    'message' => $message,
+  ));
 }
 
 /**
@@ -1350,6 +1323,13 @@ EOF;
 EOF;
       break;
 
+    case ECAS_WARNING_MESSAGE_TFA_REQUIRED:
+      $value = <<< EOF
+      You just logged in using a one-factor authentication method (i.e. Password), when your account requires a stronger authentication.
+      Please renew your authentication by choosing a more secure authentication method (e.g. Mobile Phone + SMS).
+EOF;
+      break;
+
     default:
       $value = "The reason is unknown. Please contact the site's administrator.";
       break;
@@ -1373,4 +1353,17 @@ EOF;
  */
 function _ecas_get_default_login_message() {
   return 'Logged in via EU Login as %ecas_username.';
+}
+
+/**
+ * Check if a path corresponds to a warning page.
+ *
+ * @param string $path
+ *   The path to check.
+ *
+ * @return bool
+ *   TRUE if $path corresponds to a warning page.
+ */
+function _ecas_is_warning_page($path) {
+  return strstr($path, 'eulogin_warning');
 }
