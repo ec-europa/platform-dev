@@ -175,7 +175,7 @@ mock.poetry.base_url =
 poetry_service.address =
 # Example mock.poetry.method = requestService
 poetry_service.method =
-# Example mock.poetry.callback_address =  http://web:8080/profiles/multisite_drupal_standard/modules/custom/nexteuropa_dgt_connector/tmgmt_poetry
+# Example mock.poetry.callback_address =  http://web:8080
 poetry_service.callback_address =
 # PHPUnit configuration
 # -------------------

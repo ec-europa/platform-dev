@@ -35,6 +35,9 @@ New menu items appear in the admin menu bar:
 
 1. POETRY Mock: Setup
 > Set up the variables required by POETRY Mock.
+> If $conf['poetry_service'] is defined on the settings.php, configure these values too:
+> $conf['poetry_service']['drupal_wsdl'] = '';
+> $conf['poetry_service']['poetry_endpoint'] = '';
 
 2. POETRY Mock: Dashboard
 > View the list of jobs for which you can mock translation receipt.
