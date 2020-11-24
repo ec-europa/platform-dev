@@ -3,4 +3,3 @@ description = "Provides contextual links to create site wide content"
 package = "Multisite Core Features"
 
 core = 7.x
-files[] = multisite_create_button.test
