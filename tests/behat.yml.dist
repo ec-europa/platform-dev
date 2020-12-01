@@ -91,7 +91,6 @@ default:
             switches:
               - "--headless"
               - "--disable-gpu"
-              - "--start-maximized"
           extra_capabilities:
             unexpectedAlertBehaviour: accept
             goog:chromeOptions:
