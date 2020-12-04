@@ -13,13 +13,17 @@
  * Both will be included from the FPFIS_COMMON_LIBRARIES_PATH.
  */
 
-// Include the constants sued in the different part of the module.
+// Include the constants used in the different parts of the module.
 $constants_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.constants.inc';
 include_once $constants_ecas_module_include;
 
 // Include the admin part of the module.
 $admin_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.admin.inc';
 include_once $admin_ecas_module_include;
+
+// Include the EcasDenyAuth class.
+$ecas_deny_auth = drupal_get_path('module', 'ecas') . '/includes/EcasDenyAuth.inc';
+include_once $ecas_deny_auth;
 
 $fpfis_common_include = constant('FPFIS_COMMON_LIBRARIES_PATH') . '/FPFIS_Common/fpfis_common.php';
 include_once $fpfis_common_include;
