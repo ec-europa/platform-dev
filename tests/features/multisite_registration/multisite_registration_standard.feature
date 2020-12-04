@@ -49,6 +49,7 @@ Feature: Multisite registration standard
     And   I click "Register"
     Then  I should see "This registration is for:"
 
+  @wip
   Scenario: as administrator I can disable registration when I create a new content with registration field
     Given I am on "/node/add/article"
     Then  I should see "Registration field test"
