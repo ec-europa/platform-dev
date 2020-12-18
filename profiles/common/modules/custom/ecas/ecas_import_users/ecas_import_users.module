@@ -13,6 +13,7 @@ function ecas_import_users_permission() {
     'access ecas import users function' => array(
       'title' => t('Import EU Login users'),
       'description' => t('Import users from the EU Login server into Drupal.'),
+      'restrict access' => TRUE,
     ),
   );
 }

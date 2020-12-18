@@ -342,6 +342,12 @@ class CAS_Client
             $this->_server['login_url'] .= urlencode($this->getURL());
         }
         $url = $this->_server['login_url'];
+
+        // Add necessary parameters.
+        $strengths_send = _ecas_get_strengths();
+        if (!empty($strengths_send)) {
+            $url = $this->_buildQueryUrl($url, 'acceptStrengths=' . $strengths_send);
+        }
         if ($renew) {
             // It is recommended that when the "renew" parameter is set, its
             // value be "true"
