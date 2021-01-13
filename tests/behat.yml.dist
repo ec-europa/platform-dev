@@ -82,16 +82,7 @@ default:
         browser: '{{ behat.browser.name }}'
         wd_host: '{{ behat.wd_host.url }}'
         capabilities:
-          browser: '{{ behat.browser.name }}'
           marionette: true
-          chrome:
-            switches:
-              - "--headless"
-              - "--disable-gpu"
-          extra_capabilities:
-            unexpectedAlertBehaviour: accept
-            goog:chromeOptions:
-              w3c: false
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
       ajax_timeout: 30
