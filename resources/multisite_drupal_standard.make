@@ -479,8 +479,9 @@ projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "3.9"
+projects[media_youtube][version] = "3.10"
 projects[media_youtube][patch][] = https://www.drupal.org/files/issues/2018-06-28/nocookie-default.patch
+projects[media_youtube][patch][] = https://www.drupal.org/files/issues/2021-01-07/media_youtube-1572550-117.patch
 
 projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
