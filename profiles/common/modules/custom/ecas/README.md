@@ -135,6 +135,11 @@ roles
 - for the community multisite : it provides a mapping between DG and og roles in
 communities
 
+- release 2.6.x allows to improve security level of sites which allow logging in
+using 1AF. When the array 'ecas_whitelisted_user_roles' is present in the
+settings.php file, EU login will only allow 1AF for a user if all her/his roles
+are included. An empty array will force 2AF on all users.
+This variable should be set in the settings.php file of the site.
 
 Usage
 -----
