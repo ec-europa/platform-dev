@@ -257,10 +257,16 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     // Generate the callback parameters.
     $callback_username = $settings['callback_user'];
     $callback_password = $settings['callback_password'];
-    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
-      'absolute' => TRUE,
-      'language' => (object) array('language' => FALSE),
-    ));
+    $poetry = variable_get("poetry_service");
+    if (isset($poetry['callback_address'])) {
+      $callback_address = $poetry['callback_address'] . drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl";
+    }
+    else {
+      $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+        'absolute' => TRUE,
+        'language' => (object) array('language' => FALSE),
+      ));
+    }
     $callback_path = 'FPFISPoetryIntegrationRequest';
     $callback_remark = '';
 
@@ -692,10 +698,17 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    */
   protected function appendAttributionsXmlElement(SimpleXMLElement $request_xml, array $new_languages, $delivery_date, $settings) {
     $callback_username = $settings['callback_user'];
-    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
-      'absolute' => TRUE,
-      'language' => (object) array('language' => FALSE),
-    ));
+
+    $poetry = variable_get("poetry_service");
+    if (isset($poetry['callback_address'])) {
+      $callback_address = $poetry['callback_address'] . drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl";
+    }
+    else {
+      $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+        'absolute' => TRUE,
+        'language' => (object) array('language' => FALSE),
+      ));
+    }
 
     $formatted_delivery_date = format_date($delivery_date, 'custom', 'd/m/Y');
 
