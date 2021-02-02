@@ -116,11 +116,13 @@ class EcasDenyAuth {
 
   /**
    * Private method checking if current user has only whitelisted roles.
+   *
+   * First checks if the functionality should be enabled.
    */
   private function userRolesAreWhitelisted() {
     $userRoles = $this->extend['user_roles'];
-    $whitelistedRoles = variable_get('ecas_whitelisted_user_roles', array());
-    $userIsWhitelisted = empty(array_diff($userRoles, $whitelistedRoles));
+    $whitelistedRoles = variable_get('ecas_whitelisted_user_roles', NULL);
+    $userIsWhitelisted = !isset($whitelistedRoles) ? TRUE : empty(array_diff($userRoles, $whitelistedRoles));
 
     return $userIsWhitelisted;
   }

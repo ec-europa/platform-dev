@@ -30,25 +30,15 @@ projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.5"
 
 projects[apachesolr][subdir] = "contrib"
-projects[apachesolr][version] = "1.11"
-; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
-; https://drupal.org/node/2178283
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2890
-projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-invalidate-caches-new-node-type-2178283.patch
+projects[apachesolr][version] = "1.12"
 ; Issue #1649158 : Date Facets (without a time) can show in Multiple Months.
 ; https://drupal.org/node/1649158
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4335
 projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple-dates-hack-1649158-15.patch
-; Issue #2446419 : Incorrect display of some main menu items and browser tab titles on some pages.
-; https://www.drupal.org/node/2446419
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
-projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-translated_menu_title-2446419-4.patch
 ; Issue #2657666 : Notice: Undefined property: stdClass::$status_message
 ; https://www.drupal.org/node/2657666
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7651
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
-;https://www.drupal.org/node/2333447#comment-10826660
-projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
 ; Delay removing entities from the index.
 ; https://www.drupal.org/node/2764637
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
