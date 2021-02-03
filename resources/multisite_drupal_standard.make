@@ -622,6 +622,7 @@ projects[rate][patch][] = https://www.drupal.org/files/issues/rate-is_null_fix-1
 
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.4"
+projects[realname][patch][] = https://www.drupal.org/files/issues/2021-01-20/realname-recursive_bug-1369824-7.x-1.4.patch
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][download][branch] = 7.x-1.x
