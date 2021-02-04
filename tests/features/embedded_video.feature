@@ -22,7 +22,6 @@ Feature: Embedded videos
 
     Examples:
       | provider    | title                                            | url                                                                      |
-      | youtube     | Interview with Dries Buytaert, founder of Drupal | https://www.youtube.com/watch?v=i8AENFzUTHk                              |
       | dailymotion | x4gj1bp                                          | http://www.dailymotion.com/video/x4gj1bp                                 |
       | Vimeo       | A successful build in Jenkins                    | https://vimeo.com/129687265                                              |
       | AV portal   | STOCKSHOTS                                       | https://ec.europa.eu/avservices/video/player.cfm?sitelang=en&ref=I143092 |
