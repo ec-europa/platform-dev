@@ -48,7 +48,7 @@ drupal.htaccess.append.text =
 
 # Configuration to append to the settings.php file of the build.
 drupal.settings.append.text = ${line.separator}$conf['multisite_toolbox_cs_whitelist'] = array('*.europa.eu', 'europa.eu');${line.separator}$conf['poetry_mock_base_url'] = "${mock.poetry.base_url}";${line.separator}$conf['ecas_whitelisted_user_roles'] = array();${line.separator}
-
+drupal.settings.append.poetry = ${line.separator}$conf['poetry_service'] = array('address' => '${poetry_service.address}', 'method' => '${poetry_service.method}', 'callback_address' => '${poetry_service.callback_address}');${line.separator}
 
 # Platform configuration
 # ----------------------
@@ -169,8 +169,14 @@ behat.poetry.password = password
 
 # Poetry mock
 # Example mock.poetry.base_url = http://127.0.0.1:8080/platform-dev/build
+# Example mock.poetry.base_url = http://web:8080
 mock.poetry.base_url =
-
+# Example mock.poetry.address = http://web:8080/tmgmt_poetry_mock/tmgmt_poetry_mock.wsdl
+poetry_service.address =
+# Example mock.poetry.method = requestService
+poetry_service.method =
+# Example mock.poetry.callback_address =  http://web:8080
+poetry_service.callback_address =
 # PHPUnit configuration
 # -------------------
 

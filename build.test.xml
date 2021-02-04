@@ -40,6 +40,18 @@
                 <append destfile="${platform.build.settings.dir}/settings.php" text="${drupal.settings.append.text}" />
             </then>
         </if>
+        <if>
+            <and>
+                <istrue value="${drupal.settings.append.poetry}" />
+                <istrue value="${poetry_service.address}" />
+                <istrue value="${poetry_service.method}" />
+                <istrue value="${poetry_service.callback_address}" />
+            </and>
+            <then>
+                <chmod file="${platform.build.settings.dir}/settings.php" mode="0644" />
+                <append destfile="${platform.build.settings.dir}/settings.php" text="${drupal.settings.append.poetry}" />
+            </then>
+        </if>
     </target>
     
     <!-- Set up PHP CodeSniffer. -->
