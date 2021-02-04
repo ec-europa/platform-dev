@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.75"
+projects[drupal][version] = "7.78"
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -21,12 +21,6 @@ projects[drupal][patch][] = patches/node-node_access_views_relationship-1349080.
 ; https://www.drupal.org/node/2762865
 ; https://www.drupal.org/node/2385069
 projects[drupal][patch][] = https://www.drupal.org/files/issues/2385069-19-drupal7-do-not-test.patch
-
-; Move local configuration directives out of the Git repository.
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3154
-; Improve logout functionality by updating cookie settings
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-440
-projects[drupal][patch][] = patches/default-settings-updates.patch
 
 ; Allow management of visibility for pseudo-fields.
 ; https://www.drupal.org/node/1256368
