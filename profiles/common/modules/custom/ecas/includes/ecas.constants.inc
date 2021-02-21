@@ -51,11 +51,6 @@ define('ECAS_LOGIN_EXLUDE_PAGES', 0);
 define('ECAS_LOGIN_INCLUDE_PAGES', 1);
 
 /**
-  * ECAS group for CEM team users.
-  */
-define('ECAS_CEM_ECAS_GROUP', 'COMM_CEM');
-
-/**
   * Name of the ecas login message variable.
   */
 define('ECAS_LOGIN_MESSAGE', 'ecas_login_message');
