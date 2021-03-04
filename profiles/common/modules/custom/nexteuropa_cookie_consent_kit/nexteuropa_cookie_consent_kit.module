@@ -48,8 +48,13 @@ function nexteuropa_cookie_consent_kit_js_alter(&$javascript) {
  * drupal_add_js won't work as we need application/json.
  */
 function nexteuropa_cookie_consent_kit_process_html(&$vars) {
-  $script = _nexteuropa_cookie_consent_kit_generate_json();
-  $vars['page_bottom'] .= drupal_render($script);
+  if (variable_get('nexteuropa_cookie_consent_kit_display_cookie_banner', 0)) {
+    if (_nexteuropa_cookie_consent_kit_is_no_banner_path()) {
+      return;
+    }
+    $script = _nexteuropa_cookie_consent_kit_generate_json();
+    $vars['page_bottom'] .= drupal_render($script);
+  }
 }
 
 /**
