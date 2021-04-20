@@ -115,6 +115,8 @@ projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewri
 ; https://www.drupal.org/node/2825701
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-81
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-purge-2825701-2.patch
+; https://www.drupal.org/project/chr/issues/3028043
+projects[chr][patch][] = https://www.drupal.org/files/issues/2019-03-04/chr_status_message-3028043-2.patch
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
