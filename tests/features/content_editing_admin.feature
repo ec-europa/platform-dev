@@ -52,7 +52,6 @@ Feature: Content editing as administrator
       | This is not the right way                                             | <div class=\"classname?&*\">Applied invalid css class</div>           | classname                                                               |
  
   Scenario Outline: Check admin UI always shows english
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     Given the following languages are available:
       | languages |
       | en        |

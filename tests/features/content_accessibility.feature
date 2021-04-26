@@ -8,7 +8,6 @@ Feature: Content accessibility test
   Scenario: Check that unpublished "Basic page" and "Article" content are not
    accessible to anonymous users with the default configuration of the platform
     Given I am an anonymous user
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And I am viewing an "page" content with "draft" moderation state:
       | title            | Lorem ipsum dolor sit amet                                      |
       | field_ne_body    | <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> |
@@ -25,7 +24,6 @@ Feature: Content accessibility test
   Scenario: Check that unpublished "Basic page" and "Article" content are
    accessible to "editor" users with the default configuration of the platform
     Given I am logged in as a user with the "editor" role
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And I am viewing an "page" content with "draft" moderation state:
       | title            | Lorem ipsum dolor sit amet                                      |
       | field_ne_body    | <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> |
@@ -42,7 +40,6 @@ Feature: Content accessibility test
   Scenario: Check that unpublished "Basic page" and "Article" content are
    accessible to "contributor" users with the default configuration of the platform
     Given I am logged in as a user with the "contributor" role
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And I am viewing an "page" content with "draft" moderation state:
       | title            | Lorem ipsum dolor sit amet                                      |
       | field_ne_body    | <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> |
@@ -59,7 +56,6 @@ Feature: Content accessibility test
   Scenario: Check that unpublished "Basic page" and "Article" content are
   accessible to "administrator" users with the default configuration of the platform
     Given I am logged in as a user with the "administrator" role
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And I am viewing an "page" content with "draft" moderation state:
       | title            | Lorem ipsum dolor sit amet                                      |
       | field_ne_body    | <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> |
@@ -76,7 +72,6 @@ Feature: Content accessibility test
   Scenario: Check that published "Basic page" and "Article" content are
    accessible to anonymous users with the default configuration of the platform
     Given I am an anonymous user
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And I am viewing an "page" content with "published" moderation state:
       | title            | Lorem ipsum dolor sit amet                                      |
       | field_ne_body    | <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> |

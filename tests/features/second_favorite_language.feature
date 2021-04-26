@@ -21,7 +21,6 @@ Feature: Second favorite language tests
   # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario Outline: Check consistency of second favorite language fallback
     Given I am logged in as a user with the "administrator" role
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     When I go to "admin/config/regional/translate/translate"
     And I fill in "String contains" with "Body"
     And I press "Filter"

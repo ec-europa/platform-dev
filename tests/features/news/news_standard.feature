@@ -9,7 +9,6 @@ Feature: news standard and news core
       | modules       |
       | news_core     |
       | news_standard |
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And I am viewing a "news" content:
       | title                          | News test 1      |
       | author                         | admin            |

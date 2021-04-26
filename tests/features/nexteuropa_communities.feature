@@ -43,7 +43,6 @@ Feature: Nexteuropa Communities
     Given these modules are enabled
       | modules                 |
       | nexteuropa_news         |
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     When I am viewing a "community" content:
       | title                          | A public community |
       | group_access                   | Public             |
@@ -71,7 +70,6 @@ Feature: Nexteuropa Communities
 
   Scenario: As an anonymous user, I can see content of public community, and community's block
     Given I am not logged in
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     When I am viewing a "community" content:
       | title                          | A public community |
       | group_access                   | Public             |
@@ -91,7 +89,6 @@ Feature: Nexteuropa Communities
 
   Scenario: As an anonymous user, I cannot see content of private community
     Given I am not logged in
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     When I am viewing a "community" content:
       | title                          | A private community                  |
       | group_access                   | Private                              |
@@ -109,7 +106,6 @@ Feature: Nexteuropa Communities
 
   Scenario: As an authenticated user, I cannot see content of private community
     Given I am logged in as a user with the 'authenticated user' role
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     When I am viewing a "community" content:
       | title                          | A private community                  |
       | group_access                   | Private                              |
@@ -128,7 +124,6 @@ Feature: Nexteuropa Communities
 
   Scenario: As an authenticated user, I can subscribes/un-subscribe on a public community
     Given I am logged in as a user with the 'authenticated user' role
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     When I am viewing a "community" content:
       | title                          | A Public community  |
       | group_access                   | Public              |
@@ -147,7 +142,6 @@ Feature: Nexteuropa Communities
 
   Scenario: As a group member, I can create/edit/delete a group content (page) on my public community
     Given I am logged in as a user with the 'authenticated user' role
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     When I am viewing a "community" content:
       | title                          | My public Community |
       | group_access                   | Public              |
@@ -176,7 +170,6 @@ Feature: Nexteuropa Communities
 
   Scenario: As a group member, I can create/edit/delete a group content (page) on my private community
     Given I am logged in as a user with the 'authenticated user' role
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     When I am viewing a "community" content:
       | title                          | My private community |
       | group_access                   | Private              |
@@ -204,7 +197,6 @@ Feature: Nexteuropa Communities
 
 
   Scenario: As a site administrator, I can enable/disable the private area
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/config/nexteuropa_communities/nexteuropa_private_area_en"
     Then I should see the heading "NextEuropa private area"

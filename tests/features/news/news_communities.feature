@@ -24,7 +24,6 @@ Feature: news communities and news core
       | tmgmt_node_ui             |
       | tmgmt_entity_ui           |
       | views_ui                  |
-    And I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And I am viewing a "community" content:
       | title                          | Public community 1  |
       | workbench_moderation_state     | published           |

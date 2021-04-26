@@ -66,7 +66,6 @@ Feature: Check Piwik
   @delete_piwik_rules @ec_resp_theme
   Scenario: Remove a PIWIK rule.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And "page" content:
       | title     | field_ne_body         |
       | Test page | The test body content |
@@ -87,7 +86,6 @@ Feature: Check Piwik
   @delete_piwik_rules
   Scenario: Assert that the direct path PIWIK rule is triggered and embedded correctly.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And the following PIWIK rules:
       | Rule language | Rule path       | Rule path type | Rule section         |
       | en            | content/test    | direct         | Direct path section  |
@@ -100,7 +98,6 @@ Feature: Check Piwik
   @delete_piwik_rules
   Scenario: Assert that the regular expression based PIWIK rule is triggered and embedded correctly.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And the following PIWIK rules:
       | Rule language | Rule path                                     | Rule path type | Rule section         |
       | all           | ^content/.*                                    | regexp         | Regexp based section |

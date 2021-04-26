@@ -32,7 +32,6 @@ Feature: TMGMT Poetry Client features
 
   @javascript
   Scenario: I can translate contents using Poetry Client.
-    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     Given I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
       | en       | My page 1 | Short body    | 1      |
