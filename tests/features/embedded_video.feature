@@ -46,6 +46,7 @@ Feature: Embedded videos
 
   Scenario: Youtube videos are displayed in privacy enhanced mode.
     Given I am logged in as a user with the 'administrator' role
+    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And I go to "node/add/page"
     And I fill in the content's title with "YTvideo"
     And I click "Browse"
@@ -62,6 +63,7 @@ Feature: Embedded videos
 
   Scenario: As an administrator I can disable privacy enhanced mode.
     Given I am logged in as a user with the 'administrator' role
+    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And I go to "admin/structure/file-types/manage/video/file-display"
     And I click "YouTube Video"
     Then I should see "Use privacy enhanced (no cookie) mode"

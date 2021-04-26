@@ -70,6 +70,7 @@ Feature: Multisite registration og
 
   # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: as authenticated user I can register myself or other user in a content
+    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     Given I am viewing an "article" content:
       | title              | Registration Article     |
       | body               | registration body        |
@@ -101,6 +102,7 @@ Feature: Multisite registration og
 
   # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: as authenticated user I can register other person by email in a content
+    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     Given I am viewing an "article" content:
       | title              | Registration Article     |
       | body               | registration body        |
@@ -129,6 +131,7 @@ Feature: Multisite registration og
 
   # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: user cancels registration in a content
+    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     Given I am viewing an "article" content:
       | title              | Registration Article  |
       | author             | admin                 |
@@ -157,6 +160,7 @@ Feature: Multisite registration og
     Then  I should see the text "There are no registrants for Registration Article"
 
   Scenario: anonymous user without permission can access content and see registered users, but he cannot register himself
+    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     Given I am viewing an "article" content:
       | title              | Registration Article  |
       | author             | admin                 |
@@ -171,6 +175,7 @@ Feature: Multisite registration og
 
   # In ec_europa user is registered, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: authenticated user without permission can access content and see registered users, but he cannot register himself
+    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     Given I am viewing an "article" content:
       | title              | Registration Article  |
       | author             | admin                 |
@@ -196,6 +201,7 @@ Feature: Multisite registration og
 
   Scenario: authenticated user with permission to register cannot register in a content in which the close date has already finished
     Given I am logged in as a user with the 'administrator' role
+    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     Given I am viewing an "article" content:
       | title              | Registration Article  |
       | author             | admin                 |

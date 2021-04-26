@@ -9,6 +9,7 @@ Feature: Article content type
       | name              | weight | description   |
       | State aid         | -10    | A term.       |
       | Corporate tax law | 5      | A fine term.  |
+    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     Given I am viewing an "article" content:
       | title            | EC decides tax advantages for Fiat are illegal                        |
       | body             | Commissioner states tax rulings are not in line with state aid rules. |

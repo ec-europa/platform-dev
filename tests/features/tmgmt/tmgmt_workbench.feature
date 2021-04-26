@@ -49,6 +49,7 @@ Feature: TMGMT Workbench features
   Scenario: NEXTEUROPA-9861: Translations requested from a validated revision should be applied to that revision only.
     Given local translator "Translator A" is available
     And I am logged in as a user with the "administrator" role
+    Given I change the variable "field_sql_storage_skip_writing_unchanged_fields" to "FALSE"
     And I am viewing a multilingual "page" content:
       | language | title                |
       | en       | Title in English 1.0 |
