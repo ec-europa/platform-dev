@@ -1060,13 +1060,6 @@ libraries[iCalcreator][download][destination] = "../common/libraries"
 ; https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
 libraries[iCalcreator][patch][2707373] = https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
 
-; imgAreaSelect 0.9.10
-libraries[jquery.imgareaselect][download][url] = https://github.com/odyniec/imgareaselect/archive/refs/tags/v0.9.10.zip
-libraries[jquery.imgareaselect][download][type]= "file"
-libraries[jquery.imgareaselect][download][request_type]= "get"
-libraries[jquery.imgareaselect][download][file_type] = "zip"
-libraries[jquery.imgareaselect][destination] = "../common/libraries"
-
 ; jplayer 2.9.2
 libraries[jplayer][download][url] = https://github.com/happyworm/jPlayer/archive/2.9.2.zip
 libraries[jplayer][download][type]= "file"
