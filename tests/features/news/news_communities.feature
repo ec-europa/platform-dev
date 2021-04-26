@@ -24,6 +24,7 @@ Feature: news communities and news core
       | tmgmt_node_ui             |
       | tmgmt_entity_ui           |
       | views_ui                  |
+ 
     And I am viewing a "community" content:
       | title                          | Public community 1  |
       | workbench_moderation_state     | published           |
