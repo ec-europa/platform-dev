@@ -68,7 +68,7 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/1160764-34-path_
 ; Image alternative text loses text preceding colon upon leaving plain-text editor or upon saving node
 ; https://www.drupal.org/project/drupal/issues/2859006
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2001
-projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-no_protocol_filter-2105841-111-D7.patch
+projects[drupal][patch][] = https://www.drupal.org/files/issues/2021-04-21/2859006-26.patch
 
 ; Set the session's cookie lifetime to 0 so that cookies are deleted when the browser is closed.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-900
