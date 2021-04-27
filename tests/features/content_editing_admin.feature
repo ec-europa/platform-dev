@@ -17,7 +17,6 @@ Feature: Content editing as administrator
     And I fill in "Body" with "<html>"
     And I press "Save"
     Then the "<selector>" element should contain "<expected>"
-    Then the response should contain "<expected>"
 
     Examples:
       | html                                                                                         | selector | expected                                                                                                |
