@@ -1192,3 +1192,6 @@ projects[nexteuropa_poetry][type] = module
 projects[nexteuropa_poetry][download][type] = git
 projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
 projects[nexteuropa_poetry][download][tag] = 0.1.1
+
+; https://www.drupal.org/project/chr/issues/3028043
+projects[chr][patch][] = https://www.drupal.org/files/issues/2019-03-04/chr_status_message-3028043-2.patch
