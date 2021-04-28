@@ -118,7 +118,7 @@ function tmgmt_og_menu_alter(&$items) {
 
       // If it's menu default local task and has missing access callback we use
       // the callback from the parent.
-      if (($item['type'] == MENU_DEFAULT_LOCAL_TASK) && !isset($item['access callback'])) {
+      if (!empty($item['type']) && ($item['type'] == MENU_DEFAULT_LOCAL_TASK) && !isset($item['access callback'])) {
         $parent_path = explode('/', $path);
         array_pop($parent_path);
         $parent_path = implode('/', $parent_path);
