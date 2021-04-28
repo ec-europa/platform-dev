@@ -1068,13 +1068,6 @@ libraries[iCalcreator][download][destination] = "../common/libraries"
 ; https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
 libraries[iCalcreator][patch][2707373] = https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
 
-; imgAreaSelect 0.9.10
-libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
-libraries[jquery.imgareaselect][download][type]= "file"
-libraries[jquery.imgareaselect][download][request_type]= "get"
-libraries[jquery.imgareaselect][download][file_type] = "zip"
-libraries[jquery.imgareaselect][destination] = "../common/libraries"
-
 ; jplayer 2.9.2
 libraries[jplayer][download][url] = https://github.com/happyworm/jPlayer/archive/2.9.2.zip
 libraries[jplayer][download][type]= "file"
@@ -1199,3 +1192,6 @@ projects[nexteuropa_poetry][type] = module
 projects[nexteuropa_poetry][download][type] = git
 projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
 projects[nexteuropa_poetry][download][tag] = 0.1.1
+
+; https://www.drupal.org/project/chr/issues/3028043
+projects[chr][patch][] = https://www.drupal.org/files/issues/2019-03-04/chr_status_message-3028043-2.patch
