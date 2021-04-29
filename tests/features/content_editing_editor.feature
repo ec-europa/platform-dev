@@ -1,4 +1,4 @@
-@api @ec_resp
+@api @ec_europa_theme
 Feature: Content editing as editor
   In order to manage the content on the website
   As an editor
@@ -26,18 +26,19 @@ Feature: Content editing as editor
     And I fill in the content's title with "This is the title"
     And I fill in "Body" with "<html>"
     And I press "Save"
-    Then the response should contain "<expected>"
+    Then the "<selector>" element should contain "<expected>"
 
     Examples:
-      | html                                                                                                | expected                                                                                            |
-      | <p>Lorem ipsum dolor sit amet.</p>                                                                  | <p>Lorem ipsum dolor sit amet.</p>                                                                  |
-      | <p>Lorem <strong>ipsum</strong> dolor sit <em>amet</em>?</p>                                        | <p>Lorem <strong>ipsum</strong> dolor sit <em>amet</em>?</p>                                        |
-      | <p>Lorem <a href=\"/content/ipsum\">ipsum</a> dolor sit amet!</p>                                   | <p>Lorem <a href=\"/content/ipsum\">ipsum</a> dolor sit amet!</p>                                   |
-      | <p><cite>Lorem Ipsum</cite> dolor <abbr title=\"Software Integration Test\">SIT</abbr> amet.</p>    | <p><cite>Lorem Ipsum</cite> dolor <abbr title=\"Software Integration Test\">SIT</abbr> amet.</p>    |
-      | <blockquote>Lorem ipsum dolor sit amet.</blockquote>                                                | <blockquote><p>Lorem ipsum dolor sit amet.</p></blockquote>                                         |
-      | <p>Lorem ipsum <code>dolor(sit);</code> amet.</p>                                                   | <p>Lorem ipsum <code>dolor(sit);</code> amet.</p>                                                   |
-      | <ul><li>Lorem ipsum</li><li>Dolor sit amet</li></ul>                                                | <ul><li>Lorem ipsum</li>                                                                            |
-      | <ol><li>Lorem ipsum</li><li>Dolor sit amet</li></ol>                                                | <ol><li>Lorem ipsum</li>                                                                            |
+      | html                                                                                                | selector            | expected                                                                                            |
+      | <p>Lorem ipsum dolor sit amet.</p>                                                                  | .ecl-field__body    | <p>Lorem ipsum dolor sit amet.</p>                                                                  |
+      | <p>Lorem <strong>ipsum</strong> dolor sit <em>amet</em>?</p>                                        | .ecl-field__body    | <p>Lorem <strong>ipsum</strong> dolor sit <em>amet</em>?</p>                                        |
+      | <p>Lorem <a href=\"/content/ipsum\">ipsum</a> dolor sit amet!</p>                                   | .ecl-field__body    | <p>Lorem <a href=\"/content/ipsum\">ipsum</a> dolor sit amet!</p>                                   |
+      | <p><cite>Lorem Ipsum</cite> dolor <abbr title=\"Software Integration Test\">SIT</abbr> amet.</p>    | .ecl-field__body    | <p><cite>Lorem Ipsum</cite> dolor <abbr title=\"Software Integration Test\">SIT</abbr> amet.</p>    |
+      | <blockquote>Lorem ipsum dolor sit amet.</blockquote>                                                | .ecl-field__body    | <blockquote><p>Lorem ipsum dolor sit amet.</p></blockquote>                                         |
+      | <p>Lorem ipsum <code>dolor(sit);</code> amet.</p>                                                   | .ecl-field__body    | <p>Lorem ipsum <code>dolor(sit);</code> amet.</p>                                                   |
+      | <ul><li>Lorem ipsum</li><li>Dolor sit amet</li></ul>                                                | .ecl-field__body ul | <li>Lorem ipsum</li>                                                                                |
+      | <ol><li>Lorem ipsum</li><li>Dolor sit amet</li></ol>                                                | .ecl-field__body ol | <li>Lorem ipsum</li>                                                                                |
+  
 
   @api
   Scenario: User can create an article but he cannot define its path alias, even during an update.

@@ -1,4 +1,4 @@
-@api
+@api @ec_europa_theme
 Feature: Content editing as administrator
   In order to manage the content on the website
   As an administrator
@@ -16,23 +16,23 @@ Feature: Content editing as administrator
     And I fill in the content's title with "The right way is the right way"
     And I fill in "Body" with "<html>"
     And I press "Save"
-    Then the response should contain "<expected>"
+    Then the "<selector>" element should contain "<expected>"
 
     Examples:
-      | html                                                                                         | expected                                                                                     |
-      | <p style=\"text-align:right\">The right way</p>                                              | <p style=\"text-align:right\">The right way</p>                                              |
-      | <p><span style=\"font-family:courier\"><span style=\"font-size:18px\"><strong>Fancy</strong> | <p><span style=\"font-family:courier\"><span style=\"font-size:18px\"><strong>Fancy</strong> |
-      | <p><span style=\"color:#800000\"><em><u>Yay!</u></em></span></p>                             | <p><span style=\"color:#800000\"><em><u>Yay!</u></em></span></p>                             |
-      | <pre>Preformatted text</pre>                                                                 | <pre>Preformatted text</pre>                                                                 |
-      | <blockquote>A quote</blockquote>                                                             | <blockquote><p>A quote</p></blockquote>                                                      |
-      | <ul><li>A bullet!</li></ul>                                                                  | <ul><li>A bullet!</li>                                                                       |
-      | <ol><li>A number?</li></ol>                                                                  | <ol><li>A number?</li>                                                                       |
-      | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         |
-      | <h2 style=\"font-style:italic\">Styled heading</h2>                                          | <h2 style=\"font-style:italic\">Styled heading</h2>                                          |
-      | <div class=\"css_class-name\">Applied css class</div>                                        | <div class=\"css_class-name\">Applied css class</div>                                        |
-      | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               |
-      | <dl><dt>List Title</dt><dd>List item</dd></dl>                                               | <dt>List Title</dt>                                                                          |
-      | <div id=\"2validid\">A container with an valid HTML ID</div>                                 | 2validid                                                               |
+      | html                                                                                         | selector                        | expected                                                                                     |
+      | <p style=\"text-align:right\">The right way</p>                                              | .ecl-field__body .ecl-editor    | <p style=\"text-align:right\">The right way</p>                                              |
+      | <p><span style=\"font-family:courier\"><span style=\"font-size:18px\"><strong>Fancy</strong> | .ecl-field__body .ecl-editor    | <p><span style=\"font-family:courier\"><span style=\"font-size:18px\"><strong>Fancy</strong> |
+      | <p><span style=\"color:#800000\"><em><u>Yay!</u></em></span></p>                             | .ecl-field__body .ecl-editor    | <p><span style=\"color:#800000\"><em><u>Yay!</u></em></span></p>                             |
+      | <pre>Preformatted text</pre>                                                                 | .ecl-field__body .ecl-editor    | <pre>Preformatted text</pre>                                                                 |
+      | <blockquote>A quote</blockquote>                                                             | .ecl-field__body .ecl-editor    | <blockquote><p>A quote</p></blockquote>                                                      |
+      | <ul><li>A bullet!</li></ul>                                                                  | .ecl-field__body .ecl-editor ul | <li>A bullet!</li>                                                                           |
+      | <ol><li>A number?</li></ol>                                                                  | .ecl-field__body .ecl-editor ol | <li>A number?</li>                                                                           |
+      | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         | .ecl-field__body .ecl-editor    | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         |
+      | <h2 style=\"font-style:italic\">Styled heading</h2>                                          | .ecl-field__body .ecl-editor    | <h2 style=\"font-style:italic\">Styled heading</h2>                                          |
+      | <div class=\"css_class-name\">Applied css class</div>                                        | .ecl-field__body .ecl-editor    | <div class=\"css_class-name\">Applied css class</div>                                        |
+      | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               | .ecl-field__body .ecl-editor    | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               |
+      | <dl><dt>List Title</dt><dd>List item</dd></dl>                                               | .ecl-field__body .ecl-editor    | <dt>List Title</dt>                                                                          |
+      | <div id=\"2validid\">A container with an valid HTML ID</div>                                 | .ecl-field__body .ecl-editor    | 2validid                                                                                     |
 
   @javascript
   Scenario Outline: Test disallowed HTML
