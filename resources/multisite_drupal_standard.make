@@ -115,6 +115,8 @@ projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewri
 ; https://www.drupal.org/node/2825701
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-81
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-purge-2825701-2.patch
+; https://www.drupal.org/project/chr/issues/3028043
+projects[chr][patch][] = https://www.drupal.org/files/issues/2019-03-04/chr_status_message-3028043-2.patch
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
@@ -1059,13 +1061,6 @@ libraries[iCalcreator][download][destination] = "../common/libraries"
 ; Adding patch for PHP7 compatibilty on IcalCreator.class.
 ; https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
 libraries[iCalcreator][patch][2707373] = https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
-
-; imgAreaSelect 0.9.10
-libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
-libraries[jquery.imgareaselect][download][type]= "file"
-libraries[jquery.imgareaselect][download][request_type]= "get"
-libraries[jquery.imgareaselect][download][file_type] = "zip"
-libraries[jquery.imgareaselect][destination] = "../common/libraries"
 
 ; jplayer 2.9.2
 libraries[jplayer][download][url] = https://github.com/happyworm/jPlayer/archive/2.9.2.zip
