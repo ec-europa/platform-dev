@@ -115,6 +115,24 @@ function tmgmt_og_menu_alter(&$items) {
       $item['title'] = isset($item['title']) ? $item['title'] : '';
       $item['title arguments'] = isset($item['title arguments']) ? $item['title arguments'] : array($item['title']);
       $item['title callback'] = isset($item['title callback']) ? $item['title callback'] : 't';
+
+      // If it's menu default local task and has missing access callback we use
+      // the callback from the parent.
+      if (!empty($item['type']) && ($item['type'] == MENU_DEFAULT_LOCAL_TASK) && !isset($item['access callback'])) {
+        $parent_path = explode('/', $path);
+        array_pop($parent_path);
+        $parent_path = implode('/', $parent_path);
+        $parent = isset($items[$parent_path]) ? $items[$parent_path] : FALSE;
+        if ($parent) {
+          if (isset($parent['access callback'])) {
+            $item['access callback'] = $items[$parent_path]['access callback'];
+          }
+          if (!isset($item['access arguments']) && isset($parent['access arguments'])) {
+            $item['access arguments'] = $items[$parent_path]['access arguments'];
+          }
+        }
+      }
+
       $item['access arguments'] = isset($item['access arguments']) ? $item['access arguments'] : array();
       $item['access callback'] = isset($item['access callback']) ? $item['access callback'] : 'user_access';
 
