@@ -329,7 +329,9 @@ projects[flag][version] = "3.9"
 projects[flag][patch][] = https://www.drupal.org/files/issues/2020-11-04/flag-add_missing_primary_key-2834419-6_1.patch
 
 projects[flexslider][subdir] = "contrib"
-projects[flexslider][version] = "2.0-rc1"
+projects[flexslider][version] = "2.0-rc2"
+; Issue #2219435: remove pause button if there is only one slide.
+projects[flexslider][patch][] = https://www.drupal.org/files/issues/pause_1_slide-flexslider-2219435-1.patch
 
 projects[flexslider_views_slideshow][download][revision] = "0b1f8e7e24c168d1820ccded63c319327d57a97e"
 projects[flexslider_views_slideshow][download][type] = "git"
@@ -873,7 +875,7 @@ projects[views_litepager][subdir] = "contrib"
 projects[views_litepager][version] = "3.0"
 
 projects[views_slideshow][subdir] = "contrib"
-projects[views_slideshow][version] = "3.1"
+projects[views_slideshow][version] = "3.10"
 
 projects[views_slideshow_slider][subdir] = "contrib"
 projects[views_slideshow_slider][version] = "3.0"
