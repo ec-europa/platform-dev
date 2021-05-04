@@ -21,18 +21,20 @@
           }
         }
 
-        for (var i in CKEDITOR.instances) {
-          CKEDITOR.instances[i].on('configLoaded', function (event) {
-            filterTracked(event);
-          });
+        if (typeof CKEDITOR !== 'undefined') {
+          for (var i in CKEDITOR.instances) {
+            CKEDITOR.instances[i].on('configLoaded', function (event) {
+              filterTracked(event);
+            });
 
-          CKEDITOR.instances[i].on('change', function (event) {
-            filterTracked(event);
-          });
+            CKEDITOR.instances[i].on('change', function (event) {
+              filterTracked(event);
+            });
 
-          CKEDITOR.instances[i].on('afterCommandExec', function (event) {
-            filterTracked(event);
-          });
+            CKEDITOR.instances[i].on('afterCommandExec', function (event) {
+              filterTracked(event);
+            });
+          }
         }
       });
     }
