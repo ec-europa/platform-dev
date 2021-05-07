@@ -778,8 +778,15 @@ function nexteuropa_trackedchanges_cron_queue_info() {
 function nexteuropa_trackedchanges_form_node_form_alter(&$form, &$form_state, $form_id) {
   $wysiwyg_profiles = _nexteuropa_trackedchanges_get_profiles();
   $tracking_profiles = array();
-
-  if (!empty($wysiwyg_profiles['info'])) {
+  $fields = field_info_instances($form['#entity_type'], $form['#bundle']);
+  $text_processing = FALSE;
+  foreach ($fields as $infos) {
+    if (isset($infos['settings']['text_processing']) && ($infos['settings']['text_processing'] == TRUE)) {
+      $text_processing = TRUE;
+      break;
+    }
+  };
+  if (!empty($wysiwyg_profiles['info']) && $text_processing) {
     foreach ($wysiwyg_profiles['info'] as $name => $profile) {
       if ($profile['cke_lite_status'] === TRUE) {
         $tracking_profiles[] = $name;
