@@ -53,7 +53,6 @@ function multisite_eu_cookie_compliance_enable() {
  * Implements hook_disable().
  */
 function multisite_eu_cookie_compliance_disable() {
-  module_disable(array('eu_cookie_compliance'));
   drupal_set_message(t('EU Cookie Compliance feature is now disabled on your site.'));
 }
 
