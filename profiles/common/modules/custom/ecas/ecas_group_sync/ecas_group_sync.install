@@ -80,6 +80,7 @@ function ecas_group_sync_update_7001() {
       'description' => 'Primary Key: Unique sync mapping ID.',
       'type' => 'int',
       'not null' => TRUE,
+      'initial' => '0',
     ));
   // https://api.drupal.org/api/drupal/includes%21database%21database.inc/function/db_change_field/7.x
   db_change_field($db_table, 'id', 'id', array(
