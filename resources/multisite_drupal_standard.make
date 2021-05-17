@@ -188,6 +188,7 @@ projects[ds][version] = "2.16"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.17"
+projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/2020-12-18/easy_breadcrumb_query_array.patch
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
