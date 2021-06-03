@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.80"
+projects[drupal][version] = "7.81"
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -44,11 +44,6 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sa
 ; https://www.drupal.org/node/569362
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-64
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-doc-theme-attributes-d7-569362-53.patch
-
-; Fix empty label on validation error message for multiple required textfield.
-; https://www.drupal.org/node/980144#comment-11695545
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-224
-projects[drupal][patch][] = https://www.drupal.org/files/issues/980144-98_0.patch
 
 ; Reverting to revisions prior to addition of field translations is broken.
 ; https://www.drupal.org/node/1992010
