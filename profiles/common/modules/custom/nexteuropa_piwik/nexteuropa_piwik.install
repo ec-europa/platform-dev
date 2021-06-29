@@ -89,6 +89,7 @@ function nexteuropa_piwik_enable() {
   // Define permissions for role.
   $piwik_admin_permissions = array(
     'administer nexteuropa_piwik' => TRUE,
+    'administer site configuration' => TRUE,
   );
   // Grant the permissions to PIWIK administrator role.
   user_role_change_permissions($piwik_admin_role->rid, $piwik_admin_permissions);
@@ -112,4 +113,13 @@ function nexteuropa_piwik_update_7101() {
     'nexteuropa_piwik_rule',
     _nexteuropa_piwik_get_schema_array()
   );
+}
+
+/**
+ * Add the Administer site configuration permission to the role.
+ */
+function nexteuropa_piwik_update_7102() {
+  $piwik_administrator = user_role_load_by_name('PIWIK administrator');
+  $rid = $piwik_administrator->rid;
+  user_role_grant_permissions($rid, array('administer site configuration'));
 }
