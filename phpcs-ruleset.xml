@@ -143,8 +143,4 @@
         <exclude-pattern>*/CHANGELOG.md</exclude-pattern>
         <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
     </rule>
-    <!-- NEPT-2917: ignore use of json_decode in nexteuropa_geofield -->
-    <rule ref="QualityAssurance.Functions.JsonDecode.FoundWithAlternative">
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_geofield/nexteuropa_geofield.module</exclude-pattern>
-    </rule>
 </ruleset>
