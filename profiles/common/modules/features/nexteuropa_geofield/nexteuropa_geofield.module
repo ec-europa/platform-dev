@@ -451,8 +451,9 @@ function _nexteuropa_geofield_geocode($form, $form_state) {
       $error = $geocode->error;
     }
     else {
-      $geocode_decoded = drupal_json_decode($geocode->data);
-
+      // @codingStandardsIgnoreStart.
+      $geocode_decoded = json_decode($geocode->data, FALSE);
+      // @codingStandardsIgnoreEnd
       if ($geocode_decoded->geocodingRequestsCollection[0]->foundCount < 1) {
         $error = t('No address found.');
       }
