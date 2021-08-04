@@ -70,7 +70,10 @@ function language_selector_page_block_content() {
 
       // Get currently served language.
       $served_code = entity_translation_get_existing_language('node', $node);
-      $translation_access = entity_translation_access('node', $node->translations->data[$served_code]);
+      $translation_access = FALSE;
+      if (isset($node->translations->data[$served_code])) {
+        $translation_access = entity_translation_access('node', $node->translations->data[$served_code]);
+      }
       $fallback_enabled = variable_get('locale_field_language_fallback', TRUE);
       // Get the fallback language if an entity translation is not accessible.
       if (!$translation_access && $fallback_enabled) {
