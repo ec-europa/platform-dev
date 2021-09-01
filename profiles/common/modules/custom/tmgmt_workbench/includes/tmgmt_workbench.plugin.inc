@@ -45,7 +45,7 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     $node = node_load($job_item->item_id);
 
     // Get current node revision.
-    $current_revision = $this->getModerationRevision($node);
+    $current_revision = $this->getModerationRevision($node, 'published');
     tmgmt_field_populate_entity($job_item->item_type, $current_revision, $job->target_language, $job_item->getData());
 
     // Change the active language of the entity to the target language.
@@ -55,9 +55,6 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     if ($current_revision_update) {
       $current_revision = $current_revision_update;
     }
-
-    // Save current node revision.
-    node_save($current_revision);
 
     // Save translation information for current revision.
     $translation = array(
@@ -69,6 +66,9 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     );
     $handler->setTranslation($translation);
     $handler->saveTranslations();
+
+    // Save current node revision.
+    node_save($current_revision);
 
     // Accept the translation job.
     $job_item->accepted();
