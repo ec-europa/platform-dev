@@ -225,8 +225,8 @@ projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.7"
 ; Allow friendly field identifiers in URL.
-; https://www.drupal.org/project/entityreference_prepopulate/issues/1809776
-projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
+projects[entityreference_prepopulate][patch][1809776] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
+projects[entityreference_prepopulate][patch][3252868] = https://www.drupal.org/files/issues/2021-12-06/entityreference_prepopulate-php74_deprecated_unparenthesized.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.28"
