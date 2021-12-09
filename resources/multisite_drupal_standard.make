@@ -622,8 +622,8 @@ projects[rate][version] = "1.7"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1178
 projects[rate][patch][] = patches/rate-translate_description-1178.patch
 ; Undefined property: stdClass::$timezone in rate_expiration module
-; https://www.drupal.org/project/rate/issues/1421016
-projects[rate][patch][] = https://www.drupal.org/files/issues/rate-is_null_fix-1421016-9.patch
+projects[rate][patch][1421016] = https://www.drupal.org/files/issues/rate-is_null_fix-1421016-9.patch
+projects[rate][patch][3099838] = https://www.drupal.org/files/issues/2021-02-03/3099838-8.rate_.PHP-74-compatibility-.patch
 
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.4"
