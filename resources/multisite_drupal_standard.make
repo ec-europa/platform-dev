@@ -223,10 +223,9 @@ projects[entityreference][version] = "1.5"
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
-projects[entityreference_prepopulate][version] = "1.7"
-; Allow friendly field identifiers in URL.
-; https://www.drupal.org/project/entityreference_prepopulate/issues/1809776
-projects[entityreference_prepopulate][patch][] = https://www.drupal.org/files/issues/entityreference_prepopulate-1809776-5-test-only.patch
+projects[entityreference_prepopulate][download][type] = git
+projects[entityreference_prepopulate][download][revision] = 5d65d841
+projects[entityreference_prepopulate][download][branch] = 7.x-1.x
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.28"
