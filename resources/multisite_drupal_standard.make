@@ -541,7 +541,9 @@ projects[nexteuropa_newsroom][download][tag] = v3.5.17
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.10"
+projects[og][download][type] = git
+projects[og][download][branch] 7.x-2.x
+projects[og][download][revision] = 31b62e66
 ; VBO and OG
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
