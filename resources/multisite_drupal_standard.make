@@ -170,11 +170,7 @@ projects[date][version] = "2.12"
 
 
 projects[date_ical][subdir] = "contrib"
-projects[date_ical][version] = "3.9"
-; Issue #2909036 : Clone is a reserved keyword since PHP5.
-; https://www.drupal.org/node/2909036
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-266
-projects[date_ical][patch][2909036] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909036-1.patch
+projects[date_ical][version] = "3.10"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = 3.4
@@ -551,8 +547,6 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 ; NEXTEUROPA-11789 Issue in Bean reference to OG
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
-; NEPT-2493 entity issue
-projects[og][patch][] = https://git.drupalcode.org/project/og/commit/a2231ab851ca82865a0070dbd58dfd5fcb2fdd66.diff
 
 projects[og_linkchecker][subdir] = "contrib"
 projects[og_linkchecker][version] = "2.0-rc1"
@@ -821,19 +815,15 @@ projects[video][patch][] = patches/video-security-883.patch
 projects[video][patch][] = https://www.drupal.org/files/issues/2019-08-20/continue_in_switch-3042169-2.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.23
+projects[views][version] = 3.25
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
 ; Issue #3012609: Issues with AJAX for exposed filters
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2261
+; https://webgate.ec.europa.eu/CITneupat/jira/browse/NEPT-2261
 ; https://www.drupal.org/project/views/issues/3012609
 ; https://www.drupal.org/project/views/issues/1809958
 projects[views][patch][] = https://www.drupal.org/files/issues/2019-07-09/issues-ajax-exposed-filters-blocks-1809958-74.patch
-; Issue 3076826: func_get_args(), no longer report the original value as passed to a parameter
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2641
-; https://www.drupal.org/project/views/issues/3076826
-projects[views][patch][] = https://www.drupal.org/files/issues/2019-08-23/views-php7-3076826-2.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -1048,15 +1038,12 @@ libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
 
-; iCalcreator 2.20.2
-libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/e3dbec2cb3bb91a8bde989e467567ae8831a4026.zip
+; iCalcreator 2.40.10
+libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/refs/tags/v2.20.4.zip
 libraries[iCalcreator][download][type] = "file"
 libraries[iCalcreator][download][request_type]= "get"
 libraries[iCalcreator][download][file_type] = "zip"
 libraries[iCalcreator][download][destination] = "../common/libraries"
-; Adding patch for PHP7 compatibilty on IcalCreator.class.
-; https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
-libraries[iCalcreator][patch][2707373] = https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
 
 ; jplayer 2.9.2
 libraries[jplayer][download][url] = https://github.com/happyworm/jPlayer/archive/2.9.2.zip
