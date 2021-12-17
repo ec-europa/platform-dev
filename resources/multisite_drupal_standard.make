@@ -151,7 +151,7 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.15"
+projects[ctools][version] = "1.19"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -615,6 +615,8 @@ projects[redirect][patch][] = patches/redirect_nept_2502.patch
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.7"
+; https://www.drupal.org/node/3255020
+projects[registration][patch][3255020] = https://www.drupal.org/files/issues/2021-12-17/no-desc-for-default-formatter-3255020-2.patch
 
 projects[registry_autoload][subdir] = "contrib"
 projects[registry_autoload][version] = 1.3
