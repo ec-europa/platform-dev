@@ -27,7 +27,7 @@ projects[advagg][patch][] = https://www.drupal.org/files/issues/2020-02-27/php7_
 projects[advagg][patch][] = https://www.drupal.org/files/issues/2019-06-02/advagg_replace_continue_with_break-3058949-2.patch
 
 projects[advanced_help][subdir] = "contrib"
-projects[advanced_help][version] = "1.5"
+projects[advanced_help][version] = "1.6"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.12"
@@ -73,10 +73,7 @@ projects[apachesolr_multisitesearch][subdir] = "contrib"
 projects[apachesolr_multisitesearch][version] = "1.2"
 
 projects[autologout][subdir] = "contrib"
-projects[autologout][version] = "4.5"
-; Issue #2739114 : Change warning message to be more user friendly
-; https://www.drupal.org/node/2739114
-projects[autologout][patch][] = https://www.drupal.org/files/issues/change-warning-message-2739114-15.patch
+projects[autologout][version] = "4.6"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
@@ -155,19 +152,12 @@ projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.15"
-; PHP 7 compatibility.
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2662
-; https://www.drupal.org/project/ctools/issues/3006202
-; https://www.drupal.org/project/ctools/issues/3079343
-projects[ctools][patch][] = https://www.drupal.org/files/issues/2019-04-03/ctools-func_get_args-3006202-13.patch
-projects[ctools][patch][] = https://www.drupal.org/files/issues/2019-09-05/ctools-php7-3079343-3.patch
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.12"
-
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.10"
@@ -186,7 +176,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.9"
+projects[entity][version] = "1.10"
 ; Invalid argument supplied for foreach() in entity_metadata_convert_schema()
 ; https://www.drupal.org/node/2564119
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1025
@@ -295,7 +285,7 @@ projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group
 projects[field_group][patch][] = https://www.drupal.org/files/issues/2018-11-28/field_group-func_get_args-3016503-2.patch
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.27"
+projects[file_entity][version] = "2.35"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.11"
@@ -369,7 +359,7 @@ projects[honeypot][version] = "1.26"
 projects[honeypot][patch][] = https://www.drupal.org/files/issues/2020-07-07/honeypot-add_primary_key-2943526-13-D7.patch
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.27"
+projects[i18n][version] = "1.31"
 ; Language field display should default to hidden.
 ; https://www.drupal.org/node/1350638
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
@@ -410,7 +400,7 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.5"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.7"
+projects[link][version] = "1.9"
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.4"
@@ -427,7 +417,7 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.3"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.26
+projects[media][version] = 2.27
 ; Embedded documents in the WYSIWYG can be very hard to delete.
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
@@ -469,14 +459,14 @@ projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
 
 projects[menu_attributes][subdir] = "contrib"
-projects[menu_attributes][version] = "1.0"
+projects[menu_attributes][version] = "1.1"
 projects[menu_attributes][patch][] = patches/menu_attributes-add_icon_for_menu_item-2327.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_disable_css_class-2988.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_hide_children-6757.patch
 
 projects[menu_block][subdir] = "contrib"
-projects[menu_block][version] = "2.7"
-projects[menu_block][patch][] = patches/menu_block-jqueryUI_issue-5211.patch
+projects[menu_block][version] = "2.8"
+;projects[menu_block][patch][] = patches/menu_block-jqueryUI_issue-5211.patch
 
 projects[menu_token][download][branch] = 7.x-1.x
 projects[menu_token][download][revision] = 27ab9f244d7813803cfa662d05ffc1747d758956
@@ -501,9 +491,7 @@ projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-
 
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.27"
-; https://www.drupal.org/node/3113325
-projects[metatag][patch][] = https://www.drupal.org/files/issues/2020-02-21/metatag-n3113325-6.patch
+projects[metatag][version] = "1.28"
 
 projects[migrate][subdir] = contrib
 projects[migrate][download][branch] = 7.x-1.x
@@ -637,10 +625,7 @@ projects[registry_autoload][version] = 1.3
 projects[registry_autoload][patch][2870868] = https://www.drupal.org/files/issues/autoload_bootstrap_dependency_issues-2870868-2.patch
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.12"
-projects[rules][version] = "2.12"
-; https://www.drupal.org/node/3028444
-projects[rules][patch][] = https://www.drupal.org/files/issues/2019-01-25/3028444-6-markup-and-test.patch
+projects[rules][version] = "2.13"
 ; https://www.drupal.org/node/826986
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2160
 projects[rules][patch][] = https://www.drupal.org/files/issues/2020-03-19/file_events-826986-42.patch
@@ -703,7 +688,7 @@ projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
 
 projects[smart_trim][subdir] = "contrib"
-projects[smart_trim][version] = 1.5
+projects[smart_trim][version] = 1.6
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
@@ -732,10 +717,8 @@ projects[term_reference_tree][patch][] = https://www.drupal.org/files/issues/sli
 ; https://www.drupal.org/node/2082573
 projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-06-24/i18n-fatal-error-undefined-strings_update-2082573-54.patch
 
-projects[title][download][branch] = 7.x-1.x
-projects[title][download][revision] = 8119fa2
-projects[title][download][type] = git
 projects[title][subdir] = "contrib"
+projects[title][version] = 1.0-beta4
 
 projects[tmgmt][subdir] = contrib
 projects[tmgmt][version] = 1.0-rc3
@@ -764,7 +747,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2020-02-26/transl
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-04-24/count_error_php_7_2-3050356-2.patch
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.7"
+projects[token][version] = "1.8"
 ; #1058912: Prevent recursive tokens
 ; https://www.drupal.org/node/1058912
 projects[token][patch][] = https://www.drupal.org/files/token-1058912-88-limit-token-depth.patch
@@ -829,16 +812,10 @@ projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
 
 projects[views_bootstrap][subdir] = "contrib"
-projects[views_bootstrap][version] = "3.2"
+projects[views_bootstrap][version] = "3.5"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.5"
-; Rules actions 'View and display' only works if Bulk Ops field is in 'master' of a view.
-; https://www.drupal.org/node/2856974
-projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/non_master_views_actions_2856974-2.patch
-; Issue #3054586: [php7 compatibility]: func_get_args(), no longer report the original value as passed to a parameter
-; https://www.drupal.org/project/views_bulk_operations/issues/3054586
-projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/2019-05-16/removed_warning_for_php7.2.patch
+projects[views_bulk_operations][version] = "3.6"
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.2"
@@ -1038,8 +1015,8 @@ libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
 
-; iCalcreator 2.40.10
-libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/refs/tags/v2.20.4.zip
+; iCalcreator 2.22
+libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/3687fe06deab48e889eae8afd1d31d201eb2b8a0.zip
 libraries[iCalcreator][download][type] = "file"
 libraries[iCalcreator][download][request_type]= "get"
 libraries[iCalcreator][download][file_type] = "zip"

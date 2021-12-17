@@ -723,7 +723,7 @@ function ecas_block_info() {
  *   The themed warning page display.
  */
 function ecas_warning_page($reason) {
-  $theme_variables = array('warning_title' => t("Your site's account cannot be created"));
+  $theme_variables = array('warning_title' => t("EU LOGIN connection error – Retry in few minutes"));
 
   switch ($reason) {
     case ECAS_WARNING_REASON_SOCIAL:

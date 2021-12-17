@@ -7,12 +7,12 @@
     "ext-xml": "*",
     "drupal/phingdrushtask": "^1.1",
     "drupol/phingbehattask": "^1.0",
-    "drush/drush": "8.2.2",
+    "drush/drush": "^8.4.8",
     "ec-europa/qa-automation": "^3.0",
     "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
     "phing/phing": "~2",
-    "phpcompatibility/php-compatibility": "9.1.1"
+    "phpcompatibility/php-compatibility": "^9.1.2"
   },
   "require-dev": {
     "bovigo/assert": "^5.0",
