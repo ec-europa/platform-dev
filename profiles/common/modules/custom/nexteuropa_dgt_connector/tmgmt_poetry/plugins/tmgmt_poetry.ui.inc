@@ -39,44 +39,44 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#type' => 'textfield',
       '#title' => t('Counter'),
       '#required' => TRUE,
-      '#default_value' => $settings['counter'],
+      '#default_value' => isset($settings['counter']) ? $settings['counter'] : NULL,
     );
     $form['settings']['code'] = array(
       '#type' => 'textfield',
       '#title' => t('Requester code'),
       '#required' => TRUE,
-      '#default_value' => $settings['code'],
+      '#default_value' => isset($settings['code']) ? $settings['code'] : NULL,
     );
     $form['settings']['callback_user'] = array(
       '#type' => 'textfield',
       '#title' => t('Callback User'),
       '#required' => TRUE,
-      '#default_value' => $settings['callback_user'],
+      '#default_value' => isset($settings['callback_user']) ? $settings['callback_user'] : NULL,
     );
     $form['settings']['callback_password'] = array(
       '#type' => 'password',
       '#title' => t('Callback Password'),
       '#required' => TRUE,
-      '#default_value' => $settings['callback_password'],
+      '#default_value' => isset($settings['callback_password']) ? $settings['callback_password'] : NULL,
     );
     $form['settings']['poetry_user'] = array(
       '#type' => 'textfield',
       '#title' => t('Poetry User'),
       '#required' => TRUE,
-      '#default_value' => $settings['poetry_user'],
+      '#default_value' => isset($settings['poetry_user']) ? $settings['poetry_user'] : NULL,
     );
     $form['settings']['poetry_password'] = array(
       '#type' => 'password',
       '#title' => t('Poetry Password'),
       '#required' => TRUE,
-      '#default_value' => $settings['poetry_password'],
+      '#default_value' => isset($settings['poetry_password']) ? $settings['poetry_password'] : NULL,
     );
     $form['settings']['website_identifier'] = array(
       '#type' => 'textfield',
       '#title' => t('Website identifier'),
       '#maxlength' => 15,
       '#required' => TRUE,
-      '#default_value' => $settings['website_identifier'],
+      '#default_value' => isset($settings['website_identifier']) ? $settings['website_identifier'] : NULL,
       '#description' => t('This value - which is mandatory - will be put in the title of translation requests, in order for DGT to identify which website the request came from.'),
     );
     $organization = $translator->getSetting('organization');
@@ -154,13 +154,13 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#type' => 'textfield',
       '#title' => t('Email to'),
       '#required' => TRUE,
-      '#default_value' => $feedback_contacts['to'],
+      '#default_value' => isset($feedback_contacts['to']) ? $feedback_contacts['to'] : NULL,
     );
     $form['feedback_contacts']['cc'] = array(
       '#type' => 'textfield',
       '#title' => t('Email CC'),
       '#required' => TRUE,
-      '#default_value' => $feedback_contacts['cc'],
+      '#default_value' => isset($feedback_contacts['cc']) ? $feedback_contacts['cc'] : NULL,
     );
 
     return parent::pluginSettingsForm($form, $form_state, $translator);
