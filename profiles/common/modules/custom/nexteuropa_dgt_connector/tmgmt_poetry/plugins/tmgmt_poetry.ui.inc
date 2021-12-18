@@ -91,21 +91,21 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#type' => 'textfield',
       '#title' => t('Responsable'),
       '#required' => TRUE,
-      '#default_value' => $organization['responsable'],
+      '#default_value' => isset($organization['responsable']) ? $organization['responsable'] : NULL,
       '#description' => t("Eg.: DIGIT"),
     );
     $form['organization']['auteur'] = array(
       '#type' => 'textfield',
       '#title' => t('DG Author'),
       '#required' => TRUE,
-      '#default_value' => $organization['auteur'],
+      '#default_value' => isset($organization['auteur']) ? $organization['auteur'] : NULL,
       '#description' => t("Eg.: IE/CE/DIGIT"),
     );
     $form['organization']['demandeur'] = array(
       '#type' => 'textfield',
       '#title' => t('Requester'),
       '#required' => TRUE,
-      '#default_value' => $organization['demandeur'],
+      '#default_value' => isset($organization['demandeur']) ? $organization['demandeur'] : NULL,
       '#description' => t("Eg.: IE/CE/DIGIT"),
     );
 
@@ -121,25 +121,25 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#type' => 'textfield',
       '#title' => t('Author'),
       '#required' => TRUE,
-      '#default_value' => $contacts['auteur'],
+      '#default_value' => isset($contacts['auteur']) ? $contacts['auteur'] : NULL,
     );
     $form['contacts']['secretaire'] = array(
       '#type' => 'textfield',
       '#title' => t('Secretaire'),
       '#required' => TRUE,
-      '#default_value' => $contacts['secretaire'],
+      '#default_value' => isset($contacts['secretaire']) ? $contacts['secretaire'] : NULL,
     );
     $form['contacts']['contact'] = array(
       '#type' => 'textfield',
       '#title' => t('Contact'),
       '#required' => TRUE,
-      '#default_value' => $contacts['contact'],
+      '#default_value' => isset($contacts['contact']) ? $contacts['contact'] : NULL,
     );
     $form['contacts']['responsable'] = array(
       '#type' => 'textfield',
       '#title' => t('Responsible'),
       '#required' => TRUE,
-      '#default_value' => $contacts['responsable'],
+      '#default_value' => isset($contacts['responsable']) ? $contacts['responsable'] : NULL,
     );
 
     $feedback_contacts = $translator->getSetting('feedback_contacts');
