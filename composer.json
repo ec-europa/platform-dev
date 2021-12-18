@@ -12,7 +12,8 @@
     "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
     "phing/phing": "~2",
-    "phpcompatibility/php-compatibility": "^9.1.2"
+    "phpcompatibility/php-compatibility": "^9.1.2",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.5"
   },
   "require-dev": {
     "bovigo/assert": "^5.0",
