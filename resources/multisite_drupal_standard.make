@@ -306,7 +306,11 @@ projects[flag][version] = "3.9"
 ; NEPT-2845 Fix missing Primary Key issues.
 projects[flag][patch][] = https://www.drupal.org/files/issues/2020-11-04/flag-add_missing_primary_key-2834419-6_1.patch
 ; https://www.drupal.org/node/2333593
-projects[flag][patch][] = https://www.drupal.org/files/issues/2019-03-12/flag-undefined_index_flag_fetch_node_by_user-2333593-3-D7.patch
+; https://www.drupal.org/node/3255257
+; Merge both patches locally
+projects[flag][patch][] = patches/offset-null-flag_rules_action_info-3255257-2333593.patch
+
+
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc2"
 ; Issue #2219435: remove pause button if there is only one slide.
