@@ -56,8 +56,9 @@ class CookieConsentKitContext extends RawMinkContext {
 
     /** @var \Behat\Mink\Element\NodeElement $element */
     foreach ($this->getSession()->getPage()->findAll('xpath', $xpath) as $element) {
+      // @codingStandardsIgnoreStart.
       $data = json_decode($element->getText());
-
+      // @codingStandardsIgnoreEnd
       if (!empty($data) && !empty($data->utility) && $data->utility === 'cck') {
         $cck[] = $data;
       }
