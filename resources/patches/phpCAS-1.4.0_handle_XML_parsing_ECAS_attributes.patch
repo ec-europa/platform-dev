@@ -1,8 +1,8 @@
 diff --git a/source/CAS/Client.php b/source/CAS/Client.php
-index f06c154..bb34b1d 100644
+index 5775159..882f47b 100644
 --- a/source/CAS/Client.php
 +++ b/source/CAS/Client.php
-@@ -1655,7 +1655,7 @@ class CAS_Client
+@@ -1834,7 +1834,7 @@ class CAS_Client
       *
       * @return void
       */
@@ -11,8 +11,8 @@ index f06c154..bb34b1d 100644
      {
          phpCAS::traceBegin();
          $cas_url = $this->getServerLoginURL($gateway, $renew);
-@@ -2149,6 +2149,51 @@ class CAS_Client
-         return $result;
+@@ -3818,6 +3818,51 @@ class CAS_Client
+         return $out;
      }
  
 +    /**
@@ -61,32 +61,5 @@ index f06c154..bb34b1d 100644
 +    }
 +
      /**
-      * This method will parse the DOM and pull out the attributes from the SAML
+      * This method will parse the DOM and pull out the attributes from the XML
       * payload and put them into an array, then put the array into the session.
-@@ -3412,25 +3457,7 @@ class CAS_Client
-             // 	</cas:serviceResponse>
-             //
-             phpCAS :: trace("Testing for rubycas style attributes");
--            $childnodes = $success_elements->item(0)->childNodes;
--            foreach ($childnodes as $attr_node) {
--                switch ($attr_node->localName) {
--                case 'user':
--                case 'proxies':
--                case 'proxyGrantingTicket':
--                    break;
--                default:
--                    if (strlen(trim($attr_node->nodeValue))) {
--                        phpCAS :: trace(
--                            "Attribute [".$attr_node->localName."] = ".$attr_node->nodeValue
--                        );
--                        $this->_addAttributeToArray(
--                            $extra_attributes, $attr_node->localName,
--                            $attr_node->nodeValue
--                        );
--                    }
--                }
--            }
-+            $extra_attributes = $this->_xmlToArray($success_elements->item(0));
-         }
- 
-         // "Name-Value" attributes.

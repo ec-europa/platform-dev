@@ -147,7 +147,7 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, array 
   $languages_with_suffix = _nexteuropa_multilingual_get_languages_with_suffix($languages);
 
   $languages_suffix = array_keys($languages_with_suffix);
-  $pattern = '/' . $delimiter . '(' . implode($languages_suffix, '|') . ')(\/|$)/';
+  $pattern = '/' . $delimiter . '(' . implode('|', $languages_suffix) . ')(\/|$)/';
   // Search the language suffix with the delimiter in the path.
   if (!preg_match($pattern, $path)) {
     // No language suffix found.
