@@ -1081,8 +1081,7 @@ function _ecas_init_phpcas_client() {
     $server_ecas_server,
     $server_port,
     $server_uri,
-    $start_session,
-    $assurance_level
+    $start_session
   );
   phpCAS::setNoCasServerValidation();
 
