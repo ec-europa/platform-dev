@@ -5,7 +5,7 @@
  * Contains the constants used for connecting to the ECAS server.
  */
 
-define('ECAS_MIN_PHPCAS_VERSION', "1.3.3");
+define('ECAS_MIN_PHPCAS_VERSION', "1.4.0");
 
 $use_shared_fpfis = variable_get('ecas_use_shared_fpfis', FALSE);
 if ($use_shared_fpfis) {
