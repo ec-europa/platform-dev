@@ -25,7 +25,8 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "NextEuropa\\": "src"
+      "NextEuropa\\": "src",
+      "phpCas\\": "jasig\\Cas"
     }
   },
   "repositories": [

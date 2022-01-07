@@ -13,6 +13,9 @@
  * Both will be included from the FPFIS_COMMON_LIBRARIES_PATH.
  */
 
+// Autoload Cas from the vendor folder.
+require_once './vendor/autoload.php';
+
 // Include the constants used in the different parts of the module.
 $constants_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.constants.inc';
 include_once $constants_ecas_module_include;
@@ -27,10 +30,6 @@ include_once $ecas_deny_auth;
 
 $fpfis_common_include = constant('FPFIS_COMMON_LIBRARIES_PATH') . '/FPFIS_Common/fpfis_common.php';
 include_once $fpfis_common_include;
-
-// The FPFIS_Common is supposed to provide the FPFIS_ECAS_PATH constant.
-$phpcas_client_include = variable_get('FPFIS_ECAS_PATH', constant('FPFIS_ECAS_PATH'));
-include_once $phpcas_client_include;
 
 // Finally, include the module code.
 $ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.inc';
