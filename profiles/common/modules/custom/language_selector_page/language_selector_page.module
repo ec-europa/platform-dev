@@ -70,26 +70,12 @@ function language_selector_page_block_content() {
 
       // Get currently served language.
       $served_code = entity_translation_get_existing_language('node', $node);
-      $translation_access = FALSE;
-      if (isset($node->translations->data[$served_code])) {
-        $translation_access = entity_translation_access('node', $node->translations->data[$served_code]);
-      }
-      $fallback_enabled = variable_get('locale_field_language_fallback', TRUE);
-      // Get the fallback language if an entity translation is not accessible.
-      if (!$translation_access && $fallback_enabled) {
-        $fallback = drupal_multilingual() ? language_fallback_get_candidates() : array(LANGUAGE_NONE);
-        $served_code = array_shift($fallback);
-      }
       $served = $languages[1][$served_code];
 
-      // Display the switcher if the entity translation is not available or is
-      // not accessible while fallback is allowed.
-      if (!in_array($language->language, array_keys($node->translations->data)) || (!$translation_access && $fallback_enabled)) {
+      // Display the switcher only if the current language is not available.
+      if (!in_array($language->language, array_keys($node->translations->data))) {
         // Check available translations.
         foreach ($node->translations->data as $code => $lang) {
-          if (empty($lang['status'])) {
-            continue;
-          }
           if ($code == $language->language) {
             $is_available = TRUE;
           }

@@ -330,9 +330,6 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity_type, $entit
   }
   $entity_path = $entity_uri['path'];
   $language_none_path = path_load(array('source' => $entity_path, 'language' => LANGUAGE_NONE));
-  if (!is_array($language_none_path)) {
-    return FALSE;
-  }
   $language_none_alias = ($language_none_path) ? $language_none_path['alias'] : FALSE;
 
   // Logic below is taken from Pathauto itself.
