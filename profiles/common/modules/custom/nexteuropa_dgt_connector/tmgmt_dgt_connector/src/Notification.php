@@ -27,7 +27,7 @@ class Notification {
     $reference = $message->getIdentifier()->getFormattedIdentifier();
 
     // Get main job in order to register the messages and get translator.
-    $main_reference = 'MAIN_%_POETRY_%' . $reference;
+    $main_reference = db_like('MAIN_') . '%' . db_like('_POETRY_' . $reference);
     $targets = $message->getTargets();
     /** @var \EC\Poetry\Messages\Components\Target $target */
     $target = current($targets);
@@ -68,7 +68,7 @@ class Notification {
 
     // Get main job.
     $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
-    $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $reference)
+    $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $main_reference)
       ->fetchAll();
     $main_ids = $ids[0];
     $job = tmgmt_job_load($main_ids->tjid);
@@ -208,7 +208,7 @@ class Notification {
     $attributions_statuses = $message->getAttributionStatuses();
 
     // Get main job in order to register the messages.
-    $main_reference = 'MAIN_%_POETRY_%' . $reference;
+    $main_reference = db_like('MAIN_') . '%' . db_like('_POETRY_' . $reference);
     $languages_jobs = array();
     /** @var \EC\Poetry\Messages\Components\Status $attribution_status */
     foreach ($attributions_statuses as $attribution_status) {
@@ -307,9 +307,8 @@ class Notification {
         )
       );
 
+      $reference = '%' . db_like('_' . $reference);
       if ($cancelled) {
-        $reference = '%' . $reference;
-
         $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
           ->fetchAll();
         foreach ($ids as $id) {
@@ -318,7 +317,6 @@ class Notification {
         }
       }
       elseif ($main_job->isAborted()) {
-        $reference = '%' . $reference;
         $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
           ->fetchAll();
 

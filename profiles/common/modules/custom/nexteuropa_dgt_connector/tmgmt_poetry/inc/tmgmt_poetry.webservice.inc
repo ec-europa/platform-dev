@@ -129,9 +129,9 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     }
 
     // Get main job in order to register the messages.
-    $main_reference = 'MAIN_%_POETRY_%' . $reference;
+    $main_reference = db_like('MAIN_') . '%' . db_like('_POETRY_' . $reference);
     $language_job = $request->status['lgCode'];
-    $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
+    $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $main_reference)
       ->fetchAll();
 
     // Handling the case where we can't find the corresponding job.
@@ -214,7 +214,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           );
 
           if ($cancelled) {
-            $reference = '%' . $reference;
+            $reference = '%' . db_like('_' . $reference);
 
             $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
               ->fetchAll();
@@ -224,7 +224,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
             }
           }
           elseif ($message_job->isAborted()) {
-            $reference = '%' . $reference;
+            $reference = '%' . db_like('_' . $reference);
             $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
               ->fetchAll();
 
@@ -244,13 +244,13 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
         // </STATUS> - type:attribution.
         if ($status['type'] == 'attribution') {
           if (!empty($status['lgCode'])) {
-            $reference = '%' . $reference;
+            $reference = '%' . db_like('_' . $reference);
             $language_code = drupal_strtolower((string) $status['lgCode']);
             $language_code = $poetry_translator->mapToLocalLanguage($language_code);
             $language_job = array($language_code);
           }
           else {
-            $reference = 'MAIN_%_POETRY_%' . $reference;
+            $reference = db_like('MAIN_') . '%' . db_like('_POETRY_' . $reference);
             $language_job = array();
           }
           $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
@@ -282,7 +282,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     // Check the attributions to look for translations and delai confirmations.
     // </ATTRIBUTIONS>.
     foreach ($request->attributions as $attributions) {
-      $reference = '%' . $reference;
+      $reference = '%' . db_like('_' . $reference);
       $language_code = drupal_strtolower((string) $attributions['lgCode']);
       $language_code = $poetry_translator->mapToLocalLanguage($language_code);
       $language_job = array($language_code);
