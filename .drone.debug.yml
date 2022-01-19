@@ -97,7 +97,7 @@ pipeline:
   behat:
     image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=5.6}-ci
     commands:
-      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
+      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict -vv
     when:
       matrix:
         CODE_COMPLIANCE: 0
