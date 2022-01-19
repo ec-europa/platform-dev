@@ -66,13 +66,14 @@ class Notification {
       return FALSE;
     }
 
-    // Get main job.
+    // Get the job.
     $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
-    $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $main_reference)
+    $reference = '%' . db_like('_' . $reference);
+    $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $reference)
       ->fetchAll();
-    $main_ids = $ids[0];
-    $job = tmgmt_job_load($main_ids->tjid);
-    $job_item = tmgmt_job_item_load($main_ids->tjiid);
+    $job_ids = $ids[0];
+    $job = tmgmt_job_load($job_ids->tjid);
+    $job_item = tmgmt_job_item_load($job_ids->tjiid);
 
     // Import content using controller.
     $imported_file = base64_decode($target->getTranslatedFile());
