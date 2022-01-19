@@ -1,0 +1,181 @@
+# ==============================================================================
+# Pull request clone ===========================================================
+# ==============================================================================
+# Use plugin to checkout pull requests for caching issue:
+# https://github.com/drone/drone/issues/2390
+# ==============================================================================
+clone:
+  git:
+    image: registry.fpfis.eu/drone-plugins/git:next
+    depth: 1
+    # The tags property is not documented but can be found in the following
+    # snippet of code
+    # https://github.com/drone-plugins/drone-git/blob/master/plugin.go#L153
+    tags: true
+
+# ==============================================================================
+# Workspace location ===========================================================
+# ==============================================================================
+# Define the build path inside the container ( Here /test/platform )
+# ==============================================================================
+workspace:
+  base: /test
+  path: platform
+
+# ==============================================================================
+# Main services ================================================================
+# ==============================================================================
+services:
+  web:
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=5.6}-ci
+    environment:
+      - DOCUMENT_ROOT=/test/platform
+      - SMTP_SERVER=bananas
+    pull: true
+    when:
+      event: [ push, pull_request, tag ]
+  mysql:
+    image: registry.fpfis.eu/fpfis/sql:percona-${MYSQL_VERSION=5.7}
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    pull: true
+    when:
+      event: [ push, pull_request, tag ]
+  selenium:
+    image: registry.fpfis.eu/fpfis/selenium:standalone-chrome-${SELENIUM_VERSION=3.141.59-20210913}
+    shm_size: 2gb
+    pull: true
+    when:
+      event: [ push, pull_request, tag ]
+
+# ==============================================================================
+# pipeline =====================================================================
+# ==============================================================================
+pipeline:
+
+  # ============================================================================
+  # Build install and tests ====================================================
+  # ============================================================================
+  # Build and install developement platform and run phpcs and behat tests
+  # ============================================================================
+
+  # Build and install platform
+  site-build:
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=5.6}-ci
+    commands:
+      - php --version
+      - composer install --ansi --no-suggest --no-progress
+      - ./bin/phing build-platform-dev -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+      - ./bin/phing setup-drone-file-system -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+      - ./bin/phing install-platform  -propertyfile 'build.properties.drone' -D'platform.profile.name'='${PLATFORM_PROFILE=multisite_drupal_standard}' -D'platform.site.theme_default'='${THEME_DEFAULT=ec_resp}'
+    volumes:
+      - /cache/${DRONE_REPO_NAME}:/cache
+    when:
+      event: [push, tag, pull_request]
+
+  # Run phpcs tests
+  phpcs:
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=5.6}-ci
+    commands:
+      - ./bin/phpcs
+    when:
+      matrix:
+        CODE_COMPLIANCE: 1
+      event: [push, tag, pull_request]
+
+  # Run phpunit tests
+  phpunit:
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=5.6}-ci
+    commands:
+      - ./bin/phpunit -c tests/phpunit.xml
+    when:
+      matrix:
+        CODE_COMPLIANCE: 1
+      event: [push, tag, pull_request]
+
+  # Run behat tests
+  behat:
+    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=5.6}-ci
+    commands:
+      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
+    when:
+      matrix:
+        CODE_COMPLIANCE: 0
+      event: [push, tag, pull_request]
+
+  # If error on behat test, upload screenshots
+  upload-screenshots:
+    image: registry.fpfis.eu/drone-plugins/rsync:latest
+    user: web_asda
+    secrets: [ plugin_key, plugin_hosts ]
+    source: tests/screenshots/
+    target: ${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/screenshots/${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/
+    script:
+      - echo "Screenshots available at https://asda.fpfis.tech.ec.europa.eu/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/screenshots/${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/"
+    when:
+      status: [ failure ]
+      event: [push, tag, pull_request]
+
+  # Slack notification in #core-ci
+  slack-notify-published:
+    image: registry.fpfis.eu/drone-plugins/slack
+    secrets: [ slack_webhook ]
+    channel: core-ci
+    username: corebot
+    icon_url: https://d30y9cdsu7xlg0.cloudfront.net/png/62766-200.png
+    when:
+      event: [push, tag, pull_request]
+      status: [ success, failure ]
+    template: >
+      {{#success build.status}}
+        {{repo.name}}@{{build.branch}} <{{build.link}}|Build  {{truncate build.commit 8}} passed> the core tests.
+      {{else}}
+        {{repo.name}}@{{build.branch}} <{{build.link}}|Build  {{truncate build.commit 8}} failed> the core tests.
+        Screenshots for failed behat steps (that use javascript) can be found at: https://asda.fpfis.tech.ec.europa.eu/${DRONE_REPO_OWNER}/${DRONE_REPO_NAME%%-reference}/screenshots/${DRONE_BUILD_NUMBER}-${DRONE_JOB_NUMBER}/
+      {{/success}}
+
+# ============================================================================
+# Matrix =====================================================================
+# ============================================================================
+# Matrix used for test different platform profile in parallel
+# ============================================================================
+matrix:
+  include:
+    - CODE_COMPLIANCE: 1
+      PHP_VERSION: 7.3
+      MYSQL_VERSION: 5.7
+      SELENIUM_VERSION: 3.141.5
+
+      # Standard profile, ec_resp theme
+    - BEHAT_PART: 0
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      PHP_VERSION: 7.3
+      MYSQL_VERSION: 5.7
+      SELENIUM_VERSION: 3.141.5
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 1
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      PHP_VERSION: 7.3
+      MYSQL_VERSION: 5.7
+      SELENIUM_VERSION: 3.141.5
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 2
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      PHP_VERSION: 7.3
+      MYSQL_VERSION: 5.7
+      SELENIUM_VERSION: 3.141.5
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
+    - BEHAT_PART: 3
+      BEHAT_PROFILE: standard_ec_resp
+      CODE_COMPLIANCE: 0
+      PHP_VERSION: 7.3
+      MYSQL_VERSION: 5.7
+      SELENIUM_VERSION: 3.141.5
+      PLATFORM_PROFILE: multisite_drupal_standard
+      THEME_DEFAULT: ec_resp
