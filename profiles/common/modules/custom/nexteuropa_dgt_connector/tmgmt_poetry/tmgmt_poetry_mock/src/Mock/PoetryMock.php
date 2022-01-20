@@ -145,10 +145,12 @@ class PoetryMock {
    */
   public function sendRequestToDrupal($message) {
     $this->instantiateClient($this->settings['drupal_wsdl']);
+    $translator = tmgmt_translator_load(self::TRANSLATOR_NAME);
+    $settings = $translator->getSetting('settings');
     try {
       $response = $this->client->{self::SOAP_METHOD}(
-        'MockCallback',
-        'MockCallback',
+        $settings['callback_user'],
+        $settings['callback_password'],
         $message
       );
     }
