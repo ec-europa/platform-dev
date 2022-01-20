@@ -10,7 +10,7 @@ behat.browser.name = chrome
 mock.poetry.base_url = http://web:8080/build
 
 behat.poetry.host = behat
-behat.poetry.port = 28080
+behat.poetry.port = 28999
 behat.poetry.endpoint = /service
 behat.poetry.wsdl = /wsdl
 behat.poetry.username = username
