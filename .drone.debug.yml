@@ -27,7 +27,7 @@ workspace:
 # ==============================================================================
 services:
   web:
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=5.6}-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
     environment:
       - DOCUMENT_ROOT=/test/platform
       - SMTP_SERVER=bananas
@@ -35,14 +35,14 @@ services:
     when:
       event: [ push, pull_request, tag ]
   mysql:
-    image: registry.fpfis.eu/fpfis/sql:percona-${MYSQL_VERSION=5.7}
+    image: registry.fpfis.eu/fpfis/sql:percona-5.7
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     pull: true
     when:
       event: [ push, pull_request, tag ]
   selenium:
-    image: registry.fpfis.eu/fpfis/selenium:standalone-chrome-${SELENIUM_VERSION=3.141.59-20210913}
+    image: registry.fpfis.eu/fpfis/selenium:standalone-chrome-3.141.5
     shm_size: 2gb
     pull: true
     when:
@@ -61,7 +61,7 @@ pipeline:
 
   # Build and install platform
   site-build:
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=5.6}-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
     commands:
       - php --version
       - composer install --ansi --no-suggest --no-progress
@@ -75,7 +75,7 @@ pipeline:
 
   # Run phpcs tests
   phpcs:
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=5.6}-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
     commands:
       - ./bin/phpcs
     when:
@@ -85,7 +85,7 @@ pipeline:
 
   # Run phpunit tests
   phpunit:
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=5.6}-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
     commands:
       - ./bin/phpunit -c tests/phpunit.xml
     when:
@@ -95,9 +95,9 @@ pipeline:
 
   # Run behat tests
   behat:
-    image: registry.fpfis.eu/fpfis/httpd-php:${PHP_VERSION=5.6}-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
     commands:
-      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict --verbose=2
+      - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
     when:
       matrix:
         CODE_COMPLIANCE: 0
