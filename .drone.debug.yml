@@ -39,6 +39,7 @@ services:
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     pull: true
+    command: --innodb-log-file_size=2G --max-allowed-packet=1G --innodb-buffer-pool-size=512M --wait-timeout=31536000
     when:
       event: [ push, pull_request, tag ]
   selenium:
@@ -101,6 +102,14 @@ pipeline:
     when:
       matrix:
         CODE_COMPLIANCE: 0
+      event: [push, tag, pull_request]
+
+  sleep:
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
+    commands:
+      - sleep 3600
+    when:
+      status: [ failure ]
       event: [push, tag, pull_request]
 
   # If error on behat test, upload screenshots
