@@ -27,7 +27,7 @@ workspace:
 # ==============================================================================
 services:
   web:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
     environment:
       - DOCUMENT_ROOT=/test/platform
       - SMTP_SERVER=bananas
@@ -62,7 +62,7 @@ pipeline:
 
   # Build and install platform
   site-build:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
     commands:
       - php --version
       - composer install --ansi --no-suggest --no-progress
@@ -76,7 +76,7 @@ pipeline:
 
   # Run phpcs tests
   phpcs:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
     commands:
       - ./bin/phpcs
     when:
@@ -86,7 +86,7 @@ pipeline:
 
   # Run phpunit tests
   phpunit:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
     commands:
       - ./bin/phpunit -c tests/phpunit.xml
     when:
@@ -96,7 +96,7 @@ pipeline:
 
   # Run behat tests
   behat:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
     commands:
       - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
     when:
@@ -105,7 +105,7 @@ pipeline:
       event: [push, tag, pull_request]
 
   sleep:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
     commands:
       - sleep 3600
     when:
