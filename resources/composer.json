@@ -10,7 +10,7 @@
     "cweagans/composer-patches": "1.6.5"
   },
   "require-dev": {
-    "behat/behat": "v3.5.0",
+    "behat/behat": "v3.6.0",
     "bovigo/assert": "^5.0",
     "drupal/drupal-extension": "^4@beta",
     "ec-europa/oe-poetry-behat": "dev-gervasek-patch-1",
