@@ -1,4 +1,4 @@
-@api @i18n @poetry @theme_wip
+@api @i18n @poetry @theme_wip @gervase_debug_1
 Feature: TMGMT Poetry Client features
   In order to request Carts translations with Poetry service.
   As an Administrator
