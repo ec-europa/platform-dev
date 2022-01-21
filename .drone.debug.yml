@@ -27,7 +27,7 @@ workspace:
 # ==============================================================================
 services:
   web:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
     environment:
       - DOCUMENT_ROOT=/test/platform
       - SMTP_SERVER=bananas
@@ -62,7 +62,7 @@ pipeline:
 
   # Build and install platform
   site-build:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
     commands:
       - php --version
       - composer install --ansi --no-suggest --no-progress
