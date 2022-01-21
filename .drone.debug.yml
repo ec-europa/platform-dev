@@ -157,15 +157,15 @@ matrix:
 
       # Standard profile, ec_resp theme
     - BEHAT_PART: 0
-      BEHAT_PROFILE: gervase_debug_1
+      BEHAT_PROFILE: gervase_debug
       CODE_COMPLIANCE: 0
       PHP_VERSION: 7.3
       MYSQL_VERSION: 5.7
       SELENIUM_VERSION: 3.141.5
       PLATFORM_PROFILE: multisite_drupal_standard
       THEME_DEFAULT: ec_resp
-    - BEHAT_PART: 0
-      BEHAT_PROFILE: gervase_debug_2
+    - BEHAT_PART: 1
+      BEHAT_PROFILE: gervase_debug
       CODE_COMPLIANCE: 0
       PHP_VERSION: 7.3
       MYSQL_VERSION: 5.7

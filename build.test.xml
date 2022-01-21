@@ -147,16 +147,13 @@
             import="${behat.load_balancer.import}"
         >
             <filters profile="default">
-                    <tags><![CDATA[ ~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip&&~@gervase_debug_1 ]]></tags>
+                    <tags><![CDATA[ ~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip&&~@gervase_debug ]]></tags>
             </filters>
             <filters profile="standard_ec_resp">
-                <tags><![CDATA[ ~@wip&&~@ec_europa_theme&&~@communities&&~@gervase_debug_1 ]]></tags>
+                <tags><![CDATA[ ~@wip&&~@ec_europa_theme&&~@communities&&~@gervase_debug ]]></tags>
             </filters>
-            <filters profile="gervase_debug_1">
-                <tags><![CDATA[ ~@wip&&~@ec_europa_theme&&~@communities&&@gervase_debug_1&&~@gervase_debug_2 ]]></tags>
-            </filters>
-            <filters profile="gervase_debug_2">
-                <tags><![CDATA[ ~@wip&&~@ec_europa_theme&&~@communities&&~@gervase_debug_1&&@gervase_debug_2 ]]></tags>
+            <filters profile="gervase_debug">
+                <tags><![CDATA[ ~@wip&&~@ec_europa_theme&&~@communities&&@gervase_debug ]]></tags>
             </filters>
         </behat:balancer>
         <behat:balancer

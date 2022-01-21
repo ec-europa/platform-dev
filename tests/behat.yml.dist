@@ -230,6 +230,96 @@ standard_ec_resp:
         sidebar_left: "#sidebar-left"
         sidebar_right: "#sidebar-right"
 
+gervase_debug:
+  suites:
+    default:
+      contexts:
+      - Drupal\nexteuropa\Context\ModuleContext
+      - FeatureContext:
+          screenshots_path: '{{ behat.screenshots.path }}'
+      - Drupal\nexteuropa\Context\AgnosticBatchContext
+      - Drupal\nexteuropa\Context\ApacheSolrContext
+      - Drupal\nexteuropa\Context\BlockContext
+      - Drupal\nexteuropa\Context\CKEditorContext
+      - Drupal\nexteuropa\Context\EcasContext
+      - Drupal\nexteuropa\Context\MessageContext
+      - Drupal\nexteuropa\Context\BeanContext
+      - Drupal\nexteuropa\Context\DrupalContext
+      - Drupal\nexteuropa\Context\FieldContext
+      - Drupal\nexteuropa\Context\FormContext
+      - Drupal\nexteuropa\Context\ContentTypeContext
+      - Drupal\nexteuropa\Context\MinkContext
+      - Drupal\nexteuropa\Context\VariableContext
+      - Drupal\nexteuropa\Context\FlickrContext:
+          key: '{{ flickr.key }}'
+          secret: '{{ flickr.secret }}'
+      - Drupal\nexteuropa\Context\MediaContext
+      - Drupal\nexteuropa\Context\TaxonomyContext
+      - Drupal\nexteuropa\Context\ViewsContext
+      - Drupal\nexteuropa\Context\MultilingualContext
+      - Drupal\DrupalExtension\Context\MarkupContext
+      - Drupal\nexteuropa\Context\WebtoolsContext
+      - Drupal\nexteuropa\Context\CookieConsentKitContext
+      - Drupal\nexteuropa\Context\FrontendCacheContext:
+          mock_server_host: {{ behat.poetry.host }}
+          mock_server_port: {{ varnish.server.port }}
+      - Drupal\nexteuropa\Context\DatabaseLogContext
+      - Drupal\nexteuropa\Context\PathautoContext
+      - Drupal\nexteuropa\Context\SchedulerContext
+      - Drupal\nexteuropa\Context\MultilingualContext
+      - Drupal\nexteuropa\Context\DrupalMailContext
+      - Drupal\nexteuropa\Context\PiwikRulesContext
+      - Drupal\nexteuropa\Context\DrushContext:
+          drush_bin: '{{ drush.bin }}'
+          db_dump_location: '{{ drush.db.dump }}'
+      - EC\Behat\PoetryExtension\Context\PoetryContext
+      - Drupal\nexteuropa\Context\PoetryContext:
+          wsdl: 'http://{{ behat.poetry.host }}:{{ behat.poetry.port }}{{ behat.poetry.wsdl }}'
+      - Drupal\nexteuropa\Context\RulesContext
+      - Drupal\nexteuropa\Context\LacoContext
+      - Drupal\nexteuropa\Context\TokenContext
+      - OpenEuropa\Behat\TransformationContext:
+          elements:
+            <<: *nept_elements
+            nept_element:block:site-language-switcher: '#block-language-selector-site-language-selector-site'
+            nept_element:page-title: '#page-title'
+            nept_element:title-metatag: 'html head title'
+      filters: { tags: "~@wip&&~@ec_europa_theme&&~@communities" }
+  extensions:
+    Drupal\MinkExtension:
+      goutte: ~
+      javascript_session: 'selenium2'
+      browser_name: '{{ behat.browser.name }}'
+      selenium2:
+        browser: '{{ behat.browser.name }}'
+        wd_host: '{{ behat.wd_host.url }}'
+      base-url: '{{ behat.base_url }}'
+      files_path: '{{ platform.build.dir }}'
+      ajax_timeout: 30
+    Drupal\nexteuropa\Extensions\DrupalExtension:
+      selectors:
+        node_tag: 'div'
+        message_selector: '.messages'
+        error_message_selector: '.messages.error'
+        success_message_selector: '.messages.status'
+        warning_message_selector: '.messages.warning'
+        front_message_selector: '.messages'
+        front_error_message_selector: '.messages.error'
+        front_success_message_selector: '.messages.status'
+        front_warning_message_selector: '.messages.warning'
+      region_map:
+        admin_menu: "#admin-menu-menu"
+        content_top: ".region-content-top"
+        header_top: ".region-header-top"
+        header: "#layout-header"
+        primary_tabs: ".tabs-primary"
+        content: "#layout-body"
+        footer: "#layout-footer"
+        messages: "#console"
+        front_messages: "#messages"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
+
 communities_ec_resp:
   suites:
     default:
