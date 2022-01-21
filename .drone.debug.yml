@@ -27,7 +27,7 @@ workspace:
 # ==============================================================================
 services:
   web:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
     environment:
       - DOCUMENT_ROOT=/test/platform
       - SMTP_SERVER=bananas
@@ -62,7 +62,7 @@ pipeline:
 
   # Build and install platform
   site-build:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
     commands:
       - php --version
       - composer install --ansi --no-suggest --no-progress
@@ -76,7 +76,7 @@ pipeline:
 
   # Run behat tests
   behat:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-ci
+    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
     commands:
       - php test.php
     when:
