@@ -9,7 +9,7 @@ print_r("Start test". PHP_EOL);
 $parameters= array(
 	"service" => 
 		array (
-			"host" => "127.0.0.1",
+			"host" => "behat",
 			"port" => "28999",
 			"endpoint" => "/service",
 			"wsdl" => "/wsdl",
