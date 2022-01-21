@@ -96,7 +96,7 @@ pipeline:
 
   # Run behat tests
   behat:
-    image: registry.fpfis.eu/fpfis/httpd-php:7.3-full
+    image: registry.fpfis.eu/fpfis/httpd-php:6fd2627b-7.3-ci
     commands:
       - ./bin/behat -c build/tests/balancer/behat.${BEHAT_PROFILE=default}.${BEHAT_PART=0}.yml -p ${BEHAT_PROFILE=default} --colors -f pretty --strict
     when:
