@@ -321,7 +321,6 @@ class Notification {
 
       if ($cancelled) {
         $reference_arg = '%' . db_like('_' . $reference);
-
         $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference_arg)
           ->fetchAll();
         foreach ($ids as $id) {
@@ -333,7 +332,6 @@ class Notification {
         $reference_arg = '%' . db_like('_' . $reference);
         $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference_arg)
           ->fetchAll();
-
         foreach ($ids as $id) {
           $reopen_job = tmgmt_job_load($id->tjid);
           $reopen_job->setState(
@@ -345,12 +343,9 @@ class Notification {
         }
       }
 
-      if (empty($reference_arg)) {
-        return;
-      }
-
       // 3. Check Status for specific languages.
       foreach ($attributions_statuses as $attribution_status) {
+        $reference_arg = '%' . db_like('_' . $reference);
         $language_code = drupal_strtolower($attribution_status->getLanguage());
         $language_code = $translator->mapToLocalLanguage($language_code);
         $language_job = array($language_code);

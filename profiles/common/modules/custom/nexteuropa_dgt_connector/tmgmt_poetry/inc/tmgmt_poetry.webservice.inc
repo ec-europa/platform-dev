@@ -215,7 +215,6 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
 
           if ($cancelled) {
             $reference_arg = '%' . db_like('_' . $reference);
-
             $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference_arg)
               ->fetchAll();
             foreach ($ids as $id) {
@@ -225,10 +224,8 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           }
           elseif ($message_job->isAborted()) {
             $reference_arg = '%' . db_like('_' . $reference);
-
             $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference_arg)
               ->fetchAll();
-
             foreach ($ids as $id) {
               $reopen_job = tmgmt_job_load($id->tjid);
               $reopen_job->setState(
