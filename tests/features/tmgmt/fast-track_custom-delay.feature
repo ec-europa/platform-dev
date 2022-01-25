@@ -142,7 +142,7 @@ Feature: Fast track
     And I fill in the content's title with "Test page"
     And I fill in "edit-delay-date-und-0-value-day" with "14"
     And I fill in "edit-delay-date-und-0-value-month" with "11"
-    And I fill in "edit-delay-date-und-0-value-year" with "2018"
+    And I fill in "edit-delay-date-und-0-value-year" with "2019"
     And I fill in "edit-delay-date-und-0-value-hour" with "12"
     And I fill in "edit-delay-date-und-0-value-minute" with "00"
     And I press "Save"
@@ -168,5 +168,5 @@ Feature: Fast track
       | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
       | <serviceDemandeur>IE/CE/DIGIT</serviceDemandeur>          |
       | <applicationReference>FPFIS</applicationReference>            |
-      | <delai>14/11/2018</delai>                                     |
-      | <attributionsDelai>14/11/2018</attributionsDelai>             |
+      | <delai>14/11/2019</delai>                                     |
+      | <attributionsDelai>14/11/2019</attributionsDelai>             |
