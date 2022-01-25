@@ -71,6 +71,17 @@ class Notification {
     $reference_arg = '%' . db_like('_' . $reference);
     $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $reference_arg)
       ->fetchAll();
+
+    if (empty($ids)) {
+      watchdog(
+        "tmgmt_poetry",
+        "Callback can't find a job with the reference !reference.",
+        array('!reference' => $reference_arg),
+        WATCHDOG_ERROR
+      );
+      return FALSE;
+    }
+
     $job_ids = $ids[0];
     $job = tmgmt_job_load($job_ids->tjid);
     $job_item = tmgmt_job_item_load($job_ids->tjiid);
@@ -334,16 +345,24 @@ class Notification {
         }
       }
 
+      if (empty($reference_arg)) {
+        return;
+      }
+
       // 3. Check Status for specific languages.
       foreach ($attributions_statuses as $attribution_status) {
         $language_code = drupal_strtolower($attribution_status->getLanguage());
         $language_code = $translator->mapToLocalLanguage($language_code);
         $language_job = array($language_code);
 
-        $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
+        $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference_arg)
           ->fetchAll();
+
+        if (empty($ids)) {
+          continue;
+        }
+
         $ids = array_shift($ids);
-        $job = tmgmt_job_load($ids->tjid);
         $job_item = tmgmt_job_item_load($ids->tjiid);
 
         $main_job->addMessage(
