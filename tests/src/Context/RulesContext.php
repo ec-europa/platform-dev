@@ -26,7 +26,9 @@ class RulesContext extends RawDrupalContext {
    */
   public function importRule(PyStringNode $string) {
     $raw = $string->getRaw();
+    // @codingStandardsIgnoreStart.
     $decoded = json_decode($raw, TRUE);
+    // @codingStandardsIgnoreEnd
     $error = '';
     $rule = rules_import(json_encode($decoded), $error);
     if ($rule === FALSE) {
