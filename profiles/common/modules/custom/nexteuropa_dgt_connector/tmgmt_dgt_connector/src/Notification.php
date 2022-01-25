@@ -68,8 +68,8 @@ class Notification {
 
     // Get the job.
     $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
-    $reference = '%' . db_like('_' . $reference);
-    $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $reference)
+    $reference_arg = '%' . db_like('_' . $reference);
+    $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $reference_arg)
       ->fetchAll();
     $job_ids = $ids[0];
     $job = tmgmt_job_load($job_ids->tjid);
@@ -308,9 +308,10 @@ class Notification {
         )
       );
 
-      $reference = '%' . db_like('_' . $reference);
       if ($cancelled) {
-        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
+        $reference_arg = '%' . db_like('_' . $reference);
+
+        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference_arg)
           ->fetchAll();
         foreach ($ids as $id) {
           $job = tmgmt_job_load($id->tjid);
@@ -318,7 +319,8 @@ class Notification {
         }
       }
       elseif ($main_job->isAborted()) {
-        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
+        $reference_arg = '%' . db_like('_' . $reference);
+        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference_arg)
           ->fetchAll();
 
         foreach ($ids as $id) {
