@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.84"
+projects[drupal][version] = "7.87"
 
 ; https://www.drupal.org/node/3166668
 projects[drupal][patch][] = https://www.drupal.org/files/issues/2021-05-25/3166668-14.patch
