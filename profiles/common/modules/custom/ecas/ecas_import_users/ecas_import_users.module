@@ -175,17 +175,20 @@ function _ecas_import_users_groups_dn() {
  */
 function ecas_import_user_ldap_user_form($form, &$form_state) {
   $result = getLdapEntries(_ecas_import_users_groups_dn(), 'cn=DG_*', array('cn'));
-
-  $rows_dg = array();
-  for ($i = 0; $i < $result['count']; ++$i) {
-    if ($result[$i]['cn'][0] != '') {
-      $array_dg = explode('_', $result[$i]['cn'][0]);
-      $rows_dg[$array_dg[1]] = $array_dg[1];
+  
+  if (!is_null($result)) {
+    for ($i = 0; $i < $result['count']; ++$i) {
+      if ($result[$i]['cn'][0] != '') {
+        $array_dg = explode('_', $result[$i]['cn'][0]);
+        $rows_dg[$array_dg[1]] = $array_dg[1];
+      }
     }
+    ksort($rows_dg);    
   }
-
-  ksort($rows_dg);
-
+  else {
+    $rows_dg = array();
+  };
+  
   $form['dg'] = array(
     '#type' => 'select',
     '#title' => t('Search by group (LDAP DG)'),
@@ -307,7 +310,7 @@ function ecas_import_users_show_user_content() {
  */
 function ecas_import_users_show_user_content_form($form, &$form_state, $arguments) {
   $filters = '';
-
+  $result = array();
   $arguments += array(
     'names' => 'everybody',
     'dg' => 'all-groups',
