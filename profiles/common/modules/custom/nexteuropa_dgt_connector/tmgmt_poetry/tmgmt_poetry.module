@@ -60,24 +60,6 @@ function tmgmt_poetry_tmgmt_translator_plugin_info() {
 }
 
 /**
- * Implements hook_entity_type_delete().
- *
- * When main translation job is removed,
- * delete also the sub translation if the translator is poetry.
- *
- * @TODO remove this deletion.
- */
-function tmgmt_poetry_tmgmt_job_delete($job) {
-  if ($job->hasPoetryTranslator() && isset($job->settings['languages']) && (strpos($job->reference, 'MAIN_' . $job->tjid) !== FALSE)) {
-    $related_jobs = tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
-    foreach ($related_jobs as $related_job) {
-      entity_get_controller('tmgmt_job')->delete(array($related_job->tjid));
-      entity_get_controller('tmgmt_job_item')->delete(array($related_job->tjiid));
-    }
-  }
-}
-
-/**
  * Helper function to retrive a Job based on its reference.
  */
 function _tmgmt_poetry_load_job_by_reference($reference) {
@@ -357,7 +339,8 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
 
       // If there was already a job item for new target language, delete it.
       // This is usefull for the #cart.
-      $result = tmgmt_poetry_obtain_related_translation_jobs($new_main_lg, 'SUB_' . $origin_job->tjid);
+      $reference = db_like('SUB_' . $origin_job->tjid);
+      $result = tmgmt_poetry_obtain_related_translation_jobs($new_main_lg, $reference, TRUE);
 
       if ($row = $result->fetchAssoc()) {
         entity_get_controller('tmgmt_job')->delete(array($row['tjid']));
@@ -442,7 +425,8 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
   }
 
   if (!empty($language_targets_to_remove)) {
-    $result = tmgmt_poetry_obtain_related_translation_jobs($language_targets_to_remove, 'SUB_' . $origin_job->tjid);
+    $reference = db_like('SUB_' . $origin_job->tjid);
+    $result = tmgmt_poetry_obtain_related_translation_jobs($language_targets_to_remove, $reference, TRUE)->fetchAll();
 
     // If any, removed found translations.
     if ($result) {
@@ -472,19 +456,19 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
 }
 
 /**
- * Return related translations by the translated entity id.
+ * Returns related translation jobs (by the reference).
  *
  * @param array $languages
  *   Target languages.
  * @param string $reference
  *   Reference to look for.
- * @param bool $not_poetry
- *   Job does not belong to poetry.
+ * @param bool $additional_check
+ *   If TRUE, adds a condition to check additional case.
  *
- * @return mixed
- *   mixed.
+ * @return \DatabaseStatementInterface|null
+ *   Executed query to get related jobs.
  */
-function tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '', $not_poetry = FALSE) {
+function tmgmt_poetry_obtain_related_translation_jobs($languages, $reference, $additional_check = FALSE) {
   $query = db_select('tmgmt_job', 'job');
   $query->join('tmgmt_job_item', 'job_item', 'job.tjid = job_item.tjid');
   $query->fields('job', array('tjid'));
@@ -494,12 +478,15 @@ function tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '
     $query->condition('job.target_language', $languages, 'IN');
   }
 
-  $query->condition('job.reference', '%' . $reference . '%', 'LIKE');
-
-  if ($not_poetry) {
-    $query->condition('job.reference', $reference . '_POETRY_%', 'NOT LIKE');
+  if ($additional_check) {
+    $or = db_or();
+    $or->condition('job.reference', $reference, 'LIKE');
+    $or->condition('job.reference', $reference . db_like('_POETRY_') . '%', 'LIKE');
+    $query->condition($or);
   }
-
+  else {
+    $query->condition('job.reference', $reference, 'LIKE');
+  }
   return $query->execute();
 }
 
@@ -526,7 +513,8 @@ function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message
   }
 
   // Reject the related sub Job.
-  $related_jobs = tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
+  $reference = db_like('SUB_' . $job->tjid);
+  $related_jobs = tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], $reference, TRUE)->fetchAll();
 
   foreach ($related_jobs as $related_job) {
     $job_rejected = tmgmt_job_load($related_job->tjid);
