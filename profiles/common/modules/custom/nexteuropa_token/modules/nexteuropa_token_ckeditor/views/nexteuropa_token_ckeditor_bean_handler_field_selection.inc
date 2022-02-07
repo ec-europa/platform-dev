@@ -73,7 +73,7 @@ class nexteuropa_token_ckeditor_bean_handler_field_selection extends views_handl
     $output[] = l(drupal_ucfirst($values->bean_view_mode), '', array('attributes' => $attributes));
     $output[] = '<input type="text" onfocus="this.select()" class="token-ckeditor-input" value="' . $attributes['token-ckeditor-token'] . '" />';
 
-    return implode($output, ' - ');
+    return implode(' - ', $output);
   }
 
   /**
