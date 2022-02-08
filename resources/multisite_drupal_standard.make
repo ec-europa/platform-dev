@@ -597,7 +597,7 @@ projects[quicktabs][patch][] = patches/quicktabs-MULTISITE-3880.patch
 projects[quicktabs][patch][2222805] = https://www.drupal.org/files/issues/quicktabs-log_empty-2222805-14.patch
 
 projects[rate][subdir] = "contrib"
-projects[rate][version] = "1.7"
+projects[rate][version] = "1.8"
 ; Description should be translatable
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1178
 projects[rate][patch][] = patches/rate-translate_description-1178.patch
