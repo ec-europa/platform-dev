@@ -130,7 +130,7 @@ projects[collapse_text][version] = "2.4"
 projects[collapse_text][patch][] = http://cgit.drupalcode.org/collapse_text/patch/?id=85656e4960d22fc145d5c3e3a79b81eaeb4cbde5
 
 projects[colorbox][subdir] = "contrib"
-projects[colorbox][version] = "2.10"
+projects[colorbox][version] = "2.16"
 
 projects[colors][subdir] = "contrib"
 projects[colors][version] = "1.0-rc1"
@@ -950,9 +950,9 @@ libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/
 libraries[chosen][directory_name] = chosen
 libraries[chosen][destination] = libraries
 
-; colorbox 1.6.3
+; colorbox 1.6.4
 libraries[colorbox][download][type] = get
-libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archive/1.6.3.zip
+libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archive/1.6.4.zip
 libraries[colorbox][directory_name] = colorbox
 libraries[colorbox][destination] = libraries
 
