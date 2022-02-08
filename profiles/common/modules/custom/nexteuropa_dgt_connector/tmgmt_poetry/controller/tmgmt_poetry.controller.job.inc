@@ -26,7 +26,8 @@ class TMGMTPoetryJobController extends TMGMTJobController {
 
     $ids_iterate = $ids;
     foreach ($ids_iterate as $id_iterate) {
-      $related_jobs = tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $id_iterate, TRUE)->fetchAll();
+      $reference = db_like('SUB_' . $id_iterate);
+      $related_jobs = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference, TRUE)->fetchAll();
       foreach ($related_jobs as $related_job) {
         $ids[] = $related_job->tjid;
       }
@@ -69,7 +70,8 @@ class TMGMTPoetryJobController extends TMGMTJobController {
           // Check if job is already created
           // and in that case don't create it again, just update it.
           // The update is useful for #card .
-          $result = tmgmt_poetry_obtain_related_translation_jobs(array($requested_language), 'SUB_' . $origin_job->tjid);
+          $reference = db_like('SUB_' . $origin_job->tjid);
+          $result = tmgmt_poetry_obtain_related_translation_jobs(array($requested_language), $reference, TRUE);
           if ($result->rowCount() > 0) {
             $row = $result->fetchAssoc();
             $job = tmgmt_job_load($row['tjid']);
@@ -102,7 +104,8 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     // we should update the related additional sub translation jobs
     // with a reference returned by poetry.
     if ($origin_job->state !== TMGMT_JOB_STATE_UNPROCESSED && (strpos($origin_job->reference, 'MAIN_' . $origin_job->tjid . '_POETRY') !== FALSE)) {
-      $jobs = tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $origin_job->tjid, TRUE);
+      $reference = db_like('SUB_' . $origin_job->tjid);
+      $jobs = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference, TRUE)->fetchAll();
       foreach ($jobs as $ids) {
         $job = tmgmt_job_load($ids->tjid);
         $initial_reference = $job->reference;

@@ -197,7 +197,7 @@ class HashTokenHandler extends TokenAbstractHandler {
     $crumbs = $numeric;
     for ($i = 0; $i < count($charset); $i++) {
       $position = $crumbs % drupal_strlen($charset[$i]);
-      $hash .= $charset[$i]{$position};
+      $hash .= $charset[$i][$position];
       $crumbs = round($crumbs / drupal_strlen($charset[$i]));
     }
     return $hash;
