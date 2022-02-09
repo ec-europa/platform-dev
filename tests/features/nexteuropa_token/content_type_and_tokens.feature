@@ -19,6 +19,14 @@ Feature: Test the creation of new contents and the display of them in a page usi
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
+    When I go to "/node/add/page"
+    And I fill in the content's title with "This is a page with some content token"
+    And I select "Full HTML" from "Text format"
+    And I click the "Insert internal content" button in the "Body" WYSIWYG editor
+    And I wait for AJAX to finish
+    And I click the "Link" link in the "Content to reference in a simple paragraph" row of the "Body" "CKEditor" modal dialog
+    And I press "Save"
+    Then I should see the link "Content to reference in a simple paragraph"
     When I click "Edit draft"
     And I click the "Table" button in the "Body" WYSIWYG editor
     And I click the "OK" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
