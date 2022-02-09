@@ -4,8 +4,70 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "44fd4d9d13b4e7edcd43713ff80e1b9d",
+    "content-hash": "26a667cf31844f02e6902b001c0e6e60",
     "packages": [
+        {
+            "name": "apereo/phpcas",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/apereo/phpCAS.git",
+                "reference": "ea27d122c4c7114006b33d15668c90f1904d53df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/apereo/phpCAS/zipball/ea27d122c4c7114006b33d15668c90f1904d53df",
+                "reference": "ea27d122c4c7114006b33d15668c90f1904d53df",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=7.0.0",
+                "psr/log": "^1.0.0"
+            },
+            "require-dev": {
+                "monolog/monolog": "^1.0.0",
+                "phpunit/phpunit": ">=4.8.35 <8"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "source/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joachim Fritschi",
+                    "email": "jfritschi@freenet.de",
+                    "homepage": "https://github.com/jfritschi"
+                },
+                {
+                    "name": "Adam Franco",
+                    "homepage": "https://github.com/adamfranco"
+                },
+                {
+                    "name": "Henry Pan",
+                    "homepage": "https://github.com/phy25"
+                }
+            ],
+            "description": "Provides a simple API for authenticating users against a CAS server",
+            "homepage": "https://wiki.jasig.org/display/CASC/phpCAS",
+            "keywords": [
+                "apereo",
+                "cas",
+                "jasig"
+            ],
+            "time": "2021-05-30T19:53:34+00:00"
+        },
         {
             "name": "cweagans/composer-patches",
             "version": "1.7.2",
@@ -383,69 +445,6 @@
                 "url"
             ],
             "time": "2021-10-05T13:56:00+00:00"
-        },
-        {
-            "name": "jasig/phpcas",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/apereo/phpCAS.git",
-                "reference": "ea27d122c4c7114006b33d15668c90f1904d53df"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/apereo/phpCAS/zipball/ea27d122c4c7114006b33d15668c90f1904d53df",
-                "reference": "ea27d122c4c7114006b33d15668c90f1904d53df",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "php": ">=7.0.0",
-                "psr/log": "^1.0.0"
-            },
-            "require-dev": {
-                "monolog/monolog": "^1.0.0",
-                "phpunit/phpunit": ">=4.8.35 <8"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.3.x-dev"
-                },
-                "patches_applied": []
-            },
-            "autoload": {
-                "classmap": [
-                    "source/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Joachim Fritschi",
-                    "email": "jfritschi@freenet.de",
-                    "homepage": "https://github.com/jfritschi"
-                },
-                {
-                    "name": "Adam Franco",
-                    "homepage": "https://github.com/adamfranco"
-                },
-                {
-                    "name": "Henry Pan",
-                    "homepage": "https://github.com/phy25"
-                }
-            ],
-            "description": "Provides a simple API for authenticating users against a CAS server",
-            "homepage": "https://wiki.jasig.org/display/CASC/phpCAS",
-            "keywords": [
-                "apereo",
-                "cas",
-                "jasig"
-            ],
-            "time": "2021-05-30T19:53:34+00:00"
         },
         {
             "name": "jeremeamia/superclosure",
