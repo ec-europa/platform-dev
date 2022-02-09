@@ -131,7 +131,7 @@ class EcasDenyAuth {
    * Private method checking EU Login authentication strength.
    */
   private function loginStrengthIsCompliant() {
-    $loginStrengths = count($this->extend['login_strengths']['cas:strength']);
+    $loginStrengths = count($this->extend['login_strengths']['strength']);
 
     return ($loginStrengths > 1) ? TRUE : FALSE;
   }
@@ -183,7 +183,6 @@ class EcasDenyAuth {
    * @see drupal_goto()
    */
   public function redirect(array $data = array()) {
-
     $message = (!isset($data['message'])) ? $this->redirectionAttributes[$this->status]['message'] : $data['message'];
     $path_page_argument = (!isset($data['page_argument'])) ? $this->redirectionAttributes[$this->status]['page_argument'] : $data['page_argument'];
     $language = (empty($this->language)) ? language_default() : $this->language;

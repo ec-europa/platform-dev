@@ -1,0 +1,65 @@
+diff --git a/source/CAS/Client.php b/source/CAS/Client.php
+index 5775159..882f47b 100644
+--- a/source/CAS/Client.php
++++ b/source/CAS/Client.php
+@@ -1834,7 +1834,7 @@ class CAS_Client
+      *
+      * @return void
+      */
+-    public function redirectToCas($gateway=false,$renew=false)
++    public function redirectToCas($gateway=false,$renew=true)
+     {
+         phpCAS::traceBegin();
+         $cas_url = $this->getServerLoginURL($gateway, $renew);
+@@ -3818,6 +3818,51 @@ class CAS_Client
+         return $out;
+     }
+ 
++    /**
++     * This method will parse the DOM and pull out the attributes from the XML
++     * payload and put them into an array.
++     *
++     * @param DOMXml $node DOMXML node to get an array from
++     *
++     * @return array Array representation of the XML node
++     */
++    private function _xmlToArray($node) {
++        if($node->nodeType == XML_TEXT_NODE) {
++            $result = $node->nodeValue;
++        }
++        else {
++            if($node->hasChildNodes()){
++                $occurance = array();
++                foreach($node->childNodes as $child) {
++                    $occurance[$child->nodeName] = isset( $occurance[$child->nodeName] ) ? ++$occurance[$child->nodeName] : 1;
++                }
++                $children = $node->childNodes;
++
++                for($i=0; $i<$children->length; $i++) {
++                    $child = $children->item($i);
++
++                    if($child->nodeName != '#text') {
++                        if($occurance[$child->nodeName] > 1) {
++                            $result[$child->nodeName][] = $this->_xmlToArray($child);
++                        }
++                        else {
++                            $result[$child->nodeName] = $this->_xmlToArray($child);
++                        }
++                    }
++                    else if ($child->nodeName == '#text') {
++                        $text = $this->_xmlToArray($child);
++
++                        if (trim($text) != '') {
++                            $result = $this->_xmlToArray($child);
++                        }
++                    }
++                }
++            }
++        }
++
++        return $result;
++    }
++
+     /**
+      * This method will parse the DOM and pull out the attributes from the XML
+      * payload and put them into an array, then put the array into the session.
