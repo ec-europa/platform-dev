@@ -609,6 +609,7 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.4"
 projects[realname][patch][] = https://www.drupal.org/files/issues/2021-01-20/realname-recursive_bug-1369824-7.x-1.4.patch
 projects[realname][patch][] = https://www.drupal.org/files/issues/2019-05-07/2225889-realname-correct-menu-10.patch
+projects[realname][patch][] = patches/realname.patch
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][download][branch] = 7.x-1.x

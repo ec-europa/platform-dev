@@ -1,0 +1,22 @@
+diff --git a/realname.module b/realname.module
+index addbd6f..d2e924c 100644
+--- a/realname.module
++++ b/realname.module
+@@ -426,8 +426,16 @@ function realname_autocomplete($type, $field_name, $entity_type, $bundle_name, $
+   $instance = field_info_instance($entity_type, $field_name, $bundle_name);
+   $matches = array();
+ 
++
++  if (empty($instance['widget']['type'])) {
++    watchdog('realname',
++      'Field %field_name refers to nonexistent entity type %type. You might want to remove this broken field instance. <a href="https://www.drupal.org/node/3200406">See documentation.</a>',
++      array('%field_name' => $field_name, '%type' => $entity_type),
++      WATCHDOG_WARNING
++    );
++  }
+   // User entityreference autocomplete fields.
+-  if ($instance['widget']['type'] == 'entityreference_autocomplete' && !empty($string)) {
++  elseif ($instance['widget']['type'] == 'entityreference_autocomplete' && !empty($string)) {
+     $query = db_select('users', 'u');
+     $query->leftJoin('realname', 'rn', 'u.uid = rn.uid');
+     $query->fields('u', array('uid', 'name'));
