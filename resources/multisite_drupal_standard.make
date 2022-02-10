@@ -953,15 +953,14 @@ projects[workbench_og][patch][] = patches/workbench_og_grants.patch
 
 ; Fix version on a commit, see issue NEPT-2247
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][download][type] = "git"
-projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
-projects[wysiwyg][download][revision] = "18832abda6a2a6df93b72a6edb8b980d1e948605"
+projects[wysiwyg][version] = "2.9"
 ; CKEditor height does not reflect the rows attribute
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
-projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/wysiwyg-heights.2410565.5.patch
-; Error highlight missing on wysiwyg
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2199
-projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/wysiwyg-highlighting-required-field-error-2685519-2.patch
+projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/2022-01-06/wysiwyg-heights.2410565.9.patch
+; PHP 7.3 compliance.
+projects[wysiwyg][patch][3261512] = https://www.drupal.org/files/issues/2022-02-01/wysiwyg-php7-compatibility-3261512_1.patch
+; wysiwyg_deprecation_install_note notice fix.
+projects[wysiwyg][patch][3256637] = https://www.drupal.org/files/issues/2022-01-06/wysiwyg-markitup.3256637.4.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.3"
