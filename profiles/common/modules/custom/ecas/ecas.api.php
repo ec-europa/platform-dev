@@ -32,8 +32,8 @@
 function hook_ecas_extra_filter_alter(&$ecas_name, &$account, &$destination) {
   if (!$account) {
     $ecas_attributes = phpCAS::getAttributes();
-    $first_name = $ecas_attributes['cas:firstName'];
-    $last_name = $ecas_attributes['cas:lastName'];
+    $first_name = $ecas_attributes['firstName'];
+    $last_name = $ecas_attributes['lastName'];
 
     $drupal_lastname = field_get_items('user', $account, 'field_lastname');
     $drupal_firstname = field_get_items('user', $account, 'field_firstname');

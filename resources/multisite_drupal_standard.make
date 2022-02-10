@@ -609,6 +609,7 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.4"
 projects[realname][patch][] = https://www.drupal.org/files/issues/2021-01-20/realname-recursive_bug-1369824-7.x-1.4.patch
 projects[realname][patch][] = https://www.drupal.org/files/issues/2019-05-07/2225889-realname-correct-menu-10.patch
+projects[realname][patch][3263690] = https://www.drupal.org/files/issues/2022-02-10/realname-realname_autocomplete__trying_access_array_offset.patch
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][download][branch] = 7.x-1.x
@@ -919,14 +920,15 @@ projects[workbench_og][patch][] = https://www.drupal.org/files/issues/2018-06-29
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2242
 projects[workbench_og][patch][] = patches/workbench_og_grants.patch
 
-; Fix version on a commit, see issue NEPT-2247
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][version] = "2.9"
 ; CKEditor height does not reflect the rows attribute
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2185
 projects[wysiwyg][patch][2410565] = https://www.drupal.org/files/issues/2022-01-06/wysiwyg-heights.2410565.9.patch
 ; PHP 7.3 compliance.
-projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/2022-02-01/wysiwyg-php7-compatibility-3261512_1.patch
+projects[wysiwyg][patch][3261512] = https://www.drupal.org/files/issues/2022-02-01/wysiwyg-php7-compatibility-3261512_1.patch
+; Notice: Trying to access array offset on value of type bool
+projects[wysiwyg][patch][3256637] = https://www.drupal.org/files/issues/2022-01-06/wysiwyg-markitup.3256637.4.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.3"

@@ -8,7 +8,7 @@ if ( !defined('FPFIS_COMMON_LIBRARIES_PATH') ) define('FPFIS_COMMON_LIBRARIES_PA
 /*
 ECAS conf
 */
-if ( !defined('FPFIS_ECAS_PATH') ) define('FPFIS_ECAS_PATH', DRUPAL_ROOT . '/vendor/jasig/phpcas/CAS.php');
+if ( !defined('FPFIS_ECAS_PATH') ) define('FPFIS_ECAS_PATH', DRUPAL_ROOT . '/vendor/apereo/phpcas/CAS.php');
 if ( !defined('FPFIS_ECAS_URL') ) define('FPFIS_ECAS_URL', 'ecas.cc.cec.eu.int');
 if ( !defined('FPFIS_ECAS_URI') ) define('FPFIS_ECAS_URI', '/cas');
 if ( !defined('FPFIS_ECAS_PORT') ) define('FPFIS_ECAS_PORT', 7002);

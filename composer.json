@@ -5,15 +5,15 @@
     "ext-phar": "*",
     "ext-tidy": "*",
     "ext-xml": "*",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
     "drupal/phingdrushtask": "^1.1",
     "drupol/phingbehattask": "^1.0",
     "drush/drush": "^8.4.8",
     "ec-europa/qa-automation": "^3.0",
     "pear/versioncontrol_git": "dev-master",
-    "pfrenssen/phpcs-pre-push": "1.0",
-    "phing/phing": "~2",
-    "phpcompatibility/php-compatibility": "^9.1.2",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.5"
+    "pfrenssen/phpcs-pre-push": "^1.0",
+    "phing/phing": "^2",
+    "phpcompatibility/php-compatibility": "^9.1.2"
   },
   "require-dev": {
     "bovigo/assert": "^5.0",
@@ -25,7 +25,8 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "NextEuropa\\": "src"
+      "NextEuropa\\": "src",
+      "phpCas\\": "apereo\\Cas"
     }
   },
   "repositories": [
@@ -58,6 +59,10 @@
   "config": {
     "bin-dir": "bin/",
     "process-timeout": 1200,
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "cweagans/composer-patches": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
