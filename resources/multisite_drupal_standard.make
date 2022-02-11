@@ -480,6 +480,7 @@ projects[media_youtube][patch][] = https://www.drupal.org/files/issues/2021-01-0
 
 projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
+projects[media_colorbox][patch][3155898] = https://www.drupal.org/files/issues/2020-06-30/php-7_4-3155898-1.patch
 
 projects[menu_attributes][subdir] = "contrib"
 projects[menu_attributes][version] = "1.0"
