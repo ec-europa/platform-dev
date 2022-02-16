@@ -2,7 +2,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=5.4",
+    "php": ">=7.3",
     "drupol/drupal7_psr3_watchdog": "^1.0",
     "ec-europa/oe-poetry-client": "^0.3.6",
     "apereo/phpcas": "^1.4.0",
