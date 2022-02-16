@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<target name="drush-sql-import" hidden="true" description="Import a database.">
+    <if>
+        <contains string="${database-file}" substring=".gz" />
+        <then>
+            <exec command="gunzip -c ${database-file} > ${project.tmp.dir}/dump.sql" />
+            <drush command="sql-cli" root="${build.platform.dir}" alias="@${drush.alias.default}" bin="${toolkit.dir.bin.drush}" verbose="${drush.verbose}" color="${drush.color}">
+                <option name="db-url" value="${db.url}" />
+                <param>&lt; ${project.tmp.dir}/dump.sql</param>
+            </drush>
+            <exec command="rm -rf ${project.tmp.dir}/dump.sql"/>
+        </then>
+        <else>
+            <drush command="sql-cli" root="${build.platform.dir}" alias="@${drush.alias.default}" bin="${toolkit.dir.bin.drush}" verbose="${drush.verbose}" color="${drush.color}">
+                <option name="db-url" value="${db.url}" />
+                <param>&lt; ${database-file}</param>
+            </drush>
+        </else>
+    </if>
+    <if>
+        <not>
+            <equals arg1="${build.site}" arg2="${project.id}" />
+        </not>
+        <then>
+            <relsym link="${build.platform.dir}/sites/${project.id}" target="${build.subsite.dir}" />
+        </then>
+    </if>
+    <if>
+        <equals arg1="${drush.rr.enabled}" arg2="1" />
+        <then>
+            <drush command="updatedb" assume="yes" root="${build.platform.dir}" alias="@${drush.alias.default}" bin="${toolkit.dir.bin.drush}"></drush>
+            <phingcall target="drush-registry-rebuild" />
+        </then>
+    </if>
+    <if>
+        <or>
+            <equals arg1="${profile}" arg2="multisite_drupal_standard"/>
+            <equals arg1="${profile}" arg2="multisite_drupal_communities"/>
+        </or>
+        <then>
+            <phingcall target="drush-solr-enable" />
+        </then>
+    </if>
+</target>
