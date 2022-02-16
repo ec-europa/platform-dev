@@ -20,7 +20,7 @@
     "roave/security-advisories": "dev-master"
   },
   "replace": {
-      "wimg/php-compatibility": "^8.1"
+    "wimg/php-compatibility": "^8.1"
   },
   "prefer-stable": true,
   "autoload": {
