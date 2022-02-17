@@ -30,6 +30,7 @@ Feature: Test the creation of new contents and the display of them in a page usi
     Then I should see the link "Content to reference in a simple paragraph"
     When I click "Edit draft"
     And I click the "Table" button in the "Body" WYSIWYG editor
+    And I wait 2 seconds
     And I click the "OK" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
     And I click the "Insert internal content" button in the "Body" WYSIWYG editor
     And I wait for AJAX to finish
