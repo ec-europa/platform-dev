@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.87"
+projects[drupal][version] = "7.88"
 
 ; PHP7.4 and empty entity_keys for taxonomy term result in notices
 projects[drupal][patch][3166668] = https://www.drupal.org/files/issues/2021-05-25/3166668-14.patch
