@@ -61,7 +61,6 @@ Feature: TMGMT Poetry features
     And I click "Change translator"
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
-    And I wait 2 seconds
     And I fill in "Date" with a relative date of "+20" days
     And Poetry will return the following "response.status" message response:
     """

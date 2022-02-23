@@ -57,7 +57,6 @@ Feature: Check Piwik
     And I select "English" from "Language"
     And I select the radio button "Path based on regular expression" with the id "edit-rule-type-regexp"
     And I wait for AJAX to finish
-    And I wait 2 seconds
     And I fill in "Site path" with "^admin/*"
     And I press the "Save" button
     Then I see an overview with the following PIWIK rules:

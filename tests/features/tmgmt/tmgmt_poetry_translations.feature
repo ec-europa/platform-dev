@@ -137,7 +137,6 @@ Feature: TMGMT Poetry features
     And I check the box on the "Portuguese" row
     And I press the "Request translation" button
     And I wait for AJAX to finish
-    And I wait 2 seconds
     Then I should see "Contact usernames"
     And I should see "Organization"
     And I should see "Requested delivery date"
@@ -266,7 +265,6 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
-    And I wait 2 seconds
     And I check the box "settings[languages][it]"
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
@@ -373,7 +371,6 @@ Feature: TMGMT Poetry features
 
     When I check the box "settings[languages][it]"
     And I wait for AJAX to finish
-    And I wait 2 seconds
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"

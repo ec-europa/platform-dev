@@ -32,10 +32,8 @@ Feature: Webtools feature
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
     When I click the "Insert internal blocks" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
     And I wait for AJAX to finish
-    And I wait 2 seconds
     When I click "Default" in the "Block Map Webtools" row
     And I wait for AJAX to finish
-    And I wait 2 seconds
     And I press "Save"
     Then I should see the success message "Basic page with a Map has been created."
     And the response should contain "{\"service\":\"map\",\"version\":\"2.0\",\"efbdata\":{\"year\":\"1998-2019\"}}"

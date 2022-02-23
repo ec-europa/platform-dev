@@ -83,7 +83,6 @@ Feature: TMGMT Poetry Cart features
     And I click "Small Jobs Cart" in the "back_primary_tabs"
     And I click "Edit" in the "Target languages: FR, PT" row
     And I wait for AJAX to finish
-    And I wait 2 seconds
     Then I should see text matching "Translation Bundle content."
 
     When I fill in "Comment Page 1" for "Insert comment"
@@ -98,7 +97,6 @@ Feature: TMGMT Poetry Cart features
     And I click "Change translator"
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
-    And I wait 2 seconds
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then Poetry service received request should contain the following text:
@@ -129,7 +127,6 @@ Feature: TMGMT Poetry Cart features
     And I click "Change translator"
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
-    And I wait 2 seconds
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see the message "Job has been successfully sent for translation."
@@ -164,7 +161,6 @@ Feature: TMGMT Poetry Cart features
     And I click "Change translator"
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
-    And I wait 2 seconds
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see the message "Job has been successfully sent for translation."
@@ -218,7 +214,6 @@ Feature: TMGMT Poetry Cart features
     And I click "Change translator"
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
-    And I wait 2 seconds
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see the message "Job has been successfully sent for translation."
@@ -249,7 +244,6 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "An AJAX HTTP error occurred." row
     And I click "Operations"
     And I wait for AJAX to finish
-    And I wait 2 seconds
     And I check the box "French"
     And I press "Send to cart"
     Then I should see the message "1 content source was added into the cart."
@@ -257,7 +251,6 @@ Feature: TMGMT Poetry Cart features
     When I click "cart" in the "messages" region
     And I click "Edit" in the "An AJAX HTTP error occurred." row
     And I wait for AJAX to finish
-    And I wait 2 seconds
     Then I should see "Origin: misc/drupal.js" in the ".form-type-textarea > div > textarea" element
 
   Scenario: I can add metatags to cart.
