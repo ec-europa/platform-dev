@@ -87,9 +87,10 @@ Feature: TMGMT Poetry Cart features
     Then I should see text matching "Translation Bundle content."
 
     When I fill in "Comment Page 1" for "Insert comment"
+    And I check the box on the "My page 1" row
     And I press "Submit changes"
     And I wait for AJAX to finish
-    And I wait 10 seconds
+    And I wait 2 seconds
     Then I should see the message "Your changes have been successfully submitted."
 
     When I click "Close Window"
