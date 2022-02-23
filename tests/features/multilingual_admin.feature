@@ -61,11 +61,14 @@ Feature: Content translation
     When I visit "admin/structure/views/view/testing_view/edit"
     And I click "views-add-field"
     And I wait for AJAX to finish
+    And I wait 2 seconds
     And I check the box "edit-name-field-data-field-ne-bodyfield-ne-body-et"
     And I press the "Add and configure fields" button
     And I wait for AJAX to finish
+    And I wait 2 seconds
     And I press the "Apply" button
     And I wait for AJAX to finish
+    And I wait 2 seconds
     And I press the "Save" button
     Then I should see "The view testing_view has been saved."
     And the response should contain "/admin/structure/views/nojs/config-item/testing_view/default/field/field_ne_body_et_en"

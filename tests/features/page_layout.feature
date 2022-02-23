@@ -83,12 +83,15 @@ Feature: Page Layout
     When I visit "admin/structure/types/manage/content-type-test/display"
     And I select "Two column" from "additional_settings[layout]"
     And I wait for AJAX to finish
+    And I wait 2 seconds
     And I press the "Save" button
     Then I should see the success message "Your settings have been saved."
     When I select "Left" from "edit-fields-field-field-1-region"
     And I wait for AJAX to finish
+    And I wait 2 seconds
     And I select "Right" from "edit-fields-field-field-2-region"
     And I wait for AJAX to finish
+    And I wait 2 seconds
     And I press the "Save" button
     Then I should see the success message "Your settings have been saved."
     When I visit "node/add/content-type-test"

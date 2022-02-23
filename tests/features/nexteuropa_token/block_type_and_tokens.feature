@@ -41,8 +41,10 @@ Feature: Test the creation of new block type (bean) and the display of them in a
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
     When I click the "Insert internal blocks" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
     And I wait for AJAX to finish
+    And I wait 2 seconds
     When I click "Default" in the "Title For Behat test on the block" row
     And I wait for AJAX to finish
+    And I wait 2 seconds
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"

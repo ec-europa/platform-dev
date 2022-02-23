@@ -33,6 +33,7 @@ Feature: Embedded videos
     And I fill in "edit-fields-add-new-field-label" with "YTvideo"
     And I select "Multimedia asset" from "edit-fields-add-new-field-type"
     And I wait for AJAX to finish
+    And I wait 2 seconds
     And I select "Media browser" from "edit-fields-add-new-field-widget-type"
     And I press "Save"
     Then I should see "FIELD SETTINGS"
@@ -55,8 +56,10 @@ Feature: Embedded videos
     Then I should see "File name"
     And I click on element "#media-browser-page #edit-submit"
     And I wait for AJAX to finish
+    And I wait 2 seconds
     Then the media browser closes
     And I wait for AJAX to finish
+    And I wait 2 seconds
     And I press "Save"
     And the response should contain "https://www.youtube-nocookie.com"
 
@@ -77,7 +80,9 @@ Feature: Embedded videos
     Then I should see "File name"
     And I click on element "#media-browser-page #edit-submit"
     And I wait for AJAX to finish
+    And I wait 2 seconds
     Then the media browser closes
     And I wait for AJAX to finish
+    And I wait 2 seconds
     And I press "Save"
     And the response should contain "https://www.youtube.com"
