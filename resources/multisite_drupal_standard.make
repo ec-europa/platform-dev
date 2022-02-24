@@ -728,6 +728,7 @@ projects[i18n][patch][] = https://www.drupal.org/files/issues/2018-06-24/i18n-fa
 
 projects[title][subdir] = "contrib"
 projects[title][version] = 1.0-beta4
+projects[title][patch][3079443] = https://www.drupal.org/files/issues/2022-02-22/title-undefined_function_current_path.patch
 
 projects[tmgmt][subdir] = contrib
 projects[tmgmt][version] = 1.0-rc3

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="NextEuropa" default="help">
-
+    <!--Overrides -->
+    
     <!-- Delete the previous build. -->
     <target name="delete-platform">
         <!--

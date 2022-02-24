@@ -2,12 +2,13 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=5.4",
+    "php": ">=7.3",
     "drupol/drupal7_psr3_watchdog": "^1.0",
     "ec-europa/oe-poetry-client": "^0.3.6",
     "apereo/phpcas": "^1.4.0",
     "guzzlehttp/guzzle": "^6.2.1",
-    "cweagans/composer-patches": "^1.6.5"
+    "cweagans/composer-patches": "^1.6.5",
+    "symfony/translation": "^4.3.11"
   },
   "require-dev": {
     "behat/behat": "^3.5.0",
