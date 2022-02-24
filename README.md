@@ -303,12 +303,12 @@ Provide new generator that works with PHP version >= 7.1
 "https://github.com/rchouinard/rych-random/pull/7": "https://patch-diff.githubusercontent.com/raw/rchouinard/rych-random/pull/7.patch
 ```
 
-### jasig/phpcas
+### apereo/phpcas
 
 Prevent infinite loops, see https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2160
 To better handle XML parsing for attributes (modification of http://www.akchauhan.com/convert-xml-to-array-using-dom-extension-in-php5/),
 see https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1278, https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11605
 ```
-"phpCAS-1.3.8_handle_XML_parsing_ECAS_attributes.patch": "../resources/patches/phpCAS-1.3.8_handle_XML_parsing_ECAS_attributes.patch"
+"phpCAS-1.4.0_handle_XML_parsing_ECAS_attributes.patch": "../resources/patches/phpCAS-1.4.0_handle_XML_parsing_ECAS_attributes.patch"
 ```
 
