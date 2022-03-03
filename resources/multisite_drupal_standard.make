@@ -19,12 +19,7 @@ projects[administration_language_negotiation][subdir] = "contrib"
 projects[administration_language_negotiation][version] = "1.4"
 
 projects[advagg][subdir] = "contrib"
-projects[advagg][version] = "2.33"
-; NEPT-2790: Scan code for @codingStandardsIgnoreFile and fix
-; https://www.drupal.org/project/advagg/issues/3116299
-projects[advagg][patch][] = https://www.drupal.org/files/issues/2020-02-27/php7_compatibility-3116299-2.patch
-; https://github.com/ec-europa/platform-dev/pull/2869
-projects[advagg][patch][] = https://www.drupal.org/files/issues/2019-06-02/advagg_replace_continue_with_break-3058949-2.patch
+projects[advagg][version] = "2.35"
 
 projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.6"
