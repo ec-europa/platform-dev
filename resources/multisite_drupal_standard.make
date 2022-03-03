@@ -490,9 +490,12 @@ projects[message][patch][2719823] = https://www.drupal.org/files/issues/message-
 ; https://citnet.tech.ec.europa.eu/CITnet/jira/browse/NEPT-1744
 projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-message-cloneajax-2.patch
 
-
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.28"
+; Prevents metatag_translate_metatags from returning error 500.
+; https://www.drupal.org/project/metatag/issues/3224758
+; https://citnet.tech.ec.europa.eu/CITnet/jira/browse/NEPT-2987
+projects[metatag][patch][3224758] = https://www.drupal.org/files/issues/2021-07-21/metatag-n3224758-2.patch
 
 projects[migrate][subdir] = contrib
 projects[migrate][download][branch] = 7.x-1.x
