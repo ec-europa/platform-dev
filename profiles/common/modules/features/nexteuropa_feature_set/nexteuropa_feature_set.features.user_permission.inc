@@ -110,15 +110,6 @@ function nexteuropa_feature_set_user_default_permissions() {
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'manage feature idea_standard'.
-  $permissions['manage feature idea_standard'] = array(
-    'name' => 'manage feature idea_standard',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'multisite_drupal_features_set_standard',
-  );
-
   // Exported permission: 'manage feature links_standard'.
   $permissions['manage feature links_standard'] = array(
     'name' => 'manage feature links_standard',
