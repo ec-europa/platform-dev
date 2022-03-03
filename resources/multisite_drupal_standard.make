@@ -19,12 +19,7 @@ projects[administration_language_negotiation][subdir] = "contrib"
 projects[administration_language_negotiation][version] = "1.4"
 
 projects[advagg][subdir] = "contrib"
-projects[advagg][version] = "2.33"
-; NEPT-2790: Scan code for @codingStandardsIgnoreFile and fix
-; https://www.drupal.org/project/advagg/issues/3116299
-projects[advagg][patch][] = https://www.drupal.org/files/issues/2020-02-27/php7_compatibility-3116299-2.patch
-; https://github.com/ec-europa/platform-dev/pull/2869
-projects[advagg][patch][] = https://www.drupal.org/files/issues/2019-06-02/advagg_replace_continue_with_break-3058949-2.patch
+projects[advagg][version] = "2.35"
 
 projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.6"
@@ -94,10 +89,10 @@ projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
 projects[bounce][subdir] = "contrib"
-projects[bounce][version] = "1.7"
+projects[bounce][version] = "1.8"
 
 projects[cdn][subdir] = "contrib"
-projects[cdn][version] = "2.9"
+projects[cdn][version] = "2.10"
 
 projects[chosen][subdir] = "contrib"
 projects[chosen][version] = "2.1"
@@ -116,7 +111,7 @@ projects[chr][patch][] = https://www.drupal.org/files/issues/chr-purge-2825701-2
 projects[chr][patch][] = https://www.drupal.org/files/issues/2019-03-04/chr_status_message-3028043-2.patch
 
 projects[ckeditor_link][subdir] = "contrib"
-projects[ckeditor_link][version] = "2.3"
+projects[ckeditor_link][version] = "2.4"
 
 projects[ckeditor_lite][subdir] = contrib
 projects[ckeditor_lite][version] = 1.0-rc3
@@ -151,7 +146,7 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.19"
+projects[ctools][version] = "1.20"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -210,29 +205,19 @@ projects[entityreference_prepopulate][download][revision] = 5d65d841
 projects[entityreference_prepopulate][download][branch] = 7.x-1.x
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.28"
+projects[eu_cookie_compliance][version] = "1.37"
 
 projects[extlink][subdir] = "contrib"
-projects[extlink][version] = "1.18"
+projects[extlink][version] = "1.21"
 
 projects[facetapi][subdir] = "contrib"
-projects[facetapi][version] = "1.5"
-; facetapi_map_assoc() does not check if index exists.
-; Note: This patch is to be remoaved with the future version 7.x-1.6.
-; Indeed, the patch has already been pushed with the #2373023 d.o. issue.
-; https://www.drupal.org/project/facetapi/issues/2768779
-; and https://www.drupal.org/node/2373023
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2042
-projects[facetapi][patch][] = https://www.drupal.org/files/issues/facetapi-2768779-facetapi_map_assoc-undefined-index.patch
-; and https://www.drupal.org/node/3055360
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2631
-projects[facetapi][patch][] = https://www.drupal.org/files/issues/2019-08-23/facetapi-func_get_args-3055360-7_d7.patch
+projects[facetapi][version] = "1.9"
 
 projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.13"
+projects[features][version] = "2.14"
 
 projects[feature_set][subdir] = "contrib"
 projects[feature_set][version] = "1.3"
@@ -349,13 +334,10 @@ projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/2019-06-20
 
 
 projects[geofield][subdir] = "contrib"
-projects[geofield][version] = "2.3"
-projects[geofield][patch][] = https://www.drupal.org/files/issues/geofield-feeds_import_not_saving-2534822-17.patch
+projects[geofield][version] = "2.4"
 
-projects[geophp][download][branch] = 7.x-1.x
-projects[geophp][download][revision] = 2777c5e
-projects[geophp][download][type] = git
 projects[geophp][subdir] = "contrib"
+projects[geophp][version] = "1.8"
 
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.26"
@@ -376,10 +358,10 @@ projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = "1.8"
+projects[inline_entity_form][version] = "1.9"
 
 projects[job_scheduler][subdir] = "contrib"
-projects[job_scheduler][version] = "2.0-alpha3"
+projects[job_scheduler][version] = "2.0"
 
 projects[jplayer][subdir] = "contrib"
 projects[jplayer][version] = "2.0"
@@ -394,12 +376,7 @@ projects[jquery_update][version] = "2.7"
 projects[jquery_update][patch][] = https://www.drupal.org/files/issues/jquery_update_permissions-2621436-2_0.patch
 
 projects[l10n_update][subdir] = "contrib"
-projects[l10n_update][version] = "2.2"
-; Issue #2922809: When trying to update i have "Recoverable fatal error: Argument 2 passed to format_string".
-; The fix is made of 2 patches.
-; https://www.drupal.org/node/2922809
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-272
-projects[l10n_update][patch][] = https://www.drupal.org/files/issues/l10n_update-missing-log-vars-2922809-10.patch
+projects[l10n_update][version] = "2.6"
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.5"
@@ -413,10 +390,10 @@ projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integr
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 
 projects[mail_edit][subdir] = "contrib"
-projects[mail_edit][version] = "1.1"
+projects[mail_edit][version] = "1.2"
 
 projects[mailsystem][subdir] = "contrib"
-projects[mailsystem][version] = "2.34"
+projects[mailsystem][version] = "2.35"
 
 projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.3"
@@ -438,11 +415,10 @@ projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.5"
 
 projects[media_dailymotion][subdir] = "contrib"
-projects[media_dailymotion][version] = "1.1"
+projects[media_dailymotion][version] = "1.2"
 ; Issue #2560403: Provide Short URL for media dailymotion.
 ; https://www.drupal.org/node/2560403
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7082
-projects[media_dailymotion][patch][] = https://www.drupal.org/files/issues/media_dailymotion-mini-url-2560403-7-7.x.patch
 projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
@@ -470,11 +446,11 @@ projects[menu_attributes][patch][] = patches/menu_attributes-option_to_disable_c
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_hide_children-6757.patch
 
 projects[menu_block][subdir] = "contrib"
-projects[menu_block][version] = "2.8"
+projects[menu_block][version] = "2.9"
 ;projects[menu_block][patch][] = patches/menu_block-jqueryUI_issue-5211.patch
 
 projects[menu_token][download][branch] = 7.x-1.x
-projects[menu_token][download][revision] = 27ab9f244d7813803cfa662d05ffc1747d758956
+projects[menu_token][download][revision] = 6f7116aac5cae49eb823a1c073921c087d9e5005
 projects[menu_token][download][type] = git
 projects[menu_token][subdir] = "contrib"
 projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.patch
@@ -499,34 +475,26 @@ projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.28"
 
 projects[migrate][subdir] = contrib
-projects[migrate][download][branch] = 7.x-1.x
-projects[migrate][download][revision] = ac8a749e580c16b6963088fb1901aebb052e1008
+projects[migrate][download][branch] = 7.x-2.x
+projects[migrate][download][revision] = 19ee898d39c1387003b492641f4a09cff322b2f8
 
 projects[mimemail][subdir] = "contrib"
-projects[mimemail][version] = "1.1"
+projects[mimemail][version] = "1.2"
 ; Issue #3052121: INI directive 'safe_mode' is deprecated since PHP 5.3 and removed since PHP 5.4
 ; https://www.drupal.org/project/mimemail/issues/3052121
 projects[mimemail][patch][] = https://www.drupal.org/files/issues/2019-05-02/remove-deprecated-function-3052121-2.patch
-; Issue #2947006: Remove usage of deprecated create_function() calls for PHP 7.2+ future proofing
-; https://www.drupal.org/project/mimemail/issues/2947006
-projects[mimemail][patch][] = https://www.drupal.org/files/issues/2018-05-28/mimemail-support_php_72-2947006-4.patch
 
 ; This is a dependency of media_bulk_upload that platform provides
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2498
 projects[multiform][subdir] = "contrib"
 projects[multiform][version] = "1.6"
 
-projects[nagios][download][branch] = 7.x-1.x
-projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
-projects[nagios][download][type] = git
 projects[nagios][subdir] = "contrib"
-; NEPT-451 Add possibility to report on individual variables
-; https://www.drupal.org/node/2854854
-projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-support-2854854-5.patch
+projects[nagios][version] = "1.9"
 
 projects[nexteuropa_newsroom][download][type] = git
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
-projects[nexteuropa_newsroom][download][tag] = v3.5.17
+projects[nexteuropa_newsroom][download][tag] = v3.10.0
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
@@ -542,7 +510,7 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
 
 projects[og_linkchecker][subdir] = "contrib"
-projects[og_linkchecker][version] = "2.0-rc1"
+projects[og_linkchecker][version] = "2.0-rc2"
 
 projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
@@ -582,14 +550,9 @@ projects[plupload][download][type] = git
 projects[plupload][patch][] = https://www.drupal.org/files/issues/2018-05-22/files_not_uploaded_in_subdir-2974466.patch
 
 projects[print][subdir] = "contrib"
-projects[print][version] = "2.2"
-; Allow alternate location of ttfont directories
-; https://www.drupal.org/project/print/issues/3036143
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2253
-projects[print][patch][] = https://www.drupal.org/files/issues/2019-03-06/location_ttfont_directories-3036143-4.patch
-; https://www.drupal.org/node/3006747
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2639
-projects[print][patch][] = https://www.drupal.org/files/issues/2018-10-15/print-support-72.patch
+projects[print][download][branch] = 7.x-2.x
+projects[print][download][revision] = ee52fc6d455d35b4cdc5902d5cf5ae483db50c15
+projects[print][download][type] = git
 
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
@@ -644,7 +607,7 @@ projects[rules][patch][] = https://www.drupal.org/files/issues/2020-03-19/file_e
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][download][type] = "git"
 projects[scheduler][download][url] = "https://git.drupalcode.org/project/scheduler.git"
-projects[scheduler][download][revision] = "89707ba3affa72beea0b428230e61f4c5a0c1283"
+projects[scheduler][download][revision] = "dfe7dfd989a05d6adddd3f29235cf0b4ccc3f02c"
 
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2615
 ; We use the dev version of the module to be able to run the module simpletest.
@@ -703,7 +666,7 @@ projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
 projects[subscriptions][subdir] = "contrib"
-projects[subscriptions][version] = "1.1"
+projects[subscriptions][version] = "1.4"
 
 projects[tagclouds][subdir] = "contrib"
 projects[tagclouds][version] = "1.12"
@@ -757,7 +720,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2020-02-26/transl
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2019-04-24/count_error_php_7_2-3050356-2.patch
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.8"
+projects[token][version] = "1.9"
 ; #1058912: Prevent recursive tokens
 ; https://www.drupal.org/node/1058912
 projects[token][patch][] = https://www.drupal.org/files/token-1058912-88-limit-token-depth.patch
@@ -775,7 +738,7 @@ projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
 
 projects[tweetbutton][subdir] = "contrib"
-projects[tweetbutton][version] = "2.0-beta1"
+projects[tweetbutton][version] = "2.0-beta2"
 
 projects[user_dashboard][subdir] = "contrib"
 projects[user_dashboard][version] = "1.4"
@@ -819,7 +782,7 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_
 projects[views][patch][] = https://www.drupal.org/files/issues/2019-07-09/issues-ajax-exposed-filters-blocks-1809958-74.patch
 
 projects[views_ajax_history][subdir] = "contrib"
-projects[views_ajax_history][version] = "1.0"
+projects[views_ajax_history][version] = "1.1"
 
 projects[views_bootstrap][subdir] = "contrib"
 projects[views_bootstrap][version] = "3.5"
@@ -836,7 +799,7 @@ projects[views_data_export][patch][] = https://www.drupal.org/files/issues/2018-
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2845
 projects[views_data_export][patch][] = https://www.drupal.org/files/issues/2020-08-03/views_data_export_object_cache_add_primary_-2715565-6.patch
 
-projects[views_datasource][version] = "1.0-alpha2"
+projects[views_datasource][version] = "1.0-alpha3"
 projects[views_datasource][subdir] = "contrib"
 
 projects[views_geojson][subdir] = "contrib"
@@ -855,7 +818,7 @@ projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.15"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.21"
+projects[webform][version] = "4.24"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2354
 ; Remove link to create new user.
 projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
@@ -867,7 +830,7 @@ projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 
 projects[workbench_access][subdir] = "contrib"
-projects[workbench_access][version] = "1.4"
+projects[workbench_access][version] = "1.6"
 
 projects[workbench_email][subdir] = "contrib"
 projects[workbench_email][version] = "3.12"
@@ -947,9 +910,9 @@ projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/2018-10-17/x
 ; Libraries
 ; =========
 
-; chosen 1.8.2
+; chosen 1.8.7
 libraries[chosen][download][type] = get
-libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/v1.8.2/chosen_v1.8.2.zip
+libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/v1.8.7/chosen_v1.8.7.zip
 libraries[chosen][directory_name] = chosen
 libraries[chosen][destination] = libraries
 
@@ -959,18 +922,18 @@ libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archi
 libraries[colorbox][directory_name] = colorbox
 libraries[colorbox][destination] = libraries
 
-; ckeditor 4.13.1
+; ckeditor 4.17.2
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.14.0/ckeditor_4.14.0_full.zip
+libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.17.2/ckeditor_4.17.2_full.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().
 libraries[ckeditor_lite][download][type]= "file"
 libraries[ckeditor_lite][download][request_type]= "get"
 libraries[ckeditor_lite][download][file_type] = "zip"
-libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/releases/lite_1.1.30.zip
+libraries[ckeditor_lite][download][url] = https://download.ckeditor.com/lite/releases/lite_1.2.30.zip
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = "lite"
 
@@ -978,7 +941,7 @@ libraries[ckeditor_lite][directory_name] = "lite"
 libraries[ckeditor_moono][download][type]= "file"
 libraries[ckeditor_moono][download][request_type]= "get"
 libraries[ckeditor_moono][download][file_type] = "zip"
-libraries[ckeditor_moono][download][url] = http://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip
+libraries[ckeditor_moono][download][url] = https://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip
 libraries[ckeditor_moono][destination] = "../common/modules/features/multisite_wysiwyg/ckeditor/skins"
 libraries[ckeditor_moono][directory_name] = "moonocolor"
 
@@ -988,16 +951,16 @@ libraries[cycle][destination] = "libraries"
 libraries[cycle][download][url] = https://github.com/malsup/cycle.git
 libraries[cycle][download][tag] = "3.0.3"
 
-; fancybox 2.1.5
+; fancybox 3.5.7
 libraries[fancybox][download][type]= "file"
 libraries[fancybox][download][request_type]= "get"
 libraries[fancybox][download][file_type] = "zip"
 libraries[fancybox][download][url] = https://github.com/fancyapps/fancyBox/zipball/v2.1.5
 libraries[fancybox][destination] = "../common/libraries"
 
-; flexslider 2.5.0
+; flexslider 2.7.2
 libraries[flexslider][download][type]= "file"
-libraries[flexslider][download][url] = https://github.com/woothemes/FlexSlider/archive/version/2.5.0.zip
+libraries[flexslider][download][url] = https://github.com/woocommerce/FlexSlider/archive/refs/tags/2.7.2.zip
 libraries[flexslider][download][request_type]= "get"
 libraries[flexslider][download][file_type] = "zip"
 libraries[flexslider][destination] = "../common/libraries"
@@ -1023,8 +986,8 @@ libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
 
-; iCalcreator 2.22
-libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/3687fe06deab48e889eae8afd1d31d201eb2b8a0.zip
+; iCalcreator 2.41.16
+libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/refs/tags/v2.41.16.zip
 libraries[iCalcreator][download][type] = "file"
 libraries[iCalcreator][download][request_type]= "get"
 libraries[iCalcreator][download][file_type] = "zip"
@@ -1037,8 +1000,8 @@ libraries[jplayer][download][request_type]= "get"
 libraries[jplayer][download][file_type] = "zip"
 libraries[jplayer][destination] = "../common/libraries"
 
-; jquery 1.11.3
-libraries[jquery][download][url] = http://code.jquery.com/jquery-1.11.3.min.js
+; jquery 1.12.4
+libraries[jquery][download][url] = https://code.jquery.com/jquery-1.12.4.min.js
 libraries[jquery][download][type]= "file"
 libraries[jquery][download][request_type]= "get"
 libraries[jquery][destination] = "../common/libraries"
@@ -1048,7 +1011,7 @@ libraries[jquery][directory_name] = "jquery"
 libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
 libraries[Leaflet.draw][download][url] = https://github.com/Leaflet/Leaflet.draw.git
-libraries[Leaflet.draw][download][tag] = "v0.3.0"
+libraries[Leaflet.draw][download][tag] = "v0.4.14"
 
 ; modernizr 2.8.3
 libraries[modernizr][download][url] = https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip
@@ -1067,7 +1030,7 @@ libraries[mpdf][destination] = "libraries"
 ; Leaflet
 libraries[leaflet][destination] = "libraries"
 libraries[leaflet][download][type] = "file"
-libraries[leaflet][download][url] = http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip
+libraries[leaflet][download][url] = https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/v1.7.1/leaflet.zip
 libraries[leaflet][directory_name] = "leaflet"
 
 ; Plupload
@@ -1124,7 +1087,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.10
+projects[ec_resp][download][tag] = 2.3.11
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.30

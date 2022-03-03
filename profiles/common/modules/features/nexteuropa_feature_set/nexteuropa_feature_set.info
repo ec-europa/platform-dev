@@ -16,7 +16,6 @@ features[user_permission][] = manage feature events_standard
 features[user_permission][] = manage feature f_a_q
 features[user_permission][] = manage feature fat_footer
 features[user_permission][] = manage feature feed_rss_core
-features[user_permission][] = manage feature idea_standard
 features[user_permission][] = manage feature links_standard
 features[user_permission][] = manage feature multi_user_blog
 features[user_permission][] = manage feature multilingual_tools
