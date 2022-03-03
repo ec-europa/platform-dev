@@ -910,9 +910,9 @@ projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/2018-10-17/x
 ; Libraries
 ; =========
 
-; chosen 1.8.2
+; chosen 1.8.7
 libraries[chosen][download][type] = get
-libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/v1.8.2/chosen_v1.8.2.zip
+libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/v1.8.7/chosen_v1.8.7.zip
 libraries[chosen][directory_name] = chosen
 libraries[chosen][destination] = libraries
 
@@ -922,18 +922,18 @@ libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archi
 libraries[colorbox][directory_name] = colorbox
 libraries[colorbox][destination] = libraries
 
-; ckeditor 4.13.1
+; ckeditor 4.17.2
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.14.0/ckeditor_4.14.0_full.zip
+libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.17.2/ckeditor_4.17.2_full.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().
 libraries[ckeditor_lite][download][type]= "file"
 libraries[ckeditor_lite][download][request_type]= "get"
 libraries[ckeditor_lite][download][file_type] = "zip"
-libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/releases/lite_1.1.30.zip
+libraries[ckeditor_lite][download][url] = https://download.ckeditor.com/lite/releases/lite_1.2.30.zip
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = "lite"
 
@@ -941,7 +941,7 @@ libraries[ckeditor_lite][directory_name] = "lite"
 libraries[ckeditor_moono][download][type]= "file"
 libraries[ckeditor_moono][download][request_type]= "get"
 libraries[ckeditor_moono][download][file_type] = "zip"
-libraries[ckeditor_moono][download][url] = http://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip
+libraries[ckeditor_moono][download][url] = https://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip
 libraries[ckeditor_moono][destination] = "../common/modules/features/multisite_wysiwyg/ckeditor/skins"
 libraries[ckeditor_moono][directory_name] = "moonocolor"
 
@@ -951,16 +951,16 @@ libraries[cycle][destination] = "libraries"
 libraries[cycle][download][url] = https://github.com/malsup/cycle.git
 libraries[cycle][download][tag] = "3.0.3"
 
-; fancybox 2.1.5
+; fancybox 3.5.7
 libraries[fancybox][download][type]= "file"
 libraries[fancybox][download][request_type]= "get"
 libraries[fancybox][download][file_type] = "zip"
 libraries[fancybox][download][url] = https://github.com/fancyapps/fancyBox/zipball/v2.1.5
 libraries[fancybox][destination] = "../common/libraries"
 
-; flexslider 2.5.0
+; flexslider 2.7.2
 libraries[flexslider][download][type]= "file"
-libraries[flexslider][download][url] = https://github.com/woothemes/FlexSlider/archive/version/2.5.0.zip
+libraries[flexslider][download][url] = https://github.com/woocommerce/FlexSlider/archive/refs/tags/2.7.2.zip
 libraries[flexslider][download][request_type]= "get"
 libraries[flexslider][download][file_type] = "zip"
 libraries[flexslider][destination] = "../common/libraries"
@@ -986,8 +986,8 @@ libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
 
-; iCalcreator 2.22
-libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/3687fe06deab48e889eae8afd1d31d201eb2b8a0.zip
+; iCalcreator 2.41.16
+libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/refs/tags/v2.41.16.zip
 libraries[iCalcreator][download][type] = "file"
 libraries[iCalcreator][download][request_type]= "get"
 libraries[iCalcreator][download][file_type] = "zip"
@@ -1000,8 +1000,8 @@ libraries[jplayer][download][request_type]= "get"
 libraries[jplayer][download][file_type] = "zip"
 libraries[jplayer][destination] = "../common/libraries"
 
-; jquery 1.11.3
-libraries[jquery][download][url] = http://code.jquery.com/jquery-1.11.3.min.js
+; jquery 1.12.4
+libraries[jquery][download][url] = https://code.jquery.com/jquery-1.12.4.min.js
 libraries[jquery][download][type]= "file"
 libraries[jquery][download][request_type]= "get"
 libraries[jquery][destination] = "../common/libraries"
@@ -1011,7 +1011,7 @@ libraries[jquery][directory_name] = "jquery"
 libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
 libraries[Leaflet.draw][download][url] = https://github.com/Leaflet/Leaflet.draw.git
-libraries[Leaflet.draw][download][tag] = "v0.3.0"
+libraries[Leaflet.draw][download][tag] = "v0.4.14"
 
 ; modernizr 2.8.3
 libraries[modernizr][download][url] = https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip
@@ -1030,7 +1030,7 @@ libraries[mpdf][destination] = "libraries"
 ; Leaflet
 libraries[leaflet][destination] = "libraries"
 libraries[leaflet][download][type] = "file"
-libraries[leaflet][download][url] = http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip
+libraries[leaflet][download][url] = https://leafletjs-cdn.s3.amazonaws.com/content/leaflet/v1.7.1/leaflet.zip
 libraries[leaflet][directory_name] = "leaflet"
 
 ; Plupload
@@ -1087,7 +1087,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.10
+projects[ec_resp][download][tag] = 2.3.11
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.30
