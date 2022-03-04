@@ -416,10 +416,6 @@ projects[media_avportal][version] = "1.5"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.2"
-; Issue #2560403: Provide Short URL for media dailymotion.
-; https://www.drupal.org/node/2560403
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7082
-projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
 projects[media_flickr][version] = "2.0-alpha5"
@@ -510,7 +506,7 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
 
 projects[og_linkchecker][subdir] = "contrib"
-projects[og_linkchecker][version] = "2.0-rc2"
+projects[og_linkchecker][version] = "2.0-rc1"
 
 projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
