@@ -489,7 +489,7 @@ projects[nagios][version] = "1.9"
 
 projects[nexteuropa_newsroom][download][type] = git
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference.git
-projects[nexteuropa_newsroom][download][tag] = v3.10.0
+projects[nexteuropa_newsroom][download][tag] = 3.10.0
 projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
