@@ -412,45 +412,38 @@ function _nexteuropa_communities_node_alias_check($node, $mode) {
  * Implements hook_url_outbound_alter().
  */
 function nexteuropa_communities_url_outbound_alter(&$path, &$options, $original_path) {
-  try {
-    $context = og_context();
-    if (isset($context['gid'])) {
-      if (strpos($original_path, 'node/') !== FALSE) {
-        $keyword = variable_get('nexteuropa_communities_url_keyword', 'community');
-        // Load pathauto in order to use the cleanstring method.
-        module_load_include('inc', 'pathauto', 'pathauto');
+  $context = og_context();
+  if ($context && strpos($original_path, 'node/') !== FALSE) {
+    $keyword = variable_get('nexteuropa_communities_url_keyword', 'community');
+    // Load pathauto in order to use the cleanstring method.
+    module_load_include('inc', 'pathauto', 'pathauto');
 
-        // Manage the group.
-        $group = node_load($context['gid']);
-        $group_name = pathauto_cleanstring($group->title);
+    // Manage the group.
+    $group = node_load($context['gid']);
+    $group_name = pathauto_cleanstring($group->title);
 
-        // Get the node aliases.
-        $select = db_select('url_alias');
-        $select->condition('source', $original_path);
-        $select->condition('language', LANGUAGE_NONE);
-        $select->fields('url_alias', ['alias']);
-        $paths = $select->execute()->fetchAll();
+    // Get the node aliases.
+    $select = db_select('url_alias');
+    $select->condition('source', $original_path);
+    $select->condition('language', LANGUAGE_NONE);
+    $select->fields('url_alias', ['alias']);
+    $paths = $select->execute()->fetchAll();
 
-        // Loop through the found paths in order to find the correct alias.
-        foreach ($paths as $p) {
-          // Check that the URL begins with the desired community pattern.
-          $search = strpos($p->alias, $keyword . '/' . $group_name);
-          if ($search !== FALSE && $search === 0) {
-            $new_path = $p->alias;
-            break;
-          }
-        }
+    // Loop through the found paths in order to find the correct alias.
+    foreach ($paths as $p) {
+      // Check that the URL begins with the desired community pattern.
+      $search = strpos($p->alias, $keyword . '/' . $group_name);
+      if ($search !== FALSE && $search === 0) {
+        $new_path = $p->alias;
+        break;
       }
     }
-
-    // Set the new path if existing.
-    if (isset($new_path)) {
-      $path = $new_path;
-      $options['alias'] = $path;
-    }
   }
-  catch (Throwable $e) {
-    drupal_set_message(t('Nexteuropa Communities - OG Context not found.'), 'warning');
+
+  // Set the new path if existing.
+  if (isset($new_path)) {
+    $path = $new_path;
+    $options['alias'] = $path;
   }
 }
 
