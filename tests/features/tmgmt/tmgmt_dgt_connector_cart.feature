@@ -88,6 +88,7 @@ Feature: TMGMT Poetry Cart features
     When I fill in "Comment Page 1" for "Insert comment"
     And I press "Submit changes"
     And I wait for AJAX to finish
+    And I wait 2 seconds
     Then I should see the message "Your changes have been successfully submitted."
 
     When I click "Close Window"
@@ -98,7 +99,7 @@ Feature: TMGMT Poetry Cart features
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then Poetry service received request should contain the following text:
-      | W1JFRiBDb21tZW50IFBhZ2UgMS |
+      | PD94bWwgdmVyc2lvbj0iMS4wIiB |
 
   @javascript @remove-menus
   Scenario: I can add menu and menu items to cart.
