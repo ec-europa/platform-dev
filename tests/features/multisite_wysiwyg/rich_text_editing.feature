@@ -11,7 +11,8 @@ Feature: Testing the rich text options available with the toolbar present on WYS
     Given I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
     And I fill in the content's title with "Page title"
-    And I click the "Link" button in the "Body" WYSIWYG editor
+    And I click the "Link (Ctrl+K)" button in the "Body" WYSIWYG editor
+    And I wait 2 seconds
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Link" title
     When I fill in "URL" with "europa.eu/european-union/index_ga"
     And I click the "Advanced" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor

@@ -1,6 +1,7 @@
 # Ignore metadata from common editors and IDEs.
 *.sublime-project
 *.sublime-workspace
+*.code-workspace
 .idea/
 nbproject/
 
@@ -16,6 +17,7 @@ bin/
 build/
 tmp/
 vendor/
+resources/drush
 
 # Ignore contrib modules, themes and libraries in the symlinked profiles folder.
 profiles/multisite_drupal_*/libraries
@@ -41,3 +43,6 @@ profiles/common/libraries/plupload/
 profiles/common/modules/features/multisite_wysiwyg/ckeditor/skins/
 profiles/*/modules/custom/nexteuropa_newsroom/
 profiles/*/modules/custom/nexteuropa_varnish/
+
+# Tests
+tests/screenshots
