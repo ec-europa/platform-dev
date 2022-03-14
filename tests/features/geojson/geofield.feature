@@ -29,4 +29,5 @@ Feature: Geofield feature
     Then  I should see the text "geofield test"
     Then  the page should contain the element with following id "geofield_geojson_map" and given attributes:
       | Attribute | Value                                                               |
-      | class     | geofield-geojson-map-processed leaflet-container leaflet-fade-anim  |
+      | class     | geofield-geojson-map-processed leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom  |
+    Then  I should see the text "OpenStreetMap contributors"
