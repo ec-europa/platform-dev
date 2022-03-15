@@ -1,5 +1,5 @@
 @api @ec_europa_theme
-Feature:
+Feature: SolR
   In order to optimize the search in a site
   Or to create custom search pages and facets
   As a site owner
@@ -64,6 +64,7 @@ Feature:
     And I click "Unpublish this revision"
     And I press the "Unpublish" button
     And I run cron
+    And I take a screenshot
     Then the apachesolr server was instructed to remove a node from the index
 
   Scenario: Create draft of a an editorial team.

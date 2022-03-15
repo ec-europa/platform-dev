@@ -324,14 +324,23 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public function takeScreenshotAfterFailedStep($event) {
     if ($event->getTestResult()->getResultCode() === TestResult::FAILED) {
-      $driver = $this->getSession()->getDriver();
-      if ($driver instanceof Selenium2Driver) {
-        $stepText = $event->getStep()->getText();
-        $fileName = preg_replace('#[^a-zA-Z0-9\._-]#', '', $stepText) . '.png';
-        if (is_writable($this->screenshotsPath)) {
-          $this->saveScreenshot($fileName, $this->screenshotsPath);
-          print "Screenshot for '{$stepText}' saved as " . $fileName . "\n";
-        }
+      $this->takeScreenshot($event);
+    }
+  }
+
+  /**
+   * Take screenshot (usefull for debuging).
+   *
+   * @When I take a screenshot
+   */
+  public function takeScreenshot($event) {
+    $driver = $this->getSession()->getDriver();
+    if ($driver instanceof Selenium2Driver) {
+      $stepText = $event->getStep()->getText();
+      $fileName = preg_replace('#[^a-zA-Z0-9\._-]#', '', $stepText) . '.png';
+      if (is_writable($this->screenshotsPath)) {
+        $this->saveScreenshot($fileName, $this->screenshotsPath);
+        print "Screenshot for '{$stepText}' saved as " . $fileName . "\n";
       }
     }
   }
