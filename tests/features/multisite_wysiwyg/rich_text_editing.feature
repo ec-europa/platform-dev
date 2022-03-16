@@ -14,7 +14,8 @@ Feature: Testing the rich text options available with the toolbar present on WYS
     And I click the "Link (Ctrl+K)" button in the "Body" WYSIWYG editor
     And I wait 2 seconds
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Link" title
-    When I fill in "URL" with "europa.eu/european-union/index_ga"
+    And I wait 2 seconds
+    When I fill in "URL*" with "europa.eu/european-union/index_ga"
     And I click the "Advanced" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
     And I fill in "Id" with "id-behat-987456"
     And I fill in "Stylesheet Classes" with "css-behat-test"
