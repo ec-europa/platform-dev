@@ -608,6 +608,10 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.4"
 projects[realname][patch][] = https://www.drupal.org/files/issues/2021-01-20/realname-recursive_bug-1369824-7.x-1.4.patch
 projects[realname][patch][] = https://www.drupal.org/files/issues/2019-05-07/2225889-realname-correct-menu-10.patch
+; Fix array offset warning on null.
+; https://citnet.tech.ec.europa.eu/CITnet/jira/browse/NEPT-2992
+; https://www.drupal.org/node/3263690 
+projects[realname][patch][] = https://www.drupal.org/files/issues/2022-03-17/realname_autocomplete_array_offset_warning-3263690-2.patch
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][download][branch] = 7.x-1.x
