@@ -81,3 +81,6 @@ projects[drupal][patch][610076] = https://www.drupal.org/files/issues/2020-06-18
 ; Add missing primary key to forum.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2845
 projects[drupal][patch][1466458] = https://www.drupal.org/files/issues/2020-08-03/forum-duplicate_forum_nodes-1466458-35%20.patch
+
+; Fix Date pop up widget breaks exposed views form with Error : Cannot create references to/from string
+projects[drupal][patch][2313517] = https://www.drupal.org/files/issues/2021-12-22/cannot_create_references_tofrom_string_offsets_nor_overloaded_objects-2313517-62.patch
