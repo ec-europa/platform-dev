@@ -4,7 +4,7 @@
 Feature: TMGMT Workbench features
   In order to request a new translation for moderated content
   As a Translation manager user
-  I want to be have TMGMT and Workbench Moderation integrated correctly
+  I want to have TMGMT and Workbench Moderation integrated correctly
 
   Background:
     Given the following languages are available:

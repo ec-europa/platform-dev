@@ -6,8 +6,8 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use function bovigo\assert\assertThat;
 use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isNotEqualTo;
 use function bovigo\assert\predicate\hasKey;
-use function bovigo\assert\predicate\isOfSize;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -25,13 +25,6 @@ class ApacheSolrContext implements Context {
    * @var VariableContext
    */
   protected $variables;
-
-  /**
-   * The host the mock HTTP server should listen on.
-   *
-   * @var string
-   */
-  protected $mockServerHost;
 
   /**
    * The port the mocked HTTP server should listen on.
@@ -55,15 +48,12 @@ class ApacheSolrContext implements Context {
   protected $requests;
 
   /**
-   * ApacheSolrContext constructor.
+   * FrontendCacheContext constructor.
    *
-   * @param string $mock_server_host
-   *   The hostname or IP of the HTTP server.
    * @param int $mock_server_port
    *   The port the mocked HTTP server should listen on.
    */
-  public function __construct($mock_server_host = 'localhost', $mock_server_port = 8983) {
-    $this->mockServerHost = $mock_server_host;
+  public function __construct($mock_server_port = 8983) {
     $this->mockServerPort = $mock_server_port;
   }
 
@@ -77,12 +67,19 @@ class ApacheSolrContext implements Context {
    */
   protected function getServer() {
     if (!$this->server) {
-      $this->server = new Server($this->mockServerPort, $this->mockServerHost);
+      $this->server = new Server($this->mockServerPort, 'localhost');
 
       $this->server->start();
 
       // Accept any POSTS.
       $mock = new MockBuilder(new MatcherFactory(), new ExtractorFactory());
+      $mock
+        ->once()
+        ->when()
+        ->pathIs('/solr/update?wt=json')
+        ->methodIs('POST')
+        ->then()
+        ->statusCode(100);
       $mock
         ->when()
         ->pathIs('/solr/update?wt=json')
@@ -104,7 +101,6 @@ class ApacheSolrContext implements Context {
 
       $this->server->setUp($mock->flushExpectations());
     }
-
     return $this->server;
   }
 
@@ -116,7 +112,6 @@ class ApacheSolrContext implements Context {
    */
   protected function getRequests() {
     if (!$this->requests) {
-      // var_export(get_class_methods($this->server));.
       $this->requests = new RequestCollectionFacade($this->server->getClient());
     }
 
@@ -136,8 +131,6 @@ class ApacheSolrContext implements Context {
 
   /**
    * Configures the ApacheSolr integration for testing purposes.
-   *
-   * In DEV, you will need to "docker stop ApacheSolr"
    *
    * @Given the apachesolr integration is configured
    */
@@ -198,7 +191,8 @@ class ApacheSolrContext implements Context {
    */
   public function theApacheSolrServerWasNotInstructedToIndexAnyNode() {
     $requests = $this->getRequests();
-    assertThat($requests, isOfSize(0));
+    $index_request = $requests->last();
+    assertThat($index_request->getMethod(), isNotEqualTo('POST'));
   }
 
   /**
@@ -213,7 +207,6 @@ class ApacheSolrContext implements Context {
     assertThat($index_request->getMethod(), equals('POST'));
 
     $solr_request = (string) $index_request->getBody();
-    // var_export($solr_request);
     // Assert the request is for deleting a node.
     assertThat(substr_count($solr_request, '<delete>'), equals(1));
   }

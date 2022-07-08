@@ -8,9 +8,7 @@ default:
         - FeatureContext:
             screenshots_path: '{{ behat.screenshots.path }}'
         - Drupal\nexteuropa\Context\AgnosticBatchContext
-        - Drupal\nexteuropa\Context\ApacheSolrContext:
-            mock_server_host: '{{ behat.solr.host }}'
-            mock_server_port: {{ behat.solr.port }}
+        - Drupal\nexteuropa\Context\ApacheSolrContext
         - Drupal\nexteuropa\Context\BlockContext
         - Drupal\nexteuropa\Context\CKEditorContext
         - Drupal\nexteuropa\Context\EcasContext
