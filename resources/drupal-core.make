@@ -84,3 +84,6 @@ projects[drupal][patch][1466458] = https://www.drupal.org/files/issues/2020-08-0
 
 ; Method DatabaseCondition::__toString() must return a string value (practical for developers to debug Views).
 projects[drupal][patch][3004215] = https://www.drupal.org/files/issues/2018-10-04/3004215-return-empty-string.patch
+
+; Fieldset not clickable in Chrome 94.
+projects[drupal][patch][3239958] = https://www.drupal.org/files/issues/2021-09-30/fieldset-legend-clickable.diff
