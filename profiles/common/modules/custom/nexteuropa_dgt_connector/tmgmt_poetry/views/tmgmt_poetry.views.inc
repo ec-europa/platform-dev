@@ -48,7 +48,7 @@ function tmgmt_poetry_views_query_alter(&$view, &$query) {
       db_or()
         ->condition(
           db_or()
-            ->condition('reference', 'SUB_%', 'NOT LIKE')
+            ->condition('reference', db_like('SUB_') . '%', 'NOT LIKE')
             ->isNull('reference')
         )
     );

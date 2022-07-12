@@ -87,6 +87,7 @@ function tmgmt_dgt_connector_form_cart_bundle_items($form, &$form_state) {
 
   $form['cart_items_fields'] = array(
     '#type' => 'value',
+    '#value' => $cart_items,
   );
 
   $form['submit_changes'] = array(
@@ -221,7 +222,7 @@ function _tmgmt_dgt_connector_cart_update_cart_items(array &$form_state) {
   // Iterating through the CartItem entities and setting their properties.
   foreach ($cart_items as $id => $cart_item) {
     foreach ($fields[$id] as $field => $value) {
-      $cart_item->{$field} = check_plain($value);
+      $cart_item->{$field} = !is_array($value) ? check_plain($value) : $value;
     }
     $cart_item->save();
   }

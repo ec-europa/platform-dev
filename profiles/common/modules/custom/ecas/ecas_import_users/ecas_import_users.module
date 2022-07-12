@@ -503,11 +503,11 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
 
     // Let's prepare the account object from ladp data.
     $ldap_attributes = array(
-      'cas:email' => $mail,
-      'cas:firstName' => $firstname,
-      'cas:lastName' => $lastname,
-      'cas:domain' => $domain,
-      'cas:departmentNumber' => $departmentnumber,
+      'email' => $mail,
+      'firstName' => $firstname,
+      'lastName' => $lastname,
+      'domain' => $domain,
+      'departmentNumber' => $departmentnumber,
     );
     $account = ecas_prepare_drupal_user($uid, NULL, $ldap_attributes);
 
