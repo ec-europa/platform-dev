@@ -95,7 +95,7 @@ function _nexteuropa_scheduler_message_replace(Datetime $time_to_publish = NULL)
       '!date_1' => format_date($seconds_to_publish, 'custom', 'H:i:s T', NULL, $language_url->language),
       '!date_2' => format_date($seconds_to_publish, 'custom', 'd F Y', NULL, $language_url->language),
     );
-    $args['%date_to_publish'] = t('%date_1 on %date_2', $args_publish, $options);
+    $args['%date_to_publish'] = t('!date_1 on !date_2', $args_publish, $options);
 
   }
   if (!isset($conf['nexteuropa_scheduler_message_text'])) {
