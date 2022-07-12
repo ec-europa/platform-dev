@@ -82,5 +82,8 @@ projects[drupal][patch][610076] = https://www.drupal.org/files/issues/2020-06-18
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2845
 projects[drupal][patch][1466458] = https://www.drupal.org/files/issues/2020-08-03/forum-duplicate_forum_nodes-1466458-35%20.patch
 
+; Method DatabaseCondition::__toString() must return a string value (practical for developers to debug Views).
+projects[drupal][patch][3004215] = https://www.drupal.org/files/issues/2018-10-04/3004215-return-empty-string.patch
+
 ; Fieldset not clickable in Chrome 94.
 projects[drupal][patch][3239958] = https://www.drupal.org/files/issues/2021-09-30/fieldset-legend-clickable.diff
