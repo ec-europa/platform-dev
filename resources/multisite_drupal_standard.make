@@ -1135,7 +1135,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.11
+projects[ec_resp][download][tag] = 2.3.10
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.30
@@ -1143,7 +1143,7 @@ projects[atomium][version] = 2.30
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.27
+projects[ec_europa][download][tag] = 0.0.26
 
 ; ==============
 ; Custom modules
