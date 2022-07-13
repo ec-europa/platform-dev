@@ -1,6 +1,7 @@
 # Ignore metadata from common editors and IDEs.
 *.sublime-project
 *.sublime-workspace
+*.code-workspace
 .idea/
 nbproject/
 

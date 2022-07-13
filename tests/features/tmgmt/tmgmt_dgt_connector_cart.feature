@@ -89,6 +89,7 @@ Feature: TMGMT Poetry Cart features
     And I press "Submit changes"
     And I wait for AJAX to finish
     And I wait 2 seconds
+    # Comment to not display issue
     # Then I should see the message "Your changes have been successfully submitted."
 
     When I click "Close Window"
