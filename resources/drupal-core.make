@@ -2,20 +2,17 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.88"
-
-; PHP7.4 and empty entity_keys for taxonomy term result in notices
-projects[drupal][patch][3166668] = https://www.drupal.org/files/issues/2021-05-25/3166668-14.patch
+projects[drupal][version] = "7.91"
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11656
-projects[drupal][patch][565808] = patches/ajax-js_url_suffix.patch
+projects[drupal][patch][565808] = patches/drupal-ajax_js_url_suffix.patch
 
 ; node_access filters out accessible nodes when node is left joined.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2689
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11805
-projects[drupal][patch][1349080] = patches/node-node_access_views_relationship-1349080.patch
+projects[drupal][patch][1349080] = patches/drupal-node_access_views_relationship-1349080.patch
 
 ; Make sure that _locale_parse_js_file() never runs a file_get_contents() on a remote file.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12269
@@ -60,7 +57,7 @@ projects[drupal][patch][2859006] = https://www.drupal.org/files/issues/2021-04-2
 
 ; Set the session's cookie lifetime to 0 so that cookies are deleted when the browser is closed.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-900
-projects[drupal][patch][] = patches/set-session-cookie-lifetime-0.patch
+projects[drupal][patch][] = patches/drupal-set_session_cookie_lifetime_0.patch
 
 ; Filter "Convert URLs into links" doesn't support multilingual web addresses.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1995
