@@ -2,7 +2,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=7.3",
+    "php": ">=7.4",
     "drupol/drupal7_psr3_watchdog": "^1.0",
     "ec-europa/oe-poetry-client": "^0.3.6",
     "apereo/phpcas": "^1.4.0",
@@ -14,10 +14,10 @@
     "behat/behat": "^3.5.0",
     "bovigo/assert": "^5.0",
     "drupal/drupal-extension": "^4@beta",
+    "drupal/updater": "^1.2",
     "ec-europa/oe-poetry-behat": "^0.3",
     "internations/http-mock": "^0.14.0",
     "phpunit/phpunit": "^7.0",
-    "jfhovinne/updater" : "^1.1",
     "openeuropa/behat-transformation-context": "^0.1",
     "roave/security-advisories": "dev-master",
     "rych/random": "^0.1.0"
@@ -27,6 +27,19 @@
       "Drupal\\nexteuropa\\": "tests/src"
     }
   },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "drupal/updater",
+        "version": "1.2",
+        "dist": {
+          "type": "zip",
+          "url": "https://ftp.drupal.org/files/projects/updater-7.x-1.2.zip"
+        }
+      }
+    }
+  ],
   "extra": {
     "patches": {
       "rych/random": {

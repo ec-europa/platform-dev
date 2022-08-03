@@ -45,6 +45,7 @@ function version_management_menu() {
   return $items;
 }
 
+// @codingStandardsIgnoreStart
 /**
  * Implements hook_form_alter().
  *
@@ -82,6 +83,7 @@ function version_management_form_alter(&$form, &$form_state, $form_id) {
     }
   }
 }
+// @codingStandardsIgnoreEnd
 
 /**
  * Helper function to build the version_management checkbox.
