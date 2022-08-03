@@ -105,7 +105,7 @@ function nexteuropa_json_field_field_formatter_view($entity_type, $entity, $fiel
 
           $js_url = variable_get($js_variable, '');
 
-          if ($js_url != '' && !$javascript_included[$js_variable]) {
+          if ($js_url != '' && empty($javascript_included[$js_variable])) {
             // NEPT-1894: The $defer parameter is set as below in order to
             // ensure the backward compatibility of this evolution without
             // implying a hook_update that was forbidden at implementation time.

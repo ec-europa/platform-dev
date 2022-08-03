@@ -121,6 +121,7 @@ function cce_basic_config_preprocess_field(&$variables) {
   }
 }
 
+// @codingStandardsIgnoreStart
 /**
  * Implements hook_form_alter().
  */
@@ -147,6 +148,7 @@ function cce_basic_config_form_alter(&$form, &$form_state, $form_id) {
 
   return $form;
 }
+// @codingStandardsIgnoreEnd
 
 /**
  * Implements hook_form_FORM_ID_alter().

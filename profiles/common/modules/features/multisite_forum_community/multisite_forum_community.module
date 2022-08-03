@@ -137,35 +137,46 @@ function multisite_forum_community_menu_community_access_callback() {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function multisite_forum_community_form_alter(&$form, $form_state, $form_id) {
-
-  if ($form_id == 'forum_overview') {
-    $form['#empty_text'] = t('No containers or forums available.');
-  }
-
+function multisite_forum_community_form_forum_overview_alter(&$form, $form_state, $form_id) {
   if (($context = og_context())) {
-    if ($form_id == 'forum_overview') {
-      $form['#empty_text'] = t("No forums available.");
-      foreach (element_children($form) as $key) {
-        if (strstr($key, 'tid:') !== FALSE) {
-          $tid = $form[$key]['#term']['tid'];
-          $form[$key]['edit']['#href'] = "group/node/{$context['gid']}/admin/forum/edit/forum/{$tid}";
-        }
+    $form['#empty_text'] = t("No forums available.");
+    foreach (element_children($form) as $key) {
+      if (strstr($key, 'tid:') !== FALSE) {
+        $tid = $form[$key]['#term']['tid'];
+        $form[$key]['edit']['#href'] = "group/node/{$context['gid']}/admin/forum/edit/forum/{$tid}";
       }
     }
+  }
+  else {
+    $form['#empty_text'] = t('No containers or forums available.');
+  }
+}
 
-    if ($form_id == 'forum_form_forum' || $form_id == 'forum_form_container') {
-      $form['#submit'][] = 'multisite_forum_community_forum_form_main_submit';
-    }
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_forum_community_form_forum_form_forum_alter(&$form, $form_state, $form_id) {
+  if ((og_context())) {
+    $form['#submit'][] = 'multisite_forum_community_forum_form_main_submit';
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_forum_community_form_forum_form_container_alter(&$form, $form_state, $form_id) {
+  if ((og_context())) {
+    $form['#submit'][] = 'multisite_forum_community_forum_form_main_submit';
   }
 }
 
 /**
  * Implements submit handler.
  *
- * @see: multisite_forum_community_form_alter()
+ * @see: multisite_forum_community_form_forum_form_forum_alter()
+ * @see: multisite_forum_community_form_forum_form_container_alter()
  */
 function multisite_forum_community_forum_form_main_submit($form, &$form_state) {
   if (($context = og_context())) {

@@ -167,6 +167,10 @@ behat.poetry.wsdl = /wsdl
 behat.poetry.username = username
 behat.poetry.password = password
 
+# Solr mock
+behat.solr.host = localhost
+behat.solr.port = 8983
+
 # Poetry mock
 # Example mock.poetry.base_url = http://127.0.0.1:8080/platform-dev/build
 # Example mock.poetry.base_url = http://web:8080

@@ -8,6 +8,7 @@
  * introduced by Maxlength contributed module in field settings page.
  */
 
+// @codingStandardsIgnoreStart
 /**
  * Implements hook_form_alter().
  */
@@ -28,3 +29,4 @@ function multisite_maxlength_form_alter(&$form, &$form_state, $form_id) {
     }
   }
 }
+// @codingStandardsIgnoreEnd
