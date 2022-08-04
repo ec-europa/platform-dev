@@ -117,6 +117,8 @@
                     <token key="platform.build.dir" value="${platform.build.dir}" />
                     <token key="behat.screenshots.path" value="${behat.screenshots.path}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
+                    <token key="behat.solr.host" value="${behat.solr.host}" />
+                    <token key="behat.solr.port" value="${behat.solr.port}" />
                     <token key="flickr.key" value="${flickr.key}" />
                     <token key="flickr.secret" value="${flickr.secret}" />
                     <token key="drush.bin" value="${drush.bin}" />

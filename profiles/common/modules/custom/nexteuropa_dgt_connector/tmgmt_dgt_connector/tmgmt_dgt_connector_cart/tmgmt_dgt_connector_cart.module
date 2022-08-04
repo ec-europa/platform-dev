@@ -405,6 +405,7 @@ function _tmgmt_dgt_connector_cart_restore_cart_bundles(CartBundle &$cart_bundle
   }
 }
 
+// @codingStandardsIgnoreStart
 /**
  * Implements hook_form_alter().
  *
@@ -419,6 +420,7 @@ function tmgmt_dgt_connector_cart_form_alter(&$form, &$form_state, $form_id) {
 
   }
 }
+// @codingStandardsIgnoreEnd
 
 /**
  * Helper function to add the custom cart button to the sources pages.
