@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.91"
+projects[drupal][version] = "7.97"
 
 ; Set the session's cookie lifetime to 0 so that cookies are deleted when the browser is closed.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-900
