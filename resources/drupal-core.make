@@ -29,10 +29,6 @@ projects[drupal][patch][601776] = https://www.drupal.org/files/601776-contact-co
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2845
 projects[drupal][patch][610076] = https://www.drupal.org/files/issues/2020-06-18/drupal-n610076-86.patch
 
-; URL alias load is inconsistent if there are more then one alias
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1993
-projects[drupal][patch][1160764] = https://www.drupal.org/files/issues/1160764-34-path_load_order.patch
-
 ; Allow management of visibility for pseudo-fields.
 ; https://www.drupal.org/node/1256368
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
@@ -81,9 +77,3 @@ projects[drupal][patch][2697611] = https://www.drupal.org/files/issues/drupal_ad
 ; Image alternative text loses text preceding colon upon leaving plain-text editor or upon saving node
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-2001
 projects[drupal][patch][2859006] = https://www.drupal.org/files/issues/2021-04-21/2859006-26.patch
-
-; Method DatabaseCondition::__toString() must return a string value (practical for developers to debug Views).
-projects[drupal][patch][3004215] = https://www.drupal.org/files/issues/2018-10-04/3004215-return-empty-string.patch
-
-; Fieldset not clickable in Chrome 94.
-projects[drupal][patch][3239958] = https://www.drupal.org/files/issues/2021-09-30/fieldset-legend-clickable.diff
